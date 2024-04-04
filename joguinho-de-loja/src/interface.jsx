@@ -4,7 +4,11 @@ import terrenoImg from "./imagens/terreno.png"
 import LojaPImg from "./imagens/lojaP.png"
 import LojaMImg from "./imagens/lojaM.png"
 import LojaGImg from "./imagens/lojaG.png"
+import ConstuirImg from "./imagens/construir.png"
+import DolarImg from "./imagens/simbolo-do-dolar.png"
+import PróximoImg from "./imagens/proximo.png"
 import despesasImg from "./imagens/despesas.png"
+
 
 function Interface() {
     const {
@@ -205,17 +209,148 @@ function Interface() {
 
     return (
         <div className="w-[100vw] h-[100vh] bg-gradient-to-b from-roxo to-roxoForte grid grid-rows-2 grid-cols-2">
-            <div className="grid row-1 cols-1 ">
+            <div className="flex flex-col align-center text-center justify-around absolute top-[20px] right-[20px]">
+                <div className="flex justify-between pr-[10px] pl-[10px] items-center w-[300px] h-[30px] rounded-[20px] bg-white box2">
+                    <h1 className="fonteLight text-roxo text-[20px]">saldo:</h1>
+                    <h1 className="fonteBold text-roxo text-[20px]">{dadosSaldo}</h1>
+                </div>
+                <div className="flex justify-between pr-[10px] pl-[10px] items-center w-[160px] h-[30px] rounded-[20px] bg-white box2 absolute top-[50px] right-[0px]">
+
+                    <h1 className="fonteLight text-roxo text-[20px]">Dia:</h1>
+                    <h1 className="fonteBold text-roxo text-[20px]">{dadosDia}</h1>
+                </div>
+            </div>
+            <div className="flex justify-between pr-[10px] pl-[10px] items-center w-[300px] h-[30px] rounded-[20px] bg-white box2 absolute top-[20px] left-[20px]">
+                <h1 className="fonteLight text-roxo text-[20px]">Nome mercado</h1>
+                {/* <h1 className="fonteBold text-roxo text-[20px]">{dadosSaldo}</h1> */}
+            </div>
+            {/* <div className="flex justify-evenly items-center w-[250px] h-[30px] rounded-[20px] bg-white box2">
+                    <h1 className="fonteLight text-roxo text-[20px]">faturamento Atual diário:</h1>
+                    <h1 className="fonteBold text-roxo text-[20px]">{dadosFaturamentoTotalLojasP + dadosFaturamentoTotalLojasM + dadosFaturamentoTotalLojasG}</h1>
+                </div> */}
+            {/* <div className="flex justify-evenly items-center w-[250px] h-[30px] rounded-[20px] bg-white box2">
+                    <h1 className="fonteLight text-roxo text-[20px]">Despesas do mês Atual:</h1>
+                    <h1 className="fonteBold text-roxo text-[20px]">{dadosFaturamentoLojasP + dadosFaturamentoLojasM + dadosFaturamentoLojasG}</h1>
+                </div> */}
+
+            <div className="grid row-1 cols-1 absolute top-[70px] left-[36px]">
                 <div className="flex flex-col justify-around items-center">
 
-                    <div className="flex justify-evenly items-center w-[250px] h-[30px] rounded-[20px] bg-white box2">
-
-                        <h1 className="fonteLight text-roxo text-[20px]">Dia:</h1>
-                        <h1 className="fonteBold text-roxo text-[20px]">{dadosDia}</h1>
-                    </div>
                     <div className=" flex flex-col">
+                        <div className="flex justify-around flex-col">
+                        <div className="flex">
+                            <button className="bg-laranja w-[70px] h-[70px] rounded-[20px] flex justify-center items-center relative mb-[30px]" onClick={ComprarTerreno}>
 
-                        <h1>Preço terrenos:{dadosPreçosTerrenos}</h1>
+                                <img src={terrenoImg} alt="despesas" className="w-[50px] h-[50px] " />
+                                <div className="bg-marinho w-[36px] h-[36px] rounded-full left-[-18px] top-[50px] flex justify-center items-center border-white border-[1px] absolute">
+                                    <h1 className="text-laranja fonteBold">
+                                        {dadosTerrenos}
+                                    </h1>
+                                </div>
+                            </button>
+                            <div>
+                                    <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px] mb-[10px]">
+                                        <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
+                                            <img src={DolarImg} className="w-[18px] h-[18px]" />
+                                        </div>
+                                        <h1 className="mr-[10px] fonteBold">adc fatu</h1>
+                                    </div>
+                                    <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
+                                        <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
+                                            <img src={ConstuirImg} className="w-[18px] h-[18px]" />
+                                        </div>
+                                        <h1 className="mr-[10px] fonteBold">{dadosPreçosTerrenos}</h1>
+                                    </div>
+                                </div>
+</div>
+                            <div className="flex">
+                                <button
+                                    className="bg-laranja w-[70px] h-[70px] rounded-[20px] flex justify-center items-center relative mb-[30px]"
+                                    onClick={ComprarLojaP}>
+                                    <img src={LojaPImg} alt="lojaP" className="w-[50px] h-[50px] " />
+                                    <div className="bg-marinho w-[36px] h-[36px] rounded-full left-[-18px] top-[50px] flex justify-center items-center border-white border-[1px] absolute">
+                                        <h1 className="text-laranja fonteBold">
+                                            {dadosLojasP}
+                                        </h1>
+                                    </div>
+                                </button>
+                                <div>
+                                    <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px] mb-[10px]">
+                                        <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
+                                            <img src={DolarImg} className="w-[18px] h-[18px]" />
+                                        </div>
+                                        <h1 className="mr-[10px] fonteBold">{dadosFaturamentoTotalLojasP}</h1>
+                                    </div>
+                                    <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
+                                        <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
+                                            <img src={ConstuirImg} className="w-[18px] h-[18px]" />
+                                        </div>
+                                        <h1 className="mr-[10px] fonteBold">{dadosPreçosConstruçãoLojaP}</h1>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex">
+                            <button
+                                className="bg-laranja w-[70px] h-[70px] rounded-[20px] flex justify-center items-center relative mb-[30px]"
+                                onClick={ComprarLojaM}>
+                                <img src={LojaMImg} alt="lojaM" className="w-[50px] h-[50px] " />
+                                <div className="bg-marinho w-[36px] h-[36px] rounded-full left-[-18px] top-[50px] flex justify-center items-center border-white border-[1px] absolute">
+                                    <h1 className="text-laranja fonteBold">
+                                        {dadosLojasM}
+                                    </h1>
+                                </div>
+                            </button>
+                            <div>
+                                    <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px] mb-[10px]">
+                                        <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
+                                            <img src={DolarImg} className="w-[18px] h-[18px]" />
+                                        </div>
+                                        <h1 className="mr-[10px] fonteBold">{dadosFaturamentoTotalLojasM}</h1>
+                                    </div>
+                                    <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
+                                        <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
+                                            <img src={ConstuirImg} className="w-[18px] h-[18px]" />
+                                        </div>
+                                        <h1 className="mr-[10px] fonteBold">{dadosPreçosConstruçãoLojaM}</h1>
+                                    </div>
+                                </div>
+</div>
+
+
+<div className="flex">
+                            <button
+                                className="bg-laranja w-[70px] h-[70px] rounded-[20px] flex justify-center items-center relative"
+                                onClick={ComprarLojaG}>
+                                <img src={LojaGImg} alt="lojaG" className="w-[50px] h-[50px] " />
+                                <div className="bg-marinho w-[36px] h-[36px] rounded-full absolute left-[-18px] top-[50px] flex justify-center items-center border-white border-[1px]">
+                                    <h1 className="text-laranja fonteBold">
+                                        {dadosLojasG}
+                                    </h1>
+                                </div>
+                            </button>
+                            <div>
+                                    <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px] mb-[10px]">
+                                        <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
+                                            <img src={DolarImg} className="w-[18px] h-[18px]" />
+                                        </div>
+                                        <h1 className="mr-[10px] fonteBold">{dadosFaturamentoTotalLojasG}</h1>
+                                    </div>
+                                    <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
+                                        <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
+                                            <img src={ConstuirImg} className="w-[18px] h-[18px]" />
+                                        </div>
+                                        <h1 className="mr-[10px] fonteBold">{dadosPreçosConstruçãoLojaG}</h1>
+                                    </div>
+                                </div>
+</div>
+
+                            {/* <button onClick={mudançasDePreços}>mudançasDePreços</button>
+<button onClick={custoFuncionário}>Alteração custo funcionário</button>
+<button onClick={gerarFaturamentoLojasP}>Alteração Faturamento lojas p</button> */}
+                        </div>
+
+                        {/* <h1>Preço terrenos:{dadosPreçosTerrenos}</h1>
 
 
                         <h1>Preço construção LojaP:{dadosPreçosConstruçãoLojaP}</h1>
@@ -257,64 +392,23 @@ function Interface() {
                         <h1>faturamentoUnitárioLojasG:{dadosFaturamentoUnitárioLojasG}</h1>
 
 
-                        <h1>faturamentoTotalLojasG:{dadosFaturamentoTotalLojasG}</h1>
+                        <h1>faturamentoTotalLojasG:{dadosFaturamentoTotalLojasG}</h1> */}
 
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col align-center text-center justify-around">
-                <div className="flex justify-evenly items-center w-[250px] h-[30px] rounded-[20px] bg-white box2">
-                    <h1 className="fonteLight text-roxo text-[20px]">saldo:</h1>
-                    <h1 className="fonteBold text-roxo text-[20px]">{dadosSaldo}</h1>
-                </div>
-                <div className="flex justify-evenly items-center w-[250px] h-[30px] rounded-[20px] bg-white box2">
-                    <h1 className="fonteLight text-roxo text-[20px]">faturamento Atual diário:</h1>
-                    <h1 className="fonteBold text-roxo text-[20px]">{dadosFaturamentoTotalLojasP + dadosFaturamentoTotalLojasM + dadosFaturamentoTotalLojasG}</h1>
-                </div>
-                {/* <div className="flex justify-evenly items-center w-[250px] h-[30px] rounded-[20px] bg-white box2">
-                    <h1 className="fonteLight text-roxo text-[20px]">Despesas do mês Atual:</h1>
-                    <h1 className="fonteBold text-roxo text-[20px]">{dadosFaturamentoLojasP + dadosFaturamentoLojasM + dadosFaturamentoLojasG}</h1>
-                </div> */}
-
-            </div>
 
 
             <div className="grid col-start-1 col-end-3 row-2">
-                <div className="flex justify-center">
+                <div className="flex justify-center mt-[20px]">
 
-                    <button onClick={ProximoDia}>
-                        proximo dia</button>
-                    <button onClick={PagarDespesas}> pagar despesas</button>
-                </div>
-                <div className="flex justify-around">
-
-                    <button className="bg-laranja w-[70px] h-[70px] rounded-[20px] flex justify-center items-center" onClick={ComprarTerreno}>
-
-                        <img src={terrenoImg} alt="despesas" className="w-[50px] h-[50px] " />
-                    </button>
-                        <div className="bg-marinho w-[36px] h-[36px] rounded-full relative mr-[-80px] mt-[50px] flex justify-center items-center">
-                            {dadosLojasP}
-                        </div>
-                    <button 
-                    className="bg-laranja w-[70px] h-[70px] rounded-[20px] flex justify-center items-center" 
-                    onClick={ComprarLojaP}>
-                    <img src={LojaPImg} alt="lojaP" className="w-[50px] h-[50px] " />
+                    <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center mr-[10px]" onClick={ProximoDia}>
+                        <img className="w-[72px] h-[72px]" src={PróximoImg}/>
                         </button>
-                    <button 
-                                        className="bg-laranja w-[70px] h-[70px] rounded-[20px] flex justify-center items-center" 
-                    onClick={ComprarLojaM}>
-                                 <img src={LojaMImg} alt="lojaM" className="w-[50px] h-[50px] " /></button>
-                    
-                    
-                    <button 
-                           className="bg-laranja w-[70px] h-[70px] rounded-[20px] flex justify-center items-center" 
-                    onClick={ComprarLojaG}>
-                    <img src={LojaGImg} alt="lojaG" className="w-[50px] h-[50px] " />
-                    </button>
-                    <button onClick={mudançasDePreços}>mudançasDePreços</button>
-                    <button onClick={custoFuncionário}>Alteração custo funcionário</button>
-                    <button onClick={gerarFaturamentoLojasP}>Alteração Faturamento lojas p</button>
+                    <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center ml-[10px]"  
+                    onClick={PagarDespesas}><img className="w-[72px] h-[72px]" src={despesasImg}/></button>
                 </div>
+
             </div>
         </div>
     )

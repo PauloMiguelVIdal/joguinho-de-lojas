@@ -11,7 +11,7 @@ const CentraldeDadosProvider = ({ children }) => {
   const [dadosPreçosTerrenos, setDadosPreçoTerrenos] = useState(70000);
 
   //lojas P
-  const [dadosLojasP, setDadosLojasP] = useState(100);
+  const [dadosLojasP, setDadosLojasP] = useState(0);
   const [dadosPreçosConstruçãoLojaP, setDadosPreçoConstruçãoLojasP] = useState(50000);
 
   const [dadosFaturamentoUnitárioLojasP, setDadosFaturamentoUnitárioLojasP] = useState(0);
