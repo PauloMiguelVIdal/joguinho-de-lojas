@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CentraldeDadosContext } from "./centralDeDadosContext";
 import terrenoImg from "./imagens/terreno.png"
 import LojaPImg from "./imagens/lojaP.png"
@@ -8,8 +8,7 @@ import ConstuirImg from "./imagens/construir.png"
 import DolarImg from "./imagens/simbolo-do-dolar.png"
 import PróximoImg from "./imagens/proximo.png"
 import despesasImg from "./imagens/despesas.png"
-
-
+// import Notificação from "./notificação";
 function Interface() {
     const {
         dadosSaldo, AtualizarDadosSaldo,
@@ -76,6 +75,7 @@ function Interface() {
             AtualizarDespesasPagas(false)
             if (dadosDespesasPagas === false) {
                 return alert("despesas não pagas, pague as despesas para avançar")
+                // return notificação()
             }
 
         }
@@ -199,6 +199,24 @@ function Interface() {
         }
     }
 
+    
+function notificação(){
+    abrirModal
+}
+
+
+const [modalNotificação, setModalNotificação] = useState(false)
+
+const abrirModal = ()=>{
+alert("modal abriu")
+setModalNotificação(true)
+}
+
+const fecharModal = ()=>{
+alert("modal fechou")
+setModalNotificação(false)
+}
+
 
 
 
@@ -209,6 +227,9 @@ function Interface() {
 
     return (
         <div className="w-[100vw] h-[100vh] bg-gradient-to-b from-roxo to-roxoForte grid grid-rows-2 grid-cols-2">
+            {/* <Notificação/> */}
+            
+            
             <div className="flex flex-col align-center text-center justify-around absolute top-[20px] right-[20px]">
                 <div className="flex justify-between pr-[10px] pl-[10px] items-center w-[300px] h-[30px] rounded-[20px] bg-white box2">
                     <h1 className="fonteLight text-roxo text-[20px]">saldo:</h1>
