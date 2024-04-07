@@ -6,6 +6,13 @@ const CentraldeDadosProvider = ({ children }) => {
   const [dadosSaldo, setDadosSaldo] = useState(120000);
   const [dadosDia, setDadosDia] = useState(1);
 
+
+  //estadoModal
+  const [estadoModal, setEstadoModal] = useState(false)
+
+
+
+
   //terrenos
   const [dadosTerrenos, setDadosTerrenos] = useState(0);
   const [dadosPreçosTerrenos, setDadosPreçoTerrenos] = useState(70000);
@@ -63,7 +70,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
 
 
-
+  //saldo
 
   const AtualizarDadosSaldo = novoSaldo => {
     setDadosSaldo(novoSaldo)
@@ -73,6 +80,9 @@ const CentraldeDadosProvider = ({ children }) => {
   }
 
 
+  //modal
+  const AtualizarEstadoModal = () => setEstadoModal(!estadoModal)
+  
 
 
   //terrenos
@@ -85,9 +95,9 @@ const CentraldeDadosProvider = ({ children }) => {
     setDadosTerrenos(novoTerreno)
   }
 
-  
+
   //lojas p
-  
+
   const AtualizarDadosLojasP = novaLojaP => {
     setDadosLojasP(novaLojaP)
   }
@@ -116,15 +126,15 @@ const CentraldeDadosProvider = ({ children }) => {
   const AtualizarDadosFaturamentoMáximoLojasP = novoFaturamentoMáximoLojasP => {
     setDadosFaturamentoMáximoLojasP(novoFaturamentoMáximoLojasP)
   }
-  
-  
-  
+
+
+
   //lojas M
-  
-    const AtualizarDadosLojasM = novaLojaM => {
-      setDadosLojasM(novaLojaM)
-    }
-  
+
+  const AtualizarDadosLojasM = novaLojaM => {
+    setDadosLojasM(novaLojaM)
+  }
+
   const AtualizarDadosPreçoConstruçãoLojasM = novoPreçoConstruçãoLojasM => {
     setDadosPreçoConstruçãoLojasM(novoPreçoConstruçãoLojasM)
   }
@@ -139,15 +149,15 @@ const CentraldeDadosProvider = ({ children }) => {
   const AtualizarDadosFaturamentoTotalLojasM = novoFaturamentoTotalLojaM => {
     setDadosFaturamentoTotalLojasM(novoFaturamentoTotalLojaM)
   }
-  
+
   const AtualizarDadosFaturamentoMínimoLojasM = novoFaturamentoMínimoLojasM => {
-      setDadosFaturamentoMínimoLojasM(novoFaturamentoMínimoLojasM)
-    }
-    const AtualizarDadosFaturamentoMáximoLojasM = novoFaturamentoMáximoLojasM => {
-      setDadosFaturamentoMáximoLojasP(novoFaturamentoMáximoLojasM)
-    }
-    
-  
+    setDadosFaturamentoMínimoLojasM(novoFaturamentoMínimoLojasM)
+  }
+  const AtualizarDadosFaturamentoMáximoLojasM = novoFaturamentoMáximoLojasM => {
+    setDadosFaturamentoMáximoLojasP(novoFaturamentoMáximoLojasM)
+  }
+
+
 
 
   //lojas G
@@ -194,7 +204,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
 
 
-//funcionários
+  //funcionários
   const AtualizarDadosCustoMínimoFuncionário = novoCustoMínimoFuncionário => {
     setDadosCustoMínimoFuncionário(novoCustoMínimoFuncionário)
   }
@@ -212,35 +222,39 @@ const CentraldeDadosProvider = ({ children }) => {
 
   return (
     <CentraldeDadosContext.Provider value={{
-      dadosSaldo,AtualizarDadosSaldo,
-      dadosDia,AtualizarDadosDia,
+      dadosSaldo, AtualizarDadosSaldo,
+      dadosDia, AtualizarDadosDia,
+
+      //modal
+      estadoModal, AtualizarEstadoModal,
+
       //terrenos
       dadosTerrenos, AtualizarDadosTerrenos,
       dadosPreçosTerrenos, AtualizarDadosPreçosTerrenos,
-      
+
 
       //lojas p
-      dadosLojasP,AtualizarDadosLojasP,
-      dadosDespesasLojasP,AtualizarDadosDespesasLojasP,
+      dadosLojasP, AtualizarDadosLojasP,
+      dadosDespesasLojasP, AtualizarDadosDespesasLojasP,
       dadosPreçosConstruçãoLojaP, AtualizarDadosPreçoConstruçãoLojasP,
       dadosFaturamentoMínimoLojasP, AtualizarDadosFaturamentoMínimoLojasP,
       dadosFaturamentoMáximoLojasP, AtualizarDadosFaturamentoMáximoLojasP,
       dadosFaturamentoUnitárioLojasP, AtualizarDadosFaturamentoUnitárioLojasP,
       dadosFaturamentoTotalLojasP, AtualizarDadosFaturamentoTotalLojasP,
-      
+
       //lojas m
-      dadosDespesasLojasM,AtualizarDadosDespesasLojasM,
-      dadosLojasM,AtualizarDadosLojasM,
+      dadosDespesasLojasM, AtualizarDadosDespesasLojasM,
+      dadosLojasM, AtualizarDadosLojasM,
       dadosPreçosConstruçãoLojaM, AtualizarDadosPreçoConstruçãoLojasM,
       dadosFaturamentoTotalLojasM, AtualizarDadosFaturamentoTotalLojasM,
       dadosFaturamentoUnitárioLojasM, AtualizarDadosFaturamentoUnitárioLojasM,
       dadosFaturamentoMínimoLojasM, AtualizarDadosFaturamentoMínimoLojasM,
       dadosFaturamentoMáximoLojasM, AtualizarDadosFaturamentoMáximoLojasM,
-      
+
 
       //lojas g
-      dadosDespesasLojasG,AtualizarDadosDespesasLojasG,
-      dadosLojasG,AtualizarDadosLojasG,
+      dadosDespesasLojasG, AtualizarDadosDespesasLojasG,
+      dadosLojasG, AtualizarDadosLojasG,
       dadosPreçosConstruçãoLojaG, AtualizarDadosPreçoConstruçãoLojasG,
       dadosFaturamentoUnitárioLojasG, AtualizarDadosFaturamentoUnitárioLojasG,
       dadosFaturamentoTotalLojasG, AtualizarDadosFaturamentoTotalLojasG,
@@ -249,8 +263,8 @@ const CentraldeDadosProvider = ({ children }) => {
 
 
       //despesas
-      dadosDiaPagarDespesas,AtualizarDadosDiaPagarDespesas,
-      dadosDespesasPagas,AtualizarDespesasPagas,
+      dadosDiaPagarDespesas, AtualizarDadosDiaPagarDespesas,
+      dadosDespesasPagas, AtualizarDespesasPagas,
 
       //funcionários
       dadosCustoMáximoFuncionário, AtualizarDadosCustoMáximoFuncionário,
