@@ -63,7 +63,17 @@ const CentraldeDadosProvider = ({ children }) => {
   const [dadosCustoMínimoFuncionário, setDadosCustoMínimoFuncionário] = useState(8)
   const [dadosCustoMáximoFuncionário, setDadosCustoMáximoFuncionário] = useState(12)
 
+//impostos fixos
 
+const [impostoFixoLojasP,setImpostoFixoLojasP] = useState(500)
+const [impostoFixoLojasM,setImpostoFixoLojasM] = useState(700)
+const [impostoFixoLojasG,setImpostoFixoLojasG] = useState(1000)
+
+//imposto sobre faturamento
+
+const [impostoSobreFaturamentoLojasP,setImpostoSobreFaturamentoLojasP] = useState(0.03)
+const [impostoSobreFaturamentoLojasM,setImpostoSobreFaturamentoLojasM] = useState(0.04)
+const [impostoSobreFaturamentoLojasG,setImpostoSobreFaturamentoLojasG] = useState(0.05)
 
 
 
@@ -216,7 +226,17 @@ const CentraldeDadosProvider = ({ children }) => {
     setDadosCustoFuncionário(novoCustoFuncionário)
   }
 
+//impostos fixos
 
+const AtualizarImpostoFixoLojasP = (novoImpostofixoLojasP)=>{setImpostoFixoLojasP(novoImpostofixoLojasP)}
+const AtualizarImpostoFixoLojasM = (novoImpostofixoLojasM)=>{setImpostoFixoLojasM(novoImpostofixoLojasM)}
+const AtualizarImpostoFixoLojasG = (novoImpostofixoLojasG)=>{setImpostoFixoLojasG(novoImpostofixoLojasG)}
+
+//impostos sobre faturamento
+
+const AtualizarImpostoSobreFaturamentoLojasP = (novoImpostoSobreFaturamentoLojasP)=>{setImpostoSobreFaturamentoLojasP(novoImpostoSobreFaturamentoLojasP)}
+const AtualizarImpostoSobreFaturamentoLojasM = (novoImpostoSobreFaturamentoLojasM)=>{setImpostoSobreFaturamentoLojasM(novoImpostoSobreFaturamentoLojasM)}
+const AtualizarImpostoSobreFaturamentoLojasG = (novoImpostoSobreFaturamentoLojasG)=>{setImpostoSobreFaturamentoLojasG(novoImpostoSobreFaturamentoLojasG)}
 
 
 
@@ -271,6 +291,14 @@ const CentraldeDadosProvider = ({ children }) => {
       dadosCustoMínimoFuncionário, AtualizarDadosCustoMínimoFuncionário,
       dadosCustoFuncionário, AtualizarDadosCustoFuncionário,
 
+      //impostos
+      impostoFixoLojasP, AtualizarImpostoFixoLojasP,
+      impostoFixoLojasM, AtualizarImpostoFixoLojasM,
+      impostoFixoLojasG, AtualizarImpostoFixoLojasG,
+
+      impostoSobreFaturamentoLojasP, AtualizarImpostoSobreFaturamentoLojasP,
+      impostoSobreFaturamentoLojasM, AtualizarImpostoSobreFaturamentoLojasM,
+      impostoSobreFaturamentoLojasG, AtualizarImpostoSobreFaturamentoLojasG,
     }}>
       {children}
     </CentraldeDadosContext.Provider>
