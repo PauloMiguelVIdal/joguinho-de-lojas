@@ -22,6 +22,10 @@ export default function Buy() {
         //seção terrenos
         dadosTerrenos, AtualizarDadosTerrenos,
         dadosPreçosTerrenos, AtualizarDadosPreçosTerrenos,
+        dadosFaturamentoMínimoTerrenos, AtualizarDadosFaturamentoMínimoTerrenos,
+        dadosFaturamentoMáximoTerrenos, AtualizarDadosFaturamentoMáximoTerrenos,
+        dadosFaturamentoUnitárioTerrenos, AtualizarDadosFaturamentoUnitárioTerrenos,
+        dadosFaturamentoTotalTerrenos, AtualizarDadosFaturamentoTotalTerrenos,
 
 
         // seçãolojas p
@@ -158,7 +162,7 @@ export default function Buy() {
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={DolarImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">adc fatu</h1>
+                            <h1 className="mr-[10px] fonteBold">{dadosFaturamentoTotalTerrenos}</h1>
                         </div>
                         <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >

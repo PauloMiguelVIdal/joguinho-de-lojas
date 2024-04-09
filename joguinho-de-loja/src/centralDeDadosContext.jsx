@@ -17,6 +17,11 @@ const CentraldeDadosProvider = ({ children }) => {
   const [dadosTerrenos, setDadosTerrenos] = useState(0);
   const [dadosPreçosTerrenos, setDadosPreçoTerrenos] = useState(70000);
 
+  const [dadosFaturamentoUnitárioTerrenos, setDadosFaturamentoUnitárioTerrenos] = useState(0);
+  const [dadosFaturamentoMínimoTerrenos, setDadosFaturamentoMínimoTerrenos] = useState(100);
+  const [dadosFaturamentoMáximoTerrenos, setDadosFaturamentoMáximoTerrenos] = useState(300);
+  const [dadosFaturamentoTotalTerrenos, setDadosFaturamentoTotalTerrenos] = useState(0);
+
   //lojas P
   const [dadosLojasP, setDadosLojasP] = useState(0);
   const [dadosPreçosConstruçãoLojaP, setDadosPreçoConstruçãoLojasP] = useState(50000);
@@ -105,6 +110,22 @@ const [impostoSobreFaturamentoLojasG,setImpostoSobreFaturamentoLojasG] = useStat
     setDadosTerrenos(novoTerreno)
   }
 
+
+  const AtualizarDadosFaturamentoUnitárioTerrenos = novoFaturamentoUnitárioTerrenos => {
+    setDadosFaturamentoUnitárioTerrenos(novoFaturamentoUnitárioTerrenos)
+  }
+
+  const AtualizarDadosFaturamentoTotalTerrenos = novoFaturamentoTotalTerrenos => {
+    setDadosFaturamentoTotalTerrenos(novoFaturamentoTotalTerrenos)
+  }
+
+  const AtualizarDadosFaturamentoMínimoTerrenos = novoFaturamentoMínimoTerrenos => {
+    setDadosFaturamentoMínimoTerrenos(novoFaturamentoMínimoTerrenos)
+  }
+
+  const AtualizarDadosFaturamentoMáximoTerrenos = novoFaturamentoMáximoTerrenos => {
+    setDadosFaturamentoMáximoTerrenos(novoFaturamentoMáximoTerrenos)
+  }
 
   //lojas p
 
@@ -251,7 +272,10 @@ const AtualizarImpostoSobreFaturamentoLojasG = (novoImpostoSobreFaturamentoLojas
       //terrenos
       dadosTerrenos, AtualizarDadosTerrenos,
       dadosPreçosTerrenos, AtualizarDadosPreçosTerrenos,
-
+      dadosFaturamentoMínimoTerrenos, AtualizarDadosFaturamentoMínimoTerrenos,
+      dadosFaturamentoMáximoTerrenos, AtualizarDadosFaturamentoMáximoTerrenos,
+      dadosFaturamentoUnitárioTerrenos, AtualizarDadosFaturamentoUnitárioTerrenos,
+      dadosFaturamentoTotalTerrenos, AtualizarDadosFaturamentoTotalTerrenos,
 
       //lojas p
       dadosLojasP, AtualizarDadosLojasP,

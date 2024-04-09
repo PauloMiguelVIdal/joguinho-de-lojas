@@ -103,8 +103,10 @@ export default function NextDay() {
     const gerarFaturamentoTerrenos = () => {
     const novoFatuUnitárioTerrenos = Math.floor(Math.random() * (dadosFaturamentoMáximoTerrenos - dadosFaturamentoMínimoTerrenos + 1)) + dadosFaturamentoMínimoTerrenos
         AtualizarDadosFaturamentoUnitárioTerrenos(novoFatuUnitárioTerrenos)
-        // alert(`novo faturamento unitário: ${dadosFaturamentoUnitárioLojasP}`)
+        // alert(`novo faturamento unitário: ${dadosFaturamentoUnitárioTerrenos}`)
+        // console.log(dadosFaturamentoUnitárioTerrenos)
     }
+
 
     const gerarFaturamentoLojasP = () => {
         const novoFatuUnitárioLojaP = Math.floor(Math.random() * (dadosFaturamentoMáximoLojasP - dadosFaturamentoMínimoLojasP + 1)) + dadosFaturamentoMínimoLojasP
