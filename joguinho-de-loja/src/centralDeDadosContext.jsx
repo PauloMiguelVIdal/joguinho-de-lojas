@@ -14,7 +14,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
 
   //terrenos
-  const [dadosTerrenos, setDadosTerrenos] = useState(0);
+  const [dadosTerrenos, setDadosTerrenos] = useState(3);
   const [dadosPreçosTerrenos, setDadosPreçoTerrenos] = useState(70000);
 
   const [dadosFaturamentoUnitárioTerrenos, setDadosFaturamentoUnitárioTerrenos] = useState(0);
@@ -22,8 +22,10 @@ const CentraldeDadosProvider = ({ children }) => {
   const [dadosFaturamentoMáximoTerrenos, setDadosFaturamentoMáximoTerrenos] = useState(300);
   const [dadosFaturamentoTotalTerrenos, setDadosFaturamentoTotalTerrenos] = useState(0);
 
+  const [dadosDespesasTerrenos, setDadosDespesasTerrenos] = useState(0);
+
   //lojas P
-  const [dadosLojasP, setDadosLojasP] = useState(0);
+  const [dadosLojasP, setDadosLojasP] = useState(5);
   const [dadosPreçosConstruçãoLojaP, setDadosPreçoConstruçãoLojasP] = useState(50000);
 
   const [dadosFaturamentoUnitárioLojasP, setDadosFaturamentoUnitárioLojasP] = useState(0);
@@ -34,7 +36,7 @@ const CentraldeDadosProvider = ({ children }) => {
   const [dadosDespesasLojasP, setDadosDespesasLojasP] = useState(0);
 
   //lojas M
-  const [dadosLojasM, setDadosLojasM] = useState(0);
+  const [dadosLojasM, setDadosLojasM] = useState(5);
   const [dadosPreçosConstruçãoLojaM, setDadosPreçoConstruçãoLojasM] = useState(100000);
 
   const [dadosFaturamentoUnitárioLojasM, setDadosFaturamentoUnitárioLojasM] = useState(0);
@@ -45,7 +47,7 @@ const CentraldeDadosProvider = ({ children }) => {
   const [dadosDespesasLojasM, setDadosDespesasLojasM] = useState(0);
 
   //lojas G
-  const [dadosLojasG, setDadosLojasG] = useState(0);
+  const [dadosLojasG, setDadosLojasG] = useState(5);
   const [dadosPreçosConstruçãoLojaG, setDadosPreçoConstruçãoLojasG] = useState(240000);
 
   const [dadosFaturamentoUnitárioLojasG, setDadosFaturamentoUnitárioLojasG] = useState(0);
@@ -80,11 +82,6 @@ const [impostoSobreFaturamentoLojasP,setImpostoSobreFaturamentoLojasP] = useStat
 const [impostoSobreFaturamentoLojasM,setImpostoSobreFaturamentoLojasM] = useState(0.04)
 const [impostoSobreFaturamentoLojasG,setImpostoSobreFaturamentoLojasG] = useState(0.05)
 
-
-
-
-
-
   //saldo
 
   const AtualizarDadosSaldo = novoSaldo => {
@@ -110,6 +107,9 @@ const [impostoSobreFaturamentoLojasG,setImpostoSobreFaturamentoLojasG] = useStat
     setDadosTerrenos(novoTerreno)
   }
 
+  const AtualizarDadosDespesasTerrenos = novaDespesaTerreno => {
+    setDadosDespesasTerrenos(novaDespesaTerreno)
+  }
 
   const AtualizarDadosFaturamentoUnitárioTerrenos = novoFaturamentoUnitárioTerrenos => {
     setDadosFaturamentoUnitárioTerrenos(novoFaturamentoUnitárioTerrenos)
@@ -271,6 +271,7 @@ const AtualizarImpostoSobreFaturamentoLojasG = (novoImpostoSobreFaturamentoLojas
 
       //terrenos
       dadosTerrenos, AtualizarDadosTerrenos,
+      dadosDespesasTerrenos, AtualizarDadosDespesasTerrenos,
       dadosPreçosTerrenos, AtualizarDadosPreçosTerrenos,
       dadosFaturamentoMínimoTerrenos, AtualizarDadosFaturamentoMínimoTerrenos,
       dadosFaturamentoMáximoTerrenos, AtualizarDadosFaturamentoMáximoTerrenos,

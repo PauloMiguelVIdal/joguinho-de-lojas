@@ -22,6 +22,7 @@ export default function NextDay() {
 
         //terrenos
         dadosTerrenos,
+        dadosDespesasTerrenos, AtualizarDadosDespesasTerrenos,
         dadosFaturamentoMínimoTerrenos,
         dadosFaturamentoMáximoTerrenos,
         dadosFaturamentoUnitárioTerrenos, AtualizarDadosFaturamentoUnitárioTerrenos,
@@ -101,8 +102,8 @@ export default function NextDay() {
 
 
     const gerarFaturamentoTerrenos = () => {
-    const novoFatuUnitárioTerrenos = Math.floor(Math.random() * (dadosFaturamentoMáximoTerrenos - dadosFaturamentoMínimoTerrenos + 1)) + dadosFaturamentoMínimoTerrenos
-        AtualizarDadosFaturamentoUnitárioTerrenos(novoFatuUnitárioTerrenos)
+    const novoFatuUnitárioTerreno = Math.floor(Math.random() * (dadosFaturamentoMáximoTerrenos - dadosFaturamentoMínimoTerrenos + 1)) + dadosFaturamentoMínimoTerrenos
+        AtualizarDadosFaturamentoUnitárioTerrenos(novoFatuUnitárioTerreno)
         // alert(`novo faturamento unitário: ${dadosFaturamentoUnitárioTerrenos}`)
         // console.log(dadosFaturamentoUnitárioTerrenos)
     }
