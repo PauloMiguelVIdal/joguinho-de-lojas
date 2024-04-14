@@ -9,6 +9,9 @@ import DolarImg from "./imagens/simbolo-do-dolar.png"
 import NextDay from "./components/nextDay";
 import Buy from "./components/buy";
 import Notificação from "./notificação";
+import Events from "./components/events";
+
+
 function Interface() {
     const {
         dadosSaldo, AtualizarDadosSaldo,
@@ -87,6 +90,7 @@ function Interface() {
     return (
         <div className="w-[100vw] h-[100vh] bg-gradient-to-b from-roxo to-roxoForte grid grid-rows-2 grid-cols-2">
             <Notificação />
+            <Events/>
             {/* <button className="bg-white w-[100px] h-[120px]" onClick={()=>AtualizarEstadoModal(true)}>abrir modal</button> */}
 
 
