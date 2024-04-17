@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital@1&family=Inter:wght@200;300;400;600&family=Noto+Serif:ital,wght@1,700&display=swap');
+.largura{
+  width: calc(100vw - 15%);
+}
+
+.altura{
+  height: calc(100vh - 15%);
+}
+
+.box{
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.box2{
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.box3{
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(255, 255, 255, 0.2) 0px -3px 0px inset;
+}
+
+.box3:hover{
+  box-shadow: rgba(242, 116, 5, 0.4) 5px 5px, rgba(242, 116, 5, 0.3) 10px 10px, rgba(242, 116, 5, 0.2) 15px 15px, rgba(242, 116, 5, 0.1) 20px 20px, rgba(242, 116, 5, 0.05) 25px 25px;
+margin-top: -40px;
+}
+
+.box4{
+  box-shadow: rgba(51, 27, 140, 0.4) 5px 5px, rgba(51, 27, 140, 0.3) 10px 10px, rgba(51, 27, 140, 0.2) 15px 15px, rgba(51, 27, 140, 0.1) 20px 20px, rgba(51, 27, 140, 0.05) 25px 25px;
+  border-radius: 360px;
+}
+
+.box5{
+  box-shadow: rgba(242, 116, 5, 0.4) 5px 5px, rgba(242, 116, 5, 0.3) 10px 10px;
+margin-top: -40px;
+}
+.fonteBold{
+  font-family: 'Inter', sans-serif;
+  font-weight:700;
+}
+.fonteLight{
+  font-family: 'Inter', serif;
+  font-weight:300;
+}
+.fonteRegular{
+  font-family: 'Inter', serif;
+  font-weight:400;
+}
+.linkTexto{
+  position: relative;
+  text-decoration: none;
+  color: aqua; /* Cor do texto */
+  overflow: hidden;
+}
+
+
+.linkTexto::before{
+  content: "";
+    position: absolute;
+    width: 0;
+    height:4px; /* Altura do sublinhado */
+    background-color: #F27405; /* Cor do sublinhado */
+    bottom: 0;
+    left: 0;
+    transition: width 0.3s ease; /* Adiciona uma transição à propriedade width */
+}
+
+.linkTexto:hover::before {
+  width: 100%; /* Expandir o sublinhado ao passar o mouse */
+}
+
+.navbarHover{
+margin: 0px 48px 0px 48px;
+cursor: pointer;
+}
+
+.navbarHover:hover{
+  padding: 0px 33px 0px 33px;
+  margin: 0px 15px 0px 15px;
+  background-color: #331B8C;
+  border-radius: 10px;
+  cursor: pointer;
+  
+}
