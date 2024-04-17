@@ -1,133 +1,70 @@
-import React from 'react'
-import { CentraldeDadosContext } from '../centralDeDadosContext'
-import { useContext } from 'react'
-import PróximoImg from "../imagens/proximo.png"
-import despesasImg from "../imagens/despesas.png"
-import Notificação from '../notificação'
+import React, { useContext } from 'react';
+import { CentraldeDadosContext } from '../centralDeDadosContext';
+import PróximoImg from "../imagens/proximo.png";
+import despesasImg from "../imagens/despesas.png";
+import Notificação from '../notificação';
+
 export default function NextDay() {
-
-    const {
-        dadosSaldo, AtualizarDadosSaldo,
-        dadosDia, AtualizarDadosDia,
-
-        //estadoModal
-        estadoModal, AtualizarEstadoModal,
-        //seção despesas
-
-
-        dadosDespesasPagas, AtualizarDespesasPagas,
-        AtualizarDadosDespesasLojasP, dadosDespesasLojasP,
-        AtualizarDadosDespesasLojasM, dadosDespesasLojasM,
-        AtualizarDadosDespesasLojasG, dadosDespesasLojasG,
-
-        //terrenos
-        dadosTerrenos,
-        dadosDespesasTerrenos, AtualizarDadosDespesasTerrenos,
-        dadosFaturamentoMínimoTerrenos,
-        dadosFaturamentoMáximoTerrenos,
-        dadosFaturamentoUnitárioTerrenos, AtualizarDadosFaturamentoUnitárioTerrenos,
-        dadosFaturamentoTotalTerrenos, AtualizarDadosFaturamentoTotalTerrenos,
-
-        // seçãolojas p
-        dadosLojasP,
-        dadosFaturamentoMínimoLojasP,
-        dadosFaturamentoMáximoLojasP,
-        dadosFaturamentoUnitárioLojasP, AtualizarDadosFaturamentoUnitárioLojasP,
-        dadosFaturamentoTotalLojasP, AtualizarDadosFaturamentoTotalLojasP,
-
-
-
-        //seção lojas m
-        dadosLojasM,
-
-        dadosFaturamentoUnitárioLojasM, AtualizarDadosFaturamentoUnitárioLojasM,
-        dadosFaturamentoTotalLojasM, AtualizarDadosFaturamentoTotalLojasM,
-        dadosFaturamentoMínimoLojasM,
-        dadosFaturamentoMáximoLojasM,
-
-
-        //seção lojas g
-        dadosLojasG,
-        dadosFaturamentoMínimoLojasG,
-        dadosFaturamentoMáximoLojasG,
-        dadosFaturamentoUnitárioLojasG, AtualizarDadosFaturamentoUnitárioLojasG,
-        dadosFaturamentoTotalLojasG, AtualizarDadosFaturamentoTotalLojasG,
-
-
-
-
-    } = useContext(CentraldeDadosContext)
-
-
-
+    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
     const ProximoDia = () => {
-        if (dadosDia % 30 === 0) {
-            AtualizarDespesasPagas(false)
-            if (dadosDespesasPagas === false) {
-                // return alert("despesas não pagas, pague as despesas para avançar")
-                return AtualizarEstadoModal(true)
-
+        if (dados.dia % 30 === 0) {
+            atualizarDados({...dados, despesas: { ...dados.despesas, despesasPagas: false }});
+            if (!dados.despesas.despesasPagas) {
+                return AtualizarEstadoModal(true);
             }
-
         }
-        AtualizarDadosDia(dadosDia + 1)
-        gerarFaturamentoTerrenos()
-        gerarFaturamentoLojasP()
-        gerarFaturamentoLojasM()
-        gerarFaturamentoLojasG()
-        AtualizarDadosFaturamentoTotalTerrenos(dadosTerrenos * dadosFaturamentoUnitárioTerrenos)
-        AtualizarDadosFaturamentoTotalLojasP(dadosLojasP * dadosFaturamentoUnitárioLojasP)
-        AtualizarDadosFaturamentoTotalLojasM(dadosLojasM * dadosFaturamentoUnitárioLojasM)
-        AtualizarDadosFaturamentoTotalLojasG(dadosLojasG * dadosFaturamentoUnitárioLojasG)
-        AtualizarDadosDespesasTerrenos(dadosTerrenos * 100)
-        AtualizarDadosDespesasLojasP(dadosLojasP * 250)
-        AtualizarDadosDespesasLojasM(dadosLojasM * 400)
-        AtualizarDadosDespesasLojasG(dadosLojasG * 750)
-        AtualizarDadosSaldo(dadosSaldo + dadosFaturamentoTotalTerrenos + dadosFaturamentoTotalLojasP + dadosFaturamentoTotalLojasM + dadosFaturamentoTotalLojasG)
+    
+        const novoDia = dados.dia + 1;
+        const saldoAtualizado =
+            dados.saldo +
+            dados.terrenos.quantidade * dados.terrenos.faturamentoUnitário +
+            dados.lojasP.quantidade * dados.lojasP.faturamentoUnitário +
+            dados.lojasM.quantidade * dados.lojasM.faturamentoUnitário +
+            dados.lojasG.quantidade * dados.lojasG.faturamentoUnitário -
+            dados.terrenos.quantidade * 100 -
+            dados.lojasP.quantidade * 250 -
+            dados.lojasM.quantidade * 400 -
+            dados.lojasG.quantidade * 750;
+    
+        atualizarDados(['dia'], novoDia);
+        atualizarDados(['saldo'], saldoAtualizado);
 
-    }
-
+        gerarFaturamentoTerrenos();
+        gerarFaturamentoLojasP();
+        gerarFaturamentoLojasM();
+        gerarFaturamentoLojasG();
+    };
+    
     const PagarDespesas = () => {
-        if (dadosDespesasPagas == true) {
-            return alert("despesas desse mês já forma pagas")
+        if (dados.despesas.despesasPagas) {
+            return alert("Despesas desse mês já foram pagas.");
+        } else {
+            const novoSaldo = dados.saldo - dados.despesas.despesasLojasP - dados.despesas.despesasLojasM - dados.despesas.despesasLojasG;
+            atualizarDados({...dados, saldo: novoSaldo, despesas: {...dados.despesas, despesasPagas: true}});
+            alert("Despesas pagas.");
         }
-        else {
-            AtualizarDadosSaldo(dadosSaldo - dadosDespesasLojasP - dadosDespesasLojasM - dadosDespesasLojasG)
-            AtualizarDespesasPagas(true)
-            alert("despesas pagas")
-
-        }
-    }
-
-
+    };
     const gerarFaturamentoTerrenos = () => {
-    const novoFatuUnitárioTerreno = Math.floor(Math.random() * (dadosFaturamentoMáximoTerrenos - dadosFaturamentoMínimoTerrenos + 1)) + dadosFaturamentoMínimoTerrenos
-        AtualizarDadosFaturamentoUnitárioTerrenos(novoFatuUnitárioTerreno)
-        // alert(`novo faturamento unitário: ${dadosFaturamentoUnitárioTerrenos}`)
-        // console.log(dadosFaturamentoUnitárioTerrenos)
-    }
-
-
+        const novoFatuUnitárioTerreno = Math.floor(Math.random() * (dados.terrenos.faturamentoMáximo - dados.terrenos.faturamentoMínimo + 1)) + dados.terrenos.faturamentoMínimo;
+        atualizarDados({...dados, terrenos: {...dados.terrenos, faturamentoUnitário: novoFatuUnitárioTerreno}});
+    };
+    
     const gerarFaturamentoLojasP = () => {
-        const novoFatuUnitárioLojaP = Math.floor(Math.random() * (dadosFaturamentoMáximoLojasP - dadosFaturamentoMínimoLojasP + 1)) + dadosFaturamentoMínimoLojasP
-        AtualizarDadosFaturamentoUnitárioLojasP(novoFatuUnitárioLojaP)
-        // alert(`novo faturamento unitário: ${dadosFaturamentoUnitárioLojasP}`)
-    }
-
+        const novoFatuUnitárioLojaP = Math.floor(Math.random() * (dados.lojasP.faturamentoMáximo - dados.lojasP.faturamentoMínimo + 1)) + dados.lojasP.faturamentoMínimo;
+        atualizarDados({...dados, lojasP: {...dados.lojasP, faturamentoUnitário: novoFatuUnitárioLojaP}});
+    };
+    
     const gerarFaturamentoLojasM = () => {
-        const novoFatuUnitárioLojaM = Math.floor(Math.random() * (dadosFaturamentoMáximoLojasM - dadosFaturamentoMínimoLojasM + 1)) + dadosFaturamentoMínimoLojasM
-        AtualizarDadosFaturamentoUnitárioLojasM(novoFatuUnitárioLojaM)
-        // alert(`novo faturamento unitário: ${dadosFaturamentoUnitárioLojasM}`)
-    }
-
-
+        const novoFatuUnitárioLojaM = Math.floor(Math.random() * (dados.lojasM.faturamentoMáximo - dados.lojasM.faturamentoMínimo + 1)) + dados.lojasM.faturamentoMínimo;
+        atualizarDados({...dados, lojasM: {...dados.lojasM, faturamentoUnitário: novoFatuUnitárioLojaM}});
+    };
+    
     const gerarFaturamentoLojasG = () => {
-        const novoFatuUnitárioLojaG = Math.floor(Math.random() * (dadosFaturamentoMáximoLojasG - dadosFaturamentoMínimoLojasG + 1)) + dadosFaturamentoMínimoLojasG
-        AtualizarDadosFaturamentoUnitárioLojasG(novoFatuUnitárioLojaG)
-        // alert(`novo faturamento unitário: ${dadosFaturamentoUnitárioLojasG}`)
-    }
-
+        const novoFatuUnitárioLojaG = Math.floor(Math.random() * (dados.lojasG.faturamentoMáximo - dados.lojasG.faturamentoMínimo + 1)) + dados.lojasG.faturamentoMínimo;
+        atualizarDados({...dados, lojasG: {...dados.lojasG, faturamentoUnitário: novoFatuUnitárioLojaG}});
+    };
+    
     return (
 
         <div className="grid col-start-1 col-end-3 row-2">

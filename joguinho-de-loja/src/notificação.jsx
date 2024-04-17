@@ -3,11 +3,12 @@ import { CentraldeDadosContext } from './centralDeDadosContext'
 
 export default function Notificação() {
 
-  const { estadoModal, AtualizarEstadoModal } = useContext(CentraldeDadosContext)
-  console.log(estadoModal)
-  const fecharModal = () => { AtualizarEstadoModal(false) }
+  const { dados, atualizarDados} = useContext(CentraldeDadosContext)
+  console.log(dados.estadoModal)
 
-  if (estadoModal) {
+  const fecharModal = () => { atualizarDados({estadoModal:false})}
+
+  if (dados.estadoModal) {
     return (
       <div className='flex justify-center items-center z-10 bg-black opacity-[90%] w-[100vw] h-[100vh]'>
         <div className='w-[50vw] h-[50vh] bg-roxo rounded-[20px] z-20 relative'>
