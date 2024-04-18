@@ -13,63 +13,7 @@ import DolarImg from "../imagens/simbolo-do-dolar.png"
 export default function Buy() {
 
     const {
-        dadosSaldo, AtualizarDadosSaldo,
-        dadosDia, AtualizarDadosDia,
-
-        //modal
-        estadoModal, AtualizarEstadoModal,
-
-        //seção terrenos
-        dadosTerrenos, AtualizarDadosTerrenos,
-        dadosPreçosTerrenos, AtualizarDadosPreçosTerrenos,
-        dadosFaturamentoMínimoTerrenos, AtualizarDadosFaturamentoMínimoTerrenos,
-        dadosFaturamentoMáximoTerrenos, AtualizarDadosFaturamentoMáximoTerrenos,
-        dadosFaturamentoUnitárioTerrenos, AtualizarDadosFaturamentoUnitárioTerrenos,
-        dadosFaturamentoTotalTerrenos, AtualizarDadosFaturamentoTotalTerrenos,
-
-
-        // seçãolojas p
-        dadosLojasP, AtualizarDadosLojasP,
-        dadosPreçosConstruçãoLojaP, AtualizarDadosPreçoConstruçãoLojasP,
-        dadosFaturamentoMínimoLojasP, AtualizarDadosFaturamentoMínimoLojasP,
-        dadosFaturamentoMáximoLojasP, AtualizarDadosFaturamentoMáximoLojasP,
-        dadosFaturamentoUnitárioLojasP, AtualizarDadosFaturamentoUnitárioLojasP,
-        dadosFaturamentoTotalLojasP, AtualizarDadosFaturamentoTotalLojasP,
-
-
-
-
-
-        //seção lojas m
-        dadosLojasM, AtualizarDadosLojasM, AtualizarDadosDespesasLojasM, dadosDespesasLojasM,
-        dadosPreçosConstruçãoLojaM, AtualizarDadosPreçoConstruçãoLojasM,
-        dadosFaturamentoUnitárioLojasM, AtualizarDadosFaturamentoUnitárioLojasM,
-        dadosFaturamentoTotalLojasM, AtualizarDadosFaturamentoTotalLojasM,
-        dadosFaturamentoMínimoLojasM, AtualizarDadosFaturamentoMínimoLojasM,
-        dadosFaturamentoMáximoLojasM, AtualizarDadosFaturamentoMáximoLojasM,
-
-
-
-
-        //seção lojas g
-        dadosLojasG, AtualizarDadosLojasG, AtualizarDadosDespesasLojasG, dadosDespesasLojasG,
-        dadosPreçosConstruçãoLojaG, AtualizarDadosPreçoConstruçãoLojasG,
-        dadosFaturamentoMínimoLojasG, AtualizarDadosFaturamentoMínimoLojasG,
-        dadosFaturamentoMáximoLojasG, AtualizarDadosFaturamentoMáximoLojasG,
-        dadosFaturamentoUnitárioLojasG, AtualizarDadosFaturamentoUnitárioLojasG,
-        dadosFaturamentoTotalLojasG, AtualizarDadosFaturamentoTotalLojasG,
-
-
-
-
-
-        //seção funcionários
-        dadosCustoFuncionário, AtualizarDadosCustoFuncionário,
-        dadosCustoMáximoFuncionário, AtualizarDadosCustoMáximoFuncionário,
-        dadosCustoMínimoFuncionário, AtualizarDadosCustoMínimoFuncionário,
-
-
-
+        dados, atualizarDados
     } = useContext(CentraldeDadosContext)
 
 
@@ -81,63 +25,55 @@ export default function Buy() {
     // lojas P
 
     const ComprarLojaP = () => {
-        if (dadosTerrenos < 1) {
-            return alert("você não tem terreno suficiente")
+        if (dados.terrenos.quantidade < 1) {
+            return alert("Você não tem terreno suficiente");
         }
-        if (dadosSaldo < dadosPreçosConstruçãoLojaP) {
-            alert("você não tem dinheiro suficiente para construir")
+        if (dados.saldo < dados.lojasP.preçoConstrução) {
+            alert("Você não tem dinheiro suficiente para construir");
         } else {
-            AtualizarDadosLojasP(dadosLojasP + 1)
-            AtualizarDadosTerrenos(dadosTerrenos - 1)
-            AtualizarDadosSaldo(dadosSaldo - dadosPreçosConstruçãoLojaP)
+            atualizarDados({ ...dados, lojasP: { ...dados.lojasP, quantidade: dados.lojasP.quantidade + 1 } });
+            atualizarDados({ ...dados, terrenos: { ...dados.terrenos, quantidade: dados.terrenos.quantidade - 1 } });
+            atualizarDados(dados.saldo - dados.lojasP.preçoConstrução);
         }
+    };
+
+// lojas M
+const ComprarLojaM = () => {
+    if (dados.terrenos.quantidade < 2) {
+        return alert("Você não tem terrenos suficientes");
     }
-
-
-
-
-    // lojas M
-    const ComprarLojaM = () => {
-        if (dadosTerrenos < 2) {
-            return alert("você não tem terrenos suficiente")
-        }
-        if (dadosSaldo < dadosPreçosConstruçãoLojaM) {
-            alert("você não tem dinheiro suficiente para construir")
-        } else {
-            AtualizarDadosLojasM(dadosLojasM + 1)
-            AtualizarDadosTerrenos(dadosTerrenos - 2)
-            AtualizarDadosSaldo(dadosSaldo - dadosPreçosConstruçãoLojaM)
-        }
+    if (dados.saldo < dados.lojasM.preçoConstrução) {
+        alert("Você não tem dinheiro suficiente para construir");
+    } else {
+        atualizarDados({ ...dados, lojasM: { ...dados.lojasM, quantidade: dados.lojasM.quantidade + 1 } });
+        atualizarDados({ ...dados, terrenos: { ...dados.terrenos, quantidade: dados.terrenos.quantidade - 2 } });
+        atualizarDados(dados.saldo - dados.lojasM.preçoConstrução);
     }
+};
 
-
-
-    // lojas G
-
-
-    const ComprarLojaG = () => {
-        if (dadosTerrenos < 3) {
-            return alert("você não tem terrenos suficiente")
-        }
-        if (dadosSaldo < dadosPreçosConstruçãoLojaG) {
-            alert("você não tem dinheiro suficiente para construir")
-        } else {
-            AtualizarDadosLojasG(dadosLojasG + 1)
-            AtualizarDadosTerrenos(dadosTerrenos - 3)
-            AtualizarDadosSaldo(dadosSaldo - dadosPreçosConstruçãoLojaG)
-        }
+// lojas G
+const ComprarLojaG = () => {
+    if (dados.terrenos.quantidade < 3) {
+        return alert("Você não tem terrenos suficientes");
     }
-
-
-    //terreno
-    const ComprarTerreno = () => {
-        if (dadosSaldo < dadosPreçosTerrenos) {
-            alert("você não tem dinheiro suficiente")
-        } else {
-            AtualizarDadosTerrenos(dadosTerrenos + 1)
-            AtualizarDadosSaldo(dadosSaldo - dadosPreçosTerrenos)
-        }
+    if (dados.saldo < dados.lojasG.preçoConstrução) {
+        alert("Você não tem dinheiro suficiente para construir");
+    } else {
+        atualizarDados({ ...dados, lojasG: { ...dados.lojasG, quantidade: dados.lojasG.quantidade + 1 } });
+        atualizarDados({ ...dados, terrenos: { ...dados.terrenos, quantidade: dados.terrenos.quantidade - 3 } });
+        atualizarDados(dados.saldo - dados.lojasG.preçoConstrução);
     }
+};
+
+// terreno
+const ComprarTerreno = () => {
+    if (dados.saldo < dados.preçosTerrenos) {
+        alert("Você não tem dinheiro suficiente");
+    } else {
+        atualizarDados({ ...dados, terrenos: { ...dados.terrenos, quantidade: dados.terrenos.quantidade + 1 } });
+        atualizarDados(dados.saldo - dados.preçosTerrenos);
+    }
+};
 
 
 
@@ -153,7 +89,7 @@ export default function Buy() {
                         <img src={terrenoImg} alt="despesas" className="w-[50px] h-[50px] " />
                         <div className="bg-marinho w-[36px] h-[36px] rounded-full left-[-18px] top-[50px] flex justify-center items-center border-white border-[1px] absolute">
                             <h1 className="text-laranja fonteBold">
-                                {dadosTerrenos}
+                                {dados.terrenos.quantidade}
                             </h1>
                         </div>
                     </button>
@@ -162,13 +98,13 @@ export default function Buy() {
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={DolarImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dadosFaturamentoTotalTerrenos}</h1>
+                            <h1 className="mr-[10px] fonteBold">{dados.terrenos.faturamentoTotal}</h1>
                         </div>
                         <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dadosPreçosTerrenos}</h1>
+                            <h1 className="mr-[10px] fonteBold">{dados.terrenos.preço}</h1>
                         </div>
                     </div>
                 </div>
@@ -179,7 +115,7 @@ export default function Buy() {
                         <img src={LojaPImg} alt="lojaP" className="w-[50px] h-[50px] " />
                         <div className="bg-marinho w-[36px] h-[36px] rounded-full left-[-18px] top-[50px] flex justify-center items-center border-white border-[1px] absolute">
                             <h1 className="text-laranja fonteBold">
-                                {dadosLojasP}
+                                {dados.lojasP.quantidade}
                             </h1>
                         </div>
                     </button>
@@ -188,13 +124,13 @@ export default function Buy() {
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={DolarImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dadosFaturamentoTotalLojasP}</h1>
+                            <h1 className="mr-[10px] fonteBold">{dados.lojasP.faturamentoTotal}</h1>
                         </div>
                         <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dadosPreçosConstruçãoLojaP}</h1>
+                            <h1 className="mr-[10px] fonteBold">{dados.lojasP.preçoConstrução}</h1>
                         </div>
                     </div>
                 </div>
@@ -206,7 +142,7 @@ export default function Buy() {
                         <img src={LojaMImg} alt="lojaM" className="w-[50px] h-[50px] " />
                         <div className="bg-marinho w-[36px] h-[36px] rounded-full left-[-18px] top-[50px] flex justify-center items-center border-white border-[1px] absolute">
                             <h1 className="text-laranja fonteBold">
-                                {dadosLojasM}
+                                {dados.lojasM.quantidade}
                             </h1>
                         </div>
                     </button>
@@ -215,13 +151,13 @@ export default function Buy() {
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={DolarImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dadosFaturamentoTotalLojasM}</h1>
+                            <h1 className="mr-[10px] fonteBold">{dados.lojasM.faturamentoTotal}</h1>
                         </div>
                         <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dadosPreçosConstruçãoLojaM}</h1>
+                            <h1 className="mr-[10px] fonteBold">{dados.lojasM.preçoConstrução}</h1>
                         </div>
                     </div>
                 </div>
@@ -234,7 +170,7 @@ export default function Buy() {
                         <img src={LojaGImg} alt="lojaG" className="w-[50px] h-[50px] " />
                         <div className="bg-marinho w-[36px] h-[36px] rounded-full absolute left-[-18px] top-[50px] flex justify-center items-center border-white border-[1px]">
                             <h1 className="text-laranja fonteBold">
-                                {dadosLojasG}
+                                {dados.lojasG.quantidade}
                             </h1>
                         </div>
                     </button>
@@ -243,13 +179,13 @@ export default function Buy() {
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={DolarImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dadosFaturamentoTotalLojasG}</h1>
+                            <h1 className="mr-[10px] fonteBold">{dados.lojasG.faturamentoTotal}</h1>
                         </div>
                         <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dadosPreçosConstruçãoLojaG}</h1>
+                            <h1 className="mr-[10px] fonteBold">{dados.lojasG.preçoConstrução}</h1>
                         </div>
                     </div>
                 </div>

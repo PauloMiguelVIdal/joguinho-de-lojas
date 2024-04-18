@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { CentraldeDadosContext } from '../centralDeDadosContext';
 import PróximoImg from "../imagens/proximo.png";
 import despesasImg from "../imagens/despesas.png";
-import Notificação from '../notificação';
+
 
 export default function NextDay() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
@@ -21,11 +21,12 @@ export default function NextDay() {
             dados.terrenos.quantidade * dados.terrenos.faturamentoUnitário +
             dados.lojasP.quantidade * dados.lojasP.faturamentoUnitário +
             dados.lojasM.quantidade * dados.lojasM.faturamentoUnitário +
-            dados.lojasG.quantidade * dados.lojasG.faturamentoUnitário -
-            dados.terrenos.quantidade * 100 -
-            dados.lojasP.quantidade * 250 -
-            dados.lojasM.quantidade * 400 -
-            dados.lojasG.quantidade * 750;
+            dados.lojasG.quantidade * dados.lojasG.faturamentoUnitário 
+
+            // dados.terrenos.quantidade * 100 -
+            // dados.lojasP.quantidade * 250 -
+            // dados.lojasM.quantidade * 400 -
+            // dados.lojasG.quantidade * 750;
     
         atualizarDados(['dia'], novoDia);
         atualizarDados(['saldo'], saldoAtualizado);
