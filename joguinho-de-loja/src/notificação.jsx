@@ -4,7 +4,7 @@ import { CentraldeDadosContext } from './centralDeDadosContext';
 export default function Notificação() {
 
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-  console.log(dados.estadoModal);
+  // console.log(dados.estadoModal);
 
   const fecharModal = () => { 
     atualizarDados('estadoModal', false); 
@@ -46,7 +46,7 @@ export default function Notificação() {
       </div>
     );
   } else {
-    console.log("não chamou");
+    // console.log("não chamou");
     return null;
   }
 }

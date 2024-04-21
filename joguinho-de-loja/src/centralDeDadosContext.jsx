@@ -8,7 +8,8 @@ const [dados, setDados] = useState({
   saldo: 120000,
   dia: 2,
   estadoModal: false,
-  evento:"",
+  iniciarSorteio: false,
+  eventoAtual:"",
   terrenos: {
     quantidade: 1,
     preço: 70000,

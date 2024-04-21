@@ -4,7 +4,6 @@ import PróximoImg from "../imagens/proximo.png";
 import despesasImg from "../imagens/despesas.png";
 
 
-
 export default function NextDay() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
@@ -18,7 +17,7 @@ export default function NextDay() {
                 return;
             }
         }
-
+        
 
 
 
@@ -28,10 +27,13 @@ export default function NextDay() {
             const probabilidade = Math.random() * 100
             if (probabilidade <= chanceNovoEvento) {
                 console.log("sorteio ocorreu")
+                console.log(dados.iniciarSorteio)
                 atualizarDados('estadoModal', true);
+                atualizarDados('iniciarSorteio', true);
+                console.log(dados.iniciarSorteio)
             }
         }
-
+        
 
 
         const novoDia = dados.dia + 1;
@@ -42,18 +44,23 @@ export default function NextDay() {
             dados.lojasM.quantidade * dados.lojasM.faturamentoUnitário +
             dados.lojasG.quantidade * dados.lojasG.faturamentoUnitário;
         
-        // Remova os colchetes ao redor das chaves
+
         atualizarDados('dia', novoDia);
         atualizarDados('saldo', saldoAtualizado);
-        // iniciarSorteio()
-        // sortearNovoEvento();
+        // atualizarDados('eventoAtual', "evento");
+        
+        sortearNovoEvento();
         gerarFaturamentoTerrenos();
         gerarFaturamentoLojasP();
         gerarFaturamentoLojasM();
         gerarFaturamentoLojasG();
         console.log(dados.saldo)
-
-
+        console.log(dados.eventoAtual)
+        if(dados.iniciarSorteio){
+            console.log(dados.eventoAtual)  
+              }
+        
+        
     };
 
     const PagarDespesas = () => {
