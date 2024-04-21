@@ -4,26 +4,31 @@ import PróximoImg from "../imagens/proximo.png";
 import despesasImg from "../imagens/despesas.png";
 
 
+
 export default function NextDay() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
     const ProximoDia = () => {
         if (dados.dia % 30 === 0) {
-            atualizarDados({ ...dados, despesas: { ...dados.despesas, despesasPagas: false } });
+            const novasDespesas = { ...dados.despesas, despesasPagas: false };
+            atualizarDados('despesas', novasDespesas); 
             if (!dados.despesas.despesasPagas) {
-                return atualizarDados({...dados, estadoModal:true});
+                const novoEstado = { ...dados, estadoModal: true };
+                atualizarDados('estadoModal', true);
+                return;
             }
         }
 
 
 
 
-        const chanceSorteado = 3
+        const chanceNovoEvento = 50
 
-        const realizarSorterio = () => {
-            const resultado = Math.random() * 100
-            if (resultado <= chanceSorteado) {
+        const sortearNovoEvento = () => {
+            const probabilidade = Math.random() * 100
+            if (probabilidade <= chanceNovoEvento) {
                 console.log("sorteio ocorreu")
+                atualizarDados('estadoModal', true);
             }
         }
 
@@ -35,49 +40,69 @@ export default function NextDay() {
             dados.terrenos.quantidade * dados.terrenos.faturamentoUnitário +
             dados.lojasP.quantidade * dados.lojasP.faturamentoUnitário +
             dados.lojasM.quantidade * dados.lojasM.faturamentoUnitário +
-            dados.lojasG.quantidade * dados.lojasG.faturamentoUnitário
-
-        // dados.terrenos.quantidade * 100 -
-        // dados.lojasP.quantidade * 250 -
-        // dados.lojasM.quantidade * 400 -
-        // dados.lojasG.quantidade * 750;
-
-        atualizarDados(['dia'], novoDia);
-        atualizarDados(['saldo'], saldoAtualizado);
-        realizarSorterio()
+            dados.lojasG.quantidade * dados.lojasG.faturamentoUnitário;
+        
+        // Remova os colchetes ao redor das chaves
+        atualizarDados('dia', novoDia);
+        atualizarDados('saldo', saldoAtualizado);
+        // iniciarSorteio()
+        // sortearNovoEvento();
         gerarFaturamentoTerrenos();
         gerarFaturamentoLojasP();
         gerarFaturamentoLojasM();
         gerarFaturamentoLojasG();
+        console.log(dados.saldo)
+
+
     };
 
     const PagarDespesas = () => {
         if (dados.despesas.despesasPagas) {
             return alert("Despesas desse mês já foram pagas.");
         } else {
+
             const novoSaldo = dados.saldo - dados.despesas.despesasLojasP - dados.despesas.despesasLojasM - dados.despesas.despesasLojasG;
-            atualizarDados({ ...dados, saldo: novoSaldo, despesas: { ...dados.despesas, despesasPagas: true } });
-            alert("Despesas pagas.");
+            // atualizarDados('saldo', novoSaldo);
+            atualizarDados('despesas', { ...dados.despesas, despesasPagas: true });
+            console.log(dados.saldo)
+             alert("Despesas pagas.");
         }
     };
+    
     const gerarFaturamentoTerrenos = () => {
         const novoFatuUnitárioTerreno = Math.floor(Math.random() * (dados.terrenos.faturamentoMáximo - dados.terrenos.faturamentoMínimo + 1)) + dados.terrenos.faturamentoMínimo;
-        atualizarDados({ ...dados, terrenos: { ...dados.terrenos, faturamentoUnitário: novoFatuUnitárioTerreno } });
+        atualizarDados('terrenos', { 
+            ...dados.terrenos, 
+            faturamentoUnitário: novoFatuUnitárioTerreno,
+            faturamentoTotal: novoFatuUnitárioTerreno * dados.terrenos.quantidade
+        });
     };
-
+    
     const gerarFaturamentoLojasP = () => {
         const novoFatuUnitárioLojaP = Math.floor(Math.random() * (dados.lojasP.faturamentoMáximo - dados.lojasP.faturamentoMínimo + 1)) + dados.lojasP.faturamentoMínimo;
-        atualizarDados({ ...dados, lojasP: { ...dados.lojasP, faturamentoUnitário: novoFatuUnitárioLojaP } });
+        atualizarDados('lojasP', { 
+            ...dados.lojasP, 
+            faturamentoUnitário: novoFatuUnitárioLojaP,
+            faturamentoTotal: novoFatuUnitárioLojaP * dados.lojasP.quantidade
+        });
     };
-
+    
     const gerarFaturamentoLojasM = () => {
         const novoFatuUnitárioLojaM = Math.floor(Math.random() * (dados.lojasM.faturamentoMáximo - dados.lojasM.faturamentoMínimo + 1)) + dados.lojasM.faturamentoMínimo;
-        atualizarDados({ ...dados, lojasM: { ...dados.lojasM, faturamentoUnitário: novoFatuUnitárioLojaM } });
+        atualizarDados('lojasM', { 
+            ...dados.lojasM, 
+            faturamentoUnitário: novoFatuUnitárioLojaM,
+            faturamentoTotal: novoFatuUnitárioLojaM * dados.lojasM.quantidade
+        });
     };
-
+    
     const gerarFaturamentoLojasG = () => {
         const novoFatuUnitárioLojaG = Math.floor(Math.random() * (dados.lojasG.faturamentoMáximo - dados.lojasG.faturamentoMínimo + 1)) + dados.lojasG.faturamentoMínimo;
-        atualizarDados({ ...dados, lojasG: { ...dados.lojasG, faturamentoUnitário: novoFatuUnitárioLojaG } });
+        atualizarDados('lojasG', { 
+            ...dados.lojasG, 
+            faturamentoUnitário: novoFatuUnitárioLojaG,
+            faturamentoTotal: novoFatuUnitárioLojaG * dados.lojasG.quantidade
+        });
     };
 
     return (

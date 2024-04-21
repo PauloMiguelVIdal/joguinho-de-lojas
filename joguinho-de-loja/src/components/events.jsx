@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { CentraldeDadosContext } from '../centralDeDadosContext';
 
 const Events = () => {
+  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
   const centralResultado = () => {
     const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
@@ -20,25 +22,24 @@ const Events = () => {
 
   const [eventoAtual, setEventoAtual] = useState("");
 
-  const testar = () => {
+  const gerarEvento = () => {
     const evento = centralResultado();
+    atualizarDados({...dados, eventoAtual: evento});
     console.log(evento);
     return evento;
   }
 
-  const testandoTudo = () => {
-    const novoEvento = testar();
+  const iniciarSorteio = () => {
+    const novoEvento = gerarEvento();
     setEventoAtual(novoEvento);
-    console.log(eventoAtual);
   }
 
   return (
     <div className='bg-black flex justify-center items-center z-20'>
-      <button onClick={testandoTudo} className='bg-white'>sortear</button>
+      <button onClick={iniciarSorteio} className='bg-white'>sortear</button>
       <p>Este será o tipo de evento selecionado: {eventoAtual.evento}</p>
     </div>
   );
-
 }
 
 export default Events;

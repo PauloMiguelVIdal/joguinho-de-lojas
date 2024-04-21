@@ -8,8 +8,9 @@ const [dados, setDados] = useState({
   saldo: 120000,
   dia: 2,
   estadoModal: false,
+  evento:"",
   terrenos: {
-    quantidade: 3,
+    quantidade: 1,
     preço: 70000,
     faturamentoUnitário: 0,
     faturamentoMínimo: 100,
@@ -19,7 +20,7 @@ const [dados, setDados] = useState({
     funcionários: 3
   },
   lojasP: {
-    quantidade: 5,
+    quantidade: 1,
     preçoConstrução: 50000,
     faturamentoUnitário: 0,
     faturamentoMínimo: 800,
@@ -28,7 +29,7 @@ const [dados, setDados] = useState({
     despesas: 0
   },
   lojasM: {
-    quantidade: 5,
+    quantidade: 1,
     preçoConstrução: 100000,
     faturamentoUnitário: 0,
     faturamentoTotal: 0,
@@ -37,7 +38,7 @@ const [dados, setDados] = useState({
     despesas: 0
   },
   lojasG: {
-    quantidade: 5,
+    quantidade: 1,
     preçoConstrução: 240000,
     faturamentoUnitário: 0,
     faturamentoTotal: 0,

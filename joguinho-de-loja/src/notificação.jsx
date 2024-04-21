@@ -1,15 +1,37 @@
-import React, { useContext } from 'react'
-import { CentraldeDadosContext } from './centralDeDadosContext'
+import React, { useContext } from 'react';
+import { CentraldeDadosContext } from './centralDeDadosContext';
 
 export default function Notificação() {
 
-  const { dados, atualizarDados} = useContext(CentraldeDadosContext)
-  console.log(dados.estadoModal)
+  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  console.log(dados.estadoModal);
 
-  const fecharModal = () => { atualizarDados({estadoModal:false})}
+  const fecharModal = () => { 
+    atualizarDados('estadoModal', false); 
+  };
+
+
+//   if(situação == "aumento"){
+//     const title = "Boas notícias" 
+//   } else
+//   const title = "pessimas notícias"
+
+// const teste = {
+//   title: "{Title}",
+//   content: "{evento}"
+// }
+
+
+
+
+
+
+
+
 
   if (dados.estadoModal) {
     return (
+      
       <div className='flex justify-center items-center z-10 bg-black opacity-[90%] w-[100vw] h-[100vh]'>
         <div className='w-[50vw] h-[50vh] bg-roxo rounded-[20px] z-20 relative'>
           <h1 className='text-center text-white p-[10px] fonteBold'>Dia de pagamentos das despesas</h1>
@@ -24,7 +46,7 @@ export default function Notificação() {
       </div>
     );
   } else {
-    console.log("não chamou")
-    return null
+    console.log("não chamou");
+    return null;
   }
 }

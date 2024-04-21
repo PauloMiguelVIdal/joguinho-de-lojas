@@ -3,67 +3,7 @@ import { CentraldeDadosContext } from '../centralDeDadosContext'
 import { useContext } from 'react'
 
 const {
-  dadosSaldo, AtualizarDadosSaldo,
-  dadosDia, AtualizarDadosDia,
-
-  //modal
-  estadoModal, AtualizarEstadoModal,
-
-  //terrenos
-  dadosTerrenos, AtualizarDadosTerrenos,
-  dadosDespesasTerrenos, AtualizarDadosDespesasTerrenos,
-  dadosPreçosTerrenos, AtualizarDadosPreçosTerrenos,
-  dadosFaturamentoMínimoTerrenos, AtualizarDadosFaturamentoMínimoTerrenos,
-  dadosFaturamentoMáximoTerrenos, AtualizarDadosFaturamentoMáximoTerrenos,
-  dadosFaturamentoUnitárioTerrenos, AtualizarDadosFaturamentoUnitárioTerrenos,
-  dadosFaturamentoTotalTerrenos, AtualizarDadosFaturamentoTotalTerrenos,
-
-  //lojas p
-  dadosLojasP, AtualizarDadosLojasP,
-  dadosDespesasLojasP, AtualizarDadosDespesasLojasP,
-  dadosPreçosConstruçãoLojaP, AtualizarDadosPreçoConstruçãoLojasP,
-  dadosFaturamentoMínimoLojasP, AtualizarDadosFaturamentoMínimoLojasP,
-  dadosFaturamentoMáximoLojasP, AtualizarDadosFaturamentoMáximoLojasP,
-  dadosFaturamentoUnitárioLojasP, AtualizarDadosFaturamentoUnitárioLojasP,
-  dadosFaturamentoTotalLojasP, AtualizarDadosFaturamentoTotalLojasP,
-
-  //lojas m
-  dadosDespesasLojasM, AtualizarDadosDespesasLojasM,
-  dadosLojasM, AtualizarDadosLojasM,
-  dadosPreçosConstruçãoLojaM, AtualizarDadosPreçoConstruçãoLojasM,
-  dadosFaturamentoTotalLojasM, AtualizarDadosFaturamentoTotalLojasM,
-  dadosFaturamentoUnitárioLojasM, AtualizarDadosFaturamentoUnitárioLojasM,
-  dadosFaturamentoMínimoLojasM, AtualizarDadosFaturamentoMínimoLojasM,
-  dadosFaturamentoMáximoLojasM, AtualizarDadosFaturamentoMáximoLojasM,
-
-
-  //lojas g
-  dadosDespesasLojasG, AtualizarDadosDespesasLojasG,
-  dadosLojasG, AtualizarDadosLojasG,
-  dadosPreçosConstruçãoLojaG, AtualizarDadosPreçoConstruçãoLojasG,
-  dadosFaturamentoUnitárioLojasG, AtualizarDadosFaturamentoUnitárioLojasG,
-  dadosFaturamentoTotalLojasG, AtualizarDadosFaturamentoTotalLojasG,
-  dadosFaturamentoMínimoLojasG, AtualizarDadosFaturamentoMínimoLojasG,
-  dadosFaturamentoMáximoLojasG, AtualizarDadosFaturamentoMáximoLojasG,
-
-
-  //despesas
-  dadosDiaPagarDespesas, AtualizarDadosDiaPagarDespesas,
-  dadosDespesasPagas, AtualizarDespesasPagas,
-
-  //funcionários
-  dadosCustoMáximoFuncionário, AtualizarDadosCustoMáximoFuncionário,
-  dadosCustoMínimoFuncionário, AtualizarDadosCustoMínimoFuncionário,
-  dadosCustoFuncionário, AtualizarDadosCustoFuncionário,
-
-  //impostos
-  impostoFixoLojasP, AtualizarImpostoFixoLojasP,
-  impostoFixoLojasM, AtualizarImpostoFixoLojasM,
-  impostoFixoLojasG, AtualizarImpostoFixoLojasG,
-
-  impostoSobreFaturamentoLojasP, AtualizarImpostoSobreFaturamentoLojasP,
-  impostoSobreFaturamentoLojasM, AtualizarImpostoSobreFaturamentoLojasM,
-  impostoSobreFaturamentoLojasG, AtualizarImpostoSobreFaturamentoLojasG,
+  dados, atualizarDados
 } = useContext(CentraldeDadosContext)
 
 export default function modalInformations() {
