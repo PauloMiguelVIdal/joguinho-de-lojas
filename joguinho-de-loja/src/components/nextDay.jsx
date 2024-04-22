@@ -21,7 +21,7 @@ export default function NextDay() {
 
 
 
-        const chanceNovoEvento = 50
+        const chanceNovoEvento = 3
 
         const sortearNovoEvento = () => {
             const probabilidade = Math.random() * 100
