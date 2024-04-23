@@ -7,9 +7,19 @@ const CentraldeDadosProvider = ({ children }) => {
 const [dados, setDados] = useState({
   saldo: 120000,
   dia: 2,
-  estadoModal: false,
+  modal:{
+    estadoModal: false,
+    head:"",
+    content:""
+  },
   iniciarSorteio: false,
-  eventoAtual:"",
+  eventoAtual:{
+    title:"",
+    LojaSelecionada: "",
+    situacaoSelecionada: "",
+    porcentagemSelecionada: "",
+    periodoSelecionado: ""
+  },
   terrenos: {
     quantidade: 1,
     preço: 70000,

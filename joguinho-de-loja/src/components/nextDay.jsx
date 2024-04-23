@@ -8,27 +8,22 @@ export default function NextDay() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
     const ProximoDia = () => {
-        if (dados.dia % 30 === 0) {
-            const novasDespesas = { ...dados.despesas, despesasPagas: false };
-            atualizarDados('despesas', novasDespesas); 
-            if (!dados.despesas.despesasPagas) {
-                const novoEstado = { ...dados, estadoModal: true };
-                atualizarDados('estadoModal', true);
-                return;
-            }
+
+        if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
+            alert("Você não pode avançar para o próximo dia sem pagar as despesas.");
+            return; // Impede o avanço do dia se as despesas não forem pagas
         }
         
 
 
 
-        const chanceNovoEvento = 3
+        const chanceNovoEvento = 70
 
         const sortearNovoEvento = () => {
             const probabilidade = Math.random() * 100
             if (probabilidade <= chanceNovoEvento) {
                 console.log("sorteio ocorreu")
                 console.log(dados.iniciarSorteio)
-                atualizarDados('estadoModal', true);
                 atualizarDados('iniciarSorteio', true);
                 console.log(dados.iniciarSorteio)
             }
@@ -56,6 +51,7 @@ export default function NextDay() {
         gerarFaturamentoLojasG();
         console.log(dados.saldo)
         console.log(dados.eventoAtual)
+        console.log(dados.modal.estadoModal)
         if(dados.iniciarSorteio){
             console.log(dados.eventoAtual)  
               }

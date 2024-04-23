@@ -5,18 +5,36 @@ const Events = () => {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const [sorteioAtivo, setSorteioAtivo] = useState(false);
 
+
+
+
+
+  useEffect(() => {
+    // Verifica se é necessário atualizar as despesas e o estado modal
+    if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
+      const novasDespesas = { ...dados.despesas, despesasPagas: false };
+      const novoEstado = { ...dados, modal: { ...dados.modal, estadoModal: true } };
+      atualizarDados('despesas', novasDespesas);
+      atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
+      // Chame o modelo de pagar dívidas aqui
+    }
+  }, [dados.dia, dados.despesas.despesasPagas]);
+
+
   useEffect(() => {
     if (dados.iniciarSorteio) {
-      const evento = centralResultado();
-      console.log(dados.iniciarSorteio)
-      atualizarDados('eventoAtual', evento);
-      atualizarDados('eventoAtual', evento);
-      atualizarDados('iniciarSorteio', false); // Resetar o iniciarSorteio após o sorteio
-      console.log(dados.iniciarSorteio)
-      console.log("Evento sorteado:", evento);
-      console.log(dados.eventoAtual);
+        const evento = centralResultado();
+        atualizarDados('eventoAtual', evento);
+        atualizarDados('iniciarSorteio', false); // Resetar iniciarSorteio após o sorteio
+        
+        // Após atualizar o evento atual, verifique o estado do modal
+        atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
+        
+        // Aqui você pode acessar o estado atualizado do modal
+        console.log(dados.modal.estadoModal);
     }
-  }, [dados.iniciarSorteio, atualizarDados]);
+}, [dados.iniciarSorteio, atualizarDados]);
+
 
   const centralResultado = () => {
     const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
@@ -33,22 +51,20 @@ const Events = () => {
     novoEvento.porcentagemSelecionada = selecionarItem(porcentagem);
     novoEvento.periodoSelecionado = selecionarItem(periodo);
   
-    // Atualizar apenas as chaves do evento atual
-    atualizarDados('eventoAtual', {
-      ...dados.eventoAtual,
-      ...novoEvento
-    });
-  
     return novoEvento;
   };
   
   return (
     <div className='bg-black flex justify-center items-center z-20'>
-      <button onClick={() => atualizarDados('iniciarSorteio', true)} className='bg-white'>Sortear</button>
-      <p>Este será o tipo de evento selecionado: {dados.eventoAtual.evento}</p>
+      <button onClick={() =>{
+         atualizarDados('iniciarSorteio', true)
+    console.log(dados.modal.estadoModal)
+
+  }
+    } className='bg-white'>Sortear</button>
+      <p className='text-white'>Este será o tipo de evento selecionado: {dados.eventoAtual.title}</p>
     </div>
   );
 };
 
 export default Events;
-
