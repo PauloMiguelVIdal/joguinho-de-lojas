@@ -26,7 +26,7 @@ const Events = () => {
         const evento = centralResultado();
         atualizarDados('eventoAtual', evento);
         atualizarDados('iniciarSorteio', false); // Resetar iniciarSorteio após o sorteio
-        
+         console.log("Estado do modal após atualização:", dados.modal.estadoModal);
         // Após atualizar o evento atual, verifique o estado do modal
         atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
         

@@ -8,7 +8,7 @@ export default function NextDay() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
     const ProximoDia = () => {
-
+        console.log("ProximoDia foi chamado");
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
             alert("Você não pode avançar para o próximo dia sem pagar as despesas.");
             return; // Impede o avanço do dia se as despesas não forem pagas
@@ -23,9 +23,7 @@ export default function NextDay() {
             const probabilidade = Math.random() * 100
             if (probabilidade <= chanceNovoEvento) {
                 console.log("sorteio ocorreu")
-                console.log(dados.iniciarSorteio)
                 atualizarDados('iniciarSorteio', true);
-                console.log(dados.iniciarSorteio)
             }
         }
         
@@ -49,6 +47,7 @@ export default function NextDay() {
         gerarFaturamentoLojasP();
         gerarFaturamentoLojasM();
         gerarFaturamentoLojasG();
+        console.log("Dados atualizados:", dados)
         console.log(dados.saldo)
         console.log(dados.eventoAtual)
         console.log(dados.modal.estadoModal)
