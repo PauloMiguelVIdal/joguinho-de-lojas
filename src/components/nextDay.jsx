@@ -1,133 +1,115 @@
-import React from 'react'
-import { CentraldeDadosContext } from '../centralDeDadosContext'
-import { useContext } from 'react'
-import PróximoImg from "../imagens/proximo.png"
-import despesasImg from "../imagens/despesas.png"
-import Notificação from '../notificação'
+import React, { useContext } from 'react';
+import { CentraldeDadosContext } from '../centralDeDadosContext';
+import PróximoImg from "../imagens/proximo.png";
+import despesasImg from "../imagens/despesas.png";
+
+
 export default function NextDay() {
-
-    const {
-        dadosSaldo, AtualizarDadosSaldo,
-        dadosDia, AtualizarDadosDia,
-
-        //estadoModal
-        estadoModal, AtualizarEstadoModal,
-        //seção despesas
-
-
-        dadosDespesasPagas, AtualizarDespesasPagas,
-        AtualizarDadosDespesasLojasP, dadosDespesasLojasP,
-        AtualizarDadosDespesasLojasM, dadosDespesasLojasM,
-        AtualizarDadosDespesasLojasG, dadosDespesasLojasG,
-
-        //terrenos
-        dadosTerrenos,
-        dadosDespesasTerrenos, AtualizarDadosDespesasTerrenos,
-        dadosFaturamentoMínimoTerrenos,
-        dadosFaturamentoMáximoTerrenos,
-        dadosFaturamentoUnitárioTerrenos, AtualizarDadosFaturamentoUnitárioTerrenos,
-        dadosFaturamentoTotalTerrenos, AtualizarDadosFaturamentoTotalTerrenos,
-
-        // seçãolojas p
-        dadosLojasP,
-        dadosFaturamentoMínimoLojasP,
-        dadosFaturamentoMáximoLojasP,
-        dadosFaturamentoUnitárioLojasP, AtualizarDadosFaturamentoUnitárioLojasP,
-        dadosFaturamentoTotalLojasP, AtualizarDadosFaturamentoTotalLojasP,
-
-
-
-        //seção lojas m
-        dadosLojasM,
-
-        dadosFaturamentoUnitárioLojasM, AtualizarDadosFaturamentoUnitárioLojasM,
-        dadosFaturamentoTotalLojasM, AtualizarDadosFaturamentoTotalLojasM,
-        dadosFaturamentoMínimoLojasM,
-        dadosFaturamentoMáximoLojasM,
-
-
-        //seção lojas g
-        dadosLojasG,
-        dadosFaturamentoMínimoLojasG,
-        dadosFaturamentoMáximoLojasG,
-        dadosFaturamentoUnitárioLojasG, AtualizarDadosFaturamentoUnitárioLojasG,
-        dadosFaturamentoTotalLojasG, AtualizarDadosFaturamentoTotalLojasG,
-
-
-
-
-    } = useContext(CentraldeDadosContext)
-
-
-
+    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
     const ProximoDia = () => {
-        if (dadosDia % 30 === 0) {
-            AtualizarDespesasPagas(false)
-            if (dadosDespesasPagas === false) {
-                // return alert("despesas não pagas, pague as despesas para avançar")
-                return AtualizarEstadoModal(true)
-
-            }
-
+        console.log("ProximoDia foi chamado");
+        if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
+            alert("Você não pode avançar para o próximo dia sem pagar as despesas.");
+            return; // Impede o avanço do dia se as despesas não forem pagas
         }
-        AtualizarDadosDia(dadosDia + 1)
-        gerarFaturamentoTerrenos()
-        gerarFaturamentoLojasP()
-        gerarFaturamentoLojasM()
-        gerarFaturamentoLojasG()
-        AtualizarDadosFaturamentoTotalTerrenos(dadosTerrenos * dadosFaturamentoUnitárioTerrenos)
-        AtualizarDadosFaturamentoTotalLojasP(dadosLojasP * dadosFaturamentoUnitárioLojasP)
-        AtualizarDadosFaturamentoTotalLojasM(dadosLojasM * dadosFaturamentoUnitárioLojasM)
-        AtualizarDadosFaturamentoTotalLojasG(dadosLojasG * dadosFaturamentoUnitárioLojasG)
-        AtualizarDadosDespesasTerrenos(dadosTerrenos * 100)
-        AtualizarDadosDespesasLojasP(dadosLojasP * 250)
-        AtualizarDadosDespesasLojasM(dadosLojasM * 400)
-        AtualizarDadosDespesasLojasG(dadosLojasG * 750)
-        AtualizarDadosSaldo(dadosSaldo + dadosFaturamentoTotalTerrenos + dadosFaturamentoTotalLojasP + dadosFaturamentoTotalLojasM + dadosFaturamentoTotalLojasG)
+        
 
-    }
+
+
+        const chanceNovoEvento = 70
+
+        const sortearNovoEvento = () => {
+            const probabilidade = Math.random() * 100
+            if (probabilidade <= chanceNovoEvento) {
+                console.log("sorteio ocorreu")
+                atualizarDados('iniciarSorteio', true);
+            }
+        }
+        
+
+
+        const novoDia = dados.dia + 1;
+        const saldoAtualizado =
+            dados.saldo +
+            dados.terrenos.quantidade * dados.terrenos.faturamentoUnitário +
+            dados.lojasP.quantidade * dados.lojasP.faturamentoUnitário +
+            dados.lojasM.quantidade * dados.lojasM.faturamentoUnitário +
+            dados.lojasG.quantidade * dados.lojasG.faturamentoUnitário;
+        
+
+        atualizarDados('dia', novoDia);
+        atualizarDados('saldo', saldoAtualizado);
+        // atualizarDados('eventoAtual', "evento");
+        
+        sortearNovoEvento();
+        gerarFaturamentoTerrenos();
+        gerarFaturamentoLojasP();
+        gerarFaturamentoLojasM();
+        gerarFaturamentoLojasG();
+        console.log("Dados atualizados:", dados)
+        console.log(dados.saldo)
+        console.log(dados.eventoAtual)
+        console.log(dados.modal.estadoModal)
+        if(dados.iniciarSorteio){
+            console.log(dados.eventoAtual)  
+              }
+        
+        
+    };
 
     const PagarDespesas = () => {
-        if (dadosDespesasPagas == true) {
-            return alert("despesas desse mês já forma pagas")
+        if (dados.despesas.despesasPagas) {
+            return alert("Despesas desse mês já foram pagas.");
+        } else {
+
+            const novoSaldo = dados.saldo - dados.despesas.despesasLojasP - dados.despesas.despesasLojasM - dados.despesas.despesasLojasG;
+            // atualizarDados('saldo', novoSaldo);
+            atualizarDados('despesas', { ...dados.despesas, despesasPagas: true });
+            console.log(dados.saldo)
+             alert("Despesas pagas.");
         }
-        else {
-            AtualizarDadosSaldo(dadosSaldo - dadosDespesasLojasP - dadosDespesasLojasM - dadosDespesasLojasG)
-            AtualizarDespesasPagas(true)
-            alert("despesas pagas")
-
-        }
-    }
-
-
+    };
+    
     const gerarFaturamentoTerrenos = () => {
-    const novoFatuUnitárioTerreno = Math.floor(Math.random() * (dadosFaturamentoMáximoTerrenos - dadosFaturamentoMínimoTerrenos + 1)) + dadosFaturamentoMínimoTerrenos
-        AtualizarDadosFaturamentoUnitárioTerrenos(novoFatuUnitárioTerreno)
-        // alert(`novo faturamento unitário: ${dadosFaturamentoUnitárioTerrenos}`)
-        // console.log(dadosFaturamentoUnitárioTerrenos)
-    }
-
-
+        const novoFatuUnitárioTerreno = Math.floor(Math.random() * (dados.terrenos.faturamentoMáximo - dados.terrenos.faturamentoMínimo + 1)) + dados.terrenos.faturamentoMínimo;
+        atualizarDados('terrenos', { 
+            ...dados.terrenos, 
+            faturamentoUnitário: novoFatuUnitárioTerreno,
+            faturamentoTotal: novoFatuUnitárioTerreno * dados.terrenos.quantidade
+        });
+    };
+    
     const gerarFaturamentoLojasP = () => {
-        const novoFatuUnitárioLojaP = Math.floor(Math.random() * (dadosFaturamentoMáximoLojasP - dadosFaturamentoMínimoLojasP + 1)) + dadosFaturamentoMínimoLojasP
-        AtualizarDadosFaturamentoUnitárioLojasP(novoFatuUnitárioLojaP)
-        // alert(`novo faturamento unitário: ${dadosFaturamentoUnitárioLojasP}`)
-    }
-
+        const novoFatuUnitárioLojaP = Math.floor(Math.random() * (dados.lojasP.faturamentoMáximo - dados.lojasP.faturamentoMínimo + 1)) + parseInt(dados.lojasP.faturamentoMínimo);
+        const faturamentoTotalLojaP = (novoFatuUnitárioLojaP * dados.lojasP.quantidade).toFixed(2);
+        atualizarDados('lojasP', { 
+            ...dados.lojasP, 
+            faturamentoUnitário: novoFatuUnitárioLojaP.toFixed(2),
+            faturamentoTotal: faturamentoTotalLojaP
+        });
+    };
+    
     const gerarFaturamentoLojasM = () => {
-        const novoFatuUnitárioLojaM = Math.floor(Math.random() * (dadosFaturamentoMáximoLojasM - dadosFaturamentoMínimoLojasM + 1)) + dadosFaturamentoMínimoLojasM
-        AtualizarDadosFaturamentoUnitárioLojasM(novoFatuUnitárioLojaM)
-        // alert(`novo faturamento unitário: ${dadosFaturamentoUnitárioLojasM}`)
-    }
-
-
+        const novoFatuUnitárioLojaM = Math.floor(Math.random() * (dados.lojasM.faturamentoMáximo - dados.lojasM.faturamentoMínimo + 1)) + parseInt(dados.lojasM.faturamentoMínimo);
+        const faturamentoTotalLojaM = (novoFatuUnitárioLojaM * dados.lojasM.quantidade).toFixed(2);
+        atualizarDados('lojasM', { 
+            ...dados.lojasM, 
+            faturamentoUnitário: novoFatuUnitárioLojaM.toFixed(2),
+            faturamentoTotal: faturamentoTotalLojaM
+        });
+    };
+    
     const gerarFaturamentoLojasG = () => {
-        const novoFatuUnitárioLojaG = Math.floor(Math.random() * (dadosFaturamentoMáximoLojasG - dadosFaturamentoMínimoLojasG + 1)) + dadosFaturamentoMínimoLojasG
-        AtualizarDadosFaturamentoUnitárioLojasG(novoFatuUnitárioLojaG)
-        // alert(`novo faturamento unitário: ${dadosFaturamentoUnitárioLojasG}`)
-    }
-
+        const novoFatuUnitárioLojaG = Math.floor(Math.random() * (dados.lojasG.faturamentoMáximo - dados.lojasG.faturamentoMínimo + 1)) + parseInt(dados.lojasG.faturamentoMínimo);
+        const faturamentoTotalLojaG = (novoFatuUnitárioLojaG * dados.lojasG.quantidade).toFixed(2);
+        atualizarDados('lojasG', { 
+            ...dados.lojasG, 
+            faturamentoUnitário: novoFatuUnitárioLojaG.toFixed(2),
+            faturamentoTotal: faturamentoTotalLojaG
+        });
+    };
+    
     return (
 
         <div className="grid col-start-1 col-end-3 row-2">

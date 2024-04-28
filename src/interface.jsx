@@ -13,96 +13,23 @@ import Events from "./components/events";
 
 
 function Interface() {
-    const {
-        dadosSaldo, AtualizarDadosSaldo,
-        dadosDia, AtualizarDadosDia,
-
-        //modal
-        estadoModal, AtualizarEstadoModal,
-
-        //seção terrenos
-        dadosTerrenos, AtualizarDadosTerrenos,
-        dadosPreçosTerrenos, AtualizarDadosPreçosTerrenos,
-
-
-        // seçãolojas p
-        dadosLojasP, AtualizarDadosLojasP,
-        dadosPreçosConstruçãoLojaP, AtualizarDadosPreçoConstruçãoLojasP,
-        dadosFaturamentoMínimoLojasP, AtualizarDadosFaturamentoMínimoLojasP,
-        dadosFaturamentoMáximoLojasP, AtualizarDadosFaturamentoMáximoLojasP,
-        dadosFaturamentoUnitárioLojasP, AtualizarDadosFaturamentoUnitárioLojasP,
-        dadosFaturamentoTotalLojasP, AtualizarDadosFaturamentoTotalLojasP,
-
-
-
-
-
-        //seção lojas m
-        dadosLojasM, AtualizarDadosLojasM, AtualizarDadosDespesasLojasM, dadosDespesasLojasM,
-        dadosPreçosConstruçãoLojaM, AtualizarDadosPreçoConstruçãoLojasM,
-        dadosFaturamentoUnitárioLojasM, AtualizarDadosFaturamentoUnitárioLojasM,
-        dadosFaturamentoTotalLojasM, AtualizarDadosFaturamentoTotalLojasM,
-        dadosFaturamentoMínimoLojasM, AtualizarDadosFaturamentoMínimoLojasM,
-        dadosFaturamentoMáximoLojasM, AtualizarDadosFaturamentoMáximoLojasM,
-
-
-
-
-        //seção lojas g
-        dadosLojasG, AtualizarDadosLojasG, AtualizarDadosDespesasLojasG, dadosDespesasLojasG,
-        dadosPreçosConstruçãoLojaG, AtualizarDadosPreçoConstruçãoLojasG,
-        dadosFaturamentoMínimoLojasG, AtualizarDadosFaturamentoMínimoLojasG,
-        dadosFaturamentoMáximoLojasG, AtualizarDadosFaturamentoMáximoLojasG,
-        dadosFaturamentoUnitárioLojasG, AtualizarDadosFaturamentoUnitárioLojasG,
-        dadosFaturamentoTotalLojasG, AtualizarDadosFaturamentoTotalLojasG,
-
-
-
-
-
-        //seção funcionários
-        dadosCustoFuncionário, AtualizarDadosCustoFuncionário,
-        dadosCustoMáximoFuncionário, AtualizarDadosCustoMáximoFuncionário,
-        dadosCustoMínimoFuncionário, AtualizarDadosCustoMínimoFuncionário,
-
-
-
-    } = useContext(CentraldeDadosContext)
-
-
-
-
-    //funcionário
-
-
-
-    const mudançasDePreços = () => {
-        AtualizarDadosPreçosTerrenos(20000)
-    }
-
-
-
-
-
-
-
+        const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
     return (
         <div className="w-[100vw] h-[100vh] bg-gradient-to-b from-roxo to-roxoForte grid grid-rows-2 grid-cols-2">
             <Notificação />
-            <Events/>
             {/* <button className="bg-white w-[100px] h-[120px]" onClick={()=>AtualizarEstadoModal(true)}>abrir modal</button> */}
 
 
             <div className="flex flex-col align-center text-center justify-around absolute top-[20px] right-[20px]">
                 <div className="flex justify-between pr-[10px] pl-[10px] items-center w-[300px] h-[30px] rounded-[20px] bg-white box2">
                     <h1 className="fonteLight text-roxo text-[20px]">saldo:</h1>
-                    <h1 className="fonteBold text-roxo text-[20px]">{dadosSaldo}</h1>
+                    <h1 className="fonteBold text-roxo text-[20px]">{dados.saldo}</h1>
                 </div>
                 <div className="flex justify-between pr-[10px] pl-[10px] items-center w-[160px] h-[30px] rounded-[20px] bg-white box2 absolute top-[50px] right-[0px]">
 
                     <h1 className="fonteLight text-roxo text-[20px]">Dia:</h1>
-                    <h1 className="fonteBold text-roxo text-[20px]">{dadosDia}</h1>
+                    <h1 className="fonteBold text-roxo text-[20px]">{dados.dia}</h1>
                 </div>
             </div>
             <div className="flex justify-between pr-[10px] pl-[10px] items-center w-[300px] h-[30px] rounded-[20px] bg-white box2 absolute top-[20px] left-[20px]">
@@ -166,7 +93,7 @@ function Interface() {
 
             <Buy />
             <NextDay />
-
+            <Events/>
         </div>
     )
 
