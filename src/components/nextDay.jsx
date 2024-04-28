@@ -17,7 +17,7 @@ export default function NextDay() {
 
 
 
-        const chanceNovoEvento = 70
+        const chanceNovoEvento = 10
 
         const sortearNovoEvento = () => {
             const probabilidade = Math.random() * 100
@@ -73,10 +73,11 @@ export default function NextDay() {
     
     const gerarFaturamentoTerrenos = () => {
         const novoFatuUnitárioTerreno = Math.floor(Math.random() * (dados.terrenos.faturamentoMáximo - dados.terrenos.faturamentoMínimo + 1)) + dados.terrenos.faturamentoMínimo;
+        const faturamentoTotalTerrenos = (novoFatuUnitárioTerreno * dados.terrenos.quantidade).toFixed(2);
         atualizarDados('terrenos', { 
             ...dados.terrenos, 
-            faturamentoUnitário: novoFatuUnitárioTerreno,
-            faturamentoTotal: novoFatuUnitárioTerreno * dados.terrenos.quantidade
+            faturamentoUnitário: novoFatuUnitárioTerreno.toFixed(2),
+            faturamentoTotal: faturamentoTotalTerrenos
         });
     };
     

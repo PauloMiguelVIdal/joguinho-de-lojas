@@ -4,6 +4,26 @@ import { CentraldeDadosContext } from '../centralDeDadosContext';
 const Events = () => {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const [sorteioAtivo, setSorteioAtivo] = useState(false);
+const eventoDefault = {
+  eventoAtivo:false,  
+  type:"",
+    title:"",
+    LojaSelecionada: "",
+    situacaoSelecionada: "",
+    porcentagemSelecionada: "",
+    periodoSelecionado: "",
+    diaInicial:"",
+    diaFinal:"",
+}
+
+
+useEffect(() => {
+  // Verifica se é necessário atualizar o evento atual e desativá-lo
+  if (dados.dia > dados.eventoAtual.diaFinal && dados.eventoAtual.eventoAtivo === true) {
+    atualizarDados('eventoAtivo', false);
+    atualizarDados('eventoAtual', eventoDefault);
+  }
+}, [dados.dia, dados.eventoAtual, eventoDefault, atualizarDados]);
 
   useEffect(() => {
     // Verifica se é necessário atualizar as despesas e o estado modal
@@ -58,6 +78,9 @@ const centralResultado = () => {
   const novoEventoSelecionado = selecionarItem(modalEvents);
 
   // Define as opções para diferentes tipos de eventos
+
+  const novaDataInicial = (dados.dia)
+  
   const todasLojas = ["lojas pequenas", "lojas médias", "lojas grandes"];
   const situacao = ["aumento", "queda"];
   const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
@@ -90,11 +113,24 @@ const centralResultado = () => {
       novoEvento.porcentagemSelecionada = selecionarItem(porcentagem);
       novoEvento.periodoSelecionado = selecionarItem(periodo);
       novoEvento.title = `As ${novoEvento.LojaSelecionada} terão ${novoEvento.situacaoSelecionada} de faturamento de ${novoEvento.porcentagemSelecionada}% durante o período de ${novoEvento.periodoSelecionado} dias`;
+      novoEvento.diaInicial = novaDataInicial;
+      novoEvento.dataFinal = novaDataInicial + novoEvento.periodoSelecionado;
 
       // Função para atualizar os dados do banco de dados
       const atualizarDadosBD = () => {
           // Lógica para atualizar os dados de acordo com o tipo de loja
           switch (novoEvento.LojaSelecionada) {
+            case "terrenos":
+              const novoFaturamentoMinimoTerrenos = calcularNovoFaturamento(dados.terrenos.faturamentoMínimo, novoEvento.situacaoSelecionada, novoEvento.porcentagemSelecionada);
+              const novoFaturamentoMaximoTerrenos = calcularNovoFaturamento(dados.terrenos.faturamentoMáximo, novoEvento.situacaoSelecionada, novoEvento.porcentagemSelecionada);
+              atualizarDados('terrenos', {
+                  ...dados.terrenos,
+                  faturamentoMínimo: novoFaturamentoMinimoTerrenos,
+                  faturamentoMáximo: novoFaturamentoMaximoTerrenos
+              });
+              console.log("Novo faturamento mínimo dos terrenos:", novoFaturamentoMinimoTerrenos);
+              console.log("Novo faturamento máximo dos terrenos:", novoFaturamentoMaximoTerrenos);
+              break;
               case "lojas pequenas":
                   const novoFaturamentoMinimoP = calcularNovoFaturamento(dados.lojasP.faturamentoMínimo, novoEvento.situacaoSelecionada, novoEvento.porcentagemSelecionada);
                   const novoFaturamentoMaximoP = calcularNovoFaturamento(dados.lojasP.faturamentoMáximo, novoEvento.situacaoSelecionada, novoEvento.porcentagemSelecionada);

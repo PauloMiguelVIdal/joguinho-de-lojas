@@ -14,11 +14,15 @@ const [dados, setDados] = useState({
   },
   iniciarSorteio: false,
   eventoAtual:{
+    eventoAtivo:true,
+    type:"",
     title:"",
     LojaSelecionada: "",
     situacaoSelecionada: "",
     porcentagemSelecionada: "",
-    periodoSelecionado: ""
+    periodoSelecionado: "",
+    diaInicial:"1",
+    diaFinal:"3",
   },
   terrenos: {
     quantidade: 1,
