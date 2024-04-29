@@ -10,7 +10,6 @@ export default function Notificação() {
     atualizarDados('modal', { ...dados.modal, estadoModal: false });   
   };
 
-  // criar um objeto para integrar com api
   
   // if (dados.eventoAtual) {
   //   if (dados.eventoAtual.situacaoSelecionada == "aumento") {
