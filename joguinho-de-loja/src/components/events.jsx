@@ -35,9 +35,7 @@ const Events = () => {
       }
     }
   }
-  , [dados.dia
-    , dados.eventoAtual.eventoAtivo
-  ]
+  , [dados.dia, dados.eventoAtual.diaFinal, dados.eventoAtual.eventoAtivo]
 ); 
 
 
@@ -141,8 +139,9 @@ const centralResultado = () => {
       novoEvento.porcentagemSelecionada = selecionarItem(porcentagem);
       novoEvento.periodoSelecionado = selecionarItem(periodo);
       novoEvento.title = `As ${novoEvento.LojaSelecionada} terão ${novoEvento.situacaoSelecionada} de faturamento de ${novoEvento.porcentagemSelecionada}% durante o período de ${novoEvento.periodoSelecionado} dias`;
-        novoEvento.diaInicial = novaDataInicial;
-        novoEvento.dataFinal = novaDataInicial + novoEvento.periodoSelecionado;
+      novoEvento.diaInicial = novaDataInicial;
+      novoEvento.dataFinal = +novaDataInicial + novoEvento.periodoSelecionado;
+      
       
       // console.log("chegou aqui")
 
@@ -201,7 +200,7 @@ const centralResultado = () => {
 
       // Chama a função para atualizar os dados do banco de dados
       atualizarDadosBD();
-
+      console.log("Dados atualizados:", novoEvento);
       return novoEvento;
   }
 };
