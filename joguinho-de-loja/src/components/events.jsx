@@ -31,7 +31,11 @@ const Events = () => {
       console.log("teste2")
       
       if(dados.eventoAtual.eventoAtivo === false){
+        
         console.log("evento finalizado")
+        // atualizarDados("eventoAtual",eventoDefault)
+        // console.log(dados.eventoAtual) estou aqui
+        //olha o dev tool
       }
     }
   }
@@ -111,7 +115,7 @@ const centralResultado = () => {
   const situacao = ["aumento", "queda"];
   const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
   const periodo = [3
-    // , 7, 15, 30
+    , 7, 15, 30
   ];
   const eventosCustoFunc = ["custoMínimoFunc", "custoMáximoFunc"];
   const eventosCustoF = ["custo mínimo", "custo máximo"];
