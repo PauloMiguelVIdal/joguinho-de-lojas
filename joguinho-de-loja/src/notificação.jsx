@@ -29,13 +29,13 @@ export default function Notificação() {
     content = "Pague as dívidas para poder avançar";
   }
   
-  if (events.includes('faturamento')) {
-    head = "queda ou aumento";
-    content = dados.eventoAtual.title;
-  }
+  // if (events.includes('faturamento')) {
+  //   head = "queda ou aumento";
+  //   content = dados.eventoAtual.title;
+  // }
   
-  console.log(head); // Saída: "Dia de pagamentos das despesas"
-  console.log(content); // Saída: "Pague as dívidas para poder avançar"
+  // console.log(head); // Saída: "Dia de pagamentos das despesas"
+  // console.log(content); // Saída: "Pague as dívidas para poder avançar"
 
 
 
