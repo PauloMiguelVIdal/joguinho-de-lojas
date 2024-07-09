@@ -113,17 +113,17 @@ const ComprarTerreno = () => {
                         </div>
                     </button>
                     <div>
-                        <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px] mb-[10px]">
+                        <div className="bg-laranja w-[180px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px] mb-[10px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={DolarImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dados.terrenos.faturamentoTotal}</h1>
+                            <h1 className="mr-[10px] fonteBold">R$ {dados.terrenos.faturamentoTotal}</h1>
                         </div>
-                        <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
+                        <div className="bg-laranja w-[180px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dados.terrenos.preço}</h1>
+                            <h1 className="mr-[10px] fonteBold">R$ {dados.terrenos.preço}</h1>
                         </div>
                     </div>
                 </div>
@@ -139,17 +139,17 @@ const ComprarTerreno = () => {
                         </div>
                     </button>
                     <div>
-                        <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px] mb-[10px]">
+                        <div className="bg-laranja w-[180px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px] mb-[10px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={DolarImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dados.lojasP.faturamentoTotal}</h1>
+                            <h1 className="mr-[10px] fonteBold">R$ {dados.lojasP.faturamentoTotal}</h1>
                         </div>
-                        <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
+                        <div className="bg-laranja w-[180px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dados.lojasP.preçoConstrução}</h1>
+                            <h1 className="mr-[10px] fonteBold">R$ {dados.lojasP.preçoConstrução}</h1>
                         </div>
                     </div>
                 </div>
@@ -166,17 +166,17 @@ const ComprarTerreno = () => {
                         </div>
                     </button>
                     <div>
-                        <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px] mb-[10px]">
+                        <div className="bg-laranja w-[180px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px] mb-[10px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={DolarImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dados.lojasM.faturamentoTotal}</h1>
+                            <h1 className="mr-[10px] fonteBold">R$ {dados.lojasM.faturamentoTotal}</h1>
                         </div>
-                        <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
+                        <div className="bg-laranja w-[180px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dados.lojasM.preçoConstrução}</h1>
+                            <h1 className="mr-[10px] fonteBold">R$ {dados.lojasM.preçoConstrução}</h1>
                         </div>
                     </div>
                 </div>
@@ -194,17 +194,17 @@ const ComprarTerreno = () => {
                         </div>
                     </button>
                     <div>
-                        <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px] mb-[10px]">
+                        <div className="bg-laranja w-[180px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px] mb-[10px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={DolarImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dados.lojasG.faturamentoTotal}</h1>
+                            <h1 className="mr-[10px] fonteBold">R$ {dados.lojasG.faturamentoTotal}</h1>
                         </div>
-                        <div className="bg-laranja w-[120px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
+                        <div className="bg-laranja w-[180px] h-[30px] rounded-[20px] flex items-center justify-between ml-[15px]">
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">{dados.lojasG.preçoConstrução}</h1>
+                            <h1 className="mr-[10px] fonteBold">R$ {dados.lojasG.preçoConstrução}</h1>
                         </div>
                     </div>
                 </div>

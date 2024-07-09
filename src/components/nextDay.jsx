@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext,useEffect } from 'react';
 import { CentraldeDadosContext } from '../centralDeDadosContext';
 import PróximoImg from "../imagens/proximo.png";
 import despesasImg from "../imagens/despesas.png";
@@ -7,8 +7,24 @@ import despesasImg from "../imagens/despesas.png";
 export default function NextDay() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
+    useEffect(() => {
+        // Verifica se é necessário atualizar as despesas e o estado modal
+        if (dados.dia % 30 === 0){
+            atualizarDados({...dados.despesas,despesasPagas:false})
+        }
+          if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
+            const novasDespesas = { ...dados.despesas, despesasPagas: false };
+            const novoEstado = { ...dados, modal: { ...dados.modal, estadoModal: true } };
+            atualizarDados('despesas', novasDespesas);
+            atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
+            // Chame o modelo de pagar dívidas aqui
+          }
+        }, [dados.dia, dados.despesas.despesasPagas]);
+
+
+
     const ProximoDia = () => {
-        console.log("ProximoDia foi chamado");
+        console.log(dados.despesas);
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
             alert("Você não pode avançar para o próximo dia sem pagar as despesas.");
             return; // Impede o avanço do dia se as despesas não forem pagas
@@ -17,7 +33,7 @@ export default function NextDay() {
 
 
 
-        const chanceNovoEvento = 10
+        const chanceNovoEvento = 50
 
         const sortearNovoEvento = () => {
             const probabilidade = Math.random() * 100
@@ -40,9 +56,9 @@ export default function NextDay() {
 
         atualizarDados('dia', novoDia);
         atualizarDados('saldo', saldoAtualizado);
-        // atualizarDados('eventoAtual', "evento");
-        
         sortearNovoEvento();
+        atualizarDados('eventoAtual', { ...dados.eventoAtual, eventoAtivo: true });
+        
         gerarFaturamentoTerrenos();
         gerarFaturamentoLojasP();
         gerarFaturamentoLojasM();
@@ -57,6 +73,8 @@ export default function NextDay() {
         
         
     };
+
+  
 
     const PagarDespesas = () => {
         if (dados.despesas.despesasPagas) {
@@ -115,15 +133,12 @@ export default function NextDay() {
 
         <div className="grid col-start-1 col-end-3 row-2">
             <div className="flex justify-center mt-[20px]">
-
                 <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center mr-[10px]" onClick={ProximoDia}>
                     <img className="w-[72px] h-[72px]" src={PróximoImg} />
                 </button>
                 <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center ml-[10px]"
                     onClick={PagarDespesas}><img className="w-[72px] h-[72px]" src={despesasImg} /></button>
             </div>
-
-
         </div>
     )
 }
