@@ -33,7 +33,7 @@ export default function NextDay() {
 
 
 
-        const chanceNovoEvento = 50
+        const chanceNovoEvento = 20
 
         const sortearNovoEvento = () => {
             const probabilidade = Math.random() * 100
@@ -133,15 +133,12 @@ export default function NextDay() {
 
         <div className="grid col-start-1 col-end-3 row-2">
             <div className="flex justify-center mt-[20px]">
-
                 <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center mr-[10px]" onClick={ProximoDia}>
                     <img className="w-[72px] h-[72px]" src={PróximoImg} />
                 </button>
                 <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center ml-[10px]"
                     onClick={PagarDespesas}><img className="w-[72px] h-[72px]" src={despesasImg} /></button>
             </div>
-
-
         </div>
     )
 }

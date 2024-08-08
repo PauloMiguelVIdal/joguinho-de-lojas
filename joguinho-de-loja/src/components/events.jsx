@@ -98,9 +98,9 @@ const centralResultado = () => {
   
   // Lista de eventos modais
   const modalEvents = [
-    // "modalDespesas", 
+    "modalDespesas", 
     "modalFaturamento"
-    // , "modalImpostos", "modalFuncionários"
+    , "modalImpostos", "modalFuncionários"
   ];
   
   // Seleciona um evento modal aleatório
@@ -209,6 +209,7 @@ const centralResultado = () => {
       // Chama a função para atualizar os dados do banco de dados
       atualizarDadosBD();
       console.log("Dados atualizados:", novoEvento);
+      
       return novoEvento;
   }
 };

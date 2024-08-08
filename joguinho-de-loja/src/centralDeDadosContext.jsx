@@ -30,7 +30,7 @@ const [dados, setDados] = useState({
     faturamentoUnitário: 0,
     faturamentoMínimo: 100,
     faturamentoMáximo: 300,
-    faturamentoTotal: 0,
+    faturamentoTotal:2130,
     despesas: 0,
     funcionários: 3
   },
