@@ -19,7 +19,16 @@ export default function Notificação() {
   //   } else {
   //       head = "Valor padrão";
   //   }
+
+
+
   const events = ['pagarDespesas', 'faturamento', 'impostosFixos', 'impostosVariáveis'];
+
+
+// const sortearEvento = () =>{
+  
+// }
+
 
   let head = '';
   let content = '';

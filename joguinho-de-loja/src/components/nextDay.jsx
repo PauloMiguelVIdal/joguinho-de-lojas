@@ -40,6 +40,7 @@ export default function NextDay() {
             if (probabilidade <= chanceNovoEvento) {
                 console.log("sorteio ocorreu")
                 atualizarDados('iniciarSorteio', true);
+                // sortearEvento()
             }
         }
         
