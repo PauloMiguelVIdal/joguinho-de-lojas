@@ -33,7 +33,7 @@ function Interface() {
                 </div>
             </div>
             <div className="flex justify-between pr-[10px] pl-[10px] items-center w-[300px] h-[30px] rounded-[20px] bg-white box2 absolute top-[20px] left-[20px]">
-                <h1 className="fonteLight text-roxo text-[20px]">Nome mercado</h1>
+                <h1 className="fonteLight text-roxo text-[20px] ">Mercados Mandakaru</h1>
                 {/* <h1 className="fonteBold text-roxo text-[20px]">{dadosSaldo}</h1> */}
             </div>
             {/* <div className="flex justify-evenly items-center w-[250px] h-[30px] rounded-[20px] bg-white box2">

@@ -25,9 +25,9 @@ export default function Notificação() {
   const events = ['pagarDespesas', 'faturamento', 'impostosFixos', 'impostosVariáveis'];
 
 
-// const sortearEvento = () =>{
-  
-// }
+const sortearEvento = () =>{
+  Math.floor(Math.random(events.length()))
+}
 
 
   let head = '';

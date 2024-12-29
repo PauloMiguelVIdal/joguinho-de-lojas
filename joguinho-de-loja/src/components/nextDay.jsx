@@ -31,9 +31,9 @@ export default function NextDay() {
         }
         
 
+//chance de evento em 0 porcento
 
-
-        const chanceNovoEvento = 20
+        const chanceNovoEvento = 0
 
         const sortearNovoEvento = () => {
             const probabilidade = Math.random() * 100
