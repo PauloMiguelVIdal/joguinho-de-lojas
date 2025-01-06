@@ -8,6 +8,7 @@ export default function NextDay() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
     useEffect(() => {
+        console.log(dados.despesas.despesasPagas)
         if (dados.dia % 30 === 0) {
             // Atualiza as despesas para marcar como "não pagas" no início do ciclo
             if (!dados.despesas.despesasPagas) {
@@ -20,8 +21,11 @@ export default function NextDay() {
         }
     }, [dados.dia, dados.despesas.despesasPagas]);
     
+
+
     const ProximoDia = () => {
         console.log(dados.despesas.despesasPagas);
+        atualizarDados('despesas', { ...dados.despesas, despesasPagas: false });
     
         // Bloqueia o avanço do dia se as despesas não forem pagas no dia 30
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
