@@ -21,8 +21,8 @@ const [dados, setDados] = useState({
     situacaoSelecionada: "",
     porcentagemSelecionada: "",
     periodoSelecionado: "",
-    diaInicial:1,
-    diaFinal:3,
+    diaInicial:"",
+    diaFinal:"",
   },
   terrenos: {
     quantidade: 1,
@@ -53,7 +53,7 @@ const [dados, setDados] = useState({
     despesas: 0
   },
   lojasG: {
-    quantidade: 1,
+    quantidade: 5,
     preçoConstrução: 240000,
     faturamentoUnitário: 0,
     faturamentoTotal: 0,

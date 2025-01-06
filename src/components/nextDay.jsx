@@ -8,38 +8,38 @@ export default function NextDay() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
     useEffect(() => {
-        // Verifica se é necessário atualizar as despesas e o estado modal
-        if (dados.dia % 30 === 0){
-            atualizarDados({...dados.despesas,despesasPagas:false})
+        if (dados.dia % 30 === 0) {
+            // Atualiza as despesas para marcar como "não pagas" no início do ciclo
+            if (!dados.despesas.despesasPagas) {
+                atualizarDados('despesas', { ...dados.despesas, despesasPagas: false });
+    
+                // Abre o modal para informar que as despesas precisam ser pagas
+                atualizarDados('modal', { ...dados.modal, estadoModal: true });
+                console.log("Modal aberto para pagar despesas.");
+            }
         }
-          if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
-            const novasDespesas = { ...dados.despesas, despesasPagas: false };
-            const novoEstado = { ...dados, modal: { ...dados.modal, estadoModal: true } };
-            atualizarDados('despesas', novasDespesas);
-            atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
-            // Chame o modelo de pagar dívidas aqui
-          }
-        }, [dados.dia, dados.despesas.despesasPagas]);
-
-
-
+    }, [dados.dia, dados.despesas.despesasPagas]);
+    
     const ProximoDia = () => {
-        console.log(dados.despesas);
+        console.log(dados.despesas.despesasPagas);
+    
+        // Bloqueia o avanço do dia se as despesas não forem pagas no dia 30
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
             alert("Você não pode avançar para o próximo dia sem pagar as despesas.");
-            return; // Impede o avanço do dia se as despesas não forem pagas
+            return; // Impede o avanço do dia
         }
         
 
+//chance de evento em 0 porcento
 
-
-        const chanceNovoEvento = 50
+        const chanceNovoEvento = 0
 
         const sortearNovoEvento = () => {
             const probabilidade = Math.random() * 100
             if (probabilidade <= chanceNovoEvento) {
                 console.log("sorteio ocorreu")
                 atualizarDados('iniciarSorteio', true);
+                // sortearEvento()
             }
         }
         

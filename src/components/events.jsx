@@ -17,30 +17,37 @@ const Events = () => {
       diaFinal:"",
   }
 
+
   useEffect(() => {
-    // Verifica se é necessário atualizar o evento atual e desativá-lo
-   console.log(dados.dia)
-   console.log(dados.eventoAtual.periodoSelecionado)
-   console.log(dados.eventoAtual.diaInicial)
-   console.log(dados.eventoAtual.diaFinal)
-   console.log(dados.eventoAtual)
-   if (
-     dados.dia > dados.eventoAtual.diaFinal 
-    ) {
-      atualizarDados({...dados.eventoAtual,eventoAtivo:false});
-      console.log("teste2")
-      
-      if(dados.eventoAtual.eventoAtivo === false){
-        
-        console.log("evento finalizado")
-        // atualizarDados("eventoAtual",eventoDefault)
-        // console.log(dados.eventoAtual) estou aqui
-        //olha o dev tool
+      console.log(dados.dia)
+    // Verifica se os dados e o evento atual estão definidos antes de prosseguir
+    if (dados && dados.eventoAtual) {
+      const eventoTerminado = dados.dia > dados.eventoAtual.diaFinal;
+  
+      if (eventoTerminado && dados.eventoAtual.eventoAtivo) {
+        // Atualiza o estado do evento para desativado
+        atualizarDados({ ...dados.eventoAtual, eventoAtivo: false });
+        console.log("Evento finalizado e desativado.");
       }
     }
-  }
-  , [dados.dia, dados.eventoAtual.diaFinal, dados.eventoAtual.eventoAtivo]
-); 
+  }, [dados?.dia, dados?.eventoAtual?.diaFinal, dados?.eventoAtual?.eventoAtivo]);
+  
+  
+  //
+// o problema a cima foi solucionado graças ao  "?." que uitiliza dos operadores opcionais que servem para uso de segurança e par evitar erros por conta que se certificam que ele ira não ira
+//causa erro porem ainda pode se tratar de um erro de undefined
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -98,9 +105,9 @@ const centralResultado = () => {
   
   // Lista de eventos modais
   const modalEvents = [
-    // "modalDespesas", 
+    "modalDespesas", 
     "modalFaturamento"
-    // , "modalImpostos", "modalFuncionários"
+    , "modalImpostos", "modalFuncionários"
   ];
   
   // Seleciona um evento modal aleatório
@@ -209,6 +216,7 @@ const centralResultado = () => {
       // Chama a função para atualizar os dados do banco de dados
       atualizarDadosBD();
       console.log("Dados atualizados:", novoEvento);
+      
       return novoEvento;
   }
 };
