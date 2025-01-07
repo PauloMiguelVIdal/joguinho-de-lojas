@@ -7,33 +7,19 @@ import despesasImg from "../imagens/despesas.png";
 export default function NextDay() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
-<<<<<<< HEAD
     useEffect(() => {
-        console.log(dados.despesas.despesasPagas)
-        if (dados.dia % 30 === 0) {
-            // Atualiza as despesas para marcar como "não pagas" no início do ciclo
-            if (!dados.despesas.despesasPagas) {
-                atualizarDados('despesas', { ...dados.despesas, despesasPagas: false });
-    
-                // Abre o modal para informar que as despesas precisam ser pagas
-                atualizarDados('modal', { ...dados.modal, estadoModal: true });
-                console.log("Modal aberto para pagar despesas.");
-            }
+        // Verifica se é necessário atualizar as despesas e o estado modal
+        if (dados.dia % 30 === 0){
+            atualizarDados({...dados.despesas,despesasPagas:false})
         }
-    }, [dados.dia, dados.despesas.despesasPagas]);
-    
-
-
-    const ProximoDia = () => {
-        console.log(dados.despesas.despesasPagas);
-        atualizarDados('despesas', { ...dados.despesas, despesasPagas: false });
-    
-        // Bloqueia o avanço do dia se as despesas não forem pagas no dia 30
-        if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
-            alert("Você não pode avançar para o próximo dia sem pagar as despesas.");
-            return; // Impede o avanço do dia
-=======
-
+          if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
+            const novasDespesas = { ...dados.despesas, despesasPagas: false };
+            const novoEstado = { ...dados, modal: { ...dados.modal, estadoModal: true } };
+            atualizarDados('despesas', novasDespesas);
+            atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
+            // Chame o modelo de pagar dívidas aqui
+          }
+        }, [dados.dia, dados.despesas.despesasPagas]);
 
 
 
@@ -42,7 +28,6 @@ export default function NextDay() {
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
             alert("Você não pode avançar para o próximo dia sem pagar as despesas.");
             return; // Impede o avanço do dia se as despesas não forem pagas
->>>>>>> 11b442c6fe45a1d4c7808e93ec95340b62073991
         }
         
 
@@ -92,7 +77,6 @@ export default function NextDay() {
 
   
 
-<<<<<<< HEAD
     const PagarDespesas = () => {
         if (dados.despesas.despesasPagas) {
             return alert("Despesas desse mês já foram pagas.");
@@ -106,8 +90,6 @@ export default function NextDay() {
         }
     };
     
-=======
->>>>>>> 11b442c6fe45a1d4c7808e93ec95340b62073991
     const gerarFaturamentoTerrenos = () => {
         const novoFatuUnitárioTerreno = Math.floor(Math.random() * (dados.terrenos.faturamentoMáximo - dados.terrenos.faturamentoMínimo + 1)) + dados.terrenos.faturamentoMínimo;
         const faturamentoTotalTerrenos = (novoFatuUnitárioTerreno * dados.terrenos.quantidade).toFixed(2);
@@ -155,12 +137,8 @@ export default function NextDay() {
                 <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center mr-[10px]" onClick={ProximoDia}>
                     <img className="w-[72px] h-[72px]" src={PróximoImg} />
                 </button>
-<<<<<<< HEAD
                 <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center ml-[10px]"
                     onClick={PagarDespesas}><img className="w-[72px] h-[72px]" src={despesasImg} /></button>
-=======
-             
->>>>>>> 11b442c6fe45a1d4c7808e93ec95340b62073991
             </div>
         </div>
     )

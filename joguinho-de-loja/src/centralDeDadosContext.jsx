@@ -53,11 +53,7 @@ const [dados, setDados] = useState({
     despesas: 0
   },
   lojasG: {
-<<<<<<< HEAD
-    quantidade: 5,
-=======
     quantidade: 1,
->>>>>>> 11b442c6fe45a1d4c7808e93ec95340b62073991
     preçoConstrução: 240000,
     faturamentoUnitário: 0,
     faturamentoTotal: 0,

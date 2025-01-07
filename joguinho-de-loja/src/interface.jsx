@@ -10,12 +10,7 @@ import NextDay from "./components/nextDay";
 import Buy from "./components/buy";
 import Notificação from "./notificação";
 import Events from "./components/events";
-<<<<<<< HEAD
-import Employees from "./components/employees";
 
-=======
-import Texes from "./components/Texes";
->>>>>>> 11b442c6fe45a1d4c7808e93ec95340b62073991
 
 function Interface() {
         const { dados, atualizarDados } = useContext(CentraldeDadosContext)
@@ -95,18 +90,10 @@ function Interface() {
                         
                         
                         <h1>faturamentoTotalLojasG:{dadosFaturamentoTotalLojasG}</h1> */}
-<<<<<<< HEAD
 
             <Buy />
             <NextDay />
             <Events/>
-            {/* <Employees/> */}
-=======
-            {/* <Texes/> */}
-            <Buy />
-            <NextDay />
-            <Events/>
->>>>>>> 11b442c6fe45a1d4c7808e93ec95340b62073991
         </div>
     )
 
