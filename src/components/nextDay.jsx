@@ -1,7 +1,7 @@
 import React, { useContext,useEffect } from 'react';
 import { CentraldeDadosContext } from '../centralDeDadosContext';
 import PróximoImg from "../imagens/proximo.png";
-import despesasImg from "../imagens/despesas.png";
+
 
 
 export default function NextDay() {
@@ -13,6 +13,7 @@ export default function NextDay() {
 
     const ProximoDia = () => {
         console.log(dados.despesas);
+        atualizarDados('despesas', { ...dados.despesas, despesasPagas: false });
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
             alert("Você não pode avançar para o próximo dia sem pagar as despesas.");
             return; // Impede o avanço do dia se as despesas não forem pagas
@@ -108,12 +109,9 @@ export default function NextDay() {
     return (
 
         <div className="grid col-start-1 col-end-3 row-2">
-            <div className="flex justify-center mt-[20px]">
                 <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center mr-[10px]" onClick={ProximoDia}>
                     <img className="w-[72px] h-[72px]" src={PróximoImg} />
                 </button>
-             
-            </div>
         </div>
     )
 }
