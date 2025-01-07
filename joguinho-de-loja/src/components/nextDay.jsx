@@ -114,6 +114,6 @@ export default function NextDay() {
                 </button>
              
             </div>
-        </div>
+       
     )
 }
