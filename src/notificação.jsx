@@ -10,15 +10,8 @@ export default function Notificação() {
     atualizarDados('modal', { ...dados.modal, estadoModal: false });   
   };
 
-  
-  // if (dados.eventoAtual) {
-  //   if (dados.eventoAtual.situacaoSelecionada == "aumento") {
-  //       head = "Boas notícias";
-  //   } else if (dados.eventoAtual.situacaoSelecionada == "queda") {
-  //       head = "Péssimas notícias";
-  //   } else {
-  //       head = "Valor padrão";
-  //   }
+  useEffect(()=>console.log("chamou evento")),[dados.eventoAtual]
+
 //   if (novoEventoSelecionado === "modalDespesas") {
 //     // Lógica para o evento modal de despesas
 // } else if (novoEventoSelecionado === "modalFaturamento") {
@@ -37,24 +30,17 @@ export default function Notificação() {
 //   const events = ['pagarDespesas', 'faturamento', 'impostosFixos', 'impostosVariáveis'];
 
 
-// const sortearEvento = () =>{
-//   Math.floor(Math.random(events.length()))
-// }
 
 
-  // let head = '';
-  // let content = '';
+  let head = "Novidade";
+  let content = `${dados.eventoAtual.title }`;
   
-//   if (events.includes('pagarDespesas')) {
-//     head = "Dia de pagamentos das despesas";
-//     content = "Pague as dívidas para poder avançar";
-//   }
+  // if (events.includes('pagarDespesas')) {
+  //   head = "Dia de pagamentos das despesas";
+  //   content = "Pague as dívidas para poder avançar";
+  // }
   
-//   const modalEvents = [
-//     "modalDespesas",
-//     "modalFaturamento"
-//     , "modalImpostos", "modalFuncionários"
-// ];
+
 
 
   // if (events.includes('faturamento')) {
@@ -71,7 +57,6 @@ export default function Notificação() {
 
 
 
-// return (<div>teste</div>)
 
 
   if (dados.modal.estadoModal && dados.despesas.despesasPagas == false) {

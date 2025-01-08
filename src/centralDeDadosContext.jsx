@@ -6,13 +6,13 @@ const CentraldeDadosProvider = ({ children }) => {
 
 const [dados, setDados] = useState({
   saldo: 120000,
-  dia: 2,
+  dia: 1,
+  chanceNovoEvento:20,
   modal:{
     estadoModal: false,
     head:"",
     content:""
   },
-  // iniciarSorteio: false,
   eventoAtual:{
     eventoAtivo:true,
     title:"",

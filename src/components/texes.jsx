@@ -7,19 +7,18 @@ export default function Texes() {
 
 const {dados, atualizarDados} = useContext(CentraldeDadosContext)
 
-useEffect(() => {
-  // Verifica se é necessário atualizar as despesas e o estado modal
-  if (dados.dia % 30 === 0){
-      atualizarDados({...dados.despesas,despesasPagas:false})
-  }
-    if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
-      const novasDespesas = { ...dados.despesas, despesasPagas: false };
-      const novoEstado = { ...dados, modal: { ...dados.modal, estadoModal: true } };
-      atualizarDados('despesas', novasDespesas);
-      atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
-      // Chame o modelo de pagar dívidas aqui
-    }
-  }, [dados.dia, dados.despesas.despesasPagas]);
+// useEffect(() => {
+//   // Verifica se é necessário atualizar as despesas e o estado modal
+//   if (dados.dia % 30 === 0){
+//       atualizarDados({...dados.despesas,despesasPagas:false})
+//   }
+//     if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
+//       const novoEstado = { ...dados, modal: { ...dados.modal, estadoModal: true } };
+//       atualizarDados('despesas', novasDespesas);
+//       atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
+//       // Chame o modelo de pagar dívidas aqui
+//     }
+//   }, [dados.dia, dados.despesas.despesasPagas]);
 
 
 const PagarDespesas = () => {
