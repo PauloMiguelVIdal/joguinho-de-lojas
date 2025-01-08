@@ -1,52 +1,60 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { CentraldeDadosContext } from '../centralDeDadosContext';
 
-const Events = () => {
+function Events(){
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const [sorteioAtivo, setSorteioAtivo] = useState(false);
+ 
+  function nãoRodarLoop(){
 
-  const eventoDefault = {
-    eventoAtivo:false,  
-    type:"",
-      title:"",
-      LojaSelecionada: "",
-      situacaoSelecionada: "",
-      porcentagemSelecionada: "",
-      periodoSelecionado: "",
-      diaInicial:"",
-      diaFinal:"",
-  }
+  
+  
+  // const eventoDefault = {
+  //   eventoAtivo:false,  
+  //     title:"",
+  //     LojaSelecionada: "",
+  //     situacaoSelecionada: "",
+  //     porcentagemSelecionada: "",
+  //     periodoSelecionado: "",
+  //     diaInicial:"",
+  //     diaFinal:"",
+  // }
 
-//01
-  useEffect(() => {
-      console.log(dados.dia)
-    // Verifica se os dados e o evento atual estão definidos antes de prosseguir
-    if (dados && dados.eventoAtual) {
-      const eventoTerminado = dados.dia > dados.eventoAtual.diaFinal;
+
+  // useEffect(() => {
+  //     console.log(dados.dia)
+  //   // Verifica se os dados e o evento atual estão definidos antes de prosseguir
+  //   if (dados && dados.eventoAtual) {
+  //     const eventoTerminado = dados.dia > dados.eventoAtual.diaFinal;
   
-      if (eventoTerminado && dados.eventoAtual.eventoAtivo) {
-        // Atualiza o estado do evento para desativado
-        atualizarDados({ ...dados.eventoAtual, eventoAtivo: false });
-        console.log("Evento finalizado e desativado.");
-      }
-    }
-  }, [dados?.dia, dados?.eventoAtual?.diaFinal, dados?.eventoAtual?.eventoAtivo]);
+  //     if (eventoTerminado && dados.eventoAtual.eventoAtivo) {
+  //       // Atualiza o estado do evento para desativado
+  //       atualizarDados({ ...dados.eventoAtual, eventoAtivo: false });
+  //       console.log("Evento finalizado e desativado.");
+  //     }
+  //   }
+  // }, [dados?.dia, dados?.eventoAtual?.diaFinal, dados?.eventoAtual?.eventoAtivo]);
   
   
-  //
+  
 // o problema a cima foi solucionado graças ao  "?." que uitiliza dos operadores opcionais que servem para uso de segurança e par evitar erros por conta que se certificam que ele ira não ira
-//causa erro porem ainda pode se tratar de um erro de undefined
+// causa erro porem ainda pode se tratar de um erro de undefined
+
+
+
+
+console.log("aqui")
 
 
 
 
 
 
+const eventosCustoFunc = ["custoMínimoFunc", "custoMáximoFunc"];
+const eventosCustoF = ["custo mínimo", "custo máximo"];
 
 
-
-
-
+const novaDataInicial = (dados.dia)
 
 
 
@@ -60,23 +68,28 @@ const Events = () => {
 // });
 
 
+console.log("Estado do modal após atualização:", dados.modal.estadoModal);
+console.log(dados.modal.estadoModal);
+atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
 
 
+console.log("aqui")
 
-
-
+}
 const calcularNovoFaturamento = (valorInicial, situacao, porcentagem) => {
   // Converte a porcentagem para decimal
   const porcentagemDecimal = porcentagem / 100;
-
+  
   // Calcula o valor final com base na situação (aumento ou queda)
   const novoValor = situacao === "aumento" ? valorInicial * (1 + porcentagemDecimal) : valorInicial * (1 - porcentagemDecimal);
-
+  
   // Retorna o novo valor formatado
   return `${novoValor.toFixed(2)}`;
 };
 
+
 const centralResultado = () => {
+  
   
   
   // Objeto para armazenar os detalhes do evento atual
@@ -90,20 +103,8 @@ const centralResultado = () => {
   // Função para decidir o valor da situação
 
   
-  if (novoEventoSelecionado === "modalDespesas") {
-      // Lógica para o evento modal de despesas
-  } else if (novoEventoSelecionado === "modalFaturamento") {
-    novoEvento.periodoSelecionado = selecionarItem(periodo);
-    novoEvento.LojaSelecionada = selecionarItem(todasLojas);
-    novoEvento.situacaoSelecionada = selecionarItem(situacao);
-    novoEvento.porcentagemSelecionada = selecionarItem(porcentagem);
-    const novaDataFinal = parseInt(novaDataInicial) + novoEvento.periodoSelecionado;      // Lógica para o evento modal de faturamento
-      novoEvento.diaInicial = novaDataInicial;
-      novoEvento.diaFinal = novaDataFinal
-      novoEvento.title = `As ${novoEvento.LojaSelecionada} terão ${novoEvento.situacaoSelecionada} de faturamento de ${novoEvento.porcentagemSelecionada}% durante o período de ${novoEvento.periodoSelecionado} dias`;
-      console.log(novoEvento.periodoSelecionado)
-     
-      
+ 
+  console.log("aqui")
       
       // console.log("chegou aqui")
 
@@ -163,10 +164,10 @@ const centralResultado = () => {
       // Chama a função para atualizar os dados do banco de dados
       atualizarDadosBD();
       console.log("Dados atualizados:", novoEvento);
-      
+      console.log("aqui")
       return novoEvento;
   }
-};
+;
 
   return (
     <div>

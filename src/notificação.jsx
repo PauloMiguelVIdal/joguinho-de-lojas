@@ -19,30 +19,42 @@ export default function Notificação() {
   //   } else {
   //       head = "Valor padrão";
   //   }
+//   if (novoEventoSelecionado === "modalDespesas") {
+//     // Lógica para o evento modal de despesas
+// } else if (novoEventoSelecionado === "modalFaturamento") {
+//   novoEvento.periodoSelecionado = selecionarItem(periodo);
+//   novoEvento.LojaSelecionada = selecionarItem(todasLojas);
+//   novoEvento.situacaoSelecionada = selecionarItem(situacao);
+//   novoEvento.porcentagemSelecionada = selecionarItem(porcentagem);
+//   const novaDataFinal = parseInt(novaDataInicial) + novoEvento.periodoSelecionado;      // Lógica para o evento modal de faturamento
+//     novoEvento.diaInicial = novaDataInicial;
+//     novoEvento.diaFinal = novaDataFinal
+//     novoEvento.title = `As ${novoEvento.LojaSelecionada} terão ${novoEvento.situacaoSelecionada} de faturamento de ${novoEvento.porcentagemSelecionada}% durante o período de ${novoEvento.periodoSelecionado} dias`;
+//     console.log(novoEvento.periodoSelecionado)
+   
 
 
-
-  const events = ['pagarDespesas', 'faturamento', 'impostosFixos', 'impostosVariáveis'];
-
-
-const sortearEvento = () =>{
-  Math.floor(Math.random(events.length()))
-}
+//   const events = ['pagarDespesas', 'faturamento', 'impostosFixos', 'impostosVariáveis'];
 
 
-  let head = '';
-  let content = '';
+// const sortearEvento = () =>{
+//   Math.floor(Math.random(events.length()))
+// }
+
+
+  // let head = '';
+  // let content = '';
   
-  if (events.includes('pagarDespesas')) {
-    head = "Dia de pagamentos das despesas";
-    content = "Pague as dívidas para poder avançar";
-  }
+//   if (events.includes('pagarDespesas')) {
+//     head = "Dia de pagamentos das despesas";
+//     content = "Pague as dívidas para poder avançar";
+//   }
   
-  const modalEvents = [
-    "modalDespesas",
-    "modalFaturamento"
-    , "modalImpostos", "modalFuncionários"
-];
+//   const modalEvents = [
+//     "modalDespesas",
+//     "modalFaturamento"
+//     , "modalImpostos", "modalFuncionários"
+// ];
 
 
   // if (events.includes('faturamento')) {
@@ -59,7 +71,7 @@ const sortearEvento = () =>{
 
 
 
-
+// return (<div>teste</div>)
 
 
   if (dados.modal.estadoModal && dados.despesas.despesasPagas == false) {

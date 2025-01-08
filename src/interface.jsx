@@ -14,7 +14,7 @@ function Interface() {
 
     return (
         <div className="w-[100vw] h-[100vh] bg-gradient-to-b from-roxo to-roxoForte grid grid-rows-2 grid-cols-2">
-            <Notificação />
+            {/* <Notificação /> */}
             {/* <button className="bg-white w-[100px] h-[120px]" onClick={()=>AtualizarEstadoModal(true)}>abrir modal</button> */}
 
 

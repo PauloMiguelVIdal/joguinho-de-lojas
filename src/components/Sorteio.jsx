@@ -3,34 +3,20 @@ import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 export default function Sorteio() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-
-    // useEffect(() => {
-    //     if (dados.iniciarSorteio) {
-    //         const evento = centralResultado(); // Chama centralResultado sem passar dados como argumento
-    //         atualizarDados('eventoAtual', evento)
-    //         console.log(evento);
-    //         atualizarDados('iniciarSorteio', false); // Resetar iniciarSorteio após o sorteio
-    //         console.log("Estado do modal após atualização:", dados.modal.estadoModal);
-    //         atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
-    //         console.log(dados.modal.estadoModal);
-    //     }
-    // }, [dados.iniciarSorteio, atualizarDados]);
-
-
-
-    // chance de evento em 50%
     const chanceNovoEvento = 70;
 
     // Função sorteio
     const sortearNovoEvento = () => {
         const probabilidade = Math.random() * 100;
         if (probabilidade <= chanceNovoEvento) {
-            const todasLojas = ["lojas pequenas", "lojas médias", "lojas grandes"];
+            const todasLojas = ["terrenos", "lojas pequenas", "lojas médias", "lojas grandes"];
             const situacao = ["aumento", "queda"];
             const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
             const periodo = [3, 7, 15, 30];
-            const departmentEvents = ["lojas"
-                // ,"faturamento","compras","funcionários","impostos"
+            const departmentEvents = [
+                , "faturamento", "compras", "construção"
+                , "funcionários"
+                , "impostos"
             ];
 
             console.log("sorteio ocorreu");
@@ -39,23 +25,34 @@ export default function Sorteio() {
             //     return situacao === "aumento" ? "+" : "-";
             // };
 
+            const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
+            const selecionarPeriodo = selecionarItem(periodo)
+            const selecionarPorcentagem = selecionarItem(porcentagem)
+            const selecionarSituação = selecionarItem(situacao)
+            const selecionarLoja = selecionarItem(todasLojas)
+
 
 
             // const valorSituacao = decidirValorSituacao();
-            function novoEventoSelecionado(){
+            function novoEventoSelecionado() {
 
-                const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
-                const novoDepartamentoSelecionado  = selecionarItem(departmentEvents);
-               
-                if(novoDepartamentoSelecionado === "lojas"){
-                   const lojaSelecionada = selecionarItem(todasLojas)
-                   return (console.log(lojaSelecionada))
+
+                const novoDepartamentoSelecionado = selecionarItem(departmentEvents);
+
+                atualizarDados("eventoAtual", {
+                    ...dados.eventoAtual, eventoAtivo: true,
+                    title: `${selecionarLoja} terão ${selecionarSituação} de ${selecionarPorcentagem}% no peiriodo de ${selecionarPeriodo} dias`,
+                    LojaSelecionada: selecionarLoja,
+                    situacaoSelecionada: selecionarSituação,
+                    porcentagemSelecionada: selecionarPorcentagem,
+                    periodoSelecionado: selecionarPeriodo,
+                    diaInicial: dados.dia,
+                    diaFinal: dados.dia + selecionarPeriodo
                 }
+                )
+                console.log("Estado atualizado:", dados.eventoAtual);
             }
             novoEventoSelecionado()
-
-
-        
 
         }
     };
