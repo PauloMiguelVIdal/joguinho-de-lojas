@@ -8,18 +8,6 @@ function Events(){
   function nãoRodarLoop(){
 
   
-  
-  // const eventoDefault = {
-  //   eventoAtivo:false,  
-  //     title:"",
-  //     LojaSelecionada: "",
-  //     situacaoSelecionada: "",
-  //     porcentagemSelecionada: "",
-  //     periodoSelecionado: "",
-  //     diaInicial:"",
-  //     diaFinal:"",
-  // }
-
 
   // useEffect(() => {
   //     console.log(dados.dia)

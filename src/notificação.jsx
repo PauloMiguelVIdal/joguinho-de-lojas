@@ -35,48 +35,48 @@ export default function Notificação() {
   let head = "Novidade";
   let content = `${dados.eventoAtual.title }`;
   
-  // if (events.includes('pagarDespesas')) {
-  //   head = "Dia de pagamentos das despesas";
-  //   content = "Pague as dívidas para poder avançar";
-  // }
   
-
-
-
-  // if (events.includes('faturamento')) {
-  //   head = "queda ou aumento";
-  //   content = dados.eventoAtual.title;
-  // }
   
-  // console.log(head); // Saída: "Dia de pagamentos das despesas"
-  // console.log(content); // Saída: "Pague as dívidas para poder avançar"
-
-
-
-
-
-
-
-
-
-  if (dados.modal.estadoModal && dados.despesas.despesasPagas == false) {
-    return (
-      
-      <div className='flex justify-center items-center z-10 bg-black opacity-[90%] w-[100vw] h-[100vh]'>
-        <div className='w-[50vw] h-[50vh] bg-roxo rounded-[20px] z-20 relative'>
-          <h1 className='text-center text-white p-[10px] fonteBold'>{head}</h1>
-          <div className='w-[80%] h-[10px] bg-white flex rounded-[5px] relative m-auto'></div>
-          <div>
-            <h2 className='text-start text-white opacity-[70%] pl-[20px] pt-[20px] fonteLight'>{content}</h2>
-          </div>
-          <button className='absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold' onClick={fecharModal}>
-            <h3>entendido</h3>
-          </button>
+  if (dados.dia % 30 === 0 && dados.modal.estadoModal && dados.despesas.despesasPagas == false){
+    return       <div className='flex justify-center items-center z-10 bg-black opacity-[90%] w-[100vw] h-[100vh]'>
+      <div className='w-[50vw] h-[50vh] bg-roxo rounded-[20px] z-20 relative'>
+        <h1 className='text-center text-white p-[10px] fonteBold'>Dívidas a pagar</h1>
+        <div className='w-[80%] h-[10px] bg-white flex rounded-[5px] relative m-auto'></div>
+        <div>
+          <h2 className='text-start text-white opacity-[70%] pl-[20px] pt-[20px] fonteLight'>pague as suas dívidas para poder continuar</h2>
         </div>
+        <button className='absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold' onClick={fecharModal}>
+          <h3>entendido</h3>
+        </button>
       </div>
-    );
-  } else {
+    </div>
 
+
+
+
+
+
+
+
+
+}
+if (dados.modal.estadoModal)  {
+  return (
+    
+    <div className='flex justify-center items-center z-10 bg-black opacity-[90%] w-[100vw] h-[100vh]'>
+      <div className='w-[50vw] h-[50vh] bg-roxo rounded-[20px] z-20 relative'>
+        <h1 className='text-center text-white p-[10px] fonteBold'>{head}</h1>
+        <div className='w-[80%] h-[10px] bg-white flex rounded-[5px] relative m-auto'></div>
+        <div>
+          <h2 className='text-start text-white opacity-[70%] pl-[20px] pt-[20px] fonteLight'>{content}</h2>
+        </div>
+        <button className='absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold' onClick={fecharModal}>
+          <h3>entendido</h3>
+        </button>
+      </div>
+    </div>
+  );
+} else {
     return null;
   }
 }
