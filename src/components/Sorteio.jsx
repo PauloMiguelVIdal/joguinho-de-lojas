@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 
-export default function Sorteio(){
+export default function Sorteio() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
     // useEffect(() => {
@@ -16,25 +16,64 @@ export default function Sorteio(){
     //     }
     // }, [dados.iniciarSorteio, atualizarDados]);
 
-    
-    
+
+
     // chance de evento em 50%
-    const chanceNovoEvento = 30;
-    
+    const chanceNovoEvento = 70;
+
     // Função sorteio
     const sortearNovoEvento = () => {
         const probabilidade = Math.random() * 100;
         if (probabilidade <= chanceNovoEvento) {
+            const todasLojas = ["lojas pequenas", "lojas médias", "lojas grandes"];
+            const situacao = ["aumento", "queda"];
+            const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
+            const periodo = [3, 7, 15, 30];
+            const departmentEvents = ["lojas"
+                // ,"faturamento","compras","funcionários","impostos"
+            ];
+
             console.log("sorteio ocorreu");
             // atualizarDados('iniciarSorteio', true); // não quero que seja um estado penso em fazer apenas uma função que irá realizar isso
-            // sortearEvento();
+            // const decidirValorSituacao = () => {
+            //     return situacao === "aumento" ? "+" : "-";
+            // };
+
+
+
+            // const valorSituacao = decidirValorSituacao();
+            function novoEventoSelecionado(){
+
+                const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
+                const novoDepartamentoSelecionado  = selecionarItem(departmentEvents);
+               
+                if(novoDepartamentoSelecionado === "lojas"){
+                   const lojaSelecionada = selecionarItem(todasLojas)
+                   return (console.log(lojaSelecionada))
+                }
+            }
+            novoEventoSelecionado()
+
+
+        
+
         }
     };
-    
+
     useEffect(() => {
         sortearNovoEvento()
-    console.log("passou aqui")
+        console.log("passou aqui")
     }, [dados.dia]);
+
+
+
+
+
+
+
+
+
+
 
 
 

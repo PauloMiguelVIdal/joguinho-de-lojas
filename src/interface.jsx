@@ -7,6 +7,7 @@ import Events from "./components/events";
 import Employees from "./components/employees";
 import Texes from "./components/Texes";
 import PayTexes from "./components/PayTexes";
+import Sorteio from "./components/Sorteio";
 
 function Interface() {
         const { dados, atualizarDados } = useContext(CentraldeDadosContext)

@@ -17,7 +17,7 @@ const Events = () => {
       diaFinal:"",
   }
 
-
+//01
   useEffect(() => {
       console.log(dados.dia)
     // Verifica se os dados e o evento atual estão definidos antes de prosseguir
@@ -59,33 +59,10 @@ const Events = () => {
 //   }
 // });
 
-useEffect(() => {
-  // Verifica se é necessário atualizar as despesas e o estado modal
-    if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
-      const novasDespesas = { ...dados.despesas, despesasPagas: false };
-      const novoEstado = { ...dados, modal: { ...dados.modal, estadoModal: true } };
-      atualizarDados('despesas', novasDespesas);
-      atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
-      // Chame o modelo de pagar dívidas aqui
-    }
-  }, [dados.dia, dados.despesas.despesasPagas]);
 
 
-  useEffect(() => {
-    if (dados.iniciarSorteio) {
-        const evento = centralResultado(); // Chama centralResultado sem passar dados como argumento
-        atualizarDados('eventoAtual', evento)
-        console.log(evento)
-        // atualizarDados('eventoAtual', {...dados.eventoAtual,eventoAtivo: true});
-        atualizarDados('iniciarSorteio', false); // Resetar iniciarSorteio após o sorteio
-        console.log("Estado do modal após atualização:", dados.modal.estadoModal);
-        // Após atualizar o evento atual, verifique o estado do modal
-        atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
-        
-        // Aqui você pode acessar o estado atualizado do modal
-        console.log(dados.modal.estadoModal);
-      }
-}, [dados.iniciarSorteio, atualizarDados]);
+
+
 
 
 const calcularNovoFaturamento = (valorInicial, situacao, porcentagem) => {
@@ -100,32 +77,7 @@ const calcularNovoFaturamento = (valorInicial, situacao, porcentagem) => {
 };
 
 const centralResultado = () => {
-  // Função para selecionar um item aleatório de uma lista
-  const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
   
-  // Lista de eventos modais
-  const modalEvents = [
-    "modalDespesas", 
-    "modalFaturamento"
-    , "modalImpostos", "modalFuncionários"
-  ];
-  
-  // Seleciona um evento modal aleatório
-  const novoEventoSelecionado = selecionarItem(modalEvents);
-  
-  // Define as opções para diferentes tipos de eventos
-  
-  const novaDataInicial = (dados.dia)
-
-  
-  const todasLojas = ["lojas pequenas", "lojas médias", "lojas grandes"];
-  const situacao = ["aumento", "queda"];
-  const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
-  const periodo = [3
-    , 7, 15, 30
-  ];
-  const eventosCustoFunc = ["custoMínimoFunc", "custoMáximoFunc"];
-  const eventosCustoF = ["custo mínimo", "custo máximo"];
   
   // Objeto para armazenar os detalhes do evento atual
   const novoEvento = {};
@@ -136,12 +88,7 @@ const centralResultado = () => {
   
   
   // Função para decidir o valor da situação
-  const decidirValorSituacao = () => {
-    return situacao[0] === "aumento" ? "" : "-";
-  };
-  
-  // Variável para armazenar o valor da situação
-  const valorSituacao = decidirValorSituacao();
+
   
   if (novoEventoSelecionado === "modalDespesas") {
       // Lógica para o evento modal de despesas

@@ -38,6 +38,13 @@ const sortearEvento = () =>{
     content = "Pague as dívidas para poder avançar";
   }
   
+  const modalEvents = [
+    "modalDespesas",
+    "modalFaturamento"
+    , "modalImpostos", "modalFuncionários"
+];
+
+
   // if (events.includes('faturamento')) {
   //   head = "queda ou aumento";
   //   content = dados.eventoAtual.title;

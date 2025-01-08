@@ -1,7 +1,7 @@
 import React, { useContext,useEffect } from 'react';
 import { CentraldeDadosContext } from '../centralDeDadosContext';
 import PróximoImg from "../imagens/proximo.png";
-
+import Sorteio from './Sorteio';
 
 
 export default function NextDay() {
@@ -97,6 +97,7 @@ export default function NextDay() {
                 <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center mr-[10px]" onClick={ProximoDia}>
                     <img className="w-[72px] h-[72px]" src={PróximoImg} />
                 </button>
+                <Sorteio/>
             </div>
     )
 }
