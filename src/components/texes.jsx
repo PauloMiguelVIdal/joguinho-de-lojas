@@ -1,17 +1,11 @@
 import React from 'react'
-import { useContext } from 'react'
+import { useContext, useEffect} from 'react'
 import { CentraldeDadosContext } from '../centralDeDadosContext'
+import despesasImg from "../imagens/despesas.png";
+
 export default function Texes() {
 
-const [
-    impostoFixoLojasP, AtualizarImpostoFixoLojasP,
-    impostoFixoLojasM, AtualizarImpostoFixoLojasM,
-    impostoFixoLojasG, AtualizarImpostoFixoLojasG,
-
-    impostoSobreFaturamentoLojasP, AtualizarImpostoSobreFaturamentoLojasP,
-    impostoSobreFaturamentoLojasM, AtualizarImpostoSobreFaturamentoLojasM,
-    impostoSobreFaturamentoLojasG, AtualizarImpostoSobreFaturamentoLojasG,
-] = useContext(CentraldeDadosContext)
+const {dados, atualizarDados} = useContext(CentraldeDadosContext)
 
 useEffect(() => {
   // Verifica se é necessário atualizar as despesas e o estado modal

@@ -12,7 +12,7 @@ const [dados, setDados] = useState({
     head:"",
     content:""
   },
-  iniciarSorteio: false,
+  // iniciarSorteio: false,
   eventoAtual:{
     eventoAtivo:true,
     type:"",
