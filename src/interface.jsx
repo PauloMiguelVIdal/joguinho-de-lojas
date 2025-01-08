@@ -8,9 +8,10 @@ import Employees from "./components/employees";
 import Texes from "./components/Texes";
 import PayTexes from "./components/PayTexes";
 import Sorteio from "./components/Sorteio";
+import ActiveEvents from "./components/ActiveEvents";
 
 function Interface() {
-        const { dados, atualizarDados } = useContext(CentraldeDadosContext)
+    const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
     return (
         <div className="w-[100vw] h-[100vh] bg-gradient-to-b from-roxo to-roxoForte grid grid-rows-2 grid-cols-2">
@@ -87,13 +88,17 @@ function Interface() {
                         <h1>faturamentoTotalLojasG:{dadosFaturamentoTotalLojasG}</h1> */}
             <Buy />
             <div className="grid col-start-1 col-end-3 row-2">
-            <div className="flex justify-center mt-[20px]">
-            <NextDay />
-           <PayTexes/>
+                <div className="flex justify-center mt-[20px]">
+                    <NextDay />
+                    <PayTexes />
+                </div>
             </div>
+
+            <Events />
+            <div className="flex justify-start items-end ">
+
+                <ActiveEvents />
             </div>
-        
-            <Events/>
         </div>
     )
 
