@@ -1,12 +1,16 @@
 import React, { useContext, useState } from "react";
 import { CentraldeDadosContext } from "./centralDeDadosContext";
+import terrenoImg from "./imagens/terreno.png"
+import LojaPImg from "./imagens/lojaP.png"
+import LojaMImg from "./imagens/lojaM.png"
+import LojaGImg from "./imagens/lojaG.png"
+import ConstuirImg from "./imagens/construir.png"
+import DolarImg from "./imagens/simbolo-do-dolar.png"
 import NextDay from "./components/nextDay";
 import Buy from "./components/buy";
 import Notificação from "./notificação";
 import Events from "./components/events";
-import Employees from "./components/employees";
-import Texes from "./components/Texes";
-import PayTexes from "./components/PayTexes";
+
 
 function Interface() {
         const { dados, atualizarDados } = useContext(CentraldeDadosContext)
@@ -30,6 +34,7 @@ function Interface() {
             </div>
             <div className="flex justify-between pr-[10px] pl-[10px] items-center w-[300px] h-[30px] rounded-[20px] bg-white box2 absolute top-[20px] left-[20px]">
                 <h1 className="fonteLight text-roxo text-[20px] ">Mercados Mandakaru</h1>
+                {/* <h1 className="fonteBold text-roxo text-[20px]">{dadosSaldo}</h1> */}
             </div>
             {/* <div className="flex justify-evenly items-center w-[250px] h-[30px] rounded-[20px] bg-white box2">
                     <h1 className="fonteLight text-roxo text-[20px]">faturamento Atual diário:</h1>
@@ -37,8 +42,9 @@ function Interface() {
                 </div> */}
             {/* <div className="flex justify-evenly items-center w-[250px] h-[30px] rounded-[20px] bg-white box2">
                     <h1 className="fonteLight text-roxo text-[20px]">Despesas do mês Atual:</h1>
-                    <h1 className="fonteBold text-roxo text-[20px]">gerar</h1>
+                    <h1 className="fonteBold text-roxo text-[20px]">{dadosFaturamentoLojasP + dadosFaturamentoLojasM + dadosFaturamentoLojasG}</h1>
                 </div> */}
+
 
 
             {/* <h1>Preço terrenos:{dadosPreçosTerrenos}</h1>
@@ -84,15 +90,9 @@ function Interface() {
                         
                         
                         <h1>faturamentoTotalLojasG:{dadosFaturamentoTotalLojasG}</h1> */}
-            {/* <Texes/> */}
+
             <Buy />
-            <div className="grid col-start-1 col-end-3 row-2">
-            <div className="flex justify-center mt-[20px]">
             <NextDay />
-           <PayTexes/>
-            </div>
-            </div>
-            <Texes/>
             <Events/>
         </div>
     )
