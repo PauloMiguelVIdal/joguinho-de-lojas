@@ -9,9 +9,11 @@ const {dados, atualizarDados} = useContext(CentraldeDadosContext)
 
     
     return(
-        <div>
-        <NextDay/>
-        <PayTexes/>
+        <div className="grid col-start-1 col-end-3 row-2">
+        <div className="flex justify-center mt-[20px]">
+            <NextDay />
+            <PayTexes />
         </div>
+    </div>
     )
 }
