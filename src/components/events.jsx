@@ -27,6 +27,7 @@ function Events(){
     console.log(dados.eventoAtual.eventoAtivo)
   }
   ,[dados.dia])
+  //atualiza a chance de acontecer um evento quando não se tem nenhum evento ativo
 
 
 

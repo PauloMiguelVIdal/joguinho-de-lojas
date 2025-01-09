@@ -22,6 +22,8 @@ const [dados, setDados] = useState({
     periodoSelecionado: "",
     diaInicial:"",
     diaFinal:"",
+    departamento:"",
+    julgamento:"",
   },
   terrenos: {
     quantidade: 1,

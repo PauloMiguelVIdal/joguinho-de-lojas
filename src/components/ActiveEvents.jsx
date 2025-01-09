@@ -36,6 +36,14 @@ export default function ActiveEvents() {
             break
     }
 
+
+if(dados.eventoAtual.eventoAtivo===false){
+    return(
+        <div className="flex row items-center place-content-around bg-[#6E0BF9] rounded-[20px] w-full">Nenhum evento ativo</div>
+    )
+}else{
+
+    
     return (
         <div className="flex row items-center place-content-around bg-[#6E0BF9] rounded-[20px] w-full">
             <div className="bg-[#331B8C] rounded-[20px]">
@@ -55,5 +63,6 @@ export default function ActiveEvents() {
 
         </div>
     )
-
+}
+    
 }

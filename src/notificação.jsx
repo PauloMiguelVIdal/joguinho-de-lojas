@@ -32,7 +32,7 @@ export default function Notificação() {
 
 
 
-  let head = "Novidade";
+  let head = `${dados.eventoAtual.julgamento }`;
   let content = `${dados.eventoAtual.title }`;
   
   
