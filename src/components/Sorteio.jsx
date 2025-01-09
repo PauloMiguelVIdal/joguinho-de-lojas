@@ -51,11 +51,21 @@ export default function Sorteio() {
                     diaFinal: dados.dia + selecionarPeriodo
                 } 
             )
+            
+            // useEffect(()=>{
+            //     if(dados.eventoAtual.eventoAtivo===true){
+            //         atualizarDados("chanceNovoEvento",0)
+            //         console.log("testando useEffect")
+            //         console.log(dados.chanceNovoEvento)
+            //     }
+            // },[dados.eventoAtual])
+
+
             atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
                 console.log("Estado atualizado:", dados.eventoAtual);
             }
-            novoEventoSelecionado()
 
+            novoEventoSelecionado()
         }
     };
 

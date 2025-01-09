@@ -33,7 +33,7 @@ export default function NextDay() {
 
         atualizarDados('dia', novoDia);
         atualizarDados('saldo', saldoAtualizado);
-        atualizarDados('eventoAtual', { ...dados.eventoAtual, eventoAtivo: true });
+        // atualizarDados('eventoAtual', { ...dados.eventoAtual, eventoAtivo: true });
         
         gerarFaturamentoTerrenos();
         gerarFaturamentoLojasP();

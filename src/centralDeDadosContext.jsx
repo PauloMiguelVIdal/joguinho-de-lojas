@@ -14,7 +14,7 @@ const [dados, setDados] = useState({
     content:""
   },
   eventoAtual:{
-    eventoAtivo:true,
+    eventoAtivo:false,
     title:"",
     LojaSelecionada: "",
     situacaoSelecionada: "",

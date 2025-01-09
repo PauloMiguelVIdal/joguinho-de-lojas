@@ -2,9 +2,34 @@ import React, { useState, useContext, useEffect } from 'react';
 import { CentraldeDadosContext } from '../centralDeDadosContext';
 
 function Events(){
+  
+  
+  
+  
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const [sorteioAtivo, setSorteioAtivo] = useState(false);
- 
+  
+  useEffect(()=>{
+    if(dados.eventoAtual.eventoAtivo===true){
+        atualizarDados("chanceNovoEvento",0)
+        console.log("testando useEffect")
+        console.log(dados.chanceNovoEvento)
+    }
+},[dados.eventoAtual])
+//se o evento atual for mudaddo ele verifica se está verdadeiro e ai modificado a chance
+  
+  useEffect(()=>{
+    if(dados.dia === dados.eventoAtual.diaFinal){
+      atualizarDados("eventoAtivo",{...dados.eventoAtual,eventoAtivo:false})
+      atualizarDados("chanceNovoEvento",20)
+    }
+    console.log("use effect chamado")
+    console.log(dados.eventoAtual.eventoAtivo)
+  }
+  ,[dados.dia])
+
+
+
   function nãoRodarLoop(){
 
   
@@ -90,7 +115,11 @@ const centralResultado = () => {
   
   // Função para decidir o valor da situação
 
-  
+
+
+
+
+
  
   console.log("aqui")
       
