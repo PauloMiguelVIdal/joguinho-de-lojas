@@ -10,7 +10,7 @@ const {dados, atualizarDados} = useContext(CentraldeDadosContext)
     
     return(
         <div className="grid col-start-1 col-end-3 row-2">
-        <div className="flex justify-center bg-[#6E0BF9] rounded-[20px]">
+        <div className="flex items-center place-content-center bg-[#6E0BF9] rounded-[20px]">
             <NextDay />
             <PayTexes />
         </div>

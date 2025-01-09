@@ -37,16 +37,17 @@ export default function ActiveEvents() {
     }
 
     return (
-        <div className="flex row justify-center items-center bg-[#6E0BF9] rounded-[20px]">
-            <div>
-                <img className="w-[50px] h-[50px] " src={foto} alt="teste" />
+        <div className="flex row items-center place-content-around bg-[#6E0BF9] rounded-[20px] w-full">
+            <div className="bg-[#331B8C] rounded-[20px]">
+                <img className="h-[80px] m-[20px]" src={foto} alt="teste" />
             </div>
-            <div className="">
-                <div>
-                    {dados.eventoAtual.title}
+            <div className="flex flex-col items-center h-full w-[70%] p-[10px]">
+                
+                <div className="flex fonteLight place-content-around items-center h-1/2 ">
+                   <h2 className="text-[18px] text-white"> {dados.eventoAtual.title}</h2>
                 </div>
-                <div className="bg-white place-content-around place-self-center rounded-[16px] w-[350px] h-[50px]">
-                    dia final : {dados.eventoAtual.diaFinal}
+                <div className="bg-white flex place-content-around items-center  rounded-[16px] w-full h-1/2 fonteBold">
+                    Data de encerramento : {dados.eventoAtual.diaFinal}
                 </div>
             </div>
 

@@ -17,8 +17,8 @@ function Interface() {
 
     return (
         <div className="w-[100vw] h-[100vh] bg-[#6A00FF] flex justify-center items-center">
-            <Notificação />
             <Events />
+            <Notificação />
             <div className="w-[90vw] h-[90vh] rounded-[20px] bg-gradient-to-b from-roxo to-roxoForte grid grid-rows-4 grid-cols-5 gap-[20px] p-[20px]">
                 <div className="grid col-start-1 col-end-3 row-1">
                     <MoreOptions />

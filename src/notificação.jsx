@@ -38,7 +38,7 @@ export default function Notificação() {
   
   
   if (dados.dia % 30 === 0 && dados.modal.estadoModal && dados.despesas.despesasPagas == false){
-    return       <div className='flex justify-center items-center z-10 bg-black opacity-[90%] w-[100vw] h-[100vh]'>
+    return       <div className='flex justify-center items-center z-10 bg-black opacity-[90%] w-[100vw] h-[100vh] absolute z-10'>
       <div className='w-[50vw] h-[50vh] bg-roxo rounded-[20px] z-20 relative'>
         <h1 className='text-center text-white p-[10px] fonteBold'>Dívidas a pagar</h1>
         <div className='w-[80%] h-[10px] bg-white flex rounded-[5px] relative m-auto'></div>
@@ -63,7 +63,7 @@ export default function Notificação() {
 if (dados.modal.estadoModal)  {
   return (
     
-    <div className='flex justify-center items-center z-10 bg-black opacity-[90%] w-[100vw] h-[100vh]'>
+    <div className='flex justify-center items-center z-10 bg-black opacity-[95%] w-[100vw] h-[100vh] absolute z-10'>
       <div className='w-[50vw] h-[50vh] bg-roxo rounded-[20px] z-20 relative'>
         <h1 className='text-center text-white p-[10px] fonteBold'>{head}</h1>
         <div className='w-[80%] h-[10px] bg-white flex rounded-[5px] relative m-auto'></div>
