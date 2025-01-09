@@ -37,7 +37,7 @@ export default function ActiveEvents() {
     }
 
     return (
-        <div className="flex row justify-center items-center w-[800px] h-[100px] bg-[#331B8C] rounded-[20px]">
+        <div className="flex row justify-center items-center bg-[#6E0BF9] rounded-[20px]">
             <div>
                 <img className="w-[50px] h-[50px] " src={foto} alt="teste" />
             </div>

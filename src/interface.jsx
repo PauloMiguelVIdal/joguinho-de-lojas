@@ -19,13 +19,24 @@ function Interface() {
         <div className="w-[100vw] h-[100vh] bg-[#6A00FF] flex justify-center items-center">
             <Notificação />
             <Events />
-            <div className="w-[90vw] h-[90vh] rounded-[20px] bg-gradient-to-b from-roxo to-roxoForte grid grid-rows-4 grid-cols-5">
-                <MoreOptions/>
-                <Buttons />
-                <Buy />
-                <Dashboard />
-                <Informations />
-                <div className="flex justify-start items-end ">
+            <div className="w-[90vw] h-[90vh] rounded-[20px] bg-gradient-to-b from-roxo to-roxoForte grid grid-rows-4 grid-cols-5 gap-[20px] p-[20px]">
+                <div className="grid col-start-1 col-end-3 row-1">
+                    <MoreOptions />
+                </div>
+                <div className="grid col-3 row-2">
+                    <Buttons />
+                </div>
+                <div className="grid col-start-1 col-end-3 row-start-2 row-end-5">
+                    <Buy />
+                </div>
+                <div className="grid col-start-3 col-end-6 row-start-2 row-end-4">
+                    <Dashboard />
+                </div>
+                <div className="grid col-start-4 col-end-6 row-1">
+
+                    <Informations />
+                </div>
+                <div className="grid col-start-3 col-end-6 row-4">
                     <ActiveEvents />
                 </div>
             </div>

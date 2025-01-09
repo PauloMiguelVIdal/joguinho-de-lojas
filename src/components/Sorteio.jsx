@@ -78,11 +78,11 @@ export default function Sorteio() {
 
     return (
         <div>
-            <button onClick={() => {
+            {/* <button onClick={() => {
                 atualizarDados('iniciarSorteio', true);
                 console.log(dados.modal.estadoModal);
             }} className="bg-white">Sortear</button>
-            <button onClick={sortearNovoEvento}>Sortear Novo Evento</button>
+            <button onClick={sortearNovoEvento}>Sortear Novo Evento</button> */}
         </div>
     );
 };
