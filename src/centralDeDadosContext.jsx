@@ -33,16 +33,25 @@ const [dados, setDados] = useState({
     faturamentoMáximo: 300,
     faturamentoTotal:2130,
     despesas: 0,
-    funcionários: 3
+    funcionários: 3,
+    custoFuncionário: "",
+    custoFuncionárioMínimo: 8,
+    custoFuncionárioMáximo: 12
   },
   lojasP: {
     quantidade: 1,
     preçoConstrução: 50000,
-    faturamentoUnitário: 0,
-    faturamentoMínimo: 800,
-    faturamentoMáximo: 1400,
-    faturamentoTotal: 0,
-    despesas: 0
+    // faturamentoUnitário: 0, faturamento
+    // faturamentoMínimo: 800,
+    // faturamentoMáximo: 1400,
+    // faturamentoTotal: 0,
+    despesas: 0,
+    impostoFixo: 500,
+    impostoSobreFaturamento: 0.03,
+    funcionários: 10,
+    custoFuncionário: "",
+    custoFuncionárioMínimo: 8,
+    custoFuncionárioMáximo: 12
   },
   lojasM: {
     quantidade: 1,
@@ -51,7 +60,13 @@ const [dados, setDados] = useState({
     faturamentoTotal: 0,
     faturamentoMínimo: 2000,
     faturamentoMáximo: 4500,
-    despesas: 0
+    despesas: 0,
+    impostoFixo: 700,
+    impostoSobreFaturamento: 0.04,
+    funcionários: 50,
+    custoFuncionário: "",
+    custoFuncionárioMínimo: 8,
+    custoFuncionárioMáximo: 12
   },
   lojasG: {
     quantidade: 1,
@@ -60,31 +75,18 @@ const [dados, setDados] = useState({
     faturamentoTotal: 0,
     faturamentoMínimo: 5000,
     faturamentoMáximo: 12000,
-    despesas: 0
+    despesas: 0,
+    impostoFixo: 1000,
+    impostoSobreFaturamento: 0.05,
+    funcionários: 100,
+    custoFuncionário: "",
+    custoFuncionárioMínimo: 8,
+    custoFuncionárioMáximo: 12
   },
   despesas: {
     diaPagarDespesas: false,
     despesasPagas: false
   },
-  funcionários: {
-    custo: "",
-    custoMínimo: 8,
-    custoMáximo: 12
-  },
-  impostos: {
-    lojasP: {
-      fixo: 500,
-      sobreFaturamento: 0.03
-    },
-    lojasM: {
-      fixo: 700,
-      sobreFaturamento: 0.04
-    },
-    lojasG: {
-      fixo: 1000,
-      sobreFaturamento: 0.05
-    }
-  }
 });
 
   const atualizarDados = (chave, novoValor) => {

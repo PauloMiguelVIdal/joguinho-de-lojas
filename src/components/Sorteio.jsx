@@ -16,17 +16,21 @@ export default function Sorteio() {
     const sortearNovoEvento = () => {
         const probabilidade = Math.random() * 100;
         if (probabilidade <= dados.chanceNovoEvento) {
-            const todasLojas = ["terrenos", "lojas pequenas", "lojas médias", "lojas grandes"];
+            const todasLojas = [
+                // "terrenos", 
+                "lojas pequenas"
+                // , "lojas médias", "lojas grandes"
+            ];
             const situacao = ["crescimento", "queda"];
             const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
             const periodo = [3, 7
                 , 15, 30
             ];
             const departmentEvents = [
-            "faturamento"
-            , "custos de construção"
-                , "despesas de funcionários"
-                , "impostos fixos"
+            // "faturamento", 
+            "custos de construção"
+                // , "despesas de funcionários"
+                // , "impostos fixos"
             ];
             const judgment = ["ÓTIMO","PÉSSIMO"]
 
@@ -71,10 +75,15 @@ export default function Sorteio() {
 
 
 
+
+
+
+
+
+
+            
             atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
                 console.log("Estado atualizado:", dados.eventoAtual);
-                console.log(resultadoBase)
-                console.log(selecionarJulgamento)
             }
             novoEventoSelecionado()
         }
