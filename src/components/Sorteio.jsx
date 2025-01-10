@@ -19,17 +19,20 @@ export default function Sorteio() {
             const todasLojas = ["terrenos", "lojas pequenas", "lojas médias", "lojas grandes"];
             const situacao = ["crescimento", "queda"];
             const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
-            const periodo = [3, 7, 15, 30];
+            const periodo = [3, 7
+                , 15, 30
+            ];
             const departmentEvents = [
-            "faturamento", "custos de construção"
+            "faturamento"
+            , "custos de construção"
                 , "despesas de funcionários"
                 , "impostos fixos"
             ];
             const judgment = ["ÓTIMO","PÉSSIMO"]
 
             console.log("sorteio ocorreu");
-
-
+            
+            
             const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
             const selecionarPeriodo = selecionarItem(periodo)
             const selecionarPorcentagem = selecionarItem(porcentagem)
@@ -37,9 +40,18 @@ export default function Sorteio() {
             const selecionarLoja = selecionarItem(todasLojas)
             const selecionarJulgamento = selecionarItem(judgment)
             const selecionarDepartamento = selecionarItem(departmentEvents);
+            
+            const resultadoBase = 
+            (selecionarDepartamento==="faturamento"&& selecionarJulgamento==="ÓTIMO") ||
+            (selecionarDepartamento!=="faturamento"&& selecionarJulgamento==="PÉSSIMO") ? 
+            "crescimento" : "queda";
+            
+            
+            console.log(departmentEvents);
+            console.log(judgment);
+
 
             function novoEventoSelecionado() {
-const resultadoBase = departmentEvents==="faturamento" && selecionarJulgamento === "ÓTIMO" || departmentEvents!=="faturamento" && selecionarJulgamento === "PÉSSIMO" ? "crescimento" : "queda";
 
 
                 atualizarDados("eventoAtual", {

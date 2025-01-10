@@ -16,6 +16,13 @@ function Events(){
         console.log(dados.chanceNovoEvento)
     }
 },[dados.eventoAtual])
+
+useEffect(()=>{
+  if(dados.dia===2){
+      atualizarDados("chanceNovoEvento",20)
+       }
+},[dados.dia])
+
 //se o evento atual for mudaddo ele verifica se está verdadeiro e ai modificado a chance
   
   useEffect(()=>{
@@ -35,59 +42,12 @@ function Events(){
 
   
 
-  // useEffect(() => {
-  //     console.log(dados.dia)
-  //   // Verifica se os dados e o evento atual estão definidos antes de prosseguir
-  //   if (dados && dados.eventoAtual) {
-  //     const eventoTerminado = dados.dia > dados.eventoAtual.diaFinal;
-  
-  //     if (eventoTerminado && dados.eventoAtual.eventoAtivo) {
-  //       // Atualiza o estado do evento para desativado
-  //       atualizarDados({ ...dados.eventoAtual, eventoAtivo: false });
-  //       console.log("Evento finalizado e desativado.");
-  //     }
-  //   }
-  // }, [dados?.dia, dados?.eventoAtual?.diaFinal, dados?.eventoAtual?.eventoAtivo]);
-  
-  
-  
-// o problema a cima foi solucionado graças ao  "?." que uitiliza dos operadores opcionais que servem para uso de segurança e par evitar erros por conta que se certificam que ele ira não ira
-// causa erro porem ainda pode se tratar de um erro de undefined
-
-
-
-
-console.log("aqui")
-
-
-
-
-
 
 const eventosCustoFunc = ["custoMínimoFunc", "custoMáximoFunc"];
 const eventosCustoF = ["custo mínimo", "custo máximo"];
 
 
-const novaDataInicial = (dados.dia)
 
-
-
-
-// useEffect(() => {
-  //   // Verifica se é necessário atualizar o evento atual e desativá-lo
-//   if (dados.dia > dados.eventoAtual.diaFinal && dados.eventoAtual.eventoAtivo === true) {
-//     atualizarDados('eventoAtual', {...dados.eventoAtual,eventoAtivo: false});
-//     atualizarDados('eventoAtual', eventoDefault);
-//   }
-// });
-
-
-console.log("Estado do modal após atualização:", dados.modal.estadoModal);
-console.log(dados.modal.estadoModal);
-atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
-
-
-console.log("aqui")
 
 }
 const calcularNovoFaturamento = (valorInicial, situacao, porcentagem) => {
@@ -103,26 +63,7 @@ const calcularNovoFaturamento = (valorInicial, situacao, porcentagem) => {
 
 
 const centralResultado = () => {
-  
-  
-  
-  // Objeto para armazenar os detalhes do evento atual
-  const novoEvento = {};
-  
-  
-  // novoPeriodoDeEvento
-  // atualizarDados({...dados.eventoAtual,diaInicial:{...dados.dia}})
-  
-  
-  // Função para decidir o valor da situação
 
-
-
-
-
-
- 
-  console.log("aqui")
       
       // console.log("chegou aqui")
 
