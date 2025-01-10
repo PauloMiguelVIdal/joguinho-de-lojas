@@ -31,7 +31,7 @@ const [dados, setDados] = useState({
     faturamentoUnitário: 0,
     faturamentoMínimo: 100,
     faturamentoMáximo: 300,
-    faturamentoTotal:2130,
+    faturamentoTotal:0,
     despesas: 0,
     funcionários: 3,
     custoFuncionário: "",
@@ -41,10 +41,10 @@ const [dados, setDados] = useState({
   lojasP: {
     quantidade: 1,
     preçoConstrução: 50000,
-    // faturamentoUnitário: 0, faturamento
-    // faturamentoMínimo: 800,
-    // faturamentoMáximo: 1400,
-    // faturamentoTotal: 0,
+    faturamentoUnitário: 0, 
+    faturamentoMínimo: 800,
+    faturamentoMáximo: 1400,
+    faturamentoTotal: 0,
     despesas: 0,
     impostoFixo: 500,
     impostoSobreFaturamento: 0.03,
