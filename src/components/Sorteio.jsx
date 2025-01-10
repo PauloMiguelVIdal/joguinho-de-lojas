@@ -24,8 +24,11 @@ export default function Sorteio() {
             const situacao = ["crescimento", "queda"];
             const porcentagem = 
             [
-                // 1, 3, 5, 7, 10, 15, 20, 
-                30];
+                // 1, 3, 5, 7, 
+                10
+                // , 15, 20, 
+                // 30
+            ];
             const periodo = [3, 7
                 , 15, 30
             ];
@@ -54,6 +57,7 @@ export default function Sorteio() {
                     (selecionarDepartamento !== "faturamento" && selecionarJulgamento === "PÉSSIMO") ?
                     "crescimento" : "queda";
 
+// const novaPorcentagem = selecionarPorcentagem / 100
 
 
 
@@ -111,7 +115,7 @@ export default function Sorteio() {
                         case "crescimento":
                             return "+";
                         default:
-                            return "nada";
+                            return "-";
                     }
                 }
                 
@@ -121,10 +125,38 @@ export default function Sorteio() {
                 
 
 
+                const valorInicial = () => dados[conversorTodasLojas()][conversorDepartmentEvents()]
+
+                valorInicial()
 
 
 
 
+                // const teste = () => `${valorInicial()} ${conversorSituacao()} ${selecionarPorcentagem}`;
+                const calcular = (valor, porcentagem, operador) => {
+                    switch (operador) {
+                        case "+":
+                            return valor * (1 + porcentagem);
+                        case "-":
+                            return valor * (1 - porcentagem);
+                        default:
+                            throw new Error("Operador inválido");
+                    }
+                };
+
+const calcularEvento = () => {
+    const valor = valorInicial();
+    const porcentagem = parseInt(selecionarPorcentagem)/100;
+    const operador = conversorSituacao();
+
+return Math.round(calcular(valor, porcentagem, operador) * 100) / 100;
+};
+                
+             atualizarDados(`${conversorTodasLojas()}`,{...dados[conversorTodasLojas()],[conversorDepartmentEvents()]:[calcularEvento()]
+             })
+                
+                console.log(calcularEvento())
+                
                 atualizarDados('modal', { ...dados.modal, estadoModal: true });
                 console.log("Estado atualizado:", dados.eventoAtual);
             }
