@@ -50,14 +50,16 @@ export default function NextDay() {
         
     };
 
-  
 
+
+
+  
     const gerarFaturamentoTerrenos = () => {
         const novoFatuUnitárioTerreno = Math.floor(Math.random() * (dados.terrenos.faturamentoMáximo - dados.terrenos.faturamentoMínimo + 1)) + dados.terrenos.faturamentoMínimo;
         const faturamentoTotalTerrenos = (novoFatuUnitárioTerreno * dados.terrenos.quantidade).toFixed(2);
         atualizarDados('terrenos', { 
             ...dados.terrenos, 
-            faturamentoUnitário: novoFatuUnitárioTerreno.toFixed(2),
+            faturamentoUnitário: novoFatuUnitárioTerreno,
             faturamentoTotal: faturamentoTotalTerrenos
         });
     };

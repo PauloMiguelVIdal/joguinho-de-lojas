@@ -22,13 +22,13 @@ export default function Sorteio() {
                 // , "lojas médias", "lojas grandes"
             ];
             const situacao = ["crescimento", "queda"];
-            const porcentagem = 
-            [
-                // 1, 3, 5, 7, 
-                10
-                // , 15, 20, 
-                // 30
-            ];
+            const porcentagem =
+                [
+                    // 1, 3, 5, 7, 
+                    10
+                    // , 15, 20, 
+                    // 30
+                ];
             const periodo = [3, 7
                 , 15, 30
             ];
@@ -57,7 +57,7 @@ export default function Sorteio() {
                     (selecionarDepartamento !== "faturamento" && selecionarJulgamento === "PÉSSIMO") ?
                     "crescimento" : "queda";
 
-// const novaPorcentagem = selecionarPorcentagem / 100
+            // const novaPorcentagem = selecionarPorcentagem / 100
 
 
 
@@ -91,7 +91,7 @@ export default function Sorteio() {
                 }
                 )
 
-                const conversorTodasLojas =()=> {
+                const conversorTodasLojas = () => {
                     switch (`${selecionarLoja}`) {
                         case "lojas pequenas":
                             return "lojasP";
@@ -100,7 +100,7 @@ export default function Sorteio() {
                     }
 
                 }
-                const conversorDepartmentEvents =()=> {
+                const conversorDepartmentEvents = () => {
                     switch (`${selecionarDepartamento}`) {
                         case "custos de construção":
                             return "preçoConstrução";
@@ -110,7 +110,7 @@ export default function Sorteio() {
                 }
 
 
-                const conversorSituacao =()=> {
+                const conversorSituacao = () => {
                     switch (`${resultadoBase}`) {
                         case "crescimento":
                             return "+";
@@ -118,19 +118,10 @@ export default function Sorteio() {
                             return "-";
                     }
                 }
-                
-                console.log(conversorTodasLojas())
-                console.log(conversorDepartmentEvents())
-                console.log(conversorSituacao())
-                
-
 
                 const valorInicial = () => dados[conversorTodasLojas()][conversorDepartmentEvents()]
 
                 valorInicial()
-
-
-
 
                 // const teste = () => `${valorInicial()} ${conversorSituacao()} ${selecionarPorcentagem}`;
                 const calcular = (valor, porcentagem, operador) => {
@@ -144,25 +135,47 @@ export default function Sorteio() {
                     }
                 };
 
-const calcularEvento = () => {
-    const valor = valorInicial();
-    const porcentagem = parseInt(selecionarPorcentagem)/100;
-    const operador = conversorSituacao();
 
-return Math.round(calcular(valor, porcentagem, operador) * 100) / 100;
-};
-                
-             atualizarDados(`${conversorTodasLojas()}`,{...dados[conversorTodasLojas()],[conversorDepartmentEvents()]:[calcularEvento()]
-             })
-                
+                const valorVariavelInicial = 2000
+
+//     const valorVariávelMáximo =  valorVariavelInicial * (1 + 0.3 )  
+//     const valorVariávelMínimo = valorVariavelInicial * (1 - 0.3 )  
+
+//   const formulaGenéricaFaturamento = () =>{
+//     const NovoValorVariável =   Math.floor(Math.random()* (valorVariávelMáximo - valorVariávelMínimo + 1)) + valorVariávelMínimo;
+// faturamentoTotalGenérico = NovoValorVariável * dados.[selecionarLoja]
+
+// atualizarDados(`${conversorTodasLojas()}`,{...dados[conversorTodasLojas()],faturamentoUnitário:NovoValorVariável,
+//     faturamentoTotal: faturamentoTotalGenérico
+// })
+// }
+
+//possivel algoritmo
+
+                const calcularEvento = () => {
+                    const valor = valorInicial();
+                    const porcentagem = parseInt(selecionarPorcentagem) / 100;
+                    const operador = conversorSituacao();
+
+                    return Math.round(calcular(valor, porcentagem, operador) * 100) / 100;
+                };
+
+                atualizarDados(`${conversorTodasLojas()}`, {
+                    ...dados[conversorTodasLojas()], [conversorDepartmentEvents()]: [calcularEvento()]
+                })
+
                 console.log(calcularEvento())
+
                 
+
+
+
                 atualizarDados('modal', { ...dados.modal, estadoModal: true });
                 console.log("Estado atualizado:", dados.eventoAtual);
             }
 
             novoEventoSelecionado()
-         
+
         }
     };
 
@@ -170,16 +183,6 @@ return Math.round(calcular(valor, porcentagem, operador) * 100) / 100;
         sortearNovoEvento()
         console.log("passou aqui")
     }, [dados.dia]);
-
-
-
-
-
-
-
-
-
-
 
 
 
