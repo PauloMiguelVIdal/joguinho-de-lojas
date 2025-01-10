@@ -27,7 +27,7 @@ useEffect(()=>{
   
   useEffect(()=>{
     if(dados.dia === dados.eventoAtual.diaFinal){
-      atualizarDados("eventoAtivo",{...dados.eventoAtual,eventoAtivo:false})
+      atualizarDados("eventoAtual",{...dados.eventoAtual,eventoAtivo:false})
       atualizarDados("chanceNovoEvento",20)
     }
     console.log("use effect chamado")
