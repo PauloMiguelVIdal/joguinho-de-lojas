@@ -4,15 +4,10 @@ import terrenoImg from "../imagens/terreno.png"
 import LojaPImg from "../imagens/lojaP.png"
 import LojaMImg from "../imagens/lojaM.png"
 import LojaGImg from "../imagens/lojaG.png"
-import ConstuirImg from "../imagens/construir.png"
-import DolarImg from "../imagens/simbolo-do-dolar.png"
 
 export default function ActiveEvents() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
-
-    const calculoRestam =
-        dados.eventoAtual.diaFinal
 
 
     let foto

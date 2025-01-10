@@ -5,9 +5,9 @@ export default function Sorteio() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
 
-    const fecharModal = () => { 
-        console.log(dados.eventoAtual)  
-        atualizarDados('modal', { ...dados.modal, estadoModal: false }); 
+    const fecharModal = () => {
+        console.log(dados.eventoAtual)
+        atualizarDados('modal', { ...dados.modal, estadoModal: false });
     };
 
 
@@ -22,21 +22,25 @@ export default function Sorteio() {
                 // , "lojas médias", "lojas grandes"
             ];
             const situacao = ["crescimento", "queda"];
-            const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
+            const porcentagem = 
+            [
+                // 1, 3, 5, 7, 10, 15, 20, 
+                30];
             const periodo = [3, 7
                 , 15, 30
             ];
             const departmentEvents = [
-            // "faturamento", 
-            "custos de construção"
+                // "faturamento", 
+                "custos de construção"
                 // , "despesas de funcionários"
                 // , "impostos fixos"
             ];
-            const judgment = ["ÓTIMO","PÉSSIMO"]
+            const judgment = ["ÓTIMO", "PÉSSIMO"]
 
             console.log("sorteio ocorreu");
-            
-            
+
+            let loja
+
             const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
             const selecionarPeriodo = selecionarItem(periodo)
             const selecionarPorcentagem = selecionarItem(porcentagem)
@@ -44,15 +48,26 @@ export default function Sorteio() {
             const selecionarLoja = selecionarItem(todasLojas)
             const selecionarJulgamento = selecionarItem(judgment)
             const selecionarDepartamento = selecionarItem(departmentEvents);
-            
-            const resultadoBase = 
-            (selecionarDepartamento==="faturamento"&& selecionarJulgamento==="ÓTIMO") ||
-            (selecionarDepartamento!=="faturamento"&& selecionarJulgamento==="PÉSSIMO") ? 
-            "crescimento" : "queda";
-            
-            
+
+            const resultadoBase =
+                (selecionarDepartamento === "faturamento" && selecionarJulgamento === "ÓTIMO") ||
+                    (selecionarDepartamento !== "faturamento" && selecionarJulgamento === "PÉSSIMO") ?
+                    "crescimento" : "queda";
+
+
+
+
+
+
+
+
+
             console.log(departmentEvents);
             console.log(judgment);
+
+
+
+
 
 
             function novoEventoSelecionado() {
@@ -69,23 +84,53 @@ export default function Sorteio() {
                     diaFinal: dados.dia + selecionarPeriodo,
                     departamento: selecionarDepartamento,
                     julgamento: selecionarJulgamento,
-                } 
-            )
-            
+                }
+                )
+
+                const conversorTodasLojas =()=> {
+                    switch (`${selecionarLoja}`) {
+                        case "lojas pequenas":
+                            return "lojasP";
+                        default:
+                            return "nada";
+                    }
+
+                }
+                const conversorDepartmentEvents =()=> {
+                    switch (`${selecionarDepartamento}`) {
+                        case "custos de construção":
+                            return "preçoConstrução";
+                        default:
+                            return "nada";
+                    }
+                }
+
+
+                const conversorSituacao =()=> {
+                    switch (`${resultadoBase}`) {
+                        case "crescimento":
+                            return "+";
+                        default:
+                            return "nada";
+                    }
+                }
+                
+                console.log(conversorTodasLojas())
+                console.log(conversorDepartmentEvents())
+                console.log(conversorSituacao())
+                
 
 
 
 
 
 
-
-
-
-            
-            atualizarDados('modal', { ...dados.modal, estadoModal: true }); 
+                atualizarDados('modal', { ...dados.modal, estadoModal: true });
                 console.log("Estado atualizado:", dados.eventoAtual);
             }
+
             novoEventoSelecionado()
+         
         }
     };
 
