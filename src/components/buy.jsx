@@ -91,7 +91,7 @@ const ComprarTerreno = () => {
             ...dados.terrenos, 
             quantidade: dados.terrenos.quantidade + 1 
         });
-        atualizarDados('saldo', dados.saldo - dados.terrenos.preço);
+        atualizarDados('saldo', dados.saldo - dados.terrenos.preçoConstrução);
     }
 };
 
@@ -123,7 +123,7 @@ const ComprarTerreno = () => {
                             <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                 <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                             </div>
-                            <h1 className="mr-[10px] fonteBold">R$ {dados.terrenos.preço}</h1>
+                            <h1 className="mr-[10px] fonteBold">R$ {dados.terrenos.preçoConstrução}</h1>
                         </div>
                     </div>
                 </div>

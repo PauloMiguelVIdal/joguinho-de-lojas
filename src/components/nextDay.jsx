@@ -7,9 +7,10 @@ import Sorteio from './Sorteio';
 export default function NextDay() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
     const todasLojas = [
-        "terrenos", 
+        "terrenos",
         "lojasP"
-        , "lojasM", "lojasG"
+        , "lojasM", 
+        "lojasG"
     ];
 
 
@@ -49,7 +50,7 @@ export default function NextDay() {
         // gerarFaturamentoLojasP();
         // gerarFaturamentoLojasM();
         // gerarFaturamentoLojasG();
-       
+
         console.log("Dados atualizados:", dados)
         console.log(dados.saldo)
         console.log(dados.eventoAtual)
@@ -61,46 +62,44 @@ export default function NextDay() {
 
     };
 
-    
-    // const valorVariávelMáximo = valorVariavelInicial * (1 + 0.3)
 
-    // const valorVariávelMínimo = valorVariavelInicial * (1 - 0.3)
-
-    // const formulaGenéricaFaturamento = () => {
-
-    //     })
-    // }
-
-
-    // separação
 
     const funçãoFaturamentoGenérico = () => {
         let faturamentoTotalGeral = 0
         todasLojas.forEach(edifícioSelecionado => {
 
-            const valorVariávelMáximo = dados[edifícioSelecionado].faturamentoUnitário * (1 + 0.3 ).toFixed(2)
-            const valorVariávelMínimo = dados[edifícioSelecionado].faturamentoUnitário * (1 - 0.3 ).toFixed(2)
+const valorUnitárioPadrão = dados[edifícioSelecionado].faturamentoUnitárioPadrão
+
+console.log( `valor unitário padrão ${valorUnitárioPadrão}`)
+            const valorPadrãoMáximo = valorUnitárioPadrão * (1 + 0.3).toFixed(2)
+            const valorPadrãoMínimo = valorUnitárioPadrão * (1 - 0.3).toFixed(2)            
+            const valorMáximo = parseFloat(valorPadrãoMáximo)
+            const valorMínimo = parseFloat(valorPadrãoMínimo)
+            // const valorVariávelMáximo = dados[edifícioSelecionado].faturamentoUnitário * (1 + 0.3).toFixed(2)
+            // const valorVariávelMínimo = dados[edifícioSelecionado].faturamentoUnitário * (1 - 0.3).toFixed(2)            
+            // const valorMáximo = parseFloat(valorVariávelMáximo)
+            // const valorMínimo = parseFloat(valorVariávelMínimo)
             
-            const valorMáximo = parseFloat(valorVariávelMáximo)
-            const valorMínimo = parseFloat(valorVariávelMínimo)
+            const novoValorVariável = (Math.floor(Math.random() * (valorMáximo - valorMínimo + 1)) + valorMínimo).toFixed(2);
+            const faturamentoTotalGenérico = (novoValorVariável * dados[edifícioSelecionado].quantidade).toFixed(2)
+          console.log(`esse é o novo valor variável de ${edifícioSelecionado}`,novoValorVariável)
             
-            const novoValorVariável =   (Math.floor(Math.random()* (valorMáximo - valorMínimo + 1)) + valorMínimo).toFixed(2);
-       const faturamentoTotalGenérico = (novoValorVariável * dados[edifícioSelecionado].quantidade).toFixed(2)
-   
-       console.log(dados.saldo)
-       faturamentoTotalGeral += parseFloat(faturamentoTotalGenérico)
-       console.log(dados.saldo)
-       
-       atualizarDados("saldo",dados.saldo + faturamentoTotalGeral)
-       
-       console.log(dados.saldo)
-       atualizarDados(`${edifícioSelecionado}`, {
-            ...dados[edifícioSelecionado], faturamentoUnitário: novoValorVariável,
-            faturamentoTotal: faturamentoTotalGenérico})
+            faturamentoTotalGeral += parseFloat(faturamentoTotalGenérico)
+           
+
+
+
+            atualizarDados("saldo", dados.saldo + faturamentoTotalGeral)
+
+         
+            atualizarDados(`${edifícioSelecionado}`, {
+                ...dados[edifícioSelecionado], faturamentoUnitário: novoValorVariável,
+                faturamentoTotal: faturamentoTotalGenérico
+            })
         })
         console.log(faturamentoTotalGeral)
     }
- 
+
 
 
 
