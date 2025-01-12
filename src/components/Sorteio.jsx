@@ -138,19 +138,7 @@ export default function Sorteio() {
 
                 const valorVariavelInicial = 2000
 
-//     const valorVariávelMáximo =  valorVariavelInicial * (1 + 0.3 )  
-//     const valorVariávelMínimo = valorVariavelInicial * (1 - 0.3 )  
 
-//   const formulaGenéricaFaturamento = () =>{
-//     const NovoValorVariável =   Math.floor(Math.random()* (valorVariávelMáximo - valorVariávelMínimo + 1)) + valorVariávelMínimo;
-// faturamentoTotalGenérico = NovoValorVariável * dados.[selecionarLoja]
-
-// atualizarDados(`${conversorTodasLojas()}`,{...dados[conversorTodasLojas()],faturamentoUnitário:NovoValorVariável,
-//     faturamentoTotal: faturamentoTotalGenérico
-// })
-// }
-
-//possivel algoritmo
 
                 const calcularEvento = () => {
                     const valor = valorInicial();

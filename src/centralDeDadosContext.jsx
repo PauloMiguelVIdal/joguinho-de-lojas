@@ -28,7 +28,7 @@ const [dados, setDados] = useState({
   terrenos: {
     quantidade: 1,
     preço: 70000,
-    faturamentoUnitário: 0,
+    faturamentoUnitário: 10,
     faturamentoMínimo: 100,
     faturamentoMáximo: 300,
     faturamentoTotal:0,
@@ -41,7 +41,7 @@ const [dados, setDados] = useState({
   lojasP: {
     quantidade: 1,
     preçoConstrução: 50000,
-    faturamentoUnitário: 0, 
+    faturamentoUnitário: 20, 
     faturamentoMínimo: 800,
     faturamentoMáximo: 1400,
     faturamentoTotal: 0,
@@ -56,7 +56,7 @@ const [dados, setDados] = useState({
   lojasM: {
     quantidade: 1,
     preçoConstrução: 100000,
-    faturamentoUnitário: 0,
+    faturamentoUnitário: 30,
     faturamentoTotal: 0,
     faturamentoMínimo: 2000,
     faturamentoMáximo: 4500,
@@ -71,7 +71,7 @@ const [dados, setDados] = useState({
   lojasG: {
     quantidade: 1,
     preçoConstrução: 240000,
-    faturamentoUnitário: 0,
+    faturamentoUnitário: 50,
     faturamentoTotal: 0,
     faturamentoMínimo: 5000,
     faturamentoMáximo: 12000,
