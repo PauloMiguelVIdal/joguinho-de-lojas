@@ -21,6 +21,11 @@ const {dados, atualizarDados} = useContext(CentraldeDadosContext)
 //   }, [dados.dia, dados.despesas.despesasPagas]);
 
 
+
+
+
+
+
 const PagarDespesas = () => {
   if (dados.despesas.despesasPagas) {
       return alert("Despesas desse mês já foram pagas.");

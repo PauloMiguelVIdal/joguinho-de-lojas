@@ -31,7 +31,8 @@ const [dados, setDados] = useState({
     faturamentoUnitário: 200,
     faturamentoUnitárioPadrão:200,
     faturamentoTotal:0,
-    despesas: 0,
+    impostoFixo: 100,
+    impostoSobreFaturamento: 0.02,
     funcionários: 3,
     custoFuncionário: "",
     custoFuncionárioMínimo: 8,
@@ -83,6 +84,10 @@ const [dados, setDados] = useState({
     diaPagarDespesas: false,
     despesasPagas: false
   },
+  faturamento:{
+    faturamentoDiário:"",
+    faturamentoMensal: " "  
+  }
 });
 
   const atualizarDados = (chave, novoValor) => {

@@ -17,28 +17,27 @@ export default function Sorteio() {
         const probabilidade = Math.random() * 100;
         if (probabilidade <= dados.chanceNovoEvento) {
             const todasLojas = [
-                "terrenos", 
+                "terrenos",
                 "lojas pequenas"
-                , "lojas médias", 
-                // "lojas grandes"
+                , "lojas médias",
+                "lojas grandes"
             ];
             const situacao = ["crescimento", "queda"];
             const porcentagem =
                 [
-                    // 1, 3, 5, 7, 
-                    // 10
-                    // , 15, 20, 
-                    // 30
-                    99
+                    1, 3, 5, 7,
+                    10
+                    , 15, 20,
+                    30
                 ];
             const periodo = [3, 7
                 , 15, 30
             ];
             const departmentEvents = [
-                "faturamento", 
-                // "custos de construção"
+                "faturamento",
+                "custos de construção"
                 // , "despesas de funcionários"
-                // , "impostos fixos"
+                , "impostos fixos"
             ];
             const judgment = ["ÓTIMO", "PÉSSIMO"]
 
@@ -110,17 +109,17 @@ export default function Sorteio() {
                 }
                 const conversorDepartmentEvents = () => {
                     switch (`${selecionarDepartamento}`) {
-                        // case "custos de construção":
-                        //     return "preçoConstrução";
+                        case "custos de construção":
+                            return "preçoConstrução";
 
                         case "faturamento":
                             return "faturamentoUnitárioPadrão";
 
-                        // case "custos de construção":
-                        //     return "preçoConstrução";
+                        case "imposto fixo":
+                            return "impostoFixo";
 
-                        // case "custos de construção":
-                        //     return "preçoConstrução";
+                        // case "despesas de funcionários":
+                        //     return "custoFuncionário";
 
                         default:
                             return "nada";
@@ -140,7 +139,7 @@ export default function Sorteio() {
                 const valorInicial = () => dados[conversorTodasLojas()][conversorDepartmentEvents()]
 
                 valorInicial()
-console.log(valorInicial())
+                console.log(valorInicial())
                 // const teste = () => `${valorInicial()} ${conversorSituacao()} ${selecionarPorcentagem}`;
                 const calcular = (valor, porcentagem, operador) => {
                     switch (operador) {
@@ -172,7 +171,7 @@ console.log(valorInicial())
 
                 console.log(calcularEvento())
 
-                
+
 
 
 

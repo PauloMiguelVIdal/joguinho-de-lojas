@@ -9,7 +9,7 @@ export default function NextDay() {
     const todasLojas = [
         "terrenos",
         "lojasP"
-        , "lojasM", 
+        , "lojasM",
         "lojasG"
     ];
 
@@ -29,16 +29,13 @@ export default function NextDay() {
 
 
         const novoDia = dados.dia + 1;
-        const saldoAtualizado =
-            dados.saldo +
-            dados.terrenos.quantidade * dados.terrenos.faturamentoUnitário +
-            dados.lojasP.quantidade * dados.lojasP.faturamentoUnitário +
-            dados.lojasM.quantidade * dados.lojasM.faturamentoUnitário +
-            dados.lojasG.quantidade * dados.lojasG.faturamentoUnitário;
+
+
+
 
 
         atualizarDados('dia', novoDia);
-        atualizarDados('saldo', saldoAtualizado);
+
         // atualizarDados('eventoAtual', { ...dados.eventoAtual, eventoAtivo: true });
 
 
@@ -46,10 +43,7 @@ export default function NextDay() {
 
 
         funçãoFaturamentoGenérico()
-        // gerarFaturamentoTerrenos();
-        // gerarFaturamentoLojasP();
-        // gerarFaturamentoLojasM();
-        // gerarFaturamentoLojasG();
+
 
         console.log("Dados atualizados:", dados)
         console.log(dados.saldo)
@@ -65,39 +59,51 @@ export default function NextDay() {
 
 
     const funçãoFaturamentoGenérico = () => {
-        let faturamentoTotalGeral = 0
+        let faturamentoTotalDiário = 0
+        let faturamentoTotalMensal = 0
         todasLojas.forEach(edifícioSelecionado => {
 
-const valorUnitárioPadrão = dados[edifícioSelecionado].faturamentoUnitárioPadrão
+            const valorUnitárioPadrão = dados[edifícioSelecionado].faturamentoUnitárioPadrão
 
-console.log( `valor unitário padrão ${valorUnitárioPadrão}`)
+            console.log(`valor unitário padrão ${valorUnitárioPadrão}`)
             const valorPadrãoMáximo = valorUnitárioPadrão * (1 + 0.3).toFixed(2)
-            const valorPadrãoMínimo = valorUnitárioPadrão * (1 - 0.3).toFixed(2)            
+            const valorPadrãoMínimo = valorUnitárioPadrão * (1 - 0.3).toFixed(2)
             const valorMáximo = parseFloat(valorPadrãoMáximo)
             const valorMínimo = parseFloat(valorPadrãoMínimo)
             // const valorVariávelMáximo = dados[edifícioSelecionado].faturamentoUnitário * (1 + 0.3).toFixed(2)
             // const valorVariávelMínimo = dados[edifícioSelecionado].faturamentoUnitário * (1 - 0.3).toFixed(2)            
             // const valorMáximo = parseFloat(valorVariávelMáximo)
             // const valorMínimo = parseFloat(valorVariávelMínimo)
-            
+
             const novoValorVariável = (Math.floor(Math.random() * (valorMáximo - valorMínimo + 1)) + valorMínimo).toFixed(2);
             const faturamentoTotalGenérico = (novoValorVariável * dados[edifícioSelecionado].quantidade).toFixed(2)
-          console.log(`esse é o novo valor variável de ${edifícioSelecionado}`,novoValorVariável)
-            
-            faturamentoTotalGeral += parseFloat(faturamentoTotalGenérico)
-           
+            console.log(`esse é o novo valor variável de ${edifícioSelecionado}`, novoValorVariável)
+
+            faturamentoTotalDiário += parseFloat(faturamentoTotalGenérico)
+            console.log(faturamentoTotalGenérico);
+
+            // faturamentoTotalMensal += parseFloat(faturamentoTotalDiário)
 
 
 
-            atualizarDados("saldo", dados.saldo + faturamentoTotalGeral)
 
-         
+// console.log(faturamentoTotalGenérico)
+
+
+            atualizarDados("saldo", dados.saldo + faturamentoTotalDiário)
+            console.log(faturamentoTotalDiário)
+
             atualizarDados(`${edifícioSelecionado}`, {
                 ...dados[edifícioSelecionado], faturamentoUnitário: novoValorVariável,
                 faturamentoTotal: faturamentoTotalGenérico
             })
+
+            atualizarDados(dados.faturamento.faturamentoDiário,faturamentoTotalDiário)
+            atualizarDados("faturamentoMensal"+faturamentoTotalMensal)
+            console.log(faturamentoTotalDiário)
+            console.log(faturamentoTotalMensal)
         })
-        console.log(faturamentoTotalGeral)
+        console.log(faturamentoTotalDiário)
     }
 
 

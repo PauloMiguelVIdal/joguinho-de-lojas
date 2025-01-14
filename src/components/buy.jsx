@@ -84,7 +84,7 @@ const ComprarLojaG = () => {
 
 // Comprar Terreno
 const ComprarTerreno = () => {
-    if (dados.saldo < dados.terrenos.preço) {
+    if (dados.saldo < dados.terrenos.preçoConstrução) {
         alert("Você não tem dinheiro suficiente");
     } else {
         atualizarDados('terrenos', { 
