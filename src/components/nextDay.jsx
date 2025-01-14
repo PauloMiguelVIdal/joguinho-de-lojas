@@ -26,6 +26,8 @@ export default function NextDay() {
             return; // Impede o avanço do dia se as despesas não forem pagas
         }
         if (dados.dia % 30 === 0){
+
+            atualizarDados("relatóriosFaturamento",{...dados.relatóriosFaturamento,[dados.dia]:dados.faturamento.faturamentoMensal})
             dados.faturamento.faturamentoMensal = 0;
             atualizarDados("faturamento", dados.faturamento);
             // return alert("foiii")

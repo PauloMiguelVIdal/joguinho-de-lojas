@@ -87,7 +87,11 @@ const [dados, setDados] = useState({
   faturamento:{
     faturamentoDiário:"",
     faturamentoMensal: 0  
+  },
+  relatóriosFaturamento:{
+    
   }
+  
 });
 
   const atualizarDados = (chave, novoValor) => {
