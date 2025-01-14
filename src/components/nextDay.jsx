@@ -25,7 +25,11 @@ export default function NextDay() {
 
             return; // Impede o avanço do dia se as despesas não forem pagas
         }
-
+        if (dados.dia % 30 === 0){
+            dados.faturamento.faturamentoMensal = 0;
+            atualizarDados("faturamento", dados.faturamento);
+            // return alert("foiii")
+        }
 
 
         const novoDia = dados.dia + 1;
@@ -86,6 +90,9 @@ export default function NextDay() {
 const conversorFatuDiário = faturamentoTotalDiário
 
 const faturamentoMensalAtualizado = conversorFatuDiário + (dados.faturamento.faturamentoMensal)
+
+
+
 
 
             atualizarDados("saldo", dados.saldo + faturamentoTotalDiário)
