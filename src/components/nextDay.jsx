@@ -25,13 +25,13 @@ export default function NextDay() {
 
             return; // Impede o avanço do dia se as despesas não forem pagas
         }
-        if (dados.dia % 30 === 0){
+        // if (dados.dia % 30 === 0) {
 
-            atualizarDados("relatóriosFaturamento",{...dados.relatóriosFaturamento,[dados.dia]:dados.faturamento.faturamentoMensal})
-            dados.faturamento.faturamentoMensal = 0;
-            atualizarDados("faturamento", dados.faturamento);
-            // return alert("foiii")
-        }
+        //     atualizarDados("relatóriosFaturamento", { ...dados.relatóriosFaturamento, [dados.dia]:{"faturamentoTotal":dados.faturamento.faturamentoMensal,}  })
+        //     dados.faturamento.faturamentoMensal = 0;
+        //     atualizarDados("faturamento", dados.faturamento);
+        //     // return alert("foiii")
+        // }
 
 
         const novoDia = dados.dia + 1;
@@ -41,11 +41,6 @@ export default function NextDay() {
 
 
         atualizarDados('dia', novoDia);
-
-        // atualizarDados('eventoAtual', { ...dados.eventoAtual, eventoAtivo: true });
-
-
-
 
 
         funçãoFaturamentoGenérico()
@@ -65,7 +60,7 @@ export default function NextDay() {
     let faturamentoTotalDiário = 0;
     let faturamentoTotalMensal = 0;
     const funçãoFaturamentoGenérico = () => {
-     
+
         todasLojas.forEach(edifícioSelecionado => {
 
             const valorUnitárioPadrão = dados[edifícioSelecionado].faturamentoUnitárioPadrão
@@ -75,7 +70,7 @@ export default function NextDay() {
             const valorPadrãoMínimo = valorUnitárioPadrão * (1 - 0.3).toFixed(2)
             const valorMáximo = parseFloat(valorPadrãoMáximo)
             const valorMínimo = parseFloat(valorPadrãoMínimo)
-  
+
 
             const novoValorVariável = (Math.floor(Math.random() * (valorMáximo - valorMínimo + 1)) + valorMínimo).toFixed(2);
             const faturamentoTotalGenérico = (novoValorVariável * dados[edifícioSelecionado].quantidade).toFixed(2)
@@ -89,9 +84,10 @@ export default function NextDay() {
 
 
 
-const conversorFatuDiário = faturamentoTotalDiário
+            const conversorFatuDiário = faturamentoTotalDiário
 
-const faturamentoMensalAtualizado = conversorFatuDiário + (dados.faturamento.faturamentoMensal)
+            const faturamentoMensalAtualizado = conversorFatuDiário + (dados.faturamento.faturamentoMensal)
+
 
 
 
@@ -101,7 +97,7 @@ const faturamentoMensalAtualizado = conversorFatuDiário + (dados.faturamento.fa
 
 
             atualizarDados("faturamento", {
-                ...dados.faturamento, faturamentoDiário: faturamentoTotalDiário, faturamentoMensal:faturamentoMensalAtualizado
+                ...dados.faturamento, faturamentoDiário: faturamentoTotalDiário, faturamentoMensal: faturamentoMensalAtualizado
             })
 
 
@@ -113,9 +109,20 @@ const faturamentoMensalAtualizado = conversorFatuDiário + (dados.faturamento.fa
                 ...dados[edifícioSelecionado], faturamentoUnitário: novoValorVariável,
                 faturamentoTotal: faturamentoTotalGenérico
             })
-          
 
-    
+
+            const conversorFatuDiárioLojas = parseFloat(faturamentoTotalGenérico)
+            const conversorFatuLojas = parseFloat(dados[edifícioSelecionado].faturamentoMensal)
+
+            const faturamentoMensalAtualizadoLojas = conversorFatuDiárioLojas + conversorFatuLojas
+
+
+
+            atualizarDados(`${edifícioSelecionado}`, {
+                ...dados[edifícioSelecionado], faturamentoMensal: faturamentoMensalAtualizadoLojas
+                ,faturamentoUnitário: novoValorVariável, faturamentoTotal: faturamentoTotalGenérico
+            })
+
         })
 
     }
