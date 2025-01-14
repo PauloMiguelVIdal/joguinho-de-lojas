@@ -56,11 +56,10 @@ export default function NextDay() {
 
     };
 
-
-
+    let faturamentoTotalDiário = 0;
+    let faturamentoTotalMensal = 0;
     const funçãoFaturamentoGenérico = () => {
-        let faturamentoTotalDiário = 0
-        let faturamentoTotalMensal = 0
+     
         todasLojas.forEach(edifícioSelecionado => {
 
             const valorUnitárioPadrão = dados[edifícioSelecionado].faturamentoUnitárioPadrão
@@ -70,10 +69,7 @@ export default function NextDay() {
             const valorPadrãoMínimo = valorUnitárioPadrão * (1 - 0.3).toFixed(2)
             const valorMáximo = parseFloat(valorPadrãoMáximo)
             const valorMínimo = parseFloat(valorPadrãoMínimo)
-            // const valorVariávelMáximo = dados[edifícioSelecionado].faturamentoUnitário * (1 + 0.3).toFixed(2)
-            // const valorVariávelMínimo = dados[edifícioSelecionado].faturamentoUnitário * (1 - 0.3).toFixed(2)            
-            // const valorMáximo = parseFloat(valorVariávelMáximo)
-            // const valorMínimo = parseFloat(valorVariávelMínimo)
+  
 
             const novoValorVariável = (Math.floor(Math.random() * (valorMáximo - valorMínimo + 1)) + valorMínimo).toFixed(2);
             const faturamentoTotalGenérico = (novoValorVariável * dados[edifícioSelecionado].quantidade).toFixed(2)
@@ -82,40 +78,25 @@ export default function NextDay() {
             faturamentoTotalDiário += parseFloat(faturamentoTotalGenérico)
             console.log(faturamentoTotalGenérico);
 
-            // faturamentoTotalMensal += parseFloat(faturamentoTotalDiário)
-
-
-
-
-// console.log(faturamentoTotalGenérico)
-
-
-
-// const receberValorDiário = faturamentoTotalGenérico
 
 
 
 
 
+const conversorFatuDiário = faturamentoTotalDiário
 
-
+const faturamentoMensalAtualizado = conversorFatuDiário + (dados.faturamento.faturamentoMensal)
 
 
             atualizarDados("saldo", dados.saldo + faturamentoTotalDiário)
-            // atualizarDados(, ...dados.faturamento: faturamentoTotalDiário)
-            // console.log(faturamentoTotalDiário)
+
 
             atualizarDados("faturamento", {
-                ...dados.faturamento, faturamentoDiário: faturamentoTotalDiário
+                ...dados.faturamento, faturamentoDiário: faturamentoTotalDiário, faturamentoMensal:faturamentoMensalAtualizado
             })
-//faturamento correto
 
 
-// const valorAtualizado = parseFloat(receberValorDiário) + parseFloat(faturamentoTotalDiário)
-// console.log(valorAtualizado)
-            // atualizarDados("faturamento", {
-            //     ...dados.faturamento, faturamentoMensal: faturamentoTotalMensal
-            // })
+
 
 
 
@@ -124,21 +105,11 @@ export default function NextDay() {
                 faturamentoTotal: faturamentoTotalGenérico
             })
           
-            // let faturamentoMensalAtualizado = parseFloat(faturamentoTotalDiário) + (dados.faturamento.faturamentoMensal)
-            // useEffect(()=>{
-                    // atualizarDados("faturamento",{...dados.faturamento,faturamentoMensal:faturamentoMensalAtualizado })          
-                    // console.log(faturamentoMensalAtualizado)
-                // }),[dados.faturamento.faturamentoDiário]
 
-            // atualizarDados(dados.faturamento.faturamentoDiário,faturamentoTotalDiário)
-            // atualizarDados("faturamentoMensal"+faturamentoTotalMensal)
-            console.log(faturamentoTotalDiário)
-            console.log(faturamentoTotalMensal)
-            console.log(dados.faturamento.faturamentoMensal) // ta vindo em forma de número
+    
         })
-        console.log(faturamentoTotalDiário)
-    }
 
+    }
 
 
 
@@ -197,3 +168,7 @@ export default function NextDay() {
         </div>
     )
 }
+
+
+
+
