@@ -90,18 +90,51 @@ export default function NextDay() {
 // console.log(faturamentoTotalGenérico)
 
 
+
+// const receberValorDiário = faturamentoTotalGenérico
+
+
+
+
+
+
+
+
+
             atualizarDados("saldo", dados.saldo + faturamentoTotalDiário)
-            console.log(faturamentoTotalDiário)
+            // atualizarDados(, ...dados.faturamento: faturamentoTotalDiário)
+            // console.log(faturamentoTotalDiário)
+
+            atualizarDados("faturamento", {
+                ...dados.faturamento, faturamentoDiário: faturamentoTotalDiário
+            })
+//faturamento correto
+
+
+// const valorAtualizado = parseFloat(receberValorDiário) + parseFloat(faturamentoTotalDiário)
+// console.log(valorAtualizado)
+            // atualizarDados("faturamento", {
+            //     ...dados.faturamento, faturamentoMensal: faturamentoTotalMensal
+            // })
+
+
 
             atualizarDados(`${edifícioSelecionado}`, {
                 ...dados[edifícioSelecionado], faturamentoUnitário: novoValorVariável,
                 faturamentoTotal: faturamentoTotalGenérico
             })
+          
+            // let faturamentoMensalAtualizado = parseFloat(faturamentoTotalDiário) + (dados.faturamento.faturamentoMensal)
+            // useEffect(()=>{
+                    // atualizarDados("faturamento",{...dados.faturamento,faturamentoMensal:faturamentoMensalAtualizado })          
+                    // console.log(faturamentoMensalAtualizado)
+                // }),[dados.faturamento.faturamentoDiário]
 
-            atualizarDados(dados.faturamento.faturamentoDiário,faturamentoTotalDiário)
-            atualizarDados("faturamentoMensal"+faturamentoTotalMensal)
+            // atualizarDados(dados.faturamento.faturamentoDiário,faturamentoTotalDiário)
+            // atualizarDados("faturamentoMensal"+faturamentoTotalMensal)
             console.log(faturamentoTotalDiário)
             console.log(faturamentoTotalMensal)
+            console.log(dados.faturamento.faturamentoMensal) // ta vindo em forma de número
         })
         console.log(faturamentoTotalDiário)
     }

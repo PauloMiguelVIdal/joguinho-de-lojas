@@ -86,7 +86,7 @@ const [dados, setDados] = useState({
   },
   faturamento:{
     faturamentoDiário:"",
-    faturamentoMensal: " "  
+    faturamentoMensal: ""  
   }
 });
 
