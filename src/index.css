@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+
 
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital@1&family=Inter:wght@200;300;400;600&family=Noto+Serif:ital,wght@1,700&display=swap');
 .largura{
@@ -84,3 +83,7 @@ cursor: pointer;
   cursor: pointer;
   
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

@@ -13,19 +13,69 @@ export default function PayTexes() {
       "lojasG"
   ];
   
+
+
 useEffect(()=>{
   todasLojas.forEach(edifícioSelecionado => {
-    const impostoFixoTotal =  dados[edifícioSelecionado].impostoFixo * dados[edifícioSelecionado].quantidade
+    
+    // const valorunitárioImpostoFixo = (dados[edifícioSelecionado].impostoFixo) * (dados[edifícioSelecionado].quantidade)
     const impostoSobreFaturamentoLojas = dados[edifícioSelecionado].impostoSobreFaturamento
-   const valoresFaturamento = dados[edifícioSelecionado].faturamentoMensal
-const saldoImpostoSobreFaturamento = valoresFaturamento * impostoSobreFaturamentoLojas
-atualizarDados(`${edifícioSelecionado}`,{...dados[edifícioSelecionado],valorImpostoSobreFaturamento:saldoImpostoSobreFaturamento})
-console.log(dados[edifícioSelecionado].faturamentoMensal)
-console.log(impostoSobreFaturamentoLojas)
-})
+    const valoresFaturamento = dados[edifícioSelecionado].faturamentoMensal
+    const valorImpostoSobreFaturamentoAtualizado = valoresFaturamento * impostoSobreFaturamentoLojas
+    console.log(valorImpostoSobreFaturamentoAtualizado)
+    
+
+    
+    atualizarDados(`${edifícioSelecionado}`,{...dados[edifícioSelecionado],
+      valorImpostoSobreFaturamento:valorImpostoSobreFaturamentoAtualizado})
+    
+
+// const valorTotalImpostoFixo = valorunitárioImpostoFixo
+
+// atualizarDados(`${edifícioSelecionado}`,{...dados[edifícioSelecionado],valorImpostoFixoTotal: valorTotalImpostoFixo})
+      
+      
+      
+      
+      
+      
+      // console.log(dados[edifícioSelecionado].faturamentoMensal)
+      // console.log(impostoSobreFaturamentoLojas)
+    })
+  },[dados.dia])
+  
+  
+  
+  //impostos fixos
+  
+  
+//   let impostoFixoTotalDiário = 0
+  
+//   useEffect(()=>{
+//     todasLojas.forEach(edifícioSelecionado => {
+//       const impostoFixoTotal =  dados[edifícioSelecionado].impostoFixo * dados[edifícioSelecionado].quantidade
+//       impostoFixoTotalDiário += parseFloat(impostoFixoTotal)
+//       const impostoDiário1 = impostoFixoTotalDiário + (dados[edifícioSelecionado].valorImpostoSobreFaturamentoAtualizado)
+//       atualizarDados(`${edifícioSelecionado}`,{...dados[edifícioSelecionado],
+//       valorImpostoFixoTotal:impostoFixoTotal})
+    
+//         console.log(impostoFixoTotal)
+    
+//         atualizarDados({...dados.imposto, impostoFixoMensal: impostoFixoTotalDiário
+//     , impostoDiário : impostoDiário1})
+//   })
+// },[dados.dia])
 
 
-},[dados.dia])
+
+
+
+
+
+
+
+
+
   //gera o objeto com o imposto novo no caso diário po conta do lojasp valorImposto sobre faturamento alterar de forma diária
 useEffect(()=>{
   atualizarDados("relatóriosImpostos", { ...dados.relatóriosImpostos,[dados.dia]:
@@ -38,10 +88,18 @@ useEffect(()=>{
       "lojasP":dados.lojasP.valorImpostoSobreFaturamento,
       "lojasM":dados.lojasM.valorImpostoSobreFaturamento,
       "lojasG":dados.lojasG.valorImpostoSobreFaturamento,
-      "total" : dados.terrenos.valorImpostoSobreFaturamento +
+      "valorTotalImpostoFaturamento" : 
+      dados.terrenos.valorImpostoSobreFaturamento +
       dados.lojasP.valorImpostoSobreFaturamento +
       dados.lojasM.valorImpostoSobreFaturamento +
-      dados.lojasG.valorImpostoSobreFaturamento}
+      dados.lojasG.valorImpostoSobreFaturamento,
+
+      "valorTotalImpostoFixo":
+      dados.terrenos.valorImpostoFixoTotal +
+      dados.lojasP.valorImpostoFixoTotal +
+      dados.lojasM.valorImpostoFixoTotal +
+      dados.lojasG.valorImpostoFixoTotal,
+    } 
 })
 },[dados.lojasP.valorImpostoSobreFaturamento])
 
@@ -63,7 +121,17 @@ useEffect(()=>{
 // })
 // },[dados.lojasP.valorImpostoSobreFaturamento])
 
-
+useEffect(() => {
+if(dados.dia % 30 === 0){
+const valorimpostoMensalAtual = 
+dados[relatóriosImpostos][dados.dia].total + 
+dados[relatóriosImpostos][dados.dia].lojasP +
+dados[relatóriosImpostos][dados.dia].lojasM +
+dados[relatóriosImpostos][dados.dia].lojasG +
+impostoFixoTotalSomado
+console.log(impostoFixoTotalSomado)
+}
+},[dados.dia])
 
 
   useEffect(() => {
@@ -102,7 +170,7 @@ useEffect(()=>{
   
     return (
       <div>
-            <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center ml-[10px]"
+            <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center "
                       onClick={PagarDespesas}><img className="w-[72px] h-[72px]" src={despesasImg} /></button>
       </div>
     )

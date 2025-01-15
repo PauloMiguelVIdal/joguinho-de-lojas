@@ -177,7 +177,7 @@ export default function NextDay() {
     return (
 
         <div className="grid col-start-1 col-end-3 row-2">
-            <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center mr-[10px]" onClick={ProximoDia}>
+            <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center" onClick={ProximoDia}>
                 <img className="w-[72px] h-[72px]" src={PróximoImg} />
             </button>
             <Sorteio />
