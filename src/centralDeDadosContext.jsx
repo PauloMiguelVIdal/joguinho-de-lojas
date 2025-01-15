@@ -6,7 +6,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
 const [dados, setDados] = useState({
   saldo: 120000,
-  dia: 28,
+  dia: 1,
   chanceNovoEvento:0,
   modal:{
     estadoModal: false,
@@ -34,6 +34,7 @@ const [dados, setDados] = useState({
     faturamentoMensal: 0,
     impostoFixo: 100,
     impostoSobreFaturamento: 0.02,
+    valorImpostoSobreFaturamento:0,
     funcionários: 3,
     custoFuncionário: "",
     custoFuncionárioMínimo: 8,
@@ -49,6 +50,7 @@ const [dados, setDados] = useState({
     despesas: 0,
     impostoFixo: 500,
     impostoSobreFaturamento: 0.03,
+    valorImpostoSobreFaturamento:0,
     funcionários: 10,
     custoFuncionário: "",
     custoFuncionárioMínimo: 8,
@@ -64,6 +66,7 @@ const [dados, setDados] = useState({
     despesas: 0,
     impostoFixo: 700,
     impostoSobreFaturamento: 0.04,
+    valorImpostoSobreFaturamento:0,
     funcionários: 50,
     custoFuncionário: "",
     custoFuncionárioMínimo: 8,
@@ -79,6 +82,7 @@ const [dados, setDados] = useState({
     despesas: 0,
     impostoFixo: 1000,
     impostoSobreFaturamento: 0.05,
+    valorImpostoSobreFaturamento:0,
     funcionários: 100,
     custoFuncionário: "",
     custoFuncionárioMínimo: 8,

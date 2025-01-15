@@ -27,6 +27,9 @@ const {dados, atualizarDados} = useContext(CentraldeDadosContext)
 
 
 const PagarDespesas = () => {
+
+
+  
   if (dados.despesas.despesasPagas) {
       return alert("Despesas desse mês já foram pagas.");
   } else {
@@ -34,8 +37,13 @@ const PagarDespesas = () => {
       const novoSaldo = dados.saldo - dados.despesas.despesasLojasP - dados.despesas.despesasLojasM - dados.despesas.despesasLojasG;
       // atualizarDados('saldo', novoSaldo);
       atualizarDados('despesas', { ...dados.despesas, despesasPagas: true });
+      
+
+      
       console.log(dados.saldo)
        alert("Despesas pagas.");
+
+
   }
 };
 

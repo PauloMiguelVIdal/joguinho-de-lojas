@@ -8,12 +8,7 @@ function Events(){
   
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const [sorteioAtivo, setSorteioAtivo] = useState(false);
-  const todasLojas = [
-    "terrenos",
-    "lojasP"
-    , "lojasM",
-    "lojasG"
-];
+
   useEffect(()=>{
     if(dados.eventoAtual.eventoAtivo===true){
         atualizarDados("chanceNovoEvento",0)
@@ -31,28 +26,17 @@ useEffect(()=>{
 
 useEffect(()=>{
   if(dados.dia===30){
-    todasLojas.forEach(edifícioSelecionado => {
-      
-    //      const impostoFixoTotal =  dados[edifícioSelecionado].impostoFixo * dados[edifícioSelecionado].quantidade
-    // const impostoSobreFaturamentoLojas = dados[edifícioSelecionado].impostoSobreFaturamento
-    // console.log(`Processando índice`, edifícioSelecionado);
-    // console.log(impostoFixoTotal)
-    // console.log(impostoSobreFaturamentoLojas)
-    // const endereço = dados[edifícioSelecionado].faturamentoMensal
-    atualizarDados("relatóriosFaturamento", { ...dados.relatóriosFaturamento,[dados.dia]:
-      {"lojasP":dados.lojasP.faturamentoMensal,
-        "lojasM":dados.lojasM.faturamentoMensal,
-        "lojasG":dados.lojasG.faturamentoMensal}
-    })
-    // atualizarDados("relatóriosFaturamento", { ...dados.relatóriosFaturamento[dados.dia],[edifícioSelecionado]:endereço})
+
+  atualizarDados("relatóriosFaturamento", { ...dados.relatóriosFaturamento,[dados.dia]:
+    {
+      "terrenos":dados.terrenos.faturamentoMensal,
+      "lojasP":dados.lojasP.faturamentoMensal,
+      "lojasM":dados.lojasM.faturamentoMensal,
+      "lojasG":dados.lojasG.faturamentoMensal}
   })
-  //     {"faturamentoTotal":dados.faturamento.faturamentoMensal,
-  //       [edifícioSelecionado]:endereço}})
+
     dados.faturamento.faturamentoMensal = 0;
-    atualizarDados("faturamento", dados.faturamento);
-    
-  // })
-   
+    atualizarDados("faturamento", dados.faturamento);   
        }
 },[dados.dia])
 

@@ -6,12 +6,72 @@ import despesasImg from "../imagens/despesas.png";
 export default function PayTexes() {
 
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
+    const todasLojas = [
+      "terrenos",
+      "lojasP"
+      , "lojasM",
+      "lojasG"
+  ];
   
-  
+useEffect(()=>{
+  todasLojas.forEach(edifícioSelecionado => {
+    const impostoFixoTotal =  dados[edifícioSelecionado].impostoFixo * dados[edifícioSelecionado].quantidade
+    const impostoSobreFaturamentoLojas = dados[edifícioSelecionado].impostoSobreFaturamento
+   const valoresFaturamento = dados[edifícioSelecionado].faturamentoMensal
+const saldoImpostoSobreFaturamento = valoresFaturamento * impostoSobreFaturamentoLojas
+atualizarDados(`${edifícioSelecionado}`,{...dados[edifícioSelecionado],valorImpostoSobreFaturamento:saldoImpostoSobreFaturamento})
+console.log(dados[edifícioSelecionado].faturamentoMensal)
+console.log(impostoSobreFaturamentoLojas)
+})
+
+
+},[dados.dia])
+  //gera o objeto com o imposto novo no caso diário po conta do lojasp valorImposto sobre faturamento alterar de forma diária
+useEffect(()=>{
+  atualizarDados("relatóriosImpostos", { ...dados.relatóriosImpostos,[dados.dia]:
+    {
+
+      //abaixo é para gerar de forma separada 
+
+      
+      "terrenos":dados.terrenos.valorImpostoSobreFaturamento,
+      "lojasP":dados.lojasP.valorImpostoSobreFaturamento,
+      "lojasM":dados.lojasM.valorImpostoSobreFaturamento,
+      "lojasG":dados.lojasG.valorImpostoSobreFaturamento,
+      "total" : dados.terrenos.valorImpostoSobreFaturamento +
+      dados.lojasP.valorImpostoSobreFaturamento +
+      dados.lojasM.valorImpostoSobreFaturamento +
+      dados.lojasG.valorImpostoSobreFaturamento}
+})
+},[dados.lojasP.valorImpostoSobreFaturamento])
+
+
+// --- seria uma boa forma de armazenar os dados diários em um array e depois somente pegar esse dados
+//  e somar para definir o total diário, ou selecionar um indice e percorrer todos esse arrays que resultando
+// no total sobre todo esse periodo ou criar um gráfico a partir disso
+
+//seria interresante talvez para o faturamento para gerar os gráficos
+
+// useEffect(()=>{
+//   atualizarDados("relatóriosImpostos", { ...dados.relatóriosImpostos,[dados.dia]:
+//     [
+//       // "total": dados.terrenos.valorImpostoSobreFaturamento + dados.lojasP.valorImpostoSobreFaturamento + dados.lojasM.valorImpostoSobreFaturamentodados + dados.lojasG.valorImpostoSobreFaturamento,
+//       dados.terrenos.valorImpostoSobreFaturamento,
+//       dados.lojasP.valorImpostoSobreFaturamento,
+//       dados.lojasM.valorImpostoSobreFaturamento,
+//       dados.lojasG.valorImpostoSobreFaturamento]
+// })
+// },[dados.lojasP.valorImpostoSobreFaturamento])
+
+
+
+
   useEffect(() => {
     // Verifica se é necessário atualizar as despesas e o estado modal
     if (dados.dia % 30 === 0){
         atualizarDados({...dados.despesas,despesasPagas:false})
+        
+
     }
       if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
         const novasDespesas = { ...dados.despesas, despesasPagas: false };
@@ -32,6 +92,10 @@ export default function PayTexes() {
         // atualizarDados('saldo', novoSaldo);
         atualizarDados('despesas', { ...dados.despesas, despesasPagas: true });
         console.log(dados.saldo)
+
+
+
+
          alert("Despesas pagas.");
     }
   };
