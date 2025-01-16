@@ -9,11 +9,9 @@ export default function Buttons() {
 
 
     return (
-        <div className="grid col-start-1 col-end-3 row-start-1 row-end-3">
-            <div className="flex flex-col items-center place-content-around bg-[#6E0BF9] rounded-[20px]">
+            <div className="flex flex-col items-center  rounded-[20px]">
                 <NextDay />
                 <PayTexes />
             </div>
-        </div>
     )
 }
