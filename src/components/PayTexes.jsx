@@ -13,7 +13,7 @@ export default function PayTexes() {
     "lojasG"
   ];
 
-
+  // let impostoTotalDiário = 0;
 
   useEffect(() => {
     todasLojas.forEach(edifícioSelecionado => {
@@ -22,10 +22,12 @@ export default function PayTexes() {
       const valoresFaturamento = dados[edifícioSelecionado].faturamentoMensal
       const valorImpostoSobreFaturamentoAtualizado = valoresFaturamento * impostoSobreFaturamentoLojas
       console.log(valorImpostoSobreFaturamentoAtualizado)
+const impostoFixosLojas = dados[edifícioSelecionado].quantidade * dados[edifícioSelecionado].impostoFixo
+      // impostoTotalDiário += parseFloat(valorImpostoSobreFaturamentoAtualizado) 
 
       atualizarDados(`${edifícioSelecionado}`, {
         ...dados[edifícioSelecionado],
-        valorImpostoSobreFaturamento: valorImpostoSobreFaturamentoAtualizado, valorImpostoFixoTotal: dados[edifícioSelecionado].quantidade * dados[edifícioSelecionado].impostoFixo  
+        valorImpostoSobreFaturamento: valorImpostoSobreFaturamentoAtualizado, valorImpostoFixoTotal: impostoFixosLojas
       })
     })
   }, [dados.dia])
