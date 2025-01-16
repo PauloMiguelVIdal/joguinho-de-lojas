@@ -26,13 +26,13 @@ const CentraldeDadosProvider = ({ children }) => {
       julgamento: "",
     },
     terrenos: {
-      quantidade: 1,
+      quantidade: 0,
       preçoConstrução: 70000,
       faturamentoUnitário: 200,
       faturamentoUnitárioPadrão: 200,
       faturamentoTotal: 0,
       faturamentoMensal: 0,
-      impostoFixo: 100,
+      impostoFixo: 200,
       valorImpostoFixoTotal:0,
       impostoSobreFaturamento: 0.02,
       valorImpostoSobreFaturamento: 0,
@@ -43,7 +43,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasP: {
-      quantidade: 1,
+      quantidade: 0,
       preçoConstrução: 50000,
       faturamentoUnitário: 1100,
       faturamentoUnitárioPadrão: 1100,
@@ -60,7 +60,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasM: {
-      quantidade: 1,
+      quantidade: 0,
       preçoConstrução: 100000,
       faturamentoUnitário: 3300,
       faturamentoUnitárioPadrão: 3300,
@@ -77,7 +77,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasG: {
-      quantidade: 1,
+      quantidade: 0,
       preçoConstrução: 240000,
       faturamentoUnitário: 8000,
       faturamentoUnitárioPadrão: 10000,
@@ -98,7 +98,7 @@ const CentraldeDadosProvider = ({ children }) => {
       despesasPagas: false
     },
     faturamento: {
-      faturamentoDiário: "",
+      faturamentoDiário: 0,
       faturamentoMensal: 0
     },
     relatóriosFaturamento:{
@@ -107,7 +107,8 @@ const CentraldeDadosProvider = ({ children }) => {
     imposto: {
       impostoFixoMensal: "",
       impostoDiário: "",
-      impostoMensal: 0
+      impostoMensal: 0,
+      impostoSobreFaturamentoDiário:""
     },
   relatóriosImpostos: {
 

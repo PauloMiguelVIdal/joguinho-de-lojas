@@ -13,17 +13,50 @@ export default function PayTexes() {
     "lojasG"
   ];
 
-  // let impostoTotalDiário = 0;
-
+  let impostoTotalDiário = 0;
+  let impostoTotalFixoLojas = 0;
+  let impostoValorImpostoSobreFaturamentoAtualizadoDiário = 0;
+  let fatuTotal = 0
   useEffect(() => {
     todasLojas.forEach(edifícioSelecionado => {
 
       const impostoSobreFaturamentoLojas = dados[edifícioSelecionado].impostoSobreFaturamento
       const valoresFaturamento = dados[edifícioSelecionado].faturamentoMensal
+      const valoresFaturamentoDiário = dados[edifícioSelecionado].faturamentoTotal
+                   console.log(valoresFaturamentoDiário)
+
       const valorImpostoSobreFaturamentoAtualizado = valoresFaturamento * impostoSobreFaturamentoLojas
-      console.log(valorImpostoSobreFaturamentoAtualizado)
-const impostoFixosLojas = dados[edifícioSelecionado].quantidade * dados[edifícioSelecionado].impostoFixo
-      // impostoTotalDiário += parseFloat(valorImpostoSobreFaturamentoAtualizado) 
+      const valorImpostoSobreFaturamentoAtualizadoDiário = valoresFaturamentoDiário * impostoSobreFaturamentoLojas
+      
+                   console.log(valorImpostoSobreFaturamentoAtualizadoDiário)
+
+      const impostoFixosLojas = dados[edifícioSelecionado].quantidade * dados[edifícioSelecionado].impostoFixo
+      const somaImposto = impostoFixosLojas + valorImpostoSobreFaturamentoAtualizadoDiário
+
+      impostoTotalFixoLojas += parseFloat(impostoFixosLojas)
+      impostoValorImpostoSobreFaturamentoAtualizadoDiário += parseFloat(valorImpostoSobreFaturamentoAtualizadoDiário)
+      
+                   console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
+      console.log(impostoTotalFixoLojas)
+      fatuTotal += parseFloat(valorImpostoSobreFaturamentoAtualizado)
+
+
+      impostoTotalDiário += parseFloat(somaImposto)
+      console.log(somaImposto)
+      console.log(impostoTotalDiário)
+
+
+      const impostoMensalAtualizado = impostoTotalFixoLojas + fatuTotal
+
+      atualizarDados("imposto", {
+        ...dados.imposto,
+        impostoDiário: impostoTotalDiário,
+        impostoMensal: impostoMensalAtualizado,
+        impostoFixoMensal: impostoTotalFixoLojas,
+        impostoFaturamentoMensal: fatuTotal,
+        impostoSobreFaturamentoDiário: impostoValorImpostoSobreFaturamentoAtualizadoDiário
+      })
+
 
       atualizarDados(`${edifícioSelecionado}`, {
         ...dados[edifícioSelecionado],
@@ -99,7 +132,7 @@ const impostoFixosLojas = dados[edifícioSelecionado].quantidade * dados[edifíc
           dados.lojasG.valorImpostoFixoTotal,
       }
     })
-  }, [dados.lojasP.valorImpostoSobreFaturamento])
+  }, [dados.terrenos.valorImpostoSobreFaturamento||dados.lojasP.valorImpostoSobreFaturamento||dados.lojasM.valorImpostoSobreFaturamento||dados.lojasG.valorImpostoSobreFaturamento])
 
 
   // --- seria uma boa forma de armazenar os dados diários em um array e depois somente pegar esse dados

@@ -48,7 +48,7 @@ const PagarDespesas = () => {
 };
 
   return (
-    <div className='bg-black'>
+    <div className='bg-[#6E0BF9] rounded-[40px]'>
 
           {/* <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center ml-[10px]"
                     onClick={PagarDespesas}><img className="w-[72px] h-[72px]" src={despesasImg} /></button> */}
