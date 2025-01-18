@@ -26,24 +26,26 @@ const CentraldeDadosProvider = ({ children }) => {
       julgamento: "",
     },
     terrenos: {
-      quantidade: 0,
+      quantidade: 1,
       preçoConstrução: 70000,
       faturamentoUnitário: 200,
       faturamentoUnitárioPadrão: 200,
       faturamentoTotal: 0,
       faturamentoMensal: 0,
       impostoFixo: 200,
-      valorImpostoFixoTotal:0,
+      valorImpostoFixoTotal: 0,
       impostoSobreFaturamento: 0.02,
       valorImpostoSobreFaturamento: 0,
       valorImpostoMensal: 0,
-      funcionários: 3,
+      funcionários:3,
       custoFuncionário: "",
+      custoFuncionárioUnitárioPadrão: 200,
+      valorfuncionárioTotal: 0,
       custoFuncionárioMínimo: 8,
       custoFuncionárioMáximo: 12
     },
     lojasP: {
-      quantidade: 0,
+      quantidade: 1,
       preçoConstrução: 50000,
       faturamentoUnitário: 1100,
       faturamentoUnitárioPadrão: 1100,
@@ -51,16 +53,18 @@ const CentraldeDadosProvider = ({ children }) => {
       faturamentoMensal: 0,
       despesas: 0,
       impostoFixo: 500,
-      valorImpostoFixoTotal:0,
+      valorImpostoFixoTotal: 0,
       impostoSobreFaturamento: 0.03,
-      valorImpostoSobreFaturamento:0,
-      funcionários: 10,
+      valorImpostoSobreFaturamento: 0,
+      funcionários:10,
       custoFuncionário: "",
+      custoFuncionárioUnitárioPadrão: 200,
+      valorfuncionárioTotal: 0,
       custoFuncionárioMínimo: 8,
       custoFuncionárioMáximo: 12
     },
     lojasM: {
-      quantidade: 0,
+      quantidade: 1,
       preçoConstrução: 100000,
       faturamentoUnitário: 3300,
       faturamentoUnitárioPadrão: 3300,
@@ -68,16 +72,18 @@ const CentraldeDadosProvider = ({ children }) => {
       faturamentoMensal: 0,
       despesas: 0,
       impostoFixo: 700,
-      valorImpostoFixoTotal:0,
+      valorImpostoFixoTotal: 0,
       impostoSobreFaturamento: 0.04,
-      valorImpostoSobreFaturamento:0,
-      funcionários: 50,
+      valorImpostoSobreFaturamento: 0,
+      funcionários:50,
       custoFuncionário: "",
+      custoFuncionárioUnitárioPadrão: 200,
+      valorfuncionárioTotal: 0,
       custoFuncionárioMínimo: 8,
       custoFuncionárioMáximo: 12
     },
     lojasG: {
-      quantidade: 0,
+      quantidade: 1,
       preçoConstrução: 240000,
       faturamentoUnitário: 8000,
       faturamentoUnitárioPadrão: 10000,
@@ -85,11 +91,13 @@ const CentraldeDadosProvider = ({ children }) => {
       faturamentoMensal: 0,
       despesas: 0,
       impostoFixo: 1000,
-      valorImpostoFixoTotal:0,
+      valorImpostoFixoTotal: 0,
       impostoSobreFaturamento: 0.05,
-      valorImpostoSobreFaturamento:0,
-      funcionários: 100,
+      valorImpostoSobreFaturamento: 0,
+      funcionários:100,
       custoFuncionário: "",
+      custoFuncionárioUnitárioPadrão: 200,
+      valorfuncionárioTotal: 0,
       custoFuncionárioMínimo: 8,
       custoFuncionárioMáximo: 12
     },
@@ -101,16 +109,26 @@ const CentraldeDadosProvider = ({ children }) => {
       faturamentoDiário: 0,
       faturamentoMensal: 0
     },
-    relatóriosFaturamento:{
-     
+    relatóriosFaturamento: {
+
     },
     imposto: {
       impostoFixoMensal: "",
       impostoDiário: "",
       impostoMensal: 0,
-      impostoSobreFaturamentoDiário:""
+      impostoSobreFaturamentoDiário: ""
     },
-  relatóriosImpostos: {
+    valoresDespesas: {
+      terrenos: 0,
+      lojasP: 0,
+      lojasM: 0,
+      lojasG: 0,
+      impostos: 0,
+      funcionários: 0,
+      despesasTotais: 0
+    },
+
+    relatóriosImpostos: {
 
     }
   });

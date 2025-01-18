@@ -19,6 +19,7 @@ function Interface() {
     return (
         <div className="w-[100vw] bg-gradient-to-b from-[#6411D9] to-[#350973] h-[100vh]  flex justify-center items-center">
             <Events />
+            <Employees/>
             <Notificação />
             <div className="w-[95vw] h-[90vh] rounded-[40px] bg-gradient-to-b from-[#6E0BF9] to-[#F27405] grid grid-rows-9 grid-cols-8 gap-[20px] p-[20px]">
                 <div className="grid col-start-1 col-end-3 row-start-7 row-end-10">

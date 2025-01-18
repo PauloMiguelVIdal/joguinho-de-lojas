@@ -7,6 +7,7 @@ export default function Texes() {
 
 const {dados, atualizarDados} = useContext(CentraldeDadosContext)
 
+
 // useEffect(() => {
 //   // Verifica se é necessário atualizar as despesas e o estado modal
 //   if (dados.dia % 30 === 0){
