@@ -3,36 +3,36 @@ import { useContext } from 'react'
 import { CentraldeDadosContext } from '../centralDeDadosContext'
 export default function Employees() {
 
-const {dados, atualizarDados} = useContext(CentraldeDadosContext)
+  const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
-const todasLojas = [
-  "terrenos",
-  "lojasP"
-  , "lojasM",
-  "lojasG"
-];
+  const todasLojas = [
+    "terrenos",
+    "lojasP"
+    , "lojasM",
+    "lojasG"
+  ];
 
-let funcionáriosTotalDiário = 0;
+  let funcionáriosTotalDiário = 0;
   useEffect(() => {
     todasLojas.forEach(edifícioSelecionado => {
 
       const valorUnitárioPadrão = dados[edifícioSelecionado].custoFuncionárioUnitárioPadrão
-console.log(valorUnitárioPadrão)
+      console.log(valorUnitárioPadrão)
 
 
 
-      const funcionárioTotalGenérico = (valorUnitárioPadrão * dados[edifícioSelecionado].funcionários * dados[edifícioSelecionado].quantidade).toFixed(2)
+      const funcionárioTotalGenérico = (valorUnitárioPadrão * dados[edifícioSelecionado].funcionários * dados[edifícioSelecionado].quantidade)
 
-console.log(funcionárioTotalGenérico)
+      console.log(funcionárioTotalGenérico)
 
 
-      funcionáriosTotalDiário += parseFloat(funcionárioTotalGenérico)
+      // funcionáriosTotalDiário += parseFloat(funcionárioTotalGenérico)
 
 
       const novoValorTotalFuncionário = funcionáriosTotalDiário
 
       atualizarDados(`${edifícioSelecionado}`, {
-        ...dados[edifícioSelecionado], valorfuncionárioTotal: funcionárioTotalGenérico,
+        ...dados[edifícioSelecionado], valorfuncionárioTotal: funcionárioTotalGenérico
       })
       atualizarDados("valoresDespesas", {
         ...dados.valoresDespesas, funcionários: novoValorTotalFuncionário
@@ -40,7 +40,7 @@ console.log(funcionárioTotalGenérico)
 
     })
 
-  }, [dados.dia])
+  },[dados.dia])
 
 
 
