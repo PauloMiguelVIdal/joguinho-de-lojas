@@ -97,11 +97,11 @@ export default function Buy() {
 
 
     return (
-        <div className="grid row-1 cols-1">
+      
             <div className="flex flex-col ">
 
                 <div className=" flex flex-col w-full h-full">
-                    <div className="flex justify-around flex-col h-full w-full  ">
+                    <div className="flex justify-around flex-col h-full w-full max-h-[35%] ">
 
                         <div className="flex w-full h-1/4 place-content-around items-center flex-col bg-[#E06900] rounded-[20px]  mb-[20px] " >
                             <div className='flex h-2/3 place-content-around items-center w-[90%] h-[70%]'>
@@ -278,6 +278,6 @@ export default function Buy() {
 
                 </div>
             </div>
-        </div>
+       
     )
 }
