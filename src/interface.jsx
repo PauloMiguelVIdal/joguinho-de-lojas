@@ -25,7 +25,7 @@ function Interface() {
                 <div className="grid col-start-1 col-end-3 row-start-8 row-end-10">
                     <MoreOptions />
                 </div>
-                <div className="grid col-3  row-start-2 row-end-4">
+                <div className="grid col-3  row-start-1 row-end-4">
                     <Buttons />
                 </div>
                 <div className="grid col-start-4 col-end-9 row-start-1 row-end-10">
@@ -37,7 +37,7 @@ function Interface() {
                 <div className="grid col-start-3 col-end-7 row-start-4 row-end-9">
                     <Dashboard />
                 </div>
-                <div className="grid col-start-4 col-end-10 row-start-2 row-end-4">
+                <div className="grid col-start-4 col-end-10 row-start-1 row-end-4">
                     <Informations />
                 </div>
                 <div className="grid col-start-3 col-end-10 row-start-9 row-end-10">
