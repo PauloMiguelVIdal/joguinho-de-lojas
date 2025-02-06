@@ -136,7 +136,7 @@ export default function Buy() {
                             </div>
 
 
-                            <div className="bg-roxo w-[17%] max-w-[40px] aspect-square rounded-[10px] left-[50%] bottom-[50%] flex justify-center items-center relative z-10">
+                            <div className="bg-roxo w-[17%] max-w-[40px] aspect-square rounded-[10px] left-[50%] bottom-[50%] flex justify-center items-center relative z-6">
                                 <h1 className="text-white fonteBold">
                                     {dados.terrenos.quantidade}
                                 </h1>
@@ -182,7 +182,7 @@ export default function Buy() {
                             </div>
 
 
-                            <div className="bg-roxo w-[17%] max-w-[40px] aspect-square rounded-[10px] left-[50%] bottom-[50%] flex justify-center items-center relative z-10">
+                            <div className="bg-roxo w-[17%] max-w-[40px] aspect-square rounded-[10px] left-[50%] bottom-[50%] flex justify-center items-center relative z-6">
                                 <h1 className="text-white fonteBold">
                                     {dados.lojasP.quantidade}
                                 </h1>
@@ -225,7 +225,7 @@ export default function Buy() {
                             </div>
 
 
-                            <div className="bg-roxo w-[17%] max-w-[40px] aspect-square rounded-[10px] left-[50%] bottom-[50%] flex justify-center items-center relative z-10">
+                            <div className="bg-roxo w-[17%] max-w-[40px] aspect-square rounded-[10px] left-[50%] bottom-[50%] flex justify-center items-center relative z-6">
                                 <h1 className="text-white fonteBold">
                                     {dados.lojasM.quantidade}
                                 </h1>
@@ -266,7 +266,7 @@ export default function Buy() {
                             </div>
 
 
-                            <div className="bg-roxo w-[17%] max-w-[40px] aspect-square rounded-[10px] left-[50%] bottom-[50%] flex justify-center items-center relative z-10">
+                            <div className="bg-roxo w-[17%] max-w-[40px] aspect-square rounded-[10px] left-[50%] bottom-[50%] flex justify-center items-center relative z-6">
                                 <h1 className="text-white fonteBold">
                                     {dados.lojasG.quantidade}
                                 </h1>

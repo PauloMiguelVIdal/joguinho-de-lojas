@@ -152,17 +152,13 @@ export default function PayTexes() {
   // })
   // },[dados.lojasP.valorImpostoSobreFaturamento])
 
-  useEffect(() => {
-    if (dados.dia % 30 === 0) {
-      const valorimpostoMensalAtual =
-        dados[relatóriosImpostos][dados.dia].total +
-        dados[relatóriosImpostos][dados.dia].lojasP +
-        dados[relatóriosImpostos][dados.dia].lojasM +
-        dados[relatóriosImpostos][dados.dia].lojasG +
-        impostoFixoTotalSomado
-      console.log(impostoFixoTotalSomado)
-    }
-  }, [dados.dia])
+  // useEffect(() => {
+  //   if (dados.dia % 30 === 0) {
+  //     const valorimpostoMensalAtual = dados.imposto.impostoMensal
+      
+  //    })
+  //   }
+  // }, [dados.dia])
 
 
   useEffect(() => {
@@ -187,8 +183,8 @@ export default function PayTexes() {
       return alert("Despesas desse mês já foram pagas.");
     } else {
 
-      const novoSaldo = dados.saldo - dados.despesas.despesasLojasP - dados.despesas.despesasLojasM - dados.despesas.despesasLojasG;
-      // atualizarDados('saldo', novoSaldo);
+      const novoSaldo = dados.saldo - dados.imposto.impostoMensal;
+      atualizarDados('saldo', novoSaldo);
       atualizarDados('despesas', { ...dados.despesas, despesasPagas: true });
       console.log(dados.saldo)
 
