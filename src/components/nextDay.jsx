@@ -177,8 +177,8 @@ export default function NextDay() {
     return (
 
         <div className="grid col-start-1 col-end-3 row-2">
-            <button className="w-[50%] w-max-[70px] aspect-square bg-laranja rounded-[20px] flex items-center justify-center" onClick={ProximoDia}>
-                <img className="w-[80%] w-max-[58px] aspect-square" src={PróximoImg} />
+            <button className="w-[50%] w-max-[70px] w-full w-min-[70px] aspect-square bg-laranja rounded-[20px] flex items-center justify-center" onClick={ProximoDia}>
+                <img className="w-[60%] w-max-[58px] aspect-square" src={PróximoImg} />
             </button>
             <Sorteio />
         </div>

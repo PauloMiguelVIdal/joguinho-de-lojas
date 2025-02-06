@@ -201,7 +201,7 @@ export default function PayTexes() {
 
   return (
     <div className="flex">
-      <button className="w-[50%] w-max-[70px] aspect-square bg-laranja rounded-[20px] flex items-center justify-center "
+      <button className="w-[50%] w-max-[70px] w-full aspect-square bg-laranja rounded-[20px] flex items-center justify-center "
         onClick={PagarDespesas}><img className="w-[60%] w-max-[58px] aspect-square" src={despesasImg} /></button>
     </div>
   )
