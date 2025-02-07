@@ -18,8 +18,12 @@ export default function PayTexes() {
   let impostoValorImpostoSobreFaturamentoAtualizadoDiário = 0;
   let fatuTotal = 0
   useEffect(() => {
-    todasLojas.forEach(edifícioSelecionado => {
 
+
+    
+
+
+    todasLojas.forEach(edifícioSelecionado => {
       const impostoSobreFaturamentoLojas = dados[edifícioSelecionado].impostoSobreFaturamento
       const valoresFaturamento = dados[edifícioSelecionado].faturamentoMensal
       const valoresFaturamentoDiário = dados[edifícioSelecionado].faturamentoTotal
@@ -47,7 +51,10 @@ export default function PayTexes() {
 
 
       const impostoMensalAtualizado = impostoTotalFixoLojas + fatuTotal
-
+      if (dados.dia % 30 === 0){
+        impostoValorImpostoSobreFaturamentoAtualizadoDiário = 0;
+        fatuTotal = 0
+      }
       atualizarDados("imposto", {
         ...dados.imposto,
         impostoDiário: impostoTotalDiário,
@@ -56,8 +63,8 @@ export default function PayTexes() {
         impostoFaturamentoMensal: fatuTotal,
         impostoSobreFaturamentoDiário: impostoValorImpostoSobreFaturamentoAtualizadoDiário
       })
-
-
+console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
+console.log(fatuTotal)
       atualizarDados(`${edifícioSelecionado}`, {
         ...dados[edifícioSelecionado],
         valorImpostoSobreFaturamento: valorImpostoSobreFaturamentoAtualizado, valorImpostoFixoTotal: impostoFixosLojas
@@ -164,6 +171,7 @@ export default function PayTexes() {
   useEffect(() => {
     // Verifica se é necessário atualizar as despesas e o estado modal
     if (dados.dia % 30 === 0) {
+      
       atualizarDados({ ...dados.despesas, despesasPagas: false })
 
 
@@ -186,7 +194,13 @@ export default function PayTexes() {
       const novoSaldo = dados.saldo - dados.imposto.impostoMensal;
       atualizarDados('saldo', novoSaldo);
       atualizarDados('despesas', { ...dados.despesas, despesasPagas: true });
+      atualizarDados('imposto', { ...dados.imposto, impostoMensal: 0 });
+      atualizarDados('imposto', { ...dados.imposto, impostoSobreFaturamentoDiário:0});
+      atualizarDados('imposto', { ...dados.imposto, impostoFaturamentoMensal: 0 });
+      atualizarDados('faturamento', { ...dados.faturamento, faturamentoMensal: 0 });
+      atualizarDados('faturamento', { ...dados.faturamento, faturamentoDiário: 0 });
       console.log(dados.saldo)
+      
 
 
 
