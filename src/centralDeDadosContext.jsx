@@ -118,6 +118,12 @@ const CentraldeDadosProvider = ({ children }) => {
       impostoMensal: 0,
       impostoSobreFaturamentoDiário: ""
     },
+    imposto2: {
+      impostoFixoMensal:[],
+      impostoDiário: [],
+      impostoMensal: [],
+      impostoSobreFaturamentoDiário: []
+    },
     valoresDespesas: {
       terrenos: 0,
       lojasP: 0,

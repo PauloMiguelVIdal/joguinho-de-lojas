@@ -51,6 +51,7 @@ if(dados.eventoAtual.eventoAtivo===false){
                 </div>
                 <div className="bg-white flex place-content-around items-center  rounded-[16px] w-full h-1/2 fonteBold">
                     Data de encerramento : {dados.eventoAtual.diaFinal}
+                    123
                 </div>
             </div>
 
