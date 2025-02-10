@@ -53,7 +53,7 @@ export default function PayTexes() {
       const impostoMensalAtualizado = impostoTotalFixoLojas + fatuTotal
       if (dados.dia % 30 === 0){
         impostoValorImpostoSobreFaturamentoAtualizadoDiário = 0;
-        fatuTotal = 0
+        // fatuTotal = 0
       }
       atualizarDados("imposto", {
         ...dados.imposto,
@@ -194,11 +194,11 @@ console.log(fatuTotal)
       const novoSaldo = dados.saldo - dados.imposto.impostoMensal;
       atualizarDados('saldo', novoSaldo);
       atualizarDados('despesas', { ...dados.despesas, despesasPagas: true });
-      atualizarDados('imposto', { ...dados.imposto, impostoMensal: 0 });
-      atualizarDados('imposto', { ...dados.imposto, impostoSobreFaturamentoDiário:0});
-      atualizarDados('imposto', { ...dados.imposto, impostoFaturamentoMensal: 0 });
-      atualizarDados('faturamento', { ...dados.faturamento, faturamentoMensal: 0 });
-      atualizarDados('faturamento', { ...dados.faturamento, faturamentoDiário: 0 });
+      // atualizarDados('imposto', { ...dados.imposto, impostoMensal: 0 });
+      // atualizarDados('imposto', { ...dados.imposto, impostoSobreFaturamentoDiário:0});
+      // atualizarDados('imposto', { ...dados.imposto, impostoFaturamentoMensal: 0 });
+      // atualizarDados('faturamento', { ...dados.faturamento, faturamentoMensal: 0 });
+      // atualizarDados('faturamento', { ...dados.faturamento, faturamentoDiário: 0 });
       console.log(dados.saldo)
       
 

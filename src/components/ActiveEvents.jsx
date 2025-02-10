@@ -32,33 +32,67 @@ export default function ActiveEvents() {
     }
 
 
-if(dados.eventoAtual.eventoAtivo===false){
-    return(
-        <div className="flex row items-center place-content-around bg-[#6E0BF9] rounded-[20px] w-full">Nenhum evento ativo</div>
-    )
-}else{
+    if (dados.eventoAtual.eventoAtivo === false) {
+        return (
+            <div className="flex row items-center place-content-around bg-[#6E0BF9] rounded-[20px] w-full">Nenhum evento ativo</div>
+        )
+    } else {
 
-    
-    return (
-        <div className="flex row items-center place-content-around bg-[#6E0BF9] rounded-[20px] w-full">
-            <div className="bg-[#331B8C] rounded-[20px]">
-                <img className="h-[80px] m-[20px]" src={foto} alt="teste" />
-            </div>
-            <div className="flex flex-col items-center h-full w-[70%] p-[10px]">
-                
-                <div className="flex fonteLight place-content-around items-center h-1/2 ">
-                   <h2 className="text-[18px] text-white"> {dados.eventoAtual.title}</h2>
+
+        return (
+            <div className="flex w-full ">
+                <div className="flex flex-col items-center place-content-around bg-[#6411D9] rounded-[5px] w-full">
+
+                    <div className="w-[95%] bg-[#331B8C] flex place-content-between ">
+                        <div><h1 className="text-white">LojasP</h1></div>
+
+                        <div className="bg-[#6E0BF9] rounded-[20px] w-[20px] h-[20px] flex items-center justify-center">
+                            <img className="h-[20px] m-[20px]" src={foto} alt="teste" />
+                        </div>
+                    </div>
+                    <div className="flex fonteLight place-content-around items-center h-1/2 ">
+                        <h2 className="text-[18px] text-white"> {dados.eventoAtual.title}</h2>
+                    </div>
+                    <div className="bg-[#350973] flex place-content-around items-center text-white rounded-[16px] w-[95%] h-1/2 fonteBold">
+                        Data de encerramento : {dados.eventoAtual.diaFinal}
+                    </div>
                 </div>
-                <div className="bg-white flex place-content-around items-center  rounded-[16px] w-full h-1/2 fonteBold">
-                    Data de encerramento : {dados.eventoAtual.diaFinal}
-                    123
+                <div className="flex flex-col items-center place-content-around bg-[#6411D9] rounded-[5px] w-full">
+
+                    <div className="w-[95%] bg-[#331B8C] flex place-content-between ">
+                        <div><h1 className="text-white">LojasP</h1></div>
+
+                        <div className="bg-[#6E0BF9] rounded-[20px] w-[20px] h-[20px] flex items-center justify-center">
+                            <img className="h-[20px] m-[20px]" src={foto} alt="teste" />
+                        </div>
+                    </div>
+                    <div className="flex fonteLight place-content-around items-center h-1/2 ">
+                        <h2 className="text-[18px] text-white"> {dados.eventoAtual.title}</h2>
+                    </div>
+                    <div className="bg-[#350973] flex place-content-around items-center text-white rounded-[16px] w-[95%] h-1/2 fonteBold">
+                        Data de encerramento : {dados.eventoAtual.diaFinal}
+                    </div>
+                </div>
+                <div className="flex flex-col items-center place-content-around bg-[#6411D9] rounded-[5px] w-full">
+
+                    <div className="w-[95%] bg-[#331B8C] flex place-content-between ">
+                        <div><h1 className="text-white">LojasP</h1></div>
+
+                        <div className="bg-[#6E0BF9] rounded-[20px] w-[20px] h-[20px] flex items-center justify-center">
+                            <img className="h-[20px] m-[20px]" src={foto} alt="teste" />
+                        </div>
+                    </div>
+                    <div className="flex fonteLight place-content-around items-center h-1/2 ">
+                        <h2 className="text-[18px] text-white"> {dados.eventoAtual.title}</h2>
+                    </div>
+                    <div className="bg-[#350973] flex place-content-around items-center text-white rounded-[5px] w-[95%] h-1/3 fonteBold">
+                        Data de encerramento : {dados.eventoAtual.diaFinal}
+                    </div>
                 </div>
             </div>
+        )
 
+    }
 
-
-        </div>
-    )
 }
-    
-}
+

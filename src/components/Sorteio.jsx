@@ -34,10 +34,10 @@ export default function Sorteio() {
                 , 15, 30
             ];
             const departmentEvents = [
-                "faturamento",
+                // "faturamento",
                 "custos de construção"
                 // , "despesas de funcionários"
-                , "impostos fixos"
+                // , "impostos fixos"
             ];
             const judgment = ["ÓTIMO", "PÉSSIMO"]
 
@@ -138,9 +138,10 @@ export default function Sorteio() {
 
                 const valorInicial = () => dados[conversorTodasLojas()][conversorDepartmentEvents()]
 
-                valorInicial()
-                console.log(valorInicial())
+                // valorInicial()
+                // console.log(valorInicial())
                 // const teste = () => `${valorInicial()} ${conversorSituacao()} ${selecionarPorcentagem}`;
+                // console.log(teste)
                 const calcular = (valor, porcentagem, operador) => {
                     switch (operador) {
                         case "+":
@@ -164,13 +165,22 @@ export default function Sorteio() {
 
                     return Math.round(calcular(valor, porcentagem, operador) * 100) / 100;
                 };
+                const novoValor = calcularEvento(); // Calcula o valor
+console.log(novoValor)
 
-                atualizarDados(`${conversorTodasLojas()}`, {
-                    ...dados[conversorTodasLojas()], [conversorDepartmentEvents()]: [calcularEvento()]
-                })
+
+
+atualizarDados(`${conversorTodasLojas()}`, {
+    ...dados[conversorTodasLojas()], // Copia o estado atual da loja
+    [conversorDepartmentEvents()]: novoValor // Atualiza apenas a propriedade específica
+});
+
+
 
                 console.log(calcularEvento())
-
+                console.log(conversorTodasLojas())
+                console.log(conversorDepartmentEvents())
+console.log("oiiiiiiiiiiiii")
 
 
 

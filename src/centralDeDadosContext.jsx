@@ -6,7 +6,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
   const [dados, setDados] = useState({
     saldo: 120000,
-    dia: 25,
+    dia: 1,
     chanceNovoEvento: 0,
     modal: {
       estadoModal: false,
@@ -25,8 +25,32 @@ const CentraldeDadosProvider = ({ children }) => {
       departamento: "",
       julgamento: "",
     },
+    eventoAtual1: {
+      eventoAtivo: false,
+      title: "",
+      LojaSelecionada: "",
+      situacaoSelecionada: "",
+      porcentagemSelecionada: "",
+      periodoSelecionado: "",
+      diaInicial: "",
+      diaFinal: "",
+      departamento: "",
+      julgamento: "",
+    },
+    eventoAtual2: {
+      eventoAtivo: false,
+      title: "",
+      LojaSelecionada: "",
+      situacaoSelecionada: "",
+      porcentagemSelecionada: "",
+      periodoSelecionado: "",
+      diaInicial: "",
+      diaFinal: "",
+      departamento: "",
+      julgamento: "",
+    },
     terrenos: {
-      quantidade: 1,
+      quantidade: 0,
       preçoConstrução: 70000,
       faturamentoUnitário: 200,
       faturamentoUnitárioPadrão: 200,
@@ -45,7 +69,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasP: {
-      quantidade: 1,
+      quantidade: 0,
       preçoConstrução: 50000,
       faturamentoUnitário: 1100,
       faturamentoUnitárioPadrão: 1100,
@@ -64,7 +88,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasM: {
-      quantidade: 1,
+      quantidade: 0,
       preçoConstrução: 100000,
       faturamentoUnitário: 3300,
       faturamentoUnitárioPadrão: 3300,
@@ -83,7 +107,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasG: {
-      quantidade: 1,
+      quantidade: 0,
       preçoConstrução: 240000,
       faturamentoUnitário: 8000,
       faturamentoUnitárioPadrão: 10000,
@@ -124,6 +148,7 @@ const CentraldeDadosProvider = ({ children }) => {
       impostoMensal: [],
       impostoSobreFaturamentoDiário: []
     },
+
     valoresDespesas: {
       terrenos: 0,
       lojasP: 0,
