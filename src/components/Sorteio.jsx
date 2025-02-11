@@ -4,213 +4,115 @@ import { CentraldeDadosContext } from "../centralDeDadosContext";
 export default function Sorteio() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
-
     const fecharModal = () => {
-        console.log(dados.eventoAtual)
-        atualizarDados('modal', { ...dados.modal, estadoModal: false });
+        console.log(dados.eventoAtual);
+        atualizarDados("modal", { ...dados.modal, estadoModal: false });
     };
 
+    const todasLojas = ["terrenos", "lojas pequenas", "lojas médias", "lojas grandes"];
+    const departmentEvents = [
+            "faturamento",
+            "custos de construção"
+            , "despesas de funcionários"
+            , "impostos fixos"
+    ];
+    const situacao = ["crescimento", "queda"];
+    const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
+    const periodo = [3, 7, 15, 30];
+    const judgment = ["ÓTIMO", "PÉSSIMO"];
 
+    const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
 
-    // Função sorteio
-    const sortearNovoEvento = () => {
-        const probabilidade = Math.random() * 100;
-        if (probabilidade <= dados.chanceNovoEvento) {
-            const todasLojas = [
-                "terrenos",
-                "lojas pequenas"
-                , "lojas médias",
-                "lojas grandes"
-            ];
-            const situacao = ["crescimento", "queda"];
-            const porcentagem =
-                [
-                    1, 3, 5, 7,
-                    10
-                    , 15, 20,
-                    30
-                ];
-            const periodo = [3, 7
-                , 15, 30
-            ];
-            const departmentEvents = [
-                // "faturamento",
-                "custos de construção"
-                // , "despesas de funcionários"
-                // , "impostos fixos"
-            ];
-            const judgment = ["ÓTIMO", "PÉSSIMO"]
-
-            console.log("sorteio ocorreu");
-
-            let loja
-
-            const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
-            const selecionarPeriodo = selecionarItem(periodo)
-            const selecionarPorcentagem = selecionarItem(porcentagem)
-            // const selecionarSituação = selecionarItem(situacao)
-            const selecionarLoja = selecionarItem(todasLojas)
-            const selecionarJulgamento = selecionarItem(judgment)
-            const selecionarDepartamento = selecionarItem(departmentEvents);
-
-            const resultadoBase =
-                (selecionarDepartamento === "faturamento" && selecionarJulgamento === "ÓTIMO") ||
-                    (selecionarDepartamento !== "faturamento" && selecionarJulgamento === "PÉSSIMO") ?
-                    "crescimento" : "queda";
-
-            // const novaPorcentagem = selecionarPorcentagem / 100
-
-
-
-
-
-
-
-
-            console.log(departmentEvents);
-            console.log(judgment);
-
-
-
-
-
-
-            function novoEventoSelecionado() {
-
-
-                atualizarDados("eventoAtual", {
-                    ...dados.eventoAtual, eventoAtivo: true,
-                    title: `${selecionarLoja} terão ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento} no periodo de ${selecionarPeriodo} dias`,
-                    LojaSelecionada: selecionarLoja,
-                    situacaoSelecionada: resultadoBase,
-                    porcentagemSelecionada: selecionarPorcentagem,
-                    periodoSelecionado: selecionarPeriodo,
-                    diaInicial: dados.dia,
-                    diaFinal: dados.dia + selecionarPeriodo,
-                    departamento: selecionarDepartamento,
-                    julgamento: selecionarJulgamento,
-                }
-                )
-
-                const conversorTodasLojas = () => {
-                    switch (`${selecionarLoja}`) {
-                        case "terrenos":
-                            return "terrenos";
-                        case "lojas pequenas":
-                            return "lojasP";
-                        case "lojas médias":
-                            return "lojasM";
-                        case "lojas grandes":
-                            return "lojasG";
-                        default:
-                            return "nada";
-                    }
-
-                }
-                const conversorDepartmentEvents = () => {
-                    switch (`${selecionarDepartamento}`) {
-                        case "custos de construção":
-                            return "preçoConstrução";
-
-                        case "faturamento":
-                            return "faturamentoUnitárioPadrão";
-
-                        case "imposto fixo":
-                            return "impostoFixo";
-
-                        // case "despesas de funcionários":
-                        //     return "custoFuncionário";
-
-                        default:
-                            return "nada";
-                    }
-                }
-
-
-                const conversorSituacao = () => {
-                    switch (`${resultadoBase}`) {
-                        case "crescimento":
-                            return "+";
-                        default:
-                            return "-";
-                    }
-                }
-
-                const valorInicial = () => dados[conversorTodasLojas()][conversorDepartmentEvents()]
-
-                // valorInicial()
-                // console.log(valorInicial())
-                // const teste = () => `${valorInicial()} ${conversorSituacao()} ${selecionarPorcentagem}`;
-                // console.log(teste)
-                const calcular = (valor, porcentagem, operador) => {
-                    switch (operador) {
-                        case "+":
-                            return valor * (1 + porcentagem);
-                        case "-":
-                            return valor * (1 - porcentagem);
-                        default:
-                            throw new Error("Operador inválido");
-                    }
-                };
-
-
-                const valorVariavelInicial = 2000
-
-
-
-                const calcularEvento = () => {
-                    const valor = valorInicial();
-                    const porcentagem = parseInt(selecionarPorcentagem) / 100;
-                    const operador = conversorSituacao();
-
-                    return Math.round(calcular(valor, porcentagem, operador) * 100) / 100;
-                };
-                const novoValor = calcularEvento(); // Calcula o valor
-console.log(novoValor)
-
-
-
-atualizarDados(`${conversorTodasLojas()}`, {
-    ...dados[conversorTodasLojas()], // Copia o estado atual da loja
-    [conversorDepartmentEvents()]: novoValor // Atualiza apenas a propriedade específica
-});
-
-
-
-                console.log(calcularEvento())
-                console.log(conversorTodasLojas())
-                console.log(conversorDepartmentEvents())
-console.log("oiiiiiiiiiiiii")
-
-
-
-
-                atualizarDados('modal', { ...dados.modal, estadoModal: true });
-                console.log("Estado atualizado:", dados.eventoAtual);
-            }
-
-            novoEventoSelecionado()
-
+    const conversorTodasLojas = (selecionarLoja) => {
+        switch (selecionarLoja) {
+            case "terrenos": return "terrenos";
+            case "lojas pequenas": return "lojasP";
+            case "lojas médias": return "lojasM";
+            case "lojas grandes": return "lojasG";
+            default: return "nada";
         }
     };
 
+    const conversorDepartmentEvents = (selecionarDepartamento) => {
+        switch (selecionarDepartamento) {
+            case "custos de construção": return "preçoConstrução";
+            case "faturamento": return "faturamentoUnitárioPadrão";
+            case "imposto fixo": return "impostoFixo";
+            default: return "nada";
+        }
+    };
+
+    const conversorSituacao = (resultadoBase) => resultadoBase === "crescimento" ? "+" : "-";
+
+    const calcular = (valor, porcentagem, operador) => {
+        return operador === "+"
+            ? valor * (1 + porcentagem)
+            : valor * (1 - porcentagem);
+    };
+
+    const sortearNovoEvento = () => {
+        if (Math.random() * 100 > dados.chanceNovoEvento) return; // Se não atingir a chance, sai da função
+
+        const selecionarLoja = selecionarItem(todasLojas);
+        const selecionarDepartamento = selecionarItem(departmentEvents);
+        const selecionarJulgamento = selecionarItem(judgment);
+        const selecionarPorcentagem = selecionarItem(porcentagem);
+        const selecionarPeriodo = selecionarItem(periodo);
+
+        const resultadoBase = 
+            (selecionarDepartamento === "faturamento" && selecionarJulgamento === "ÓTIMO") ||
+            (selecionarDepartamento !== "faturamento" && selecionarJulgamento === "PÉSSIMO") 
+            ? "crescimento" 
+            : "queda";
+
+        const lojaChave = conversorTodasLojas(selecionarLoja);
+        const departamentoChave = conversorDepartmentEvents(selecionarDepartamento);
+        const operador = conversorSituacao(resultadoBase);
+
+        const valorInicial = dados[lojaChave]?.[departamentoChave] ?? 0;
+        const porcentagemDecimal = selecionarPorcentagem / 100;
+        const novoValor = Math.round(calcular(valorInicial, porcentagemDecimal, operador) * 100) / 100;
+
+        atualizarDados("eventoAtual", {
+            ...dados.eventoAtual,
+            eventoAtivo: true,
+            title: `${selecionarLoja} terão ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento} no período de ${selecionarPeriodo} dias`,
+            lojaSelecionada: selecionarLoja,
+            situacaoSelecionada: resultadoBase,
+            porcentagemSelecionada: selecionarPorcentagem,
+            periodoSelecionado: selecionarPeriodo,
+            diaInicial: dados.dia,
+            diaFinal: dados.dia + selecionarPeriodo,
+            departamento: selecionarDepartamento,
+            julgamento: selecionarJulgamento,
+            novoValor
+        });
+
+        atualizarDados("modal", { ...dados.modal, estadoModal: true });
+
+        console.log("Evento sorteado:", dados.eventoAtual);
+    };
+
     useEffect(() => {
-        sortearNovoEvento()
-        console.log("passou aqui")
+        sortearNovoEvento();
+        console.log("Sorteio executado para o dia", dados.dia);
     }, [dados.dia]);
 
+    // ✅ UseEffect no nível superior para atualizar os valores das lojas quando evento for ativado
+    useEffect(() => {
+        if (dados.eventoAtual.eventoAtivo) {
+            const lojaChave = conversorTodasLojas(dados.eventoAtual.lojaSelecionada);
+            const departamentoChave = conversorDepartmentEvents(dados.eventoAtual.departamento);
+            const novoValor = dados.eventoAtual.novoValor;
 
+            atualizarDados(lojaChave, {
+                ...dados[lojaChave],
+                [departamentoChave]: novoValor
+            });
 
-    return (
-        <div>
-            {/* <button onClick={() => {
-                atualizarDados('iniciarSorteio', true);
-                console.log(dados.modal.estadoModal);
-            }} className="bg-white">Sortear</button>
-            <button onClick={sortearNovoEvento}>Sortear Novo Evento</button> */}
-        </div>
-    );
-};
+            console.log("Evento aplicado nas lojas!");
+        }
+    }, [dados.eventoAtual]);
 
-
-
+    return <div />;
+}

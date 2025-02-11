@@ -16,7 +16,7 @@ const CentraldeDadosProvider = ({ children }) => {
     eventoAtual: {
       eventoAtivo: false,
       title: "",
-      LojaSelecionada: "",
+      lojaSelecionada: "",
       situacaoSelecionada: "",
       porcentagemSelecionada: "",
       periodoSelecionado: "",
@@ -40,7 +40,7 @@ const CentraldeDadosProvider = ({ children }) => {
     eventoAtual2: {
       eventoAtivo: false,
       title: "",
-      LojaSelecionada: "",
+      lojaSelecionada: "",
       situacaoSelecionada: "",
       porcentagemSelecionada: "",
       periodoSelecionado: "",

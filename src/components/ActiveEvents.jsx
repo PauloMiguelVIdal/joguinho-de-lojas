@@ -57,7 +57,7 @@ export default function ActiveEvents() {
                         Data de encerramento : {dados.eventoAtual.diaFinal}
                     </div>
                 </div>
-                <div className="flex flex-col items-center place-content-around bg-[#6411D9] rounded-[5px] w-full">
+                {/* <div className="flex flex-col items-center place-content-around bg-[#6411D9] rounded-[5px] w-full">
 
                     <div className="w-[95%] bg-[#331B8C] flex place-content-between ">
                         <div><h1 className="text-white">LojasP</h1></div>
@@ -88,7 +88,7 @@ export default function ActiveEvents() {
                     <div className="bg-[#350973] flex place-content-around items-center text-white rounded-[5px] w-[95%] h-1/3 fonteBold">
                         Data de encerramento : {dados.eventoAtual.diaFinal}
                     </div>
-                </div>
+                </div> */}
             </div>
         )
 

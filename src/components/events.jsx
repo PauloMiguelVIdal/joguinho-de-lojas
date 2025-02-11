@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { CentraldeDadosContext } from '../centralDeDadosContext';
+import { use } from 'react';
 
 function Events(){
   
@@ -57,7 +58,93 @@ useEffect(()=>{
   ,[dados.dia])
   //atualiza a chance de acontecer um evento quando não se tem nenhum evento ativo
 
+  useEffect(()=>{
 
+
+    const conversorTodasLojas = () => {
+      switch (`${dados.eventoAtual.lojaSelecionada}`) {
+          case "terrenos":
+              return "terrenos";
+          case "lojas pequenas":
+              return "lojasP";
+          case "lojas médias":
+              return "lojasM";
+          case "lojas grandes":
+              return "lojasG";
+          default:
+              return "nada";
+      }
+  }
+
+  console.log(conversorTodasLojas())
+  const conversorDepartmentEvents = () => {
+      switch (`${dados.eventoAtual.departamento}`) {
+          case "custos de construção":
+              return "preçoConstrução";
+
+          case "faturamento":
+              return "faturamentoUnitárioPadrão";
+
+          case "imposto fixo":
+              return "impostoFixo";
+
+          // case "despesas de funcionários":
+          //     return "custoFuncionário";
+
+          default:
+              return "nada";
+      }
+  }
+
+console.log(conversorDepartmentEvents())
+
+  const conversorSituacao = () => {
+      switch (`${dados.eventoAtual.situacaoSelecionada}`) {
+          case "crescimento":
+              return "+";
+          default:
+              return "-";
+      }
+  }
+
+console.log(conversorSituacao())
+
+const valorInicial = () => dados[conversorTodasLojas()][conversorDepartmentEvents()]
+// console.log(valorInicial())
+
+// const calcular = (valor, porcentagem, operador) => {
+//   switch (operador) {
+//       case "+":
+//           return valor * (1 + porcentagem);
+//       case "-":
+//           return valor * (1 - porcentagem);
+//       default:
+//           throw new Error("Operador inválido");
+//   }
+// };
+
+
+// const calcularEvento = () => {
+//   const valor = valorInicial();
+//   const porcentagem = parseInt(dados.eventoAtual.porcentagemSelecionada) / 100;
+//   const operador = conversorSituacao();
+
+//   return Math.round(calcular(valor, porcentagem, operador) * 100) / 100;
+// };
+
+
+
+// const novoValor = calcularEvento(); // Calcula o valor
+// console.log(novoValor)
+
+
+
+    if(dados.eventoAtual.eventoAtivo===true){
+      atualizarDados("lojasP",{...dados.lojasP,preçoContrução:2000})
+      console.log("testeeeeeeeeeeeeeeee")
+    }
+
+  },[dados.eventoAtual.eventoAtivo])
 
 
 
