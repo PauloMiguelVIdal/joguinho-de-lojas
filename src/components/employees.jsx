@@ -17,13 +17,13 @@ export default function Employees() {
     todasLojas.forEach(edifícioSelecionado => {
 
       const valorUnitárioPadrão = dados[edifícioSelecionado].custoFuncionárioUnitárioPadrão
-      console.log(valorUnitárioPadrão)
+      // console.log(valorUnitárioPadrão)
 
 
 
       const funcionárioTotalGenérico = (valorUnitárioPadrão * dados[edifícioSelecionado].funcionários * dados[edifícioSelecionado].quantidade)
 
-      console.log(funcionárioTotalGenérico)
+      // console.log(funcionárioTotalGenérico)
 
 
       // funcionáriosTotalDiário += parseFloat(funcionárioTotalGenérico)

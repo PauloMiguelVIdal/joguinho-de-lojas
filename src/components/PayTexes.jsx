@@ -27,12 +27,12 @@ export default function PayTexes() {
       const impostoSobreFaturamentoLojas = dados[edifícioSelecionado].impostoSobreFaturamento
       const valoresFaturamento = dados[edifícioSelecionado].faturamentoMensal
       const valoresFaturamentoDiário = dados[edifícioSelecionado].faturamentoTotal
-                   console.log(valoresFaturamentoDiário)
+                  //  console.log(valoresFaturamentoDiário)
 
       const valorImpostoSobreFaturamentoAtualizado = valoresFaturamento * impostoSobreFaturamentoLojas
       const valorImpostoSobreFaturamentoAtualizadoDiário = valoresFaturamentoDiário * impostoSobreFaturamentoLojas
       
-                   console.log(valorImpostoSobreFaturamentoAtualizadoDiário)
+                  //  console.log(valorImpostoSobreFaturamentoAtualizadoDiário)
 
       const impostoFixosLojas = dados[edifícioSelecionado].quantidade * dados[edifícioSelecionado].impostoFixo
       const somaImposto = impostoFixosLojas + valorImpostoSobreFaturamentoAtualizadoDiário
@@ -40,14 +40,14 @@ export default function PayTexes() {
       impostoTotalFixoLojas += parseFloat(impostoFixosLojas)
       impostoValorImpostoSobreFaturamentoAtualizadoDiário += parseFloat(valorImpostoSobreFaturamentoAtualizadoDiário)
       
-                   console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
-      console.log(impostoTotalFixoLojas)
+                  //  console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
+      // console.log(impostoTotalFixoLojas)
       fatuTotal += parseFloat(valorImpostoSobreFaturamentoAtualizado)
 
 
       impostoTotalDiário += parseFloat(somaImposto)
-      console.log(somaImposto)
-      console.log(impostoTotalDiário)
+      // console.log(somaImposto)
+      // console.log(impostoTotalDiário)
 
 
       const impostoMensalAtualizado = impostoTotalFixoLojas + fatuTotal
@@ -63,8 +63,8 @@ export default function PayTexes() {
         impostoFaturamentoMensal: fatuTotal,
         impostoSobreFaturamentoDiário: impostoValorImpostoSobreFaturamentoAtualizadoDiário
       })
-console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
-console.log(fatuTotal)
+// console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
+// console.log(fatuTotal)
       atualizarDados(`${edifícioSelecionado}`, {
         ...dados[edifícioSelecionado],
         valorImpostoSobreFaturamento: valorImpostoSobreFaturamentoAtualizado, valorImpostoFixoTotal: impostoFixosLojas
@@ -199,7 +199,7 @@ console.log(fatuTotal)
       // atualizarDados('imposto', { ...dados.imposto, impostoFaturamentoMensal: 0 });
       // atualizarDados('faturamento', { ...dados.faturamento, faturamentoMensal: 0 });
       // atualizarDados('faturamento', { ...dados.faturamento, faturamentoDiário: 0 });
-      console.log(dados.saldo)
+      // console.log(dados.saldo)
       
 
 

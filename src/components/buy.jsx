@@ -7,6 +7,8 @@ import LojaMImg from "../imagens/lojaM.png"
 import LojaGImg from "../imagens/lojaG.png"
 import ConstuirImg from "../imagens/construir.png"
 import DolarImg from "../imagens/simbolo-do-dolar.png"
+import porcem from "../imagens/simbolo-de-porcentagem.png"
+import {Statistic} from './statistic'
 
 
 
@@ -16,7 +18,7 @@ export default function Buy() {
         dados, atualizarDados
     } = useContext(CentraldeDadosContext)
 
-
+    const { resultadoTerrenos , resultadoLojasP, resultadoLojasM, resultadoLojasG } = Statistic();
 
 
 
@@ -112,25 +114,27 @@ export default function Buy() {
                                     <div>
                                         <h1 className='fonteLight text-white text-start'>Terrenos</h1>
                                     </div>
-                                    <div className="bg-laranja w-[90%] h-[30px] rounded-[20px] flex items-center justify-between ">
+                                  
+                                    <div className="bg-[#350973] w-[90%] h-[30px] rounded-[20px] flex items-center justify-between ">
                                         <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                             <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                                         </div>
-                                        <h1 className="mr-[10px] fonteBold">R$ {dados.terrenos.preçoConstrução}</h1>
+                                        <h1 className="mr-[10px] fonteBold text-laranja">R$ {(dados.terrenos.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="bg-laranja w-[90%] h-1/3 rounded-[20px] flex items-center mb-[10px]">
+                            <div className="bg-[#350973] w-[90%] h-1/3 rounded-[20px] flex items-center mb-[10px]">
                                 <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                     <img src={DolarImg} className="w-[18px] h-[18px]" />
                                 </div>
                                 <div className='flex place-content-between w-full'>
                                     <div className='flex'>
-                                        <h1 className="ml-[10px] fonteBold text-right">R$ {dados.terrenos.faturamentoTotal}</h1>
+                                        <h1 className="ml-[10px] fonteBold text-right text-laranja">R$ {(dados.terrenos.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                                     </div>
-                                    <div className='flex'>
-                                        <h1 className='mr-[10px]'>12%</h1>
+                                    <div className='flex items-center justify-center '>
+                                        <h1 className='mr-[10px] text-white fontBold'>  {(resultadoTerrenos).toFixed(1)} </h1>
+                                        <img src={porcem} alt="porcentagem" className='w-[15px] h-[15px] mr-[10px] aspect-square' />
                                     </div>
                                 </div>
                             </div>
@@ -158,25 +162,27 @@ export default function Buy() {
                                     <div>
                                         <h1 className='fonteLight text-white text-start'>Lojas Pequenas</h1>
                                     </div>
-                                    <div className="bg-laranja w-[90%] h-[30px] rounded-[20px] flex items-center justify-between ">
+                                    
+                                    <div className="bg-[#350973] w-[90%] h-[30px] rounded-[20px] flex items-center justify-between ">
                                         <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                             <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                                         </div>
-                                        <h1 className="mr-[10px] fonteBold">R$ {dados.lojasP.preçoConstrução}</h1>
+                                        <h1 className="mr-[10px] fonteBold text-laranja">R$ {(dados.lojasP.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="bg-laranja w-[90%] h-1/3 rounded-[20px] flex items-center mb-[10px]">
+                            <div className="bg-[#350973] w-[90%] h-1/3 rounded-[20px] flex items-center mb-[10px]">
                                 <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                     <img src={DolarImg} className="w-[18px] h-[18px]" />
                                 </div>
                                 <div className='flex place-content-between w-full'>
                                     <div className='flex'>
-                                        <h1 className="ml-[10px] fonteBold text-right">R$ {dados.lojasP.faturamentoTotal}</h1>
+                                        <h1 className="ml-[10px] fonteBold text-right text-laranja">R$ {(dados.lojasP.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                                     </div>
-                                    <div className='flex'>
-                                        <h1 className='mr-[10px]'>12%</h1>
+                                    <div className='flex items-center justify-center'>
+                                        <h1 className='mr-[10px] text-white fontBold'>{(resultadoLojasP).toFixed(1)}</h1>
+                                        <img src={porcem} alt="porcentagem" className='w-[15px] h-[15px] mr-[10px] aspect-square' />
                                     </div>
                                 </div>
                             </div>
@@ -201,25 +207,27 @@ export default function Buy() {
                                     <div>
                                         <h1 className='fonteLight text-white text-start'>Lojas Médias</h1>
                                     </div>
-                                    <div className="bg-laranja w-[90%] h-[30px] rounded-[20px] flex items-center justify-between ">
+                                    
+                                    <div className="bg-[#350973] w-[90%] h-[30px] rounded-[20px] flex items-center justify-between ">
                                         <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                             <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                                         </div>
-                                        <h1 className="mr-[10px] fonteBold">R$ {dados.lojasM.preçoConstrução}</h1>
+                                        <h1 className="mr-[10px] fonteBold text-laranja">R$ {(dados.lojasM.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>
                                 </div>
                             </div>
-
-                            <div className="bg-laranja w-[90%] h-1/3 rounded-[20px] flex items-center mb-[10px]">
+                        
+                            <div className="bg-[#350973] w-[90%] h-1/3 rounded-[20px] flex items-center mb-[10px]">
                                 <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                     <img src={DolarImg} className="w-[18px] h-[18px]" />
                                 </div>
                                 <div className='flex place-content-between w-full'>
-                                    <div className='flex'>
-                                        <h1 className="ml-[10px] fonteBold text-right">R$ {dados.lojasM.faturamentoTotal}</h1>
+                                    <div className='flex items-center justify-center'>
+                                        <h1 className="ml-[10px] fonteBold text-right text-laranja">R$ {(dados.lojasM.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                                     </div>
-                                    <div className='flex'>
-                                        <h1 className='mr-[10px]'>12%</h1>
+                                    <div className='flex flex items-center justify-center'>
+                                        <h1 className='mr-[10px] text-white fontBold'>{(resultadoLojasM).toFixed(1)}</h1>
+                                        <img src={porcem} alt="porcentagem" className='w-[15px] h-[15px] mr-[10px] aspect-square' />
                                     </div>
                                 </div>
                             </div>
@@ -242,25 +250,28 @@ export default function Buy() {
                                     <div>
                                         <h1 className='fonteLight text-white text-start'>Lojas Grandes</h1>
                                     </div>
-                                    <div className="bg-laranja w-[90%] h-[30px] rounded-[20px] flex items-center justify-between ">
+                                    
+                                    <div className="bg-[#350973] w-[90%] h-[30px] rounded-[20px] flex items-center justify-between ">
                                         <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                             <img src={ConstuirImg} className="w-[18px] h-[18px]" />
                                         </div>
-                                        <h1 className="mr-[10px] fonteBold">R$ {dados.lojasG.preçoConstrução}</h1>
+                                        <h1 className="mr-[10px] fonteBold text-laranja">R$ {(dados.lojasG.preçoConstrução).toLocaleString('pt-BR')}</h1>
+                                      
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="bg-laranja w-[90%] h-1/3 rounded-[20px] flex items-center mb-[10px]">
+                            <div className="bg-[#350973] w-[90%] h-1/3 rounded-[20px] flex items-center mb-[10px]">
                                 <div className="bg-roxo w-[25px] h-[25px] rounded-full flex items-center justify-center ml-[4px]" >
                                     <img src={DolarImg} className="w-[18px] h-[18px]" />
                                 </div>
                                 <div className='flex place-content-between w-full'>
                                     <div className='flex'>
-                                        <h1 className="ml-[10px] fonteBold text-right">R$ {dados.lojasG.faturamentoTotal}</h1>
+                                        <h1 className="ml-[10px] fonteBold text-right text-laranja">R$ {(dados.lojasG.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                                     </div>
-                                    <div className='flex'>
-                                        <h1 className='mr-[10px]'>12%</h1>
+                                    <div className='flex flex items-center justify-center'>
+                                        <h1 className='mr-[10px] text-white fontBold'>{(resultadoLojasG).toFixed(1)}</h1>
+                                        <img src={porcem} alt="porcentagem" className='w-[15px] h-[15px] mr-[10px] aspect-square' />
                                     </div>
                                 </div>
                             </div>

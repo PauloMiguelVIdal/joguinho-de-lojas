@@ -18,7 +18,7 @@ export default function NextDay() {
 
 
     const ProximoDia = () => {
-        console.log(dados.despesas);
+        // console.log(dados.despesas);
         atualizarDados('despesas', { ...dados.despesas, despesasPagas: false });
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
             alert("Você não pode avançar para o próximo dia sem pagar as despesas.");
@@ -47,11 +47,11 @@ export default function NextDay() {
 
 
         console.log("Dados atualizados:", dados)
-        console.log(dados.saldo)
-        console.log(dados.eventoAtual)
-        console.log(dados.modal.estadoModal)
+        // console.log(dados.saldo)
+        // console.log(dados.eventoAtual)
+        // console.log(dados.modal.estadoModal)
         if (dados.iniciarSorteio) {
-            console.log(dados.eventoAtual)
+            // console.log(dados.eventoAtual)
         }
 
 
@@ -65,7 +65,7 @@ export default function NextDay() {
 
             const valorUnitárioPadrão = dados[edifícioSelecionado].faturamentoUnitárioPadrão
 
-            console.log(`valor unitário padrão ${valorUnitárioPadrão}`)
+            // console.log(`valor unitário padrão ${valorUnitárioPadrão}`)
             const valorPadrãoMáximo = valorUnitárioPadrão * (1 + 0.3).toFixed(2)
             const valorPadrãoMínimo = valorUnitárioPadrão * (1 - 0.3).toFixed(2)
             const valorMáximo = parseFloat(valorPadrãoMáximo)
@@ -74,10 +74,10 @@ export default function NextDay() {
 
             const novoValorVariável = (Math.floor(Math.random() * (valorMáximo - valorMínimo + 1)) + valorMínimo).toFixed(2);
             const faturamentoTotalGenérico = (novoValorVariável * dados[edifícioSelecionado].quantidade).toFixed(2)
-            console.log(`esse é o novo valor variável de ${edifícioSelecionado}`, novoValorVariável)
+            // console.log(`esse é o novo valor variável de ${edifícioSelecionado}`, novoValorVariável)
 
             faturamentoTotalDiário += parseFloat(faturamentoTotalGenérico)
-            console.log(faturamentoTotalGenérico);
+            // console.log(faturamentoTotalGenérico);
 
 
 

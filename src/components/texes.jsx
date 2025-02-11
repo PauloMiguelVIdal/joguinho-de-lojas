@@ -41,7 +41,7 @@ export default function Texes() {
 
 
 
-      console.log(dados.saldo)
+      // console.log(dados.saldo)
       alert("Despesas pagas.");
 
 

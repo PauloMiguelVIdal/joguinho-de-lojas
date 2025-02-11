@@ -9,12 +9,17 @@ export default function Sorteio() {
         atualizarDados("modal", { ...dados.modal, estadoModal: false });
     };
 
-    const todasLojas = ["terrenos", "lojas pequenas", "lojas médias", "lojas grandes"];
+    const todasLojas = [
+        "terrenos", 
+        "lojas pequenas", 
+        "lojas médias", 
+        "lojas grandes"
+    ];
     const departmentEvents = [
             "faturamento",
             "custos de construção"
-            , "despesas de funcionários"
-            , "impostos fixos"
+            // , "despesas de funcionários"
+            // , "imposto fixo"
     ];
     const situacao = ["crescimento", "queda"];
     const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
@@ -37,7 +42,8 @@ export default function Sorteio() {
         switch (selecionarDepartamento) {
             case "custos de construção": return "preçoConstrução";
             case "faturamento": return "faturamentoUnitárioPadrão";
-            case "imposto fixo": return "impostoFixo";
+            // case "imposto fixo": return "impostoFixo";
+            // case "despesas de funcionários": return "custoFuncionárioUnitárioPadrão";
             default: return "nada";
         }
     };
@@ -69,10 +75,14 @@ export default function Sorteio() {
         const departamentoChave = conversorDepartmentEvents(selecionarDepartamento);
         const operador = conversorSituacao(resultadoBase);
 
+        console.log(lojaChave)
+        console.log(departamentoChave)
+        console.log(operador)
         const valorInicial = dados[lojaChave]?.[departamentoChave] ?? 0;
+        console.log(valorInicial)
         const porcentagemDecimal = selecionarPorcentagem / 100;
         const novoValor = Math.round(calcular(valorInicial, porcentagemDecimal, operador) * 100) / 100;
-
+console.log(novoValor)
         atualizarDados("eventoAtual", {
             ...dados.eventoAtual,
             eventoAtivo: true,
