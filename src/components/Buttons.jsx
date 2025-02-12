@@ -9,7 +9,7 @@ export default function Buttons() {
 
 
     return (
-            <div className="flex items-center rounded-[20px] gap-[10px]">
+            <div className="flex items-center w-[200px] rounded-[20px] gap-[10px]">
                 <NextDay />
                 <PayTexes />
             </div>

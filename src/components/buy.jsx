@@ -133,7 +133,7 @@ export default function Buy() {
                                         <h1 className="ml-[10px] fonteBold text-right text-laranja">R$ {(dados.terrenos.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                                     </div>
                                     <div className='flex items-center justify-center '>
-                                        <h1 className='mr-[10px] text-white fontBold'>  {(resultadoTerrenos).toFixed(1)} </h1>
+                                        <h1 className='mr-[10px] text-white fonteBold'>  {(resultadoTerrenos).toFixed(1)} </h1>
                                         <img src={porcem} alt="porcentagem" className='w-[15px] h-[15px] mr-[10px] aspect-square' />
                                     </div>
                                 </div>
@@ -181,7 +181,7 @@ export default function Buy() {
                                         <h1 className="ml-[10px] fonteBold text-right text-laranja">R$ {(dados.lojasP.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                                     </div>
                                     <div className='flex items-center justify-center'>
-                                        <h1 className='mr-[10px] text-white fontBold'>{(resultadoLojasP).toFixed(1)}</h1>
+                                        <h1 className='mr-[10px] text-white fonteBold'>{(resultadoLojasP).toFixed(1)}</h1>
                                         <img src={porcem} alt="porcentagem" className='w-[15px] h-[15px] mr-[10px] aspect-square' />
                                     </div>
                                 </div>
@@ -226,7 +226,7 @@ export default function Buy() {
                                         <h1 className="ml-[10px] fonteBold text-right text-laranja">R$ {(dados.lojasM.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                                     </div>
                                     <div className='flex flex items-center justify-center'>
-                                        <h1 className='mr-[10px] text-white fontBold'>{(resultadoLojasM).toFixed(1)}</h1>
+                                        <h1 className='mr-[10px] text-white fonteBold'>{(resultadoLojasM).toFixed(1)}</h1>
                                         <img src={porcem} alt="porcentagem" className='w-[15px] h-[15px] mr-[10px] aspect-square' />
                                     </div>
                                 </div>
@@ -270,7 +270,7 @@ export default function Buy() {
                                         <h1 className="ml-[10px] fonteBold text-right text-laranja">R$ {(dados.lojasG.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                                     </div>
                                     <div className='flex flex items-center justify-center'>
-                                        <h1 className='mr-[10px] text-white fontBold'>{(resultadoLojasG).toFixed(1)}</h1>
+                                        <h1 className='mr-[10px] text-white fonteBold'>{(resultadoLojasG).toFixed(1)}</h1>
                                         <img src={porcem} alt="porcentagem" className='w-[15px] h-[15px] mr-[10px] aspect-square' />
                                     </div>
                                 </div>
