@@ -20,7 +20,7 @@ function Interface() {
 
     return (
         <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-center items-center">
-            {/* <Offers/> */}
+            <Offers/>
             <Events />
             <Employees/>
             <Notificação />
