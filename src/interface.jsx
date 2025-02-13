@@ -13,11 +13,13 @@ import ActiveEvents from "./components/ActiveEvents";
 import Buttons from "./components/Buttons";
 import Dashboard from "./components/Dashboard";
 import MoreOptions from "./components/MoreOptions";
+import Offers from "./components/Offers";
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
     return (
         <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-center items-center">
+            <Offers/>
             <Events />
             <Employees/>
             <Notificação />

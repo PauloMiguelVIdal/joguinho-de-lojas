@@ -41,7 +41,7 @@ const DiminuirQuantidadeTerrenos = () => setQuantidadeTerrenos(quantidadeTerreno
 
     // Comprar Loja P
     const ComprarLojaP = () => {
-        if (dados.terrenos.quantidade < 1) {
+        if (dados.terrenos.quantidade <  dados.lojasp.quantidadeNecTerreno) {
             return alert("Você não tem terreno suficiente");
         }
         if (dados.saldo < dados.lojasP.preçoConstrução) {
@@ -61,7 +61,7 @@ const DiminuirQuantidadeTerrenos = () => setQuantidadeTerrenos(quantidadeTerreno
 
     // Comprar Loja M
     const ComprarLojaM = () => {
-        if (dados.terrenos.quantidade < 2) {
+        if (dados.terrenos.quantidade <  dados.lojasM.quantidadeNecTerreno) {
             return alert("Você não tem terrenos suficientes");
         }
         if (dados.saldo < dados.lojasM.preçoConstrução) {
@@ -81,7 +81,7 @@ const DiminuirQuantidadeTerrenos = () => setQuantidadeTerrenos(quantidadeTerreno
 
     // Comprar Loja G
     const ComprarLojaG = () => {
-        if (dados.terrenos.quantidade < 3) {
+        if (dados.terrenos.quantidade < dados.lojasG.quantidadeNecTerreno) {
             return alert("Você não tem terrenos suficientes");
         }
         if (dados.saldo < dados.lojasG.preçoConstrução) {

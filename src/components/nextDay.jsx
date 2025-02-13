@@ -20,6 +20,10 @@ export default function NextDay() {
     const ProximoDia = () => {
         // console.log(dados.despesas);
         atualizarDados('despesas', { ...dados.despesas, despesasPagas: false });
+        if(dados.saldo<0){
+            alert("Perdeu");
+            return;
+        }
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
             alert("Você não pode avançar para o próximo dia sem pagar as despesas.");
 

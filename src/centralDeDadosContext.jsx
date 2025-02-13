@@ -5,7 +5,7 @@ const CentraldeDadosContext = createContext();
 const CentraldeDadosProvider = ({ children }) => {
 
   const [dados, setDados] = useState({
-    saldo: 2000000,
+    saldo: -2000000,
     dia: 1,
     chanceNovoEvento: 0,
     modal: {
@@ -27,6 +27,7 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     terrenos: {
       quantidade: 0,
+      quantidadeNecTerreno:0,
       preçoConstrução: 70000,
       faturamentoUnitário: 200,
       faturamentoUnitárioPadrão: 200,
@@ -46,6 +47,7 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     lojasP: {
       quantidade: 0,
+      quantidadeNecTerreno:1,
       preçoConstrução: 50000,
       faturamentoUnitário: 1100,
       faturamentoUnitárioPadrão: 1100,
@@ -65,6 +67,7 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     lojasM: {
       quantidade: 0,
+      quantidadeNecTerreno:2,
       preçoConstrução: 100000,
       faturamentoUnitário: 3300,
       faturamentoUnitárioPadrão: 3300,
@@ -84,6 +87,7 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     lojasG: {
       quantidade: 0,
+      quantidadeNecTerreno:3,
       preçoConstrução: 240000,
       faturamentoUnitário: 8000,
       faturamentoUnitárioPadrão: 10000,
