@@ -5,7 +5,7 @@ const CentraldeDadosContext = createContext();
 const CentraldeDadosProvider = ({ children }) => {
 
   const [dados, setDados] = useState({
-    saldo: 120000,
+    saldo: 2000000,
     dia: 1,
     chanceNovoEvento: 0,
     modal: {
