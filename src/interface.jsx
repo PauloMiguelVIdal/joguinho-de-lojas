@@ -14,15 +14,17 @@ import Buttons from "./components/Buttons";
 import Dashboard from "./components/Dashboard";
 import MoreOptions from "./components/MoreOptions";
 import Offers from "./components/Offers";
+import EconomyGlobal from "./components/EconomyGlobal";
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
     return (
         <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-center items-center">
-            <Offers/>
+            {/* <Offers/> */}
             <Events />
             <Employees/>
             <Notificação />
+       
             <div className="w-[95vw] h-[90vh] rounded-[40px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-9 grid-cols-8 gap-[20px] p-[20px]">
                <div className="grid col-start-1 col-end-3 row-start-3 row-end-8">
                     <Buy />
@@ -42,6 +44,7 @@ function Interface() {
                     <div className="flex justify-center items-center gap-[10px]">
                     <Informations />
                     <Buttons />
+                    <EconomyGlobal/>
                     </div>
                     
 

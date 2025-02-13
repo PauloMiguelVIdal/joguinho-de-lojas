@@ -5,10 +5,21 @@ const CentraldeDadosContext = createContext();
 const CentraldeDadosProvider = ({ children }) => {
 
   const [dados, setDados] = useState({
-    saldo: -2000000,
+    saldo: 2000000,
     dia: 1,
     chanceNovoEvento: 0,
+    economiaGlobal : "estável", 
     modal: {
+      estadoModal: false,
+      head: "",
+      content: ""
+    },
+    modalDespesas: {
+      estadoModal: false,
+      head: "",
+      content: ""
+    },
+    modalEconomiaGlobal: {
       estadoModal: false,
       head: "",
       content: ""
@@ -157,5 +168,12 @@ const CentraldeDadosProvider = ({ children }) => {
     </CentraldeDadosContext.Provider>
   );
 };
+
+const ofertas = [{
+  loja:"lojaP",
+  quantidade: 4,
+  valor: 172000,
+  estado: true
+},{}]
 
 export { CentraldeDadosContext, CentraldeDadosProvider };

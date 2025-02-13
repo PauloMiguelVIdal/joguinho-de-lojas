@@ -10,21 +10,38 @@ export default function Sorteio() {
     };
 
     const todasLojas = [
-        "terrenos", 
-        "lojas pequenas", 
-        "lojas médias", 
+        "terrenos",
+        "lojas pequenas",
+        "lojas médias",
         "lojas grandes"
     ];
     const departmentEvents = [
-            "faturamento",
-            "custos de construção"
-            // , "despesas de funcionários"
-            // , "imposto fixo"
+        "faturamento",
+        "custos de construção"
+        // , "despesas de funcionários"
+        // , "imposto fixo"
     ];
     const situacao = ["crescimento", "queda"];
     const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
     const periodo = [3, 7, 15, 30];
     const judgment = ["ÓTIMO", "PÉSSIMO"];
+
+    const economiaAtual = () => {
+        switch (`${dados.economiaGlobal}`) {
+            case "recessão": return [0.35, 0.65]
+            case "estável": return [0.50, 0.50]
+            case "aquecida": return [0.65, 0.35]
+            default: return [0.50, 0.50]
+        }
+    }
+
+    const julgamentoSorteado = () => {
+        const probabilidadesJulgamento = economiaAtual()
+        console.log(probabilidadesJulgamento)
+        const random = Math.random(); // Gera um número entre 0 e 1
+        return random < probabilidadesJulgamento[0] ? judgment[0] : judgment[1];
+    };
+
 
     const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
 
@@ -61,15 +78,15 @@ export default function Sorteio() {
 
         const selecionarLoja = selecionarItem(todasLojas);
         const selecionarDepartamento = selecionarItem(departmentEvents);
-        const selecionarJulgamento = selecionarItem(judgment);
+        const selecionarJulgamento = julgamentoSorteado();
         const selecionarPorcentagem = selecionarItem(porcentagem);
         const selecionarPeriodo = selecionarItem(periodo);
-
-        const resultadoBase = 
+        console.log(selecionarJulgamento)
+        const resultadoBase =
             (selecionarDepartamento === "faturamento" && selecionarJulgamento === "ÓTIMO") ||
-            (selecionarDepartamento !== "faturamento" && selecionarJulgamento === "PÉSSIMO") 
-            ? "crescimento" 
-            : "queda";
+                (selecionarDepartamento !== "faturamento" && selecionarJulgamento === "PÉSSIMO")
+                ? "crescimento"
+                : "queda";
 
         const lojaChave = conversorTodasLojas(selecionarLoja);
         const departamentoChave = conversorDepartmentEvents(selecionarDepartamento);
@@ -82,7 +99,7 @@ export default function Sorteio() {
         console.log(valorInicial)
         const porcentagemDecimal = selecionarPorcentagem / 100;
         const novoValor = Math.round(calcular(valorInicial, porcentagemDecimal, operador) * 100) / 100;
-console.log(novoValor)
+        console.log(novoValor)
         atualizarDados("eventoAtual", {
             ...dados.eventoAtual,
             eventoAtivo: true,

@@ -178,12 +178,14 @@ export default function PayTexes() {
     }
     if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
       const novasDespesas = { ...dados.despesas, despesasPagas: false };
-      const novoEstado = { ...dados, modal: { ...dados.modal, estadoModal: true } };
+      const novoEstado = { ...dados, modalDespesas: { ...dados.modalDespesas, estadoModal: true } };
       atualizarDados('despesas', novasDespesas);
-      atualizarDados('modal', { ...dados.modal, estadoModal: true });
+      atualizarDados('modalDespesas', { ...dados.modalDespesas, estadoModal: true });
       // Chame o modelo de pagar dívidas aqui
     }
   }, [dados.dia, dados.despesas.despesasPagas]);
+    
+
 
 
   const PagarDespesas = () => {
