@@ -5,8 +5,9 @@ const CentraldeDadosContext = createContext();
 const CentraldeDadosProvider = ({ children }) => {
 
   const [dados, setDados] = useState({
-    saldo: 2000000,
-    dia: 1,
+    ofertas : {},
+    saldo: 2120000,
+    dia: 27,
     chanceNovoEvento: 0,
     economiaGlobal : "estável", 
     modal: {
@@ -24,6 +25,10 @@ const CentraldeDadosProvider = ({ children }) => {
       head: "",
       content: ""
     },
+    modalOfertas: {
+      estadoModal: false,
+    },
+
     eventoAtual: {
       eventoAtivo: false,
       title: "",
@@ -37,7 +42,7 @@ const CentraldeDadosProvider = ({ children }) => {
       julgamento: "",
     },
     terrenos: {
-      quantidade: 40,
+      quantidade: 400,
       quantidadeNecTerreno:0,
       preçoConstrução: 70000,
       faturamentoUnitário: 200,
@@ -57,7 +62,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasP: {
-      quantidade: 40,
+      quantidade: 0,
       quantidadeNecTerreno:1,
       preçoConstrução: 50000,
       faturamentoUnitário: 1100,
@@ -77,7 +82,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasM: {
-      quantidade: 40,
+      quantidade: 0,
       quantidadeNecTerreno:2,
       preçoConstrução: 100000,
       faturamentoUnitário: 3300,
@@ -97,7 +102,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasG: {
-      quantidade: 40,
+      quantidade: 0,
       quantidadeNecTerreno:3,
       preçoConstrução: 240000,
       faturamentoUnitário: 8000,
@@ -154,7 +159,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
     }
   });
-
+ 
   const atualizarDados = (chave, novoValor) => {
     setDados(prevState => ({
       ...prevState,
@@ -169,11 +174,6 @@ const CentraldeDadosProvider = ({ children }) => {
   );
 };
 
-const ofertas = [{
-  loja:"lojaP",
-  quantidade: 4,
-  valor: 172000,
-  estado: true
-},{}]
+
 
 export { CentraldeDadosContext, CentraldeDadosProvider };

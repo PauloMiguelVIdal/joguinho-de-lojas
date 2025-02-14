@@ -25,8 +25,9 @@ useEffect(()=>{
 },[dados.dia])
 
 
+
 useEffect(()=>{
-  if(dados.dia===30){
+  if(dados.dia%30===0){
 
   atualizarDados("relatóriosFaturamento", { ...dados.relatóriosFaturamento,[dados.dia]:
     {

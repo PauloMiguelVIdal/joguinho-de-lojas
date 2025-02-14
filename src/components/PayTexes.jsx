@@ -167,15 +167,17 @@ export default function PayTexes() {
   //   }
   // }, [dados.dia])
 
+useEffect(()=>{
+  if (dados.dia % 30 === 0) {
+    atualizarDados({ ...dados.despesas, despesasPagas: false })
+  }
+},[dados.dia])
+  
+// const outroDia = dados.dia % 30 === 0? dados.dia+1 : "nada"
 
+// if(outroDia)
   useEffect(() => {
     // Verifica se é necessário atualizar as despesas e o estado modal
-    if (dados.dia % 30 === 0) {
-      
-      atualizarDados({ ...dados.despesas, despesasPagas: false })
-
-
-    }
     if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
       const novasDespesas = { ...dados.despesas, despesasPagas: false };
       const novoEstado = { ...dados, modalDespesas: { ...dados.modalDespesas, estadoModal: true } };
