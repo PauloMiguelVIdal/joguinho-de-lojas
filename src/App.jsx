@@ -7,7 +7,7 @@ import Notificação from "./notificação";
 function App() {
   return (
     <CentraldeDadosProvider>
-    <div>
+    <div className="h-[100vh] w-[100vw]">
       <Interface/>
     </div>
     </CentraldeDadosProvider>

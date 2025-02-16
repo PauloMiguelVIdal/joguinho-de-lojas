@@ -21,41 +21,41 @@ function Interface() {
 
 
     return (
-        <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-center items-center">
+        <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-around items-center">
             <Offers />
             <Events />
-            <Employees/>
+            <Employees />
             <Notificação />
-       
-            <div className="w-[95vw] h-[90vh] rounded-[40px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-9 grid-cols-8 gap-[20px] p-[20px]">
-               <div className="grid col-start-1 col-end-3 row-start-1 row-end-10">
+            <div className="w-[30vw] h-[100vh] flex items-center justify-around">
+               
                     <Buy />
-                </div>
+               
+            </div>
+            <div className="w-[65vw] h-[90vh] rounded-[40px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-9 grid-cols-8 gap-[20px] p-[20px]">
+
                 {/* <div className="grid col-start-1 col-end-3 row-start-8 row-end-10">
                     <MoreOptions />
                 </div> */}
-                <div className="grid col-start-6 col-end-8  row-start-1 row-end-3">
-                </div>
                 {/* <div className="grid col-start-4 col-end-9 row-start-1 row-end-10">
                     <ButtonChange />
                 </div> */}
-                <div className="grid col-start-3 col-end-10 row-start-4 row-end-8">
+                <div className="grid col-start-1 col-end-10 row-start-4 row-end-8">
                     <Dashboard />
                 </div>
-                <div className="grid col-start-4 col-end-8 row-start-1 row-end-3 ">
+                <div className="grid col-start-1 col-end-8 row-start-1 row-end-3 ">
                     <div className="flex justify-center items-center gap-[10px]">
-                    <Informations />
-                    <Buttons />
-                    <EconomyGlobal/>
+                        <Informations />
+                        <Buttons />
+
                     </div>
-                    
+
 
                 </div>
                 <div className="grid col-start-5 col-end-10 row-start-8 row-end-10">
                     <ActiveEvents />
                 </div>
-                <div className="grid col-start-3 col-end-5 row-start-8 row-end-10">
-                <Texes/>
+                <div className="grid col-start-1 col-end-5 row-start-8 row-end-10">
+                    <Texes />
                 </div>
             </div>
         </div>

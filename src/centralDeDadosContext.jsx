@@ -6,8 +6,8 @@ const CentraldeDadosProvider = ({ children }) => {
 
   const [dados, setDados] = useState({
     ofertas : {},
-    saldo: 2120000,
-    dia: 27,
+    saldo: 120000,
+    dia: 1,
     chanceNovoEvento: 0,
     economiaGlobal : "estável", 
     modal: {
@@ -42,7 +42,7 @@ const CentraldeDadosProvider = ({ children }) => {
       julgamento: "",
     },
     terrenos: {
-      quantidade: 400,
+      quantidade: 0,
       quantidadeNecTerreno:0,
       preçoConstrução: 70000,
       faturamentoUnitário: 200,
