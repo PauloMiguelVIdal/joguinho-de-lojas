@@ -18,11 +18,15 @@ export default function Sorteio() {
     const departmentEvents = [
         "faturamento",
         "custos de construção"
-        // , "despesas de funcionários"
-        // , "imposto fixo"
+        , "despesas de funcionários"
+        , "imposto fixo"
+        ,
+         "imposto sobre faturamento"
     ];
     const situacao = ["crescimento", "queda"];
-    const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
+    const porcentagem = [
+        1, 3, 5, 7, 10, 15, 20, 30
+    ];
     const periodo = [3, 7, 15, 30];
     const judgment = ["ÓTIMO", "PÉSSIMO"];
 
@@ -59,7 +63,8 @@ export default function Sorteio() {
         switch (selecionarDepartamento) {
             case "custos de construção": return "preçoConstrução";
             case "faturamento": return "faturamentoUnitárioPadrão";
-            // case "imposto fixo": return "impostoFixo";
+            case "imposto fixo": return "impostoFixo";
+            case "imposto sobre faturamento": return "impostoSobreFaturamento";
             // case "despesas de funcionários": return "custoFuncionárioUnitárioPadrão";
             default: return "nada";
         }

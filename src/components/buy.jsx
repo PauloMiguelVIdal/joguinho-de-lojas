@@ -29,10 +29,10 @@ export default function Buy() {
 
 
 
+    const AumentarQuantidadeTerrenos = () => setQuantidadeTerrenos(quantidadeTerrenos + 1)
     const AumentarQuantidadeLojasP = () => setQuantidadeLojasP(quantidadeLojasP + 1)
     const AumentarQuantidadeLojasM = () => setQuantidadeLojasM(quantidadeLojasM + 1)
     const AumentarQuantidadeLojasG = () => setQuantidadeLojasG(quantidadeLojasG + 1)
-    const AumentarQuantidadeTerrenos = () => setQuantidadeTerrenos(quantidadeTerrenos + 1)
 
 
   const DiminuirQuantidadeLojasP = () => {
@@ -70,61 +70,61 @@ const DiminuirQuantidadeTerrenos = () => {
 
     // Comprar Loja P
     const ComprarLojaP = () => {
-        if (dados.terrenos.quantidade < dados.lojasP.quantidadeNecTerreno) {
+        if (dados.terrenos.quantidade < (dados.lojasP.quantidadeNecTerreno * quantidadeLojasP)) {
             return alert("Você não tem terreno suficiente");
         }
-        if (dados.saldo < dados.lojasP.preçoConstrução) {
+        if (dados.saldo < (dados.lojasP.quantidadeNecTerreno * quantidadeLojasP)) {
             alert("Você não tem dinheiro suficiente para construir");
         } else {
             atualizarDados('lojasP', {
                 ...dados.lojasP,
-                quantidade: dados.lojasP.quantidade + 1
+                quantidade: dados.lojasP.quantidade + quantidadeLojasP
             });
             atualizarDados('terrenos', {
                 ...dados.terrenos,
-                quantidade: dados.terrenos.quantidade - 1
+                quantidade: dados.terrenos.quantidade - (dados.lojasP.quantidadeNecTerreno * quantidadeLojasP)
             });
-            atualizarDados('saldo', dados.saldo - dados.lojasP.preçoConstrução);
+            atualizarDados('saldo', dados.saldo - (dados.lojasP.preçoConstrução * quantidadeLojasP));
         }
     };
 
     // Comprar Loja M
     const ComprarLojaM = () => {
-        if (dados.terrenos.quantidade < dados.lojasM.quantidadeNecTerreno) {
+        if (dados.terrenos.quantidade < (dados.lojasG.quantidadeNecTerreno * quantidadeLojasM)) {
             return alert("Você não tem terrenos suficientes");
         }
-        if (dados.saldo < dados.lojasM.preçoConstrução) {
+        if (dados.saldo < (dados.lojasM.quantidadeNecTerreno * quantidadeLojasM)) {
             alert("Você não tem dinheiro suficiente para construir");
         } else {
             atualizarDados('lojasM', {
                 ...dados.lojasM,
-                quantidade: dados.lojasM.quantidade + 1
+                quantidade: dados.lojasM.quantidade + quantidadeLojasM
             });
             atualizarDados('terrenos', {
                 ...dados.terrenos,
-                quantidade: dados.terrenos.quantidade - 2
+                quantidade: dados.terrenos.quantidade - (dados.lojasM.quantidadeNecTerreno * quantidadeLojasM)
             });
-            atualizarDados('saldo', dados.saldo - dados.lojasM.preçoConstrução);
+            atualizarDados('saldo', dados.saldo - (dados.lojasM.preçoConstrução * quantidadeLojasM));
         }
     };
 
     // Comprar Loja G
     const ComprarLojaG = () => {
-        if (dados.terrenos.quantidade < dados.lojasG.quantidadeNecTerreno) {
+        if (dados.terrenos.quantidade < (dados.lojasG.quantidadeNecTerreno * quantidadeLojasG)) {
             return alert("Você não tem terrenos suficientes");
         }
-        if (dados.saldo < dados.lojasG.preçoConstrução) {
+        if (dados.saldo < (dados.lojasG.preçoConstrução * quantidadeLojasG)) {
             alert("Você não tem dinheiro suficiente para construir");
         } else {
             atualizarDados('lojasG', {
                 ...dados.lojasG,
-                quantidade: dados.lojasG.quantidade + 1
+                quantidade: dados.lojasG.quantidade + quantidadeLojasG
             });
             atualizarDados('terrenos', {
                 ...dados.terrenos,
-                quantidade: dados.terrenos.quantidade - 3
+                quantidade: dados.terrenos.quantidade - (dados.lojasG.quantidadeNecTerreno * quantidadeLojasG)
             });
-            atualizarDados('saldo', dados.saldo - dados.lojasG.preçoConstrução);
+            atualizarDados('saldo', dados.saldo - (dados.lojasG.preçoConstrução * quantidadeLojasG));
         }
     };
 
@@ -146,7 +146,7 @@ const DiminuirQuantidadeTerrenos = () => {
 
         <div className="flex justify-around flex-col">
         {/* Container de Terrenos */}
-        <div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] rounded-[20px] mb-4 relative w-max-[400px]">
+        <div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
             <div className="flex flex-col h-full">
                 <div className="flex h-[85%] items-center">
                     {/* Container principal com place-content-between */}
@@ -160,14 +160,15 @@ const DiminuirQuantidadeTerrenos = () => {
                             </div>
                             {/* Botões de aumentar/diminuir quantidade */}
                             <div className="flex items-center mt-2">
-                                <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={AumentarQuantidadeTerrenos}>
-                                    <img src={mais} className="w-4 h-4" />
+                            <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={DiminuirQuantidadeTerrenos}>
+                                    <img src={menos} className="w-4 h-4" />
                                 </button>
+                                
                                 <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
                                     <h1 className="text-white text-xl font-bold">{quantidadeTerrenos}</h1>
                                 </div>
-                                <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={DiminuirQuantidadeTerrenos}>
-                                    <img src={menos} className="w-4 h-4" />
+                                <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={AumentarQuantidadeTerrenos}>
+                                    <img src={mais} className="w-4 h-4" />
                                 </button>
                             </div>
                         </div>
@@ -229,7 +230,7 @@ const DiminuirQuantidadeTerrenos = () => {
             </div>
         </div>
     
-        <div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] rounded-[20px] mb-4 relative">
+        <div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] shadow-lg  rounded-[20px] mb-4 relative">
     <div className="flex flex-col h-full">
         <div className="flex h-[85%] items-center">
             {/* Container principal com place-content-between */}
@@ -243,15 +244,16 @@ const DiminuirQuantidadeTerrenos = () => {
                     </div>
                     {/* Botões de aumentar/diminuir quantidade */}
                     <div className="flex items-center mt-2">
-                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={AumentarQuantidadeLojasP}>
-                            <img src={mais} className="w-4 h-4" />
+                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={DiminuirQuantidadeLojasP}>
+                            <img src={menos} className="w-4 h-4" />
                         </button>
                         <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
                             <h1 className="text-white text-xl font-bold">{quantidadeLojasP}</h1>
                         </div>
-                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={DiminuirQuantidadeLojasP}>
-                            <img src={menos} className="w-4 h-4" />
+                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={AumentarQuantidadeLojasP}>
+                            <img src={mais} className="w-4 h-4" />
                         </button>
+                    
                     </div>
                 </div>
 
@@ -312,7 +314,7 @@ const DiminuirQuantidadeTerrenos = () => {
     </div>
 </div>
     
-<div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] rounded-[20px] mb-4 relative">
+<div className="flex flex-col h-[22vh] w-[30vw] shadow-lg p-4 bg-[#290064] rounded-[20px] mb-4 relative">
     <div className="flex flex-col h-full">
         <div className="flex h-[85%] items-center">
             {/* Container principal com place-content-between */}
@@ -326,15 +328,16 @@ const DiminuirQuantidadeTerrenos = () => {
                     </div>
                     {/* Botões de aumentar/diminuir quantidade */}
                     <div className="flex items-center mt-2">
-                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={AumentarQuantidadeLojasM}>
-                            <img src={mais} className="w-4 h-4" />
+                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={DiminuirQuantidadeLojasM}>
+                            <img src={menos} className="w-4 h-4" />
                         </button>
                         <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
                             <h1 className="text-white text-xl font-bold">{quantidadeLojasM}</h1>
                         </div>
-                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={DiminuirQuantidadeLojasM}>
-                            <img src={menos} className="w-4 h-4" />
+                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={AumentarQuantidadeLojasM}>
+                            <img src={mais} className="w-4 h-4" />
                         </button>
+                       
                     </div>
                 </div>
 
@@ -409,14 +412,14 @@ const DiminuirQuantidadeTerrenos = () => {
                     </div>
                     {/* Botões de aumentar/diminuir quantidade */}
                     <div className="flex items-center mt-2">
-                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={AumentarQuantidadeLojasG}>
-                            <img src={mais} className="w-4 h-4" />
+                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={DiminuirQuantidadeLojasG}>
+                            <img src={menos} className="w-4 h-4" />
                         </button>
                         <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
                             <h1 className="text-white text-xl font-bold">{quantidadeLojasG}</h1>
                         </div>
-                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={DiminuirQuantidadeLojasG}>
-                            <img src={menos} className="w-4 h-4" />
+                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={AumentarQuantidadeLojasG}>
+                            <img src={mais} className="w-4 h-4" />
                         </button>
                     </div>
                 </div>

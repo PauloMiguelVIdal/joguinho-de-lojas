@@ -20,27 +20,27 @@ export default function PayTexes() {
   useEffect(() => {
 
 
-    
+
 
 
     todasLojas.forEach(edifícioSelecionado => {
       const impostoSobreFaturamentoLojas = dados[edifícioSelecionado].impostoSobreFaturamento
       const valoresFaturamento = dados[edifícioSelecionado].faturamentoMensal
       const valoresFaturamentoDiário = dados[edifícioSelecionado].faturamentoTotal
-                  //  console.log(valoresFaturamentoDiário)
+      //  console.log(valoresFaturamentoDiário)
 
       const valorImpostoSobreFaturamentoAtualizado = valoresFaturamento * impostoSobreFaturamentoLojas
       const valorImpostoSobreFaturamentoAtualizadoDiário = valoresFaturamentoDiário * impostoSobreFaturamentoLojas
-      
-                  //  console.log(valorImpostoSobreFaturamentoAtualizadoDiário)
+
+      //  console.log(valorImpostoSobreFaturamentoAtualizadoDiário)
 
       const impostoFixosLojas = dados[edifícioSelecionado].quantidade * dados[edifícioSelecionado].impostoFixo
       const somaImposto = impostoFixosLojas + valorImpostoSobreFaturamentoAtualizadoDiário
 
       impostoTotalFixoLojas += parseFloat(impostoFixosLojas)
       impostoValorImpostoSobreFaturamentoAtualizadoDiário += parseFloat(valorImpostoSobreFaturamentoAtualizadoDiário)
-      
-                  //  console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
+
+      //  console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
       // console.log(impostoTotalFixoLojas)
       fatuTotal += parseFloat(valorImpostoSobreFaturamentoAtualizado)
 
@@ -51,7 +51,7 @@ export default function PayTexes() {
 
 
       const impostoMensalAtualizado = impostoTotalFixoLojas + fatuTotal
-      if (dados.dia % 30 === 0){
+      if (dados.dia % 30 === 0) {
         impostoValorImpostoSobreFaturamentoAtualizadoDiário = 0;
         // fatuTotal = 0
       }
@@ -63,8 +63,8 @@ export default function PayTexes() {
         impostoFaturamentoMensal: fatuTotal,
         impostoSobreFaturamentoDiário: impostoValorImpostoSobreFaturamentoAtualizadoDiário
       })
-// console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
-// console.log(fatuTotal)
+      // console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
+      // console.log(fatuTotal)
       atualizarDados(`${edifícioSelecionado}`, {
         ...dados[edifícioSelecionado],
         valorImpostoSobreFaturamento: valorImpostoSobreFaturamentoAtualizado, valorImpostoFixoTotal: impostoFixosLojas
@@ -139,7 +139,7 @@ export default function PayTexes() {
           dados.lojasG.valorImpostoFixoTotal,
       }
     })
-  }, [dados.terrenos.valorImpostoSobreFaturamento||dados.lojasP.valorImpostoSobreFaturamento||dados.lojasM.valorImpostoSobreFaturamento||dados.lojasG.valorImpostoSobreFaturamento])
+  }, [dados.terrenos.valorImpostoSobreFaturamento || dados.lojasP.valorImpostoSobreFaturamento || dados.lojasM.valorImpostoSobreFaturamento || dados.lojasG.valorImpostoSobreFaturamento])
 
 
   // --- seria uma boa forma de armazenar os dados diários em um array e depois somente pegar esse dados
@@ -162,20 +162,20 @@ export default function PayTexes() {
   // useEffect(() => {
   //   if (dados.dia % 30 === 0) {
   //     const valorimpostoMensalAtual = dados.imposto.impostoMensal
-      
+
   //    })
   //   }
   // }, [dados.dia])
 
-useEffect(()=>{
-  if (dados.dia % 30 === 0) {
-    atualizarDados({ ...dados.despesas, despesasPagas: false })
-  }
-},[dados.dia])
-  
-// const outroDia = dados.dia % 30 === 0? dados.dia+1 : "nada"
+  useEffect(() => {
+    if (dados.dia % 30 === 0) {
+      atualizarDados({ ...dados.despesas, despesasPagas: false })
+    }
+  }, [dados.dia])
 
-// if(outroDia)
+  // const outroDia = dados.dia % 30 === 0? dados.dia+1 : "nada"
+
+  // if(outroDia)
   useEffect(() => {
     // Verifica se é necessário atualizar as despesas e o estado modal
     if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
@@ -186,7 +186,7 @@ useEffect(()=>{
       // Chame o modelo de pagar dívidas aqui
     }
   }, [dados.dia, dados.despesas.despesasPagas]);
-    
+
 
 
 
@@ -204,19 +204,39 @@ useEffect(()=>{
       // atualizarDados('faturamento', { ...dados.faturamento, faturamentoMensal: 0 });
       // atualizarDados('faturamento', { ...dados.faturamento, faturamentoDiário: 0 });
       // console.log(dados.saldo)
-      
 
 
 
 
+diaAtual
       alert("Despesas pagas.");
     }
   };
+  const proximoDiaChegar = (n) =>{
+    
+    return n % 30 === 0 ? n : n + (30 - (n % 30));
+  }
+
+  useEffect(()=>{
+  const proximoDia = proximoDiaChegar(dados.dia);
+},[dados.dia])
+  
+  
+  
+  
+  
+  
+  console.log(`O próximo múltiplo de 30 a partir de ${numeroInicial} é ${proximo}`);
 
   return (
-    <div className="flex">
-      <button className="w-[50%] w-max-[70px] w-full aspect-square bg-laranja rounded-[20px] flex items-center justify-center "
-        onClick={PagarDespesas}><img className="w-[60%] w-max-[58px] aspect-square" src={despesasImg} /></button>
+    <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px]" >
+      <div className="flex justify-center items-center w-full">
+        <h2 className={` text-white text-[20px] fonteBold`}>{proximoDia}</h2>
+      </div>
+      <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-laranja rounded-[10px] flex items-center justify-center "
+        onClick={PagarDespesas}><img className=" h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
+      </button>
+
     </div>
   )
 }

@@ -31,7 +31,7 @@ function Interface() {
                     <Buy />
                
             </div>
-            <div className="w-[65vw] h-[90vh] rounded-[40px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-9 grid-cols-8 gap-[20px] p-[20px]">
+            <div className="w-[65vw] h-[90vh] shadow-2xl rounded-[40px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-9 grid-cols-8 gap-[20px] p-[20px]">
 
                 {/* <div className="grid col-start-1 col-end-3 row-start-8 row-end-10">
                     <MoreOptions />
@@ -42,7 +42,7 @@ function Interface() {
                 <div className="grid col-start-1 col-end-10 row-start-4 row-end-8">
                     <Dashboard />
                 </div>
-                <div className="grid col-start-1 col-end-8 row-start-1 row-end-3 ">
+                <div className="grid col-start-1 col-end-10 row-start-1 row-end-3 ">
                     <div className="flex justify-center items-center gap-[10px]">
                         <Informations />
                         <Buttons />

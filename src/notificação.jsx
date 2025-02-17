@@ -46,12 +46,12 @@ export default function Notificação() {
   
   if (dados.modalEconomiaGlobal.estadoModal )  {
     return (
-      <div className='flex justify-center items-center z-10 bg-black opacity-[95%] w-[100vw] h-[100vh] absolute z-10'>
-      <div className='w-[60vw] h-[60vh] bg-roxo rounded-[20px] z-20 relative'>
-        <h1 className='text-center text-white p-[10px] fonteBold'>economia global</h1>
+      <div className='flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute z-10'>
+      <div className='w-[30vw] h-[30vh] bg-[#350973]  rounded-[20px] z-20 relative'>
+        <h1 className='text-center text-white p-[10px] text-[30px] fonteBold'>Economia Global</h1>
         <div className='w-[80%] h-[10px] bg-white flex rounded-[5px] relative m-auto'></div>
         <div>
-          <h2 className='text-start text-white opacity-[70%] pl-[20px] pt-[20px] fonteLight'>nova economia ---- {dados.economiaGlobal}</h2>
+          <h2 className='text-start text-white opacity-[70%] text-[25px] pl-[20px] pt-[20px] fonteLight'>{dados.economiaGlobal}</h2>
         </div>
         <button className='absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold' onClick={fecharModalEconomiaGlobal}>
           <h3>entendido</h3>
@@ -63,12 +63,12 @@ export default function Notificação() {
 
   
   if (dados.dia % 30 === 0 && dados.modalDespesas.estadoModal && dados.despesas.despesasPagas == false){
-    return       <div className='flex justify-center items-center z-10 bg-black opacity-[90%] w-[100vw] h-[100vh] absolute z-10'>
-      <div className='w-[50vw] h-[50vh] bg-roxo rounded-[20px] z-20 relative'>
-        <h1 className='text-center text-white p-[10px] fonteBold'>Dívidas a pagar</h1>
+    return       <div className='flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute z-10'>
+      <div className='w-[30vw] h-[30vh] bg-[#350973] rounded-[20px] z-20 relative'>
+        <h1 className='text-center text-white p-[10px] text-[30px] fonteBold'>Dívidas a pagar</h1>
         <div className='w-[80%] h-[10px] bg-white flex rounded-[5px] relative m-auto'></div>
         <div>
-          <h2 className='text-start text-white opacity-[70%] pl-[20px] pt-[20px] fonteLight'>pague as suas dívidas para poder continuar</h2>
+          <h2 className='text-start text-white opacity-[70%] pl-[20px] text-[25px] pt-[20px] fonteLight'>Pague suas dívidas para poder continuar</h2>
         </div>
         <button className='absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold' onClick={fecharModalDespesas}>
           <h3>entendido</h3>
@@ -80,12 +80,12 @@ export default function Notificação() {
 if (dados.modal.estadoModal)  {
   return (
     
-    <div className='flex justify-center items-center z-10 bg-black opacity-[95%] w-[100vw] h-[100vh] absolute z-10'>
-      <div className='w-[50vw] h-[50vh] bg-roxo rounded-[20px] z-20 relative'>
-        <h1 className='text-center text-white p-[10px] fonteBold'>{head}</h1>
-        <div className='w-[80%] h-[10px] bg-white flex rounded-[5px] relative m-auto'></div>
+    <div className='flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute z-10'>
+      <div className='w-[35vw] h-[35vh] bg-[#350973] rounded-[20px] z-20 relative'>
+        <h1 className='text-center text-white p-[10px] text-[30px] fonteBold'>{head}</h1>
+        <div className='w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto'></div>
         <div>
-          <h2 className='text-start text-white opacity-[70%] pl-[20px] pt-[20px] fonteLight'>{content}</h2>
+          <h2 className='text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight'>{content}</h2>
         </div>
         <button className='absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold' onClick={fecharModal}>
           <h3>entendido</h3>
