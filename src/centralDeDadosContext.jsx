@@ -10,6 +10,8 @@ const CentraldeDadosProvider = ({ children }) => {
     dia: 1,
     chanceNovoEvento: 0,
     economiaGlobal : "estável", 
+    proximaEconomia : "",
+    proximaOferta : "",
     modal: {
       estadoModal: false,
       head: "",
@@ -123,7 +125,8 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     despesas: {
       diaPagarDespesas: false,
-      despesasPagas: false
+      despesasPagas: false,
+      proximoPagamento:""
     },
     faturamento: {
       faturamentoDiário: 0,

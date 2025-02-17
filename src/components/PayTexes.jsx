@@ -208,17 +208,24 @@ export default function PayTexes() {
 
 
 
-diaAtual
+
       alert("Despesas pagas.");
     }
   };
-  const proximoDiaChegar = (n) =>{
-    
-    return n % 30 === 0 ? n : n + (30 - (n % 30));
-  }
+
+
+
 
   useEffect(()=>{
+
+    const proximoDiaChegar = (n) =>{
+    
+      return ((n % 30 === 0 ? n : n + (30 - (n % 30))) - dados.dia);
+    }
   const proximoDia = proximoDiaChegar(dados.dia);
+ atualizarDados("despesas",{...dados.despesas,proximoPagamento:proximoDia}
+ )
+
 },[dados.dia])
   
   
@@ -226,12 +233,14 @@ diaAtual
   
   
   
-  console.log(`O próximo múltiplo de 30 a partir de ${numeroInicial} é ${proximo}`);
+  // console.log(`O próximo múltiplo de 30 a partir de ${numeroInicial} é ${proximo}`);
 
   return (
     <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px]" >
       <div className="flex justify-center items-center w-full">
-        <h2 className={` text-white text-[20px] fonteBold`}>{proximoDia}</h2>
+        <h2 className={` text-white text-[20px] fonteBold`}>
+        {dados.despesas.proximoPagamento}
+        </h2>
       </div>
       <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-laranja rounded-[10px] flex items-center justify-center "
         onClick={PagarDespesas}><img className=" h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
