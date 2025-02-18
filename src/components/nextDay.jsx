@@ -181,7 +181,7 @@ export default function NextDay() {
     return (
 
         <div className="flex ">
-            <button className="w-[50%] min-h-[50px] h-full w-max-[70px] w-full w-min-[70px] aspect-square bg-laranja rounded-[20px] flex items-center justify-center" onClick={ProximoDia}>
+            <button className="w-[50%] min-h-[50px] h-full w-max-[70px] w-full w-min-[70px] aspect-square bg-laranja rounded-[20px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]" onClick={ProximoDia}>
                 <img className="w-[60%] w-max-[58px] aspect-square" src={PróximoImg} />
             </button>
             <Sorteio />

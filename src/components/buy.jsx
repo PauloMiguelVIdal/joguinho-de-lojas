@@ -154,20 +154,20 @@ export default function Buy() {
                             {/* Botão de compra de terreno */}
                             <div className="flex flex-col h-full justify-around">
                                 <div className="bg-laranja h-[60%] aspect-square rounded-[20px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full" onClick={ComprarTerreno}>
+                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95" onClick={ComprarTerreno}>
                                         <img src={terrenoImg} alt="despesas" className="w-[50px] h-[50px]" />
                                     </button>
                                 </div>
                                 {/* Botões de aumentar/diminuir quantidade */}
                                 <div className="flex items-center mt-2">
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={DiminuirQuantidadeTerrenos}>
+                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeTerrenos}>
                                         <img src={menos} className="w-4 h-4" />
                                     </button>
 
                                     <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
                                         <h1 className="text-white text-xl font-bold">{quantidadeTerrenos}</h1>
                                     </div>
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={AumentarQuantidadeTerrenos}>
+                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeTerrenos}>
                                         <img src={mais} className="w-4 h-4" />
                                     </button>
                                 </div>
@@ -229,20 +229,20 @@ export default function Buy() {
                             {/* Botão de compra de terreno */}
                             <div className="flex flex-col h-full justify-around">
                                 <div className="bg-laranja h-[60%] aspect-square rounded-[20px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full" onClick={ComprarLojaP}>
+                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] hover:rounded-[10px] active:scale-95" onClick={ComprarLojaP}>
                                         <img src={LojaPImg} alt="despesas" className="w-[50px] h-[50px]" />
                                     </button>
                                 </div>
                                 {/* Botões de aumentar/diminuir quantidade */}
                                 <div className="flex items-center mt-2">
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={DiminuirQuantidadeLojasP}>
+                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center  hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasP}>
                                         <img src={menos} className="w-4 h-4" />
                                     </button>
 
                                     <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
                                         <h1 className="text-white text-xl font-bold">{quantidadeLojasP}</h1>
                                     </div>
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={AumentarQuantidadeLojasP}>
+                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasP}>
                                         <img src={mais} className="w-4 h-4" />
                                     </button>
                                 </div>
@@ -302,20 +302,20 @@ export default function Buy() {
                             {/* Botão de compra de terreno */}
                             <div className="flex flex-col h-full justify-around">
                                 <div className="bg-laranja h-[60%] aspect-square rounded-[20px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full" onClick={ComprarLojaM}>
+                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95" onClick={ComprarLojaM}>
                                         <img src={LojaMImg} alt="despesas" className="w-[50px] h-[50px]" />
                                     </button>
                                 </div>
                                 {/* Botões de aumentar/diminuir quantidade */}
                                 <div className="flex items-center mt-2">
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={DiminuirQuantidadeLojasM}>
+                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasM}>
                                         <img src={menos} className="w-4 h-4" />
                                     </button>
 
                                     <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
                                         <h1 className="text-white text-xl font-bold">{quantidadeLojasM}</h1>
                                     </div>
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={AumentarQuantidadeLojasM}>
+                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center  hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasM}>
                                         <img src={mais} className="w-4 h-4" />
                                     </button>
                                 </div>
@@ -375,20 +375,20 @@ export default function Buy() {
                             {/* Botão de compra de terreno */}
                             <div className="flex flex-col h-full justify-around">
                                 <div className="bg-laranja h-[60%] aspect-square rounded-[20px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full" onClick={ComprarLojaG}>
+                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95" onClick={ComprarLojaG}>
                                         <img src={LojaGImg} alt="despesas" className="w-[50px] h-[50px]" />
                                     </button>
                                 </div>
                                 {/* Botões de aumentar/diminuir quantidade */}
                                 <div className="flex items-center mt-2">
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={DiminuirQuantidadeLojasG}>
+                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasG}>
                                         <img src={menos} className="w-4 h-4" />
                                     </button>
 
                                     <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
                                         <h1 className="text-white text-xl font-bold">{quantidadeLojasG}</h1>
                                     </div>
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center" onClick={AumentarQuantidadeLojasG}>
+                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasG}>
                                         <img src={mais} className="w-4 h-4" />
                                     </button>
                                 </div>
