@@ -7,9 +7,10 @@ const CentraldeDadosProvider = ({ children }) => {
   const [dados, setDados] = useState({
     ofertas : {},
     saldo: 120000,
-    dia: 1,
+    dia: 28,
     chanceNovoEvento: 0,
     economiaGlobal : "estável", 
+    botãoOfertas: "btnNormal",
     proximaEconomia : "",
     proximaOferta : "",
     modal: {
@@ -44,7 +45,7 @@ const CentraldeDadosProvider = ({ children }) => {
       julgamento: "",
     },
     terrenos: {
-      quantidade: 0,
+      quantidade: 1,
       quantidadeNecTerreno:0,
       preçoConstrução: 70000,
       faturamentoUnitário: 200,
@@ -64,7 +65,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasP: {
-      quantidade: 0,
+      quantidade: 1,
       quantidadeNecTerreno:1,
       preçoConstrução: 50000,
       faturamentoUnitário: 1100,
@@ -84,7 +85,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasM: {
-      quantidade: 0,
+      quantidade: 1,
       quantidadeNecTerreno:2,
       preçoConstrução: 100000,
       faturamentoUnitário: 3300,
@@ -104,7 +105,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasG: {
-      quantidade: 0,
+      quantidade: 1,
       quantidadeNecTerreno:3,
       preçoConstrução: 240000,
       faturamentoUnitário: 8000,
