@@ -153,8 +153,8 @@ export default function Buy() {
                         <div className="flex justify-around w-full mb-4 h-full">
                             {/* Botão de compra de terreno */}
                             <div className="flex flex-col h-full justify-around">
-                                <div className="bg-laranja h-[60%] aspect-square rounded-[20px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95" onClick={ComprarTerreno}>
+                                <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
+                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarTerreno}>
                                         <img src={terrenoImg} alt="despesas" className="w-[50px] h-[50px]" />
                                     </button>
                                 </div>
@@ -228,8 +228,8 @@ export default function Buy() {
                         <div className="flex justify-around w-full mb-4 h-full">
                             {/* Botão de compra de terreno */}
                             <div className="flex flex-col h-full justify-around">
-                                <div className="bg-laranja h-[60%] aspect-square rounded-[20px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] hover:rounded-[10px] active:scale-95" onClick={ComprarLojaP}>
+                                <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
+                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100]  hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaP}>
                                         <img src={LojaPImg} alt="despesas" className="w-[50px] h-[50px]" />
                                     </button>
                                 </div>
@@ -301,8 +301,8 @@ export default function Buy() {
                         <div className="flex justify-around w-full mb-4 h-full">
                             {/* Botão de compra de terreno */}
                             <div className="flex flex-col h-full justify-around">
-                                <div className="bg-laranja h-[60%] aspect-square rounded-[20px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95" onClick={ComprarLojaM}>
+                                <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
+                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaM}>
                                         <img src={LojaMImg} alt="despesas" className="w-[50px] h-[50px]" />
                                     </button>
                                 </div>
@@ -374,8 +374,8 @@ export default function Buy() {
                         <div className="flex justify-around w-full mb-4 h-full">
                             {/* Botão de compra de terreno */}
                             <div className="flex flex-col h-full justify-around">
-                                <div className="bg-laranja h-[60%] aspect-square rounded-[20px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95" onClick={ComprarLojaG}>
+                                <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
+                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaG}>
                                         <img src={LojaGImg} alt="despesas" className="w-[50px] h-[50px]" />
                                     </button>
                                 </div>
@@ -435,7 +435,7 @@ export default function Buy() {
                     </div>
                 </div>
                 {/* Quadrado roxo centralizado na borda direita */}
-                <div className="bg-roxo w-12 h-12 rounded-[10px] text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
+                <div className="bg-roxo w-12 h-12 rounded-[10px] text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2 ">
                     <h1 className="text-white font-bold">{dados.lojasG.quantidade}</h1>
                 </div>
             </div>

@@ -7,12 +7,17 @@ const CentraldeDadosProvider = ({ children }) => {
   const [dados, setDados] = useState({
     ofertas : {},
     saldo: 120000,
-    dia: 28,
+    dia: 1,
     chanceNovoEvento: 0,
     economiaGlobal : "estável", 
     botãoOfertas: "btnNormal",
     proximaEconomia : "",
     proximaOferta : "",
+    despesas: {
+      diaPagarDespesas: false,
+      despesasPagas: false,
+      proximoPagamento:""
+    },
     modal: {
       estadoModal: false,
       head: "",
@@ -45,7 +50,8 @@ const CentraldeDadosProvider = ({ children }) => {
       julgamento: "",
     },
     terrenos: {
-      quantidade: 1,
+      arrayFatu:[],
+      quantidade: 0,
       quantidadeNecTerreno:0,
       preçoConstrução: 70000,
       faturamentoUnitário: 200,
@@ -65,7 +71,8 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasP: {
-      quantidade: 1,
+      arrayFatu:[],
+      quantidade: 0,
       quantidadeNecTerreno:1,
       preçoConstrução: 50000,
       faturamentoUnitário: 1100,
@@ -85,7 +92,8 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasM: {
-      quantidade: 1,
+      arrayFatu:[],
+      quantidade: 0,
       quantidadeNecTerreno:2,
       preçoConstrução: 100000,
       faturamentoUnitário: 3300,
@@ -105,7 +113,8 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasG: {
-      quantidade: 1,
+      arrayFatu:[],
+      quantidade: 0,
       quantidadeNecTerreno:3,
       preçoConstrução: 240000,
       faturamentoUnitário: 8000,
@@ -124,11 +133,7 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMínimo: 8,
       custoFuncionárioMáximo: 12
     },
-    despesas: {
-      diaPagarDespesas: false,
-      despesasPagas: false,
-      proximoPagamento:""
-    },
+ 
     faturamento: {
       faturamentoDiário: 0,
       faturamentoMensal: 0

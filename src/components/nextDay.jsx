@@ -19,7 +19,7 @@ export default function NextDay() {
 
     const ProximoDia = () => {
         // console.log(dados.despesas);
-        atualizarDados('despesas', { ...dados.despesas, despesasPagas: false });
+        // atualizarDados('despesas', { ...dados.despesas, despesasPagas: false });
         if(dados.saldo<0){
             alert("Perdeu");
             return;

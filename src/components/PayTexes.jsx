@@ -102,12 +102,23 @@ export default function PayTexes() {
   //     , impostoDiário : impostoDiário1})
   //   })
   // },[dados.dia)
+  // useEffect(() => {
+  //   atualizarDados("relatórioFaturamento",{
+  //     ...dados.terreno.arrayFatu, [dados.dia]:
+  //       [(dados.terrenos.faturamentoTotal),
+  //       (dados.lojasP.faturamentoTotal),
+  //       (dados.lojasM.faturamentoTotal),
+  //       (dados.lojasG.faturamentoTotal)
+  //       ]
+  //   })
+  // }, [dados.terrenos.faturamentoTotal || dados.lojasP.faturamentoTotal || dados.lojasM.faturamentoTotal || dados.lojasG.faturamentoTotal])
 
 
 
 
+useEffect(()=>{
 
-
+},[dados.terrenos.faturamentoTotal])
 
 
 
@@ -169,9 +180,9 @@ export default function PayTexes() {
 
   useEffect(() => {
     if (dados.dia % 30 === 0) {
-      atualizarDados({ ...dados.despesas, despesasPagas: false })
+      atualizarDados('despesas', { ...dados.despesas, diaPagarDespesas: true, despesasPagas: false, proximoPagamento: "30" })
     }
-  }, [dados.dia])
+  }, [dados.despesas.proximoPagamento])
 
   // const outroDia = dados.dia % 30 === 0? dados.dia+1 : "nada"
 
@@ -180,10 +191,8 @@ export default function PayTexes() {
     // Verifica se é necessário atualizar as despesas e o estado modal
     if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
       const novasDespesas = { ...dados.despesas, despesasPagas: false };
-      const novoEstado = { ...dados, modalDespesas: { ...dados.modalDespesas, estadoModal: true } };
       atualizarDados('despesas', novasDespesas);
       atualizarDados('modalDespesas', { ...dados.modalDespesas, estadoModal: true });
-      // Chame o modelo de pagar dívidas aqui
     }
   }, [dados.dia, dados.despesas.despesasPagas]);
 
@@ -193,6 +202,7 @@ export default function PayTexes() {
   const PagarDespesas = () => {
     if (dados.despesas.despesasPagas) {
       return alert("Despesas desse mês já foram pagas.");
+
     } else {
 
       const novoSaldo = dados.saldo - dados.imposto.impostoMensal;
@@ -216,36 +226,75 @@ export default function PayTexes() {
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    const proximoDiaChegar = (n) =>{
-    
+    const proximoDiaChegar = (n) => {
+
       return ((n % 30 === 0 ? n : n + (30 - (n % 30))) - dados.dia);
     }
-  const proximoDia = proximoDiaChegar(dados.dia);
- atualizarDados("despesas",{...dados.despesas,proximoPagamento:proximoDia}
- )
+    const proximoDia = proximoDiaChegar(dados.dia);
+    atualizarDados("despesas", { ...dados.despesas, proximoPagamento: proximoDia }
+    )
 
-},[dados.dia])
-  
-  
-  
-  
-  
-  
-  // console.log(`O próximo múltiplo de 30 a partir de ${numeroInicial} é ${proximo}`);
+  }, [dados.dia])
 
-  return (
-    <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px]" >
-      <div className="flex justify-center items-center w-full">
-        <h2 className={` text-white text-[20px] fonteBold`}>
-        {dados.despesas.proximoPagamento}
-        </h2>
+  if (dados.dia % 30 !== 0) {
+    return (
+      <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px]" >
+        <div className="flex justify-center items-center w-full">
+          <h2 className={` text-white text-[20px] fonteBold`}>
+            {dados.despesas.proximoPagamento}
+          </h2>
+        </div>
+        <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-[#F4CCB6] rounded-[10px] flex items-center justify-center"
+          onClick={PagarDespesas}><img className=" h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
+        </button>
       </div>
-      <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-        onClick={PagarDespesas}><img className=" h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
-      </button>
+    )
+  } else if (dados.dia % 30 === 0 && dados.despesas.despesasPagas === false) {
 
-    </div>
-  )
+    return (
+      <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative"> {/* Adicionei o `relative` aqui */}
+        <div className="flex justify-center items-center w-full">
+          <h2 className="text-white text-[20px] fonteBold">
+            {dados.despesas.proximoPagamento}
+          </h2>
+        </div>
+        <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+          onClick={PagarDespesas}>
+          <img className="h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
+        </button>
+        <div className="absolute bottom-[-5px] right-[-5px]">
+          <span className="relative flex size-3">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF0000] opacity-75"></span>
+            <span className="relative inline-flex size-3 rounded-full bg-[#FF0000]"></span>
+          </span>
+        </div>
+      </div>
+
+    )
+  }
+  else {
+    return (
+      <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative"> {/* Adicionei o `relative` aqui */}
+        <div className="flex justify-center items-center w-full">
+          <h2 className="text-white text-[20px] fonteBold">
+            {dados.despesas.proximoPagamento}
+          </h2>
+        </div>
+        <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+          onClick={PagarDespesas}>
+          <img className="h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
+        </button>
+        <div className="absolute bottom-[-5px] right-[-5px]">
+          <span className="relative flex size-3">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#008000] opacity-75"></span>
+            <span className="relative inline-flex size-3 rounded-full bg-[#008000]"></span>
+          </span>
+        </div>
+      </div>
+
+    )
+  }
+
 }
