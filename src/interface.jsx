@@ -39,7 +39,7 @@ function Interface() {
                 {/* <div className="grid col-start-4 col-end-9 row-start-1 row-end-10">
                     <ButtonChange />
                 </div> */}
-                <div className="grid col-start-1 col-end-10 row-start-4 row-end-8">
+                <div className="grid col-start-1 col-end-10 row-start-3 row-end-8">
                     <Dashboard />
                 </div>
                 <div className="grid col-start-1 col-end-10 row-start-1 row-end-3 ">

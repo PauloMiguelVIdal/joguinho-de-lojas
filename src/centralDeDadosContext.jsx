@@ -6,6 +6,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
   const [dados, setDados] = useState({
     ofertas : {},
+    
     saldo: 120000,
     dia: 1,
     chanceNovoEvento: 0,
@@ -51,7 +52,8 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     terrenos: {
       arrayFatu:[],
-      quantidade: 0,
+      somaArrayFatu:"",
+      quantidade: 1,
       quantidadeNecTerreno:0,
       preçoConstrução: 70000,
       faturamentoUnitário: 200,
@@ -72,7 +74,8 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     lojasP: {
       arrayFatu:[],
-      quantidade: 0,
+      somaArrayFatu:0,
+      quantidade: 3,
       quantidadeNecTerreno:1,
       preçoConstrução: 50000,
       faturamentoUnitário: 1100,
@@ -93,7 +96,8 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     lojasM: {
       arrayFatu:[],
-      quantidade: 0,
+      somaArrayFatu:"",
+      quantidade: 2,
       quantidadeNecTerreno:2,
       preçoConstrução: 100000,
       faturamentoUnitário: 3300,
@@ -114,7 +118,8 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     lojasG: {
       arrayFatu:[],
-      quantidade: 0,
+      somaArrayFatu:"",
+      quantidade: 3,
       quantidadeNecTerreno:3,
       preçoConstrução: 240000,
       faturamentoUnitário: 8000,
@@ -133,10 +138,11 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMínimo: 8,
       custoFuncionárioMáximo: 12
     },
- 
+   
     faturamento: {
       faturamentoDiário: 0,
-      faturamentoMensal: 0
+      faturamentoMensal: 0,
+      arrayFatuDiário:[],
     },
     relatóriosFaturamento: {
 

@@ -17,91 +17,153 @@ export default function PayTexes() {
   let impostoTotalFixoLojas = 0;
   let impostoValorImpostoSobreFaturamentoAtualizadoDiário = 0;
   let fatuTotal = 0
+
+  let fatuDiário = 0
+
+
   useEffect(() => {
-
-
-
-
-
     todasLojas.forEach(edifícioSelecionado => {
-      const impostoSobreFaturamentoLojas = dados[edifícioSelecionado].impostoSobreFaturamento
-      const valoresFaturamento = dados[edifícioSelecionado].faturamentoMensal
-      const valoresFaturamentoDiário = dados[edifícioSelecionado].faturamentoTotal
-      //  console.log(valoresFaturamentoDiário)
+      const valoresFaturamento = dados[edifícioSelecionado].faturamentoMensal;
+      let valoresFaturamentoDiário = dados[edifícioSelecionado].faturamentoTotal;
+  
+      fatuDiário = parseFloat(valoresFaturamentoDiário);
+  
+      // Adiciona o valor diário ao arrayFatu
+      dados[edifícioSelecionado].arrayFatu.push(fatuDiário);
+      
 
-      const valorImpostoSobreFaturamentoAtualizado = valoresFaturamento * impostoSobreFaturamentoLojas
-      const valorImpostoSobreFaturamentoAtualizadoDiário = valoresFaturamentoDiário * impostoSobreFaturamentoLojas
 
-      //  console.log(valorImpostoSobreFaturamentoAtualizadoDiário)
+      const lojaAtual = dados[edifícioSelecionado].arrayFatu;
+      const soma = lojaAtual.reduce((acumulador, valorAtual) => acumulador + valorAtual, 0);
 
-      const impostoFixosLojas = dados[edifícioSelecionado].quantidade * dados[edifícioSelecionado].impostoFixo
-      const somaImposto = impostoFixosLojas + valorImpostoSobreFaturamentoAtualizadoDiário
+// Atualize o estado corretamente
+atualizarDados(`${edifícioSelecionado}`, {
+  ...dados[edifícioSelecionado],  // Copie os dados existentes
+  somaArrayFatu: soma            // Atualize somaArrayFatu com o valor calculado
+});
 
-      impostoTotalFixoLojas += parseFloat(impostoFixosLojas)
-      impostoValorImpostoSobreFaturamentoAtualizadoDiário += parseFloat(valorImpostoSobreFaturamentoAtualizadoDiário)
+
+
+const valoresDiários = dados[edifícioSelecionado].arrayFatu.at(-1)
+
+let somarValoresDiários = 0
+
+somarValoresDiários += valoresDiários
+
+console.log(somarValoresDiários)
+
+
+console.log(valoresDiários)
+
+})
+}, [dados.dia])
+
+
+
+
+
+
+
+  
+      // Calcula a soma do arrayFatu
+      // const soma = dados[edifícioSelecionado].arrayFatu.reduce((acumulador, valorAtual) => acumulador + valorAtual, 0);
+  
+      // // Atualiza os dados com a soma calculada
+      // atualizarDados(edifícioSelecionado, { ...dados[edifícioSelecionado], somaArrayFatu: soma });
+  
+      // console.log(soma); // Exibe a soma no console
+
+// useEffect(()=>{
+//   const removerDados = () => dados[edifícioSelecionado].arrayFatu.shift(1)
+// removerDados()
+// },[])
+
+
+
+
+
+      
+// const valorArrayFatu =()=> dados.arrayFatuDiário.push(somaFatuDiário)
+// valorArrayFatu()
+
+      // const valoresSomadosFatu = (faturamento) => {
+      //   dados.arrayFatuDiário.push(faturamento)
+      // }
+      // valoresSomadosFatu(somaFatuDiário)
+
+
+
 
       //  console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
       // console.log(impostoTotalFixoLojas)
-      fatuTotal += parseFloat(valorImpostoSobreFaturamentoAtualizado)
 
-
-      impostoTotalDiário += parseFloat(somaImposto)
       // console.log(somaImposto)
       // console.log(impostoTotalDiário)
 
+      // const valorImpostoSobreFaturamentoAtualizado = valoresFaturamento * impostoSobreFaturamentoLojas
+      // const valorImpostoSobreFaturamentoAtualizadoDiário = valoresFaturamentoDiário * impostoSobreFaturamentoLojas
+      // const impostoSobreFaturamentoLojas = dados[edifícioSelecionado].impostoSobreFaturamento
+      // const impostoFixosLojas = dados[edifícioSelecionado].quantidade * dados[edifícioSelecionado].impostoFixo
+      // const somaImposto = impostoFixosLojas + valorImpostoSobreFaturamentoAtualizadoDiário
 
-      const impostoMensalAtualizado = impostoTotalFixoLojas + fatuTotal
-      if (dados.dia % 30 === 0) {
-        impostoValorImpostoSobreFaturamentoAtualizadoDiário = 0;
-        // fatuTotal = 0
-      }
-      atualizarDados("imposto", {
-        ...dados.imposto,
-        impostoDiário: impostoTotalDiário,
-        impostoMensal: impostoMensalAtualizado,
-        impostoFixoMensal: impostoTotalFixoLojas,
-        impostoFaturamentoMensal: fatuTotal,
-        impostoSobreFaturamentoDiário: impostoValorImpostoSobreFaturamentoAtualizadoDiário
-      })
-      // console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
-      // console.log(fatuTotal)
+      // impostoTotalFixoLojas += parseFloat(impostoFixosLojas)
+      // impostoValorImpostoSobreFaturamentoAtualizadoDiário += parseFloat(valorImpostoSobreFaturamentoAtualizadoDiário)
+      // fatuTotal += parseFloat(valorImpostoSobreFaturamentoAtualizado)
+
+      //       impostoTotalDiário += parseFloat(somaImposto)
+      // const impostoMensalAtualizado = impostoTotalFixoLojas + fatuTotal
+      // if (dados.dia % 30 === 0) {
+      //   impostoValorImpostoSobreFaturamentoAtualizadoDiário = 0;
+      //   // fatuTotal = 0
+      // }
+      // atualizarDados("imposto", {
+      //   ...dados.imposto,
+      //   impostoDiário: impostoTotalDiário,
+      //   impostoMensal: impostoMensalAtualizado,
+      //   impostoFixoMensal: impostoTotalFixoLojas,
+      //   impostoFaturamentoMensal: fatuTotal,
+      //   impostoSobreFaturamentoDiário: impostoValorImpostoSobreFaturamentoAtualizadoDiário
+      // })
+      // // console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
+      // // console.log(fatuTotal)
+      // atualizarDados(`${edifícioSelecionado}`, {
+      //   ...dados[edifícioSelecionado],
+      //   valorImpostoSobreFaturamento: valorImpostoSobreFaturamentoAtualizado, valorImpostoFixoTotal: impostoFixosLojas
+      // })
+
+
+
+
+
+
+
+
+
+
+
+
+
+  let impostoFixoTotalDiário = 0
+
+  useEffect(() => {
+    todasLojas.forEach(edifícioSelecionado => {
+      const impostoFixoTotal = dados[edifícioSelecionado].impostoFixo * dados[edifícioSelecionado].quantidade
+      impostoFixoTotalDiário += parseFloat(impostoFixoTotal)
+      const impostoDiário1 = impostoFixoTotalDiário + (dados[edifícioSelecionado].valorImpostoSobreFaturamentoAtualizado)
       atualizarDados(`${edifícioSelecionado}`, {
         ...dados[edifícioSelecionado],
-        valorImpostoSobreFaturamento: valorImpostoSobreFaturamentoAtualizado, valorImpostoFixoTotal: impostoFixosLojas
+        valorImpostoFixoTotal: impostoFixoTotal
+      })
+
+      console.log(impostoFixoTotal)
+
+      atualizarDados({
+        ...dados.imposto, impostoFixoMensal: impostoFixoTotalDiário
+        , impostoDiário: impostoDiário1
       })
     })
   }, [dados.dia])
 
-
-
-
-
-
-
-
-  // console.log(dados[edifícioSelecionado].faturamentoMensal)
-  // console.log(impostoSobreFaturamentoLojas)
-
-
-  //impostos fixos
-
-
-  //   let impostoFixoTotalDiário = 0
-
-  //   useEffect(()=>{
-  //     todasLojas.forEach(edifícioSelecionado => {
-  //       const impostoFixoTotal =  dados[edifícioSelecionado].impostoFixo * dados[edifícioSelecionado].quantidade
-  //       impostoFixoTotalDiário += parseFloat(impostoFixoTotal)
-  //       const impostoDiário1 = impostoFixoTotalDiário + (dados[edifícioSelecionado].valorImpostoSobreFaturamentoAtualizado)
-  //       atualizarDados(`${edifícioSelecionado}`,{...dados[edifícioSelecionado],
-  //       valorImpostoFixoTotal:impostoFixoTotal})
-
-  //         console.log(impostoFixoTotal)
-
-  //         atualizarDados({...dados.imposto, impostoFixoMensal: impostoFixoTotalDiário
-  //     , impostoDiário : impostoDiário1})
-  //   })
-  // },[dados.dia)
   // useEffect(() => {
   //   atualizarDados("relatórioFaturamento",{
   //     ...dados.terreno.arrayFatu, [dados.dia]:
@@ -116,9 +178,9 @@ export default function PayTexes() {
 
 
 
-useEffect(()=>{
+  useEffect(() => {
 
-},[dados.terrenos.faturamentoTotal])
+  }, [dados.terrenos.faturamentoTotal])
 
 
 

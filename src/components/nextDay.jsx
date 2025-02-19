@@ -102,25 +102,26 @@ export default function NextDay() {
 
             atualizarDados("faturamento", {
                 ...dados.faturamento, faturamentoDiário: faturamentoTotalDiário, faturamentoMensal: faturamentoMensalAtualizado
+                // ,[...arrayFatuDiário,arrayFatuDiário:faturamentoTotalDiário]
             })
-
-
-
-
-
+            atualizarDados(`${edifícioSelecionado}`, {
+                ...dados[edifícioSelecionado], somaArrayFatu: faturamentoTotalDiário,
+                // ,[...arrayFatuDiário,arrayFatuDiário:faturamentoTotalDiário]
+            })
 
             atualizarDados(`${edifícioSelecionado}`, {
                 ...dados[edifícioSelecionado], faturamentoUnitário: novoValorVariável,
                 faturamentoTotal: faturamentoTotalGenérico
             })
-
+            
 
             const conversorFatuDiárioLojas = parseFloat(faturamentoTotalGenérico)
             const conversorFatuLojas = parseFloat(dados[edifícioSelecionado].faturamentoMensal)
 
             const faturamentoMensalAtualizadoLojas = conversorFatuDiárioLojas + conversorFatuLojas
 
-
+            const attArrFatu =()=> dados.faturamento.arrayFatuDiário.push(faturamentoTotalDiário);
+            attArrFatu()
 
             atualizarDados(`${edifícioSelecionado}`, {
                 ...dados[edifícioSelecionado], faturamentoMensal: faturamentoMensalAtualizadoLojas
