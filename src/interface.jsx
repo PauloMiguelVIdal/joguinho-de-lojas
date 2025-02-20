@@ -15,6 +15,7 @@ import Dashboard from "./components/Dashboard";
 import MoreOptions from "./components/MoreOptions";
 import Offers from "./components/Offers";
 import EconomyGlobal from "./components/EconomyGlobal";
+import InputName from "./components/inputName";
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
@@ -22,6 +23,7 @@ function Interface() {
 
     return (
         <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-around items-center">
+<InputName/>
             <Offers />
             <Events />
             <Employees />

@@ -6,7 +6,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
   const [dados, setDados] = useState({
     ofertas : {},
-    
+    nomeEmpresa:"",
     saldo: 120000,
     dia: 1,
     chanceNovoEvento: 0,
