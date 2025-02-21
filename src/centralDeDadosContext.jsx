@@ -6,6 +6,10 @@ const CentraldeDadosProvider = ({ children }) => {
 
   const [dados, setDados] = useState({
     ofertas : {},
+    inicioGame:{
+       estadoModal: true,
+       nomeEmpresa:""
+    },
     nomeEmpresa:"",
     saldo: 120000,
     dia: 1,
