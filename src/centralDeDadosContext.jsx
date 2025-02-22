@@ -12,7 +12,7 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     nomeEmpresa:"",
     saldo: 120000,
-    dia: 1,
+    dia: 88,
     chanceNovoEvento: 0,
     economiaGlobal : "estável", 
     botãoOfertas: "btnNormal",

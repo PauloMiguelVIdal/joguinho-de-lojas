@@ -263,7 +263,7 @@ console.log(valoresDiários)
 
   const PagarDespesas = () => {
     if (dados.despesas.despesasPagas) {
-      return alert("Despesas desse mês já foram pagas.");
+      // return alert("Despesas desse mês já foram pagas.");
 
     } else {
 
@@ -281,7 +281,7 @@ console.log(valoresDiários)
 
 
 
-      alert("Despesas pagas.");
+      // alert("Despesas pagas.");
     }
   };
 
