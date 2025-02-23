@@ -16,6 +16,9 @@ import MoreOptions from "./components/MoreOptions";
 import Offers from "./components/Offers";
 import EconomyGlobal from "./components/EconomyGlobal";
 import InputName from "./components/inputName";
+import {Achievements} from "./components/Achievements"
+
+
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
@@ -23,15 +26,16 @@ function Interface() {
 
     return (
         <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-around items-center">
-<InputName/>
+            <Achievements />
+            <InputName />
             <Offers />
             <Events />
             <Employees />
             <Notificação />
             <div className="w-[30vw] h-[100vh] flex items-center justify-around">
-               
-                    <Buy />
-               
+
+                <Buy />
+
             </div>
             <div className="w-[65vw] h-[90vh] shadow-2xl rounded-[40px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-9 grid-cols-8 gap-[20px] p-[20px]">
 

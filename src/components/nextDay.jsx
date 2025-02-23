@@ -83,9 +83,28 @@ export default function NextDay() {
             faturamentoTotalDiário += parseFloat(faturamentoTotalGenérico)
             // console.log(faturamentoTotalGenérico);
 
+            // const adicionar =(adicionado) =>{
+            //     const adc = adicionado
+            //     dados[edifícioSelecionado].arrayFatu.push(adc)
+            //     console.log(dados[edifícioSelecionado].arrayFatu.push(adc))
+                
+            // } 
+            
+            // adicionar(12)
+// if(edifícioSelecionado === "terrenos"){
+//     console.log(edifícioSelecionado)
+//     atualizarDados(edifícioSelecionado,dados`${edifícioSelecionado}`.arrayFatu.push(222))
+//     console.log(dados`${edifícioSelecionado}`.arrayFatu)
+// }
 
-
-
+if (dados[edifícioSelecionado].arrayFatu.length > 30) {
+    const result = dados[edifícioSelecionado].arrayFatu.reduce((acumulador, valorAtual) => {
+      acumulador += valorAtual;
+      return acumulador; // Não esquecer de retornar o acumulador
+    }, 0);
+    console.log(result); // Exibe a soma dos elementos do array
+  }
+  
 
 
             const conversorFatuDiário = faturamentoTotalDiário
