@@ -28,6 +28,9 @@ const CentraldeDadosProvider = ({ children }) => {
       head: "",
       content: ""
     },
+    modalAchievements: {
+      estadoModal: true,
+    },
     modalDespesas: {
       estadoModal: false,
       head: "",

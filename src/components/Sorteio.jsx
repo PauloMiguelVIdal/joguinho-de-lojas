@@ -20,8 +20,7 @@ export default function Sorteio() {
         "custos de construção"
         , "despesas de funcionários"
         , "imposto fixo"
-        ,
-         "imposto sobre faturamento"
+        ,"imposto sobre faturamento"
     ];
     const situacao = ["crescimento", "queda"];
     const porcentagem = [
