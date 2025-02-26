@@ -10,6 +10,7 @@ const CentraldeDadosProvider = ({ children }) => {
        estadoModal: true,
        nomeEmpresa:""
     },
+
     nomeEmpresa:"",
     saldo: 120000,
     dia: 1,
@@ -29,7 +30,9 @@ const CentraldeDadosProvider = ({ children }) => {
       content: ""
     },
     modalAchievements: {
-      estadoModal: true,
+      estadoModal: false,
+      lojaConquistada:"",
+      conquista:0
     },
     modalDespesas: {
       estadoModal: false,
@@ -58,9 +61,20 @@ const CentraldeDadosProvider = ({ children }) => {
       julgamento: "",
     },
     terrenos: {
+      achievements:{
+        1:false,
+        5:false,
+        10:false,
+        20:false,
+        50:false,
+        100:false,
+        200:false,
+        500:false,
+        1000:false
+          },
       arrayFatu:[],
       somaArrayFatu:"",
-      quantidade: 1,
+      quantidade: 2,
       quantidadeNecTerreno:0,
       preçoConstrução: 70000,
       faturamentoUnitário: 200,
@@ -80,7 +94,6 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasP: {
-      arrayFatu:[],
       achievements:{
         1:false,
         5:false,
@@ -90,10 +103,11 @@ const CentraldeDadosProvider = ({ children }) => {
         100:false,
         200:false,
         500:false,
-        1000:false,
-      },
+        1000:false
+          },
+      arrayFatu:[],
       somaArrayFatu:0,
-      quantidade: 25,
+      quantidade: 19,
       quantidadeNecTerreno:1,
       preçoConstrução: 50000,
       faturamentoUnitário: 1100,
@@ -113,9 +127,20 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasM: {
+      achievements:{
+        1:false,
+        5:false,
+        10:false,
+        20:false,
+        50:false,
+        100:false,
+        200:false,
+        500:false,
+        1000:false
+          },
       arrayFatu:[],
       somaArrayFatu:"",
-      quantidade: 2,
+      quantidade: 19,
       quantidadeNecTerreno:2,
       preçoConstrução: 100000,
       faturamentoUnitário: 3300,
@@ -135,9 +160,20 @@ const CentraldeDadosProvider = ({ children }) => {
       custoFuncionárioMáximo: 12
     },
     lojasG: {
+      achievements:{
+        1:false,
+        5:false,
+        10:false,
+        20:false,
+        50:false,
+        100:false,
+        200:false,
+        500:false,
+        1000:false
+          },
       arrayFatu:[],
       somaArrayFatu:"",
-      quantidade: 3,
+      quantidade:26,
       quantidadeNecTerreno:3,
       preçoConstrução: 240000,
       faturamentoUnitário: 8000,
