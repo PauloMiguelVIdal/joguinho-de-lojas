@@ -127,6 +127,8 @@ export default function Sorteio() {
     useEffect(() => {
         sortearNovoEvento();
         console.log("Sorteio executado para o dia", dados.dia);
+        console.log("useEffect chamado9!");
+
     }, [dados.dia]);
 
     // ✅ UseEffect no nível superior para atualizar os valores das lojas quando evento for ativado
@@ -142,6 +144,8 @@ export default function Sorteio() {
             });
 
             console.log("Evento aplicado nas lojas!");
+            console.log("useEffect chamado10!");
+
         }
     }, [dados.eventoAtual]);
 

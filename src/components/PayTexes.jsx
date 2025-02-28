@@ -52,6 +52,7 @@ somarValoresDiários += valoresDiários
 
 console.log(somarValoresDiários)
 
+console.log("useEffect chamado8!");
 
 console.log(valoresDiários)
 

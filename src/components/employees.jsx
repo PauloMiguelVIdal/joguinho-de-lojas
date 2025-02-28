@@ -39,6 +39,7 @@ export default function Employees() {
       })
 
     })
+    console.log("useEffect chamado7!");
 
   },[dados.dia])
 
