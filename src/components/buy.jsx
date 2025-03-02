@@ -289,7 +289,7 @@ export default function Buy() {
                     </div>
                 </div>
                 {/* Quadrado roxo centralizado na borda direita */}
-                <div className="bg-roxo w-12 h-12 rounded-[10px] text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
+                <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
                     <h1 className="text-white font-bold">{dados.lojasP.quantidade}</h1>
                 </div>
             </div>
