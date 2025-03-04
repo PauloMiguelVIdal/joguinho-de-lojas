@@ -62,7 +62,6 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     terrenos: {
       achievements:{
-        1:false,
         5:false,
         10:false,
         20:false,
@@ -95,7 +94,6 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     lojasP: {
       achievements:{
-        1:false,
         5:false,
         10:false,
         20:false,
@@ -128,7 +126,6 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     lojasM: {
       achievements:{
-        1:false,
         5:false,
         10:false,
         20:false,
@@ -161,7 +158,6 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     lojasG: {
       achievements:{
-        1:false,
         5:false,
         10:false,
         20:false,
