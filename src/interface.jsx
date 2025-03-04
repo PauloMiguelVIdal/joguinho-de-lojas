@@ -27,7 +27,7 @@ function Interface() {
     return (
         <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-around items-center">
             <Achievements />
-            {/* <InputName /> */}
+            <InputName />
             <Offers />
             <Events />
             <Employees />
@@ -46,7 +46,7 @@ function Interface() {
                     <ButtonChange />
                 </div> */}
                 <div className="grid col-start-1 col-end-10 row-start-3 row-end-8">
-                    <Dashboard />
+                    <Dashboard className="h-full" />
                 </div>
                 <div className="grid col-start-1 col-end-10 row-start-1 row-end-3 ">
                     <div className="flex justify-center items-center gap-[10px]">
