@@ -73,7 +73,7 @@ const CentraldeDadosProvider = ({ children }) => {
           },
       arrayFatu:[],
       somaArrayFatu:"",
-      quantidade: 70,
+      quantidade: 100,
       quantidadeNecTerreno:0,
       preçoConstrução: 70000,
       faturamentoUnitário: 200,
