@@ -157,7 +157,28 @@ else
     );
   }
 
-
+  if (dados.modal.fimGame===true) {
+    return (
+      <div className='flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute'>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className='w-[35vw] h-[35vh] bg-[#350973] rounded-[20px] z-20 relative'
+        >
+          <h1 className='text-center text-white p-[10px] text-[30px] fonteBold'>Fim</h1>
+          <div className='w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto'></div>
+          <div>
+            <h2 className='text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight'>{content}</h2>
+          </div>
+          <button className='absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]' onClick={fecharModal}>
+            <h3>entendido</h3>
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
 
   else {
     return null;

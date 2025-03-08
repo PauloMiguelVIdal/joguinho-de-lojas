@@ -21,7 +21,7 @@ export default function NextDay() {
         // console.log(dados.despesas);
         // atualizarDados('despesas', { ...dados.despesas, despesasPagas: false });
         if(dados.saldo<0){
-            alert("Perdeu");
+            atualizarDados(dados.fimGame,true)
             return;
         }
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
