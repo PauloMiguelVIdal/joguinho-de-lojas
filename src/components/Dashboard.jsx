@@ -160,7 +160,7 @@ export default function Dashboard() {
       };
     
       return (
-        <div className="w-full h-full border-white border-[2px]">
+        <div className="w-full h-full border-white border-[2px] rounded-[10px]">
           <div className="w-full h-[400px] rounded-[#6E0BF9] p-[0px] bg-[] flex">
             <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full " />
           </div>
