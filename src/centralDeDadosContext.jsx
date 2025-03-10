@@ -10,7 +10,7 @@ const CentraldeDadosProvider = ({ children }) => {
        estadoModal: true,
        nomeEmpresa:""
     },
-
+    fimGame:false,
     nomeEmpresa:"",
     saldo: 12000000,
     dia: 1,
