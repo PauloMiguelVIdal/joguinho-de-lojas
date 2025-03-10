@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import NextDay from "./nextDay";
+import {NextDay}from "./nextDay";
 import PayTexes from "./PayTexes";
 import Business from "./business";
 
