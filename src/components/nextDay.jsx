@@ -71,7 +71,7 @@ export function NextDay() {
     // Hook para adicionar e remover o event listener
     useEffect(() => {
         const handleKeyDownWrapper = (event) => handleKeyDown(event);
-        
+        //alterar pois está quebrando
         window.addEventListener("keydown", handleKeyDownWrapper);
 
         return () => {
