@@ -24,41 +24,43 @@ export function NextDay() {
         calcularFaturamento();
     };
 
-    // Função para calcular o faturamento
-    const calcularFaturamento = () => {
-        let faturamentoDiario = 0;
+const calcularFaturamento = () => {
+    let faturamentoDiario = 0;
 
-        const novasLojas = todasLojas.map((loja) => {
-            const valorUnitário = dados[loja].faturamentoUnitárioPadrão;
-            const valorVariável = parseFloat(
-                (valorUnitário * (1 + (Math.random() * 0.6 - 0.3))).toFixed(2)
-            );
+    const novasLojas = todasLojas.map((loja) => {
+        const valorUnitário = dados[loja].faturamentoUnitárioPadrão;
+        const valorVariável = parseFloat(
+            (valorUnitário * (1 + (Math.random() * 0.6 - 0.3))).toFixed(2)
+        );
 
-            const faturamentoTotal = parseFloat((valorVariável * dados[loja].quantidade).toFixed(2));
+        const faturamentoTotal = parseFloat((valorVariável * dados[loja].quantidade).toFixed(2));
 
-            faturamentoDiario += faturamentoTotal;
+        faturamentoDiario += faturamentoTotal;
 
-            return {
-                ...dados[loja],
-                faturamentoUnitário: valorVariável,
-                faturamentoTotal,
-            };
-        });
+        return {
+            ...dados[loja],
+            faturamentoUnitário: valorVariável,
+            faturamentoTotal,
+        };
+    });
 
-        const novoFaturamentoMensal = faturamentoDiario + dados.faturamento.faturamentoMensal;
-        atualizarDados("saldo", dados.saldo + faturamentoDiario);
+    // Verifica se é o início de um novo mês e reseta o faturamento mensal
+    const novoFaturamentoMensal = dados.dia % 30 === 0 ? faturamentoDiario : dados.faturamento.faturamentoMensal + faturamentoDiario;
 
-        atualizarDados("faturamento", {
-            ...dados.faturamento,
-            faturamentoDiário: faturamentoDiario,
-            faturamentoMensal: novoFaturamentoMensal,
-            arrayFatuDiário: [...dados.faturamento.arrayFatuDiário, faturamentoDiario],
-        });
+    atualizarDados("saldo", dados.saldo + faturamentoDiario);
 
-        todasLojas.forEach((loja, index) => {
-            atualizarDados(loja, novasLojas[index]);
-        });
-    };
+    atualizarDados("faturamento", {
+        ...dados.faturamento,
+        faturamentoDiário: faturamentoDiario,
+        faturamentoMensal: novoFaturamentoMensal,
+        arrayFatuDiário: [...dados.faturamento.arrayFatuDiário, faturamentoDiario],
+    });
+
+    todasLojas.forEach((loja, index) => {
+        atualizarDados(loja, novasLojas[index]);
+    });
+};
+
 
     // Função para capturar a tecla espaço
     const handleKeyDown = (event) => {
