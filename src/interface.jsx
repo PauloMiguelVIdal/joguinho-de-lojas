@@ -16,7 +16,7 @@ import MoreOptions from "./components/MoreOptions";
 import Offers from "./components/Offers";
 import EconomyGlobal from "./components/EconomyGlobal";
 import InputName from "./components/inputName";
-import {Achievements} from "./components/Achievements"
+import { Achievements } from "./components/Achievements"
 
 
 function Interface() {
@@ -33,11 +33,9 @@ function Interface() {
             <Employees />
             <Notificação />
             <div className="w-[30vw] h-[100vh] flex items-center justify-around">
-
                 <Buy />
-
             </div>
-            <div className="w-[65vw] h-[90vh] shadow-2xl rounded-[40px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-9 grid-cols-8 gap-[20px] p-[20px]">
+            <div className="w-[65vw] h-[95vh] shadow-2xl rounded-[40px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-10 grid-cols-10 gap-[20px] p-[20px]">
 
                 {/* <div className="grid col-start-1 col-end-3 row-start-8 row-end-10">
                     <MoreOptions />
@@ -52,10 +50,7 @@ function Interface() {
                     <div className="flex justify-center items-center gap-[10px]">
                         <Informations />
                         <Buttons />
-
                     </div>
-
-
                 </div>
                 <div className="grid col-start-5 col-end-10 row-start-8 row-end-10">
                     <ActiveEvents />

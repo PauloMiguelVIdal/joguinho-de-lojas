@@ -196,51 +196,51 @@ const CentraldeDadosProvider = ({ children }) => {
       despesasTotais: 0
     },
 
-    // agricultura: {
-    //   licençaGlobal: true,
-    //   licençasSetor: {
-    //     agropecuária: true,
-    //     grãos: false,
-    //     biofábrica: true,
-    //   },
-    //   produtos: {
-    //     plantaçãoDeGrãos: {
-    //       quantidade: 20,
+    agricultura: {
+      licençaGlobal: true,
+      licençasSetor: {
+        agropecuária: true,
+        grãos: false,
+        biofábrica: true,
+      },
+      produtos: {
+        plantaçãoDeGrãos: {
+          quantidade: 20,
   
-    //       lojasNecessárias: {
-    //         terrenos: 20,
-    //         lojasP: 1,
-    //         lojasM: 0,
-    //         lojasG: 0,
-    //       },
+          lojasNecessárias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
+          },
   
-    //       construçõesNecessárias: [],
+          construçõesNecessárias: [],
   
-    //       licençasNecessárias: [],
+          licençasNecessárias: [],
   
-    //       melhoraEficiencia: [
-    //         "fabricaDeRação",
-    //         "biofábrica",
-    //         "mercados",
-    //         "feiras",
-    //       ],
+          melhoraEficiencia: [
+            "fabricaDeRação",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
   
-    //       receitas: [
-    //         { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
-    //       ],
+          receitas: [
+            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
+          ],
   
-    //       dependências: [
-    //         { construção: "fazendaAdministrativa", quantidade: 1 }
-    //       ],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 1 }
+          ],
   
-    //       powerUp: {
-    //         nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-    //         nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-    //         nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-    //       }
-    //     }
-    //   }
-    // },
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+      }
+    },
   
     indústria: {
       licençaGlobal: true,
