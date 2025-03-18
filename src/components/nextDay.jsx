@@ -84,7 +84,7 @@ const calcularFaturamento = () => {
     return (
         <div className="flex">
             <button
-                className="w-[50%] min-h-[50px] aspect-square bg-laranja rounded-[20px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+                className="w-full min-h-[50px] aspect-square bg-laranja rounded-[20px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
                 onClick={ProximoDia}
             >
                 <img className="w-[60%] aspect-square" src={PróximoImg} alt="Próximo" />

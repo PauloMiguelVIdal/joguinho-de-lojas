@@ -11,13 +11,12 @@ export default function Buttons() {
 
 
     return (
-        <div className="flex items-center w-[30%] rounded-[20px] h-full gap-[10px]">
-            <div className="flex place-content-around items-center flex-col h-full">
+        <div className="flex items-center w-full rounded-[20px] h-full gap-[10px]">
+            <div className="flex place-content-around items-center h-full">
+                <NextDay />
                 <PayTexes />
                 <Business />
-            </div>
-            <div className="flex items-center h-full">
-                <NextDay />
+  
             </div>
         </div>
     )

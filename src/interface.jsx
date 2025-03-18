@@ -16,6 +16,7 @@ import MoreOptions from "./components/MoreOptions";
 import Offers from "./components/Offers";
 import EconomyGlobal from "./components/EconomyGlobal";
 import InputName from "./components/inputName";
+import Day from "./components/day";
 import { Achievements } from "./components/Achievements"
 
 
@@ -32,10 +33,10 @@ function Interface() {
             <Events />
             <Employees />
             <Notificação />
-            <div className="w-[30vw] h-[100vh] flex items-center justify-around">
+            <div className="w-[20vw] h-[100vh] flex items-center justify-around">
                 <Buy />
             </div>
-            <div className="w-[65vw] h-[95vh] shadow-2xl rounded-[40px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-10 grid-cols-10 gap-[20px] p-[20px]">
+            <div className="w-[75vw] h-[95vh] shadow-2xl rounded-[40px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-10 grid-cols-10 gap-[20px] p-[20px]">
 
                 {/* <div className="grid col-start-1 col-end-3 row-start-8 row-end-10">
                     <MoreOptions />
@@ -43,20 +44,28 @@ function Interface() {
                 {/* <div className="grid col-start-4 col-end-9 row-start-1 row-end-10">
                     <ButtonChange />
                 </div> */}
-                <div className="grid col-start-1 col-end-10 row-start-3 row-end-8">
+                <div className="grid col-start-1 col-end-9 row-start-2 row-end-11">
                     <Dashboard className="h-full" />
                 </div>
-                <div className="grid col-start-1 col-end-10 row-start-1 row-end-3 ">
+                <div className="grid col-start-1 col-end-11 row-1 ">
                     <div className="flex justify-center items-center gap-[10px]">
                         <Informations />
-                        <Buttons />
                     </div>
                 </div>
-                <div className="grid col-start-5 col-end-10 row-start-8 row-end-10">
-                    <ActiveEvents />
+                <div className="grid col-start-9 col-end-11 row-start-2 row-end-4">
+                    <div className="flex">
+                    <Day />
+                    <EconomyGlobal />
+                    </div>
+                    <Buttons />
                 </div>
-                <div className="grid col-start-1 col-end-5 row-start-8 row-end-10">
+                <div className="grid col-start-9 col-end-11 row-start-3 row-end-6">
+                </div>
+                <div className="grid col-start-9 col-end-11 row-start-5 row-end-8">
                     <Texes />
+                </div>
+                <div className="grid col-start-9 col-end-11 row-start-7 row-end-11">
+                    <ActiveEvents />
                 </div>
             </div>
         </div>

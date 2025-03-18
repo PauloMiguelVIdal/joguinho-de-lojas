@@ -144,9 +144,9 @@ export default function Buy() {
 
     return (
 
-        <div className="flex justify-around flex-col">
+        <div className="flex justify-around flex-col w-full">
             {/* Container de Terrenos */}
-            <div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
+            <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
                 <div className="flex flex-col h-full">
                     <div className="flex h-[85%] items-center">
                         {/* Container principal com place-content-between */}
@@ -176,7 +176,7 @@ export default function Buy() {
                             {/* Informações do terreno */}
                             <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
                                 {/* Título "Terrenos" */}
-                                <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
+                                <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
                                     <h1 className="text-white text-xl font-bold ml-[10px]">Terrenos</h1>
                                 </div>
 
@@ -184,7 +184,7 @@ export default function Buy() {
                                 <div className="  rounded-[5px]  h-[22%] ">
                                     <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">Preço construção</h1>
+                                        <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
 
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.terrenos.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>
@@ -221,7 +221,7 @@ export default function Buy() {
 
 
 
-            <div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
+            <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
                 <div className="flex flex-col h-full">
                     <div className="flex h-[85%] items-center">
                         {/* Container principal com place-content-between */}
@@ -251,7 +251,7 @@ export default function Buy() {
                             {/* Informações do terreno */}
                             <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
                                 {/* Título "Terrenos" */}
-                                <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
+                                <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
                                     <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Pequenas</h1>
                                 </div>
 
@@ -259,7 +259,7 @@ export default function Buy() {
                                 <div className="  rounded-[5px]  h-[22%] ">
                                     <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">Preço construção</h1>
+                                        <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
 
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.lojasP.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>
@@ -294,7 +294,7 @@ export default function Buy() {
                 </div>
             </div>
 
-            <div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
+            <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
                 <div className="flex flex-col h-full">
                     <div className="flex h-[85%] items-center">
                         {/* Container principal com place-content-between */}
@@ -324,7 +324,7 @@ export default function Buy() {
                             {/* Informações do terreno */}
                             <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
                                 {/* Título "Terrenos" */}
-                                <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
+                                <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
                                     <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Médias</h1>
                                 </div>
 
@@ -332,7 +332,7 @@ export default function Buy() {
                                 <div className="  rounded-[5px]  h-[22%] ">
                                     <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">Preço construção</h1>
+                                        <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
 
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.lojasM.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>
@@ -367,7 +367,7 @@ export default function Buy() {
                 </div>
             </div>
 
-            <div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
+            <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
                 <div className="flex flex-col h-full">
                     <div className="flex h-[85%] items-center">
                         {/* Container principal com place-content-between */}
@@ -397,7 +397,7 @@ export default function Buy() {
                             {/* Informações do terreno */}
                             <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
                                 {/* Título "Terrenos" */}
-                                <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
+                                <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
                                     <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Grandes</h1>
                                 </div>
 
@@ -405,7 +405,7 @@ export default function Buy() {
                                 <div className="  rounded-[5px]  h-[22%] ">
                                     <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">Preço construção</h1>
+                                        <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
 
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.lojasG.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>
@@ -445,7 +445,7 @@ export default function Buy() {
         </div>
         //     <div className="flex justify-around flex-col">
         //     {/* Container de Terrenos */}
-        //     <div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] rounded-[20px] mb-4 relative">
+        //     <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] rounded-[20px] mb-4 relative">
         //         <div className="flex flex-col h-full">
         //             <div className="flex h-[85%] items-center">
         //                 {/* Container principal com place-content-between */}
@@ -529,7 +529,7 @@ export default function Buy() {
         //     </div>
 
         //     {/* Container de Lojas Pequenas */}
-        //     <div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] rounded-[20px] mb-4 relative">
+        //     <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] rounded-[20px] mb-4 relative">
         //         <div className="flex flex-col h-full">
         //             <div className="flex h-[85%] items-center">
         //                 <div className="flex justify-between w-full mb-4">
@@ -612,7 +612,7 @@ export default function Buy() {
         //     </div>
 
         //     {/* Container de Lojas Médias */}
-        //     <div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] rounded-[20px] mb-4 relative">
+        //     <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] rounded-[20px] mb-4 relative">
         //         <div className="flex flex-col h-full">
         //             <div className="flex h-[85%] items-center">
         //                 <div className="flex justify-between w-full mb-4">
@@ -695,7 +695,7 @@ export default function Buy() {
         //     </div>
 
         //     {/* Container de Lojas Grandes */}
-        //     <div className="flex flex-col h-[22vh] w-[30vw] p-4 bg-[#290064] rounded-[20px] mb-4 relative">
+        //     <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] rounded-[20px] mb-4 relative">
         //         <div className="flex flex-col h-full">
         //             <div className="flex h-[85%] items-center">
         //                 <div className="flex justify-between w-full mb-4">

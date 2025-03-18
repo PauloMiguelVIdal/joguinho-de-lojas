@@ -174,7 +174,7 @@ export default function Dashboard() {
             <button className="w-[60px] h-[60px] rounded-[20px] bg-[#6A00FF]">1</button>
           </div>
         </div>
-        <div className=" h-[400px] flex-1 rounded-[#6E0BF9] p-[0px] bg-[] flex">
+        <div className=" h-full flex-1 rounded-[#6E0BF9] p-[0px] bg-[] flex">
           <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full " />
         </div>
       </div>
@@ -183,7 +183,7 @@ export default function Dashboard() {
 
     return (
       <div className="w-full h-full border-white border-[2px] rounded-[10px]">
-        <div className="w-full h-[400px] rounded-[#6E0BF9] p-[0px] bg-[] flex">
+        <div className="w-full h-full rounded-[#6E0BF9] p-[0px] bg-[] flex">
           <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full " />
         </div>
       </div>
