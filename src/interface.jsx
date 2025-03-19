@@ -52,16 +52,18 @@ function Interface() {
                         <Informations />
                     </div>
                 </div>
-                <div className="grid col-start-9 col-end-11 row-start-2 row-end-4">
-                    <div className="flex">
+                <div className="grid col-start-9 col-end-11 row-start-2 row-end-3 ml-[10px]">
+                    <div className="flex w-full items-center justify-center gap-[10px]">
                     <Day />
                     <EconomyGlobal />
                     </div>
+                </div>
+                <div className="grid col-start-9 col-end-11 row-start-3 row-end-4 ml-[10px]">
                     <Buttons />
                 </div>
-                <div className="grid col-start-9 col-end-11 row-start-3 row-end-6">
-                </div>
-                <div className="grid col-start-9 col-end-11 row-start-5 row-end-8">
+                {/* <div className="grid col-start-9 col-end-11 row-start-4 row-end-6">
+                </div> */}
+                <div className="grid col-start-9 col-end-11 row-start-5 row-end-7">
                     <Texes />
                 </div>
                 <div className="grid col-start-9 col-end-11 row-start-7 row-end-11">

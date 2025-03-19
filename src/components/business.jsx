@@ -62,7 +62,7 @@ export default function Business() {
                     <h2 className={`text-white text-[20px] fonteBold`}>{dados.proximaOferta}</h2>
                 </div>
                 <button className="w-[50%] max-w-[70px] h-full min-h-[50px] aspect-square bg-[#F4CCB6] rounded-[10px] flex items-center justify-center " onClick={abrirModalNotificado}>
-                    <img className="max-w-[58px] h-[70%] aspect-square" src={acordo} />
+                    <img className="h-[70%] aspect-square" src={acordo} />
                 </button>
             </div>
         )

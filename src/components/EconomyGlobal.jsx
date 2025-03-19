@@ -45,7 +45,7 @@ useEffect(()=>{
             // <div className={`${corClasse}`}>
             //     <img className="h-[10%]" src={circularEconomia}></img>
             // </div>
-                    <div className="flex max-h-[50px] w-[200px] bg-[#350973] rounded-[10px]">
+                    <div className="flex max-h-[50px] w-[100%] bg-[#350973] rounded-[10px]">
                         <div className={`${corClasse}  min-h-[50px] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center`} >
                             <img className="w-[60%] w-max-[58px]  aspect-square" src={circularEconomia} />
                         </div>
