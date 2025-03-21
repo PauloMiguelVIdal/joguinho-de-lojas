@@ -162,7 +162,7 @@ export default function Dashboard() {
     return (
       <div className="w-full h-full border-white border-[2px] rounded-[40px] flex">
         <div className="w-[100px] h-full rounded-[40px] p-[0px] bg-[#350973] flex flex-col items-center place-content-between">
-          <div className="w-[80px] h-full rounded-[#6E0BF9] p-[0px] flex flex-col items-center place-content-around">
+          <div className="w-[80px] h-[65%] rounded-[#6E0BF9] pt-[20px] flex flex-col items-center place-content-around">
             <button className="w-[60px] h-[60px] rounded-[20px] bg-[#07871A]">1</button>
             <button className="w-[60px] h-[60px] rounded-[20px] bg-[#F27405]">1</button>
             <button className="w-[60px] h-[60px] rounded-[20px] bg-[#454141]">1</button>
@@ -170,7 +170,7 @@ export default function Dashboard() {
             <button className="w-[60px] h-[60px] rounded-[20px] bg-[#3B40F5]">1</button>
             <button className="w-[60px] h-[60px] rounded-[20px] bg-[#F52BEE]">1</button>
           </div>
-          <div>
+          <div className="h-[35%]">
             <button className="w-[60px] h-[60px] rounded-[20px] bg-[#6A00FF]">1</button>
           </div>
         </div>
