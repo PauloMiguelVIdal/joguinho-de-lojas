@@ -1,6 +1,13 @@
 import React, { useContext } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { Line } from 'react-chartjs-2';
+import agricultura from "./setores/agricultura.png"
+import tecnologia from "./setores/tecnologia.png"
+import comercio from "./setores/comercio.png"
+import industria from "./setores/industria.png"
+import imobiliario from "./setores/Imobiliário.png"
+import energia from "./setores/torre-eletrica.png"
+import grafico from "./setores/grafico.png"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -160,24 +167,25 @@ export default function Dashboard() {
   };
   if (dados.dia >= 20) {
     return (
-      <div className="w-full h-full border-white border-[2px] rounded-[40px] flex">
-        <div className="w-[100px] h-full rounded-[40px] p-[0px] bg-[#350973] flex flex-col items-center place-content-between">
-          <div className="w-[80px] h-[65%] rounded-[#6E0BF9] pt-[20px] flex flex-col items-center place-content-around">
-            <button className="w-[60px] h-[60px] rounded-[20px] bg-[#07871A]">1</button>
-            <button className="w-[60px] h-[60px] rounded-[20px] bg-[#F27405]">1</button>
-            <button className="w-[60px] h-[60px] rounded-[20px] bg-[#454141]">1</button>
-            <button className="w-[60px] h-[60px] rounded-[20px] bg-[#FF0000]">1</button>
-            <button className="w-[60px] h-[60px] rounded-[20px] bg-[#3B40F5]">1</button>
-            <button className="w-[60px] h-[60px] rounded-[20px] bg-[#F52BEE]">1</button>
-          </div>
-          <div className="h-[35%]">
-            <button className="w-[60px] h-[60px] rounded-[20px] bg-[#6A00FF]">1</button>
-          </div>
-        </div>
-        <div className=" h-full flex-1 rounded-[#6E0BF9] p-[0px] bg-[] flex">
-          <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full " />
-        </div>
-      </div>
+<div className="w-full h-full border-white border-[2px] rounded-[40px] flex">
+  <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] rounded-[30px] p-[0px] bg-[#350973] flex self-center flex-col items-center justify-between">
+    <div className="w-[80px] h-[80%] rounded-[#6E0BF9] pt-[20px] flex flex-col items-center justify-between">
+      <button className="w-[60px] h-[60px] rounded-[20px] bg-[#07871A] flex items-center justify-center hover:bg-[#0C9123] hover:rounded-[20px] active:scale-95 hover:scale-[1.05]"><img src={agricultura} alt="" className="h-[60%] aspect-square" /></button>
+      <button className="w-[60px] h-[60px] rounded-[20px] bg-[#F27405] flex items-center justify-center hover:bg-[#FF870F] hover:rounded-[20px] active:scale-95 hover:scale-[1.05]"><img src={tecnologia} alt="" className="h-[60%] aspect-square" /></button>
+      <button className="w-[60px] h-[60px] rounded-[20px] bg-[#454141] flex items-center justify-center hover:bg-[#554F4F] hover:rounded-[20px] active:scale-95 hover:scale-[1.05]"><img src={industria} alt="" className="h-[60%] aspect-square" /></button>
+      <button className="w-[60px] h-[60px] rounded-[20px] bg-[#FF0000] flex items-center justify-center hover:bg-[#FF1E1E] hover:rounded-[20px] active:scale-95 hover:scale-[1.05]"><img src={comercio} alt="" className="h-[60%] aspect-square" /></button>
+      <button className="w-[60px] h-[60px] rounded-[20px] bg-[#3B40F5] flex items-center justify-center hover:bg-[#4B53FF] hover:rounded-[20px] active:scale-95 hover:scale-[1.05]"><img src={imobiliario} alt="" className="h-[60%] aspect-square" /></button>
+      <button className="w-[60px] h-[60px] rounded-[20px] bg-[#F52BEE] flex items-center justify-center hover:bg-[#FF41FA] hover:rounded-[20px] active:scale-95 hover:scale-[1.05]"><img src={energia} alt="" className="h-[60%] aspect-square" /></button>
+      <button className="w-[60px] h-[60px] rounded-[20px] bg-[#6A00FF] flex items-center justify-center hover:bg-[#7814FF] hover:rounded-[20px] active:scale-95 hover:scale-[1.05]"><img src={grafico} alt="" className="h-[60%] aspect-square" /></button>
+    </div>
+    <div className="h-[20%]">
+    </div>
+  </div>
+  <div className="h-full flex-1 rounded-[#6E0BF9] p-[0px] bg-[] flex">
+    <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full " />
+  </div>
+</div>
+
     );
   } else {
 
