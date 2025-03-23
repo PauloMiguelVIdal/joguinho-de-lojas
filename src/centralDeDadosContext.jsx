@@ -270,17 +270,51 @@ const CentraldeDadosProvider = ({ children }) => {
           melhoraEficiencia: [],
   
           receitas: [
-            { construção: "fabricaDeAutomóveis", quantidade: 10 },
-            { construção: "empresaDeInteligênciaArtificial", quantidade: 1 },
-            { construção: "fábricaDeBaterias", quantidade: 1 },
+            { fabricaDeAutomóveis:10 },
+            { empresaDeInteligênciaArtificial: 1 },
+            { fábricaDeBaterias: 1 },
           ],
   
           dependências: [],
   
           powerUp: {
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 10, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 50, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, impacto: {
+              usinaSolar:{
+                custoConstrução:-20,
+                impostoFixo:-20,
+                fatu:20 
+              },
+              fabricaDeBateria:{
+                custoConstrução:-10,
+                impostoFixo:-5,
+                fatu:10 
+              }
+            } 
+          },
+            nível2: { status: true, quantidadeMínima: 10, impacto:{
+              usinaSolar:{
+                custoConstrução:-30,
+                impostoFixo:-25,
+                fatu:20 
+              },
+              fabricaDeBateria:{
+                custoConstrução:-15,
+                impostoFixo:-10,
+                fatu:15 
+              }
+            }  },
+            nível3: { status: true, quantidadeMínima: 50, impacto:{
+              usinaSolar:{
+                custoConstrução:-40,
+                impostoFixo:-35,
+                fatu:30 
+              },
+              fabricaDeBateria:{
+                custoConstrução:-25,
+                impostoFixo:-20,
+                fatu:25 
+              }
+            }  },
           }
         }
       }
