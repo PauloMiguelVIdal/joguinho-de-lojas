@@ -8,7 +8,7 @@ import industria from "./setores/industria.png"
 import imobiliario from "./setores/Imobiliário.png"
 import energia from "./setores/torre-eletrica.png"
 import grafico from "./setores/grafico.png"
-import ConstuirImg from "../imagens/construir.png"
+import ConstuirImg from "../imagens/martelo.png"
 import circularEconomia from "../imagens/circular-economy.png"
 import licença from "../imagens/licença.png"
 import DolarImg from "../imagens/simbolo-do-dolar.png"
@@ -71,7 +71,7 @@ export default function Dashboard() {
 
   const corEconomia = (cor) => {
     switch (cor) {
-      case "recessão": return "bg-[#FF0000]";
+      case "recessão": return "bg-[#FFFFFF]";
       case "estável": return "bg-[#EEAD2D]";
       case "aquecida": return "bg-[#006400]";
     }
@@ -193,79 +193,101 @@ export default function Dashboard() {
             )}
             {ativo === "agricultura" &&
               <div className=" h-full w-full rounded-[20px]">
-                <div className="h-[10%] w-full flex justify-start gap-[10px]">
-                  <div style={{ backgroundColor: setorAtivo.cor3 }} className="w-[30%] rounded-[10px] h-full fonteBold text-white flex items-center justify-center text-[30px]">{ativoConvertido(ativo)}</div>
+                <div className="h-[10%] w- flex justify-start gap-[10px]">
+                  <div style={{ backgroundColor: setorAtivo.cor3 }} className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]">{ativoConvertido(ativo)}</div>
                   <div className="h-full rounded-[10px] ">
                     <div className={`${corEconomia(dados[ativo].economiaGlobal.estadoAtual)} h-full aspect-square rounded-[10px] flex items-center justify-center`}>
-                    <img className="w-[70%]" src={circularEconomia} />
+                      <img className="w-[70%]" src={circularEconomia} />
                     </div>
                   </div>
                   <div className={`${corEconomia(dados[ativo].economiaGlobal.estadoAtual)} h-full aspect-square rounded-[10px] flex items-center justify-center`}>
-    <img className="w-[70%]" src={circularEconomia} />
-  </div>
+                    <img className="w-[70%]" src={circularEconomia} />
+                  </div>
                 </div>
+
+
                 <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor3} 0%, #350973 70%, #000000 100%)` }} className="w-[22%] w-min-[275px] h-min-[260px] h-[40%] bg-white rounded-[20px] flex flex-col justify-center items-center" >
-                  <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-[95%] h-[28%] rounded-[20px] flex justify-center items-center ml-[2px]">
-                    <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-[80%] aspect-square rounded-[10px] flex items-center justify-center">
-                      <img className="w-[70%]" src={licença} alt="" />
+                  <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-[90%] h-[28%] rounded-[20px] p-[10px] flex justify-around items-center ml-[2px]">
+                    <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
+                      <img className="h-[70%]" src={licença} alt="" />
                     </div>
-                    <div className="flex items-center justify-center p-[5px]">
-                      <h1 className="text-white fonteBold text-[12px]">Plantação de graos</h1>
+                    <div className="flex  p-[5px]">
+                      <h1 className="text-white fonteBold text-[15px]">Plantação de graos</h1>
                     </div>
                   </div>
-                  <div className="h-[32%] w-[90%] flex justify-center items-center">
+                  <div className="h-[20%] w-[90%] flex justify-center items-center">
                     <h1 className="fonteLight text-white text-[10px]">Cultive grãos para alimentar, vender
                       ou trocar no jogo. Planeje e colha! </h1>
                   </div>
                   <div className="h-[45%] w-[90%] flex justify-around flex-col items-center">
 
-                    <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-full h-full flex items-center justify-center rounded-[10px] gap-[5px] h-[40%] ">
-                      <div className="w-[60%]  rounded-[20px] flex justify-center items-center gap-[5px]">
-                        <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-full aspect-square rounded-[8px] w-[30%] flex items-center justify-center">
+                    <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-[40%]">
+                      <div className="w-[60%] rounded-[20px] flex justify-center items-center gap-[5px] ">
+                        <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-full aspect-square rounded-[8px] w-[30%] flex items-center justify-center relative">
                           <img className="h-[70%] aspect-square" src={terrenoImg} alt="" />
+                          <div className="absolute bottom-[-2px] right-[-2px]">
+                            <span className="relative flex size-2">
+                              <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+                              <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+                            </span>
+                          </div>
                         </div>
-                        <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-full aspect-square rounded-[8px] w-[30%] flex items-center justify-center">
+                        <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-full aspect-square rounded-[8px] w-[30%] flex items-center justify-center relative">
                           <img className="h-[70%] aspect-square" src={constNece} alt="" />
+                          <div className="absolute bottom-[-2px] right-[-2px]">
+                            <span className="relative flex size-2">
+                              <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+                              <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+                            </span>
+                          </div>
                         </div>
-                        <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-full aspect-square rounded-[8px] w-[30%] flex items-center justify-center">
+                        <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-full aspect-square rounded-[8px] w-[30%] flex items-center justify-center relative">
                           <img className="h-[70%] aspect-square" src={licença} alt="" />
+                          <div className="absolute bottom-[-2px] right-[-2px]">
+                            <span className="relative flex size-2">
+                              <span className="absolute inline-flex h-full w-full rounded-full bg-[#FF0000] opacity-75"></span>
+                              <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+                            </span>
+                          </div>
                         </div>
                       </div>
-                      <div className="w-[35%] h-[50%] flex justify-center items-center">
-                        <div className="h-[65%] w-full aspect-square flex justify-center items-center">
-                          <div style={{ backgroundColor: setorAtivo.cor3 }} className="flex justify-center items-center  w-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
-                            <div style={{ backgroundColor: setorAtivo.cor2 }} className="w-[50%] h-[80%] w-full aspect-square rounded-[10px] flex items-center justify-center">
+                      <div className="w-[35%] h-[70%] flex justify-center items-center">
+                        <div className="h-full w-full aspect-square flex justify-center items-center">
+                          <div style={{ backgroundColor: setorAtivo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
+                            <div style={{ backgroundColor: setorAtivo.cor2 }} className="w-[50%] h-full w-full aspect-square rounded-[10px] flex items-center justify-center">
                               <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                             </div>
                             <div className="flex justify-center items-center w-full">
-                              <h2 className="text-white text-[20px] fonteBold">1
+                              <h2 className="text-white text-[15px] fonteBold">1
                               </h2>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="w-[95%] flex h-[15%] flex justify-between items center">
-                      <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-[55%] h-full rounded-[5px] ">
+                    <div className="w-[95%] flex h-[20%] flex justify-between items center">
+                      <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-full h-full rounded-[5px] ">
                         <div style={{ backgroundColor: setorAtivo.cor4 }} className=" rounded-[10px] flex items-center justify-between h-full ">
                           <div className="flex items-center justify-center h-full">
                             <img src={DolarImg} className="h-[60%] ml-[2px]" />
-                            <h1 className="text-white fonteBold text-[10px] ml-2">12</h1>
+                            <h1 className="text-white fonteBold text-[15px] ml-2">120.000</h1>
                           </div>
-                          <div className="flex items-center h-full">
-                            <h1 className="text-white font-bold mr-2 text-[10px]">14</h1>
+                          <div className="flex items-center justify-center h-full">
+                            <h1 className="text-white font-bold mr-2 text-[15px]">14</h1>
                             <img src={porcem} alt="porcentagem" className="h-[60%] mr-[5px]" />
                           </div>
                         </div>
                       </div>
-                      <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-[40%] h-full rounded-[5px]">
-                        <div className="flex items-center h-full">
-                          <img src={ConstuirImg} className="h-[60%] aspect-square ml-[5px]" />
-                          <h1 className="text-white fonteBold text-[10px] ml-2">16</h1>
-                        </div>
+                    </div >
+                    <div className="w-full h-[20%] flex justify-around">
+                      <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-[45%] h-full flex items-center justify-around rounded-[5px]">
+                        <img src={ConstuirImg} className="h-[60%] aspect-square ml-[5px]" />
+                        <h1 className="text-white fonteBold text-[15px] ml-2">160 K</h1>
+                      </div>
+                      <div className="flex items-center justify-center w-[50%] h-full ">
+                        <button className="bg-[#6411D9] rounded-[20px] w-full fonteBold text-white"> Comprar</button>
                       </div>
                     </div>
-                    <button className="w-[80%] h-[25%] bg-[#6411D9] rounded-[20px] fonteBold text-white"> Comprar</button>
                   </div>
                 </div>
               </div>
