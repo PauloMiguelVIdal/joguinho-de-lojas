@@ -15,7 +15,7 @@ const CentraldeDadosProvider = ({ children }) => {
     saldo: 120000,
     dia: 19,
     chanceNovoEvento: 0,
-    economiaGlobal: "estável",
+    economiaGlobal: "recessão",
     botãoOfertas: "btnNormal",
     proximaEconomia: "",
     proximaOferta: "",
@@ -197,7 +197,13 @@ const CentraldeDadosProvider = ({ children }) => {
     },
 
     agricultura: {
-      licençaGlobal: true,
+      economiaGlobal:{
+estadoAtual:"estável"
+      },
+      licencaGlobal:{
+        comprado:true,
+        valor:20000
+      },
       licençasSetor: {
         agropecuária: true,
         grãos: false,
@@ -241,88 +247,376 @@ const CentraldeDadosProvider = ({ children }) => {
         }
       }
     },
-  
-    indústria: {
-      licençaGlobal: true,
+    tecnologia: {
+      licencaGlobal:{
+        comprado:true,
+        valor:30000
+      },
       licençasSetor: {
-        mineração: true,
-        metalurgia: false,
-        energiaAvançada: true,
+        agropecuária: true,
+        grãos: false,
+        biofábrica: true,
       },
       produtos: {
-        fabricaDeAutomóveisEletricosAutonômos: {
-          quantidade: 1,
-          preçoConstrução: 100000000,
+        plantaçãoDeGrãos: {
+          quantidade: 20,
   
           lojasNecessárias: {
-            terrenos: 5000,
-            lojasP: 1000,
-            lojasM: 100,
-            lojasG: 200,
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
   
-          construçõesNecessárias: [
-            { construção: "centroDePesquisaEnergética", quantidade: 1 }
+          construçõesNecessárias: [],
+  
+          licençasNecessárias: [],
+  
+          melhoraEficiencia: [
+            "fabricaDeRação",
+            "biofábrica",
+            "mercados",
+            "feiras",
           ],
-  
-          licençasNecessárias: ["licençaDeVeiculosAutônomos"],
-  
-          melhoraEficiencia: [],
   
           receitas: [
-            { fabricaDeAutomóveis:10 },
-            { empresaDeInteligênciaArtificial: 1 },
-            { fábricaDeBaterias: 1 },
+            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
           ],
   
-          dependências: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 1 }
+          ],
   
           powerUp: {
-            nível1: { status: true, quantidadeMínima: 1, impacto: {
-              usinaSolar:{
-                custoConstrução:-20,
-                impostoFixo:-20,
-                fatu:20 
-              },
-              fabricaDeBateria:{
-                custoConstrução:-10,
-                impostoFixo:-5,
-                fatu:10 
-              }
-            } 
-          },
-            nível2: { status: true, quantidadeMínima: 10, impacto:{
-              usinaSolar:{
-                custoConstrução:-30,
-                impostoFixo:-25,
-                fatu:20 
-              },
-              fabricaDeBateria:{
-                custoConstrução:-15,
-                impostoFixo:-10,
-                fatu:15 
-              }
-            }  },
-            nível3: { status: true, quantidadeMínima: 50, impacto:{
-              usinaSolar:{
-                custoConstrução:-40,
-                impostoFixo:-35,
-                fatu:30 
-              },
-              fabricaDeBateria:{
-                custoConstrução:-25,
-                impostoFixo:-20,
-                fatu:25 
-              }
-            }  },
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
         }
       }
-    }
-    ,
-    relatóriosImpostos: {
+    },
+    industria: {
+      licencaGlobal:{
+        comprado:false,
+        valor:20000
+      },
+      licençasSetor: {
+        agropecuária: true,
+        grãos: false,
+        biofábrica: true,
+      },
+      produtos: {
+        plantaçãoDeGrãos: {
+          quantidade: 20,
+  
+          lojasNecessárias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
+          },
+  
+          construçõesNecessárias: [],
+  
+          licençasNecessárias: [],
+  
+          melhoraEficiencia: [
+            "fabricaDeRação",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+  
+          receitas: [
+            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
+          ],
+  
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 1 }
+          ],
+  
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+      }
+    },
+    comercio: {
+      licencaGlobal:{
+        comprado:false,
+        valor:20000
+      },
+      licençasSetor: {
+        agropecuária: true,
+        grãos: false,
+        biofábrica: true,
+      },
+      produtos: {
+        plantaçãoDeGrãos: {
+          quantidade: 20,
+  
+          lojasNecessárias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
+          },
+  
+          construçõesNecessárias: [],
+  
+          licençasNecessárias: [],
+  
+          melhoraEficiencia: [
+            "fabricaDeRação",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+  
+          receitas: [
+            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
+          ],
+  
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 1 }
+          ],
+  
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+      }
+    },
+    imobiliario: {
+      licencaGlobal:{
+        comprado:false,
+        valor:20000
+      },
+      licençasSetor: {
+        agropecuária: true,
+        grãos: false,
+        biofábrica: true,
+      },
+      produtos: {
+        plantaçãoDeGrãos: {
+          quantidade: 20,
+  
+          lojasNecessárias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
+          },
+  
+          construçõesNecessárias: [],
+  
+          licençasNecessárias: [],
+  
+          melhoraEficiencia: [
+            "fabricaDeRação",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+  
+          receitas: [
+            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
+          ],
+  
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 1 }
+          ],
+  
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+      }
+    },
+    energia: {
+      licencaGlobal:{
+        comprado:false,
+        valor:20000
+      },
+      licençasSetor: {
+        agropecuária: true,
+        grãos: false,
+        biofábrica: true,
+      },
+      produtos: {
+        plantaçãoDeGrãos: {
+          quantidade: 20,
+  
+          lojasNecessárias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
+          },
+  
+          construçõesNecessárias: [],
+  
+          licençasNecessárias: [],
+  
+          melhoraEficiencia: [
+            "fabricaDeRação",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+  
+          receitas: [
+            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
+          ],
+  
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 1 }
+          ],
+  
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+      }
+    },
+    grafico: {
+      licencaGlobal:{
+        comprado:true,
+        valor:20000
+      },
+      licençasSetor: {
+        agropecuária: true,
+        grãos: false,
+        biofábrica: true,
+      },
+      produtos: {
+        plantaçãoDeGrãos: {
+          quantidade: 20,
+  
+          lojasNecessárias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
+          },
+  
+          construçõesNecessárias: [],
+  
+          licençasNecessárias: [],
+  
+          melhoraEficiencia: [
+            "fabricaDeRação",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+  
+          receitas: [
+            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
+          ],
+  
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 1 }
+          ],
+  
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+      }
+    },
+    // indústria: {
+    //   licencaGlobal: true,
+    //   licençasSetor: {
+    //     mineração: true,
+    //     metalurgia: false,
+    //     energiaAvançada: true,
+    //   },
+    //   produtos: {
+    //     fabricaDeAutomóveisEletricosAutonômos: {
+    //       quantidade: 1,
+    //       preçoConstrução: 100000000,
+  
+    //       lojasNecessárias: {
+    //         terrenos: 5000,
+    //         lojasP: 1000,
+    //         lojasM: 100,
+    //         lojasG: 200,
+    //       },
+  
+    //       construçõesNecessárias: [
+    //         { construção: "centroDePesquisaEnergética", quantidade: 1 }
+    //       ],
+  
+    //       licençasNecessárias: ["licençaDeVeiculosAutônomos"],
+  
+    //       melhoraEficiencia: [],
+  
+    //       receitas: [
+    //         { fabricaDeAutomóveis:10 },
+    //         { empresaDeInteligênciaArtificial: 1 },
+    //         { fábricaDeBaterias: 1 },
+    //       ],
+  
+    //       dependências: [],
+  
+    //       powerUp: {
+    //         nível1: { status: true, quantidadeMínima: 1, impacto: {
+    //           usinaSolar:{
+    //             custoConstrução:-20,
+    //             impostoFixo:-20,
+    //             fatu:20 
+    //           },
+    //           fabricaDeBateria:{
+    //             custoConstrução:-10,
+    //             impostoFixo:-5,
+    //             fatu:10 
+    //           }
+    //         } 
+    //       },
+    //         nível2: { status: true, quantidadeMínima: 10, impacto:{
+    //           usinaSolar:{
+    //             custoConstrução:-30,
+    //             impostoFixo:-25,
+    //             fatu:20 
+    //           },
+    //           fabricaDeBateria:{
+    //             custoConstrução:-15,
+    //             impostoFixo:-10,
+    //             fatu:15 
+    //           }
+    //         }  },
+    //         nível3: { status: true, quantidadeMínima: 50, impacto:{
+    //           usinaSolar:{
+    //             custoConstrução:-40,
+    //             impostoFixo:-35,
+    //             fatu:30 
+    //           },
+    //           fabricaDeBateria:{
+    //             custoConstrução:-25,
+    //             impostoFixo:-20,
+    //             fatu:25 
+    //           }
+    //         }  
+    //       },
+    //       }
+    //     }
+    //   }
+    // }
+    // ,
+    // relatóriosImpostos: {
 
-    }
+    // }
   });
 
   const atualizarDados = (chave, novoValor) => {
