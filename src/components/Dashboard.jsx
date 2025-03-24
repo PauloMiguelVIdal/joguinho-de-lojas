@@ -181,7 +181,9 @@ export default function Dashboard() {
       </div>
 
       {/* Dashboard */}
-      <div className={`h-full flex-1 rounded-[30px] flex items-center justify-center transition-all duration-300 bg-[${setorAtivo.cor2}]`}>
+      <div className={`h-full rounded-[30px] flex items-center justify-center transition-all duration-300 bg-[${setorAtivo.cor2}] w-[calc(100%-100px)]`}>
+
+
         {/* Renderiza o conteúdo baseado no estado da licença */}
         {licencaComprada ? (
           // Container com licença comprada
@@ -191,16 +193,16 @@ export default function Dashboard() {
             )}
             {ativo === "agricultura" &&
               <div className=" h-full w-full rounded-[20px]">
-                <div className="h-[10%]  w-full flex justify-start gap-[10px]">
+                <div className="h-[10%] w-full flex justify-start gap-[10px]">
                   <div style={{ backgroundColor: setorAtivo.cor3 }} className="w-[30%] rounded-[10px] h-full fonteBold text-white flex items-center justify-center text-[30px]">{ativoConvertido(ativo)}</div>
+                  <div className="h-full rounded-[10px] ">
+                    <div className={`${corEconomia(dados[ativo].economiaGlobal.estadoAtual)} h-full aspect-square rounded-[10px] flex items-center justify-center`}>
+                    <img className="w-[70%]" src={circularEconomia} />
+                    </div>
+                  </div>
                   <div className={`${corEconomia(dados[ativo].economiaGlobal.estadoAtual)} h-full aspect-square rounded-[10px] flex items-center justify-center`}>
-                    <img className="w-[70%] " src={circularEconomia} />
-                  </div>
-                  <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-full bg-black aspect-square rounded-[10px]">
-                    <button style={{ backgroundColor: setorAtivo.cor3 }} className=" h-full aspect-square rounded-[10px] flex items-center justify-center">
-                      <img className="w-[70%] " src={licença} />
-                    </button>
-                  </div>
+    <img className="w-[70%]" src={circularEconomia} />
+  </div>
                 </div>
                 <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor3} 0%, #350973 70%, #000000 100%)` }} className="w-[22%] w-min-[275px] h-min-[260px] h-[40%] bg-white rounded-[20px] flex flex-col justify-center items-center" >
                   <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-[95%] h-[28%] rounded-[20px] flex justify-center items-center ml-[2px]">
@@ -223,10 +225,10 @@ export default function Dashboard() {
                           <img className="h-[70%] aspect-square" src={terrenoImg} alt="" />
                         </div>
                         <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-full aspect-square rounded-[8px] w-[30%] flex items-center justify-center">
-                        <img className="h-[70%] aspect-square" src={constNece} alt="" />
+                          <img className="h-[70%] aspect-square" src={constNece} alt="" />
                         </div>
                         <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-full aspect-square rounded-[8px] w-[30%] flex items-center justify-center">
-                        <img className="h-[70%] aspect-square" src={licença} alt="" />
+                          <img className="h-[70%] aspect-square" src={licença} alt="" />
                         </div>
                       </div>
                       <div className="w-[35%] h-[50%] flex justify-center items-center">
