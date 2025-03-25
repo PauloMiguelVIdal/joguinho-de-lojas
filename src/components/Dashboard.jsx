@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { Line } from 'react-chartjs-2';
 import agricultura from "./setores/agricultura.png"
@@ -8,14 +8,9 @@ import industria from "./setores/industria.png"
 import imobiliario from "./setores/Imobiliário.png"
 import energia from "./setores/torre-eletrica.png"
 import grafico from "./setores/grafico.png"
-import ConstuirImg from "../imagens/martelo.png"
 import circularEconomia from "../imagens/circular-economy.png"
-import licença from "../imagens/licença.png"
 import DolarImg from "../imagens/simbolo-do-dolar.png"
-import porcem from "../imagens/simbolo-de-porcentagem.png"
-import terrenoImg from "../imagens/terreno.png"
-import constNece from "../imagens/construção necessária.png"
-import PróximoImg from "../imagens/proximo.png";
+import CardModal from "./cardsModal";
 
 import {
   Chart as ChartJS,
@@ -72,7 +67,9 @@ export default function Dashboard() {
   const corEconomia = (cor) => {
     switch (cor) {
       case "recessão": return "bg-[#FFFFFF]";
+      case "declinio": return "bg-[#FF8000]";
       case "estável": return "bg-[#EEAD2D]";
+      case "progressiva": return "bg-[#9ACD32]";
       case "aquecida": return "bg-[#006400]";
     }
   }
@@ -85,6 +82,16 @@ export default function Dashboard() {
 
   // Pegando o setor ativo
   const setorAtivo = setores.find((setor) => setor.id === ativo);
+
+
+ if(ativo){
+  const atualizarSetor = (novoSetor) =>
+    dados.setorAtivo = novoSetor
+  atualizarSetor(ativo)
+ }
+
+
+
 
   // Definindo as cores dinâmicas
   const corClasse = setorAtivo ? setorAtivo.corClasse : "bg-[#350973]";
@@ -165,7 +172,12 @@ export default function Dashboard() {
           {setores.map((setor) => (
             <button
               key={setor.id}
-              onClick={() => setAtivo(setor.id)}
+              onClick={() => {
+                setAtivo(setor.id)
+              
+         
+
+              }}
               className={`
                 w-[60px] h-[60px] rounded-[20px] flex items-center justify-center 
                 hover:bg-[${setor.cor3}] active:scale-95 hover:scale-[1.05]
@@ -191,9 +203,9 @@ export default function Dashboard() {
             {ativo === "grafico" && (
               <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
             )}
-            {ativo === "agricultura" &&
+            {ativo !== "grafico" && (
               <div className=" h-full w-full rounded-[20px]">
-                <div className="h-[10%] w- flex justify-start gap-[10px]">
+                <div className="h-[10%] w- flex justify-start gap-[10px] ">
                   <div style={{ backgroundColor: setorAtivo.cor3 }} className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]">{ativoConvertido(ativo)}</div>
                   <div className="h-full rounded-[10px] ">
                     <div className={`${corEconomia(dados[ativo].economiaGlobal.estadoAtual)} h-full aspect-square rounded-[10px] flex items-center justify-center`}>
@@ -204,99 +216,9 @@ export default function Dashboard() {
                     <img className="w-[70%]" src={circularEconomia} />
                   </div>
                 </div>
-
-
-                <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor3} 0%, #350973 70%, #000000 100%)` }} className="w-[22%] w-min-[275px] h-min-[260px] h-[40%] bg-white rounded-[20px] flex flex-col justify-center items-center" >
-                  <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-[90%] h-[28%] rounded-[20px] p-[10px] flex justify-around items-center ml-[2px]">
-                    <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
-                      <img className="h-[70%]" src={licença} alt="" />
-                    </div>
-                    <div className="flex  p-[5px]">
-                      <h1 className="text-white fonteBold text-[15px]">Plantação de graos</h1>
-                    </div>
-                  </div>
-                  <div className="h-[20%] w-[90%] flex justify-center items-center">
-                    <h1 className="fonteLight text-white text-[10px]">Cultive grãos para alimentar, vender
-                      ou trocar no jogo. Planeje e colha! </h1>
-                  </div>
-                  <div className="h-[45%] w-[90%] flex justify-around flex-col items-center">
-
-                    <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-[40%]">
-                      <div className="w-[60%] rounded-[20px] flex justify-center items-center gap-[5px] ">
-                        <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-full aspect-square rounded-[8px] w-[30%] flex items-center justify-center relative">
-                          <img className="h-[70%] aspect-square" src={terrenoImg} alt="" />
-                          <div className="absolute bottom-[-2px] right-[-2px]">
-                            <span className="relative flex size-2">
-                              <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
-                              <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
-                            </span>
-                          </div>
-                        </div>
-                        <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-full aspect-square rounded-[8px] w-[30%] flex items-center justify-center relative">
-                          <img className="h-[70%] aspect-square" src={constNece} alt="" />
-                          <div className="absolute bottom-[-2px] right-[-2px]">
-                            <span className="relative flex size-2">
-                              <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
-                              <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
-                            </span>
-                          </div>
-                        </div>
-                        <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-full aspect-square rounded-[8px] w-[30%] flex items-center justify-center relative">
-                          <img className="h-[70%] aspect-square" src={licença} alt="" />
-                          <div className="absolute bottom-[-2px] right-[-2px]">
-                            <span className="relative flex size-2">
-                              <span className="absolute inline-flex h-full w-full rounded-full bg-[#FF0000] opacity-75"></span>
-                              <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="w-[35%] h-[70%] flex justify-center items-center">
-                        <div className="h-full w-full aspect-square flex justify-center items-center">
-                          <div style={{ backgroundColor: setorAtivo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
-                            <div style={{ backgroundColor: setorAtivo.cor2 }} className="w-[50%] h-full w-full aspect-square rounded-[10px] flex items-center justify-center">
-                              <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
-                            </div>
-                            <div className="flex justify-center items-center w-full">
-                              <h2 className="text-white text-[15px] fonteBold">1
-                              </h2>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="w-[95%] flex h-[20%] flex justify-between items center">
-                      <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-full h-full rounded-[5px] ">
-                        <div style={{ backgroundColor: setorAtivo.cor4 }} className=" rounded-[10px] flex items-center justify-between h-full ">
-                          <div className="flex items-center justify-center h-full">
-                            <img src={DolarImg} className="h-[60%] ml-[2px]" />
-                            <h1 className="text-white fonteBold text-[15px] ml-2">120.000</h1>
-                          </div>
-                          <div className="flex items-center justify-center h-full">
-                            <h1 className="text-white font-bold mr-2 text-[15px]">14</h1>
-                            <img src={porcem} alt="porcentagem" className="h-[60%] mr-[5px]" />
-                          </div>
-                        </div>
-                      </div>
-                    </div >
-                    <div className="w-full h-[20%] flex justify-around">
-                      <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-[45%] h-full flex items-center justify-around rounded-[5px]">
-                        <img src={ConstuirImg} className="h-[60%] aspect-square ml-[5px]" />
-                        <h1 className="text-white fonteBold text-[15px] ml-2">160 K</h1>
-                      </div>
-                      <div className="flex items-center justify-center w-[50%] h-full ">
-                        <button className="bg-[#6411D9] rounded-[20px] w-full fonteBold text-white"> Comprar</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <CardModal />
               </div>
-            }
-            {ativo === "tecnologia" && <h1 className="text-white text-3xl">Dashboard Tecnologia</h1>}
-            {ativo === "industria" && <h1 className="text-white text-3xl">Dashboard Indústria</h1>}
-            {ativo === "comercio" && <h1 className="text-white text-3xl">Dashboard Comércio</h1>}
-            {ativo === "imobiliario" && <h1 className="text-white text-3xl">Dashboard Imobiliário</h1>}
-            {ativo === "energia" && <h1 className="text-white text-3xl">Dashboard Energia</h1>}
+            )}
           </div>
 
         ) : (

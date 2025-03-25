@@ -156,7 +156,7 @@ if(dados.dia>20){
                             {/* Botão de compra de terreno */}
                             <div className="flex flex-col h-full justify-around">
                                 <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarTerreno}>
+                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" ho onClick={ComprarTerreno}>
                                         <img src={terrenoImg} alt="despesas" className="w-[50px] h-[50px]" />
                                     </button>
                                 </div>

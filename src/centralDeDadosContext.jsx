@@ -10,6 +10,7 @@ const CentraldeDadosProvider = ({ children }) => {
       estadoModal: true,
       nomeEmpresa: ""
     },
+    setorAtivo :"tecnologia",
     fimGame: false,
     nomeEmpresa: "",
     saldo: 120000,
@@ -209,45 +210,49 @@ estadoAtual:"estável"
         grãos: false,
         biofábrica: true,
       },
-      produtos: {
-        plantaçãoDeGrãos: {
-          quantidade: 20,
-  
-          lojasNecessárias: {
+      edificios: [
+       { nome:"Plantação De Grãos",
+        desc:"Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+        custoConstrucao:2000,
+        quantidade: 20,
+financas:{
+fatuMensal:2000,
+impostoFixo:1000,
+rent:32
+},
+
+          lojasNecessarias: {
             terrenos: 20,
             lojasP: 1,
             lojasM: 0,
             lojasG: 0,
           },
-  
           construçõesNecessárias: [],
-  
           licençasNecessárias: [],
-  
           melhoraEficiencia: [
             "fabricaDeRação",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-  
           receitas: [
             { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
           ],
-  
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 1 }
           ],
-  
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        }
+        }],
       }
-    },
+    ,
     tecnologia: {
+      economiaGlobal:{
+        estadoAtual:"estável"
+              },
       licencaGlobal:{
         comprado:true,
         valor:30000
@@ -296,8 +301,11 @@ estadoAtual:"estável"
       }
     },
     industria: {
+      economiaGlobal:{
+        estadoAtual:"estável"
+              },
       licencaGlobal:{
-        comprado:false,
+        comprado:true,
         valor:20000
       },
       licençasSetor: {
@@ -344,8 +352,11 @@ estadoAtual:"estável"
       }
     },
     comercio: {
+      economiaGlobal:{
+        estadoAtual:"estável"
+              },
       licencaGlobal:{
-        comprado:false,
+        comprado:true,
         valor:20000
       },
       licençasSetor: {
@@ -392,8 +403,11 @@ estadoAtual:"estável"
       }
     },
     imobiliario: {
+      economiaGlobal:{
+        estadoAtual:"estável"
+              },
       licencaGlobal:{
-        comprado:false,
+        comprado:true,
         valor:20000
       },
       licençasSetor: {
@@ -440,8 +454,11 @@ estadoAtual:"estável"
       }
     },
     energia: {
+      economiaGlobal:{
+        estadoAtual:"estável"
+              },
       licencaGlobal:{
-        comprado:false,
+        comprado:true,
         valor:20000
       },
       licençasSetor: {
@@ -480,14 +497,17 @@ estadoAtual:"estável"
           ],
   
           powerUp: {
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nivel1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nivel2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nivel3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
         }
       }
     },
     grafico: {
+      economiaGlobal:{
+        estadoAtual:"estável"
+              },
       licencaGlobal:{
         comprado:true,
         valor:20000
