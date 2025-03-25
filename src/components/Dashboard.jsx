@@ -204,20 +204,33 @@ export default function Dashboard() {
               <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
             )}
             {ativo !== "grafico" && (
-              <div className=" h-full w-full rounded-[20px]">
-                <div className="h-[10%] w- flex justify-start gap-[10px] ">
-                  <div style={{ backgroundColor: setorAtivo.cor3 }} className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]">{ativoConvertido(ativo)}</div>
-                  <div className="h-full rounded-[10px] ">
-                    <div className={`${corEconomia(dados[ativo].economiaGlobal.estadoAtual)} h-full aspect-square rounded-[10px] flex items-center justify-center`}>
-                      <img className="w-[70%]" src={circularEconomia} />
-                    </div>
-                  </div>
-                  <div className={`${corEconomia(dados[ativo].economiaGlobal.estadoAtual)} h-full aspect-square rounded-[10px] flex items-center justify-center`}>
-                    <img className="w-[70%]" src={circularEconomia} />
-                  </div>
-                </div>
-                <CardModal />
-              </div>
+             <div className="h-full w-full rounded-[20px]">
+             {/* Barra superior */}
+             <div className="h-16 w-full flex justify-start gap-[10px] items-center">
+               {/* Bloco de Ativo */}
+               <div
+                 style={{ backgroundColor: setorAtivo.cor3 }}
+                 className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
+               >
+                 {ativoConvertido(ativo)}
+               </div>
+           
+               {/* Ícones de Economia */}
+               <div className="flex gap-2 h-full">
+                 <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
+                   <img className="w-[70%]" src={circularEconomia} />
+                 </div>
+                 <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
+                   <img className="w-[70%]" src={circularEconomia} />
+                 </div>
+               </div>
+             </div>
+           
+            
+             <div className="h-[calc(100%-4rem)] w-full">
+               <CardModal />
+             </div>
+           </div>
             )}
           </div>
 
