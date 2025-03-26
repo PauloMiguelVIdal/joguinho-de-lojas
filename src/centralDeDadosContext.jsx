@@ -35,6 +35,7 @@ const CentraldeDadosProvider = ({ children }) => {
       lojaConquistada: "",
       conquista: 0
     },
+    
     modalDespesas: {
       estadoModal: false,
       head: "",
@@ -215,7 +216,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Plantação De Grãos",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           custoConstrucao: 2000,
-          quantidade: 20,
+          quantidade: 120,
           financas: {
             fatuMensal: 2000,
             impostoFixo: 1000,
@@ -519,8 +520,7 @@ const CentraldeDadosProvider = ({ children }) => {
       },
       produtos: {
         plantaçãoDeGrãos: {
-          quantidade: 20,
-
+          quantidade: 60,
           lojasNecessárias: {
             terrenos: 20,
             lojasP: 1,
@@ -549,8 +549,8 @@ const CentraldeDadosProvider = ({ children }) => {
 
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível2: { status: true, quantidadeMínima: 10, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 50, impacto: 15 },
           }
         }
       }
