@@ -227,7 +227,10 @@ export default function Dashboard() {
              </div>
            
             
-             <div className="h-[calc(100%-4rem)] w-full">
+             <div className="h-[calc(100%-4rem)] w-full flex gap-[20px]">
+               <CardModal />
+               <CardModal />
+               <CardModal />
                <CardModal />
              </div>
            </div>
