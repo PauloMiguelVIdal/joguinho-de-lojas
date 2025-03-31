@@ -428,8 +428,8 @@ export default function CardModal() {
                             <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-full">
 
                                 <div className="w-[100%] rounded-[20px] flex justify-around items-center  h-full">
-                                    <div style={{ backgroundColor: setorInfo.cor3 }} onMouseEnter={() => handleShow('lojasNec')}
-                                        onMouseLeave={handleHide}
+                                    <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => handleShow('lojasNec')}
+                                        // onMouseLeave={handleHide}
                                         className=" hover:scale-[1.20] ease-in-out cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative">
                                         <img className="h-[70%] aspect-square" src={terrenoImg} alt="" />
                                         <div className="absolute bottom-[-2px] right-[-2px]">
@@ -449,8 +449,8 @@ export default function CardModal() {
                                             </span>
                                         </div>
                                     </div>
-                                    <div style={{ backgroundColor: setorInfo.cor3 }} onMouseEnter={() => handleShow('licenca')}
-                                        onMouseLeave={handleHide} className="h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative hover:scale-[1.20] ease-in-out cursor-pointer">
+                                    <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => handleShow('licenca')}
+                                        className="h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative hover:scale-[1.20] ease-in-out cursor-pointer">
                                         <img className="h-[70%] aspect-square" src={licença} alt="" />
                                         <div className="absolute bottom-[-2px] right-[-2px]">
                                             <span className="relative flex size-2">
@@ -484,7 +484,7 @@ export default function CardModal() {
                                     <h1 className="text-white fonteBold text-[15px] ml-2">{dados[setorAtivo].edificios[0].custoConstrucao}</h1>
                                 </div>
                                 <div
-                                    // onMouseEnter={() => { handleMouseEnter(), handleShow('powerUp') }} onMouseLeave={handleMouseLeave} 
+                                    onClick={() => { handleMouseEnter(), handleShow('powerUp') }}
                                     className="w-[42%] h-full flex justify-center items-center ">
                                     <div className="h-full w-full aspect-square flex justify-center items-center">
                                         <div style={{ backgroundColor: setorInfo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
@@ -509,38 +509,38 @@ export default function CardModal() {
                 {/* Verso do Card */}
                 <div className="absolute w-full h-full flex items-center justify-center rounded-xl"
                     style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}>
-                    {visibleId === "constNece" && isModalOpen === true &&
+                    {/* {visibleId === "constNece" && isModalOpen === true &&
                         (
                             <div className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
 
                             </div>
                         )
-                    }
+                    } */}
                     {visibleId === "constNece" && isModalOpen === true &&
                         (
-                            <div className="w-[100%] h-[100%] flex items-center flex-col justify-around self-center">
-                                <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[22%] rounded-[10px] flex justify-between ">
+                            <div className="w-[90%] h-[100%] flex items-center flex-col justify-center self-center">
+                                <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between ">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
-                                        <img className="h-[70%]" src={plantação} alt="" />
+                                        <img className="h-[70%]" src={constNece} alt="" />
                                     </div>
 
-                                    <div className="flex p-[10px] justify-center">
+                                    <div className="flex p-[10px] justify-center items-center">
                                         <h1 className="text-white fonteBold text-[12px]">Construções necessárias</h1>
                                     </div>
                                 </div>
-                                <div className="h-[27%] flex flex-col items-center justify-center">
+                                <div className="h-[27%] w-full flex flex-col items-center justify-center">
                                     <div className="h-[35%] w-[90%] flex flex-col justify-center  ">
                                         <h1 className="FonteBold text-white text-[11px] text-start">Recursos de Construção</h1>
                                     </div>
-                                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
+                                    <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
                                         <ResourcesConstruction />
                                     </div>
                                 </div>
-                                <div className="h-[27%] flex flex-col items-center justify-center">
+                                <div className="h-[27%] w-full flex flex-col items-center justify-center">
                                     <div className="h-[35%] w-[90%] flex flex-col  justify-center">
                                         <h1 className="FonteBold text-white text-[11px] text-start">Construções pré-requisito</h1>
                                     </div>
-                                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
+                                    <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
                                         <SelectorImage />
                                     </div>
                                 </div>
@@ -549,26 +549,179 @@ export default function CardModal() {
                     }
                     {visibleId === 'lojasNec' && isModalOpen === true &&
                         (
-                            <div className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
+                            <div className="w-[90%] h-[100%] flex items-center flex-col justify-around self-center">
+                                <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between ">
+                                    <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
+                                        <img className="h-[70%]" src={constNece} alt="" />
+                                    </div>
 
+                                    <div className="flex p-[10px] justify-center items-center">
+                                        <h1 className="text-white fonteBold text-[12px]">Lojas necessárias</h1>
+                                    </div>
+                                </div>
+
+                                <div className=" flex items-center justify-around w-full h-[70%]  rounded-[10px] flex-col">
+                                    <div className="w-full h-[22%] flex justify-around items-center ">
+                                        <div className="h-full w-full aspect-square flex justify-around items-center ">
+                                            <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
+                                                <img className="h-[70%]" src={terrenoImg} alt="" />
+
+                                            </div>
+                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].quantidade}</h2>
+                                                <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
+                                                    <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[0].lojasNecessarias.terrenos}</h2>
+                                                </div>
+                                            </div>
+
+                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> 2.2 M</h2>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div className="w-full h-[22%] flex justify-around items-center ">
+                                        <div className="h-full w-full aspect-square flex justify-around items-center ">
+                                            <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
+                                                <img className="h-[70%]" src={LojaPImg} alt="" />
+
+                                            </div>
+                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].quantidade}</h2>
+                                                <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
+                                                    <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[0].lojasNecessarias.terrenos}</h2>
+                                                </div>
+                                            </div>
+
+                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> 2.2 M</h2>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div className="w-full h-[22%] flex justify-around items-center ">
+                                        <div className="h-full w-full aspect-square flex justify-around items-center ">
+                                            <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
+                                                <img className="h-[70%]" src={LojaMImg} alt="" />
+
+                                            </div>
+                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].quantidade}</h2>
+                                                <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
+                                                    <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[0].lojasNecessarias.terrenos}</h2>
+                                                </div>
+                                            </div>
+
+                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                                <h2 style={{ backgroundColor: setorInfo.cor }} className="text-white text-[15px] fonteBold"> 2.2 M</h2>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div className="w-full h-[22%] flex justify-around items-center ">
+                                        <div className="h-full w-full aspect-square flex justify-around items-center ">
+                                            <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
+                                                <img className="h-[70%]" src={LojaGImg} alt="" />
+
+                                            </div>
+                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].quantidade}</h2>
+                                                <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
+                                                    <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[0].lojasNecessarias.terrenos}</h2>
+                                                </div>
+                                            </div>
+
+                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> 2.2 M</h2>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* <div style={{ backgroundColor: setorInfo.cor3 }} className="w-[100%] flex rounded-[10px]">
+                                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" flex items-center justify-around w-full h-full text-white rounded-[10px]">Comprar Restante
+                                    </div>
+                                    <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                        <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> 2.2 M</h2>
+                                    </div>
+                                </div> */}
                             </div>
+
                         )
                     }
-                    {visibleId === "constNece" && isModalOpen === true &&
+                    {visibleId === "licenca" && isModalOpen === true &&
                         (
                             <div className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
+                                <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[15%] rounded-[10px] flex justify-between ">
+                                    <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
+                                        <img className="h-[70%]" src={licença} alt="" />
+                                    </div>
 
+                                    <div className="flex p-[10px] justify-center items-center">
+                                        <h1 className="text-white fonteBold text-[12px]">Licenças Necessárias</h1>
+                                    </div>
+                                </div>
+                                <LicenseNec />
                             </div>
                         )
                     }
-                    {visibleId === "constNece" && isModalOpen === true &&
+                    {visibleId === 'powerUp' && isModalOpen === true &&
                         (
                             <div className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
+                                <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between ">
+                                    <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%, #350973 30%, #350973 70%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
+                                        <img className="h-[70%] rotate-[270deg]" src={PróximoImg} alt="" />
+                                    </div>
 
-                            </div>
-                        )
+                                    <div className="flex p-[10px] justify-center items-center">
+                                        <h1 className="text-white fonteBold text-[12px]">Power Ups</h1>
+                                    </div>
+                                </div>
+                                <div className="h-[20%] w-full flex justify-between flex-col items-center">
+
+                                    <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] h-full">
+
+                                        <div className="w-[100%] rounded-[20px] flex justify-around items-center  h-full">
+                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
+                                                <div className="bg-[#8F5ADA] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
+                                                    <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                                                </div>
+                                                <div className="flex justify-center items-center w-full">
+                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[0].quantidade}
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
+                                                <div className="bg-[#6411D9] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
+                                                    <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                                                </div>
+                                                <div   className="flex justify-center items-center h-full w-full">
+                                                    <h2 className="text-white text-[10px]  fonteBold">{dados[setorAtivo].edificios[0].quantidade}
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
+                                                <div className="bg-[#350973] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
+                                                    <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                                                </div>
+                                                <div className="flex justify-center items-center w-full">
+                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[0].quantidade}
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                              
+                                <div style={{ backgroundColor: setorInfo.cor2 }} className="h-[50%] w-full rounded-[10px] flex flex-col items-center justify-around">
+                                    <p className="text-white text-[10px] h-[65%] p-[5px]">Dara power up principalemente
+                                        em industria alimenticia e rações. </p>
+                                    <button onClick={openModalPowerUps} className="Todos power Ups w-[95%] h-[25%] z-40 text-white text-[10px] bg-[#6411D9] rounded-[10px]">Todos power ups</button>
+                                </div>
+                            </div>)
+
                     }
-
                 </div>
 
 
