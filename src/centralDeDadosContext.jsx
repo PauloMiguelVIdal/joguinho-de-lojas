@@ -530,7 +530,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           construçõesNecessárias: [],
 
-          licençasNecessárias: [],
+          licençasNecessárias: [{ construção: "fazendaAdministrativa"}],
 
           melhoraEficiencia: [
             "fabricaDeRação",

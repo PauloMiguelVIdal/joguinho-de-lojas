@@ -282,7 +282,7 @@ export default function CardModal() {
     if (isModalOpen === 'constNece') {
         return (
 
-            <div className="absolute w-full h-full flex items-center justify-center rounded-xl"
+            <div className="absolute w-full h-full flex items-center justify-center rounded-xl "
                 style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}>
                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[90%] h-[28%] rounded-[20px] p-[10px] flex justify-around items-center gap-[2px] ml-[2px]">
                     <div style={{ backgroundColor: setorInfo.cor3 }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
@@ -304,7 +304,7 @@ export default function CardModal() {
                     <div className="h-[35%] w-[90%] flex flex-col  justify-center">
                         <h1 className="FonteBold text-white text-[11px] text-start">Construções pré-requisito</h1>
                     </div>
-                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
+                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" flex items-center h-[65%] w-[90%]  z-[20] rounded-[10px]">
                         <SelectorImage />
                     </div>
                 </div>
@@ -398,7 +398,7 @@ export default function CardModal() {
 
                 <div className="absolute w-full h-full flex items-center justify-center rounded-xl">
                     <div className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
-                        <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[22%] rounded-[10px] flex justify-between ">
+                        <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[22%] rounded-[10px] flex justify-between drop-shadow-xs">
                             <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                 <img className="h-[70%]" src={plantação} alt="" />
                             </div>
@@ -407,27 +407,11 @@ export default function CardModal() {
                                 <h1 className="text-white fonteBold text-[12px]">{dados[setorAtivo].edificios[0].nome}</h1>
                             </div>
                         </div>
-
-
-                        {/* <div className="h-[20%] w-[90%] flex justify-center items-center relative">
-                <h1 className="fonteLight text-white text-[10px]">{dados[setorAtivo].edificios[0].desc} </h1>
-
-                {visibleId === 'lojasNec' && <div style={{ backgroundColor: setorInfo.cor3 }} className=" flex items-center justify-around w-full h-[90%] absolute z-[20] rounded-[10px]">
-                    <div style={{ backgroundColor: setorInfo.cor4 }} className="w-[20%] flex items-center justify-center aspect-square bg-white rounded-[10px] relative"><img className="h-[70%]" src={terrenoImg} alt="" /><div style={{ color: setorInfo.cor1 }} className="absolute fonteBold">{dados[setorAtivo].edificios[0].lojasNecessarias.terrenos}</div></div>
-                    <div style={{ backgroundColor: setorInfo.cor4 }} className="w-[20%] flex items-center justify-center aspect-square bg-white rounded-[10px] relative"><img className="h-[70%]" src={LojaPImg} alt="" /><div style={{ color: setorInfo.cor1 }} className="absolute fonteBold">{dados[setorAtivo].edificios[0].lojasNecessarias.lojasP}</div></div>
-                    <div style={{ backgroundColor: setorInfo.cor4 }} className="w-[20%] flex items-center justify-center aspect-square bg-white rounded-[10px] relative"><img className="h-[70%]" src={LojaMImg} alt="" /><div style={{ color: setorInfo.cor1 }} className="absolute fonteBold">{dados[setorAtivo].edificios[0].lojasNecessarias.lojasM}</div></div>
-                    <div style={{ backgroundColor: setorInfo.cor4 }} className="w-[20%] flex items-center justify-center aspect-square bg-white rounded-[10px] relative"><img className="h-[70%]" src={LojaGImg} alt="" /><div style={{ color: setorInfo.cor1 }} className="absolute fonteBold">{dados[setorAtivo].edificios[0].lojasNecessarias.lojasG}</div></div>
-                </div>}
-                {visibleId === 'licenca' && <div style={{ backgroundColor: setorInfo.cor3 }} className=" flex items-center justify-around w-full h-[90%] absolute z-[20] rounded-[10px]">
-                    <LicenseNec />
-                </div>}
-
-            </div> */}
-                        <div className="h-[25%] w-full flex justify-around flex-col  items-center">
+                        <div className="h-[25%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
 
                             <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-full">
 
-                                <div className="w-[100%] rounded-[20px] flex justify-around items-center  h-full">
+                                <div className="w-[100%] rounded-[20px] flex justify-around items-center h-full ">
                                     <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => handleShow('lojasNec')}
                                         // onMouseLeave={handleHide}
                                         className=" hover:scale-[1.20] ease-in-out cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative">
@@ -467,8 +451,8 @@ export default function CardModal() {
                             <div className="w-full flex h-[45%] flex justify-between items-center">
                                 <div className="w-full h-full rounded-[5px] ">
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between h-full ">
-                                        <div className="flex items-center justify-center h-full">
-                                            <img src={DolarImg} className="h-[60%] ml-[2px]" />
+                                        <div className="flex items-center justify-center h-full drop-shadow-2xl">
+                                            <img src={DolarImg} className="h-[60%] ml-[2px] " />
                                             <h1 className="text-white fonteBold text-[15px] ml-2">{dados[setorAtivo].edificios[0].financas.fatuMensal}</h1>
                                         </div>
                                         <div className="flex items-center justify-center h-full">
@@ -479,13 +463,13 @@ export default function CardModal() {
                                 </div>
                             </div >
                             <div className="w-full h-[45%] flex justify-between">
-                                <div style={{ backgroundColor: setorInfo.cor3 }} className="w-[55%] h-full flex items-center justify-around rounded-[5px]">
+                                <div style={{ backgroundColor: setorInfo.cor3 }} className=" w-[55%] h-full flex items-center justify-around rounded-[5px]">
                                     <img src={ConstuirImg} className="h-[60%] aspect-square ml-[5px]" />
                                     <h1 className="text-white fonteBold text-[15px] ml-2">{dados[setorAtivo].edificios[0].custoConstrucao}</h1>
                                 </div>
                                 <div
                                     onClick={() => { handleMouseEnter(), handleShow('powerUp') }}
-                                    className="w-[42%] h-full flex justify-center items-center ">
+                                    className="w-[42%] h-full flex justify-center items-center drop-shadow-2xl">
                                     <div className="h-full w-full aspect-square flex justify-center items-center">
                                         <div style={{ backgroundColor: setorInfo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
@@ -518,8 +502,9 @@ export default function CardModal() {
                     } */}
                     {visibleId === "constNece" && isModalOpen === true &&
                         (
-                            <div className="w-[90%] h-[100%] flex items-center flex-col justify-center self-center">
-                                <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between ">
+                            <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center ">
+                                <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between drop-shadow-xs
+">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                         <img className="h-[70%]" src={constNece} alt="" />
                                     </div>
@@ -528,20 +513,25 @@ export default function CardModal() {
                                         <h1 className="text-white fonteBold text-[12px]">Construções necessárias</h1>
                                     </div>
                                 </div>
-                                <div className="h-[27%] w-full flex flex-col items-center justify-center">
-                                    <div className="h-[35%] w-[90%] flex flex-col justify-center  ">
-                                        <h1 className="FonteBold text-white text-[11px] text-start">Recursos de Construção</h1>
-                                    </div>
-                                    <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
-                                        <ResourcesConstruction />
+
+                                <div className="h-[35%] w-full flex flex-col items-center justify-center drop-shadow-xs ">
+                                    <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor4} 100%)` }} className="h-full flex flex-col w-full items-center justify-around rounded-[10px]">
+                                        <div className="h-[20%] w-[90%] flex flex-col justify-center  ">
+                                            <h1 className=" text-white text-[11px] text-start fonteBold">Recursos de Construção</h1>
+                                        </div>
+                                        <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
+                                            <ResourcesConstruction />
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="h-[27%] w-full flex flex-col items-center justify-center">
-                                    <div className="h-[35%] w-[90%] flex flex-col  justify-center">
-                                        <h1 className="FonteBold text-white text-[11px] text-start">Construções pré-requisito</h1>
-                                    </div>
-                                    <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
-                                        <SelectorImage />
+                                <div className="h-[35%] w-full flex flex-col items-center justify-center drop-shadow-xs ">
+                                    <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor4} 100%)` }} className="h-full flex flex-col w-full items-center justify-around rounded-[10px]">
+                                    <div className="h-[20%] w-[90%] flex flex-col justify-center  ">
+                                            <h1 className=" text-white text-[11px] text-start fonteBold">Construções pré-requisito</h1>
+                                        </div>
+                                        <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
+                                            <SelectorImage />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -549,7 +539,7 @@ export default function CardModal() {
                     }
                     {visibleId === 'lojasNec' && isModalOpen === true &&
                         (
-                            <div className="w-[90%] h-[100%] flex items-center flex-col justify-around self-center">
+                            <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
                                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between ">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                         <img className="h-[70%]" src={constNece} alt="" />
@@ -651,7 +641,7 @@ export default function CardModal() {
                     }
                     {visibleId === "licenca" && isModalOpen === true &&
                         (
-                            <div className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
+                            <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
                                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[15%] rounded-[10px] flex justify-between ">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                         <img className="h-[70%]" src={licença} alt="" />
@@ -661,6 +651,7 @@ export default function CardModal() {
                                         <h1 className="text-white fonteBold text-[12px]">Licenças Necessárias</h1>
                                     </div>
                                 </div>
+                                <div className="h-[75%] w-full"></div>
                                 <LicenseNec />
                             </div>
                         )
@@ -695,7 +686,7 @@ export default function CardModal() {
                                                 <div className="bg-[#6411D9] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
-                                                <div   className="flex justify-center items-center h-full w-full">
+                                                <div className="flex justify-center items-center h-full w-full">
                                                     <h2 className="text-white text-[10px]  fonteBold">{dados[setorAtivo].edificios[0].quantidade}
                                                     </h2>
                                                 </div>
@@ -713,7 +704,7 @@ export default function CardModal() {
 
                                     </div>
                                 </div>
-                              
+
                                 <div style={{ backgroundColor: setorInfo.cor2 }} className="h-[50%] w-full rounded-[10px] flex flex-col items-center justify-around">
                                     <p className="text-white text-[10px] h-[65%] p-[5px]">Dara power up principalemente
                                         em industria alimenticia e rações. </p>

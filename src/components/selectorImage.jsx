@@ -34,12 +34,12 @@ const arrayConstNece = edificio.construNece
   
   
   return(
-<div className="flex justify-around gap-[5px] h-full items-center">
+<div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
     {arrayConstNece.map((nomeEdificio) => (
       <div
         key={nomeEdificio}
-        style={{ backgroundColor: setorInfo.cor4 }}
-        className="h-[80%] flex items-center justify-center aspect-square rounded-[10px]"
+        style={{ backgroundColor: setorInfo.cor3 }}
+     className="h-[80%] flex items-center justify-center aspect-square rounded-[10px]"
       >
         <img
           className="h-[70%] aspect-square"

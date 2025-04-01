@@ -34,11 +34,11 @@ const arrayConstResources = edificio.recursoDeConstrução
   
   
   return(
-<div className="flex justify-around gap-[5px] items-center h-full w-full">
+<div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
     {arrayConstResources.map((nomeEdificio) => (
       <div
         key={nomeEdificio}
-        style={{ backgroundColor: setorInfo.cor4 }}
+        style={{ backgroundColor: setorInfo.cor3 }}
         className="h-[80%] flex items-center justify-center aspect-square rounded-[10px]"
         hover={nomeEdificio}
       >
