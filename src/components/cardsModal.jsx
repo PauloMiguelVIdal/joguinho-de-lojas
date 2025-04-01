@@ -30,6 +30,7 @@ import plantação from "../../public/imagens/Plantação De Grãos.png"
 export default function CardModal() {
 
     const { dados, AtualizarDados } = useContext(CentraldeDadosContext);
+    const setorAtivo = dados.setorAtivo;
 
 
     const setores = [
@@ -43,11 +44,27 @@ export default function CardModal() {
     ];
 
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [visibleId, setVisibleId] = useState('constNece');
-    const [modalPowerup, setModalPowerUp] = useState(true)
+    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [visibleId, setVisibleId] = useState('lojasNec');
+    const [modalPowerup, setModalPowerUp] = useState(false)
 
+const contabilidadeDeFalta = (edificio) =>{
+    const qtdAtual = dados[edificio].quantidade
+    const qtdNecessaria = dados[setorAtivo].edificios[0].lojasNecessarias[edificio]
+   
+   const qtdFalta = qtdAtual >= qtdNecessaria ? 0 : qtdNecessaria - qtdAtual;
+const custoTotalConst = edificio === "terrenos" ? dados[edificio].preçoConstrução :  edificio === "lojasP" ? dados[edificio].preçoConstrução + dados.terrenos.preçoConstrução : edificio === "lojasM" ? dados[edificio].preçoConstrução + 2*dados.terrenos.preçoConstrução: edificio === "lojasG" ? dados[edificio].preçoConstrução + 3*dados.terrenos.preçoConstrução : "lascou"
+   return qtdFalta * custoTotalConst
 
+}
+
+const formatarNumero = (num) => {
+    if (num >= 1e12) return (num / 1e12).toFixed(1).replace('.0', '') + 'T'; // Trilhões
+    if (num >= 1e9) return (num / 1e9).toFixed(1).replace('.0', '') + 'B';   // Bilhões
+    if (num >= 1e6) return (num / 1e6).toFixed(1).replace('.0', '') + 'M';   // Milhões
+    if (num >= 1e3) return (num / 1e3).toFixed(1).replace('.0', '') + 'K';   // Milhares
+    return num.toString();
+};
 
 
     let timer;
@@ -99,7 +116,6 @@ export default function CardModal() {
         { nivel3: "qtd", cor: "#350973", },
     ];
 
-    const setorAtivo = dados.setorAtivo;
     const setorInfo = setores.find(setor => setor.id === setorAtivo);
 
     const columnStyleNv1 = { backgroundColor: "#8F5ADA" };
@@ -185,7 +201,6 @@ export default function CardModal() {
                     <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[95%] h-[15%] rounded-[20px] self-center">
 
                     </div >
-
 
                     <div style={{ backgroundColor: setorInfo.cor2 }} className="w-[95%] h-[75%] rounded-[20px] self-center">
                         <div style={{ backgroundColor: setorInfo.cor1 }} className="flex justify-around h-full w-full">
@@ -275,129 +290,33 @@ export default function CardModal() {
         );
     }
 
-
-
-
-
-    if (isModalOpen === 'constNece') {
-        return (
-
-            <div className="absolute w-full h-full flex items-center justify-center rounded-xl "
-                style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}>
-                <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[90%] h-[28%] rounded-[20px] p-[10px] flex justify-around items-center gap-[2px] ml-[2px]">
-                    <div style={{ backgroundColor: setorInfo.cor3 }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
-                        <img className="h-[70%]" src={constNece} alt="" />
-                    </div>
-                    <div className="flex  p-[5px]">
-                        <h1 className="text-white fonteBold text-[12px]">Construções necessárias</h1>
-                    </div>
-                </div>
-                <div className="h-[27%] flex flex-col items-center justify-center">
-                    <div className="h-[35%] w-[90%] flex flex-col justify-center  ">
-                        <h1 className="FonteBold text-white text-[11px] text-start">Recursos de Construção</h1>
-                    </div>
-                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
-                        <ResourcesConstruction />
-                    </div>
-                </div>
-                <div className="h-[27%] flex flex-col items-center justify-center">
-                    <div className="h-[35%] w-[90%] flex flex-col  justify-center">
-                        <h1 className="FonteBold text-white text-[11px] text-start">Construções pré-requisito</h1>
-                    </div>
-                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" flex items-center h-[65%] w-[90%]  z-[20] rounded-[10px]">
-                        <SelectorImage />
-                    </div>
-                </div>
-
-
-
-            </div>)
-    } else
-        if (isModalOpen === 'powerUp') {
-            return (
-                <div
-                    style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%, #350973 70%, #000000 100%)` }} onMouseLeave={handleMouseLeaveFinal} className="w-[22%] w-min-[275px] h-min-[260px] h-[40%] bg-white rounded-[20px] flex flex-col justify-around items-center hover:scale-[1.20] duration-700 ease-in-out delay-[0.3s]" >
-                    <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[90%] h-[28%] rounded-[20px] p-[10px] flex justify-between items-center gap-[2px] ml-[2px]">
-                        <div style={{ backgroundColor: setorInfo.cor3 }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
-                            <img className="h-[70%] rotate-[270deg]" src={PróximoImg} alt="" />
-                        </div>
-                        <div className="flex  p-[5px] justify-center items-center">
-                            <h1 className="text-white fonteBold text-[12px]">Power Up</h1>
-                        </div>
-                    </div>
-                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" flex items-center justify-between h-[20%] w-[90%] p-[4px] z-[20] rounded-[10px]">
-                        <div className="h-full w-full aspect-square flex justify-center items-center gap-[3px]">
-                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-full h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
-                                <div className="bg-[#8F5ADA] w-[50%] h-[80%] w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
-                                    <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
-                                </div>
-                                <div className="flex justify-center items-center w-full">
-                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[0].quantidade}
-                                    </h2>
-                                </div>
-                            </div>
-                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-full h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
-                                <div className="bg-[#8F5ADA] w-[50%] h-[80%] w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
-                                    <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
-                                </div>
-                                <div className="flex justify-center items-center w-full">
-                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[0].quantidade}
-                                    </h2>
-                                </div>
-                            </div>
-                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-full h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
-                                <div className="bg-[#8F5ADA] w-[50%] h-[80%] w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
-                                    <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
-                                </div>
-                                <div className="flex justify-center items-center w-full">
-                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[0].quantidade}
-                                    </h2>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div style={{ backgroundColor: setorInfo.cor3 }} className="h-[35%] w-[90%] rounded-[10px] flex flex-col items-center justify-around">
-                        <p className="text-white text-[8px] p-[5px]">Dara power up principalemente
-                            em industria alimenticia e rações </p>
-                        <button onClick={openModalPowerUps} className="Todos power Ups w-[80%] h-[25%] text-white text-[10px] bg-[#8F5ADA] rounded-[10px]">Todos power ups</button>
-                    </div>
-                </div>)
-        }
-
-
-
-
-
-
     return (
         <motion.div
-            onMouseMove={handleMouseMove}
-            onMouseLeave={resetRotation}
-            onClick={handleFlip}  // Flip ao clicar
-            style={{
-                background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, #6411D9 80%, #350973 100%)`
-            }}
-            className="w-[22%] min-w-[215px] min-h-[230px] h-[40%] bg-white rounded-[20px] flex flex-col justify-center items-center cursor-pointer shadow-lg"
-            initial={{ scale: 1 }}
-            whileHover={{ scale: 1.1 }}
-            animate={{ rotateX, rotateY }}
-            transition={{ type: "spring", stiffness: 100, damping: 10 }}
-        >
-            {/* Card com Efeito de Flip */}
-            <motion.div
-                className="relative w-full h-full perspective cursor-pointer"
-                animate={{ rotateY: flipped ? 180 : 0 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                style={{
-                    transformStyle: "preserve-3d",
-                    backfaceVisibility: "hidden",
-                }}
-            >
-                {/* Frente do Card */}
+    onMouseMove={handleMouseMove}
+    onMouseLeave={resetRotation}
+    // onClick={handleFlip} // Flip ao clicar
+    style={{
+        background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, #6411D9 80%, #350973 100%)`
+    }}
+    className="w-[22%] min-w-[215px] min-h-[230px] h-[40%] bg-white rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
+    initial={{ scale: 1 }}
+    whileHover={{ scale: 1.1 }}
+    animate={{ rotateX, rotateY }}
+    transition={{ type: "spring", stiffness: 100, damping: 10 }}
+>
+    {/* Container do Card */}
+    <motion.div
+        className="relative w-full h-full"
+        animate={{ rotateY: flipped ? 180 : 0 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        style={{ 
+            transformStyle: "preserve-3d" 
+        }}
+    >
+            {/* Frente do Card */}
 
                 <div className="absolute w-full h-full flex items-center justify-center rounded-xl">
-                    <div className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
+                    <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
                         <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[22%] rounded-[10px] flex justify-between drop-shadow-xs">
                             <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                 <img className="h-[70%]" src={plantação} alt="" />
@@ -412,7 +331,7 @@ export default function CardModal() {
                             <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-full">
 
                                 <div className="w-[100%] rounded-[20px] flex justify-around items-center h-full ">
-                                    <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => handleShow('lojasNec')}
+                                    <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => {handleShow('lojasNec'),handleFlip()}}
                                         // onMouseLeave={handleHide}
                                         className=" hover:scale-[1.20] ease-in-out cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative">
                                         <img className="h-[70%] aspect-square" src={terrenoImg} alt="" />
@@ -424,7 +343,7 @@ export default function CardModal() {
                                         </div>
                                     </div>
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className="h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
-                                        <img className="h-[70%] aspect-square" src={constNece} onClick={() => { handleMouseEnter(), handleShow('constNece') }}
+                                        <img className="h-[70%] aspect-square" src={constNece} onClick={() => { handleMouseEnter(), handleShow('constNece') ,handleFlip()}}
                                             alt="" />
                                         <div className="absolute bottom-[-2px] right-[-2px]">
                                             <span className="relative flex size-2">
@@ -433,7 +352,7 @@ export default function CardModal() {
                                             </span>
                                         </div>
                                     </div>
-                                    <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => handleShow('licenca')}
+                                    <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => {handleShow('licenca') ,handleFlip()}}
                                         className="h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative hover:scale-[1.20] ease-in-out cursor-pointer">
                                         <img className="h-[70%] aspect-square" src={licença} alt="" />
                                         <div className="absolute bottom-[-2px] right-[-2px]">
@@ -447,13 +366,13 @@ export default function CardModal() {
 
                             </div>
                         </div>
-                        <div className="flex flex-col justify-between items-center h-[25%] w-full">
-                            <div className="w-full flex h-[45%] flex justify-between items-center">
-                                <div className="w-full h-full rounded-[5px] ">
-                                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between h-full ">
+                        <div className="flex  justify-between items-center h-[25%] w-full">
+                            <div className="w-[60%] flex h-full flex flex-col justify-between items-center">
+                                <div className="w-full h-[45%] rounded-[5px] ">
+                                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between  h-full">
                                         <div className="flex items-center justify-center h-full drop-shadow-2xl">
                                             <img src={DolarImg} className="h-[60%] ml-[2px] " />
-                                            <h1 className="text-white fonteBold text-[15px] ml-2">{dados[setorAtivo].edificios[0].financas.fatuMensal}</h1>
+                                            <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[0].financas.fatuMensal)}</h1>
                                         </div>
                                         <div className="flex items-center justify-center h-full">
                                             <h1 className="text-white font-bold mr-2 text-[15px]">{dados[setorAtivo].edificios[0].financas.rent}</h1>
@@ -461,18 +380,18 @@ export default function CardModal() {
                                         </div>
                                     </div>
                                 </div>
-                            </div >
-                            <div className="w-full h-[45%] flex justify-between">
-                                <div style={{ backgroundColor: setorInfo.cor3 }} className=" w-[55%] h-full flex items-center justify-around rounded-[5px]">
+                                <div style={{ backgroundColor: setorInfo.cor3 }} className=" w-full h-[45%] flex items-center justify-around rounded-[5px]">
                                     <img src={ConstuirImg} className="h-[60%] aspect-square ml-[5px]" />
-                                    <h1 className="text-white fonteBold text-[15px] ml-2">{dados[setorAtivo].edificios[0].custoConstrucao}</h1>
+                                    <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[0].custoConstrucao)}</h1>
                                 </div>
+                            </div >
+                            <div className="w-[35%] h-full flex justify-between">
                                 <div
                                     onClick={() => { handleMouseEnter(), handleShow('powerUp') }}
-                                    className="w-[42%] h-full flex justify-center items-center drop-shadow-2xl">
+                                    className="w-full h-[70%] flex justify-center items-center drop-shadow-2xl">
                                     <div className="h-full w-full aspect-square flex justify-center items-center">
                                         <div style={{ backgroundColor: setorInfo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
-                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
+                                            <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%, ${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)` }} onClick={()=>handleFlip()} className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                                 <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                             </div>
                                             <div className="flex justify-center items-center w-full">
@@ -485,14 +404,14 @@ export default function CardModal() {
                             </div>
                         </div>
                         <div className="flex items-center justify-center w-[90%] h-[13%] drop-shadow-md">
-                            <button className="bg-[#6411D9] rounded-[20px] w-full fonteBold text-white"> Comprar</button>
+                            <button style={{ "--cor4": setorInfo.cor4,"--cor1": setorInfo.cor1, }} className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9]   rounded-[20px] w-full fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9]  hover:from-[--cor4]  duration-300 ease-in-out  cursor-pointer`}> Comprar</button>
                         </div>
                     </div>
                 </div>
 
                 {/* Verso do Card */}
-                <div className="absolute w-full h-full flex items-center justify-center rounded-xl"
-                    style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}>
+                <div  className={`absolute w-full h-full flex items-center justify-center rounded-[20px] text-white transform cursor-pointer rotate-y-180 ${flipped ? "pointer-events-auto z-50" : "pointer-events-none"}`}
+                    style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, #6411D9 80%, #350973 100%)`}}>
                     {/* {visibleId === "constNece" && isModalOpen === true &&
                         (
                             <div className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
@@ -502,7 +421,7 @@ export default function CardModal() {
                     } */}
                     {visibleId === "constNece" && isModalOpen === true &&
                         (
-                            <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center ">
+                            <div onClick={()=>handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center ">
                                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between drop-shadow-xs
 ">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
@@ -539,7 +458,7 @@ export default function CardModal() {
                     }
                     {visibleId === 'lojasNec' && isModalOpen === true &&
                         (
-                            <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
+                            <div onClick={()=>handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
                                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between ">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                         <img className="h-[70%]" src={constNece} alt="" />
@@ -558,14 +477,14 @@ export default function CardModal() {
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].quantidade}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].lojasNecessarias.terrenos}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
-                                                    <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[0].lojasNecessarias.terrenos}</h2>
+                                                    <h2 className="text-white text-[15px] fonteBold">{dados.terrenos.quantidade}</h2>
                                                 </div>
                                             </div>
 
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> 2.2 M</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> {formatarNumero(contabilidadeDeFalta("terrenos"))}</h2>
                                             </div>
 
                                         </div>
@@ -577,14 +496,14 @@ export default function CardModal() {
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].quantidade}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].lojasNecessarias.lojasP}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
-                                                    <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[0].lojasNecessarias.terrenos}</h2>
+                                                    <h2 className="text-white text-[15px] fonteBold">{dados.lojasP.quantidade}</h2>
                                                 </div>
                                             </div>
 
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> 2.2 M</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold">{ formatarNumero(contabilidadeDeFalta("lojasP"))}</h2>
                                             </div>
 
                                         </div>
@@ -596,14 +515,14 @@ export default function CardModal() {
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].quantidade}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].lojasNecessarias.lojasM}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
-                                                    <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[0].lojasNecessarias.terrenos}</h2>
+                                                    <h2 className="text-white text-[15px] fonteBold">{dados.lojasM.quantidade}</h2>
                                                 </div>
                                             </div>
 
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
-                                                <h2 style={{ backgroundColor: setorInfo.cor }} className="text-white text-[15px] fonteBold"> 2.2 M</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor }} className="text-white text-[15px] fonteBold"> { formatarNumero(contabilidadeDeFalta("lojasM"))}</h2>
                                             </div>
 
                                         </div>
@@ -615,14 +534,14 @@ export default function CardModal() {
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].quantidade}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].lojasNecessarias.lojasG}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
-                                                    <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[0].lojasNecessarias.terrenos}</h2>
+                                                    <h2 className="text-white text-[15px] fonteBold">{dados.lojasG.quantidade}</h2>
                                                 </div>
                                             </div>
 
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> 2.2 M</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> { formatarNumero(contabilidadeDeFalta("lojasG"))}</h2>
                                             </div>
 
                                         </div>
@@ -641,7 +560,7 @@ export default function CardModal() {
                     }
                     {visibleId === "licenca" && isModalOpen === true &&
                         (
-                            <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
+                            <div onClick={()=>handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
                                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[15%] rounded-[10px] flex justify-between ">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                         <img className="h-[70%]" src={licença} alt="" />
@@ -658,9 +577,9 @@ export default function CardModal() {
                     }
                     {visibleId === 'powerUp' && isModalOpen === true &&
                         (
-                            <div className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
+                            <div onClick={()=>handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
                                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between ">
-                                    <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%, #350973 30%, #350973 70%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
+                                    <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%,${corPowerUpAtual} 30%, #350973 70%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                         <img className="h-[70%] rotate-[270deg]" src={PróximoImg} alt="" />
                                     </div>
 
@@ -674,7 +593,7 @@ export default function CardModal() {
 
                                         <div className="w-[100%] rounded-[20px] flex justify-around items-center  h-full">
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
-                                                <div className="bg-[#8F5ADA] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
+                                                <div  className="bg-[#8F5ADA] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center w-full">
@@ -708,7 +627,7 @@ export default function CardModal() {
                                 <div style={{ backgroundColor: setorInfo.cor2 }} className="h-[50%] w-full rounded-[10px] flex flex-col items-center justify-around">
                                     <p className="text-white text-[10px] h-[65%] p-[5px]">Dara power up principalemente
                                         em industria alimenticia e rações. </p>
-                                    <button onClick={openModalPowerUps} className="Todos power Ups w-[95%] h-[25%] z-40 text-white text-[10px] bg-[#6411D9] rounded-[10px]">Todos power ups</button>
+                                    <button onClick={openModalPowerUps} className=" w-[85%] h-[25%] z-50 text-white text-[10px] bg-[#6411D9] rounded-[10px] hover:scale-[1.10] duration-300 ease-in-out">Todos power ups</button>
                                 </div>
                             </div>)
 
