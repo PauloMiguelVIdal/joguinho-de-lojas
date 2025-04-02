@@ -12,6 +12,10 @@ import grafico from "./setores/grafico.png"
 export default function LicenseNec() {
   const { dados, AtualizarDados } = useContext(CentraldeDadosContext);
 
+
+
+
+
   const setores = [
     { id: "agricultura", cor3: "#0C9123", corClasse: "bg-[#4CAF50]", img: agricultura, descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50", },
     { id: "tecnologia", cor3: "#FF6F00 ", corClasse: "bg-[#FF8C42]", img: tecnologia, descLicença: "Com a Licença Global de Tecnologia, você desbloqueia inovações que podem transformar sua infraestrutura, otimizar processos e maximizar os lucros. Invista no futuro agora!", cor1: "#A64B00 ", cor2: "#D45A00 ", cor3: "#FF6F00 ", cor4: "#FF8C42 ", },
@@ -39,14 +43,33 @@ export default function LicenseNec() {
         <div className="w-full flex justify-between h-[20%]">
           <div
             key={nomeEdificio}
-            style={{ backgroundColor: setorInfo.cor3 }}
-            className="w-[20%] flex items-center justify-center aspect-square rounded-[10px]"
+            style={{ backgroundColor: setorInfo.cor1 }}
+            className="w-[20%] flex items-center justify-center aspect-square rounded-[20px]"
           >
-            <img
-              className="h-[70%] aspect-square"
-              src={getImageUrl(nomeEdificio)}
-              alt={nomeEdificio}
-            />
+            <div style={{ backgroundColor: setorInfo.cor3 }} className="flex items-center justify-center h-[95%] w-[95%] rounded-[20px]">
+
+              <div style={{ backgroundColor: setorInfo.cor1 }} className="flex items-center justify-center h-[95%] w-[95%] rounded-[20px]">
+
+                <div style={{ backgroundColor: setorInfo.cor2 }} className="flex items-center justify-center h-[95%] w-[95%] rounded-[30px]">
+
+                  <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor1} 0%,${setorInfo.cor4}  100%)` }} className="flex items-center justify-center h-[95%] w-[95%] rounded-[60px]">
+                    <img
+                      className="h-[70%] w-[70%] aspect-square"
+                      src={getImageUrl(nomeEdificio)}
+                      alt={nomeEdificio}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
+
+
           </div>
           <div
             key={nomeEdificio}

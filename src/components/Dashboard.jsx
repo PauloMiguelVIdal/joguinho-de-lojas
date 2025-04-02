@@ -11,6 +11,7 @@ import grafico from "./setores/grafico.png"
 import circularEconomia from "../imagens/circular-economy.png"
 import DolarImg from "../imagens/simbolo-do-dolar.png"
 import CardModal from "./cardsModal";
+import licença from "../imagens/licença.png"
 
 import {
   Chart as ChartJS,
@@ -53,7 +54,6 @@ export default function Dashboard() {
 
 
 
-
   const setores = [
     { id: "agricultura", cor3: "#0C9123", corClasse: "bg-[#4CAF50]", img: agricultura, descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50", },
     { id: "tecnologia", cor3: "#FF6F00 ", corClasse: "bg-[#FF8C42]", img: tecnologia, descLicença: "Com a Licença Global de Tecnologia, você desbloqueia inovações que podem transformar sua infraestrutura, otimizar processos e maximizar os lucros. Invista no futuro agora!", cor1: "#A64B00 ", cor2: "#D45A00 ", cor3: "#FF6F00 ", cor4: "#FF8C42 ", },
@@ -62,7 +62,7 @@ export default function Dashboard() {
     { id: "imobiliario", cor3: "#3333CC  ", corClasse: "bg-[#6666FF]", img: imobiliario, descLicença: "Com a Licença Global Imobiliária, você pode investir em novos terrenos, expandir suas construções e maximizar os retornos do mercado imobiliário. Abra as portas para grandes lucros!", cor1: "#000066  ", cor2: "#1A1A8C  ", cor3: "#3333CC  ", cor4: "#6666FF  " },
     { id: "energia", cor3: "#E6B800", corClasse: "bg-[#FFD966]", img: energia, descLicença: "Com a Licença Global de Energia, você ativa fontes de energia sustentáveis e de alta performance, garantindo uma operação eficiente e lucrativa. Potencialize seu setor energético agora!", cor1: "#665200   ", cor2: "#A37F19   ", cor3: "#E6B800", cor4: "#FFD966" },
     { id: "grafico", cor3: "#FF6F00 ", corClasse: "bg-[#6A00FF]", img: grafico, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3: "#6A00FF ", cor4: "#6A00FF ", },
-  ];
+];
 
   const corEconomia = (cor) => {
     switch (cor) {
@@ -74,14 +74,14 @@ export default function Dashboard() {
     }
   }
 
-
-
-
-
-
-
+  
+  
+  
+  
+  
   // Pegando o setor ativo
   const setorAtivo = setores.find((setor) => setor.id === ativo);
+  const setorInfo = setores.find(setor => setor.id === setorAtivo);
 
 
  if(ativo){
@@ -110,6 +110,9 @@ export default function Dashboard() {
     lojasM: '#F27405',
     lojasG: '#3A0E8C ',
   };
+
+
+
 
   const datasets = ["terrenos", "lojasP", "lojasM", "lojasG"].map((edificioSelecionado) => ({
     label: edificioSelecionado,
@@ -220,9 +223,9 @@ export default function Dashboard() {
                  <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
                    <img className="w-[70%]" src={circularEconomia} />
                  </div>
-                 <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
-                   <img className="w-[70%]" src={circularEconomia} />
-                 </div>
+                 <button style={{ backgroundColor: setorAtivo.cor3}} className={`h-full aspect-square rounded-[10px] flex items-center justify-center  hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer `}>
+                   <img className="w-[70%]" src={licença} />
+                 </button>
                </div>
              </div>
            
