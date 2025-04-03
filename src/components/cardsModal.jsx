@@ -325,7 +325,7 @@ const formatarNumero = (num) => {
     style={{
         background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, #6411D9 80%, #350973 100%)`
     }}
-    className="w-[22%] min-w-[215px] min-h-[230px] h-[40%] bg-white rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
+    className="w-[22%] w-[215px] h-[230px] h-[40%] bg-white rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
     initial={{ scale: 1 }}
     whileHover={{ scale: 1.1 }}
     animate={{ rotateX, rotateY }}

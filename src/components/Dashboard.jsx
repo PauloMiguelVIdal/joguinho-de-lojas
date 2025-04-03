@@ -13,6 +13,8 @@ import DolarImg from "../imagens/simbolo-do-dolar.png"
 import CardModal from "./cardsModal";
 import licença from "../imagens/licença.png"
 import Carteira from "../../public/imagens/Carteira.png"
+import { motion } from "framer-motion";
+import fechar from "../imagens/fechar.png"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -52,63 +54,75 @@ export default function Dashboard() {
     }
   }
 
-const setoresArray = ["Agricultura","Tecnologia","industria","comercio","imobiliario","energia"]
+  const setoresArray = ["Agricultura", "Tecnologia", "industria", "comercio", "imobiliario", "energia"]
 
-const licencasAgriculturaArray = [
-  
-{licencaDeComerciosAgricolas:{
-  status:false,
-  valor:120000,
-  edificiosLiberados:["Cooperativas agricolas","Centro de comercio de plantacoes"]
-}},
-{"Licença de comercios agricolas":{
-  status:false,
-  valor:120000,
-  edificiosLiberados:["Cooperativas agricolas","Centro de comercio de plantacoes"]
-}},
+  const licencasAgriculturaArray = [
 
-{licencaDeArmazenamentoAgricolas:{
-  status:false,
-  valor:120000,
-  edificiosLiberados:["","",""]
-}},
+    {
+      licencaDeComerciosAgricolas: {
+        status: false,
+        valor: 120000,
+        edificiosLiberados: ["Cooperativas agricolas", "Centro de comercio de plantacoes"]
+      }
+    },
+    {
+      "Licença de comercios agricolas": {
+        status: false,
+        valor: 120000,
+        edificiosLiberados: ["Cooperativas agricolas", "Centro de comercio de plantacoes"]
+      }
+    },
 
-{licencaDeFazendasDeAnimais:{
-  status:false,
-  valor:120000
-}},
+    {
+      licencaDeArmazenamentoAgricolas: {
+        status: false,
+        valor: 120000,
+        edificiosLiberados: ["", "", ""]
+      }
+    },
 
-{licençaDeAréasEspeciais:{
-  status:false,
-  valor:120000
-}},
+    {
+      licencaDeFazendasDeAnimais: {
+        status: false,
+        valor: 120000
+      }
+    },
 
-{licençaDeOutrasPlantações:{
-  status:false,
-  valor:120000
-}},
+    {
+      licençaDeAréasEspeciais: {
+        status: false,
+        valor: 120000
+      }
+    },
+
+    {
+      licençaDeOutrasPlantações: {
+        status: false,
+        valor: 120000
+      }
+    },
 
 
 
 
 
-]
+  ]
 
-// function teste(){
+  // function teste(){
 
-  
-//   const setorSelecionado = setoresArray[0]
-//   console.log(setorSelecionado)
-//   const adapteLicenca = `licencas${setorSelecionado}Array`
-//   console.log(adapteLicenca)
-//   const licencaSelecionada = adapteLicenca[0]
-//   console.log(licencaSelecionada)
-//   const edificiosLiberados = licencaSelecionada.edificiosLiberados[0]
-//   console.log(edificiosLiberados)
- 
-// }
 
-// teste()
+  //   const setorSelecionado = setoresArray[0]
+  //   console.log(setorSelecionado)
+  //   const adapteLicenca = `licencas${setorSelecionado}Array`
+  //   console.log(adapteLicenca)
+  //   const licencaSelecionada = adapteLicenca[0]
+  //   console.log(licencaSelecionada)
+  //   const edificiosLiberados = licencaSelecionada.edificiosLiberados[0]
+  //   console.log(edificiosLiberados)
+
+  // }
+
+  // teste()
 
 
   const setores = [
@@ -120,7 +134,7 @@ const licencasAgriculturaArray = [
     { id: "energia", cor3: "#E6B800", corClasse: "bg-[#FFD966]", img: energia, descLicença: "Com a Licença Global de Energia, você ativa fontes de energia sustentáveis e de alta performance, garantindo uma operação eficiente e lucrativa. Potencialize seu setor energético agora!", cor1: "#665200   ", cor2: "#A37F19   ", cor3: "#E6B800", cor4: "#FFD966" },
     { id: "carteira", cor3: "#FF6F00 ", corClasse: "bg-[#6A00FF]", img: Carteira, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3: "#6A00FF ", cor4: "#6A00FF ", },
     { id: "grafico", cor3: "#FF6F00 ", corClasse: "bg-[#6A00FF]", img: grafico, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3: "#6A00FF ", cor4: "#6A00FF ", },
-];
+  ];
 
   const corEconomia = (cor) => {
     switch (cor) {
@@ -132,21 +146,21 @@ const licencasAgriculturaArray = [
     }
   }
 
-  
-  
-  
-  
-  
+
+
+
+
+
   // Pegando o setor ativo
   const setorAtivo = setores.find((setor) => setor.id === ativo);
   const setorInfo = setores.find(setor => setor.id === setorAtivo);
 
 
- if(ativo){
-  const atualizarSetor = (novoSetor) =>
-    dados.setorAtivo = novoSetor
-  atualizarSetor(ativo)
- }
+  if (ativo) {
+    const atualizarSetor = (novoSetor) =>
+      dados.setorAtivo = novoSetor
+    atualizarSetor(ativo)
+  }
 
 
 
@@ -169,8 +183,8 @@ const licencasAgriculturaArray = [
     lojasG: '#3A0E8C ',
   };
 
-
-
+  const licençasNecessárias = ["Silo", "Plantação De Legumes"]
+  const arrayLicenseNece = licençasNecessárias
 
   const datasets = ["terrenos", "lojasP", "lojasM", "lojasG"].map((edificioSelecionado) => ({
     label: edificioSelecionado,
@@ -188,6 +202,9 @@ const licencasAgriculturaArray = [
     labels: dadosDia,
     datasets: datasets,
   };
+
+  const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
+
 
   const config = {
     type: 'line',
@@ -225,6 +242,70 @@ const licencasAgriculturaArray = [
     },
   };
 
+  const [licencaModal, setLicencaModal] = useState(false)
+  if (licencaModal === true) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90">
+        <motion.div style={{ backgroundColor: setorAtivo.cor4 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="w-[80vw] h-[80vh] bg-[#F52623] rounded-[10px] flex flex-col justify-around items-center relative"
+        >
+          <button
+            className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
+            onClick={() => setLicencaModal(false)}
+          >
+            <img src={fechar} alt="Fechar" className="w-[60%]" />
+          </button>
+          <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-[95%] h-[15%] rounded-[20px] self-center">123
+          </div>
+          <div style={{ backgroundColor: setorAtivo.cor3 }} className="w-[95%] h-[75%] rounded-[20px] self-center ">
+
+            <div style={{ backgroundColor: setorAtivo.cor2 }} className="w-full flex items-center h-[15%] rounded-[20px] self-center p-[5px]">
+
+
+              <div
+                style={{ backgroundColor: setorAtivo.cor1 }}
+                className=" h-[100%] flex items-center justify-center aspect-square rounded-[20px]"
+              >
+                <div style={{ backgroundColor: setorAtivo.cor3 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[20px]">
+
+                  <div style={{ backgroundColor: setorAtivo.cor1 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[20px]">
+
+                    <div style={{ backgroundColor: setorAtivo.cor2 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[30px]">
+
+                      <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex items-center justify-center relative h-[95%] aspect-square rounded-[60px]">
+                        <img
+                          className="h-[70%] w-[] aspect-square"
+                          src={licença}
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="text-white text-[40px] ml-[20px] fonteBold">Licença de fazendas de animais</div>
+            </div >
+            <div className="flex h-full w-full justify-around">
+            <CardModal />
+            <CardModal />
+            <CardModal />
+            <CardModal />
+            <CardModal />
+            <CardModal />
+            </div>
+ 
+          </div>
+
+        </motion.div>
+      </div>
+    );
+  }
+
+
   return (
     <div className={`${corClasse} w-full h-full border-white border-[2px] rounded-[40px] flex`}>
       {/* Sidebar */}
@@ -235,8 +316,8 @@ const licencasAgriculturaArray = [
               key={setor.id}
               onClick={() => {
                 setAtivo(setor.id)
-              
-         
+
+
 
               }}
               className={`
@@ -265,36 +346,36 @@ const licencasAgriculturaArray = [
               <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
             )}
             {ativo !== "grafico" && (
-             <div className="h-full w-full rounded-[20px]">
-             {/* Barra superior */}
-             <div className="h-16 w-full flex justify-start gap-[10px] items-center">
-               {/* Bloco de Ativo */}
-               <div
-                 style={{ backgroundColor: setorAtivo.cor3 }}
-                 className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
-               >
-                 {ativoConvertido(ativo)}
-               </div>
-           
-               {/* Ícones de Economia */}
-               <div className="flex gap-2 h-full">
-                 <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
-                   <img className="w-[70%]" src={circularEconomia} />
-                 </div>
-                 <button style={{ backgroundColor: setorAtivo.cor3}} className={`h-full aspect-square rounded-[10px] flex items-center justify-center  hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer `}>
-                   <img className="w-[70%]" src={licença} />
-                 </button>
-               </div>
-             </div>
-           
-            
-             <div className="h-[calc(100%-4rem)] w-full flex gap-[20px]">
-               <CardModal />
-               <CardModal />
-               <CardModal />
-               <CardModal />
-             </div>
-           </div>
+              <div className="h-full w-full rounded-[20px]">
+                {/* Barra superior */}
+                <div className="h-16 w-full flex justify-start gap-[10px] items-center">
+                  {/* Bloco de Ativo */}
+                  <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
+                  >
+                    {ativoConvertido(ativo)}
+                  </div>
+
+                  {/* Ícones de Economia */}
+                  <div className="flex gap-2 h-full">
+                    <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
+                      <img className="w-[70%]" src={circularEconomia} />
+                    </div>
+                    <button style={{ backgroundColor: setorAtivo.cor3 }} onClick={() => setLicencaModal(true)} className={`h-full aspect-square rounded-[10px] flex items-center justify-center  hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer `}>
+                      <img className="w-[70%]" src={licença} />
+                    </button>
+                  </div>
+                </div>
+
+
+                <div className="h-[calc(100%-4rem)] w-full flex gap-[20px]">
+                  <CardModal />
+                  <CardModal />
+                  <CardModal />
+                  <CardModal />
+                </div>
+              </div>
             )}
           </div>
 
