@@ -15,6 +15,8 @@ import licença from "../imagens/licença.png"
 import Carteira from "../../public/imagens/Carteira.png"
 import { motion } from "framer-motion";
 import fechar from "../imagens/fechar.png"
+
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -53,6 +55,15 @@ export default function Dashboard() {
       case "energia": return "Energia";
     }
   }
+
+  const formatarNumero = (num) => {
+    if (num >= 1e12) return (num / 1e12).toFixed(1).replace('.0', '') + 'T'; // Trilhões
+    if (num >= 1e9) return (num / 1e9).toFixed(1).replace('.0', '') + 'B';   // Bilhões
+    if (num >= 1e6) return (num / 1e6).toFixed(1).replace('.0', '') + 'M';   // Milhões
+    if (num >= 1e3) return (num / 1e3).toFixed(1).replace('.0', '') + 'K';   // Milhares
+    return num.toString();
+  };
+
 
   const setoresArray = ["Agricultura", "Tecnologia", "industria", "comercio", "imobiliario", "energia"]
 
@@ -251,7 +262,7 @@ export default function Dashboard() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[80vw] h-[80vh] bg-[#F52623] rounded-[10px] flex flex-col justify-around items-center relative"
+          className="w-[80vw] h-[80vh] bg-[#F52623] p-[20px] gap-[20px] rounded-[10px] flex flex-col items-center relative"
         >
           <button
             className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
@@ -259,13 +270,11 @@ export default function Dashboard() {
           >
             <img src={fechar} alt="Fechar" className="w-[60%]" />
           </button>
-          <div style={{ backgroundColor: setorAtivo.cor1 }} className="w-[95%] h-[15%] rounded-[20px] self-center">123
+          <div style={{ backgroundColor: setorAtivo.cor1 }} className="flex shadow-xl justify-center items-center w-[100%] h-[15%] rounded-[20px] self-center">
+            <h1 className="text-center text-white text-[40px] fonteBold">Licenças - Agricultura</h1>
           </div>
-          <div style={{ backgroundColor: setorAtivo.cor3 }} className="w-[95%] h-[75%] rounded-[20px] self-center ">
-
-            <div style={{ backgroundColor: setorAtivo.cor2 }} className="w-full flex items-center h-[15%] rounded-[20px] self-center p-[5px]">
-
-
+          <div style={{ backgroundColor: setorAtivo.cor3 }} className="w-[100%] h-[300px] rounded-[20px] self-center justify-between shadow-xl">
+            <div style={{ backgroundColor: setorAtivo.cor2 }} className="w-full flex items-center h-[15%] rounded-t-[20px] self-center p-[5px]">
               <div
                 style={{ backgroundColor: setorAtivo.cor1 }}
                 className=" h-[100%] flex items-center justify-center aspect-square rounded-[20px]"
@@ -274,7 +283,7 @@ export default function Dashboard() {
 
                   <div style={{ backgroundColor: setorAtivo.cor1 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[20px]">
 
-                    <div style={{ backgroundColor: setorAtivo.cor2 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[30px]">
+                    <div style={{ backgroundColor: setorAtivo.cor2 }} className="flex items-center justify-center h-[95%] aspect-square  rounded-[30px]">
 
                       <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex items-center justify-center relative h-[95%] aspect-square rounded-[60px]">
                         <img
@@ -287,17 +296,32 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
-              <div className="text-white text-[40px] ml-[20px] fonteBold">Licença de fazendas de animais</div>
+              <div className="text-white text-[30px] ml-[20px] fonteBold">Licença de fazendas de animais</div>
             </div >
-            <div className="flex h-full w-full justify-around">
-            <CardModal />
-            <CardModal />
-            <CardModal />
-            <CardModal />
-            <CardModal />
-            <CardModal />
+            <div className="w-full h-[85%] flex ">
+
+              <div style={{ background: `linear-gradient(20deg,${setorAtivo.cor1} 0%, ${setorAtivo.cor3} 20%, ${setorAtivo.cor3} 40%, ${setorAtivo.cor4} 60%,${setorAtivo.cor2}  100%)` }} className="flex h-full w-[80%] justify-around rounded-bl-[20px] items-center ">
+                <CardModal />
+                <CardModal />
+                <CardModal />
+                <CardModal />
+              </div>
+              <div
+                style={{
+                  background: `linear-gradient(180deg, ${setorAtivo.cor2} 0%, ${setorAtivo.cor1} 100%)`
+                }}
+                className="h-full w-[20%] flex flex-col justify-around items-center rounded-br-[20px]">
+                <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-[65%] w-[90%] text-white p-[10px] rounded-[20px]">
+                  A licença de animais permite a criação de gado, aves e suínos, auxiliando fazendas e indústrias alimentícias no jogo.                  </div>
+                <div style={{ backgroundColor: setorAtivo.cor3 }} className="flex items-center justify-between p-[5px] rounded-[20px] h-[10%] w-[90%] drop-shadow-2xl">
+                  <img src={DolarImg} className="h-[100%] " />
+                  <h1 className="text-white fonteBold text-[15px] mr-[2px]">{formatarNumero(200000000)}</h1>
+                </div>
+                <div className="flex items-center justify-center w-[90%] h-[13%] drop-shadow-md">
+                  <button style={{ "--cor4": setorAtivo.cor4, "--cor1": setorAtivo.cor1, }} className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9]   rounded-[20px] w-full fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9]  hover:from-[--cor4]  duration-300 ease-in-out  cursor-pointer`}> Comprar</button>
+                </div>
+              </div>
             </div>
- 
           </div>
 
         </motion.div>
