@@ -215,6 +215,112 @@ const CentraldeDadosProvider = ({ children }) => {
         {
           nome: "Plantação De Grãos",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
+          quantidade: 510,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
+          licençasNecessárias: ["Silo","Plantação De Legumes"],
+          melhoraEficiencia: [
+            "fabricaDeRação",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução:  ["Plantação De Legumes", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 1 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }],
+    }
+    ,
+    tecnologia: {
+      economiaGlobal: {
+        estadoAtual: "estável"
+      },
+      licencaGlobal: {
+        comprado: true,
+        valor: 30000
+      },
+      licençasSetor: {
+        agropecuária: true,
+        grãos: false,
+        biofábrica: true,
+      },
+      edificios: [
+        {
+          nome: "Terraplanagem e Pavimentação",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
+          licençasNecessárias: ["Silo","Plantação De Legumes"],
+          melhoraEficiencia: [
+            "fabricaDeRação",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução:  ["Plantação De Legumes", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 1 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }],
+    },
+    industria: {
+      economiaGlobal: {
+        estadoAtual: "estável"
+      },
+      licencaGlobal: {
+        comprado: true,
+        valor: 20000
+      },
+      licençasSetor: {
+        agropecuária: true,
+        grãos: false,
+        biofábrica: true,
+      },
+      edificios: [
+        {
+          nome: "Terraplanagem e Pavimentação",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
           custoConstrucao: 200000,
           quantidade: 20,
           financas: {
@@ -248,109 +354,6 @@ const CentraldeDadosProvider = ({ children }) => {
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
         }],
-    }
-    ,
-    tecnologia: {
-      economiaGlobal: {
-        estadoAtual: "estável"
-      },
-      licencaGlobal: {
-        comprado: true,
-        valor: 30000
-      },
-      licençasSetor: {
-        agropecuária: true,
-        grãos: false,
-        biofábrica: true,
-      },
-      produtos: {
-        plantaçãoDeGrãos: {
-          quantidade: 20,
-
-          lojasNecessárias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
-          },
-
-          construçõesNecessárias: [],
-
-          licençasNecessárias: [],
-
-          melhoraEficiencia: [
-            "fabricaDeRação",
-            "biofábrica",
-            "mercados",
-            "feiras",
-          ],
-
-          receitas: [
-            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
-          ],
-
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 1 }
-          ],
-
-          powerUp: {
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        }
-      }
-    },
-    industria: {
-      economiaGlobal: {
-        estadoAtual: "estável"
-      },
-      licencaGlobal: {
-        comprado: true,
-        valor: 20000
-      },
-      licençasSetor: {
-        agropecuária: true,
-        grãos: false,
-        biofábrica: true,
-      },
-      produtos: {
-        plantaçãoDeGrãos: {
-          quantidade: 20,
-
-          lojasNecessárias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
-          },
-
-          construçõesNecessárias: [],
-
-          licençasNecessárias: [],
-
-          melhoraEficiencia: [
-            "fabricaDeRação",
-            "biofábrica",
-            "mercados",
-            "feiras",
-          ],
-
-          receitas: [
-            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
-          ],
-
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 1 }
-          ],
-
-          powerUp: {
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        }
-      }
     },
     comercio: {
       economiaGlobal: {
@@ -365,43 +368,44 @@ const CentraldeDadosProvider = ({ children }) => {
         grãos: false,
         biofábrica: true,
       },
-      produtos: {
-        plantaçãoDeGrãos: {
+      edificios: [
+        {
+          nome: "Terraplanagem e Pavimentação",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
           quantidade: 20,
-
-          lojasNecessárias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
           },
 
-          construçõesNecessárias: [],
-
-          licençasNecessárias: [],
-
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
+          licençasNecessárias: ["Silo","Plantação De Legumes"],
           melhoraEficiencia: [
             "fabricaDeRação",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-
-          receitas: [
-            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
-          ],
-
+          recursoDeConstrução:  ["Plantação De Legumes", "Silo"]
+          ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 1 }
           ],
-
           powerUp: {
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        }
-      }
+        }],
     },
     imobiliario: {
       economiaGlobal: {
@@ -416,43 +420,44 @@ const CentraldeDadosProvider = ({ children }) => {
         grãos: false,
         biofábrica: true,
       },
-      produtos: {
-        plantaçãoDeGrãos: {
+      edificios: [
+        {
+          nome: "Terraplanagem e Pavimentação",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
           quantidade: 20,
-
-          lojasNecessárias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
           },
 
-          construçõesNecessárias: [],
-
-          licençasNecessárias: [],
-
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
+          licençasNecessárias: ["Silo","Plantação De Legumes"],
           melhoraEficiencia: [
             "fabricaDeRação",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-
-          receitas: [
-            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
-          ],
-
+          recursoDeConstrução:  ["Plantação De Legumes", "Silo"]
+          ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 1 }
           ],
-
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        }
-      }
+        }],
     },
     energia: {
       economiaGlobal: {
@@ -467,43 +472,44 @@ const CentraldeDadosProvider = ({ children }) => {
         grãos: false,
         biofábrica: true,
       },
-      produtos: {
-        plantaçãoDeGrãos: {
+      edificios: [
+        {
+          nome: "Terraplanagem e Pavimentação",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
           quantidade: 20,
-
-          lojasNecessárias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
           },
 
-          construçõesNecessárias: [],
-
-          licençasNecessárias: [],
-
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
+          licençasNecessárias: ["Silo","Plantação De Legumes"],
           melhoraEficiencia: [
             "fabricaDeRação",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-
-          receitas: [
-            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
-          ],
-
+          recursoDeConstrução:  ["Plantação De Legumes", "Silo"]
+          ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 1 }
           ],
-
           powerUp: {
-            nivel1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nivel2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nivel3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        }
-      }
+        }],
     },
     grafico: {
       economiaGlobal: {

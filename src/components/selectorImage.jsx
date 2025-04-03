@@ -31,23 +31,39 @@ console.log(setorInfo)
 
 const edificio = { nome: dados[setorAtivo].edificios[0].nome, construNece:dados[setorAtivo].edificios[0].construçõesNecessárias };
 const arrayConstNece = edificio.construNece
+
+const [caixaTexto, setCaixaTexto] = useState(false) 
   
-  
-  return(
-<div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
+return (
+  <div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
     {arrayConstNece.map((nomeEdificio) => (
-      <div
-        key={nomeEdificio}
-        style={{ backgroundColor: setorInfo.cor3 }}
-     className="h-[80%] flex items-center justify-center aspect-square rounded-[10px]"
-      >
-        <img
-          className="h-[70%] aspect-square"
-          src={getImageUrl(nomeEdificio)}
-          alt={nomeEdificio}
-        />
-      </div>
+      
+<div  
+key={nomeEdificio}  
+style={{ backgroundColor: setorInfo.cor3 }}  
+onMouseEnter={() => setCaixaTexto(true)}  
+onMouseLeave={() => setCaixaTexto(false)}  
+className="cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative"
+>
+{caixaTexto && (
+  <div 
+    style={{ backgroundColor: setorInfo.cor1 }}  
+    className="absolute inset-0 flex items-center justify-center text-white text-[7px] p-2 rounded-[8px]"
+  >
+    {nomeEdificio}
+  </div>
+)}
+<img className="h-[70%] aspect-square" src={getImageUrl(nomeEdificio)} alt={nomeEdificio} />
+<div className="absolute bottom-[-2px] right-[-2px]">
+  <span className="relative flex size-2">
+    <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+    <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+  </span>
+</div>
+</div>
+
+   
     ))}
   </div>
-  )
+)
 }

@@ -46,18 +46,24 @@ export default function LicenseNec() {
             style={{ backgroundColor: setorInfo.cor1 }}
             className="w-[20%] flex items-center justify-center aspect-square rounded-[20px]"
           >
-            <div style={{ backgroundColor: setorInfo.cor3 }} className="flex items-center justify-center h-[95%] w-[95%] rounded-[20px]">
+            <div style={{ backgroundColor: setorInfo.cor3 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[20px]">
 
-              <div style={{ backgroundColor: setorInfo.cor1 }} className="flex items-center justify-center h-[95%] w-[95%] rounded-[20px]">
+              <div style={{ backgroundColor: setorInfo.cor1 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[20px]">
 
-                <div style={{ backgroundColor: setorInfo.cor2 }} className="flex items-center justify-center h-[95%] w-[95%] rounded-[30px]">
+                <div style={{ backgroundColor: setorInfo.cor2 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[30px]">
 
-                  <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor1} 0%,${setorInfo.cor4}  100%)` }} className="flex items-center justify-center h-[95%] w-[95%] rounded-[60px]">
+                  <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor1} 0%,${setorInfo.cor4}  100%)` }} className="flex items-center justify-center relative h-[95%] aspect-square rounded-[60px]">
                     <img
-                      className="h-[70%] w-[70%] aspect-square"
+                      className="h-[70%] w-[] aspect-square"
                       src={getImageUrl(nomeEdificio)}
                       alt={nomeEdificio}
                     />
+                    <div className="absolute bottom-[-2px] right-[-2px]">
+  <span className="relative flex size-2">
+    <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+    <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+  </span>
+</div>
                   </div>
                 </div>
               </div>
@@ -73,7 +79,7 @@ export default function LicenseNec() {
           </div>
           <div
             key={nomeEdificio}
-            style={{ backgroundColor: setorInfo.cor4 }}
+            style={{ backgroundColor: setorInfo.cor3 }}
             className="w-[75%] flex items-center justify-center aspect-square rounded-[10px] p-[10px]"
           >
             <h1 className="text-white text-[12px] fonteBold">{nomeEdificio}</h1>

@@ -12,7 +12,7 @@ import circularEconomia from "../imagens/circular-economy.png"
 import DolarImg from "../imagens/simbolo-do-dolar.png"
 import CardModal from "./cardsModal";
 import licença from "../imagens/licença.png"
-
+import Carteira from "../../public/imagens/Carteira.png"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -52,6 +52,63 @@ export default function Dashboard() {
     }
   }
 
+const setoresArray = ["Agricultura","Tecnologia","industria","comercio","imobiliario","energia"]
+
+const licencasAgriculturaArray = [
+  
+{licencaDeComerciosAgricolas:{
+  status:false,
+  valor:120000,
+  edificiosLiberados:["Cooperativas agricolas","Centro de comercio de plantacoes"]
+}},
+{"Licença de comercios agricolas":{
+  status:false,
+  valor:120000,
+  edificiosLiberados:["Cooperativas agricolas","Centro de comercio de plantacoes"]
+}},
+
+{licencaDeArmazenamentoAgricolas:{
+  status:false,
+  valor:120000,
+  edificiosLiberados:["","",""]
+}},
+
+{licencaDeFazendasDeAnimais:{
+  status:false,
+  valor:120000
+}},
+
+{licençaDeAréasEspeciais:{
+  status:false,
+  valor:120000
+}},
+
+{licençaDeOutrasPlantações:{
+  status:false,
+  valor:120000
+}},
+
+
+
+
+
+]
+
+// function teste(){
+
+  
+//   const setorSelecionado = setoresArray[0]
+//   console.log(setorSelecionado)
+//   const adapteLicenca = `licencas${setorSelecionado}Array`
+//   console.log(adapteLicenca)
+//   const licencaSelecionada = adapteLicenca[0]
+//   console.log(licencaSelecionada)
+//   const edificiosLiberados = licencaSelecionada.edificiosLiberados[0]
+//   console.log(edificiosLiberados)
+ 
+// }
+
+// teste()
 
 
   const setores = [
@@ -61,6 +118,7 @@ export default function Dashboard() {
     { id: "comercio", cor3: "#E60000  ", corClasse: "bg-[#FF4D4D]", img: comercio, descLicença: "Com a Licença Global de Comércio, você tem acesso a novos mercados, estratégias de vendas e expansão que podem levar seus negócios a um novo nível. Não perca essa oportunidade!", cor1: "#660000  ", cor2: "#A31919  ", cor3: "#E60000  ", cor4: "#FF4D4D  ", },
     { id: "imobiliario", cor3: "#3333CC  ", corClasse: "bg-[#6666FF]", img: imobiliario, descLicença: "Com a Licença Global Imobiliária, você pode investir em novos terrenos, expandir suas construções e maximizar os retornos do mercado imobiliário. Abra as portas para grandes lucros!", cor1: "#000066  ", cor2: "#1A1A8C  ", cor3: "#3333CC  ", cor4: "#6666FF  " },
     { id: "energia", cor3: "#E6B800", corClasse: "bg-[#FFD966]", img: energia, descLicença: "Com a Licença Global de Energia, você ativa fontes de energia sustentáveis e de alta performance, garantindo uma operação eficiente e lucrativa. Potencialize seu setor energético agora!", cor1: "#665200   ", cor2: "#A37F19   ", cor3: "#E6B800", cor4: "#FFD966" },
+    { id: "carteira", cor3: "#FF6F00 ", corClasse: "bg-[#6A00FF]", img: Carteira, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3: "#6A00FF ", cor4: "#6A00FF ", },
     { id: "grafico", cor3: "#FF6F00 ", corClasse: "bg-[#6A00FF]", img: grafico, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3: "#6A00FF ", cor4: "#6A00FF ", },
 ];
 

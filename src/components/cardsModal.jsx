@@ -117,23 +117,12 @@ const formatarNumero = (num) => {
     ];
 
     const setorInfo = setores.find(setor => setor.id === setorAtivo);
-
-    const columnStyleNv1 = { backgroundColor: "#8F5ADA" };
-    const columnStyleNv2 = { backgroundColor: "#6411D9" };
-    const columnStyleNv3 = { backgroundColor: "#350973" };
-
-    const corPadrão = { backgroundColor: setorInfo.cor2 };
-
+    const nomeAtivo =  dados[setorAtivo].edificios[0].nome
     const quantidadeAtivo = dados[setorAtivo].edificios[0].quantidade;
     const quantidadeMinimaPowerUpNv2 = dados[setorAtivo].edificios[0].powerUp.nível2.quantidadeMínima;
     const quantidadeMinimaPowerUpNv3 = dados[setorAtivo].edificios[0].powerUp.nível3.quantidadeMínima;
+    const corPadrão = { backgroundColor: setorInfo.cor2 };
 
-    const powerUpSelecionado =
-        quantidadeAtivo > quantidadeMinimaPowerUpNv3
-            ? "powerUpNv3"
-            : quantidadeAtivo > quantidadeMinimaPowerUpNv2
-                ? "powerUpNv2"
-                : "powerUpNv1";
 
     const corPowerUp = powerUp => {
         switch (powerUp) {
@@ -144,17 +133,55 @@ const formatarNumero = (num) => {
             case "powerUpNv3":
                 return "#350973";
             default:
-                return corPadrão.backgroundColor;
+                return corPadrão;
         }
     };
+    
 
+
+
+
+
+    const powerUpSelecionado =
+        quantidadeAtivo >= quantidadeMinimaPowerUpNv3
+            ? "powerUpNv3"
+            : quantidadeAtivo >= quantidadeMinimaPowerUpNv2
+                ? "powerUpNv2"
+                : "powerUpNv1";
+
+    
     const corPowerUpAtual = corPowerUp(powerUpSelecionado);
-    const corColunaAtual = corPadrão.backgroundColor; // Definição da variável antes de usá-la
+    const corColunaAtual = corPadrão // Definição da variável antes de usá-la
 
-    const corColuna = corColunaAtual === corPowerUpAtual ? corPowerUpAtual : corPadrão.backgroundColor;
-    const corLinha = quantidadeAtivo > 0 ? corPowerUpAtual : corPadrão.backgroundColor;
+    const corColuna = corColunaAtual === corPowerUpAtual ? corPowerUpAtual : corPadrão;
+    const corLinha = quantidadeAtivo > 0 ? corPowerUpAtual : corPadrão;
 
     const lineStyle = { background: corLinha }
+    // const bgColuna1 = powerUpSelecionado === "powerUpNv1" ? corPowerUp("powerUpNv1"):  powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
+    const bgColuna1 = corLinha === "#8F5ADA" ? corPowerUp("powerUpNv1"):  powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") :  powerUpSelecionado === "powerUpNv3" ? corPowerUp("powerUpNv3"):corPadrão
+
+    const bgColuna2 = powerUpSelecionado === "powerUpNv1" ? corPadrão:  powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
+    
+    const bgColuna3 = powerUpSelecionado === "powerUpNv1" ? corPadrão:  powerUpSelecionado === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
+    const columnStyleNv1 =  { backgroundColor: bgColuna1};
+    const columnStyleNv2 = { backgroundColor: bgColuna2};
+    const columnStyleNv3 = { backgroundColor: bgColuna3};
+    // const columnStyleNv1 =  { backgroundColor: bgColuna };
+    
+    
+    // const columnStyleNv2 = { backgroundColor: "#6411D9" };
+    // const columnStyleNv3 = { backgroundColor: "#350973" };
+    // if(temAtivo){
+
+    // } else{
+    //     corLinha:
+    // }
+    
+
+
+
+
+
 
     const [rotateX, setRotateX] = useState(0);
     const [rotateY, setRotateY] = useState(0);
@@ -246,14 +273,14 @@ const formatarNumero = (num) => {
                                         </thead>
                                         <tbody className="rounded-[2px]">
                                             <tr style={{ backgroundColor: setorInfo.cor4 }} className="pt-[20px] border-[1px] rounded-[2px] border-white">
+                                                <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
+                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">1</td>
+                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.quantidadeMínima}</td>
+                                                <td style={{  ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.quantidadeMínima}</td>
                                                 <td style={lineStyle} className="text-white pl-[5px]">Ana</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">25</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">12</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">12</td>
-                                                <td style={lineStyle} className="text-white pl-[5px]">Ana</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">25</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">12</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">12</td>
+                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">25</td>
+                                                <td style={{  ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">12</td>
+                                                <td style={{  ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">12</td>
                                             </tr>
                                             <tr style={{ backgroundColor: setorInfo.cor4 }} className="pt-[20px] border-[1px] rounded-[2px] border-white">
                                                 <td style={lineStyle} className="text-white pl-[5px]">Ana</td>
@@ -314,6 +341,10 @@ const formatarNumero = (num) => {
         }}
     >
             {/* Frente do Card */}
+         
+    
+
+
 
                 <div className="absolute w-full h-full flex items-center justify-center rounded-xl">
                     <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
@@ -408,7 +439,9 @@ const formatarNumero = (num) => {
                         </div>
                     </div>
                 </div>
-
+                {/* {visibleId === 'cadeado' && isModalOpen === true &&  
+            <div className="relative w-full h-full flex items-center justify-center rounded-xl">
+                <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">} */}
                 {/* Verso do Card */}
                 <div  className={`absolute w-full h-full flex items-center justify-center rounded-[20px] text-white transform cursor-pointer rotate-y-180 ${flipped ? "pointer-events-auto z-50" : "pointer-events-none"}`}
                     style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, #6411D9 80%, #350973 100%)`}}>
@@ -597,7 +630,7 @@ const formatarNumero = (num) => {
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center w-full">
-                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[0].quantidade}
+                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[0].powerUp.nível1.quantidadeMínima}
                                                     </h2>
                                                 </div>
                                             </div>
@@ -606,7 +639,7 @@ const formatarNumero = (num) => {
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center h-full w-full">
-                                                    <h2 className="text-white text-[10px]  fonteBold">{dados[setorAtivo].edificios[0].quantidade}
+                                                    <h2 className="text-white text-[10px]  fonteBold">{dados[setorAtivo].edificios[0].powerUp.nível2.quantidadeMínima}
                                                     </h2>
                                                 </div>
                                             </div>
@@ -615,7 +648,7 @@ const formatarNumero = (num) => {
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center w-full">
-                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[0].quantidade}
+                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[0].powerUp.nível3.quantidadeMínima}
                                                     </h2>
                                                 </div>
                                             </div>
