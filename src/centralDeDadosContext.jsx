@@ -35,7 +35,7 @@ const CentraldeDadosProvider = ({ children }) => {
       lojaConquistada: "",
       conquista: 0
     },
-    
+
     modalDespesas: {
       estadoModal: false,
       head: "",
@@ -211,7 +211,7 @@ const CentraldeDadosProvider = ({ children }) => {
         grãos: false,
         biofábrica: true,
       },
-      edificios: [
+      edificios:[
         {
           nome: "Plantação De Grãos",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
@@ -231,14 +231,14 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasG: 321,
           },
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo","Plantação De Legumes"],
+          licençasNecessárias: ["Silo", "Plantação De Legumes"],
           melhoraEficiencia: [
             "fabricaDeRação",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-          recursoDeConstrução:  ["Plantação De Legumes", "Silo"]
+          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 1 }
@@ -284,14 +284,14 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasG: 321,
           },
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo","Plantação De Legumes"],
+          licençasNecessárias: ["Silo", "Plantação De Legumes"],
           melhoraEficiencia: [
             "fabricaDeRação",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-          recursoDeConstrução:  ["Plantação De Legumes", "Silo"]
+          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 1 }
@@ -336,14 +336,14 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasG: 321,
           },
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo","Plantação De Legumes"],
+          licençasNecessárias: ["Silo", "Plantação De Legumes"],
           melhoraEficiencia: [
             "fabricaDeRação",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-          recursoDeConstrução:  ["Plantação De Legumes", "Silo"]
+          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 1 }
@@ -388,14 +388,14 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasG: 321,
           },
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo","Plantação De Legumes"],
+          licençasNecessárias: ["Silo", "Plantação De Legumes"],
           melhoraEficiencia: [
             "fabricaDeRação",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-          recursoDeConstrução:  ["Plantação De Legumes", "Silo"]
+          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 1 }
@@ -440,14 +440,14 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasG: 321,
           },
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo","Plantação De Legumes"],
+          licençasNecessárias: ["Silo", "Plantação De Legumes"],
           melhoraEficiencia: [
             "fabricaDeRação",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-          recursoDeConstrução:  ["Plantação De Legumes", "Silo"]
+          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 1 }
@@ -492,14 +492,14 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasG: 321,
           },
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo","Plantação De Legumes"],
+          licençasNecessárias: ["Silo", "Plantação De Legumes"],
           melhoraEficiencia: [
             "fabricaDeRação",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-          recursoDeConstrução:  ["Plantação De Legumes", "Silo"]
+          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 1 }
@@ -536,7 +536,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           construçõesNecessárias: [],
 
-          licençasNecessárias: [{ construção: "fazendaAdministrativa"}],
+          licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
 
           melhoraEficiencia: [
             "fabricaDeRação",

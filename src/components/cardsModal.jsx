@@ -48,23 +48,23 @@ export default function CardModal() {
     const [visibleId, setVisibleId] = useState('lojasNec');
     const [modalPowerup, setModalPowerUp] = useState(false)
 
-const contabilidadeDeFalta = (edificio) =>{
-    const qtdAtual = dados[edificio].quantidade
-    const qtdNecessaria = dados[setorAtivo].edificios[0].lojasNecessarias[edificio]
-   
-   const qtdFalta = qtdAtual >= qtdNecessaria ? 0 : qtdNecessaria - qtdAtual;
-const custoTotalConst = edificio === "terrenos" ? dados[edificio].preçoConstrução :  edificio === "lojasP" ? dados[edificio].preçoConstrução + dados.terrenos.preçoConstrução : edificio === "lojasM" ? dados[edificio].preçoConstrução + 2*dados.terrenos.preçoConstrução: edificio === "lojasG" ? dados[edificio].preçoConstrução + 3*dados.terrenos.preçoConstrução : "lascou"
-   return qtdFalta * custoTotalConst
+    const contabilidadeDeFalta = (edificio) => {
+        const qtdAtual = dados[edificio].quantidade
+        const qtdNecessaria = dados[setorAtivo].edificios[0].lojasNecessarias[edificio]
 
-}
+        const qtdFalta = qtdAtual >= qtdNecessaria ? 0 : qtdNecessaria - qtdAtual;
+        const custoTotalConst = edificio === "terrenos" ? dados[edificio].preçoConstrução : edificio === "lojasP" ? dados[edificio].preçoConstrução + dados.terrenos.preçoConstrução : edificio === "lojasM" ? dados[edificio].preçoConstrução + 2 * dados.terrenos.preçoConstrução : edificio === "lojasG" ? dados[edificio].preçoConstrução + 3 * dados.terrenos.preçoConstrução : "lascou"
+        return qtdFalta * custoTotalConst
 
-const formatarNumero = (num) => {
-    if (num >= 1e12) return (num / 1e12).toFixed(1).replace('.0', '') + 'T'; // Trilhões
-    if (num >= 1e9) return (num / 1e9).toFixed(1).replace('.0', '') + 'B';   // Bilhões
-    if (num >= 1e6) return (num / 1e6).toFixed(1).replace('.0', '') + 'M';   // Milhões
-    if (num >= 1e3) return (num / 1e3).toFixed(1).replace('.0', '') + 'K';   // Milhares
-    return num.toString();
-};
+    }
+
+    const formatarNumero = (num) => {
+        if (num >= 1e12) return (num / 1e12).toFixed(1).replace('.0', '') + 'T'; // Trilhões
+        if (num >= 1e9) return (num / 1e9).toFixed(1).replace('.0', '') + 'B';   // Bilhões
+        if (num >= 1e6) return (num / 1e6).toFixed(1).replace('.0', '') + 'M';   // Milhões
+        if (num >= 1e3) return (num / 1e3).toFixed(1).replace('.0', '') + 'K';   // Milhares
+        return num.toString();
+    };
 
 
     let timer;
@@ -117,7 +117,7 @@ const formatarNumero = (num) => {
     ];
 
     const setorInfo = setores.find(setor => setor.id === setorAtivo);
-    const nomeAtivo =  dados[setorAtivo].edificios[0].nome
+    const nomeAtivo = dados[setorAtivo].edificios[0].nome
     const quantidadeAtivo = dados[setorAtivo].edificios[0].quantidade;
     const quantidadeMinimaPowerUpNv2 = dados[setorAtivo].edificios[0].powerUp.nível2.quantidadeMínima;
     const quantidadeMinimaPowerUpNv3 = dados[setorAtivo].edificios[0].powerUp.nível3.quantidadeMínima;
@@ -136,7 +136,7 @@ const formatarNumero = (num) => {
                 return corPadrão;
         }
     };
-    
+
 
 
 
@@ -149,7 +149,7 @@ const formatarNumero = (num) => {
                 ? "powerUpNv2"
                 : "powerUpNv1";
 
-    
+
     const corPowerUpAtual = corPowerUp(powerUpSelecionado);
     const corColunaAtual = corPadrão // Definição da variável antes de usá-la
 
@@ -158,17 +158,17 @@ const formatarNumero = (num) => {
 
     const lineStyle = { background: corLinha }
     // const bgColuna1 = powerUpSelecionado === "powerUpNv1" ? corPowerUp("powerUpNv1"):  powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
-    const bgColuna1 = corLinha === "#8F5ADA" ? corPowerUp("powerUpNv1"):  powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") :  powerUpSelecionado === "powerUpNv3" ? corPowerUp("powerUpNv3"):corPadrão
+    const bgColuna1 = corLinha === "#8F5ADA" ? corPowerUp("powerUpNv1") : powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : powerUpSelecionado === "powerUpNv3" ? corPowerUp("powerUpNv3") : corPadrão
 
-    const bgColuna2 = powerUpSelecionado === "powerUpNv1" ? corPadrão:  powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
-    
-    const bgColuna3 = powerUpSelecionado === "powerUpNv1" ? corPadrão:  powerUpSelecionado === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
-    const columnStyleNv1 =  { backgroundColor: bgColuna1};
-    const columnStyleNv2 = { backgroundColor: bgColuna2};
-    const columnStyleNv3 = { backgroundColor: bgColuna3};
+    const bgColuna2 = powerUpSelecionado === "powerUpNv1" ? corPadrão : powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
+
+    const bgColuna3 = powerUpSelecionado === "powerUpNv1" ? corPadrão : powerUpSelecionado === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
+    const columnStyleNv1 = { backgroundColor: bgColuna1 };
+    const columnStyleNv2 = { backgroundColor: bgColuna2 };
+    const columnStyleNv3 = { backgroundColor: bgColuna3 };
     // const columnStyleNv1 =  { backgroundColor: bgColuna };
-    
-    
+
+
     // const columnStyleNv2 = { backgroundColor: "#6411D9" };
     // const columnStyleNv3 = { backgroundColor: "#350973" };
     // if(temAtivo){
@@ -176,7 +176,7 @@ const formatarNumero = (num) => {
     // } else{
     //     corLinha:
     // }
-    
+
 
 
 
@@ -276,11 +276,11 @@ const formatarNumero = (num) => {
                                                 <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
                                                 <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">1</td>
                                                 <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.quantidadeMínima}</td>
-                                                <td style={{  ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.quantidadeMínima}</td>
+                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.quantidadeMínima}</td>
                                                 <td style={lineStyle} className="text-white pl-[5px]">Ana</td>
                                                 <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">25</td>
-                                                <td style={{  ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">12</td>
-                                                <td style={{  ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">12</td>
+                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">12</td>
+                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">12</td>
                                             </tr>
                                             <tr style={{ backgroundColor: setorInfo.cor4 }} className="pt-[20px] border-[1px] rounded-[2px] border-white">
                                                 <td style={lineStyle} className="text-white pl-[5px]">Ana</td>
@@ -317,34 +317,103 @@ const formatarNumero = (num) => {
         );
     }
 
+
+
+
+
+
+
     return (
         <motion.div
-    onMouseMove={handleMouseMove}
-    onMouseLeave={resetRotation}
-    // onClick={handleFlip} // Flip ao clicar
-    style={{
-        background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, #6411D9 80%, #350973 100%)`
-    }}
-    className="w-[215px] h-[230px] bg-white rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
-    initial={{ scale: 1 }}
-    whileHover={{ scale: 1.1 }}
-    animate={{ rotateX, rotateY }}
-    transition={{ type: "spring", stiffness: 100, damping: 10 }}
->
-    {/* Container do Card */}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={resetRotation}
+            // onClick={handleFlip} // Flip ao clicar
+            style={{
+                background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, #6411D9 80%, #350973 100%)`
+            }}
+            className="w-[215px] h-[230px] bg-white rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
+            initial={{ scale: 1 }}
+            whileHover={{ scale: 1.1 }}
+            animate={{ rotateX, rotateY }}
+            transition={{ type: "spring", stiffness: 100, damping: 10 }}
+        >
+            {/* Container do Card */}
+            <motion.div
+                className="relative w-full h-full"
+                animate={{ rotateY: flipped ? 180 : 0 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                style={{
+                    transformStyle: "preserve-3d"
+                }}
+            >
+
+                {/* Frente do Card */}
+
+
+
+
+                {dados[setorAtivo].edificios[0].liberado === false && (
     <motion.div
-        className="relative w-full h-full"
-        animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-        style={{ 
-            transformStyle: "preserve-3d" 
+        style={{
+            background: `transparent`, // fundo transparente para o container principal
         }}
+        className="w-[215px] h-[230px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective z-10 absolute"
+        initial={{ scale: 1 }}
+        transition={{ type: "spring", stiffness: 100, damping: 10 }}
     >
-            {/* Frente do Card */}
-         
-    
+        {/* Camada de fundo com opacidade */}
+        <div
+            className="absolute inset-0 rounded-[20px] z-0"
+            style={{
+                background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor2} 70%, ${setorInfo.cor4} 100%)`,
+                opacity: 0.9,
+            }}
+        />
 
-
+        {/* Container do Card */}
+        <motion.div
+            className="relative flex justify-center items-center w-full h-full z-10"
+            animate={{ rotateY: flipped ? 180 : 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            style={{
+                transformStyle: "preserve-3d",
+            }}
+        >
+            <div
+                style={{ backgroundColor: setorInfo.cor1 }}
+                className="h-[40%] flex justify-center items-center aspect-square rounded-[20px] relative z-10"
+            >
+                <div
+                    style={{ backgroundColor: setorInfo.cor3 }}
+                    className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-10"
+                >
+                    <div
+                        style={{ backgroundColor: setorInfo.cor1 }}
+                        className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-10"
+                    >
+                        <div
+                            style={{ backgroundColor: setorInfo.cor2 }}
+                            className="flex items-center justify-center h-[95%] aspect-square rounded-[30px] absolute z-10"
+                        >
+                            <div
+                                style={{
+                                    background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor4} 100%)`,
+                                }}
+                                className="flex items-center justify-center h-[95%] aspect-square rounded-[60px] absolute z-10 relative"
+                            >
+                                <img
+                                    className="h-[70%] aspect-square absolute"
+                                    src={licença}
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    </motion.div>
+)}
 
                 <div className="absolute w-full h-full flex items-center justify-center rounded-xl">
                     <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
@@ -362,7 +431,7 @@ const formatarNumero = (num) => {
                             <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-full">
 
                                 <div className="w-[100%] rounded-[20px] flex justify-around items-center h-full ">
-                                    <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => {handleShow('lojasNec'),handleFlip()}}
+                                    <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => { handleShow('lojasNec'), handleFlip() }}
                                         // onMouseLeave={handleHide}
                                         className=" hover:scale-[1.20] ease-in-out cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative">
                                         <img className="h-[70%] aspect-square" src={terrenoImg} alt="" />
@@ -374,7 +443,7 @@ const formatarNumero = (num) => {
                                         </div>
                                     </div>
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className="h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
-                                        <img className="h-[70%] aspect-square" src={constNece} onClick={() => { handleMouseEnter(), handleShow('constNece') ,handleFlip()}}
+                                        <img className="h-[70%] aspect-square" src={constNece} onClick={() => { handleMouseEnter(), handleShow('constNece'), handleFlip() }}
                                             alt="" />
                                         <div className="absolute bottom-[-2px] right-[-2px]">
                                             <span className="relative flex size-2">
@@ -383,7 +452,7 @@ const formatarNumero = (num) => {
                                             </span>
                                         </div>
                                     </div>
-                                    <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => {handleShow('licenca') ,handleFlip()}}
+                                    <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => { handleShow('licenca'), handleFlip() }}
                                         className="h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative hover:scale-[1.20] ease-in-out cursor-pointer">
                                         <img className="h-[70%] aspect-square" src={licença} alt="" />
                                         <div className="absolute bottom-[-2px] right-[-2px]">
@@ -422,7 +491,7 @@ const formatarNumero = (num) => {
                                     className="w-full h-[70%] flex justify-center items-center drop-shadow-2xl">
                                     <div className="h-full w-full aspect-square flex justify-center items-center">
                                         <div style={{ backgroundColor: setorInfo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
-                                            <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%, ${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)` }} onClick={()=>handleFlip()} className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
+                                            <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%, ${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)` }} onClick={() => handleFlip()} className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                                 <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                             </div>
                                             <div className="flex justify-center items-center w-full">
@@ -435,7 +504,7 @@ const formatarNumero = (num) => {
                             </div>
                         </div>
                         <div className="flex items-center justify-center w-[90%] h-[13%] drop-shadow-md">
-                            <button style={{ "--cor4": setorInfo.cor4,"--cor1": setorInfo.cor1, }} className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9]   rounded-[20px] w-full fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9]  hover:from-[--cor4]  duration-300 ease-in-out  cursor-pointer`}> Comprar</button>
+                            <button style={{ "--cor4": setorInfo.cor4, "--cor1": setorInfo.cor1, }} className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9]   rounded-[20px] w-full fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9]  hover:from-[--cor4]  duration-300 ease-in-out  cursor-pointer`}> Comprar</button>
                         </div>
                     </div>
                 </div>
@@ -443,8 +512,8 @@ const formatarNumero = (num) => {
             <div className="relative w-full h-full flex items-center justify-center rounded-xl">
                 <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">} */}
                 {/* Verso do Card */}
-                <div  className={`absolute w-full h-full flex items-center justify-center rounded-[20px] text-white transform cursor-pointer rotate-y-180 ${flipped ? "pointer-events-auto z-50" : "pointer-events-none"}`}
-                    style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, #6411D9 80%, #350973 100%)`}}>
+                <div className={`absolute w-full h-full flex items-center justify-center rounded-[20px] text-white transform cursor-pointer rotate-y-180 ${flipped ? "pointer-events-auto z-50" : "pointer-events-none"}`}
+                    style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, #6411D9 80%, #350973 100%)` }}>
                     {/* {visibleId === "constNece" && isModalOpen === true &&
                         (
                             <div className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
@@ -454,7 +523,7 @@ const formatarNumero = (num) => {
                     } */}
                     {visibleId === "constNece" && isModalOpen === true &&
                         (
-                            <div onClick={()=>handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center ">
+                            <div onClick={() => handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center ">
                                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between drop-shadow-xs
 ">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
@@ -478,7 +547,7 @@ const formatarNumero = (num) => {
                                 </div>
                                 <div className="h-[35%] w-full flex flex-col items-center justify-center drop-shadow-xs ">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor4} 100%)` }} className="h-full flex flex-col w-full items-center justify-around rounded-[10px]">
-                                    <div className="h-[20%] w-[90%] flex flex-col justify-center  ">
+                                        <div className="h-[20%] w-[90%] flex flex-col justify-center  ">
                                             <h1 className=" text-white text-[11px] text-start fonteBold">Construções pré-requisito</h1>
                                         </div>
                                         <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
@@ -491,7 +560,7 @@ const formatarNumero = (num) => {
                     }
                     {visibleId === 'lojasNec' && isModalOpen === true &&
                         (
-                            <div onClick={()=>handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
+                            <div onClick={() => handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
                                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between ">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                         <img className="h-[70%]" src={constNece} alt="" />
@@ -536,7 +605,7 @@ const formatarNumero = (num) => {
                                             </div>
 
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold">{ formatarNumero(contabilidadeDeFalta("lojasP"))}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold">{formatarNumero(contabilidadeDeFalta("lojasP"))}</h2>
                                             </div>
 
                                         </div>
@@ -555,7 +624,7 @@ const formatarNumero = (num) => {
                                             </div>
 
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
-                                                <h2 style={{ backgroundColor: setorInfo.cor }} className="text-white text-[15px] fonteBold"> { formatarNumero(contabilidadeDeFalta("lojasM"))}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor }} className="text-white text-[15px] fonteBold"> {formatarNumero(contabilidadeDeFalta("lojasM"))}</h2>
                                             </div>
 
                                         </div>
@@ -574,7 +643,7 @@ const formatarNumero = (num) => {
                                             </div>
 
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> { formatarNumero(contabilidadeDeFalta("lojasG"))}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> {formatarNumero(contabilidadeDeFalta("lojasG"))}</h2>
                                             </div>
 
                                         </div>
@@ -593,7 +662,7 @@ const formatarNumero = (num) => {
                     }
                     {visibleId === "licenca" && isModalOpen === true &&
                         (
-                            <div onClick={()=>handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
+                            <div onClick={() => handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
                                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[15%] rounded-[10px] flex justify-between ">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                         <img className="h-[70%]" src={licença} alt="" />
@@ -610,7 +679,7 @@ const formatarNumero = (num) => {
                     }
                     {visibleId === 'powerUp' && isModalOpen === true &&
                         (
-                            <div onClick={()=>handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
+                            <div onClick={() => handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
                                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between ">
                                     <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%,${corPowerUpAtual} 30%, #350973 70%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                         <img className="h-[70%] rotate-[270deg]" src={PróximoImg} alt="" />
@@ -626,7 +695,7 @@ const formatarNumero = (num) => {
 
                                         <div className="w-[100%] rounded-[20px] flex justify-around items-center  h-full">
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
-                                                <div  className="bg-[#8F5ADA] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
+                                                <div className="bg-[#8F5ADA] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center w-full">
