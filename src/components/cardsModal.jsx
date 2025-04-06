@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useContext, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import porcem from "../imagens/simbolo-de-porcentagem.png"
@@ -29,7 +29,7 @@ import plantação from "../../public/imagens/Plantação De Grãos.png"
 
 export default function CardModal() {
 
-    const { dados, AtualizarDados } = useContext(CentraldeDadosContext);
+    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
     const setorAtivo = dados.setorAtivo;
 
 
@@ -54,9 +54,49 @@ export default function CardModal() {
 
         const qtdFalta = qtdAtual >= qtdNecessaria ? 0 : qtdNecessaria - qtdAtual;
         const custoTotalConst = edificio === "terrenos" ? dados[edificio].preçoConstrução : edificio === "lojasP" ? dados[edificio].preçoConstrução + dados.terrenos.preçoConstrução : edificio === "lojasM" ? dados[edificio].preçoConstrução + 2 * dados.terrenos.preçoConstrução : edificio === "lojasG" ? dados[edificio].preçoConstrução + 3 * dados.terrenos.preçoConstrução : "lascou"
+        const edificioSuficiente = edificio === "terrenos" ? "terrenosSuficientes" : edificio === "lojasP" ? "lojasPSuficientes" : edificio === "lojasM" ? "lojasMSuficientes" : edificio === "lojasG" ? "lojasGSuficientes" : "lascou"
+   
         return qtdFalta * custoTotalConst
 
     }
+
+
+    useEffect(() => {
+        const edificio = "lojasP";
+        const qtdAtual = dados[edificio]?.quantidade;
+        const qtdNecessaria = dados[setorAtivo]?.edificios?.[0]?.lojasNecessarias?.[edificio];
+      
+        const edificioSuficiente =
+          edificio === "terrenos" ? "terrenosSuficientes" :
+          edificio === "lojasP" ? "lojasPSuficientes" :
+          edificio === "lojasM" ? "lojasMSuficientes" :
+          edificio === "lojasG" ? "lojasGSuficientes" :
+          "lascou";
+      
+          if (qtdAtual >= qtdNecessaria) {
+            const novoEdificio = {
+              ...dados.agricultura.edificios[0],
+              lojasNecessarias: {
+                ...dados.agricultura.edificios[0].lojasNecessarias,
+                [edificioSuficiente]: true
+              }
+            };
+          
+            const novaLista = [...dados.agricultura.edificios];
+            novaLista[0] = novoEdificio;
+          
+            atualizarDados({
+              ...dados,
+              agricultura: {
+                ...dados.agricultura,
+                edificios: novaLista
+              }
+            });
+          }
+          
+      }, [dados.dia]);
+      
+
 
     const formatarNumero = (num) => {
         if (num >= 1e12) return (num / 1e12).toFixed(1).replace('.0', '') + 'T'; // Trilhões
@@ -65,6 +105,11 @@ export default function CardModal() {
         if (num >= 1e3) return (num / 1e3).toFixed(1).replace('.0', '') + 'K';   // Milhares
         return num.toString();
     };
+
+
+
+
+
 
 
     let timer;
@@ -136,10 +181,30 @@ export default function CardModal() {
                 return corPadrão;
         }
     };
+    const [VerificadorDeLojasNecessárias, setVerificador]  = useState(false) 
+
+    useEffect(() => {
+  const quantidadeTerrenos = dados[setorAtivo].edificios[0].lojasNecessarias.terrenos
+  const quantidadeLojasP = dados[setorAtivo].edificios[0].lojasNecessarias.lojasP
+  const quantidadeLojasM = dados[setorAtivo].edificios[0].lojasNecessarias.lojasM
+  const quantidadeLojasG = dados[setorAtivo].edificios[0].lojasNecessarias.lojasG
+
+  const quantidadeTerrenosAtual = dados.terrenos.quantidade
+  const quantidadeLojasPAtual = dados.lojasP.quantidade
+  const quantidadeLojasMAtual = dados.lojasM.quantidade
+  const quantidadeLojasGAtual = dados.lojasG.quantidade
+
+  const todosSuficientes =
+    quantidadeTerrenosAtual >= quantidadeTerrenos &&
+    quantidadeLojasPAtual >= quantidadeLojasP &&
+    quantidadeLojasMAtual >= quantidadeLojasM &&
+    quantidadeLojasGAtual >= quantidadeLojasG
+
+  setVerificador(todosSuficientes)
+}, [dados, setorAtivo])
 
 
-
-
+    
 
 
     const powerUpSelecionado =
@@ -329,7 +394,7 @@ export default function CardModal() {
             onMouseLeave={resetRotation}
             // onClick={handleFlip} // Flip ao clicar
             style={{
-                background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, #6411D9 80%, #350973 100%)`
+                background: `linear-gradient(135deg, ${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)`
             }}
             className="w-[215px] h-[230px] bg-white rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
             initial={{ scale: 1 }}
@@ -353,67 +418,67 @@ export default function CardModal() {
 
 
                 {dados[setorAtivo].edificios[0].liberado === false && (
-    <motion.div
-        style={{
-            background: `transparent`, // fundo transparente para o container principal
-        }}
-        className="w-[215px] h-[230px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective z-10 absolute"
-        initial={{ scale: 1 }}
-        transition={{ type: "spring", stiffness: 100, damping: 10 }}
-    >
-        {/* Camada de fundo com opacidade */}
-        <div
-            className="absolute inset-0 rounded-[20px] z-0"
-            style={{
-                background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor2} 70%, ${setorInfo.cor4} 100%)`,
-                opacity: 0.9,
-            }}
-        />
-
-        {/* Container do Card */}
-        <motion.div
-            className="relative flex justify-center items-center w-full h-full z-10"
-            animate={{ rotateY: flipped ? 180 : 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            style={{
-                transformStyle: "preserve-3d",
-            }}
-        >
-            <div
-                style={{ backgroundColor: setorInfo.cor1 }}
-                className="h-[40%] flex justify-center items-center aspect-square rounded-[20px] relative z-10"
-            >
-                <div
-                    style={{ backgroundColor: setorInfo.cor3 }}
-                    className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-10"
-                >
-                    <div
-                        style={{ backgroundColor: setorInfo.cor1 }}
-                        className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-10"
+                    <motion.div
+                        style={{
+                            background: `transparent`, // fundo transparente para o container principal
+                        }}
+                        className="w-[215px] h-[230px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective z-10 cursor-pointer absolute"
+                        initial={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 100, damping: 10 }}
                     >
+                        {/* Camada de fundo com opacidade */}
                         <div
-                            style={{ backgroundColor: setorInfo.cor2 }}
-                            className="flex items-center justify-center h-[95%] aspect-square rounded-[30px] absolute z-10"
+                            className="absolute inset-0 rounded-[20px] z-0"
+                            style={{
+                                background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor2} 70%, ${setorInfo.cor4} 100%)`,
+                                opacity: 0.9,
+                            }}
+                        />
+
+                        {/* Container do Card */}
+                        <motion.div
+                            className="relative flex justify-center items-center w-full h-full z-10"
+                            animate={{ rotateY: flipped ? 180 : 0 }}
+                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                            style={{
+                                transformStyle: "preserve-3d",
+                            }}
                         >
                             <div
-                                style={{
-                                    background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor4} 100%)`,
-                                }}
-                                className="flex items-center justify-center h-[95%] aspect-square rounded-[60px] absolute z-10 relative"
+                                style={{ backgroundColor: setorInfo.cor1 }}
+                                className="h-[40%] flex justify-center items-center aspect-square rounded-[20px] relative z-10"
                             >
-                                <img
-                                    className="h-[70%] aspect-square absolute"
-                                    src={licença}
-                                    alt=""
-                                />
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor3 }}
+                                    className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-10"
+                                >
+                                    <div
+                                        style={{ backgroundColor: setorInfo.cor1 }}
+                                        className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-10"
+                                    >
+                                        <div
+                                            style={{ backgroundColor: setorInfo.cor2 }}
+                                            className="flex items-center justify-center h-[95%] aspect-square rounded-[30px] absolute z-10"
+                                        >
+                                            <div
+                                                style={{
+                                                    background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor4} 100%)`,
+                                                }}
+                                                className="flex items-center justify-center h-[95%] aspect-square rounded-[60px] absolute z-10 relative"
+                                            >
+                                                <img
+                                                    className="h-[70%] aspect-square absolute"
+                                                    src={licença}
+                                                    alt=""
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </motion.div>
-    </motion.div>
-)}
+                        </motion.div>
+                    </motion.div>
+                )}
 
                 <div className="absolute w-full h-full flex items-center justify-center rounded-xl">
                     <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
@@ -435,12 +500,15 @@ export default function CardModal() {
                                         // onMouseLeave={handleHide}
                                         className=" hover:scale-[1.20] ease-in-out cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative">
                                         <img className="h-[70%] aspect-square" src={terrenoImg} alt="" />
+
+                                        {VerificadorDeLojasNecessárias===true &&
                                         <div className="absolute bottom-[-2px] right-[-2px]">
                                             <span className="relative flex size-2">
                                                 <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
                                                 <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
                                             </span>
                                         </div>
+                                        }
                                     </div>
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className="h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                         <img className="h-[70%] aspect-square" src={constNece} onClick={() => { handleMouseEnter(), handleShow('constNece'), handleFlip() }}
@@ -513,7 +581,11 @@ export default function CardModal() {
                 <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">} */}
                 {/* Verso do Card */}
                 <div className={`absolute w-full h-full flex items-center justify-center rounded-[20px] text-white transform cursor-pointer rotate-y-180 ${flipped ? "pointer-events-auto z-50" : "pointer-events-none"}`}
-                    style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, #6411D9 80%, #350973 100%)` }}>
+                    style={{
+                        transform: "rotateY(180deg)", backfaceVisibility: "hidden",
+                        background: `linear-gradient(135deg, ${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)`
+                    }}
+                >
                     {/* {visibleId === "constNece" && isModalOpen === true &&
                         (
                             <div className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">

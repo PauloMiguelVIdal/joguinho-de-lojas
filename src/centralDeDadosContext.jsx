@@ -13,7 +13,7 @@ const CentraldeDadosProvider = ({ children }) => {
     setorAtivo: "tecnologia",
     fimGame: false,
     nomeEmpresa: "",
-    saldo: 120000,
+    saldo: 12000000,
     dia: 19,
     chanceNovoEvento: 0,
     economiaGlobal: "recessão",
@@ -198,6 +198,15 @@ const CentraldeDadosProvider = ({ children }) => {
       despesasTotais: 0
     },
 
+    licencas: {
+      agricultura: ["Licença Agricultura Global", "Licença De Comércios Agrícolas", "Licença De Armazenamento Agrícola", "Licença De Fazendas De Animais", "Licença De Áreas Especiais", "Licença De Outras Plantações"],
+      tecnologia: [],
+      industria: [],
+      comercio: [],
+      imobiliario: [],
+      energia: [],
+    },
+
     agricultura: {
       economiaGlobal: {
         estadoAtual: "estável"
@@ -206,16 +215,65 @@ const CentraldeDadosProvider = ({ children }) => {
         comprado: true,
         valor: 20000
       },
-      licençasSetor: {
-        agropecuária: true,
-        grãos: false,
-        biofábrica: true,
-      },
-      edificios:[
+      licencasSetor: [{
+        nome: "Licença Agricultura Global",
+        valor: 2000,
+        edifíciosLiberados: ["Plantações De Gãos", "Plantações De Legumes", "Fazenda Administrativa", "Pomares"]
+      }, {
+        nome: "Licença De Fazendas De Animais",
+        valor: 5000,
+        edifíciosLiberados: ["Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos"],
+        status: false
+      }],
+      edificios: [
         {
           nome: "Plantação De Grãos",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
-          liberado: false,
+          licençaLiberado: {
+            licença: "Licença De Agricultura",
+            liberado: false,
+          },
+
+          custoConstrucao: 200000,
+          quantidade: 510,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Legumes"],
+          melhoraEficiencia: [
+            "fabricaDeRação",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 1 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Fazenda De Vacas",
+          desc: "Tenha fazenda de vacas",
+          licençaLiberado: {
+            licença: "Licença De Fazendas De Animais",
+            liberado: false,
+          },
+
           custoConstrucao: 200000,
           quantidade: 510,
           financas: {
@@ -268,7 +326,7 @@ const CentraldeDadosProvider = ({ children }) => {
         {
           nome: "Terraplanagem e Pavimentação",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
-          liberado: false,
+          liberado: true,
           custoConstrucao: 200000,
           quantidade: 20,
           financas: {
@@ -320,7 +378,7 @@ const CentraldeDadosProvider = ({ children }) => {
         {
           nome: "Terraplanagem e Pavimentação",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
-          liberado: false,
+          liberado: true,
           custoConstrucao: 200000,
           quantidade: 20,
           financas: {
@@ -372,7 +430,7 @@ const CentraldeDadosProvider = ({ children }) => {
         {
           nome: "Terraplanagem e Pavimentação",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
-          liberado: false,
+          liberado: true,
           custoConstrucao: 200000,
           quantidade: 20,
           financas: {
@@ -424,7 +482,7 @@ const CentraldeDadosProvider = ({ children }) => {
         {
           nome: "Terraplanagem e Pavimentação",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
-          liberado: false,
+          liberado: true,
           custoConstrucao: 200000,
           quantidade: 20,
           financas: {
@@ -476,7 +534,7 @@ const CentraldeDadosProvider = ({ children }) => {
         {
           nome: "Terraplanagem e Pavimentação",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
-          liberado: false,
+          liberado: true,
           custoConstrucao: 200000,
           quantidade: 20,
           financas: {
