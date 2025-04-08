@@ -181,7 +181,7 @@ export default function CardModal() {
                 return corPadrão;
         }
     };
-    const [VerificadorDeLojasNecessárias, setVerificador]  = useState(false) 
+    const [verificadorDeLojasNecessárias, setVerificador]  = useState(false) 
 
     useEffect(() => {
   const quantidadeTerrenos = dados[setorAtivo].edificios[0].lojasNecessarias.terrenos
@@ -501,7 +501,7 @@ export default function CardModal() {
                                         className=" hover:scale-[1.20] ease-in-out cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative">
                                         <img className="h-[70%] aspect-square" src={terrenoImg} alt="" />
 
-                                        {VerificadorDeLojasNecessárias===true &&
+                                        {verificadorDeLojasNecessárias===true &&
                                         <div className="absolute bottom-[-2px] right-[-2px]">
                                             <span className="relative flex size-2">
                                                 <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>

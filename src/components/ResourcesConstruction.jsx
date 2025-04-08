@@ -27,6 +27,11 @@ export default function ResourcesConstruction() {
   const setorAtivo = dados.setorAtivo
   const setorInfo = setores.find(setor => setor.id === setorAtivo);
 
+const endereço = dados.agricultura.edificios.find(e=>e.nome==="Plantação De Grãos") 
+
+const result = endereço.quantidade>0 ? true: false;
+
+
 
 
   const edificio = { nome: dados[setorAtivo].edificios[0].nome, recursoDeConstrução: dados[setorAtivo].edificios[0].recursoDeConstrução };
@@ -35,6 +40,9 @@ export default function ResourcesConstruction() {
 
   const [caixaTexto, setCaixaTexto] = useState(false) 
 
+ const [verificadorDeRecursosNecessários, setVerificador]  = useState(false) 
+
+ useEffect(()=>{setVerificador(result)},[dados,setorAtivo])
 
 
   return (
@@ -53,16 +61,18 @@ export default function ResourcesConstruction() {
       style={{ backgroundColor: setorInfo.cor1 }}  
       className="absolute inset-0 flex items-center justify-center text-white text-[7px] p-2 rounded-[8px]"
     >
-      {nomeEdificio}
+      {nomeEdificio} 
     </div>
   )}
   <img className="h-[70%] aspect-square" src={getImageUrl(nomeEdificio)} alt={nomeEdificio} />
+  {verificadorDeRecursosNecessários===true &&
   <div className="absolute bottom-[-2px] right-[-2px]">
     <span className="relative flex size-2">
       <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
       <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
     </span>
   </div>
+}
 </div>
 
      
@@ -70,3 +80,5 @@ export default function ResourcesConstruction() {
     </div>
   )
 }
+
+// localizador(nomeEdificio.quantidade>0)

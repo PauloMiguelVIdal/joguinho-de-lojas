@@ -235,7 +235,7 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           custoConstrucao: 200000,
-          quantidade: 510,
+          quantidade: 1,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -326,7 +326,7 @@ const CentraldeDadosProvider = ({ children }) => {
         {
           nome: "Terraplanagem e Pavimentação",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
-          liberado: true,
+          liberado: false,
           custoConstrucao: 200000,
           quantidade: 20,
           financas: {
@@ -378,7 +378,7 @@ const CentraldeDadosProvider = ({ children }) => {
         {
           nome: "Terraplanagem e Pavimentação",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
-          liberado: true,
+          liberado: false,
           custoConstrucao: 200000,
           quantidade: 20,
           financas: {
@@ -432,7 +432,7 @@ const CentraldeDadosProvider = ({ children }) => {
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           liberado: true,
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 520,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -440,10 +440,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 5,
+            lojasP: 5,
+            lojasM: 5,
+            lojasG: 5,
           },
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Legumes"],
