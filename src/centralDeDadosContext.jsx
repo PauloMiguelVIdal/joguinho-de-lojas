@@ -459,8 +459,8 @@ const CentraldeDadosProvider = ({ children }) => {
             { construção: "fazendaAdministrativa", quantidade: 1 }
           ],
           powerUp: {
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 200, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
         }],
