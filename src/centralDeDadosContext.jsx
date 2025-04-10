@@ -477,6 +477,12 @@ const CentraldeDadosProvider = ({ children }) => {
         agropecuária: true,
         grãos: false,
         biofábrica: true,
+        biofábrica: true,
+        biofábrica: true,
+        biofábrica: true,
+        biofábrica: true,
+        biofábrica: true,
+        biofábrica: true,
       },
       edificios: [
         {
