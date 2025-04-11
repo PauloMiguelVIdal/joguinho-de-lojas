@@ -13,7 +13,7 @@ const CentraldeDadosProvider = ({ children }) => {
     setorAtivo: "tecnologia",
     fimGame: false,
     nomeEmpresa: "",
-    saldo: 12000000,
+    saldo: 12000000000,
     dia: 19,
     chanceNovoEvento: 0,
     economiaGlobal: "recessão",
