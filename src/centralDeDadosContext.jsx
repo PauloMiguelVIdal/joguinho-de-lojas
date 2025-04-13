@@ -262,9 +262,10 @@ const CentraldeDadosProvider = ({ children }) => {
             { construção: "fazendaAdministrativa", quantidade: 1 }
           ],
           powerUp: {
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            
           }
         }, {
           nome: "Fazenda De Vacas",
@@ -302,9 +303,10 @@ const CentraldeDadosProvider = ({ children }) => {
             { construção: "fazendaAdministrativa", quantidade: 1 }
           ],
           powerUp: {
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 5, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto: 3, aumFatu: 1 },
+            
           }
         }],
     }

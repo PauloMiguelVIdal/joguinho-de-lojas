@@ -27,9 +27,9 @@ export default function ResourcesConstruction() {
   const setorAtivo = dados.setorAtivo
   const setorInfo = setores.find(setor => setor.id === setorAtivo);
 
-const endereço = dados.agricultura.edificios.find(e=>e.nome==="Plantação De Grãos") 
+  const endereço = dados.agricultura.edificios.find(e => e.nome === "Plantação De Grãos")
 
-const result = endereço.quantidade>0 ? true: false;
+  const result = endereço.quantidade > 0 ? true : false;
 
 
 
@@ -38,44 +38,44 @@ const result = endereço.quantidade>0 ? true: false;
   const arrayConstResources = edificio.recursoDeConstrução
 
 
-  const [caixaTexto, setCaixaTexto] = useState(false) 
+  const [caixaTexto, setCaixaTexto] = useState(false)
 
- const [verificadorDeRecursosNecessários, setVerificador]  = useState(false) 
+  const [verificadorDeRecursosNecessários, setVerificador] = useState(false)
 
- useEffect(()=>{setVerificador(result)},[dados,setorAtivo])
+  useEffect(() => { setVerificador(result) }, [dados, setorAtivo])
 
 
   return (
     <div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
       {arrayConstResources.map((nomeEdificio) => (
-        
-<div  
-  key={nomeEdificio}  
-  style={{ backgroundColor: setorInfo.cor3 }}  
-  onMouseEnter={() => setCaixaTexto(true)}  
-  onMouseLeave={() => setCaixaTexto(false)}  
-  className="cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative"
->
-  {caixaTexto && (
-    <div 
-      style={{ backgroundColor: setorInfo.cor1 }}  
-      className="absolute inset-0 flex items-center justify-center text-white text-[7px] p-2 rounded-[8px]"
-    >
-      {nomeEdificio} 
-    </div>
-  )}
-  <img className="h-[70%] aspect-square" src={getImageUrl(nomeEdificio)} alt={nomeEdificio} />
-  {verificadorDeRecursosNecessários===true &&
-  <div className="absolute bottom-[-2px] right-[-2px]">
-    <span className="relative flex size-2">
-      <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
-      <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
-    </span>
-  </div>
-}
-</div>
 
-     
+        <div
+          key={nomeEdificio}
+          style={{ backgroundColor: setorInfo.cor3 }}
+          onMouseEnter={() => setCaixaTexto(true)}
+          onMouseLeave={() => setCaixaTexto(false)}
+          className="cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative"
+        >
+          {caixaTexto && (
+            <div
+              style={{ backgroundColor: setorInfo.cor1 }}
+              className="absolute inset-0 flex items-center justify-center text-white text-[7px] p-2 rounded-[8px]"
+            >
+              {nomeEdificio}
+            </div>
+          )}
+          <img className="h-[70%] aspect-square" src={getImageUrl(nomeEdificio)} alt={nomeEdificio} />
+          {verificadorDeRecursosNecessários === true &&
+            <div className="absolute bottom-[-2px] right-[-2px]">
+              <span className="relative flex size-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+                <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+              </span>
+            </div>
+          }
+        </div>
+
+
       ))}
     </div>
   )
