@@ -345,30 +345,32 @@ export default function CardModal() {
                                                 <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
                                                 <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível1.aumFatu}</td>
                                                 <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.aumFatu}</td>
-
                                                 <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.aumFatu}</td>
 
                                             </tr>
                                             <tr style={{ backgroundColor: setorInfo.cor4 }} className="pt-[20px] border-[1px] rounded-[2px] border-white">
-                                                <td style={lineStyle} className="text-white pl-[5px]">Ana</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">25</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">12</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">12</td>
-                                                <td style={lineStyle} className="text-white pl-[5px]">Ana</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">25</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">12</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">12</td>
+                                                <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
+                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível1.redCusto}</td>
+                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.redCusto}</td>
+                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.redCusto}</td>
+                                                <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
+                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível1.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.aumFatu}</td>
+
                                             </tr>
                                             <tr style={{ backgroundColor: setorInfo.cor4 }} className="pt-[20px] border-[1px] rounded-[2px] border-white">
-                                                <td style={lineStyle} className="text-white pl-[5px]">Ana</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">25</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">12</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">12</td>
-                                                <td style={lineStyle} className="text-white pl-[5px]">Ana</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">25</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">12</td>
-                                                <td style={{ ...lineStyle, ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">12</td>
+                                                <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
+                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível1.redCusto}</td>
+                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.redCusto}</td>
+                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.redCusto}</td>
+                                                <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
+                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível1.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.aumFatu}</td>
+
                                             </tr>
+                                           
                                         </tbody>
                                     </table>
                                 </div>
