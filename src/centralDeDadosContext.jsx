@@ -216,7 +216,7 @@ const CentraldeDadosProvider = ({ children }) => {
         valor: 20000
       },
       licencasSetor: [{
-        nome: "Licença Agricultura Global",
+        nome: "Licença Global De Agricultura",
         valor: 2000,
         edifíciosLiberados: ["Plantações De Gãos", "Plantações De Legumes", "Fazenda Administrativa", "Pomares"]
       }, {
@@ -225,15 +225,20 @@ const CentraldeDadosProvider = ({ children }) => {
         edifíciosLiberados: ["Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos"],
         status: false
       }],
+
+
+
+
+
+
       edificios: [
         {
           nome: "Plantação De Grãos",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Agricultura",
+            licença: "Licença Global De Agricultura",
             liberado: false,
           },
-
           custoConstrucao: 200000,
           quantidade: 1,
           financas: {
@@ -267,16 +272,18 @@ const CentraldeDadosProvider = ({ children }) => {
             nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
             
           }
-        }, {
-          nome: "Fazenda De Vacas",
-          desc: "Tenha fazenda de vacas",
+        },
+        
+        
+        {
+          nome: "Plantação De Vegetais",
+          desc: "Cultive vegetais para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Fazendas De Animais",
+            licença: "Licença Global De Agricultura",
             liberado: false,
           },
-
           custoConstrucao: 200000,
-          quantidade: 510,
+          quantidade: 1,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -285,30 +292,699 @@ const CentraldeDadosProvider = ({ children }) => {
 
           lojasNecessarias: {
             terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
           },
-          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo", "Plantação De Legumes"],
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
           melhoraEficiencia: [
-            "fabricaDeRação",
-            "biofábrica",
-            "mercados",
-            "feiras",
+            "Supermercado",
+            "Feira",
+            "Restaurante",
+            "Redes de Fast-Food",
+            "Petshop",
           ],
-          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
+          recursoDeConstrução: []
           ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 1 }
-          ],
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 5, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 10, redCusto: 3, aumFatu: 1 },
-            
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
           }
-        }],
+        },
+        
+        
+        {
+          nome: "Pomares",
+          desc: "Cultive frutas para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença Global De Agricultura",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Supermercado",
+            "Feira",
+            "Restaurante",
+            "Redes de Fast-Food",
+            "Fábrica de Bebidas",
+            "Usina de Biomassa",
+            "Refinaria de Biocombustíveis",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+        
+        
+        {
+          nome: "Fazenda Administrativa",
+          desc: "Administre as suas fazendas e faça melhores negócios!",
+          licençaLiberado: {
+            licença: "Licença Global De Agricultura",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          recursoDeConstrução: [],
+          melhoraEficiencia: [
+            "Plantação De Grãos",
+            "Plantação De Vegetais",
+            "Pomares",
+            "Fazenda De Vacas",
+            "Granja De Aves",
+            "Criação De Ovinos",
+          ]
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+        
+        
+        {
+          nome: "Cooperativas Agrícolas",
+          desc: "Cultive vegetais para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Supermercado",
+            "Feira",
+            "Restaurante",
+            "Redes de Fast-Food",
+            "Petshop",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+        
+
+        {
+          nome: "Cooperativas Agrícolas",
+          desc: "Cultive vegetais para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Plantação De Grãos",
+            "Pomares",
+            "Fazenda De Vacas",
+            "Granja De Aves",
+            "Criação De Ovinos",
+            "Plantações de Eucalipto",
+            "Platações De Plantas Medicinais",
+            "Supermercado",
+            "Feira",
+            "Fábrica de Rações",
+            "Restaurante",
+            "Usina de Biomassa",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+        
+        
+        {
+          nome: "Cooperativas Agrícolas",
+          desc: "Negocie da melhor forma através de melhor eficiência!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Plantação De Grãos",
+            "Pomares",
+            "Fazenda De Vacas",
+            "Granja De Aves",
+            "Criação De Ovinos",
+            "Plantações de Eucalipto",
+            "Platações De Plantas Medicinais",
+            "Supermercado",
+            "Feira",
+            "Fábrica de Rações",
+            "Restaurante",
+            "Usina de Biomassa",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+
+
+        {
+          nome: "Armazém",
+          desc: "Armazene para obter melhores ofertas!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Plantação De Grãos",
+            "Pomares",
+            "Fazenda De Vacas",
+            "Granja De Aves",
+            "Criação De Ovinos",
+            "Plantações de Eucalipto",
+            "Platações De Plantas Medicinais",
+            "Supermercado",
+            "Feira",
+            "Fábrica de Rações",
+            "Restaurante",
+            "Usina de Biomassa",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+      
+      
+        {
+          nome: "Silo",
+          desc: "Armazene para obter melhores ofertas!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Cooperativas Agrícolas",
+            "Fábrica De Rações",
+            "Usina De Biomassa",
+            "Refinaria De Biocombustíveis",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+
+
+        {
+          nome: "Depósito De Resíduos Orgânicos",
+          desc: "Armazene para obter melhores ofertas!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Usina de Biomassa",
+            "Refinaria de Biocombustíveis",
+            "Fábrica de Fertilizantes",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+
+
+        {
+          nome: "Fazenda De Vacas",
+          desc: "Armazene para obter melhores ofertas!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Supermercado",
+            "Açougue",
+            "Feira",
+            "Restaurante",
+            "Redes de Fast-Food",
+            "Padaria",
+            "Fábrica De Pães",
+            "Usina de Biomassa",
+            "Fábrica de Fertilizantes",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+
+
+        {
+          nome: "Granja De Aves",
+          desc: "Armazene para obter melhores ofertas!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Supermercado",
+            "Açougue",
+            "Feira",
+            "Restaurante",
+            "Redes De Fast-Food",
+            "Fábrica De Rações",
+            "Petshop",
+            "Usina de Biomassa",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+
+
+        {
+          nome: "Criação De Ovinos",
+          desc: "Armazene para obter melhores ofertas!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Supermercado",
+            "Açougue",
+            "Feira",
+            "Restaurante",
+            "Redes de Fast-Food",
+            "Fábrica de Rações",
+            "Petshop",
+            "Usina de Biomassa",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+
+
+        {
+          nome: "Madeireira",
+          desc: "Armazene para obter melhores ofertas!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Fábrica de Móveis",
+            "Fábrica de Celulose",
+            "Fábrica de Estruturas Metálicas",
+            "Fábrica de Embalagens",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+
+
+        {
+          nome: "Área Florestal",
+          desc: "Armazene para obter melhores ofertas!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Madeireira",
+            "Plantações De Eucalipto",
+            "Plantações De Plantas Medicinais",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+
+
+        {
+          nome: "Terreno De Mineração",
+          desc: "Armazene para obter melhores ofertas!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Mineradora",
+            "Mineradora De Pedras Preciosas",
+            "Mineradora de Minérios Radioativos",
+            "Alto-Forno",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+
+
+        {
+          nome: "Plantações De Eucalipto",
+          desc: "Armazene para obter melhores ofertas!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Fábrica de Celulose",
+            "Madeireira",
+            "Fábrica de Papel",
+            "Granja De Aves",
+            "Criação De Ovinos",
+            "Plantações de Eucalipto",
+            "Platações De Plantas Medicinais",
+            "Supermercado",
+            "Feira",
+            "Fábrica de Rações",
+            "Restaurante",
+            "Usina de Biomassa",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+
+
+        {
+          nome: "Plantações De Plantas Medicinais",
+          desc: "Armazene para obter melhores ofertas!",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 1,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Fábrica De Produtos Químicos Especializados",
+            "Farmácias",
+          ],
+          recursoDeConstrução: []
+          ,
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+          }
+        },
+      ],
     }
     ,
     tecnologia: {
@@ -362,6 +1038,9 @@ const CentraldeDadosProvider = ({ children }) => {
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
         }],
+
+
+
     },
     industria: {
       economiaGlobal: {
