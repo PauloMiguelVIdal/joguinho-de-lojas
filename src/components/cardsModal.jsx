@@ -27,7 +27,7 @@ import plantação from "../../public/imagens/Plantação De Grãos.png"
 //nome [setorAtivo].edificios[nome]
 
 
-export default function CardModal() {
+export const CardModal = ({index}) => {
 
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
     const setorAtivo = dados.setorAtivo;
@@ -50,7 +50,7 @@ export default function CardModal() {
 
     const contabilidadeDeFalta = (edificio) => {
         const qtdAtual = dados[edificio].quantidade
-        const qtdNecessaria = dados[setorAtivo].edificios[0].lojasNecessarias[edificio]
+        const qtdNecessaria = dados[setorAtivo].edificios[index].lojasNecessarias[edificio]
 
         const qtdFalta = qtdAtual >= qtdNecessaria ? 0 : qtdNecessaria - qtdAtual;
         const custoTotalConst = edificio === "terrenos" ? dados[edificio].preçoConstrução : edificio === "lojasP" ? dados[edificio].preçoConstrução + dados.terrenos.preçoConstrução : edificio === "lojasM" ? dados[edificio].preçoConstrução + 2 * dados.terrenos.preçoConstrução : edificio === "lojasG" ? dados[edificio].preçoConstrução + 3 * dados.terrenos.preçoConstrução : "lascou"
@@ -64,7 +64,7 @@ export default function CardModal() {
     useEffect(() => {
         const edificio = "lojasP";
         const qtdAtual = dados[edificio]?.quantidade;
-        const qtdNecessaria = dados[setorAtivo]?.edificios?.[0]?.lojasNecessarias?.[edificio];
+        const qtdNecessaria = dados[setorAtivo]?.edificios?.[index]?.lojasNecessarias?.[edificio];
       
         const edificioSuficiente =
           edificio === "terrenos" ? "terrenosSuficientes" :
@@ -75,15 +75,15 @@ export default function CardModal() {
       
           if (qtdAtual >= qtdNecessaria) {
             const novoEdificio = {
-              ...dados.agricultura.edificios[0],
+              ...dados.agricultura.edificios[index],
               lojasNecessarias: {
-                ...dados.agricultura.edificios[0].lojasNecessarias,
+                ...dados.agricultura.edificios[index].lojasNecessarias,
                 [edificioSuficiente]: true
               }
             };
           
             const novaLista = [...dados.agricultura.edificios];
-            novaLista[0] = novoEdificio;
+            novaLista[index] = novoEdificio;
           
             atualizarDados({
               ...dados,
@@ -162,10 +162,10 @@ export default function CardModal() {
     ];
 
     const setorInfo = setores.find(setor => setor.id === setorAtivo);
-    const nomeAtivo = dados[setorAtivo].edificios[0].nome
-    const quantidadeAtivo = dados[setorAtivo].edificios[0].quantidade;
-    const quantidadeMinimaPowerUpNv2 = dados[setorAtivo].edificios[0].powerUp.nível2.quantidadeMínima;
-    const quantidadeMinimaPowerUpNv3 = dados[setorAtivo].edificios[0].powerUp.nível3.quantidadeMínima;
+    const nomeAtivo = dados[setorAtivo].edificios[index].nome
+    const quantidadeAtivo = dados[setorAtivo].edificios[index].quantidade;
+    const quantidadeMinimaPowerUpNv2 = dados[setorAtivo].edificios[index].powerUp.nível2.quantidadeMínima;
+    const quantidadeMinimaPowerUpNv3 = dados[setorAtivo].edificios[index].powerUp.nível3.quantidadeMínima;
     const corPadrão = { backgroundColor: setorInfo.cor2 };
 
 
@@ -184,10 +184,10 @@ export default function CardModal() {
     const [verificadorDeLojasNecessárias, setVerificador]  = useState(false) 
 
     useEffect(() => {
-  const quantidadeTerrenos = dados[setorAtivo].edificios[0].lojasNecessarias.terrenos
-  const quantidadeLojasP = dados[setorAtivo].edificios[0].lojasNecessarias.lojasP
-  const quantidadeLojasM = dados[setorAtivo].edificios[0].lojasNecessarias.lojasM
-  const quantidadeLojasG = dados[setorAtivo].edificios[0].lojasNecessarias.lojasG
+  const quantidadeTerrenos = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
+  const quantidadeLojasP = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
+  const quantidadeLojasM = dados[setorAtivo].edificios[index].lojasNecessarias.lojasM
+  const quantidadeLojasG = dados[setorAtivo].edificios[index].lojasNecessarias.lojasG
 
   const quantidadeTerrenosAtual = dados.terrenos.quantidade
   const quantidadeLojasPAtual = dados.lojasP.quantidade
@@ -273,6 +273,10 @@ export default function CardModal() {
         setFlipped(!flipped);
     };
 
+    const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
+
+
+
 
     if (modalPowerup === true) {
         return (
@@ -339,35 +343,35 @@ export default function CardModal() {
                                         <tbody className="rounded-[2px]">
                                             <tr style={{ backgroundColor: setorInfo.cor4 }} className="pt-[20px] border-[1px] rounded-[2px] border-white">
                                                 <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
-                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível1.redCusto}</td>
-                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.redCusto}</td>
-                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.redCusto}</td>
+                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível1.redCusto}</td>
+                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível2.redCusto}</td>
+                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível3.redCusto}</td>
                                                 <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
-                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível1.aumFatu}</td>
-                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.aumFatu}</td>
-                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível1.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível2.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível3.aumFatu}</td>
 
                                             </tr>
                                             <tr style={{ backgroundColor: setorInfo.cor4 }} className="pt-[20px] border-[1px] rounded-[2px] border-white">
                                                 <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
-                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível1.redCusto}</td>
-                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.redCusto}</td>
-                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.redCusto}</td>
+                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível1.redCusto}</td>
+                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível2.redCusto}</td>
+                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível3.redCusto}</td>
                                                 <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
-                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível1.aumFatu}</td>
-                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.aumFatu}</td>
-                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível1.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível2.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível3.aumFatu}</td>
 
                                             </tr>
                                             <tr style={{ backgroundColor: setorInfo.cor4 }} className="pt-[20px] border-[1px] rounded-[2px] border-white">
                                                 <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
-                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível1.redCusto}</td>
-                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.redCusto}</td>
-                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.redCusto}</td>
+                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível1.redCusto}</td>
+                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível2.redCusto}</td>
+                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível3.redCusto}</td>
                                                 <td style={lineStyle} className="text-white pl-[5px]">{nomeAtivo}</td>
-                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível1.aumFatu}</td>
-                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível2.aumFatu}</td>
-                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[0].powerUp.nível3.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível1.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível2.aumFatu}</td>
+                                                <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível3.aumFatu}</td>
 
                                             </tr>
                                            
@@ -421,7 +425,7 @@ export default function CardModal() {
 
 
 
-                {dados[setorAtivo].edificios[0].liberado === false && (
+                {dados[setorAtivo].edificios[index].liberado === false && (
                     <motion.div
                         style={{
                             background: `transparent`, // fundo transparente para o container principal
@@ -488,11 +492,11 @@ export default function CardModal() {
                     <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
                         <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[22%] rounded-[10px] flex justify-between drop-shadow-xs">
                             <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
-                                <img className="h-[70%]" src={plantação} alt="" />
+                                <img className="h-[70%]" src={getImageUrl("Plantação De Grãos")} alt="" />
                             </div>
 
                             <div className="flex p-[10px] justify-center">
-                                <h1 className="text-white fonteBold text-[12px]">{dados[setorAtivo].edificios[0].nome}</h1>
+                                <h1 className="text-white fonteBold text-[12px]">{dados[setorAtivo].edificios[index].nome}</h1>
                             </div>
                         </div>
                         <div className="h-[25%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
@@ -544,17 +548,17 @@ export default function CardModal() {
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between  h-full">
                                         <div className="flex items-center justify-center h-full drop-shadow-2xl">
                                             <img src={DolarImg} className="h-[60%] ml-[2px] " />
-                                            <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[0].financas.fatuMensal)}</h1>
+                                            <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].financas.fatuMensal)}</h1>
                                         </div>
                                         <div className="flex items-center justify-center h-full">
-                                            <h1 className="text-white font-bold mr-2 text-[15px]">{dados[setorAtivo].edificios[0].financas.rent}</h1>
+                                            <h1 className="text-white font-bold mr-2 text-[15px]">{dados[setorAtivo].edificios[index].financas.rent}</h1>
                                             <img src={porcem} alt="porcentagem" className="h-[60%] mr-[5px]" />
                                         </div>
                                     </div>
                                 </div>
                                 <div style={{ backgroundColor: setorInfo.cor3 }} className=" w-full h-[45%] flex items-center justify-around rounded-[5px]">
                                     <img src={ConstuirImg} className="h-[60%] aspect-square ml-[5px]" />
-                                    <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[0].custoConstrucao)}</h1>
+                                    <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].custoConstrucao)}</h1>
                                 </div>
                             </div >
                             <div className="w-[35%] h-full flex justify-between">
@@ -567,7 +571,7 @@ export default function CardModal() {
                                                 <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                             </div>
                                             <div className="flex justify-center items-center w-full">
-                                                <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[0].quantidade}
+                                                <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[index].quantidade}
                                                 </h2>
                                             </div>
                                         </div>
@@ -655,7 +659,7 @@ export default function CardModal() {
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].lojasNecessarias.terrenos}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.terrenos}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.terrenos.quantidade}</h2>
                                                 </div>
@@ -674,7 +678,7 @@ export default function CardModal() {
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].lojasNecessarias.lojasP}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasP}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasP.quantidade}</h2>
                                                 </div>
@@ -693,7 +697,7 @@ export default function CardModal() {
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].lojasNecessarias.lojasM}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasM}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasM.quantidade}</h2>
                                                 </div>
@@ -712,7 +716,7 @@ export default function CardModal() {
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[0].lojasNecessarias.lojasG}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasG}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasG.quantidade}</h2>
                                                 </div>
@@ -775,7 +779,7 @@ export default function CardModal() {
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center w-full">
-                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[0].powerUp.nível1.quantidadeMínima}
+                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[index].powerUp.nível1.quantidadeMínima}
                                                     </h2>
                                                 </div>
                                             </div>
@@ -784,7 +788,7 @@ export default function CardModal() {
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center h-full w-full">
-                                                    <h2 className="text-white text-[10px]  fonteBold">{dados[setorAtivo].edificios[0].powerUp.nível2.quantidadeMínima}
+                                                    <h2 className="text-white text-[10px]  fonteBold">{dados[setorAtivo].edificios[index].powerUp.nível2.quantidadeMínima}
                                                     </h2>
                                                 </div>
                                             </div>
@@ -793,7 +797,7 @@ export default function CardModal() {
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center w-full">
-                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[0].powerUp.nível3.quantidadeMínima}
+                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[index].powerUp.nível3.quantidadeMínima}
                                                     </h2>
                                                 </div>
                                             </div>

@@ -10,7 +10,7 @@ const CentraldeDadosProvider = ({ children }) => {
       estadoModal: true,
       nomeEmpresa: ""
     },
-    setorAtivo: "tecnologia",
+    setorAtivo: "agricultura",
     fimGame: false,
     nomeEmpresa: "",
     saldo: 12000000000,
@@ -218,7 +218,7 @@ const CentraldeDadosProvider = ({ children }) => {
       licencasSetor: [{
         nome: "Licença Global De Agricultura",
         valor: 2000,
-        edifíciosLiberados: ["Plantações De Gãos", "Plantações De Legumes", "Fazenda Administrativa", "Pomares"]
+        edifíciosLiberados: ["Plantação De Gãos", "Plantação De Legumes", "Fazenda Administrativa", "Pomares"]
       }, {
         nome: "Licença De Fazendas De Animais",
         valor: 5000,
@@ -399,7 +399,7 @@ const CentraldeDadosProvider = ({ children }) => {
         
         
         {
-          nome: "Cooperativas Agrícolas",
+          nome: "Cooperativa Agrícola",
           desc: "Cultive vegetais para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Comércios Agrícolas",
@@ -439,7 +439,7 @@ const CentraldeDadosProvider = ({ children }) => {
         
 
         {
-          nome: "Cooperativas Agrícolas",
+          nome: "Centro De Comércio De Plantações",
           desc: "Cultive vegetais para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Comércios Agrícolas",
@@ -467,8 +467,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Fazenda De Vacas",
             "Granja De Aves",
             "Criação De Ovinos",
-            "Plantações de Eucalipto",
-            "Platações De Plantas Medicinais",
+            "Plantação de Eucalipto",
+            "Plantação De Plantas Medicinais",
             "Supermercado",
             "Feira",
             "Fábrica de Rações",
@@ -486,7 +486,7 @@ const CentraldeDadosProvider = ({ children }) => {
         
         
         {
-          nome: "Cooperativas Agrícolas",
+          nome: "Cooperativa Agrícola",
           desc: "Negocie da melhor forma através de melhor eficiência!",
           licençaLiberado: {
             licença: "Licença De Comércios Agrícolas",
@@ -514,8 +514,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Fazenda De Vacas",
             "Granja De Aves",
             "Criação De Ovinos",
-            "Plantações de Eucalipto",
-            "Platações De Plantas Medicinais",
+            "Plantação de Eucalipto",
+            "Plantação De Plantas Medicinais",
             "Supermercado",
             "Feira",
             "Fábrica de Rações",
@@ -561,8 +561,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Fazenda De Vacas",
             "Granja De Aves",
             "Criação De Ovinos",
-            "Plantações de Eucalipto",
-            "Platações De Plantas Medicinais",
+            "Plantação de Eucalipto",
+            "Plantação De Plantas Medicinais",
             "Supermercado",
             "Feira",
             "Fábrica de Rações",
@@ -603,7 +603,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Cooperativas Agrícolas",
+            "Cooperativa Agrícola",
             "Fábrica De Rações",
             "Usina De Biomassa",
             "Refinaria De Biocombustíveis",
@@ -850,8 +850,8 @@ const CentraldeDadosProvider = ({ children }) => {
           licençasNecessárias: [],
           melhoraEficiencia: [
             "Madeireira",
-            "Plantações De Eucalipto",
-            "Plantações De Plantas Medicinais",
+            "Plantação De Eucalipto",
+            "Plantação De Plantas Medicinais",
           ],
           recursoDeConstrução: []
           ,
@@ -903,7 +903,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
 
         {
-          nome: "Plantações De Eucalipto",
+          nome: "Plantação De Eucalipto",
           desc: "Armazene para obter melhores ofertas!",
           licençaLiberado: {
             licença: "Licença De Comércios Agrícolas",
@@ -931,7 +931,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Fábrica de Papel",
             "Granja De Aves",
             "Criação De Ovinos",
-            "Plantações de Eucalipto",
+            "Plantação de Eucalipto",
             "Platações De Plantas Medicinais",
             "Supermercado",
             "Feira",
@@ -950,7 +950,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
 
         {
-          nome: "Plantações De Plantas Medicinais",
+          nome: "Plantação De Plantas Medicinais",
           desc: "Armazene para obter melhores ofertas!",
           licençaLiberado: {
             licença: "Licença De Comércios Agrícolas",
@@ -1306,88 +1306,7 @@ const CentraldeDadosProvider = ({ children }) => {
         }
       }
     },
-    // indústria: {
-    //   licencaGlobal: true,
-    //   licençasSetor: {
-    //     mineração: true,
-    //     metalurgia: false,
-    //     energiaAvançada: true,
-    //   },
-    //   produtos: {
-    //     fabricaDeAutomóveisEletricosAutonômos: {
-    //       quantidade: 1,
-    //       preçoConstrução: 100000000,
-
-    //       lojasNecessárias: {
-    //         terrenos: 5000,
-    //         lojasP: 1000,
-    //         lojasM: 100,
-    //         lojasG: 200,
-    //       },
-
-    //       construçõesNecessárias: [
-    //         { construção: "centroDePesquisaEnergética", quantidade: 1 }
-    //       ],
-
-    //       licençasNecessárias: ["licençaDeVeiculosAutônomos"],
-
-    //       melhoraEficiencia: [],
-
-    //       receitas: [
-    //         { fabricaDeAutomóveis:10 },
-    //         { empresaDeInteligênciaArtificial: 1 },
-    //         { fábricaDeBaterias: 1 },
-    //       ],
-
-    //       dependências: [],
-
-    //       powerUp: {
-    //         nível1: { status: true, quantidadeMínima: 1, impacto: {
-    //           usinaSolar:{
-    //             custoConstrução:-20,
-    //             impostoFixo:-20,
-    //             fatu:20 
-    //           },
-    //           fabricaDeBateria:{
-    //             custoConstrução:-10,
-    //             impostoFixo:-5,
-    //             fatu:10 
-    //           }
-    //         } 
-    //       },
-    //         nível2: { status: true, quantidadeMínima: 10, impacto:{
-    //           usinaSolar:{
-    //             custoConstrução:-30,
-    //             impostoFixo:-25,
-    //             fatu:20 
-    //           },
-    //           fabricaDeBateria:{
-    //             custoConstrução:-15,
-    //             impostoFixo:-10,
-    //             fatu:15 
-    //           }
-    //         }  },
-    //         nível3: { status: true, quantidadeMínima: 50, impacto:{
-    //           usinaSolar:{
-    //             custoConstrução:-40,
-    //             impostoFixo:-35,
-    //             fatu:30 
-    //           },
-    //           fabricaDeBateria:{
-    //             custoConstrução:-25,
-    //             impostoFixo:-20,
-    //             fatu:25 
-    //           }
-    //         }  
-    //       },
-    //       }
-    //     }
-    //   }
-    // }
-    // ,
-    // relatóriosImpostos: {
-
-    // }
+   
   });
 
   const atualizarDados = (chave, novoValor) => {

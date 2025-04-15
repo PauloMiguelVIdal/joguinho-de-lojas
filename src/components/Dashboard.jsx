@@ -10,7 +10,7 @@ import energia from "./setores/torre-eletrica.png"
 import grafico from "./setores/grafico.png"
 import circularEconomia from "../imagens/circular-economy.png"
 import DolarImg from "../imagens/simbolo-do-dolar.png"
-import CardModal from "./cardsModal";
+import { CardModal } from "./cardsModal";
 import licença from "../imagens/licença.png"
 import Carteira from "../../public/imagens/Carteira.png"
 import { motion } from "framer-motion";
@@ -254,6 +254,8 @@ export default function Dashboard() {
   };
 
   const [licencaModal, setLicencaModal] = useState(false)
+
+
   if (licencaModal === true) {
     return (
       <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90">
@@ -365,43 +367,51 @@ export default function Dashboard() {
         {/* Renderiza o conteúdo baseado no estado da licença */}
         {licencaComprada ? (
           // Container com licença comprada
-          <div className="w-full h-full p-4">
-            {ativo === "grafico" && (
-              <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
-            )}
-            {ativo !== "grafico" && (
-              <div className="h-full w-full rounded-[20px]">
-                {/* Barra superior */}
-                <div className="h-16 w-full flex justify-start gap-[10px] items-center">
-                  {/* Bloco de Ativo */}
-                  <div
-                    style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
-                  >
-                    {ativoConvertido(ativo)}
-                  </div>
+<div className="w-full h-full p-4 flex flex-col">
+  {ativo === "grafico" && (
+    <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
+  )}
 
-                  {/* Ícones de Economia */}
-                  <div className="flex gap-2 h-full">
-                    <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
-                      <img className="w-[70%]" src={circularEconomia} />
-                    </div>
-                    <button style={{ backgroundColor: setorAtivo.cor3 }} onClick={() => setLicencaModal(true)} className={`h-full aspect-square rounded-[10px] flex items-center justify-center  hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer `}>
-                      <img className="w-[70%]" src={licença} />
-                    </button>
-                  </div>
-                </div>
+  {ativo !== "grafico" && (
+    <div className="flex-1 w-full rounded-[20px] flex flex-col">
+      
+      {/* Barra superior */}
+      <div className="h-16 w-full flex justify-start gap-[10px] items-center">
+        <div
+          style={{ backgroundColor: setorAtivo.cor3 }}
+          className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
+        >
+          {ativoConvertido(ativo)}
+        </div>
 
-
-                <div className="h-[calc(100%-4rem)] w-full flex gap-[20px]">
-                  <CardModal />
-                  <CardModal />
-                  <CardModal />
-                  <CardModal />
-                </div>
-              </div>
-            )}
+        {/* Ícones de Economia */}
+        <div className="flex gap-2 h-full">
+          <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
+            <img className="w-[70%]" src={circularEconomia} />
           </div>
+          <button
+            style={{ backgroundColor: setorAtivo.cor3 }}
+            onClick={() => setLicencaModal(true)}
+            className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+          >
+            <img className="w-[70%]" src={licença} />
+          </button>
+        </div>
+      </div>
+
+      {/* Container dos cards com scroll interno */}
+      <div className="flex-1 overflow-y-auto mt-4">
+        <div className="w-full grid grid-cols-3 gap-[20px]">
+          {dados.agricultura.edificios.map((_, index) => (
+            <CardModal key={index} index={index} />
+          ))}
+        </div>
+      </div>
+
+    </div>
+  )}
+</div>
+
 
         ) : (
           // Container sem licença comprada
