@@ -59,11 +59,11 @@ export default function LicenseNec() {
                       alt={nomeEdificio}
                     />
                     <div className="absolute bottom-[-2px] right-[-2px]">
-  <span className="relative flex size-2">
-    <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
-    <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
-  </span>
-</div>
+                      <span className="relative flex size-2">
+                        <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+                        <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

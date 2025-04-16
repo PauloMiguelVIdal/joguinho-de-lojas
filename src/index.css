@@ -84,6 +84,32 @@ cursor: pointer;
   
 }
 
+/* Scroll personalizado */
+.scrollbar-custom {
+  scrollbar-width: thin;              /* Firefox */
+  scrollbar-color: #6A00FF #350973;      /* Firefox */
+
+  /* Para WebKit (Chrome, Edge, etc.) */
+}
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: #350973;
+  border-radius: 10px;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #350973;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: #350973;
+}
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

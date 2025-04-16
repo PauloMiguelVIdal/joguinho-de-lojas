@@ -15,7 +15,8 @@ import licença from "../imagens/licença.png"
 import Carteira from "../../public/imagens/Carteira.png"
 import { motion } from "framer-motion";
 import fechar from "../imagens/fechar.png"
-
+import { LicenseModal } from "./licenseModal";
+import { Localizador } from "./localizador";
 
 import {
   Chart as ChartJS,
@@ -42,7 +43,7 @@ ChartJS.register(
 
 export default function Dashboard() {
   const { dados, AtualizarDados } = useContext(CentraldeDadosContext);
-  const [ativo, setAtivo] = useState("grafico");
+  const [ativo, setAtivo] = useState("agricultura");
 
 
   const ativoConvertido = (ativo) => {
@@ -65,59 +66,59 @@ export default function Dashboard() {
   };
 
 
-  const setoresArray = ["Agricultura", "Tecnologia", "industria", "comercio", "imobiliario", "energia"]
+  // const setoresArray = ["Agricultura", "Tecnologia", "industria", "comercio", "imobiliario", "energia"]
 
-  const licencasAgriculturaArray = [
+  // const licencasAgriculturaArray = [
 
-    {
-      licencaDeComerciosAgricolas: {
-        status: false,
-        valor: 120000,
-        edificiosLiberados: ["Cooperativas agricolas", "Centro de comercio de plantacoes"]
-      }
-    },
-    {
-      "Licença de comercios agricolas": {
-        status: false,
-        valor: 120000,
-        edificiosLiberados: ["Cooperativas agricolas", "Centro de comercio de plantacoes"]
-      }
-    },
+  //   {
+  //     licencaDeComerciosAgricolas: {
+  //       status: false,
+  //       valor: 120000,
+  //       edificiosLiberados: ["Cooperativas agricolas", "Centro de comercio de plantacoes"]
+  //     }
+  //   },
+  //   {
+  //     "Licença de comercios agricolas": {
+  //       status: false,
+  //       valor: 120000,
+  //       edificiosLiberados: ["Cooperativas agricolas", "Centro de comercio de plantacoes"]
+  //     }
+  //   },
 
-    {
-      licencaDeArmazenamentoAgricolas: {
-        status: false,
-        valor: 120000,
-        edificiosLiberados: ["", "", ""]
-      }
-    },
+  //   {
+  //     licencaDeArmazenamentoAgricolas: {
+  //       status: false,
+  //       valor: 120000,
+  //       edificiosLiberados: ["", "", ""]
+  //     }
+  //   },
 
-    {
-      licencaDeFazendasDeAnimais: {
-        status: false,
-        valor: 120000
-      }
-    },
+  //   {
+  //     licencaDeFazendasDeAnimais: {
+  //       status: false,
+  //       valor: 120000
+  //     }
+  //   },
 
-    {
-      licençaDeAréasEspeciais: {
-        status: false,
-        valor: 120000
-      }
-    },
+  //   {
+  //     licençaDeAréasEspeciais: {
+  //       status: false,
+  //       valor: 120000
+  //     }
+  //   },
 
-    {
-      licençaDeOutrasPlantações: {
-        status: false,
-        valor: 120000
-      }
-    },
-
-
+  //   {
+  //     licençaDeOutrasPlantações: {
+  //       status: false,
+  //       valor: 120000
+  //     }
+  //   },
 
 
 
-  ]
+
+
+  // ]
 
   // function teste(){
 
@@ -181,8 +182,8 @@ export default function Dashboard() {
 
   // Pegando os dados do setor ativo
   const setorDados = dados[ativo]; // Dados do setor ativo
-  const licencaComprada = setorDados.licencaGlobal.comprado;
-  const licenciaValor = setorDados.licencaGlobal.valor;
+  const licençaComprada = setorDados.licençaGlobal.comprado;
+  const licenciaValor = setorDados.licençaGlobal.valor;
 
   // Dados do gráfico
   const dadosDia = dados.terrenos.arrayFatu.map((_, index) => index + 1);
@@ -273,59 +274,9 @@ export default function Dashboard() {
             <img src={fechar} alt="Fechar" className="w-[60%]" />
           </button>
           <div style={{ backgroundColor: setorAtivo.cor1 }} className="flex shadow-xl justify-center items-center w-[100%] h-[15%] rounded-[20px] self-center">
-            <h1 className="text-center text-white text-[40px] fonteBold">Licenças - Agricultura</h1>
+            <h1 className="text-center text-white text-[40px] fonteBold">Licenças - {ativo}</h1>
           </div>
-          <div style={{ backgroundColor: setorAtivo.cor3 }} className="w-[100%] h-[300px] rounded-[20px] self-center justify-between shadow-xl">
-            <div style={{ backgroundColor: setorAtivo.cor2 }} className="w-full flex items-center h-[15%] rounded-t-[20px] self-center p-[5px]">
-              <div
-                style={{ backgroundColor: setorAtivo.cor1 }}
-                className=" h-[100%] flex items-center justify-center aspect-square rounded-[20px]"
-              >
-                <div style={{ backgroundColor: setorAtivo.cor3 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[20px]">
-
-                  <div style={{ backgroundColor: setorAtivo.cor1 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[20px]">
-
-                    <div style={{ backgroundColor: setorAtivo.cor2 }} className="flex items-center justify-center h-[95%] aspect-square  rounded-[30px]">
-
-                      <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex items-center justify-center relative h-[95%] aspect-square rounded-[60px]">
-                        <img
-                          className="h-[70%] w-[] aspect-square"
-                          src={licença}
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="text-white text-[30px] ml-[20px] fonteBold">Licença de fazendas de animais</div>
-            </div >
-            <div className="w-full h-[85%] flex ">
-
-              <div style={{ background: `linear-gradient(20deg,${setorAtivo.cor1} 0%, ${setorAtivo.cor3} 20%, ${setorAtivo.cor3} 40%, ${setorAtivo.cor4} 60%,${setorAtivo.cor2}  100%)` }} className="flex h-full w-[80%] justify-around rounded-bl-[20px] items-center ">
-                <CardModal />
-                <CardModal />
-                <CardModal />
-                <CardModal />
-              </div>
-              <div
-                style={{
-                  background: `linear-gradient(180deg, ${setorAtivo.cor2} 0%, ${setorAtivo.cor1} 100%)`
-                }}
-                className="h-full w-[20%] flex flex-col justify-around items-center rounded-br-[20px]">
-                <div style={{ backgroundColor: setorAtivo.cor3 }} className="h-[65%] w-[90%] text-white p-[10px] rounded-[20px]">
-                  A licença de animais permite a criação de gado, aves e suínos, auxiliando fazendas e indústrias alimentícias no jogo.                  </div>
-                <div style={{ backgroundColor: setorAtivo.cor3 }} className="flex items-center justify-between p-[5px] rounded-[20px] h-[10%] w-[90%] drop-shadow-2xl">
-                  <img src={DolarImg} className="h-[100%] " />
-                  <h1 className="text-white fonteBold text-[15px] mr-[2px]">{formatarNumero(200000000)}</h1>
-                </div>
-                <div className="flex items-center justify-center w-[90%] h-[13%] drop-shadow-md">
-                  <button style={{ "--cor4": setorAtivo.cor4, "--cor1": setorAtivo.cor1, }} className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9]   rounded-[20px] w-full fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9]  hover:from-[--cor4]  duration-300 ease-in-out  cursor-pointer`}> Comprar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          <LicenseModal setor={ativo}/>
         </motion.div>
       </div>
     );
@@ -333,7 +284,7 @@ export default function Dashboard() {
 
 
   return (
-    <div className={`${corClasse} w-full h-full border-white border-[2px] rounded-[40px] flex`}>
+    <div className={`${corClasse} w-full h-full border-white border-[2px] rounded-[20px] flex`}>
       {/* Sidebar */}
       <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[30px] p-[0px] flex self-center flex-col items-center justify-between">
         <div className="w-[80px] h-[80%] pt-[20px] flex flex-col items-center justify-between">
@@ -361,56 +312,56 @@ export default function Dashboard() {
       </div>
 
       {/* Dashboard */}
-      <div className={`h-full rounded-[30px] flex items-center justify-center transition-all duration-300 bg-[${setorAtivo.cor2}] w-[calc(100%-100px)]`}>
+      <div className={`h-full rounded-[0px] flex items-center justify-center transition-all duration-300 bg-[${setorAtivo.cor2}] w-[calc(100%-100px)]`}>
 
 
         {/* Renderiza o conteúdo baseado no estado da licença */}
-        {licencaComprada ? (
+        {licençaComprada ? (
           // Container com licença comprada
-<div className="w-full h-full p-4 flex flex-col">
-  {ativo === "grafico" && (
-    <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
-  )}
+          <div className="w-full h-full p-4 flex flex-col">
+            {ativo === "grafico" && (
+              <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
+            )}
 
-  {ativo !== "grafico" && (
-    <div className="flex-1 w-full rounded-[20px] flex flex-col">
-      
-      {/* Barra superior */}
-      <div className="h-16 w-full flex justify-start gap-[10px] items-center">
-        <div
-          style={{ backgroundColor: setorAtivo.cor3 }}
-          className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
-        >
-          {ativoConvertido(ativo)}
-        </div>
+            {ativo !== "grafico" && (
+              <div className="flex-1 w-full rounded-[20px] flex flex-col">
 
-        {/* Ícones de Economia */}
-        <div className="flex gap-2 h-full">
-          <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
-            <img className="w-[70%]" src={circularEconomia} />
+                {/* Barra superior */}
+                <div className="h-16 w-full flex justify-start gap-[10px] items-center">
+                  <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
+                  >
+                    {ativoConvertido(ativo)}
+                  </div>
+
+                  {/* Ícones de Economia */}
+                  <div className="flex gap-2 h-full">
+                    <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
+                      <img className="w-[70%]" src={circularEconomia} />
+                    </div>
+                    <button
+                      style={{ backgroundColor: setorAtivo.cor3 }}
+                      onClick={() => setLicencaModal(true)}
+                      className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+                    >
+                      <img className="w-[70%]" src={licença} />
+                    </button>
+                  </div>
+                </div>
+                {Localizador("Centro De Comércio De Plantações")}
+                {/* Container dos cards com scroll interno */}
+                <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4  scrollbar-custom rounded-[10px]">
+                  <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
+                    {dados[ativo].edificios.map((_, index) => (
+                      <CardModal key={index} index={index} />
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            )}
           </div>
-          <button
-            style={{ backgroundColor: setorAtivo.cor3 }}
-            onClick={() => setLicencaModal(true)}
-            className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
-          >
-            <img className="w-[70%]" src={licença} />
-          </button>
-        </div>
-      </div>
-
-      {/* Container dos cards com scroll interno */}
-      <div className="flex-1 overflow-y-auto mt-4">
-        <div className="w-full grid grid-cols-3 gap-[20px]">
-          {dados.agricultura.edificios.map((_, index) => (
-            <CardModal key={index} index={index} />
-          ))}
-        </div>
-      </div>
-
-    </div>
-  )}
-</div>
 
 
         ) : (

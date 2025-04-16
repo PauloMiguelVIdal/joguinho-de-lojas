@@ -211,20 +211,33 @@ const CentraldeDadosProvider = ({ children }) => {
       economiaGlobal: {
         estadoAtual: "estável"
       },
-      licencaGlobal: {
+      licençaGlobal: {
         comprado: true,
         valor: 20000
       },
-      licencasSetor: [{
+      licençasSetor: [
+        {
+          nome: "Licença De Fazendas De Animais",
+          desc: "A licença de animais permite a criação de gado, aves e suínos, auxiliando fazendas e indústrias alimentícias no jogo.",
+          valor: 5000,
+          edifíciosLiberados: ["Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos","Pomares"],
+          status: true
+        },
+        {
         nome: "Licença Global De Agricultura",
+        desc: "você tem acesso a agricultura",
         valor: 2000,
-        edifíciosLiberados: ["Plantação De Gãos", "Plantação De Legumes", "Fazenda Administrativa", "Pomares"]
-      }, {
-        nome: "Licença De Fazendas De Animais",
+        edifíciosLiberados: ["Plantação De Gãos", "Plantação De Legumes","Fazenda Administrativa", "Pomares"],
+        status: true
+      }, 
+        {
+        nome: "Licença De Comércios Agrícolas",
+        desc: "A licença de Licença De Comércios Agrícolas.",
         valor: 5000,
-        edifíciosLiberados: ["Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos"],
-        status: false
-      }],
+        edifíciosLiberados: ["Cooperativa Agrícola","Centro De Comércio De Plantações" ,"Pomares"],
+        status: true
+      }
+    ],
 
 
 
@@ -540,7 +553,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 3,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,

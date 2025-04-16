@@ -24,7 +24,7 @@ import ResourcesConstruction from "./ResourcesConstruction";
 import LicenseNec from "./licenseNec";
 import fechar from "../imagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
-//nome [setorAtivo].edificios[nome]
+
 
 
 export const CardModal = ({index}) => {
@@ -492,7 +492,7 @@ export const CardModal = ({index}) => {
                     <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
                         <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[22%] rounded-[10px] flex justify-between drop-shadow-xs">
                             <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
-                                <img className="h-[70%]" src={getImageUrl("Plantação De Grãos")} alt="" />
+                                <img className="h-[70%]" src={getImageUrl(dados[setorAtivo].edificios[index].nome)} alt="" />
                             </div>
 
                             <div className="flex p-[10px] justify-center">
