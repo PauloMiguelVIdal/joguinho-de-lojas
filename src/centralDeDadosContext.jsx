@@ -75,7 +75,7 @@ const CentraldeDadosProvider = ({ children }) => {
       },
       arrayFatu: [],
       somaArrayFatu: "",
-      quantidade: 10,
+      quantidade: 0,
       quantidadeNecTerreno: 0,
       preçoConstrução: 70000,
       faturamentoUnitário: 200,
@@ -217,27 +217,27 @@ const CentraldeDadosProvider = ({ children }) => {
       },
       licençasSetor: [
         {
-          nome: "Licença De Fazendas De Animais",
-          desc: "A licença de animais permite a criação de gado, aves e suínos, auxiliando fazendas e indústrias alimentícias no jogo.",
-          valor: 5000,
-          edifíciosLiberados: ["Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos","Pomares"],
+          nome: "Licença Global De Agricultura",
+          desc: "você tem acesso a agricultura",
+          valor: 2000,
+          edifíciosLiberados: ["Plantação De Gãos", "Plantação De Legumes", "Fazenda Administrativa", "Pomares"],
           status: true
         },
         {
-        nome: "Licença Global De Agricultura",
-        desc: "você tem acesso a agricultura",
-        valor: 2000,
-        edifíciosLiberados: ["Plantação De Gãos", "Plantação De Legumes","Fazenda Administrativa", "Pomares"],
-        status: true
-      }, 
+          nome: "Licença De Fazendas De Animais",
+          desc: "A licença de animais permite a criação de gado, aves e suínos, auxiliando fazendas e indústrias alimentícias no jogo.",
+          valor: 5000,
+          edifíciosLiberados: ["Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos", "Pomares"],
+          status: true
+        },
         {
-        nome: "Licença De Comércios Agrícolas",
-        desc: "A licença de Licença De Comércios Agrícolas.",
-        valor: 5000,
-        edifíciosLiberados: ["Cooperativa Agrícola","Centro De Comércio De Plantações" ,"Pomares"],
-        status: true
-      }
-    ],
+          nome: "Licença De Comércios Agrícolas",
+          desc: "A licença de Licença De Comércios Agrícolas.",
+          valor: 5000,
+          edifíciosLiberados: ["Cooperativa Agrícola", "Centro De Comércio De Plantações", "Pomares"],
+          status: true
+        }
+      ],
 
 
 
@@ -253,7 +253,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -269,7 +269,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Legumes"],
           melhoraEficiencia: [
-            "fabricaDeRação",
+            "fabrica De Ração",
             "biofábrica",
             "mercados",
             "feiras",
@@ -277,17 +277,17 @@ const CentraldeDadosProvider = ({ children }) => {
           recursoDeConstrução: ["Plantação De Legumes", "Silo"]
           ,
           dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 1 }
+            { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
             nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
-            
+
           }
         },
-        
-        
+
+
         {
           nome: "Plantação De Vegetais",
           desc: "Cultive vegetais para alimentar, vender  trocar no jogo. Planeje e colha!",
@@ -296,7 +296,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -323,11 +323,11 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
-        
-        
+
+
         {
           nome: "Pomares",
           desc: "Cultive frutas para alimentar, vender  trocar no jogo. Planeje e colha!",
@@ -336,7 +336,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -365,11 +365,11 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
-        
-        
+
+
         {
           nome: "Fazenda Administrativa",
           desc: "Administre as suas fazendas e faça melhores negócios!",
@@ -378,7 +378,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -406,11 +406,11 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
-        
-        
+
+
         {
           nome: "Cooperativa Agrícola",
           desc: "Cultive vegetais para alimentar, vender  trocar no jogo. Planeje e colha!",
@@ -419,7 +419,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 6,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -446,10 +446,10 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
-        
+
 
         {
           nome: "Centro De Comércio De Plantações",
@@ -459,7 +459,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -493,56 +493,12 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
-        
-        
-        {
-          nome: "Cooperativa Agrícola",
-          desc: "Negocie da melhor forma através de melhor eficiência!",
-          licençaLiberado: {
-            licença: "Licença De Comércios Agrícolas",
-            liberado: false,
-          },
-          custoConstrucao: 200000,
-          quantidade: 1,
-          financas: {
-            fatuMensal: 20000,
-            impostoFixo: 1000,
-            rent: 32
-          },
 
-          lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: [],
-          melhoraEficiencia: [
-            "Plantação De Grãos",
-            "Pomares",
-            "Fazenda De Vacas",
-            "Granja De Aves",
-            "Criação De Ovinos",
-            "Plantação de Eucalipto",
-            "Plantação De Plantas Medicinais",
-            "Supermercado",
-            "Feira",
-            "Fábrica de Rações",
-            "Restaurante",
-            "Usina de Biomassa",
-          ],
-          recursoDeConstrução: []
-          ,
-          powerUp: {
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
-          }
-        },
+
+
 
 
         {
@@ -587,11 +543,11 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
-      
-      
+
+
         {
           nome: "Silo",
           desc: "Armazene para obter melhores ofertas!",
@@ -600,7 +556,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -626,7 +582,7 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
 
@@ -639,7 +595,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -664,7 +620,7 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
 
@@ -677,7 +633,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -708,7 +664,7 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
 
@@ -721,7 +677,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -751,7 +707,7 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
 
@@ -764,7 +720,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -794,7 +750,7 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
 
@@ -807,7 +763,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -833,7 +789,7 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
 
@@ -846,7 +802,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -871,7 +827,7 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
 
@@ -884,7 +840,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -910,7 +866,7 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
 
@@ -923,7 +879,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -957,7 +913,7 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
 
@@ -970,7 +926,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -994,7 +950,7 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
             nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },  
+            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
           }
         },
       ],
@@ -1004,15 +960,17 @@ const CentraldeDadosProvider = ({ children }) => {
       economiaGlobal: {
         estadoAtual: "estável"
       },
-      licencaGlobal: {
+      licençaGlobal: {
         comprado: true,
         valor: 30000
       },
-      licençasSetor: {
-        agropecuária: true,
-        grãos: false,
-        biofábrica: true,
-      },
+      licençasSetor: [{
+        nome: "Licença Global De Tecnologia",
+        desc: "você tem acesso a tecnologias",
+        valor: 7000,
+        edifíciosLiberados: ["Plantação De Gãos", "Plantação De Legumes", "Fazenda Administrativa", "Pomares"],
+        status: true
+      }],
       edificios: [
         {
           nome: "Terraplanagem e Pavimentação",
@@ -1035,7 +993,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Legumes"],
           melhoraEficiencia: [
-            "fabricaDeRação",
+            "Fabrica De Ração",
             "biofábrica",
             "mercados",
             "feiras",
@@ -1043,7 +1001,7 @@ const CentraldeDadosProvider = ({ children }) => {
           recursoDeConstrução: ["Plantação De Legumes", "Silo"]
           ,
           dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 1 }
+            { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
@@ -1059,15 +1017,17 @@ const CentraldeDadosProvider = ({ children }) => {
       economiaGlobal: {
         estadoAtual: "estável"
       },
-      licencaGlobal: {
+      licençaGlobal: {
         comprado: true,
         valor: 20000
       },
-      licençasSetor: {
-        agropecuária: true,
-        grãos: false,
-        biofábrica: true,
-      },
+      licençasSetor: [{
+        nome: "Licença Global De Tecnologia",
+        desc: "você tem acesso a tecnologias",
+        valor: 7000,
+        edifíciosLiberados: ["Plantação De Gãos", "Plantação De Legumes", "Fazenda Administrativa", "Pomares"],
+        status: true
+      }],
       edificios: [
         {
           nome: "Terraplanagem e Pavimentação",
@@ -1090,7 +1050,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Legumes"],
           melhoraEficiencia: [
-            "fabricaDeRação",
+            "fabrica De Ração",
             "biofábrica",
             "mercados",
             "feiras",
@@ -1098,7 +1058,7 @@ const CentraldeDadosProvider = ({ children }) => {
           recursoDeConstrução: ["Plantação De Legumes", "Silo"]
           ,
           dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 1 }
+            { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
           powerUp: {
             nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
@@ -1111,7 +1071,7 @@ const CentraldeDadosProvider = ({ children }) => {
       economiaGlobal: {
         estadoAtual: "estável"
       },
-      licencaGlobal: {
+      licençaGlobal: {
         comprado: true,
         valor: 20000
       },
@@ -1142,7 +1102,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Legumes"],
           melhoraEficiencia: [
-            "fabricaDeRação",
+            "fabrica De Ração",
             "biofábrica",
             "mercados",
             "feiras",
@@ -1150,7 +1110,7 @@ const CentraldeDadosProvider = ({ children }) => {
           recursoDeConstrução: ["Plantação De Legumes", "Silo"]
           ,
           dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 1 }
+            { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
@@ -1163,7 +1123,7 @@ const CentraldeDadosProvider = ({ children }) => {
       economiaGlobal: {
         estadoAtual: "estável"
       },
-      licencaGlobal: {
+      licençaGlobal: {
         comprado: true,
         valor: 20000
       },
@@ -1200,7 +1160,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Legumes"],
           melhoraEficiencia: [
-            "fabricaDeRação",
+            "fabrica De Ração",
             "biofábrica",
             "mercados",
             "feiras",
@@ -1208,7 +1168,7 @@ const CentraldeDadosProvider = ({ children }) => {
           recursoDeConstrução: ["Plantação De Legumes", "Silo"]
           ,
           dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 1 }
+            { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
@@ -1221,7 +1181,7 @@ const CentraldeDadosProvider = ({ children }) => {
       economiaGlobal: {
         estadoAtual: "estável"
       },
-      licencaGlobal: {
+      licençaGlobal: {
         comprado: true,
         valor: 20000
       },
@@ -1252,7 +1212,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Legumes", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Legumes"],
           melhoraEficiencia: [
-            "fabricaDeRação",
+            "fabrica De Ração",
             "biofábrica",
             "mercados",
             "feiras",
@@ -1260,7 +1220,7 @@ const CentraldeDadosProvider = ({ children }) => {
           recursoDeConstrução: ["Plantação De Legumes", "Silo"]
           ,
           dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 1 }
+            { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
           powerUp: {
             nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
@@ -1273,7 +1233,7 @@ const CentraldeDadosProvider = ({ children }) => {
       economiaGlobal: {
         estadoAtual: "estável"
       },
-      licencaGlobal: {
+      licençaGlobal: {
         comprado: true,
         valor: 20000
       },
@@ -1297,18 +1257,18 @@ const CentraldeDadosProvider = ({ children }) => {
           licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
 
           melhoraEficiencia: [
-            "fabricaDeRação",
+            "fabrica De Ração",
             "biofábrica",
             "mercados",
             "feiras",
           ],
 
           receitas: [
-            { construção: "depósitoDeResíduosOrgânicos", quantidade: 1 }
+            { construção: "depósitoDeResíduosOrgânicos", quantidade: 0 }
           ],
 
           dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 1 }
+            { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
 
           powerUp: {
@@ -1319,7 +1279,55 @@ const CentraldeDadosProvider = ({ children }) => {
         }
       }
     },
-   
+    carteira: {
+      economiaGlobal: {
+        estadoAtual: "estável"
+      },
+      licençaGlobal: {
+        comprado: true,
+        valor: 20000
+      },
+      licençasSetor: {
+        
+      },
+      produtos: {
+        plantaçãoDeGrãos: {
+          quantidade: 60,
+          lojasNecessárias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
+          },
+
+          construçõesNecessárias: [],
+
+          licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
+
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+
+          receitas: [
+            { construção: "depósitoDeResíduosOrgânicos", quantidade: 0 }
+          ],
+
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 10, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 50, impacto: 15 },
+          }
+        }
+      }
+    },
+
   });
 
   const atualizarDados = (chave, novoValor) => {

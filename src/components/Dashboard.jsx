@@ -17,6 +17,7 @@ import { motion } from "framer-motion";
 import fechar from "../imagens/fechar.png"
 import { LicenseModal } from "./licenseModal";
 import { Localizador } from "./localizador";
+import { CarteiraLocalizador } from "./CarteiraLocalizador";
 
 import {
   Chart as ChartJS,
@@ -276,7 +277,7 @@ export default function Dashboard() {
           <div style={{ backgroundColor: setorAtivo.cor1 }} className="flex shadow-xl justify-center items-center w-[100%] h-[15%] rounded-[20px] self-center">
             <h1 className="text-center text-white text-[40px] fonteBold">Licenças - {ativo}</h1>
           </div>
-          <LicenseModal setor={ativo}/>
+          <LicenseModal setor={ativo} />
         </motion.div>
       </div>
     );
@@ -322,8 +323,44 @@ export default function Dashboard() {
             {ativo === "grafico" && (
               <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
             )}
+{ativo === "carteira" && (
+               <div className="flex-1 w-full rounded-[20px] flex flex-col">
 
-            {ativo !== "grafico" && (
+               {/* Barra superior */}
+               <div className="h-16 w-full flex justify-start gap-[10px] items-center">
+                 <div
+                   style={{ backgroundColor: setorAtivo.cor3 }}
+                   className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
+                 >
+                   Carteira
+                 </div>
+
+                 {/* Ícones de Economia */}
+                 <div className="flex gap-2 h-full">
+                   <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
+                     <img className="w-[70%]" src={circularEconomia} />
+                   </div>
+                   <button
+                     style={{ backgroundColor: setorAtivo.cor3 }}
+                     onClick={() => setLicencaModal(true)}
+                     className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+                   >
+                     <img className="w-[70%]" src={licença} />
+                   </button>
+                 </div>
+               </div>
+               {Localizador("Centro De Comércio De Plantações")}
+               {CarteiraLocalizador("")}
+               {/* Container dos cards com scroll interno */}
+               <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4  scrollbar-custom rounded-[10px]">
+                 <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
+                  
+                 </div>
+               </div>
+
+             </div>
+            )}
+            {ativo !== "grafico" && ativo !== "carteira"  && (
               <div className="flex-1 w-full rounded-[20px] flex flex-col">
 
                 {/* Barra superior */}
