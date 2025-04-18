@@ -220,7 +220,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Licença Global De Agricultura",
           desc: "você tem acesso a agricultura",
           valor: 2000,
-          edifíciosLiberados: ["Plantação De Gãos", "Plantação De Legumes", "Fazenda Administrativa", "Pomares"],
+          edifíciosLiberados: ["Plantação De Grãos","Plantação De Vegetais","Fazenda Administrativa", "Pomares"],
           status: true
         },
         {
@@ -241,7 +241,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
 
 
-
+      
 
 
       edificios: [
@@ -266,15 +266,15 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 2,
             lojasG: 1,
           },
-          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo", "Plantação De Legumes"],
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
             "fabrica De Ração",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -901,7 +901,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Granja De Aves",
             "Criação De Ovinos",
             "Plantação de Eucalipto",
-            "Platações De Plantas Medicinais",
+            "Plantação De Plantas Medicinais",
             "Supermercado",
             "Feira",
             "Fábrica de Rações",
@@ -956,6 +956,10 @@ const CentraldeDadosProvider = ({ children }) => {
       ],
     }
     ,
+
+
+
+
     tecnologia: {
       economiaGlobal: {
         estadoAtual: "estável"
@@ -968,12 +972,34 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença Global De Tecnologia",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Plantação De Gãos", "Plantação De Legumes", "Fazenda Administrativa", "Pomares"],
+        edifíciosLiberados: ["Servidor Em Nuvem", "Data Centers", "Startups", "Empresa De Desenvolvimento De Software"],
         status: true
-      }],
+      },
+      {
+        nome: "Licença De Tecnologia Experimental",
+        desc: "você tem acesso a tecnologias",
+        valor: 7000,
+        edifíciosLiberados: ["Centro de Pesquisa Química", "Centro de Pesquisa em fusão nuclear"],
+        status: true
+      },
+      {
+        nome: "Licença De Engenharia Avançada",
+        desc: "você tem acesso a tecnologias",
+        valor: 7000,
+        edifíciosLiberados: ["Centro Ee Pesquisa Em Eletrônicos", "Centro De Pesquisa Aeroespacial"],
+        status: true
+      },
+      {
+        nome: "Licença De Pesquisa Em Robótica e IA",
+        desc: "você tem acesso a tecnologias",
+        valor: 7000,
+        edifíciosLiberados: ["Centro De Pesquisa Em Robótica", "Centro De Pesquisa Em Inteligência Artificial"],
+        status: true
+      }
+    ],
       edificios: [
         {
-          nome: "Terraplanagem e Pavimentação",
+          nome: "Servidor Em Nuvem",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           liberado: false,
           custoConstrucao: 200000,
@@ -990,15 +1016,228 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 32,
             lojasG: 321,
           },
-          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo", "Plantação De Legumes"],
-          melhoraEficiencia: [
-            "Fabrica De Ração",
-            "biofábrica",
-            "mercados",
-            "feiras",
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Data Centers",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Startups",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
-          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+        ,
+        {
+          nome: "Empresa de Desenvolvimento de Software",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+        ,
+        {
+          nome: "Centro de Pesquisa Química",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+        ,
+        {
+          nome: "Centro de Pesquisa em Fusão Nuclear",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+        ,
+        {
+          nome: "Centro de Pesquisa em Eletrônicos",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+        ,
+        {
+          nome: "Centro de Pesquisa Aeroespacial",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+          recursoDeConstrução: []
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -1008,7 +1247,80 @@ const CentraldeDadosProvider = ({ children }) => {
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        }],
+        }
+        ,
+        {
+          nome: "Centro de Pesquisa em Robótica",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+        ,
+        {
+          nome: "Centro de Pesquisa em Inteligência Artificial",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          liberado: false,
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+
+      ],
 
 
 
@@ -1025,7 +1337,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença Global De Tecnologia",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Plantação De Gãos", "Plantação De Legumes", "Fazenda Administrativa", "Pomares"],
+        edifíciosLiberados: ["Plantação De Gãos", "Plantação De Vegetais", "Fazenda Administrativa", "Pomares"],
         status: true
       }],
       edificios: [
@@ -1047,15 +1359,15 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 32,
             lojasG: 321,
           },
-          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo", "Plantação De Legumes"],
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
             "fabrica De Ração",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -1099,15 +1411,15 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 5,
             lojasG: 5,
           },
-          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo", "Plantação De Legumes"],
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
             "fabrica De Ração",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -1157,15 +1469,15 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 32,
             lojasG: 321,
           },
-          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo", "Plantação De Legumes"],
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
             "fabrica De Ração",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -1209,15 +1521,15 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 32,
             lojasG: 321,
           },
-          construçõesNecessárias: ["Plantação De Legumes", "Silo"],
-          licençasNecessárias: ["Silo", "Plantação De Legumes"],
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
             "fabrica De Ração",
             "biofábrica",
             "mercados",
             "feiras",
           ],
-          recursoDeConstrução: ["Plantação De Legumes", "Silo"]
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
