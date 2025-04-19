@@ -425,7 +425,7 @@ export const CardModal = ({index}) => {
 
 
 
-                {dados[setorAtivo].edificios[index].liberado === false && (
+                {dados[setorAtivo].edificios[index].licençaLiberado.liberado === false && (
                     <motion.div
                         style={{
                             background: `transparent`, // fundo transparente para o container principal
@@ -476,7 +476,7 @@ export const CardModal = ({index}) => {
                                             >
                                                 <img
                                                     className="h-[70%] aspect-square absolute"
-                                                    src={licença}
+                                                 src={getImageUrl(dados[setorAtivo].edificios[index].licençaLiberado.licença)}
                                                     alt=""
                                                 />
                                             </div>
