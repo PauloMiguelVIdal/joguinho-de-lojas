@@ -1034,7 +1034,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Servidor Em Nuvem",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença Global De Tecnologia",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -1065,7 +1065,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Data Centers",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença Global De Tecnologia",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -1097,7 +1097,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Startups",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença Global De Tecnologia",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -1132,7 +1132,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Empresa De Desenvolvimento De Software",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença Global De Tecnologia",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -1167,7 +1167,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Centro de Pesquisa Química",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença De Tecnologia Experimental",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -1202,7 +1202,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Centro De Pesquisa Em Fusão Nuclear",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença De Tecnologia Experimental",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -1237,7 +1237,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Centro De Pesquisa Em Eletrônicos",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença De Engenharia Avançada",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -1272,7 +1272,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Centro De Pesquisa Aeroespacial",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença De Engenharia Avançada",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -1308,7 +1308,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Centro De Pesquisa Em Robótica",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença De Pesquisa Em Robótica e IA",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -1344,7 +1344,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Centro De Pesquisa Em Inteligência Artificial",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença De Pesquisa Em Robótica e IA",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -3888,7 +3888,7 @@ const CentraldeDadosProvider = ({ children }) => {
       }
       ,
       {
-        nome: "Licença Construções Energéticas",
+        nome: "Licença De Construções Energéticas",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Centro De Coleta De Biomassa", "Tanque De Armazenamento De Biocombustíveis", "Plataforma De Petróleo"],
@@ -4341,7 +4341,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Centro De Coleta De Biomassa",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença Construções Energéticas",
+            licença: "Licença De Construções Energéticas",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -4381,7 +4381,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Tanque De Armazenamento De Biocombustíveis",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença Construções Energéticas",
+            licença: "Licença De Construções Energéticas",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -4421,7 +4421,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Plataforma De Petróleo",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença Construções Energéticas",
+            licença: "Licença De Construções Energéticas",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -4468,17 +4468,53 @@ const CentraldeDadosProvider = ({ children }) => {
         comprado: true,
         valor: 20000
       },
-      licençasSetor: {
-        agropecuária: true,
-        grãos: false,
-        biofábrica: true,
-      },
+      licençasSetor: [{
+        nome: "Licença Global De Energia",
+        desc: "você tem acesso a tecnologias",
+        valor: 7000,
+        edifíciosLiberados: ["Subestação De Energia", "Rede De Distribuição Elétrica", "Usinas Solares"],
+        status: true
+      }
+      ,
+      {
+        nome: "Licença De Melhoria Energética",
+        desc: "você tem acesso a tecnologias",
+        valor: 7000,
+        edifíciosLiberados: ["Centro De Pesquisa Em Eficiência Energética", "Centro De Reciclagem De Baterias", "Estação De Carregamento De Veículos Elétricos"],
+        status: true
+      }
+      ,
+      {
+        nome: "Licença De Energia Sustentável",
+        desc: "você tem acesso a tecnologias",
+        valor: 7000,
+        edifíciosLiberados: ["Usina Termelétrica Movida A Biocombustíveis", "Usina De Biomassa"],
+        status: true
+      }
+      ,
+      {
+        nome: "Licença De Usinas",
+        desc: "você tem acesso a tecnologias",
+        valor: 7000,
+        edifíciosLiberados: ["Usina Hidrelétrica", "Parque Eólico", "Usina Termelétrica"],
+        status: true
+      }
+      ,
+      {
+        nome: "Licença De Usinas Nucleares",
+        desc: "você tem acesso a tecnologias",
+        valor: 7000,
+        edifíciosLiberados: ["Reator Nuclear Convencional", "Usina De Fusão Nuclear"],
+        status: true
+      }
+
+      ],
       edificios: [
         {
-          nome: "Terraplanagem e Pavimentação",
+          nome: "Subestação De Energia",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença Global De Energia",
             liberado: false,
           },
           custoConstrucao: 200000,
@@ -4513,7 +4549,490 @@ const CentraldeDadosProvider = ({ children }) => {
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        }],
+        },
+        {
+          nome: "Rede De Distribuição Elétrica",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença Global De Energia",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Usinas Solares",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença Global De Energia",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, 
+       
+        {
+          nome: "Centro De Pesquisa Em Eficiência Energética",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença De Melhoria Energética",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, 
+        {
+          nome: "Centro De Reciclagem De Baterias",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença De Melhoria Energética",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, 
+        {
+          nome: "Estação De Carregamento De Veículos Elétricos",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença De Melhoria Energética",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+       
+        {
+          nome: "Usina Termelétrica Movida A Biocombustíveis",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença De Energia Sustentável",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },  
+        {
+          nome: "Usina De Biomassa",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença De Energia Sustentável",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },  
+        {
+          nome: "Usina Hidrelétrica",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença De Usinas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Parque Eólico",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença De Usinas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },  
+        {
+          nome: "Usina Termelétrica",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença De Usinas",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },  
+        {
+          nome: "Reator Nuclear Convencional",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença De Usinas Nucleares",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },  
+        {
+          nome: "Usina De Fusão Nuclear",
+          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          licençaLiberado: {
+            licença: "Licença De Usinas Nucleares",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 20,
+          financas: {
+            fatuMensal: 20000,
+            impostoFixo: 1000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 21,
+            lojasM: 32,
+            lojasG: 321,
+          },
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "fabrica De Ração",
+            "biofábrica",
+            "mercados",
+            "feiras",
+          ],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }      
+      ],
     },
     grafico: {
       economiaGlobal: {
@@ -4623,8 +5142,29 @@ const CentraldeDadosProvider = ({ children }) => {
     }));
   };
 
+  const atualizarDadosProf = (caminho, novoValor) => {
+    setDados(prevState => {
+      const novosDados = JSON.parse(JSON.stringify(prevState)); // cópia profunda
+      let ref = novosDados[dados.setorAtivo];
+  
+      for (let i = 0; i < caminho.length - 1; i++) {
+        ref = ref[caminho[i]];
+      }
+  
+      ref[caminho[caminho.length - 1]] = novoValor;
+  
+      return {
+        ...prevState,
+        [dados.setorAtivo]: novosDados[dados.setorAtivo]
+      };
+    });
+  };
+
+
+
+
   return (
-    <CentraldeDadosContext.Provider value={{ dados, atualizarDados }}>
+    <CentraldeDadosContext.Provider value={{ dados, atualizarDados, atualizarDadosProf }}>
       {children}
     </CentraldeDadosContext.Provider>
   );

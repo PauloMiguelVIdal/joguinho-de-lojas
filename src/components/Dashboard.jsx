@@ -358,8 +358,8 @@ export default function Dashboard() {
                     </button>
                   </div>
                 </div>
-                {Localizador("Centro De Comércio De Plantações")}
-                {CarteiraLocalizador("")}
+                {/* {Localizador("Centro De Comércio De Plantações")}
+                {CarteiraLocalizador("")} */}
                 {/* Container dos cards com scroll interno */}
                 <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4  scrollbar-custom rounded-[10px]">
                   <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
@@ -395,7 +395,7 @@ export default function Dashboard() {
                     </button>
                   </div>
                 </div>
-                {Localizador("Centro De Comércio De Plantações")}
+                {/* {Localizador("Centro De Comércio De Plantações")} */}
                 {/* Container dos cards com scroll interno */}
                 <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4  scrollbar-custom rounded-[10px]">
                   <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
