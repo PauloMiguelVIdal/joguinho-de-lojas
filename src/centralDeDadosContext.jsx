@@ -13,7 +13,7 @@ const CentraldeDadosProvider = ({ children }) => {
     setorAtivo: "agricultura",
     fimGame: false,
     nomeEmpresa: "",
-    saldo: 10000,
+    saldo: 10000000,
     dia: 19,
     chanceNovoEvento: 0,
     economiaGlobal: "recessão",
@@ -1002,28 +1002,28 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Servidor Em Nuvem", "Data Centers", "Startups", "Empresa De Desenvolvimento De Software"],
-        status: true
+        status: false
       },
       {
         nome: "Licença De Tecnologia Experimental",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Centro de Pesquisa Química", "Centro De Pesquisa Em Fusão Nuclear"],
-        status: true
+        status: false
       },
       {
         nome: "Licença De Engenharia Avançada",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Centro De Pesquisa Em Eletrônicos", "Centro De Pesquisa Aeroespacial"],
-        status: true
+        status: false
       },
       {
         nome: "Licença De Pesquisa Em Robótica e IA",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Centro De Pesquisa Em Robótica", "Centro De Pesquisa Em Inteligência Artificial"],
-        status: true
+        status: false
       }
       ],
 
@@ -1399,14 +1399,14 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Fábrica De Móveis", "Fábrica De Rações", "Fábrica De Embalagem"],
-        status: true
+        status: false
       },
       {
         nome: "Licença De Fábricas Simples",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Fábrica De Fertilizante", "Fábrica De Bebidas", "Fábrica De Pães"],
-        status: true
+        status: false
       }
         ,
       {
@@ -1414,7 +1414,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias"],
-        status: true
+        status: false
       }
         ,
       {
@@ -1422,7 +1422,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Fábrica De Celulose", "Fábrica De Papel", "Fábrica De Lívros"],
-        status: true
+        status: false
       }
         ,
       {
@@ -1430,7 +1430,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Alto-Forno", "Usina Siderúrgica", "Fundição de Alumínio", "Fábrica De Ligas Metálicas"],
-        status: true
+        status: false
       }
         ,
       {
@@ -1438,7 +1438,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Indústria De Componentes Mecânicos", "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas"],
-        status: true
+        status: false
       }
         ,
       {
@@ -1446,7 +1446,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Fábrica De Peças Automotivas", "Montadora De Veículos Elétricos", "Fábricas De Automóveis"],
-        status: true
+        status: false
       }
         ,
         {
@@ -1454,14 +1454,14 @@ const CentraldeDadosProvider = ({ children }) => {
           desc: "Você tem acesso a tecnologias",
           valor: 7000,
           edifíciosLiberados: ["Refinaria de Biocombustíveis", "Refinaria", "Biofábrica"],
-          status: true
+          status: false
         },
         {
           nome: "Licença De Engenharia Mecânica Avançada",
           desc: "você tem acesso a tecnologias",
           valor: 7000,
           edifíciosLiberados: ["Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves", "Fábrica De Návios"],
-          status: true
+          status: false
         }
         ,
         {
@@ -1469,7 +1469,7 @@ const CentraldeDadosProvider = ({ children }) => {
           desc: "você tem acesso a tecnologias",
           valor: 7000,
           edifíciosLiberados: ["Fábricas De Eletrônicos", "Fábricas De Semicondutores", "Fábricas De Robôs", "Empresa De Automação Industrial"],
-          status: true
+          status: false
         }
 
       ],
@@ -1509,7 +1509,7 @@ const CentraldeDadosProvider = ({ children }) => {
             { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
           powerUp: {
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível1: { status: false, quantidadeMínima: 2, impacto: 5 },
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
@@ -2789,28 +2789,28 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Feiras Livres", "Loja De Móveis", "Restaurantes", "Livraria"],
-        status: true
+        status: false
       },
       {
         nome: "Licença De Comércio Local",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Mercado", "Adega", "Padaria", "Açougue"],
-        status: true
+        status: false
       },
       {
         nome: "Licença De Varejo",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Loja De Conveniência", "Posto De Gasolina"],
-        status: true
+        status: false
       },
       {
         nome: "Licença De Comércio Urbano",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Redes De Fast-food", "Loja De Eletrônicos", "Joalheria", "Concessionária De Veículos"],
-        status: true
+        status: false
       }
       ,
       {
@@ -2818,7 +2818,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Petshop", "Farmácias", "Cafeteria"],
-        status: true
+        status: false
       }
       ,
       {
@@ -2826,7 +2826,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Loja De Departamentos", "Loja De Calçados", "Loja De Vestuário"],
-        status: true
+        status: false
       }
       ,
       {
@@ -2834,7 +2834,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Shoppings Popular", "Shoppings Centers"],
-        status: true
+        status: false
       }
       ,
       {
@@ -2842,7 +2842,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Centros de distribuição", "Armazéns Logísticos", "Transporte Petrolífero"],
-        status: true
+        status: false
       }
       ]
       
@@ -3863,28 +3863,28 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Construtora", "Cartório E Licenças", "Terraplanagem E Pavimentação"],
-        status: true
+        status: false
       },
       {
         nome: "Licença De Grandes Infraestruturas",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Construtora De Grandes Infraestruturas", "Aeroportos", "Porto"],
-        status: true
+        status: false
       },
       {
         nome: "Licença De Mineração",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Mineradora", "Mineradora De Minérios Radioativos", "Mineradora De Pedras Preciosas"],
-        status: true
+        status: false
       },
       {
         nome: "Licença Comercial E Residencial",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Mega Mercados", "Prédio de alto padrão"],
-        status: true
+        status: false
       }
       ,
       {
@@ -3892,7 +3892,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Centro De Coleta De Biomassa", "Tanque De Armazenamento De Biocombustíveis", "Plataforma De Petróleo"],
-        status: true
+        status: false
       }
 
       ],
@@ -4473,7 +4473,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Subestação De Energia", "Rede De Distribuição Elétrica", "Usinas Solares"],
-        status: true
+        status: false
       }
       ,
       {
@@ -4481,7 +4481,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Centro De Pesquisa Em Eficiência Energética", "Centro De Reciclagem De Baterias", "Estação De Carregamento De Veículos Elétricos"],
-        status: true
+        status: false
       }
       ,
       {
@@ -4489,7 +4489,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Usina Termelétrica Movida A Biocombustíveis", "Usina De Biomassa"],
-        status: true
+        status: false
       }
       ,
       {
@@ -4497,7 +4497,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Usina Hidrelétrica", "Parque Eólico", "Usina Termelétrica"],
-        status: true
+        status: false
       }
       ,
       {
@@ -4505,7 +4505,7 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "você tem acesso a tecnologias",
         valor: 7000,
         edifíciosLiberados: ["Reator Nuclear Convencional", "Usina De Fusão Nuclear"],
-        status: true
+        status: false
       }
 
       ],
@@ -5043,9 +5043,7 @@ const CentraldeDadosProvider = ({ children }) => {
         valor: 20000
       },
       licençasSetor: {
-        agropecuária: true,
-        grãos: false,
-        biofábrica: true,
+
       },
       produtos: {
         plantaçãoDeGrãos: {
@@ -5160,11 +5158,26 @@ const CentraldeDadosProvider = ({ children }) => {
     });
   };
 
+  const atualizarDadosProf2 = (caminho, novoValor) => {
 
+      setDados(prevState => {
+        const novosDados = JSON.parse(JSON.stringify(prevState)); // cópia profunda
+        let ref = novosDados;
+    
+        for (let i = 0; i < caminho.length - 1; i++) {
+          ref = ref[caminho[i]];
+        }
+    
+        ref[caminho[caminho.length - 1]] = novoValor;
+    
+        return novosDados;
+      });
+    
+  };
 
 
   return (
-    <CentraldeDadosContext.Provider value={{ dados, atualizarDados, atualizarDadosProf }}>
+    <CentraldeDadosContext.Provider value={{ dados, atualizarDados, atualizarDadosProf,atualizarDadosProf2 }}>
       {children}
     </CentraldeDadosContext.Provider>
   );

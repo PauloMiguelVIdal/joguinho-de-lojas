@@ -55,6 +55,7 @@ export default function Dashboard() {
       case "comercio": return "Comercio";
       case "imobiliario": return "Imobiliario";
       case "energia": return "Energia";
+      case "carteira": return "Carteira";
     }
   }
 
@@ -145,7 +146,7 @@ export default function Dashboard() {
     { id: "comercio", cor3: "#E60000  ", corClasse: "bg-[#FF4D4D]", img: comercio, descLicença: "Com a Licença Global de Comércio, você tem acesso a novos mercados, estratégias de vendas e expansão que podem levar seus negócios a um novo nível. Não perca essa oportunidade!", cor1: "#660000  ", cor2: "#A31919  ", cor3: "#E60000  ", cor4: "#FF4D4D  ", },
     { id: "imobiliario", cor3: "#3333CC  ", corClasse: "bg-[#6666FF]", img: imobiliario, descLicença: "Com a Licença Global Imobiliária, você pode investir em novos terrenos, expandir suas construções e maximizar os retornos do mercado imobiliário. Abra as portas para grandes lucros!", cor1: "#000066  ", cor2: "#1A1A8C  ", cor3: "#3333CC  ", cor4: "#6666FF  " },
     { id: "energia", cor3: "#E6B800", corClasse: "bg-[#FFD966]", img: energia, descLicença: "Com a Licença Global de Energia, você ativa fontes de energia sustentáveis e de alta performance, garantindo uma operação eficiente e lucrativa. Potencialize seu setor energético agora!", cor1: "#665200   ", cor2: "#A37F19   ", cor3: "#E6B800", cor4: "#FFD966" },
-    { id: "carteira", cor3: "#FF6F00 ", corClasse: "bg-[#6A00FF]", img: Carteira, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3: "#6A00FF ", cor4: "#6A00FF ", },
+    { id: "carteira", cor3: "#4C14A9 ", corClasse: "bg-[#934CFF]", img: Carteira, cor1: "#350973 ", cor2: "#4C14A9 ", cor3: "#6A00FF ", cor4: "#934CFF ", },
     { id: "grafico", cor3: "#FF6F00 ", corClasse: "bg-[#6A00FF]", img: grafico, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3: "#6A00FF ", cor4: "#6A00FF ", },
   ];
 
@@ -341,14 +342,12 @@ export default function Dashboard() {
                     style={{ backgroundColor: setorAtivo.cor3 }}
                     className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
                   >
-                    Carteira
+                  {ativoConvertido(ativo)}
                   </div>
 
                   {/* Ícones de Economia */}
                   <div className="flex gap-2 h-full">
-                    <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
-                      <img className="w-[70%]" src={circularEconomia} />
-                    </div>
+
                     <button
                       style={{ backgroundColor: setorAtivo.cor3 }}
                       onClick={() => setLicencaModal(true)}
@@ -358,12 +357,10 @@ export default function Dashboard() {
                     </button>
                   </div>
                 </div>
-                {/* {Localizador("Centro De Comércio De Plantações")}
-                {CarteiraLocalizador("")} */}
-                {/* Container dos cards com scroll interno */}
+                
                 <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4  scrollbar-custom rounded-[10px]">
                   <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
-
+                <CarteiraLocalizador/>
                   </div>
                 </div>
 

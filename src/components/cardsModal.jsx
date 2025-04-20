@@ -29,7 +29,7 @@ import plantação from "../../public/imagens/Plantação De Grãos.png"
 
 export const CardModal = ({ index }) => {
 
-    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+    const { dados, atualizarDados,atualizarDadosProf2 } = useContext(CentraldeDadosContext);
     const setorAtivo = dados.setorAtivo;
 
 
@@ -100,7 +100,7 @@ export const CardModal = ({ index }) => {
 
     const [caixaTexto, setCaixaTexto] = useState(false)
 
-    const [verificadorDeRecursosNecessários, setVerificadorRec] = useState(false)
+    const [verificadorDeRecursosNecessários, setVerificadorRec] = useState(true)
     const edificio = { nome: dados[setorAtivo].edificios[0].nome, recursoDeConstrução: dados[setorAtivo].edificios[0].recursoDeConstrução, construNece: dados[setorAtivo].edificios[index].construçõesNecessárias };
     const arrayConstResources = edificio.recursoDeConstrução
     const arrayConstNece = edificio.construNece
@@ -199,7 +199,7 @@ export const CardModal = ({ index }) => {
                 return corPadrão;
         }
     };
-    const [verificadorDeLojasNecessárias, setVerificador] = useState(false)
+    const [verificadorDeLojasNecessárias, setVerificador] = useState(true)
 
     const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(true);
 
@@ -218,8 +218,32 @@ export const CardModal = ({ index }) => {
         setVerificadorConstr(algumFaltando);
     }, [arrayConstResources, dados]);
 
+    
+    const podeComprar = (
+        verificadorDeConstruçõesNecessárias &&
+        verificadorDeLojasNecessárias &&
+        verificadorDeRecursosNecessários &&
+        dados.saldo > dados[setorAtivo].edificios[index].custoConstrucao
+    );
+ 
+    
+    // console.log("Pode comprar?", podeComprar);
+    // console.log("verificadorDeConstruçõesNecessárias", verificadorDeConstruçõesNecessárias);
+    // console.log("verificadorDeLojasNecessárias", verificadorDeLojasNecessárias);
+    // console.log("verificadorDeRecursosNecessários", verificadorDeRecursosNecessários);
+    // console.log("Saldo:", dados.saldo);
+    // console.log("Custo:", dados[setorAtivo].edificios[index].custoConstrucao);
+    // console.log("✅ Pode Comprar?", podeComprar);
 
 
+
+    const comprarCard = () =>{
+
+       atualizarDados("saldo",dados.saldo - (dados[setorAtivo].edificios[index].custoConstrucao))
+       
+       atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"],(dados[setorAtivo].edificios[index].quantidade+1)) 
+        console.log("foi")
+    }
     useEffect(() => {
         const quantidadeTerrenos = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
         const quantidadeLojasP = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
@@ -527,7 +551,7 @@ export const CardModal = ({ index }) => {
 
                 <div className="absolute w-full h-full flex items-center justify-center rounded-xl">
                     <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
-                        <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[22%] rounded-[10px] flex justify-between drop-shadow-xs">
+                        <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[25%] rounded-[10px] flex justify-between drop-shadow-xs">
                             <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                 <img className="h-[70%]" src={getImageUrl(dados[setorAtivo].edificios[index].nome)} alt="" />
                             </div>
@@ -536,10 +560,11 @@ export const CardModal = ({ index }) => {
                                 <h1 className="text-white fonteBold text-[12px]">{dados[setorAtivo].edificios[index].nome}</h1>
                             </div>
                         </div>
+                        <div className="h-[15%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
+<h2 className="text-[10px] text-white">teste vamos continuar asdkfasdjfçlajsdçf slkdçfjasçdlfj saldkjf sdkj lkjasd çaksjd</h2>
+                        </div>
                         <div className="h-[25%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
-
                             <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-full">
-
                                 <div className="w-[100%] rounded-[20px] flex justify-around items-center h-full ">
                                     <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => { handleShow('lojasNec'), handleFlip() }}
                                         // onMouseLeave={handleHide}
@@ -567,60 +592,70 @@ export const CardModal = ({ index }) => {
                                             }
                                         </div>
                                     </div>
-                                    <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => { handleShow('licenca'), handleFlip() }}
-                                        className="h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative hover:scale-[1.20] ease-in-out cursor-pointer">
-                                        <img className="h-[70%] aspect-square" src={licença} alt="" />
-                                        <div className="absolute bottom-[-2px] right-[-2px]">
-                                            <span className="relative flex size-2">
-                                                <span className="absolute inline-flex h-full w-full rounded-full bg-[#FF0000] opacity-75"></span>
-                                                <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
-                                            </span>
+                                    <div className="w-[35%] h-full aspect-square flex justify-between items-center">
+                                        <div
+                                            onClick={() => { handleMouseEnter(), handleShow('powerUp') }}
+                                            className="w-full h-[80%] flex justify-center items-center drop-shadow-2xl">
+                                            <div className="h-full w-full aspect-square flex justify-center items-center">
+                                                <div style={{ backgroundColor: setorInfo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
+                                                    <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%, ${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)` }} onClick={() => handleFlip()} className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
+                                                        <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                                                    </div>
+                                                    <div className="flex justify-center items-center w-full">
+                                                        <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[index].quantidade}
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
                         </div>
-                        <div className="flex  justify-between items-center h-[25%] w-full">
-                            <div className="w-[60%] flex h-full flex flex-col justify-between items-center">
-                                <div className="w-full h-[45%] rounded-[5px] ">
+                        <div className="flex  justify-between items-center h-[15%] w-full">
+                            <div className="w-full flex h-full flex justify-between items-center">
+                                <div className="w-[55%] h-[80%] rounded-[5px] ">
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between  h-full">
                                         <div className="flex items-center justify-center h-full drop-shadow-2xl">
                                             <img src={DolarImg} className="h-[60%] ml-[2px] " />
-                                            <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].financas.fatuMensal)}</h1>
+                                            <h1 className=" text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].financas.fatuMensal)}</h1>
                                         </div>
                                         <div className="flex items-center justify-center h-full">
                                             <h1 className="text-white font-bold mr-2 text-[15px]">{dados[setorAtivo].edificios[index].financas.rent}</h1>
-                                            <img src={porcem} alt="porcentagem" className="h-[60%] mr-[5px]" />
+                                            <img src={porcem} alt="porcentagem" className="h-[45%] mr-[5px]" />
                                         </div>
                                     </div>
                                 </div>
-                                <div style={{ backgroundColor: setorInfo.cor3 }} className=" w-full h-[45%] flex items-center justify-around rounded-[5px]">
+                                <div style={{ backgroundColor: setorInfo.cor3 }} className=" w-[40%] h-[80%] flex items-center justify-around rounded-[5px]">
                                     <img src={ConstuirImg} className="h-[60%] aspect-square ml-[5px]" />
                                     <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].custoConstrucao)}</h1>
                                 </div>
                             </div >
-                            <div className="w-[35%] h-full flex justify-between">
-                                <div
-                                    onClick={() => { handleMouseEnter(), handleShow('powerUp') }}
-                                    className="w-full h-[70%] flex justify-center items-center drop-shadow-2xl">
-                                    <div className="h-full w-full aspect-square flex justify-center items-center">
-                                        <div style={{ backgroundColor: setorInfo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
-                                            <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%, ${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)` }} onClick={() => handleFlip()} className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
-                                                <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
-                                            </div>
-                                            <div className="flex justify-center items-center w-full">
-                                                <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[index].quantidade}
-                                                </h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
-                        </div>
-                        <div className="flex items-center justify-center w-[90%] h-[13%] drop-shadow-md">
-                            <button style={{ "--cor4": setorInfo.cor4, "--cor1": setorInfo.cor1, }} className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9]   rounded-[20px] w-full fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9]  hover:from-[--cor4]  duration-300 ease-in-out  cursor-pointer`}> Comprar</button>
-                        </div>
+
+  <div className="flex items-center justify-center w-[90%] h-[10%] drop-shadow-md">
+    <button onClick={comprarCard}
+      style={{
+        "--cor4": setorInfo.cor4,
+        "--cor1": setorInfo.cor1,
+      }}
+      className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9] rounded-[20px] w-full fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9] hover:from-[--cor4] duration-300 ease-in-out cursor-pointer`}
+    >
+      Comprar
+    </button>
+  </div>
+{/* {podeComprar ? (
+    
+) : (
+  <div className="flex items-center justify-center w-[90%] h-[10%] drop-shadow-md">
+    <button className="bg-black rounded-[20px] w-full fonteBold text-white hover:scale-[1.10] duration-300 ease-in-out cursor-pointer">
+      Comprar
+    </button>
+  </div>
+)} */}
+
                     </div>
                 </div>
                 {/* {visibleId === 'cadeado' && isModalOpen === true &&  
