@@ -21,17 +21,22 @@ export default function ResourcesConstruction() {
     { id: "energia", cor3: "#E6B800", corClasse: "bg-[#FFD966]", img: energia, descLicença: "Com a Licença Global de Energia, você ativa fontes de energia sustentáveis e de alta performance, garantindo uma operação eficiente e lucrativa. Potencialize seu setor energético agora!", cor1: "#665200   ", cor2: "#A37F19   ", cor3: "#E6B800", cor4: "#FFD966" },
     { id: "grafico", cor3: "#FF6F00 ", corClasse: "bg-[#6A00FF]", img: grafico, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3: "#6A00FF ", cor4: "#6A00FF ", },
   ];
+  const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
   //   const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
   const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
   const setorAtivo = dados.setorAtivo
   const setorInfo = setores.find(setor => setor.id === setorAtivo);
 
-  const endereço = dados.agricultura.edificios.find(e => e.nome === "Plantação De Grãos")
-
-  const result = endereço.quantidade > 0 ? true : false;
-
-
+  const booleanPreReq = (nomeEd) => {
+    for (const setor of setoresArr) {
+      const idx = dados[setor].edificios.findIndex(ed => ed.nome === nomeEd);
+      if (idx !== -1) {
+        return dados[setor].edificios[idx].quantidade > 0;
+      }
+    }
+    return false;
+  };
 
 
   const edificio = { nome: dados[setorAtivo].edificios[0].nome, recursoDeConstrução: dados[setorAtivo].edificios[0].recursoDeConstrução };
@@ -42,7 +47,7 @@ export default function ResourcesConstruction() {
 
   const [verificadorDeRecursosNecessários, setVerificador] = useState(false)
 
-  useEffect(() => { setVerificador(result) }, [dados, setorAtivo])
+  
 
 
   return (
@@ -50,6 +55,7 @@ export default function ResourcesConstruction() {
       {arrayConstResources.map((nomeEdificio) => (
 
         <div
+
           key={nomeEdificio}
           style={{ backgroundColor: setorInfo.cor3 }}
           onMouseEnter={() => setCaixaTexto(true)}
@@ -65,14 +71,15 @@ export default function ResourcesConstruction() {
             </div>
           )}
           <img className="h-[70%] aspect-square" src={getImageUrl(nomeEdificio)} alt={nomeEdificio} />
-          {verificadorDeRecursosNecessários === true &&
-            <div className="absolute bottom-[-2px] right-[-2px]">
+          <div className="absolute bottom-[-2px] right-[-2px]">
+            {
+          booleanPreReq(nomeEdificio) === false &&
               <span className="relative flex size-2">
                 <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
                 <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
               </span>
-            </div>
-          }
+            }
+          </div>
         </div>
 
 

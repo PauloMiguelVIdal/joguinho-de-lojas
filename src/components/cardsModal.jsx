@@ -27,7 +27,7 @@ import plantação from "../../public/imagens/Plantação De Grãos.png"
 
 
 
-export const CardModal = ({index}) => {
+export const CardModal = ({ index }) => {
 
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
     const setorAtivo = dados.setorAtivo;
@@ -55,7 +55,7 @@ export const CardModal = ({index}) => {
         const qtdFalta = qtdAtual >= qtdNecessaria ? 0 : qtdNecessaria - qtdAtual;
         const custoTotalConst = edificio === "terrenos" ? dados[edificio].preçoConstrução : edificio === "lojasP" ? dados[edificio].preçoConstrução + dados.terrenos.preçoConstrução : edificio === "lojasM" ? dados[edificio].preçoConstrução + 2 * dados.terrenos.preçoConstrução : edificio === "lojasG" ? dados[edificio].preçoConstrução + 3 * dados.terrenos.preçoConstrução : "lascou"
         const edificioSuficiente = edificio === "terrenos" ? "terrenosSuficientes" : edificio === "lojasP" ? "lojasPSuficientes" : edificio === "lojasM" ? "lojasMSuficientes" : edificio === "lojasG" ? "lojasGSuficientes" : "lascou"
-   
+
         return qtdFalta * custoTotalConst
 
     }
@@ -65,37 +65,45 @@ export const CardModal = ({index}) => {
         const edificio = "lojasP";
         const qtdAtual = dados[edificio]?.quantidade;
         const qtdNecessaria = dados[setorAtivo]?.edificios?.[index]?.lojasNecessarias?.[edificio];
-      
+
         const edificioSuficiente =
-          edificio === "terrenos" ? "terrenosSuficientes" :
-          edificio === "lojasP" ? "lojasPSuficientes" :
-          edificio === "lojasM" ? "lojasMSuficientes" :
-          edificio === "lojasG" ? "lojasGSuficientes" :
-          "lascou";
-      
-          if (qtdAtual >= qtdNecessaria) {
+            edificio === "terrenos" ? "terrenosSuficientes" :
+                edificio === "lojasP" ? "lojasPSuficientes" :
+                    edificio === "lojasM" ? "lojasMSuficientes" :
+                        edificio === "lojasG" ? "lojasGSuficientes" :
+                            "lascou";
+
+        if (qtdAtual >= qtdNecessaria) {
             const novoEdificio = {
-              ...dados.agricultura.edificios[index],
-              lojasNecessarias: {
-                ...dados.agricultura.edificios[index].lojasNecessarias,
-                [edificioSuficiente]: true
-              }
+                ...dados.agricultura.edificios[index],
+                lojasNecessarias: {
+                    ...dados.agricultura.edificios[index].lojasNecessarias,
+                    [edificioSuficiente]: true
+                }
             };
-          
+
             const novaLista = [...dados.agricultura.edificios];
             novaLista[index] = novoEdificio;
-          
+
             atualizarDados({
-              ...dados,
-              agricultura: {
-                ...dados.agricultura,
-                edificios: novaLista
-              }
+                ...dados,
+                agricultura: {
+                    ...dados.agricultura,
+                    edificios: novaLista
+                }
             });
-          }
-          
-      }, [dados.dia]);
-      
+        }
+
+    }, [dados.dia]);
+
+
+
+    const [caixaTexto, setCaixaTexto] = useState(false)
+
+    const [verificadorDeRecursosNecessários, setVerificadorRec] = useState(false)
+    const edificio = { nome: dados[setorAtivo].edificios[0].nome, recursoDeConstrução: dados[setorAtivo].edificios[0].recursoDeConstrução, construNece: dados[setorAtivo].edificios[index].construçõesNecessárias };
+    const arrayConstResources = edificio.recursoDeConstrução
+    const arrayConstNece = edificio.construNece
 
 
     const formatarNumero = (num) => {
@@ -105,7 +113,17 @@ export const CardModal = ({index}) => {
         if (num >= 1e3) return (num / 1e3).toFixed(1).replace('.0', '') + 'K';   // Milhares
         return num.toString();
     };
+    const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
+    const booleanPreReq = (nomeEd) => {
+        for (const setor of setoresArr) {
+            const idx = dados[setor].edificios.findIndex(ed => ed.nome === nomeEd);
+            if (idx !== -1) {
+                return dados[setor].edificios[idx].quantidade > 0;
+            }
+        }
+        return false;
+    };
 
 
 
@@ -181,30 +199,49 @@ export const CardModal = ({index}) => {
                 return corPadrão;
         }
     };
-    const [verificadorDeLojasNecessárias, setVerificador]  = useState(false) 
+    const [verificadorDeLojasNecessárias, setVerificador] = useState(false)
+
+    const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(true);
+
+    // Atualiza sempre que arrayConstResources ou dados mudarem
+    useEffect(() => {
+        const algumFaltando = arrayConstResources.some((nomeEdificio) => {
+            const setorDoEdificio = setoresArr.find((setor) =>
+                dados[setor].edificios.some((ed) => ed.nome === nomeEdificio)
+            );
+            if (!setorDoEdificio) return true;
+
+            const edifIndex = dados[setorDoEdificio].edificios.findIndex((ed) => ed.nome === nomeEdificio);
+            return dados[setorDoEdificio].edificios[edifIndex].quantidade === 0;
+        });
+
+        setVerificadorConstr(algumFaltando);
+    }, [arrayConstResources, dados]);
+
+
 
     useEffect(() => {
-  const quantidadeTerrenos = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
-  const quantidadeLojasP = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
-  const quantidadeLojasM = dados[setorAtivo].edificios[index].lojasNecessarias.lojasM
-  const quantidadeLojasG = dados[setorAtivo].edificios[index].lojasNecessarias.lojasG
+        const quantidadeTerrenos = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
+        const quantidadeLojasP = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
+        const quantidadeLojasM = dados[setorAtivo].edificios[index].lojasNecessarias.lojasM
+        const quantidadeLojasG = dados[setorAtivo].edificios[index].lojasNecessarias.lojasG
 
-  const quantidadeTerrenosAtual = dados.terrenos.quantidade
-  const quantidadeLojasPAtual = dados.lojasP.quantidade
-  const quantidadeLojasMAtual = dados.lojasM.quantidade
-  const quantidadeLojasGAtual = dados.lojasG.quantidade
+        const quantidadeTerrenosAtual = dados.terrenos.quantidade
+        const quantidadeLojasPAtual = dados.lojasP.quantidade
+        const quantidadeLojasMAtual = dados.lojasM.quantidade
+        const quantidadeLojasGAtual = dados.lojasG.quantidade
 
-  const todosSuficientes =
-    quantidadeTerrenosAtual >= quantidadeTerrenos &&
-    quantidadeLojasPAtual >= quantidadeLojasP &&
-    quantidadeLojasMAtual >= quantidadeLojasM &&
-    quantidadeLojasGAtual >= quantidadeLojasG
+        const todosSuficientes =
+            quantidadeTerrenosAtual >= quantidadeTerrenos &&
+            quantidadeLojasPAtual >= quantidadeLojasP &&
+            quantidadeLojasMAtual >= quantidadeLojasM &&
+            quantidadeLojasGAtual >= quantidadeLojasG
 
-  setVerificador(todosSuficientes)
-}, [dados, setorAtivo])
+        setVerificador(todosSuficientes)
+    }, [dados, setorAtivo])
 
 
-    
+
 
 
     const powerUpSelecionado =
@@ -374,7 +411,7 @@ export const CardModal = ({index}) => {
                                                 <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{dados[setorAtivo].edificios[index].powerUp.nível3.aumFatu}</td>
 
                                             </tr>
-                                           
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -476,7 +513,7 @@ export const CardModal = ({index}) => {
                                             >
                                                 <img
                                                     className="h-[70%] aspect-square absolute"
-                                                 src={getImageUrl(dados[setorAtivo].edificios[index].licençaLiberado.licença)}
+                                                    src={getImageUrl(dados[setorAtivo].edificios[index].licençaLiberado.licença)}
                                                     alt=""
                                                 />
                                             </div>
@@ -509,23 +546,25 @@ export const CardModal = ({index}) => {
                                         className=" hover:scale-[1.20] ease-in-out cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative">
                                         <img className="h-[70%] aspect-square" src={terrenoImg} alt="" />
 
-                                        {verificadorDeLojasNecessárias===true &&
-                                        <div className="absolute bottom-[-2px] right-[-2px]">
-                                            <span className="relative flex size-2">
-                                                <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
-                                                <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
-                                            </span>
-                                        </div>
+                                        {verificadorDeLojasNecessárias === false &&
+                                            <div className="absolute bottom-[-2px] right-[-2px]">
+                                                <span className="relative flex size-2">
+                                                    <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+                                                    <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+                                                </span>
+                                            </div>
                                         }
                                     </div>
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className="h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                         <img className="h-[70%] aspect-square" src={constNece} onClick={() => { handleMouseEnter(), handleShow('constNece'), handleFlip() }}
                                             alt="" />
                                         <div className="absolute bottom-[-2px] right-[-2px]">
-                                            <span className="relative flex size-2">
-                                                <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
-                                                <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
-                                            </span>
+                                            {verificadorDeConstruçõesNecessárias === true &&
+                                                <span className="relative flex size-2">
+                                                    <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+                                                    <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+                                                </span>
+                                            }
                                         </div>
                                     </div>
                                     <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => { handleShow('licenca'), handleFlip() }}
@@ -621,17 +660,82 @@ export const CardModal = ({index}) => {
                                             <h1 className=" text-white text-[11px] text-start fonteBold">Recursos de Construção</h1>
                                         </div>
                                         <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
-                                            <ResourcesConstruction />
+
+                                            <div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
+                                                {arrayConstResources.map((nomeEdificio) => (
+                                                    <div
+                                                        key={nomeEdificio}
+                                                        style={{ backgroundColor: setorInfo.cor3 }}
+                                                        onMouseEnter={() => setCaixaTexto(true)}
+                                                        onMouseLeave={() => setCaixaTexto(false)}
+                                                        className="cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative"
+                                                    >
+                                                        {caixaTexto && (
+                                                            <div
+                                                                style={{ backgroundColor: setorInfo.cor1 }}
+                                                                className="absolute inset-0 flex items-center justify-center text-white text-[7px] p-2 rounded-[8px]"
+                                                            >
+                                                                {nomeEdificio}
+                                                            </div>
+                                                        )}
+                                                        <img className="h-[70%] aspect-square" src={getImageUrl(nomeEdificio)} alt={nomeEdificio} />
+                                                        <div className="absolute bottom-[-2px] right-[-2px]">
+                                                            {booleanPreReq(nomeEdificio) === false && (
+                                                                <span className="relative flex size-2">
+                                                                    <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+                                                                    <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
                                 <div className="h-[35%] w-full flex flex-col items-center justify-center drop-shadow-xs ">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor4} 100%)` }} className="h-full flex flex-col w-full items-center justify-around rounded-[10px]">
                                         <div className="h-[20%] w-[90%] flex flex-col justify-center  ">
-                                            <h1 className=" text-white text-[11px] text-start fonteBold">Construções pré-requisito</h1>
+                                            <h1 className=" text-white text-[11px] text-start fonteBold">Construções necessárias</h1>
                                         </div>
                                         <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
-                                            <SelectorImage />
+
+                                            <div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
+                                                {arrayConstNece.map((nomeEdificio) => (
+
+                                                    <div
+
+                                                        key={nomeEdificio}
+                                                        style={{ backgroundColor: setorInfo.cor3 }}
+                                                        onMouseEnter={() => setCaixaTexto(true)}
+                                                        onMouseLeave={() => setCaixaTexto(false)}
+                                                        className="cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative"
+                                                    >
+                                                        {caixaTexto && (
+                                                            <div
+                                                                style={{ backgroundColor: setorInfo.cor1 }}
+                                                                className="absolute inset-0 flex items-center justify-center text-white text-[7px] p-2 rounded-[8px]"
+                                                            >
+                                                                {nomeEdificio}
+                                                            </div>
+                                                        )}
+                                                        <img className="h-[70%] aspect-square" src={getImageUrl(nomeEdificio)} alt={nomeEdificio} />
+                                                        <div className="absolute bottom-[-2px] right-[-2px]">
+                                                            {
+                                                                booleanPreReq(nomeEdificio) === false &&
+                                                                <span className="relative flex size-2">
+                                                                    <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+                                                                    <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+                                                                </span>
+                                                            }
+                                                        </div>
+                                                    </div>
+
+
+                                                ))}
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
