@@ -279,7 +279,7 @@ const CentraldeDadosProvider = ({ children }) => {
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
-            liberado: false,
+            liberado: true,
           },
           custoConstrucao: 200000,
           quantidade: 0,
@@ -298,10 +298,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
-            "biofábrica",
-            "mercados",
-            "feiras",
+            {nome:"Plantação De Vegetais",redCustoNível1:4,redFatuNível1:3,redCustoNível2:5,redFatuNível2:3,redCustoNível3:1,redFatuNível3:1},
+            {nome:"Biofábrica",redCustoNível1:2,redFatuNível1:3,redCustoNível2:5,redFatuNível2:2,redCustoNível3:1,redFatuNível3:1},
+            {nome:"Mercados",redCustoNível1:3,redFatuNível1:4,redCustoNível2:3,redFatuNível2:3,redCustoNível3:1,redFatuNível3:1},
+            {nome:"Feira Livre",redCustoNível1:1,redFatuNível1:4,redCustoNível2:1,redFatuNível2:6,redCustoNível3:1,redFatuNível3:1},
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -322,7 +322,7 @@ const CentraldeDadosProvider = ({ children }) => {
           desc: "Cultive vegetais para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
-            liberado: false,
+            liberado: true,
           },
           custoConstrucao: 200000,
           quantidade: 1,
@@ -362,7 +362,7 @@ const CentraldeDadosProvider = ({ children }) => {
           desc: "Cultive frutas para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
-            liberado: false,
+            liberado: true,
           },
           custoConstrucao: 200000,
           quantidade: 0,
@@ -513,7 +513,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Plantação De Plantas Medicinais",
             "Supermercado",
             "Feira",
-            "Fábrica de Rações",
+            "Fábrica de Ração",
             "Restaurante",
             "Usina de Biomassa",
           ],
@@ -563,7 +563,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Plantação De Plantas Medicinais",
             "Supermercado",
             "Feira",
-            "Fábrica de Rações",
+            "Fábrica de Ração",
             "Restaurante",
             "Usina de Biomassa",
           ],
@@ -602,7 +602,7 @@ const CentraldeDadosProvider = ({ children }) => {
           licençasNecessárias: [],
           melhoraEficiencia: [
             "Cooperativa Agrícola",
-            "Fábrica De Rações",
+            "Fábrica De Ração",
             "Usina De Biomassa",
             "Refinaria De Biocombustíveis",
           ],
@@ -727,7 +727,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Feira",
             "Restaurante",
             "Redes De Fast-Food",
-            "Fábrica De Rações",
+            "Fábrica De Ração",
             "Petshop",
             "Usina de Biomassa",
           ],
@@ -770,7 +770,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Feira",
             "Restaurante",
             "Redes de Fast-Food",
-            "Fábrica de Rações",
+            "Fábrica de Ração",
             "Petshop",
             "Usina de Biomassa",
           ],
@@ -933,7 +933,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Plantação De Plantas Medicinais",
             "Supermercado",
             "Feira",
-            "Fábrica de Rações",
+            "Fábrica de Ração",
             "Restaurante",
             "Usina de Biomassa",
           ],
@@ -972,7 +972,7 @@ const CentraldeDadosProvider = ({ children }) => {
           licençasNecessárias: [],
           melhoraEficiencia: [
             "Fábrica De Produtos Químicos Especializados",
-            "Farmácias",
+            "Farmácia",
           ],
           recursoDeConstrução: []
           ,
@@ -1001,7 +1001,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença Global De Tecnologia",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Servidor Em Nuvem", "Data Centers", "Startups", "Empresa De Desenvolvimento De Software"],
+        edifíciosLiberados: ["Servidor Em Nuvem", "Data Center", "Startup", "Empresa De Desenvolvimento De Software"],
         status: false
       },
       {
@@ -1022,7 +1022,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Pesquisa Em Robótica e IA",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Centro De Pesquisa Em Robótica", "Centro De Pesquisa Em Inteligência Artificial"],
+        edifíciosLiberados: ["Centro De Pesquisa Em Robótica", "Centro De Pesquisa Em IA"],
         status: false
       }
       ],
@@ -1062,7 +1062,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Data Centers",
+          nome: "Data Center",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença Global De Tecnologia",
@@ -1094,7 +1094,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Startups",
+          nome: "Startup",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença Global De Tecnologia",
@@ -1341,7 +1341,7 @@ const CentraldeDadosProvider = ({ children }) => {
         }
         ,
         {
-          nome: "Centro De Pesquisa Em Inteligência Artificial",
+          nome: "Centro De Pesquisa Em IA",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Pesquisa Em Robótica e IA",
@@ -1364,10 +1364,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1398,7 +1398,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença Global De Indústria",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Fábrica De Móveis", "Fábrica De Rações", "Fábrica De Embalagem"],
+        edifíciosLiberados: ["Fábrica De Móveis", "Fábrica De Ração", "Fábrica De Embalagem"],
         status: false
       },
       {
@@ -1421,7 +1421,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Papel E Celulose",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Fábrica De Celulose", "Fábrica De Papel", "Fábrica De Lívros"],
+        edifíciosLiberados: ["Fábrica De Celulose", "Fábrica De Papel", "Fábrica De Livros"],
         status: false
       }
         ,
@@ -1468,7 +1468,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Licença De Eletrônica Avançada",
           desc: "você tem acesso a tecnologias",
           valor: 7000,
-          edifíciosLiberados: ["Fábricas De Eletrônicos", "Fábricas De Semicondutores", "Fábricas De Robôs", "Empresa De Automação Industrial"],
+          edifíciosLiberados: ["Fábrica De Eletrônicos", "Fábrica De Semicondutores", "Fábrica De Robôs", "Empresa De Automação Industrial"],
           status: false
         }
 
@@ -1498,10 +1498,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1515,7 +1515,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Fábrica De Rações",
+          nome: "Fábrica De Ração",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença Global De Indústria",
@@ -1538,10 +1538,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1578,10 +1578,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1618,10 +1618,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1658,10 +1658,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1698,10 +1698,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1738,10 +1738,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1778,10 +1778,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1818,10 +1818,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1858,10 +1858,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1899,10 +1899,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1916,7 +1916,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Fábrica De Lívros",
+          nome: "Fábrica De Livros",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Papel E Celulose",
@@ -1939,10 +1939,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -1979,10 +1979,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2020,10 +2020,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2060,10 +2060,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2100,10 +2100,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2140,10 +2140,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2180,10 +2180,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2220,10 +2220,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2260,13 +2260,12 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
-          recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
-          ,
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
@@ -2300,10 +2299,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2340,10 +2339,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2377,10 +2376,10 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 32,
             lojasG: 321,
           },
-          construçõesNecessárias: ["Plantação de Vegetais", "Silo"],
-          licençasNecessárias: ["Silo", "Plantação de Vegetais"],
-          melhoraEficiencia: ["Fábrica de Ração", "Biofábrica", "Mercados", "Feiras"],
-          recursoDeConstrução: ["Plantação de Vegetais", "Silo"],
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: ["Fábrica de Ração", "Biofábrica", "Mercados", "Feira Livre"],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"],
           dependências: [
             { construção: "Fazenda Administrativa", quantidade: 0 }
           ],
@@ -2410,10 +2409,16 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 32,
             lojasG: 321,
           },
-          construçõesNecessárias: ["Plantação de Vegetais", "Silo"],
-          licençasNecessárias: ["Silo", "Plantação de Vegetais"],
-          melhoraEficiencia: ["Fábrica de Ração", "Biofábrica", "Mercados", "Feiras"],
-          recursoDeConstrução: ["Plantação de Vegetais", "Silo"],
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia:[
+            {nome:"Fábrica de Ração",redCusto:1,redFatu:2},
+            {nome:"Biofábrica",redCusto:4,redFatu:1},
+            {nome:"Mercados",redCusto:2,redFatu:4},
+            {nome:"Feira Livre",redCusto:2,redFatu:3},
+          ],
+         
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"],
           dependências: [
             { construção: "Fazenda Administrativa", quantidade: 0 }
           ],
@@ -2431,7 +2436,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -2443,10 +2448,10 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 32,
             lojasG: 321,
           },
-          construçõesNecessárias: ["Plantação de Vegetais", "Silo"],
-          licençasNecessárias: ["Silo", "Plantação de Vegetais"],
-          melhoraEficiencia: ["Fábrica de Ração", "Biofábrica", "Mercados", "Feiras"],
-          recursoDeConstrução: ["Plantação de Vegetais", "Silo"],
+          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: ["Fábrica de Ração", "Biofábrica", "Mercados", "Feira Livre"],
+          recursoDeConstrução: ["Plantação De Vegetais", "Silo"],
           dependências: [
             { construção: "Fazenda Administrativa", quantidade: 0 }
           ],
@@ -2480,10 +2485,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2520,10 +2525,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2560,10 +2565,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2600,10 +2605,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2617,7 +2622,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Fábricas De Eletrônicos",
+          nome: "Fábrica De Eletrônicos",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Eletrônica Avançada",
@@ -2640,10 +2645,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2657,7 +2662,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Fábricas De Semicondutores",
+          nome: "Fábrica De Semicondutores",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Eletrônica Avançada",
@@ -2680,10 +2685,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2696,7 +2701,7 @@ const CentraldeDadosProvider = ({ children }) => {
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
         },{
-          nome: "Fábricas De Robôs",
+          nome: "Fábrica De Robôs",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Eletrônica Avançada",
@@ -2719,10 +2724,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2734,7 +2739,8 @@ const CentraldeDadosProvider = ({ children }) => {
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        },{
+        }
+        ,{
           nome: "Empresa De Automação Industrial",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
@@ -2758,10 +2764,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2788,7 +2794,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença Global De Comércio",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Feiras Livres", "Loja De Móveis", "Restaurantes", "Livraria"],
+        edifíciosLiberados: ["Feira Livre", "Loja De Móveis", "Restaurante", "Livraria"],
         status: false
       },
       {
@@ -2817,7 +2823,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Serviços E Saúde",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Petshop", "Farmácias", "Cafeteria"],
+        edifíciosLiberados: ["Petshop", "Farmácia", "Cafeteria"],
         status: false
       }
       ,
@@ -2833,7 +2839,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Shoppings",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Shoppings Popular", "Shoppings Centers"],
+        edifíciosLiberados: ["Shopping Popular", "Shopping Center"],
         status: false
       }
       ,
@@ -2841,7 +2847,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Logística E Transporte",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Centros de distribuição", "Armazéns Logísticos", "Transporte Petrolífero"],
+        edifíciosLiberados: ["Centro De Distribuição", "Armazém Logístico", "Transporte Petrolífero"],
         status: false
       }
       ]
@@ -2849,7 +2855,7 @@ const CentraldeDadosProvider = ({ children }) => {
       ,
       edificios: [
         {
-          nome: "Feiras Livres",
+          nome: "Feira Livre",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença Global De Comércio",
@@ -2872,10 +2878,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2912,10 +2918,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2929,7 +2935,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Restaurantes",
+          nome: "Restaurante",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença Global De Comércio",
@@ -2952,10 +2958,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -2992,10 +2998,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3032,10 +3038,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3072,10 +3078,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3112,10 +3118,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3152,10 +3158,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3192,10 +3198,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3232,10 +3238,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3272,10 +3278,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3312,10 +3318,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3352,10 +3358,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3392,10 +3398,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3432,10 +3438,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3449,7 +3455,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Farmácias",
+          nome: "Farmácia",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Serviços E Saúde",
@@ -3472,10 +3478,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3512,10 +3518,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3552,10 +3558,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3592,10 +3598,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3632,10 +3638,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3649,7 +3655,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Shoppings Popular",
+          nome: "Shopping Popular",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Shoppings",
@@ -3672,10 +3678,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3689,7 +3695,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Shoppings Centers",
+          nome: "Shopping Center",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Shoppings",
@@ -3712,10 +3718,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3729,7 +3735,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Centros de distribuição",
+          nome: "Centro De Distribuição",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Logística E Transporte",
@@ -3752,10 +3758,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3769,7 +3775,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Armazéns Logísticos",
+          nome: "Armazém Logístico",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Logística E Transporte",
@@ -3792,10 +3798,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3832,10 +3838,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3869,7 +3875,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Grandes Infraestruturas",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Construtora De Grandes Infraestruturas", "Aeroportos", "Porto"],
+        edifíciosLiberados: ["Construtora De Grandes Infraestruturas", "Aeroporto", "Porto"],
         status: false
       },
       {
@@ -3883,7 +3889,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença Comercial E Residencial",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Mega Mercados", "Prédio de alto padrão"],
+        edifíciosLiberados: ["Mega Mercados", "Prédio De Alto Padrão"],
         status: false
       }
       ,
@@ -3921,10 +3927,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -3961,10 +3967,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4001,10 +4007,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4041,10 +4047,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4058,7 +4064,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Aeroportos",
+          nome: "Aeroporto",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Grandes Infraestruturas",
@@ -4081,10 +4087,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4121,10 +4127,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4161,10 +4167,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4201,10 +4207,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4241,10 +4247,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4281,10 +4287,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4298,7 +4304,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Prédio de alto padrão",
+          nome: "Prédio De Alto Padrão",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença Comercial E Residencial",
@@ -4321,10 +4327,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4361,10 +4367,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4401,10 +4407,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4441,10 +4447,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4472,7 +4478,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença Global De Energia",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Subestação De Energia", "Rede De Distribuição Elétrica", "Usinas Solares"],
+        edifíciosLiberados: ["Subestação De Energia", "Rede De Distribuição Elétrica", "Usina Solar"],
         status: false
       }
       ,
@@ -4480,7 +4486,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Melhoria Energética",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Centro De Pesquisa Em Eficiência Energética", "Centro De Reciclagem De Baterias", "Estação De Carregamento De Veículos Elétricos"],
+        edifíciosLiberados: ["Centro De Pesquisa Energética", "Centro De Baterias Recicláveis", "Estação De Carregamento"],
         status: false
       }
       ,
@@ -4488,7 +4494,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Energia Sustentável",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Usina Termelétrica Movida A Biocombustíveis", "Usina De Biomassa"],
+        edifíciosLiberados: ["Usina Termelétrica A Biocombustíveis", "Usina De Biomassa"],
         status: false
       }
       ,
@@ -4496,7 +4502,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Usinas",
         desc: "você tem acesso a tecnologias",
         valor: 7000,
-        edifíciosLiberados: ["Usina Hidrelétrica", "Parque Eólico", "Usina Termelétrica"],
+        edifíciosLiberados: ["Usina Hidrelétrica", "Parque Eólico", "Usina Termolétrica"],
         status: false
       }
       ,
@@ -4534,10 +4540,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4574,10 +4580,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4591,7 +4597,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Usinas Solares",
+          nome: "Usina Solar",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença Global De Energia",
@@ -4614,10 +4620,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4632,7 +4638,7 @@ const CentraldeDadosProvider = ({ children }) => {
         }, 
        
         {
-          nome: "Centro De Pesquisa Em Eficiência Energética",
+          nome: "Centro De Pesquisa Energética",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Melhoria Energética",
@@ -4655,10 +4661,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4672,7 +4678,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         }, 
         {
-          nome: "Centro De Reciclagem De Baterias",
+          nome: "Centro De Baterias Recicláveis",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Melhoria Energética",
@@ -4695,10 +4701,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4712,7 +4718,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         }, 
         {
-          nome: "Estação De Carregamento De Veículos Elétricos",
+          nome: "Estação De Carregamento",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Melhoria Energética",
@@ -4735,10 +4741,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4753,7 +4759,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
        
         {
-          nome: "Usina Termelétrica Movida A Biocombustíveis",
+          nome: "Usina Termelétrica A Biocombustíveis",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Energia Sustentável",
@@ -4776,10 +4782,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4816,10 +4822,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4856,10 +4862,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4896,10 +4902,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4913,7 +4919,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },  
         {
-          nome: "Usina Termelétrica",
+          nome: "Usina Termolétrica",
           desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
           licençaLiberado: {
             licença: "Licença De Usinas",
@@ -4936,10 +4942,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -4976,10 +4982,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -5016,10 +5022,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
@@ -5060,10 +5066,10 @@ const CentraldeDadosProvider = ({ children }) => {
           licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
 
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
 
           receitas: [
@@ -5108,10 +5114,10 @@ const CentraldeDadosProvider = ({ children }) => {
           licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
 
           melhoraEficiencia: [
-            "fabrica De Ração",
+            "Fábrica De Ração",
             "biofábrica",
             "mercados",
-            "feiras",
+            "feira Livre",
           ],
 
           receitas: [
