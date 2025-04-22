@@ -275,9 +275,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 4,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:20000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -290,17 +291,101 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           ForneceMelhoraEficiencia: [
-            {nome:"Plantação De Vegetais",redCustoNível1:4,redFatuNível1:3,redCustoNível2:5,redFatuNível2:3,redCustoNível3:1,redFatuNível3:1},
-            {nome:"Biofábrica",redCustoNível1:2,redFatuNível1:3,redCustoNível2:5,redFatuNível2:2,redCustoNível3:1,redFatuNível3:1},
-            {nome:"Mercados",redCustoNível1:3,redFatuNível1:4,redCustoNível2:3,redFatuNível2:3,redCustoNível3:1,redFatuNível3:1},
-            {nome:"Feira Livre",redCustoNível1:1,redFatuNível1:4,redCustoNível2:1,redFatuNível2:6,redCustoNível3:1,redFatuNível3:1},
+            {nome:"Plantação De Vegetais",
+              redCusto:{
+                nível1:4,
+                nível2:5,
+                nível3:1,
+              },
+              aumFatu:{
+                nível1:3,
+                nível2:3,
+                nível3:1
+              }
+            },
+            {nome:"Biofábrica",              
+              redCusto:{
+              nível1:4,
+              nível2:5,
+              nível3:1,
+            },
+            aumFatu:{
+              nível1:3,
+              nível2:3,
+              nível3:1
+            }},
+            {nome:"Mercados",              
+              redCusto:{
+              nível1:4,
+              nível2:5,
+              nível3:1,
+            },
+            aumFatu:{
+              nível1:3,
+              nível2:3,
+              nível3:1
+            }},
+            {nome:"Feira Livre",              
+              redCusto:{
+              nível1:4,
+              nível2:5,
+              nível3:1,
+            },
+            aumFatu:{
+              nível1:3,
+              nível2:3,
+              nível3:1
+            }},
           ],
           RecebeMelhoraEficiencia: [
-            {nome:"Plantação De Vegetais",redCustoNível1:4,redFatuNível1:3,redCustoNível2:5,redFatuNível2:3,redCustoNível3:1,redFatuNível3:1},
-            {nome:"Biofábrica",redCustoNível1:2,redFatuNível1:3,redCustoNível2:5,redFatuNível2:2,redCustoNível3:1,redFatuNível3:1},
-            {nome:"Mercados",redCustoNível1:3,redFatuNível1:4,redCustoNível2:3,redFatuNível2:3,redCustoNível3:1,redFatuNível3:1},
-            {nome:"Feira Livre",redCustoNível1:1,redFatuNível1:4,redCustoNível2:1,redFatuNível2:6,redCustoNível3:1,redFatuNível3:1},
+            {nome:"Plantação De Vegetais",
+              redCusto:{
+                nível1:4,
+                nível2:5,
+                nível3:1,
+              },
+              aumFatu:{
+                nível1:3,
+                nível2:3,
+                nível3:1
+              }
+            },
+            {nome:"Biofábrica",              
+              redCusto:{
+              nível1:4,
+              nível2:5,
+              nível3:1,
+            },
+            aumFatu:{
+              nível1:3,
+              nível2:3,
+              nível3:1
+            }},
+            {nome:"Mercados",              
+              redCusto:{
+              nível1:4,
+              nível2:5,
+              nível3:1,
+            },
+            aumFatu:{
+              nível1:3,
+              nível2:3,
+              nível3:1
+            }},
+            {nome:"Feira Livre",              
+              redCusto:{
+              nível1:4,
+              nível2:5,
+              nível3:1,
+            },
+            aumFatu:{
+              nível1:3,
+              nível2:3,
+              nível3:1
+            }},
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -324,9 +409,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 1,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -345,6 +431,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Redes de Fast-Food",
             "Petshop",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -364,12 +452,12 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
-
           lojasNecessarias: {
             terrenos: 20,
             lojasP: 1,
@@ -387,6 +475,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Usina de Biomassa",
             "Refinaria de Biocombustíveis",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -406,9 +496,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -420,6 +511,8 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
+          
+          
           recursoDeConstrução: [],
           melhoraEficiencia: [
             "Plantação De Grãos",
@@ -447,9 +540,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 6,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -468,6 +562,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Redes de Fast-Food",
             "Petshop",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -487,9 +583,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -515,6 +612,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Restaurante",
             "Usina de Biomassa",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -537,9 +636,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 3,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -565,6 +665,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Restaurante",
             "Usina de Biomassa",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -584,9 +686,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 1,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -604,6 +707,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Usina De Biomassa",
             "Refinaria De Biocombustíveis",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -623,9 +728,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -642,6 +748,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Refinaria de Biocombustíveis",
             "Fábrica de Fertilizantes",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -661,9 +769,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -686,6 +795,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Usina de Biomassa",
             "Fábrica de Fertilizantes",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -705,9 +816,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -729,6 +841,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Petshop",
             "Usina de Biomassa",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -748,9 +862,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -772,6 +887,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Petshop",
             "Usina de Biomassa",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -791,9 +908,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -811,6 +929,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Fábrica de Estruturas Metálicas",
             "Fábrica de Embalagens",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -830,9 +950,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -849,6 +970,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Plantação De Eucalipto",
             "Plantação De Plantas Medicinais",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -868,9 +991,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -888,6 +1012,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Mineradora Radioativa",
             "Alto-Forno",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -907,9 +1033,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -935,6 +1062,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Restaurante",
             "Usina de Biomassa",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -954,9 +1083,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -972,6 +1102,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Fábrica De Produtos Químicos Especializados",
             "Farmácia",
           ],
+          
+          
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -1037,9 +1169,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
           lojasNecessarias: {
@@ -1051,6 +1184,8 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [],
+          
+          
           recursoDeConstrução: [],
           dependências: [],
           powerUp: {
@@ -1068,9 +1203,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1083,6 +1219,8 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [],
+          
+          
           recursoDeConstrução: [],
           dependências: [],
           powerUp: {
@@ -1100,9 +1238,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1115,6 +1254,8 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [],
+          
+          
           recursoDeConstrução: [],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -1135,9 +1276,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1150,6 +1292,8 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [],
+          
+          
           recursoDeConstrução: [],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -1170,9 +1314,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1185,6 +1330,8 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [],
+          
+          
           recursoDeConstrução: [],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -1205,9 +1352,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1220,6 +1368,8 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [],
+          
+          
           recursoDeConstrução: [],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -1240,9 +1390,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1255,6 +1406,8 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [],
+          
+          
           recursoDeConstrução: [],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -1275,9 +1428,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1290,6 +1444,8 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [],
+          
+          
           recursoDeConstrução: []
           ,
           dependências: [
@@ -1311,9 +1467,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1326,6 +1483,8 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1347,9 +1506,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1367,6 +1527,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1474,9 +1636,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1494,6 +1657,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1514,9 +1679,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1534,6 +1700,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1554,9 +1722,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1574,6 +1743,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1594,9 +1765,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1614,6 +1786,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1634,9 +1808,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1654,6 +1829,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1674,9 +1851,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1694,6 +1872,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1714,9 +1894,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1734,6 +1915,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1754,9 +1937,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1774,6 +1958,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1794,9 +1980,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1814,6 +2001,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1834,9 +2023,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1854,6 +2044,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1875,9 +2067,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1895,6 +2088,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1915,9 +2110,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1935,6 +2131,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1955,9 +2153,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -1975,6 +2174,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -1996,9 +2197,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2016,6 +2218,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2036,9 +2240,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2056,6 +2261,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2076,9 +2283,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2096,6 +2304,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2116,9 +2326,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2136,6 +2347,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2156,9 +2369,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2176,6 +2390,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2196,9 +2412,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2216,6 +2433,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2236,9 +2455,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2256,6 +2476,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -2275,9 +2497,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2295,6 +2518,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2315,9 +2540,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2335,6 +2561,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2356,9 +2584,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
           lojasNecessarias: {
@@ -2370,6 +2599,8 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: ["Fábrica de Ração", "Biofábrica", "Mercados", "Feira Livre"],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"],
           dependências: [
             { construção: "Fazenda Administrativa", quantidade: 0 }
@@ -2389,9 +2620,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
           lojasNecessarias: {
@@ -2409,6 +2641,8 @@ const CentraldeDadosProvider = ({ children }) => {
             {nome:"Feira Livre",redCusto:2,redFatu:3},
           ],
          
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"],
           dependências: [
             { construção: "Fazenda Administrativa", quantidade: 0 }
@@ -2428,9 +2662,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 10,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
           lojasNecessarias: {
@@ -2442,6 +2677,8 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: ["Fábrica de Ração", "Biofábrica", "Mercados", "Feira Livre"],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"],
           dependências: [
             { construção: "Fazenda Administrativa", quantidade: 0 }
@@ -2461,9 +2698,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2481,6 +2719,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2501,9 +2741,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2521,6 +2762,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2541,9 +2784,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2561,6 +2805,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2581,9 +2827,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2601,6 +2848,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2621,9 +2870,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2641,6 +2891,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2661,9 +2913,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2681,6 +2934,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2700,9 +2955,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2720,6 +2976,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2740,9 +2998,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2760,6 +3019,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2850,9 +3111,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 0,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2870,6 +3132,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2890,9 +3154,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2910,6 +3175,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2930,9 +3197,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2950,6 +3218,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -2970,9 +3240,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -2990,6 +3261,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3010,9 +3283,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3030,6 +3304,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3050,9 +3326,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3070,6 +3347,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3090,9 +3369,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3110,6 +3390,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3130,9 +3412,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3150,6 +3433,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3170,9 +3455,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3190,6 +3476,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3210,9 +3498,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3230,6 +3519,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3250,9 +3541,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3270,6 +3562,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3290,9 +3584,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3310,6 +3605,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3330,9 +3627,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3350,6 +3648,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3370,9 +3670,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3390,6 +3691,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3410,9 +3713,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3430,6 +3734,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3450,9 +3756,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3470,6 +3777,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3490,9 +3799,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3510,6 +3820,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3530,9 +3842,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3550,6 +3863,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3570,9 +3885,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3590,6 +3906,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3610,9 +3928,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3630,6 +3949,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3650,9 +3971,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3670,6 +3992,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3690,9 +4014,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3710,6 +4035,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3730,9 +4057,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3750,6 +4078,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3770,9 +4100,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3790,6 +4121,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3810,9 +4143,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3830,6 +4164,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3898,9 +4234,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3918,6 +4255,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3938,9 +4277,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3958,6 +4298,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -3978,9 +4320,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -3998,6 +4341,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4018,9 +4363,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4038,6 +4384,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4058,9 +4406,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4078,6 +4427,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4098,9 +4449,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4118,6 +4470,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4138,9 +4492,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4158,6 +4513,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4178,9 +4535,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4198,6 +4556,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4218,9 +4578,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4238,6 +4599,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4258,9 +4621,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4278,6 +4642,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4298,9 +4664,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4318,6 +4685,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4338,9 +4707,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4358,6 +4728,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4378,9 +4750,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4398,6 +4771,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4418,9 +4793,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4438,6 +4814,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4506,9 +4884,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4526,6 +4905,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4546,9 +4927,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4566,6 +4948,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4586,9 +4970,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4606,6 +4991,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4627,9 +5014,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4647,6 +5035,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4667,9 +5057,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4687,6 +5078,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4707,9 +5100,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4727,6 +5121,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4748,9 +5144,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4768,6 +5165,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4788,9 +5187,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4808,6 +5208,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4828,9 +5230,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4848,6 +5251,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4868,9 +5273,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4888,6 +5294,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4908,9 +5316,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4928,6 +5337,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4948,9 +5359,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -4968,6 +5380,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [
@@ -4988,9 +5402,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 200000,
           quantidade: 20,
-          financas: {
-            fatuMensal: 20000,
+          finanças: {
+            faturamentoUnitário:2000,
             impostoFixo: 1000,
+            impostoSobreFatu: 0.10000,
             rent: 32
           },
 
@@ -5008,6 +5423,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "mercados",
             "feira Livre",
           ],
+          
+          
           recursoDeConstrução: ["Plantação De Vegetais", "Silo"]
           ,
           dependências: [

@@ -33,7 +33,6 @@ export const CardModal = ({ index }) => {
     const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
     const setorAtivo = dados.setorAtivo;
 
-
     const setores = [
         { id: "agricultura", cor3: "#0C9123", corClasse: "bg-[#4CAF50]", img: agricultura, descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50", },
         { id: "tecnologia", cor3: "#FF6F00 ", corClasse: "bg-[#FF8C42]", img: tecnologia, descLicença: "Com a Licença Global de Tecnologia, você desbloqueia inovações que podem transformar sua infraestrutura, otimizar processos e maximizar os lucros. Invista no futuro agora!", cor1: "#A64B00 ", cor2: "#D45A00 ", cor3: "#FF6F00 ", cor4: "#FF8C42 ", },
@@ -44,6 +43,7 @@ export const CardModal = ({ index }) => {
         { id: "grafico", cor3: "#FF6F00 ", corClasse: "bg-[#6A00FF]", img: grafico, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3: "#6A00FF ", cor4: "#6A00FF ", },
     ];
 
+    const [rent,setRent] = useState(0)
 
     const [isModalOpen, setIsModalOpen] = useState(true);
     const [visibleId, setVisibleId] = useState('lojasNec');
@@ -97,7 +97,10 @@ export const CardModal = ({ index }) => {
 
     }, [dados.dia]);
 
-
+    let acumauladorPowerUpRedCustoFornece = 0
+    let acumauladorPowerUpAumFatuFornece = 0
+    let acumuladorPowerUpRedCustoRecebe = 0
+    let acumuladorPowerUpAumFatuRecebe = 0
 
     const [caixaTexto, setCaixaTexto] = useState(false)
 
@@ -241,7 +244,22 @@ export const CardModal = ({ index }) => {
     // console.log("Custo:", dados[setorAtivo].edificios[index].custoConstrucao);
     // console.log("✅ Pode Comprar?", podeComprar);
 
+    const quantidadeTerrenosNec = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
+    const quantidadeLojasPNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
+    const quantidadeLojasMNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasM
+    const quantidadeLojasGNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasG
 
+
+const custoTotalTerrenos = quantidadeTerrenosNec*dados.terrenos.preçoConstrução
+const custoTotalLojasP = quantidadeLojasPNec*(dados.lojasP.preçoConstrução*dados.lojasP.quantidadeNecTerreno)
+const custoTotalLojasM = quantidadeLojasMNec*(dados.lojasM.preçoConstrução*dados.lojasM.quantidadeNecTerreno)
+const custoTotalLojasG = quantidadeLojasGNec*(dados.lojasG.preçoConstrução*dados.lojasG.quantidadeNecTerreno)
+const CustoTotalSomadoLojas = custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG
+console.log(custoTotalTerrenos)
+console.log(custoTotalLojasP)
+console.log(custoTotalLojasM)
+console.log(custoTotalLojasG)
+console.log(CustoTotalSomadoLojas)
 
     const comprarCard = () => {
         const quantidadeTerrenosNec = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
@@ -341,11 +359,7 @@ export const CardModal = ({ index }) => {
     const columnStyleNv2 = { backgroundColor: bgColuna2 };
     const columnStyleNv3 = { backgroundColor: bgColuna3 };
 
-
-
-
-
-
+// console.log(dados[setorAtivo].edificios[index])
 
     const [rotateX, setRotateX] = useState(0);
     const [rotateY, setRotateY] = useState(0);
@@ -374,7 +388,10 @@ export const CardModal = ({ index }) => {
 
     const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
 
+    const RecebeAumentoTotal = 10
+    const RecebeReduçãoTotal = 10
 
+    
 
 
     if (modalPowerup === true) {
@@ -394,15 +411,17 @@ export const CardModal = ({ index }) => {
                         <img src={fechar} alt="Fechar" className="w-[60%]" />
                     </button>
                     <div style={{ backgroundColor: setorInfo.cor1 }} className="flex w-[95%] text-[50px] fonteBold text-white h-[15%] rounded-[20px] justify-center items-center ">
-{dados[setorAtivo].edificios[index].nome}
+                        {dados[setorAtivo].edificios[index].nome}
                     </div >
 
                     <div style={{ backgroundColor: setorInfo.cor2 }} className="w-[95%] h-[75%] rounded-[20px] self-center">
                         <div style={{ backgroundColor: setorInfo.cor1 }} className="flex justify-around h-full rounded-[20px] w-full p-[5px]">
-                            <div className="w-[49%] h-[95%] flex justiy-around flex-col items-center">
-                                <div style={{ backgroundColor: setorInfo.cor2 }} className="w-full h-[15%] bg-white fonteBold text-white mt-[10px] pl-[10px] rounded-[10px] text-[40px]">Fornece</div>
-                                <div className="w-full flex justify-around">
-                                    <table className="w-full  mt-[10px] ">
+                            <div className="w-[49%] h-full flex flex-col items-center justify-between">
+                                <div style={{ backgroundColor: setorInfo.cor2 }} className="w-full h-[15%] bg-white fonteBold text-white mt-[10px] pl-[10px] rounded-[10px] text-[40px]">
+                                    Fornece
+                                </div>
+                                <div className="w-full h-[70%] overflow-y-auto">
+                                    <table className="w-full mt-[10px]">
                                         <thead>
                                             <tr>
                                                 <th style={{ backgroundColor: setorInfo.cor3 }} className="text-white rounded-[10px]">Red. custo</th>
@@ -466,6 +485,12 @@ export const CardModal = ({ index }) => {
                                                         ? "powerUpNv2"
                                                         : "powerUpNv1";
 
+                                            if (qtdMelhorado > 0) {
+                                                const ValorpowerUpAtualRedCustoFornece = powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 : powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 : edMelhorado.redCusto.nível3;
+                                                acumauladorPowerUpRedCustoFornece += ValorpowerUpAtualRedCustoFornece
+                                                const ValorpowerUpAtualAumFatuFornece = powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 : powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 : edMelhorado.aumFatu.nível3;
+                                                acumauladorPowerUpAumFatuFornece += ValorpowerUpAtualAumFatuFornece
+                                            }
 
                                             const corPowerUpAtual = corPowerUp(powerUpSelecionado);
                                             const corColunaAtual = corPadrão // Definição da variável antes de usá-la
@@ -493,18 +518,28 @@ export const CardModal = ({ index }) => {
                                                         <td style={lineStyle} className="text-white pl-[5px]">
                                                             {edMelhorado.nome}
                                                         </td>
-                                                        <td style={{ ...columnStyleNv1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível1}</td>
-                                                        <td style={{ ...columnStyleNv2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível2}</td>
-                                                        <td style={{ ...columnStyleNv3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível3}</td>
-                                                        <td style={ lineStyle } className="text-white pl-[5px]">{edMelhorado.nome}</td>
-                                                        <td style={{ ...columnStyleNv1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível1}</td>
-                                                        <td style={{ ...columnStyleNv2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível2}</td>
-                                                        <td style={{ ...columnStyleNv3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível3}</td>
+                                                        <td style={{ ...columnStyleNv1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCusto.nível1}</td>
+                                                        <td style={{ ...columnStyleNv2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCusto.nível2}</td>
+                                                        <td style={{ ...columnStyleNv3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCusto.nível3}</td>
+                                                        <td style={lineStyle} className="text-white pl-[5px]">{edMelhorado.nome}</td>
+                                                        <td style={{ ...columnStyleNv1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.aumFatu.nível1}</td>
+                                                        <td style={{ ...columnStyleNv2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.aumFatu.nível2}</td>
+                                                        <td style={{ ...columnStyleNv3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.aumFatu.nível3}</td>
                                                     </tr>
                                                 </tbody>
                                             )
                                         })}
                                     </table>
+                                </div>
+                                <div className="flex w-full h-[10%]">
+                                    <div className="flex w-full justify-evenly">
+                                    <div style={{ backgroundColor: setorInfo.cor2}}  className="flex w-[49%] rounded-[10px] items-end text-white self-center justify-center fonteBold text-[20px]">
+                                    Redução total: {acumauladorPowerUpRedCustoFornece}%
+                                        </div>
+                                        <div style={{ backgroundColor: setorInfo.cor2}}  className="flex w-[49%] rounded-[10px] items-end text-white self-center justify-center fonteBold text-[20px]">
+                                            Aumento total: {acumauladorPowerUpAumFatuFornece}%
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -513,9 +548,10 @@ export const CardModal = ({ index }) => {
 
 
 
-                            <div className="w-[49%] h-[98%] flex justiy-around flex-col items-center">
-                                <div style={{ backgroundColor: setorInfo.cor2 }} className="w-full h-[15%] bg-white fonteBold text-white mt-[10px] pl-[10px] rounded-[10px] text-[40px]">Recebe</div>
-                                <div className="w-full flex justify-between h-full">
+                            <div className="w-[49%] h-full flex flex-col items-center justify-between">
+                            <div style={{ backgroundColor: setorInfo.cor2 }} className="w-full h-[15%] bg-white fonteBold text-white mt-[10px] pl-[10px] rounded-[10px] text-[40px]">
+                            Recebe</div>
+                            <div className="w-full h-[70%] overflow-y-auto">
                                     <table className="w-full  mt-[10px] ">
                                         <thead>
                                             <tr>
@@ -553,8 +589,28 @@ export const CardModal = ({ index }) => {
                                                 </th>
                                             </tr>
                                         </thead>
-                                        {dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia.map((edMelhorado, i) => {
+                                        {dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia.map((edMelhorado, i) => {
+const valorFatu = dados[setorAtivo].edificios[index].finanças.faturamentoUnitário
+const valorImpostoFixo = dados[setorAtivo].edificios[index].finanças.impostoFixo
+const impostoSobreFatu = dados[setorAtivo].edificios[index].finanças.impostoSobreFatu
 
+const impostoSobreFatuFinal = impostoSobreFatu - (impostoSobreFatu *(acumuladorPowerUpRedCustoRecebe/100))
+const valorFatuFinal = valorFatu + (valorFatu*(acumuladorPowerUpAumFatuRecebe/100))
+const valorImpostoFixoFinal = valorImpostoFixo - (valorImpostoFixo*(acumuladorPowerUpRedCustoRecebe/100))
+
+const valorFinalMês = (((valorFatuFinal*30)-(valorFatuFinal*30*impostoSobreFatuFinal)) - valorImpostoFixoFinal)
+const rentabilidade = valorFinalMês/CustoTotalSomadoLojas
+
+// useEffect(()=>{
+//     setRent(rentabilidade)
+// },[dados])
+console.log(valorFinalMês)
+console.log(rentabilidade)
+console.log(impostoSobreFatuFinal)
+console.log(valorFatuFinal)
+console.log(valorImpostoFixoFinal)
+console.log(acumuladorPowerUpAumFatuRecebe)
+console.log(acumuladorPowerUpRedCustoRecebe)
                                             let setorEncontrado = null;
 
                                             let indice = -1
@@ -580,7 +636,12 @@ export const CardModal = ({ index }) => {
                                                         ? "powerUpNv2"
                                                         : "powerUpNv1";
 
-
+                                            if (qtdMelhorado > 0) {
+                                                const ValorpowerUpAtualRedCustoRecebe = powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 : powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 : edMelhorado.redCusto.nível3;
+                                                acumuladorPowerUpRedCustoRecebe += ValorpowerUpAtualRedCustoRecebe
+                                                const ValorpowerUpAtualAumFatuRecebe = powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 : powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 : edMelhorado.aumFatu.nível3;
+                                                acumuladorPowerUpAumFatuRecebe += ValorpowerUpAtualAumFatuRecebe
+                                            }
                                             const corPowerUpAtual = corPowerUp(powerUpSelecionado);
                                             const corColunaAtual = corPadrão // Definição da variável antes de usá-la
 
@@ -607,28 +668,28 @@ export const CardModal = ({ index }) => {
                                                         <td style={lineStyle} className="text-white pl-[5px]">
                                                             {edMelhorado.nome}
                                                         </td>
-                                                        <td style={{ ...columnStyleNv1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível1}</td>
-                                                        <td style={{ ...columnStyleNv2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível2}</td>
-                                                        <td style={{ ...columnStyleNv3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível3}</td>
-                                                        <td style={ lineStyle } className="text-white pl-[5px]">{edMelhorado.nome}</td>
-                                                        <td style={{ ...columnStyleNv1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível1}</td>
-                                                        <td style={{ ...columnStyleNv2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível2}</td>
-                                                        <td style={{ ...columnStyleNv3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível3}</td>
+                                                        <td style={{ ...columnStyleNv1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCusto.nível1}</td>
+                                                        <td style={{ ...columnStyleNv2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCusto.nível2}</td>
+                                                        <td style={{ ...columnStyleNv3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCusto.nível3}</td>
+                                                        <td style={lineStyle} className="text-white pl-[5px]">{edMelhorado.nome}</td>
+                                                        <td style={{ ...columnStyleNv1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.aumFatu.nível1}</td>
+                                                        <td style={{ ...columnStyleNv2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.aumFatu.nível2}</td>
+                                                        <td style={{ ...columnStyleNv3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.aumFatu.nível3}</td>
                                                     </tr>
                                                 </tbody>
                                             )
                                         })}
                                     </table>
                                 </div>
-                                <div className="flex w-full">
+                                <div className="flex w-full h-[10%]">
                                 <div className="flex w-full justify-evenly">
-                                    <div className="flex bg-white w-[48%] items-end">Redução total:</div>
-                                    <div className="flex bg-white w-[48%] items-end">Redução total:</div>
-                                </div>
-                                <div className="flex w-full justify-evenly">
-                                    <div className="flex bg-white w-[48%] items-end">Redução total:</div>
-                                    <div className="flex bg-white w-[48%] items-end">Redução total:</div>
-                                </div>
+                                <div style={{ backgroundColor: setorInfo.cor2}}  className="flex w-[49%] rounded-[10px] items-end text-white self-center justify-center fonteBold text-[20px]">
+
+                                            Redução total: {acumuladorPowerUpRedCustoRecebe}%
+                                            </div>
+                                            <div style={{ backgroundColor: setorInfo.cor2}}  className="flex w-[49%] rounded-[10px] items-end text-white self-center justify-center fonteBold text-[20px]">
+                                            Aumento total: {acumuladorPowerUpAumFatuRecebe}%</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -809,10 +870,10 @@ export const CardModal = ({ index }) => {
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between  h-full">
                                         <div className="flex items-center justify-center h-full drop-shadow-2xl">
                                             <img src={DolarImg} className="h-[60%] ml-[2px] " />
-                                            <h1 className=" text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].financas.fatuMensal)}</h1>
+                                            <h1 className=" text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário)}</h1>
                                         </div>
                                         <div className="flex items-center justify-center h-full">
-                                            <h1 className="text-white font-bold mr-2 text-[15px]">{dados[setorAtivo].edificios[index].financas.rent}</h1>
+                                            <h1 className="text-white font-bold mr-2 text-[15px]">{rent}</h1>
                                             <img src={porcem} alt="porcentagem" className="h-[45%] mr-[5px]" />
                                         </div>
                                     </div>
