@@ -218,52 +218,44 @@ const CentraldeDadosProvider = ({ children }) => {
       licençasSetor: [
         {
           nome: "Licença Global De Agricultura",
-          desc: "você tem acesso a agricultura",
+          desc: "Autoriza operações agrícolas básicas incluindo cultivo de grãos, hortaliças e frutas, formando a base da cadeia produtiva de alimentos.",
           valor: 2000,
           edifíciosLiberados: ["Plantação De Grãos", "Plantação De Vegetais", "Fazenda Administrativa", "Pomares"],
           status: false
-        }
-        ,
+        },
         {
           nome: "Licença De Comércios Agrícolas",
-          desc: "A licença de Licença De Comércios Agrícolas.",
+          desc: "Permite a criação de centros de distribuição e cooperativas para otimizar a comercialização de produtos agrícolas entre regiões.",
           valor: 3000,
           edifíciosLiberados: ["Cooperativa Agrícola", "Centro De Comércio De Plantações"],
           status: false
-        }
-        ,
+        },
         {
           nome: "Licença De Fazendas De Animais",
-          desc: "A licença de animais permite a criação de gado, aves e suínos, auxiliando fazendas e indústrias alimentícias no jogo.",
+          desc: "Habilita a criação profissional de animais como gado, aves e ovinos, essencial para abastecer frigoríficos e laticínios.",
           valor: 2500,
           edifíciosLiberados: ["Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos"],
           status: false
-        }
-        ,
+        },
         {
           nome: "Licença De Armazenamentos Agrícolas",
-          desc: "A licença de animais permite a criação de gado, aves e suínos, auxiliando fazendas e indústrias alimentícias no jogo.",
+          desc: "Concede permissão para construção de unidades de armazenamento especializadas para grãos e insumos agrícolas.",
           valor: 3200,
           edifíciosLiberados: ["Armazém", "Silo", "Depósito De Resíduos Orgânicos"],
           status: false
-        }
-        ,
+        },
         {
           nome: "Licença De Áreas Especiais",
-          desc: "A licença de animais permite a criação de gado, aves e suínos, auxiliando fazendas e indústrias alimentícias no jogo.",
+          desc: "Autoriza a exploração sustentável de recursos naturais como madeira e minérios em áreas designadas.",
           valor: 6200,
           edifíciosLiberados: ["Madeireira", "Área Florestal", "Terreno De Mineração"],
           status: false
-        }
-        ,
+        },
         {
           nome: "Licença De Outras Plantações",
-          desc: "A licença de animais permite a criação de gado, aves e suínos, auxiliando fazendas e indústrias alimentícias no jogo.",
+          desc: "Permite o cultivo de espécies vegetais especiais com alto valor agregado para indústrias específicas.",
           valor: 5300,
-          edifíciosLiberados: [
-            "Plantação De Eucalipto",
-            "Plantação De Plantas Medicinais"
-          ],
+          edifíciosLiberados: ["Plantação De Eucalipto", "Plantação De Plantas Medicinais"],
           status: false
         }
       ],
@@ -276,13 +268,13 @@ const CentraldeDadosProvider = ({ children }) => {
       edificios: [
         {
           nome: "Plantação De Grãos",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Base da produção agrícola. Dá suporte às fazendas e à alimentação.",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
             liberado: true,
           },
           custoConstrucao: 200000,
-          quantidade: 0,
+          quantidade: 4,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -297,7 +289,13 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
+          ForneceMelhoraEficiencia: [
+            {nome:"Plantação De Vegetais",redCustoNível1:4,redFatuNível1:3,redCustoNível2:5,redFatuNível2:3,redCustoNível3:1,redFatuNível3:1},
+            {nome:"Biofábrica",redCustoNível1:2,redFatuNível1:3,redCustoNível2:5,redFatuNível2:2,redCustoNível3:1,redFatuNível3:1},
+            {nome:"Mercados",redCustoNível1:3,redFatuNível1:4,redCustoNível2:3,redFatuNível2:3,redCustoNível3:1,redFatuNível3:1},
+            {nome:"Feira Livre",redCustoNível1:1,redFatuNível1:4,redCustoNível2:1,redFatuNível2:6,redCustoNível3:1,redFatuNível3:1},
+          ],
+          RecebeMelhoraEficiencia: [
             {nome:"Plantação De Vegetais",redCustoNível1:4,redFatuNível1:3,redCustoNível2:5,redFatuNível2:3,redCustoNível3:1,redFatuNível3:1},
             {nome:"Biofábrica",redCustoNível1:2,redFatuNível1:3,redCustoNível2:5,redFatuNível2:2,redCustoNível3:1,redFatuNível3:1},
             {nome:"Mercados",redCustoNível1:3,redFatuNível1:4,redCustoNível2:3,redFatuNível2:3,redCustoNível3:1,redFatuNível3:1},
@@ -319,7 +317,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Plantação De Vegetais",
-          desc: "Cultive vegetais para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Elemento essencial do setor agrícola. Representa variedade e frescor.",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
             liberado: true,
@@ -359,7 +357,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Pomares",
-          desc: "Cultive frutas para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Diversifica a produção rural. Dá suporte à indústria e ao comércio local.",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
             liberado: true,
@@ -401,7 +399,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Fazenda Administrativa",
-          desc: "Administre as suas fazendas e faça melhores negócios!",
+          desc: "Organiza e valoriza o setor rural. Aumenta a eficiência das plantações.",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
             liberado: false,
@@ -442,7 +440,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Cooperativa Agrícola",
-          desc: "Cultive vegetais para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Conecta pequenos produtores. Melhora o valor das construções agrícolas.",
           licençaLiberado: {
             licença: "Licença De Comércios Agrícolas",
             liberado: false,
@@ -482,7 +480,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Centro De Comércio De Plantações",
-          desc: "Cultive vegetais para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Representa o escoamento da produção. Aumenta o valor do setor agrícola.",
           licençaLiberado: {
             licença: "Licença De Comércios Agrícolas",
             liberado: false,
@@ -532,7 +530,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Armazém",
-          desc: "Armazene para obter melhores ofertas!",
+          desc: "Espaço de armazenamento geral. Dá suporte a múltiplos setores produtivos.",
           licençaLiberado: {
             licença: "Licença De Armazenamentos Agrícolas",
             liberado: false,
@@ -579,7 +577,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Silo",
-          desc: "Armazene para obter melhores ofertas!",
+          desc: "Armazena grãos. Aumenta a eficiência e o valor das plantações ao redor.",
           licençaLiberado: {
             licença: "Licença De Armazenamentos Agrícolas",
             liberado: false,
@@ -618,7 +616,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Depósito De Resíduos Orgânicos",
-          desc: "Armazene para obter melhores ofertas!",
+          desc: "Processa sobras naturais. Melhora a rentabilidade de fazendas e plantações.",
           licençaLiberado: {
             licença: "Licença De Armazenamentos Agrícolas",
             liberado: false,
@@ -656,7 +654,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Fazenda De Vacas",
-          desc: "Armazene para obter melhores ofertas!",
+          desc: "Produção animal de grande porte. Suporte para indústrias e comércios.",
           licençaLiberado: {
             licença: "Licença De Fazendas De Animais",
             liberado: false,
@@ -700,7 +698,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Granja De Aves",
-          desc: "Armazene para obter melhores ofertas!",
+          desc: "Produção rápida e leve. Base para setores alimentares e de exportação.",
           licençaLiberado: {
             licença: "Licença De Fazendas De Animais",
             liberado: false,
@@ -743,7 +741,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Criação De Ovinos",
-          desc: "Armazene para obter melhores ofertas!",
+          desc: "Fonte de carne e lã. Conecta o campo à indústria têxtil e alimentícia.",
           licençaLiberado: {
             licença: "Licença De Fazendas De Animais",
             liberado: false,
@@ -786,7 +784,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Madeireira",
-          desc: "Armazene para obter melhores ofertas!",
+          desc: "Transforma madeira em insumo. Essencial para fábricas e construção.",
           licençaLiberado: {
             licença: "Licença De Áreas Especiais",
             liberado: false,
@@ -825,7 +823,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Área Florestal",
-          desc: "Armazene para obter melhores ofertas!",
+          desc: "Fonte sustentável de madeira. Suporte contínuo para a produção.",
           licençaLiberado: {
             licença: "Licença De Áreas Especiais",
             liberado: false,
@@ -863,7 +861,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Terreno De Mineração",
-          desc: "Armazene para obter melhores ofertas!",
+          desc: "Origem de minérios. Base essencial para fábricas e tecnologias.",
           licençaLiberado: {
             licença: "Licença De Áreas Especiais",
             liberado: false,
@@ -887,7 +885,7 @@ const CentraldeDadosProvider = ({ children }) => {
           melhoraEficiencia: [
             "Mineradora",
             "Mineradora De Pedras Preciosas",
-            "Mineradora de Minérios Radioativos",
+            "Mineradora Radioativa",
             "Alto-Forno",
           ],
           recursoDeConstrução: []
@@ -902,7 +900,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Plantação De Eucalipto",
-          desc: "Armazene para obter melhores ofertas!",
+          desc: "Produção rápida de madeira. Dá suporte a serrarias e papelarias.",
           licençaLiberado: {
             licença: "Licença De Outras Plantações",
             liberado: false,
@@ -949,7 +947,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Plantação De Plantas Medicinais",
-          desc: "Armazene para obter melhores ofertas!",
+          desc: "Fornece insumos raros. Suporte direto para a indústria farmacêutica.",
           licençaLiberado: {
             licença: "Licença De Outras Plantações",
             liberado: false,
@@ -999,28 +997,28 @@ const CentraldeDadosProvider = ({ children }) => {
       },
       licençasSetor: [{
         nome: "Licença Global De Tecnologia",
-        desc: "você tem acesso a tecnologias",
+        desc: "Permite a operação de empresas de tecnologia básica, incluindo infraestrutura digital e desenvolvimento de software, essencial para a economia digital.",
         valor: 7000,
         edifíciosLiberados: ["Servidor Em Nuvem", "Data Center", "Startup", "Empresa De Desenvolvimento De Software"],
         status: false
       },
       {
         nome: "Licença De Tecnologia Experimental",
-        desc: "você tem acesso a tecnologias",
+        desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
         valor: 7000,
         edifíciosLiberados: ["Centro de Pesquisa Química", "Centro De Pesquisa Em Fusão Nuclear"],
         status: false
       },
       {
         nome: "Licença De Engenharia Avançada",
-        desc: "você tem acesso a tecnologias",
+        desc: "Habilita centros de pesquisa em eletrônica de última geração e tecnologia aeroespacial, impulsionando inovações em mobilidade e comunicação.",
         valor: 7000,
         edifíciosLiberados: ["Centro De Pesquisa Em Eletrônicos", "Centro De Pesquisa Aeroespacial"],
         status: false
       },
       {
         nome: "Licença De Pesquisa Em Robótica e IA",
-        desc: "você tem acesso a tecnologias",
+        desc: "Permite o desenvolvimento de inteligência artificial e sistemas robóticos autônomos, representando o estado da arte em automação e machine learning.",
         valor: 7000,
         edifíciosLiberados: ["Centro De Pesquisa Em Robótica", "Centro De Pesquisa Em IA"],
         status: false
@@ -1032,7 +1030,7 @@ const CentraldeDadosProvider = ({ children }) => {
       edificios: [
         {
           nome: "Servidor Em Nuvem",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Infraestrutura digital para armazenamento e serviços online.",
           licençaLiberado: {
             licença: "Licença Global De Tecnologia",
             liberado: false,
@@ -1063,7 +1061,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Data Center",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Centro de processamento e armazenamento de dados.",
           licençaLiberado: {
             licença: "Licença Global De Tecnologia",
             liberado: false,
@@ -1095,7 +1093,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Startup",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Negócio inovador focado em soluções tecnológicas.",
           licençaLiberado: {
             licença: "Licença Global De Tecnologia",
             liberado: false,
@@ -1130,7 +1128,7 @@ const CentraldeDadosProvider = ({ children }) => {
         ,
         {
           nome: "Empresa De Desenvolvimento De Software",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença Global De Tecnologia",
             liberado: false,
@@ -1165,7 +1163,7 @@ const CentraldeDadosProvider = ({ children }) => {
         ,
         {
           nome: "Centro de Pesquisa Química",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Pesquisas avançadas em compostos químicos.",          
           licençaLiberado: {
             licença: "Licença De Tecnologia Experimental",
             liberado: false,
@@ -1200,7 +1198,7 @@ const CentraldeDadosProvider = ({ children }) => {
         ,
         {
           nome: "Centro De Pesquisa Em Fusão Nuclear",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Pesquisa para geração de energia por fusão nuclear.",
           licençaLiberado: {
             licença: "Licença De Tecnologia Experimental",
             liberado: false,
@@ -1235,7 +1233,7 @@ const CentraldeDadosProvider = ({ children }) => {
         ,
         {
           nome: "Centro De Pesquisa Em Eletrônicos",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Desenvolvimento de circuitos e dispositivos eletrônicos.",
           licençaLiberado: {
             licença: "Licença De Engenharia Avançada",
             liberado: false,
@@ -1270,7 +1268,7 @@ const CentraldeDadosProvider = ({ children }) => {
         ,
         {
           nome: "Centro De Pesquisa Aeroespacial",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Tecnologias voltadas ao setor aeroespacial.",
           licençaLiberado: {
             licença: "Licença De Engenharia Avançada",
             liberado: false,
@@ -1306,7 +1304,7 @@ const CentraldeDadosProvider = ({ children }) => {
         ,
         {
           nome: "Centro De Pesquisa Em Robótica",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Inovações em robótica e automação industrial.",
           licençaLiberado: {
             licença: "Licença De Pesquisa Em Robótica e IA",
             liberado: false,
@@ -1342,7 +1340,7 @@ const CentraldeDadosProvider = ({ children }) => {
         ,
         {
           nome: "Centro De Pesquisa Em IA",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Desenvolvimento de inteligência artificial aplicada.",
           licençaLiberado: {
             licença: "Licença De Pesquisa Em Robótica e IA",
             liberado: false,
@@ -1396,87 +1394,80 @@ const CentraldeDadosProvider = ({ children }) => {
       },
       licençasSetor: [{
         nome: "Licença Global De Indústria",
-        desc: "você tem acesso a tecnologias",
+        desc: "Permite a operação de indústrias básicas de transformação, essencial para o início da cadeia produtiva industrial.",
         valor: 7000,
         edifíciosLiberados: ["Fábrica De Móveis", "Fábrica De Ração", "Fábrica De Embalagem"],
         status: false
       },
       {
         nome: "Licença De Fábricas Simples",
-        desc: "você tem acesso a tecnologias",
+        desc: "Autoriza a produção de insumos agrícolas e alimentos processados, conectando o campo à indústria.",
         valor: 7000,
         edifíciosLiberados: ["Fábrica De Fertilizante", "Fábrica De Bebidas", "Fábrica De Pães"],
         status: false
-      }
-        ,
+      },
       {
         nome: "Licença De Fábricas Energéticas",
-        desc: "você tem acesso a tecnologias",
+        desc: "Habilita a fabricação de componentes para geração de energia renovável e armazenamento.",
         valor: 7000,
         edifíciosLiberados: ["Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias"],
         status: false
-      }
-        ,
+      },
       {
         nome: "Licença De Papel E Celulose",
-        desc: "você tem acesso a tecnologias",
+        desc: "Permite a produção de papel e derivados, essencial para indústrias gráficas e de embalagens.",
         valor: 7000,
         edifíciosLiberados: ["Fábrica De Celulose", "Fábrica De Papel", "Fábrica De Livros"],
         status: false
-      }
-        ,
+      },
       {
         nome: "Licença De Base Metalúrgica",
-        desc: "você tem acesso a tecnologias",
+        desc: "Autoriza processos metalúrgicos primários, transformando minérios em metais brutos para indústrias.",
         valor: 7000,
         edifíciosLiberados: ["Alto-Forno", "Usina Siderúrgica", "Fundição de Alumínio", "Fábrica De Ligas Metálicas"],
         status: false
-      }
-        ,
+      },
       {
         nome: "Licença De Metalúrgia Avançada",
-        desc: "você tem acesso a tecnologias",
+        desc: "Habilita a fabricação de componentes metálicos complexos para setores estratégicos.",
         valor: 7000,
         edifíciosLiberados: ["Indústria De Componentes Mecânicos", "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas"],
         status: false
-      }
-        ,
+      },
       {
         nome: "Licença Automotiva",
-        desc: "você tem acesso a tecnologias",
+        desc: "Permite a produção de veículos e componentes automotivos, incluindo tecnologias elétricas.",
         valor: 7000,
         edifíciosLiberados: ["Fábrica De Peças Automotivas", "Montadora De Veículos Elétricos", "Fábricas De Automóveis"],
         status: false
+      },
+      {
+        nome: "Licença de Refinaria",
+        desc: "Autoriza o processamento de combustíveis fósseis e biocombustíveis, essencial para o setor energético.",
+        valor: 7000,
+        edifíciosLiberados: ["Refinaria de Biocombustíveis", "Refinaria", "Biofábrica"],
+        status: false
+      },
+      {
+        nome: "Licença De Engenharia Mecânica Avançada",
+        desc: "Habilita a produção de motores e veículos aeroespaciais/navais de alta complexidade tecnológica.",
+        valor: 7000,
+        edifíciosLiberados: ["Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves", "Fábrica De Návios"],
+        status: false
+      },
+      {
+        nome: "Licença De Eletrônica Avançada",
+        desc: "Permite a fabricação de componentes eletrônicos complexos, robótica e sistemas de automação industrial.",
+        valor: 7000,
+        edifíciosLiberados: ["Fábrica De Eletrônicos", "Fábrica De Semicondutores", "Fábrica De Robôs", "Empresa De Automação Industrial"],
+        status: false
       }
-        ,
-        {
-          nome: "Licença de Refinaria",
-          desc: "Você tem acesso a tecnologias",
-          valor: 7000,
-          edifíciosLiberados: ["Refinaria de Biocombustíveis", "Refinaria", "Biofábrica"],
-          status: false
-        },
-        {
-          nome: "Licença De Engenharia Mecânica Avançada",
-          desc: "você tem acesso a tecnologias",
-          valor: 7000,
-          edifíciosLiberados: ["Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves", "Fábrica De Návios"],
-          status: false
-        }
-        ,
-        {
-          nome: "Licença De Eletrônica Avançada",
-          desc: "você tem acesso a tecnologias",
-          valor: 7000,
-          edifíciosLiberados: ["Fábrica De Eletrônicos", "Fábrica De Semicondutores", "Fábrica De Robôs", "Empresa De Automação Industrial"],
-          status: false
-        }
 
       ],
       edificios: [
         {
           nome: "Fábrica De Móveis",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz móveis com recursos agrícolas e industriais.",
           licençaLiberado: {
             licença: "Licença Global De Indústria",
             liberado: false,
@@ -1516,7 +1507,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Ração",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Processa vegetais e cereais para fabricar ração.",
           licençaLiberado: {
             licença: "Licença Global De Indústria",
             liberado: false,
@@ -1556,7 +1547,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Embalagem",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+         desc: "Produz embalagens para diversos produtos.",
           licençaLiberado: {
             licença: "Licença Global De Indústria",
             liberado: false,
@@ -1596,7 +1587,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Fertilizante",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Transforma matéria orgânica em fertilizantes.",
           licençaLiberado: {
             licença: "Licença De Fábricas Simples",
             liberado: false,
@@ -1636,7 +1627,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Bebidas",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Usa vegetais para produzir bebidas diversas.",          
           licençaLiberado: {
             licença: "Licença De Fábricas Simples",
             liberado: false,
@@ -1676,7 +1667,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Pães",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Fabrica pães a partir de cereais e vegetais.",
           licençaLiberado: {
             licença: "Licença De Fábricas Simples",
             liberado: false,
@@ -1716,7 +1707,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Turbinas Eólicas",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Monta turbinas para gerar energia eólica.",
           licençaLiberado: {
             licença: "Licença De Fábricas Energéticas",
             liberado: false,
@@ -1756,7 +1747,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Painéis Solares",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz painéis para captação solar.",
           licençaLiberado: {
             licença: "Licença De Fábricas Energéticas",
             liberado: false,
@@ -1796,7 +1787,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Baterias",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Fabrica baterias para armazenar energia.",
           licençaLiberado: {
             licença: "Licença De Fábricas Energéticas",
             liberado: false,
@@ -1836,7 +1827,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Celulose",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Transforma celulose em papel e derivados.",
           licençaLiberado: {
             licença: "Licença De Papel E Celulose",
             liberado: false,
@@ -1877,7 +1868,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Fábrica De Papel",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz papel a partir de matéria-prima vegetal.",
           licençaLiberado: {
             licença: "Licença De Papel E Celulose",
             liberado: false,
@@ -1917,7 +1908,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Livros",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Fabrica livros utilizando papel e outros materiais.",
           licençaLiberado: {
             licença: "Licença De Papel E Celulose",
             liberado: false,
@@ -1957,7 +1948,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Alto-Forno",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Processa minérios para produzir metais brutos.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
             liberado: false,
@@ -1998,7 +1989,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Usina Siderúrgica",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Transforma minérios em aço e outros metais.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
             liberado: false,
@@ -2038,7 +2029,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fundição de Alumínio",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz alumínio a partir de bauxita e outros minerais.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
             liberado: false,
@@ -2078,7 +2069,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Ligas Metálicas",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Fabrica ligas metálicas para diversas aplicações.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
             liberado: false,
@@ -2118,7 +2109,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Indústria De Componentes Mecânicos",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz componentes mecânicos para indústrias.",
           licençaLiberado: {
             licença: "Licença De Metalúrgia Avançada",
             liberado: false,
@@ -2158,7 +2149,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Chapas Metálicas",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Fabrica chapas metálicas para construção e indústria.",
           licençaLiberado: {
             licença: "Licença De Metalúrgia Avançada",
             liberado: false,
@@ -2198,7 +2189,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Estruturas Metálicas",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz estruturas metálicas para edificações.",
           licençaLiberado: {
             licença: "Licença De Metalúrgia Avançada",
             liberado: false,
@@ -2238,7 +2229,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Peças Automotivas",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Fabrica peças para veículos automotivos.",
           licençaLiberado: {
             licença: "Licença Automotiva",
             liberado: false,
@@ -2277,7 +2268,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Montadora De Veículos Elétricos",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Monta veículos elétricos e seus componentes.",
           licençaLiberado: {
             licença: "Licença Automotiva",
             liberado: false,
@@ -2317,7 +2308,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábricas De Automóveis",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz automóveis e veículos convencionais.",
           licençaLiberado: {
             licença: "Licença Automotiva",
             liberado: false,
@@ -2358,7 +2349,7 @@ const CentraldeDadosProvider = ({ children }) => {
         
         {
           nome: "Refinaria de Biocombustíveis",
-          desc: "Cultive grãos para alimentar, vender ou trocar no jogo. Planeje e colha!",
+          desc: "Transforma biomassa em biocombustíveis.",
           licençaLiberado: {
             licença: "Licença de Refinaria",
             liberado: false,
@@ -2391,7 +2382,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Refinaria",
-          desc: "Cultive grãos para alimentar, vender ou trocar no jogo. Planeje e colha!",
+          desc: "Processa petróleo em combustíveis e derivados.",
           licençaLiberado: {
             licença: "Licença de Refinaria",
             liberado: false,
@@ -2430,13 +2421,13 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Biofábrica",
-          desc: "Cultive grãos para alimentar, vender ou trocar no jogo. Planeje e colha!",
+          desc: "Produz bioprodutos e materiais orgânicos.",
           licençaLiberado: {
             licença: "Licença de Refinaria",
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 0,
+          quantidade: 10,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -2463,7 +2454,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Motores",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Fabrica motores para veículos e máquinas.",
           licençaLiberado: {
             licença: "Licença De Engenharia Mecânica Avançada",
             liberado: false,
@@ -2503,7 +2494,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Foguetes",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Fabrica foguetes e sistemas de propulsão avançados.",  
           licençaLiberado: {
             licença: "Licença De Engenharia Mecânica Avançada",
             liberado: false,
@@ -2543,7 +2534,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Aeronaves",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz aeronaves e componentes aeroespaciais.",  
           licençaLiberado: {
             licença: "Licença De Engenharia Mecânica Avançada",
             liberado: false,
@@ -2583,7 +2574,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Návios",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Constrói navios e embarcações de grande porte.",  
           licençaLiberado: {
             licença: "Licença De Engenharia Mecânica Avançada",
             liberado: false,
@@ -2623,7 +2614,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Eletrônicos",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Fabrica dispositivos eletrônicos e componentes.",  
           licençaLiberado: {
             licença: "Licença De Eletrônica Avançada",
             liberado: false,
@@ -2663,7 +2654,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Semicondutores",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz semicondutores e chips para tecnologia.",  
           licençaLiberado: {
             licença: "Licença De Eletrônica Avançada",
             liberado: false,
@@ -2702,7 +2693,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },{
           nome: "Fábrica De Robôs",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Monta robôs e sistemas de automação.",  
           licençaLiberado: {
             licença: "Licença De Eletrônica Avançada",
             liberado: false,
@@ -2742,7 +2733,7 @@ const CentraldeDadosProvider = ({ children }) => {
         }
         ,{
           nome: "Empresa De Automação Industrial",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Desenvolve sistemas industriais automatizados.",  
           licençaLiberado: {
             licença: "Licença De Eletrônica Avançada",
             liberado: false,
@@ -2792,60 +2783,56 @@ const CentraldeDadosProvider = ({ children }) => {
       },
       licençasSetor: [{
         nome: "Licença Global De Comércio",
-        desc: "você tem acesso a tecnologias",
+        desc: "Permite a abertura de estabelecimentos comerciais básicos, formando a rede inicial de comércio e serviços essenciais.",
         valor: 7000,
         edifíciosLiberados: ["Feira Livre", "Loja De Móveis", "Restaurante", "Livraria"],
         status: false
       },
       {
         nome: "Licença De Comércio Local",
-        desc: "você tem acesso a tecnologias",
+        desc: "Autoriza operações de comércio varejista de alimentos e produtos básicos para suprir necessidades diárias da população.",
         valor: 7000,
         edifíciosLiberados: ["Mercado", "Adega", "Padaria", "Açougue"],
         status: false
       },
       {
         nome: "Licença De Varejo",
-        desc: "você tem acesso a tecnologias",
+        desc: "Habilita estabelecimentos de conveniência e postos de combustível, importantes para o abastecimento local e mobilidade urbana.",
         valor: 7000,
         edifíciosLiberados: ["Loja De Conveniência", "Posto De Gasolina"],
         status: false
       },
       {
         nome: "Licença De Comércio Urbano",
-        desc: "você tem acesso a tecnologias",
+        desc: "Permite a operação de lojas especializadas e serviços urbanos de médio porte, elevando o nível comercial da cidade.",
         valor: 7000,
         edifíciosLiberados: ["Redes De Fast-food", "Loja De Eletrônicos", "Joalheria", "Concessionária De Veículos"],
         status: false
-      }
-      ,
+      },
       {
         nome: "Licença De Serviços E Saúde",
-        desc: "você tem acesso a tecnologias",
+        desc: "Autoriza a prestação de serviços especializados em saúde animal, humana e alimentação, melhorando a qualidade de vida urbana.",
         valor: 7000,
         edifíciosLiberados: ["Petshop", "Farmácia", "Cafeteria"],
         status: false
-      }
-      ,
+      },
       {
         nome: "Licença De Varejo Especializado",
-        desc: "você tem acesso a tecnologias",
+        desc: "Habilita lojas departamentais e especializadas em moda, ampliando as opções de consumo e vestuário para a população.",
         valor: 7000,
         edifíciosLiberados: ["Loja De Departamentos", "Loja De Calçados", "Loja De Vestuário"],
         status: false
-      }
-      ,
+      },
       {
         nome: "Licença De Shoppings",
-        desc: "você tem acesso a tecnologias",
+        desc: "Permite a construção de centros comerciais de grande porte, impulsionando a economia e o comércio em escala regional.",
         valor: 7000,
         edifíciosLiberados: ["Shopping Popular", "Shopping Center"],
         status: false
-      }
-      ,
+      },
       {
         nome: "Licença De Logística E Transporte",
-        desc: "você tem acesso a tecnologias",
+        desc: "Autoriza a operação de centros de distribuição e transporte de mercadorias, essencial para a cadeia de suprimentos da cidade.",
         valor: 7000,
         edifíciosLiberados: ["Centro De Distribuição", "Armazém Logístico", "Transporte Petrolífero"],
         status: false
@@ -2856,13 +2843,13 @@ const CentraldeDadosProvider = ({ children }) => {
       edificios: [
         {
           nome: "Feira Livre",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Vende produtos agrícolas e artesanais em um mercado aberto.",  
           licençaLiberado: {
             licença: "Licença Global De Comércio",
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           financas: {
             fatuMensal: 20000,
             impostoFixo: 1000,
@@ -2896,7 +2883,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Móveis",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Comercializa móveis e artigos para decoração.",  
           licençaLiberado: {
             licença: "Licença Global De Comércio",
             liberado: false,
@@ -2936,7 +2923,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Restaurante",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Serve refeições e pratos preparados com alimentos frescos.",  
           licençaLiberado: {
             licença: "Licença Global De Comércio",
             liberado: false,
@@ -2976,7 +2963,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Livraria",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Vende livros, revistas e materiais de leitura.",  
           licençaLiberado: {
             licença: "Licença Global De Comércio",
             liberado: false,
@@ -3016,7 +3003,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Mercado",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Oferece alimentos, bebidas e produtos básicos para consumo.",  
           licençaLiberado: {
             licença: "Licença De Comércio Local",
             liberado: false,
@@ -3056,7 +3043,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Adega",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Comercializa vinhos, cervejas e outras bebidas alcóolicas.",  
           licençaLiberado: {
             licença: "Licença De Comércio Local",
             liberado: false,
@@ -3096,7 +3083,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Padaria",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz e vende pães, bolos e doces frescos.",  
           licençaLiberado: {
             licença: "Licença De Comércio Local",
             liberado: false,
@@ -3136,7 +3123,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Açougue",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Vende carnes, aves e produtos derivados de açougue.",  
           licençaLiberado: {
             licença: "Licença De Comércio Local",
             liberado: false,
@@ -3176,7 +3163,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Conveniência",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Oferece produtos de conveniência e itens essenciais.",  
           licençaLiberado: {
             licença: "Licença De Varejo",
             liberado: false,
@@ -3216,7 +3203,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Posto De Gasolina",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Vende combustíveis e serviços para veículos automotivos.",  
           licençaLiberado: {
             licença: "Licença De Varejo",
             liberado: false,
@@ -3256,7 +3243,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Redes De Fast-food",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Serve lanches rápidos e refeições pré-preparadas.",  
           licençaLiberado: {
             licença: "Licença De Comércio Urbano",
             liberado: false,
@@ -3296,7 +3283,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Eletrônicos",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",  
           licençaLiberado: {
             licença: "Licença De Comércio Urbano",
             liberado: false,
@@ -3336,7 +3323,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Joalheria",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Vende joias, relógios e acessórios de luxo.",  
           licençaLiberado: {
             licença: "Licença De Comércio Urbano",
             liberado: false,
@@ -3376,7 +3363,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Concessionária De Veículos",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Revende veículos novos e usados de diversas marcas.",  
           licençaLiberado: {
             licença: "Licença De Comércio Urbano",
             liberado: false,
@@ -3416,7 +3403,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Petshop",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Oferece produtos e serviços para animais de estimação.",  
           licençaLiberado: {
             licença: "Licença De Serviços E Saúde",
             liberado: false,
@@ -3456,7 +3443,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Farmácia",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Vende medicamentos e produtos de saúde e bem-estar.",  
           licençaLiberado: {
             licença: "Licença De Serviços E Saúde",
             liberado: false,
@@ -3496,7 +3483,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Cafeteria",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Serve cafés, chás e lanches leves em ambiente aconchegante.",  
           licençaLiberado: {
             licença: "Licença De Serviços E Saúde",
             liberado: false,
@@ -3536,7 +3523,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Departamentos",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Lojas diversificadas em um único espaço comercial.",  
           licençaLiberado: {
             licença: "Licença De Varejo Especializado",
             liberado: false,
@@ -3576,7 +3563,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Calçados",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Especializada em calçados e acessórios para pés.",  
           licençaLiberado: {
             licença: "Licença De Varejo Especializado",
             liberado: false,
@@ -3616,7 +3603,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Vestuário",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Vende roupas, acessórios e artigos de moda.",  
           licençaLiberado: {
             licença: "Licença De Varejo Especializado",
             liberado: false,
@@ -3656,7 +3643,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Shopping Popular",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Conjunto de lojas e serviços em um espaço popular.",  
           licençaLiberado: {
             licença: "Licença De Shoppings",
             liberado: false,
@@ -3696,7 +3683,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Shopping Center",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Complexo comercial com diversas lojas e entretenimento.",  
           licençaLiberado: {
             licença: "Licença De Shoppings",
             liberado: false,
@@ -3736,7 +3723,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Distribuição",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Distribui produtos e mercadorias para redes varejistas.",  
           licençaLiberado: {
             licença: "Licença De Logística E Transporte",
             liberado: false,
@@ -3776,7 +3763,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Armazém Logístico",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Armazena e gerencia estoques para logística eficiente.",  
           licençaLiberado: {
             licença: "Licença De Logística E Transporte",
             liberado: false,
@@ -3816,7 +3803,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Transporte Petrolífero",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Transporta petróleo e derivados para refinarias e distribuidoras.",
           licençaLiberado: {
             licença: "Licença De Logística E Transporte",
             liberado: false,
@@ -3866,38 +3853,37 @@ const CentraldeDadosProvider = ({ children }) => {
       },
       licençasSetor: [{
         nome: "Licença Global Imobiliária",
-        desc: "você tem acesso a tecnologias",
+        desc: "Permite operações básicas de construção civil, terraplanagem e regularização de propriedades, essencial para o desenvolvimento urbano inicial.",
         valor: 7000,
         edifíciosLiberados: ["Construtora", "Cartório E Licenças", "Terraplanagem E Pavimentação"],
         status: false
       },
       {
         nome: "Licença De Grandes Infraestruturas",
-        desc: "você tem acesso a tecnologias",
+        desc: "Autoriza a construção de obras de infraestrutura estratégica como aeroportos e portos, fundamentais para o transporte regional e nacional.",
         valor: 7000,
-        edifíciosLiberados: ["Construtora De Grandes Infraestruturas", "Aeroporto", "Porto"],
+        edifíciosLiberados: ["Construtora De Infraestruturas", "Aeroporto", "Porto"],
         status: false
       },
       {
         nome: "Licença De Mineração",
-        desc: "você tem acesso a tecnologias",
+        desc: "Habilita a exploração de recursos minerais convencionais, radioativos e pedras preciosas, impulsionando a indústria extrativista.",
         valor: 7000,
-        edifíciosLiberados: ["Mineradora", "Mineradora De Minérios Radioativos", "Mineradora De Pedras Preciosas"],
+        edifíciosLiberados: ["Mineradora", "Mineradora Radioativa", "Mineradora De Pedras Preciosas"],
         status: false
       },
       {
         nome: "Licença Comercial E Residencial",
-        desc: "você tem acesso a tecnologias",
+        desc: "Permite a construção de grandes empreendimentos mistos que combinam espaços comerciais e residenciais de alto padrão.",
         valor: 7000,
         edifíciosLiberados: ["Mega Mercados", "Prédio De Alto Padrão"],
         status: false
-      }
-      ,
+      },
       {
         nome: "Licença De Construções Energéticas",
-        desc: "você tem acesso a tecnologias",
+        desc: "Autoriza a implantação de infraestruturas especializadas em produção e armazenamento de combustíveis e bioenergia.",
         valor: 7000,
-        edifíciosLiberados: ["Centro De Coleta De Biomassa", "Tanque De Armazenamento De Biocombustíveis", "Plataforma De Petróleo"],
+        edifíciosLiberados: ["Centro De Coleta De Biomassa", "Tanque De Armazenamento Biocombustível", "Plataforma De Petróleo"],
         status: false
       }
 
@@ -3905,7 +3891,7 @@ const CentraldeDadosProvider = ({ children }) => {
       edificios: [
         {
           nome: "Construtora",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Constrói edifícios residenciais e comerciais.",
           licençaLiberado: {
             licença: "Licença Global Imobiliária",
             liberado: false,
@@ -3945,7 +3931,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Cartório E Licenças",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Registra propriedades e emite licenças comerciais.",
           licençaLiberado: {
             licença: "Licença Global Imobiliária",
             liberado: false,
@@ -3985,7 +3971,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Terraplanagem E Pavimentação",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Prepara terrenos e constrói vias de transporte.",
           licençaLiberado: {
             licença: "Licença Global Imobiliária",
             liberado: false,
@@ -4024,8 +4010,8 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Construtora De Grandes Infraestruturas",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          nome: "Construtora De Infraestruturas",
+          desc: "Desenvolve grandes obras de infraestrutura urbana.",
           licençaLiberado: {
             licença: "Licença De Grandes Infraestruturas",
             liberado: false,
@@ -4065,7 +4051,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Aeroporto",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Opera voos comerciais e transporte aéreo.",
           licençaLiberado: {
             licença: "Licença De Grandes Infraestruturas",
             liberado: false,
@@ -4105,7 +4091,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Porto",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Gerencia comércio marítimo e transporte naval.",
           licençaLiberado: {
             licença: "Licença De Grandes Infraestruturas",
             liberado: false,
@@ -4145,7 +4131,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Mineradora",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Extrai minérios e recursos naturais do solo.",
           licençaLiberado: {
             licença: "Licença De Mineração",
             liberado: false,
@@ -4184,8 +4170,8 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Mineradora De Minérios Radioativos",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          nome: "Mineradora Radioativa",
+          desc: "Mineradora especializada em materiais radioativos.",
           licençaLiberado: {
             licença: "Licença De Mineração",
             liberado: false,
@@ -4225,7 +4211,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Mineradora De Pedras Preciosas",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Explora jazidas de pedras preciosas e gemas.",
           licençaLiberado: {
             licença: "Licença De Mineração",
             liberado: false,
@@ -4265,7 +4251,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Mega Mercados",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Grande complexo de varejo e autosserviço.",
           licençaLiberado: {
             licença: "Licença Comercial E Residencial",
             liberado: false,
@@ -4305,7 +4291,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Prédio De Alto Padrão",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Edifício residencial de luxo e alto padrão.",
           licençaLiberado: {
             licença: "Licença Comercial E Residencial",
             liberado: false,
@@ -4345,7 +4331,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Coleta De Biomassa",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Coleta matéria orgânica para produção energética.",
           licençaLiberado: {
             licença: "Licença De Construções Energéticas",
             liberado: false,
@@ -4384,8 +4370,8 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Tanque De Armazenamento De Biocombustíveis",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          nome: "Tanque De Armazenamento Biocombustível",
+          desc: "Armazena biocombustíveis para distribuição.",
           licençaLiberado: {
             licença: "Licença De Construções Energéticas",
             liberado: false,
@@ -4425,7 +4411,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Plataforma De Petróleo",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Extrai petróleo em plataformas oceânicas.",
           licençaLiberado: {
             licença: "Licença De Construções Energéticas",
             liberado: false,
@@ -4476,49 +4462,44 @@ const CentraldeDadosProvider = ({ children }) => {
       },
       licençasSetor: [{
         nome: "Licença Global De Energia",
-        desc: "você tem acesso a tecnologias",
+        desc: "Permite a construção de infraestrutura básica de distribuição e geração de energia, incluindo redes elétricas e usinas solares fotovoltaicas.",
         valor: 7000,
         edifíciosLiberados: ["Subestação De Energia", "Rede De Distribuição Elétrica", "Usina Solar"],
         status: false
-      }
-      ,
+      },
       {
         nome: "Licença De Melhoria Energética",
-        desc: "você tem acesso a tecnologias",
+        desc: "Autoriza centros de pesquisa e desenvolvimento de tecnologias para armazenamento e eficiência energética, incluindo estações de carregamento veicular.",
         valor: 7000,
         edifíciosLiberados: ["Centro De Pesquisa Energética", "Centro De Baterias Recicláveis", "Estação De Carregamento"],
         status: false
-      }
-      ,
+      },
       {
         nome: "Licença De Energia Sustentável",
-        desc: "você tem acesso a tecnologias",
+        desc: "Habilita a construção de usinas que utilizam biomassa e biocombustíveis, oferecendo soluções energéticas renováveis e de baixo impacto ambiental.",
         valor: 7000,
         edifíciosLiberados: ["Usina Termelétrica A Biocombustíveis", "Usina De Biomassa"],
         status: false
-      }
-      ,
+      },
       {
         nome: "Licença De Usinas",
-        desc: "você tem acesso a tecnologias",
+        desc: "Permite a instalação de grandes complexos geradores de energia convencionais, incluindo hidrelétricas, termelétricas e parques eólicos.",
         valor: 7000,
         edifíciosLiberados: ["Usina Hidrelétrica", "Parque Eólico", "Usina Termolétrica"],
         status: false
-      }
-      ,
+      },
       {
         nome: "Licença De Usinas Nucleares",
-        desc: "você tem acesso a tecnologias",
+        desc: "Concede autorização para construção e operação de usinas nucleares de fissão e fusão, representando o ápice da tecnologia energética no jogo.",
         valor: 7000,
         edifíciosLiberados: ["Reator Nuclear Convencional", "Usina De Fusão Nuclear"],
         status: false
       }
-
       ],
       edificios: [
         {
           nome: "Subestação De Energia",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Distribui energia entre usinas e cidades.",
           licençaLiberado: {
             licença: "Licença Global De Energia",
             liberado: false,
@@ -4558,7 +4539,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Rede De Distribuição Elétrica",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Transporta eletricidade para todas as estruturas.",
           licençaLiberado: {
             licença: "Licença Global De Energia",
             liberado: false,
@@ -4598,7 +4579,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Usina Solar",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Gera energia limpa através da luz solar.",
           licençaLiberado: {
             licença: "Licença Global De Energia",
             liberado: false,
@@ -4639,7 +4620,7 @@ const CentraldeDadosProvider = ({ children }) => {
        
         {
           nome: "Centro De Pesquisa Energética",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Desenvolve novas tecnologias energéticas.",
           licençaLiberado: {
             licença: "Licença De Melhoria Energética",
             liberado: false,
@@ -4679,7 +4660,7 @@ const CentraldeDadosProvider = ({ children }) => {
         }, 
         {
           nome: "Centro De Baterias Recicláveis",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Recicla baterias para produção sustentável.",
           licençaLiberado: {
             licença: "Licença De Melhoria Energética",
             liberado: false,
@@ -4719,7 +4700,7 @@ const CentraldeDadosProvider = ({ children }) => {
         }, 
         {
           nome: "Estação De Carregamento",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Fornece carregamento para veículos elétricos.",
           licençaLiberado: {
             licença: "Licença De Melhoria Energética",
             liberado: false,
@@ -4760,7 +4741,7 @@ const CentraldeDadosProvider = ({ children }) => {
        
         {
           nome: "Usina Termelétrica A Biocombustíveis",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz energia a partir de biocombustíveis.",
           licençaLiberado: {
             licença: "Licença De Energia Sustentável",
             liberado: false,
@@ -4800,7 +4781,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },  
         {
           nome: "Usina De Biomassa",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Transforma resíduos orgânicos em energia.",
           licençaLiberado: {
             licença: "Licença De Energia Sustentável",
             liberado: false,
@@ -4840,7 +4821,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },  
         {
           nome: "Usina Hidrelétrica",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Gera eletricidade a partir de rios e represas.",
           licençaLiberado: {
             licença: "Licença De Usinas",
             liberado: false,
@@ -4880,7 +4861,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Parque Eólico",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz energia eólica através de turbinas.",
           licençaLiberado: {
             licença: "Licença De Usinas",
             liberado: false,
@@ -4920,7 +4901,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },  
         {
           nome: "Usina Termolétrica",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Gera energia a partir da queima de combustíveis.",
           licençaLiberado: {
             licença: "Licença De Usinas",
             liberado: false,
@@ -4960,7 +4941,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },  
         {
           nome: "Reator Nuclear Convencional",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Produz energia nuclear de forma convencional.",
           licençaLiberado: {
             licença: "Licença De Usinas Nucleares",
             liberado: false,
@@ -5000,7 +4981,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },  
         {
           nome: "Usina De Fusão Nuclear",
-          desc: "Cultive grãos para alimentar, vender  trocar no jogo. Planeje e colha!",
+          desc: "Gera energia limpa através de fusão nuclear.",
           licençaLiberado: {
             licença: "Licença De Usinas Nucleares",
             liberado: false,

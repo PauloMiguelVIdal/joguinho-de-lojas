@@ -309,37 +309,37 @@ export const CardModal = ({ index }) => {
     // }
 
 
-                                            let setorEncontrado = null;
+    let setorEncontrado = null;
 
-                                            let indice = -1
-                                            const  quantidadeAtivoAtual =dados[setorAtivo].edificios[index].quantidade;
-                                            
-
-
-                                            const powerUpSelecionado =
-                                            quantidadeAtivoAtual >= quantidadeMinimaPowerUpNv3
-                                                    ? "powerUpNv3"
-                                                    : quantidadeAtivoAtual >= quantidadeMinimaPowerUpNv2
-                                                        ? "powerUpNv2"
-                                                        : "powerUpNv1";
+    let indice = -1
+    const quantidadeAtivoAtual = dados[setorAtivo].edificios[index].quantidade;
 
 
-                                            const corPowerUpAtual = corPowerUp(powerUpSelecionado);
-                                            const corColunaAtual = corPadrão // Definição da variável antes de usá-la
 
-                                            const corColuna = corColunaAtual === corPowerUpAtual ? corPowerUpAtual : corPadrão;
-                                            const corLinha = quantidadeAtivoAtual > 0 ? corPowerUpAtual : corPadrão;
+    const powerUpSelecionado =
+        quantidadeAtivoAtual >= quantidadeMinimaPowerUpNv3
+            ? "powerUpNv3"
+            : quantidadeAtivoAtual >= quantidadeMinimaPowerUpNv2
+                ? "powerUpNv2"
+                : "powerUpNv1";
 
-                                            const lineStyle = { background: corLinha }
-                                            // const bgColuna1 = powerUpSelecionado === "powerUpNv1" ? corPowerUp("powerUpNv1"):  powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
-                                            const bgColuna1 = corLinha === "#8F5ADA" ? corPowerUp("powerUpNv1") : powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : powerUpSelecionado === "powerUpNv3" ? corPowerUp("powerUpNv3") : corPadrão
 
-                                            const bgColuna2 = powerUpSelecionado === "powerUpNv1" ? corPadrão : powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
+    const corPowerUpAtual = corPowerUp(powerUpSelecionado);
+    const corColunaAtual = corPadrão // Definição da variável antes de usá-la
 
-                                            const bgColuna3 = powerUpSelecionado === "powerUpNv1" ? corPadrão : powerUpSelecionado === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
-                                            const columnStyleNv1 = { backgroundColor: bgColuna1 };
-                                            const columnStyleNv2 = { backgroundColor: bgColuna2 };
-                                            const columnStyleNv3 = { backgroundColor: bgColuna3 };
+    const corColuna = corColunaAtual === corPowerUpAtual ? corPowerUpAtual : corPadrão;
+    const corLinha = quantidadeAtivoAtual > 0 ? corPowerUpAtual : corPadrão;
+
+    const lineStyle = { background: corLinha }
+    // const bgColuna1 = powerUpSelecionado === "powerUpNv1" ? corPowerUp("powerUpNv1"):  powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
+    const bgColuna1 = corLinha === "#8F5ADA" ? corPowerUp("powerUpNv1") : powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : powerUpSelecionado === "powerUpNv3" ? corPowerUp("powerUpNv3") : corPadrão
+
+    const bgColuna2 = powerUpSelecionado === "powerUpNv1" ? corPadrão : powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
+
+    const bgColuna3 = powerUpSelecionado === "powerUpNv1" ? corPadrão : powerUpSelecionado === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
+    const columnStyleNv1 = { backgroundColor: bgColuna1 };
+    const columnStyleNv2 = { backgroundColor: bgColuna2 };
+    const columnStyleNv3 = { backgroundColor: bgColuna3 };
 
 
 
@@ -393,19 +393,19 @@ export const CardModal = ({ index }) => {
                     >
                         <img src={fechar} alt="Fechar" className="w-[60%]" />
                     </button>
-                    <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[95%] h-[15%] rounded-[20px] self-center">
-
+                    <div style={{ backgroundColor: setorInfo.cor1 }} className="flex w-[95%] text-[50px] fonteBold text-white h-[15%] rounded-[20px] justify-center items-center ">
+{dados[setorAtivo].edificios[index].nome}
                     </div >
 
                     <div style={{ backgroundColor: setorInfo.cor2 }} className="w-[95%] h-[75%] rounded-[20px] self-center">
-                        <div style={{ backgroundColor: setorInfo.cor1 }} className="flex justify-around h-full w-full">
-                            <div style={{ backgroundColor: setorInfo.cor3 }} className="w-[45%] h-[95%] flex justiy-around flex-col items-center">
-                                <div className="w-full h-[15%] bg-white">Fornece</div>
+                        <div style={{ backgroundColor: setorInfo.cor1 }} className="flex justify-around h-full rounded-[20px] w-full p-[5px]">
+                            <div className="w-[49%] h-[95%] flex justiy-around flex-col items-center">
+                                <div style={{ backgroundColor: setorInfo.cor2 }} className="w-full h-[15%] bg-white fonteBold text-white mt-[10px] pl-[10px] rounded-[10px] text-[40px]">Fornece</div>
                                 <div className="w-full flex justify-around">
-                                    <table className="w-full mt-[10px]">
+                                    <table className="w-full  mt-[10px] ">
                                         <thead>
                                             <tr>
-                                                <th style={{ backgroundColor: setorInfo.cor1 }} className="text-white rounded-[10px]">Red. custo</th>
+                                                <th style={{ backgroundColor: setorInfo.cor3 }} className="text-white rounded-[10px]">Red. custo</th>
                                                 <th>
                                                     <div className="bg-[#8F5ADA] w-[20%] h-[40px] w-[40px] m-auto aspect-square rounded-[7px] flex items-center justify-center cursor-pointer">
                                                         <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
@@ -421,7 +421,7 @@ export const CardModal = ({ index }) => {
                                                         <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                     </div>
                                                 </th>
-                                                <th style={{ backgroundColor: setorInfo.cor1 }} className="text-white rounded-[10px]">Aumento fatu</th>
+                                                <th style={{ backgroundColor: setorInfo.cor3 }} className="text-white rounded-[10px]">Aumento fatu</th>
                                                 <th>
                                                     <div className="bg-[#8F5ADA] w-[20%] h-[40px] w-[40px] m-auto aspect-square rounded-[7px] flex items-center justify-center cursor-pointer">
                                                         <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
@@ -439,7 +439,7 @@ export const CardModal = ({ index }) => {
                                                 </th>
                                             </tr>
                                         </thead>
-                                        {dados[setorAtivo].edificios[index].melhoraEficiencia.map((edMelhorado, i) => {
+                                        {dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia.map((edMelhorado, i) => {
 
                                             let setorEncontrado = null;
 
@@ -454,8 +454,10 @@ export const CardModal = ({ index }) => {
                                                 }
                                                 return 0
                                             }
-                                            
-                                            const qtd = quantidadeAtivo(edMelhorado.nome);
+
+                                            const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
+
+                                            const qtd = quantidadeAtivo(dados[setorAtivo].edificios[index].nome);
 
                                             const powerUpSelecionado =
                                                 qtd >= quantidadeMinimaPowerUpNv3
@@ -469,7 +471,7 @@ export const CardModal = ({ index }) => {
                                             const corColunaAtual = corPadrão // Definição da variável antes de usá-la
 
                                             const corColuna = corColunaAtual === corPowerUpAtual ? corPowerUpAtual : corPadrão;
-                                            const corLinha = qtd > 0 ? corPowerUpAtual : corPadrão;
+                                            const corLinha = qtdMelhorado > 0 ? corPowerUpAtual : corPadrão;
 
                                             const lineStyle = { background: corLinha }
                                             // const bgColuna1 = powerUpSelecionado === "powerUpNv1" ? corPowerUp("powerUpNv1"):  powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
@@ -487,17 +489,17 @@ export const CardModal = ({ index }) => {
                                             console.log(quantidadeAtivo(edMelhorado.nome))
                                             return (
                                                 <tbody key={i} className="rounded-[2px]">
-                                                    <tr style={{ backgroundColor: setorInfo.cor4 }} className="pt-[20px] border-[1px] rounded-[2px] border-white">
+                                                    <tr style={{ backgroundColor: setorInfo.cor4, borderColor: setorInfo.cor2 }} className="mt-[20px] border-[1px] rounded-[2px] ">
                                                         <td style={lineStyle} className="text-white pl-[5px]">
                                                             {edMelhorado.nome}
                                                         </td>
-                                                        <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível1}</td>
-                                                        <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível2}</td>
-                                                        <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível3}</td>
-                                                        <td style={lineStyle} className="text-white pl-[5px]">{edMelhorado.nome}</td>
-                                                        <td style={{ ...columnStyleNv1 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível1}</td>
-                                                        <td style={{ ...columnStyleNv2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível2}</td>
-                                                        <td style={{ ...columnStyleNv3 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível3}</td>
+                                                        <td style={{ ...columnStyleNv1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível1}</td>
+                                                        <td style={{ ...columnStyleNv2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível2}</td>
+                                                        <td style={{ ...columnStyleNv3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível3}</td>
+                                                        <td style={ lineStyle } className="text-white pl-[5px]">{edMelhorado.nome}</td>
+                                                        <td style={{ ...columnStyleNv1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível1}</td>
+                                                        <td style={{ ...columnStyleNv2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível2}</td>
+                                                        <td style={{ ...columnStyleNv3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível3}</td>
                                                     </tr>
                                                 </tbody>
                                             )
@@ -505,7 +507,130 @@ export const CardModal = ({ index }) => {
                                     </table>
                                 </div>
                             </div>
-                            <div style={{ backgroundColor: setorInfo.cor3 }} className="w-[45%] h-[95%]">3</div>
+
+
+
+
+
+
+                            <div className="w-[49%] h-[98%] flex justiy-around flex-col items-center">
+                                <div style={{ backgroundColor: setorInfo.cor2 }} className="w-full h-[15%] bg-white fonteBold text-white mt-[10px] pl-[10px] rounded-[10px] text-[40px]">Recebe</div>
+                                <div className="w-full flex justify-between h-full">
+                                    <table className="w-full  mt-[10px] ">
+                                        <thead>
+                                            <tr>
+                                                <th style={{ backgroundColor: setorInfo.cor3 }} className="text-white rounded-[10px]">Red. custo</th>
+                                                <th>
+                                                    <div className="bg-[#8F5ADA] w-[20%] h-[40px] w-[40px] m-auto aspect-square rounded-[7px] flex items-center justify-center cursor-pointer">
+                                                        <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div className="bg-[#6411D9] w-[20%] h-[40px] w-[40px] m-auto aspect-square rounded-[7px] flex items-center justify-center cursor-pointer">
+                                                        <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div className="bg-[#350973] w-[20%] h-[40px] w-[40px] m-auto aspect-square rounded-[7px] flex items-center justify-center cursor-pointer">
+                                                        <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                                                    </div>
+                                                </th>
+                                                <th style={{ backgroundColor: setorInfo.cor3 }} className="text-white rounded-[10px]">Aumento fatu</th>
+                                                <th>
+                                                    <div className="bg-[#8F5ADA] w-[20%] h-[40px] w-[40px] m-auto aspect-square rounded-[7px] flex items-center justify-center cursor-pointer">
+                                                        <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div className="bg-[#6411D9] w-[20%] h-[40px] w-[40px] m-auto aspect-square rounded-[7px] flex items-center justify-center cursor-pointer">
+                                                        <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div className="bg-[#350973] w-[20%] h-[40px] w-[40px] m-auto aspect-square rounded-[7px] flex items-center justify-center cursor-pointer">
+                                                        <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        {dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia.map((edMelhorado, i) => {
+
+                                            let setorEncontrado = null;
+
+                                            let indice = -1
+                                            const quantidadeAtivo = (nomeEd) => {
+                                                for (const setor of setoresArr) {
+                                                    setorEncontrado = setor;
+                                                    indice = dados[setorEncontrado].edificios.findIndex(ed => ed.nome === nomeEd);
+                                                    if (indice !== -1) {
+                                                        return dados[setor].edificios[indice].quantidade;
+                                                    }
+                                                }
+                                                return 0
+                                            }
+
+                                            const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
+
+                                            const qtd = quantidadeAtivo(dados[setorAtivo].edificios[index].nome);
+
+                                            const powerUpSelecionado =
+                                                qtd >= quantidadeMinimaPowerUpNv3
+                                                    ? "powerUpNv3"
+                                                    : qtd >= quantidadeMinimaPowerUpNv2
+                                                        ? "powerUpNv2"
+                                                        : "powerUpNv1";
+
+
+                                            const corPowerUpAtual = corPowerUp(powerUpSelecionado);
+                                            const corColunaAtual = corPadrão // Definição da variável antes de usá-la
+
+                                            const corColuna = corColunaAtual === corPowerUpAtual ? corPowerUpAtual : corPadrão;
+                                            const corLinha = qtdMelhorado > 0 ? corPowerUpAtual : corPadrão;
+
+                                            const lineStyle = { background: corLinha }
+                                            // const bgColuna1 = powerUpSelecionado === "powerUpNv1" ? corPowerUp("powerUpNv1"):  powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
+                                            const bgColuna1 = corLinha === "#8F5ADA" ? corPowerUp("powerUpNv1") : powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : powerUpSelecionado === "powerUpNv3" ? corPowerUp("powerUpNv3") : corPadrão
+
+                                            const bgColuna2 = powerUpSelecionado === "powerUpNv1" ? corPadrão : powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
+
+                                            const bgColuna3 = powerUpSelecionado === "powerUpNv1" ? corPadrão : powerUpSelecionado === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
+                                            const columnStyleNv1 = { backgroundColor: bgColuna1 };
+                                            const columnStyleNv2 = { backgroundColor: bgColuna2 };
+                                            const columnStyleNv3 = { backgroundColor: bgColuna3 };
+
+
+                                            quantidadeAtivo(edMelhorado.nome)
+                                            console.log(quantidadeAtivo(edMelhorado.nome))
+                                            return (
+                                                <tbody key={i} className="rounded-[2px]">
+                                                    <tr style={{ backgroundColor: setorInfo.cor4, borderColor: setorInfo.cor2 }} className="mt-[20px] border-[1px] rounded-[2px] ">
+                                                        <td style={lineStyle} className="text-white pl-[5px]">
+                                                            {edMelhorado.nome}
+                                                        </td>
+                                                        <td style={{ ...columnStyleNv1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível1}</td>
+                                                        <td style={{ ...columnStyleNv2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível2}</td>
+                                                        <td style={{ ...columnStyleNv3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redFatuNível3}</td>
+                                                        <td style={ lineStyle } className="text-white pl-[5px]">{edMelhorado.nome}</td>
+                                                        <td style={{ ...columnStyleNv1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível1}</td>
+                                                        <td style={{ ...columnStyleNv2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível2}</td>
+                                                        <td style={{ ...columnStyleNv3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edMelhorado.redCustoNível3}</td>
+                                                    </tr>
+                                                </tbody>
+                                            )
+                                        })}
+                                    </table>
+                                </div>
+                                <div className="flex w-full">
+                                <div className="flex w-full justify-evenly">
+                                    <div className="flex bg-white w-[48%] items-end">Redução total:</div>
+                                    <div className="flex bg-white w-[48%] items-end">Redução total:</div>
+                                </div>
+                                <div className="flex w-full justify-evenly">
+                                    <div className="flex bg-white w-[48%] items-end">Redução total:</div>
+                                    <div className="flex bg-white w-[48%] items-end">Redução total:</div>
+                                </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -616,7 +741,7 @@ export const CardModal = ({ index }) => {
 
                 <div className="absolute w-full h-full flex items-center justify-center rounded-xl">
                     <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
-                        <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[25%] rounded-[10px] flex justify-between drop-shadow-xs">
+                        <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[35%] rounded-[10px] flex justify-between drop-shadow-xs">
                             <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                                 <img className="h-[70%]" src={getImageUrl(dados[setorAtivo].edificios[index].nome)} alt="" />
                             </div>
@@ -625,9 +750,9 @@ export const CardModal = ({ index }) => {
                                 <h1 className="text-white fonteBold text-[12px]">{dados[setorAtivo].edificios[index].nome}</h1>
                             </div>
                         </div>
-                        <div className="h-[15%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
+                        {/* <div className="h-[05%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
                             <h2 className="text-[10px] text-white">teste vamos continuar asdkfasdjfçlajsdçf slkdçfjasçdlfj saldkjf sdkj lkjasd çaksjd</h2>
-                        </div>
+                        </div> */}
                         <div className="h-[25%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
                             <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-full">
                                 <div className="w-[100%] rounded-[20px] flex justify-around items-center h-full ">
