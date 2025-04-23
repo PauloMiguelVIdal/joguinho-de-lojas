@@ -30,7 +30,7 @@ import { Localizador } from "./localizador";
 
 export const CardModal = ({ index }) => {
 
-    const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
+    const { dados, atualizarDados, atualizarDadosProf2,atualizarDadosProf3 } = useContext(CentraldeDadosContext);
     const setorAtivo = dados.setorAtivo;
 
     const setores = [
@@ -314,7 +314,10 @@ console.log(CustoTotalSomadoLojas)
     }, [dados, setorAtivo])
 
 
-
+    const valorFatu = dados[setorAtivo].edificios[index].finanças.faturamentoUnitário
+    const nomeFatu = dados[setorAtivo].edificios[index].nome
+    console.log(valorFatu)
+    console.log(nomeFatu)
     // const columnStyleNv1 =  { backgroundColor: bgColuna };
 
 
@@ -600,10 +603,31 @@ const valorImpostoFixoFinal = valorImpostoFixo - (valorImpostoFixo*(acumuladorPo
 
 const valorFinalMês = (((valorFatuFinal*30)-(valorFatuFinal*30*impostoSobreFatuFinal)) - valorImpostoFixoFinal)
 const rentabilidade = valorFinalMês/CustoTotalSomadoLojas
+let setorEncontrado = null;
+
+let indice = -1
+const quantidadeAtivo = (nomeEd) => {
+    for (const setor of setoresArr) {
+        setorEncontrado = setor;
+        indice = dados[setorEncontrado].edificios.findIndex(ed => ed.nome === nomeEd);
+        //    atualizarDadosProf2([setorEncontrado,"edificios",indice,"finanças","rent"],rentabilidade)
+           atualizarDadosProf3([setorEncontrado,"edificios",indice,"finanças","rent"],rentabilidade)
+        // atualizarDadosProf2([agricultura,"edificios","0","finanças","rent"],rentabilidade)
+        
+        console.log(nomeEd)
+        console.log(indice)
+console.log(setorEncontrado)
+        if (indice !== -1) {
+            return dados[setor].edificios[indice].quantidade;
+        }
+    }
+    return console.log(dados[setorEncontrado].edificios[indice].nome)
+}
 
 // useEffect(()=>{
 //     setRent(rentabilidade)
 // },[dados])
+
 console.log(valorFinalMês)
 console.log(rentabilidade)
 console.log(impostoSobreFatuFinal)
@@ -611,19 +635,7 @@ console.log(valorFatuFinal)
 console.log(valorImpostoFixoFinal)
 console.log(acumuladorPowerUpAumFatuRecebe)
 console.log(acumuladorPowerUpRedCustoRecebe)
-                                            let setorEncontrado = null;
 
-                                            let indice = -1
-                                            const quantidadeAtivo = (nomeEd) => {
-                                                for (const setor of setoresArr) {
-                                                    setorEncontrado = setor;
-                                                    indice = dados[setorEncontrado].edificios.findIndex(ed => ed.nome === nomeEd);
-                                                    if (indice !== -1) {
-                                                        return dados[setor].edificios[indice].quantidade;
-                                                    }
-                                                }
-                                                return 0
-                                            }
 
                                             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
 
