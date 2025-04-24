@@ -19,14 +19,15 @@ export default function Buy() {
     const {
         dados, atualizarDados
     } = useContext(CentraldeDadosContext)
-
+    const teste = dados.terrenos.faturamentoTotal
+    console.log(teste)
+    
     const { resultadoTerrenos, resultadoLojasP, resultadoLojasM, resultadoLojasG } = Statistic();
 
     const [quantidadeTerrenos, setQuantidadeTerrenos] = useState(1)
     const [quantidadeLojasP, setQuantidadeLojasP] = useState(1)
     const [quantidadeLojasM, setQuantidadeLojasM] = useState(1)
     const [quantidadeLojasG, setQuantidadeLojasG] = useState(1)
-
 
 
     const AumentarQuantidadeTerrenos = () => setQuantidadeTerrenos(quantidadeTerrenos + 1)
@@ -141,6 +142,13 @@ export default function Buy() {
         }
     };
 
+    const formatarNumero = (num) => {
+        if (num >= 1e12) return (num / 1e12).toFixed(1).replace('.0', '') + 'T'; // Trilhões
+        if (num >= 1e9) return (num / 1e9).toFixed(1).replace('.0', '') + 'B';   // Bilhões
+        if (num >= 1e6) return (num / 1e6).toFixed(1).replace('.0', '') + 'M';   // Milhões
+        if (num >= 1e3) return (num / 1e3).toFixed(1).replace('.0', '') + 'K';   // Milhares
+        return num.toString();
+    };
 if(dados.dia>20){
 
 
@@ -188,7 +196,7 @@ if(dados.dia>20){
 
                                         <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
 
-                                        <h1 className="text-white font-bold mr-[10px]">{(dados.terrenos.preçoConstrução).toLocaleString('pt-BR')}</h1>
+                                        <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.terrenos.preçoConstrução)}</h1>
                                     </div>
                                 </div>
 
@@ -196,7 +204,7 @@ if(dados.dia>20){
                                 <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
                                   
                                         <h1 className="text-white font-bold ml-[10px]">Valor total</h1>
-                                        <h1 className="text-white font-bold mr-[10px]">{(dados.terrenos.preçoConstrução * quantidadeTerrenos).toLocaleString('pt-BR')}</h1>
+                                        <h1 className="text-white font-bold mr-[10px]">{formatarNumero((dados.terrenos.preçoConstrução * quantidadeTerrenos))}</h1>
                                  
                                 </div>
                             </div>
@@ -207,10 +215,10 @@ if(dados.dia>20){
                     <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
                         <div className="flex items-center">
                             <img src={DolarImg} className="w-6 h-6" />
-                            <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.terrenos.faturamentoTotal).toLocaleString('pt-BR')}</h1>
+                            <h1 className="text-white fonteBold text-[20px] ml-2">{formatarNumero(dados.terrenos.faturamentoTotal)}</h1>
                         </div>
                         <div className="flex items-center">
-                            <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoTerrenos).toFixed(1)}</h1>
+                            <h1 className="text-white font-bold mr-2 text-[20px]">{formatarNumero(resultadoTerrenos)}</h1>
                             <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
                         </div>
                     </div>
@@ -263,7 +271,7 @@ if(dados.dia>20){
 
                                         <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
 
-                                        <h1 className="text-white font-bold mr-[10px]">{(dados.lojasP.preçoConstrução).toLocaleString('pt-BR')}</h1>
+                                        <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.lojasP.preçoConstrução)}</h1>
                                     </div>
                                 </div>
 
