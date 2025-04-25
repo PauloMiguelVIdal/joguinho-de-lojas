@@ -610,19 +610,22 @@ const quantidadeAtivo = (nomeEd) => {
     for (const setor of setoresArr) {
         setorEncontrado = setor;
         indice = dados[setorEncontrado].edificios.findIndex(ed => ed.nome === nomeEd);
-        //    atualizarDadosProf2([setorEncontrado,"edificios",indice,"finanças","rent"],rentabilidade)
-           atualizarDadosProf3([setorEncontrado,"edificios",indice,"finanças","rent"],rentabilidade)
-        // atualizarDadosProf2([agricultura,"edificios","0","finanças","rent"],rentabilidade)
-        
-        console.log(nomeEd)
-        console.log(indice)
-console.log(setorEncontrado)
+
+        // Verifica se encontrou antes de continuar
         if (indice !== -1) {
+            atualizarDadosProf3(
+                [setorEncontrado, "edificios", indice, "finanças", "rent"],
+                rentabilidade
+            );
+
             return dados[setor].edificios[indice].quantidade;
         }
     }
-    return console.log(dados[setorEncontrado].edificios[indice].nome)
-}
+
+    // Se não achou nenhum, loga o erro e evita travamento
+    console.warn(`❌ Edifício "${nomeEd}" não encontrado em nenhum setor.`);
+    return 0; // ou null, se quiser deixar explícito
+};
 
 // useEffect(()=>{
 //     setRent(rentabilidade)
