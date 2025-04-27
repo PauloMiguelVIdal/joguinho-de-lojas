@@ -4,17 +4,19 @@ import circularEconomia from "../imagens/circular-economy.png"
 
 export default function EconomyGlobal(){
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-    const estadosEconômicos = ["recessão","estável","aquecida"]
+    const estadosEconômicos = ["recessão","declinio","estável","progressiva","aquecida"]
     const economiaAtual = dados.economiaGlobal
     
 
     const corClasse = {
       "recessão": "bg-[#FF0000]",
+      "declinio": "bg-[#FF8000]",
       "estável": "bg-[#EEAD2D]",
+      "progressiva": "bg-[#9ACD32]",
       "aquecida": "bg-[#006400]",
     }[economiaAtual] || "bg-black";
     
-   
+
     const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
 
     const novaEconomia = selecionarItem(estadosEconômicos)

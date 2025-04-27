@@ -208,7 +208,7 @@ const CentraldeDadosProvider = ({ children }) => {
     },
 
     agricultura: {
-      economiaGlobal: {
+      economiaSetor: {
         estadoAtual: "estável"
       },
       licençaGlobal: {
@@ -348,13 +348,13 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
+                nível1: 10,
                 nível2: 5,
                 nível3: 1,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
+                nível1: 1,
+                nível2: 100,
                 nível3: 1
               }
             },
@@ -2895,7 +2895,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
 
     tecnologia: {
-      economiaGlobal: {
+      economiaSetor: {
         estadoAtual: "estável"
       },
       licençaGlobal: {
@@ -4422,7 +4422,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
     },
     industria: {
-      economiaGlobal: {
+      economiaSetor: {
         estadoAtual: "estável"
       },
       licençaGlobal: {
@@ -9540,8 +9540,8 @@ const CentraldeDadosProvider = ({ children }) => {
       ],
     },
     comercio: {
-      economiaGlobal: {
-        estadoAtual: "estável"
+      economiaSetor: {
+        estadoAtual: "recessão"
       },
       licençaGlobal: {
         comprado: true,
@@ -13435,8 +13435,8 @@ const CentraldeDadosProvider = ({ children }) => {
       ],
     },
     imobiliario: {
-      economiaGlobal: {
-        estadoAtual: "estável"
+      economiaSetor: {
+        estadoAtual: "recessão"
       },
       licençaGlobal: {
         comprado: true,
@@ -15627,8 +15627,8 @@ const CentraldeDadosProvider = ({ children }) => {
       ],
     },
     energia: {
-      economiaGlobal: {
-        estadoAtual: "estável"
+      economiaSetor: {
+        estadoAtual: "aquecida"
       },
       licençaGlobal: {
         comprado: true,
@@ -17665,8 +17665,8 @@ const CentraldeDadosProvider = ({ children }) => {
       ],
     },
     grafico: {
-      economiaGlobal: {
-        estadoAtual: "estável"
+      economiaSetor: {
+        estadoAtual: "aquecida"
       },
       licençaGlobal: {
         comprado: true,
@@ -17715,7 +17715,7 @@ const CentraldeDadosProvider = ({ children }) => {
       }
     },
     carteira: {
-      economiaGlobal: {
+      economiaSetor: {
         estadoAtual: "estável"
       },
       licençaGlobal: {

@@ -43,8 +43,11 @@ ChartJS.register(
 );
 
 export default function Dashboard() {
-  const { dados, AtualizarDados } = useContext(CentraldeDadosContext);
+  const { dados, atualizarDadosProf2,atualizarDados } = useContext(CentraldeDadosContext);
   const [ativo, setAtivo] = useState("agricultura");
+
+  // const economiaSetor = dados[ativo].economiaSetor.estadoAtual
+  // console.log(economiaSetor)
 
 
   const ativoConvertido = (ativo) => {
@@ -152,7 +155,7 @@ export default function Dashboard() {
 
   const corEconomia = (cor) => {
     switch (cor) {
-      case "recessão": return "bg-[#FFFFFF]";
+      case "recessão": return "bg-[#FF0000]";
       case "declinio": return "bg-[#FF8000]";
       case "estável": return "bg-[#EEAD2D]";
       case "progressiva": return "bg-[#9ACD32]";
@@ -160,6 +163,7 @@ export default function Dashboard() {
     }
   }
 
+const alterarEconomiaSetor =()=>{atualizarDadosProf2([ativo,"economiaSetor","estadoAtual"],"recessão")}
 
 
 
@@ -279,14 +283,14 @@ export default function Dashboard() {
             <h1 className="text-center text-white text-[40px] fonteBold">Licenças - {ativo}</h1>
           </div >
           <div className="overflow-y-visible overflow-x-hidden w-full scrollbar-custom ">
-          {dados[ativo].licençasSetor.map((e,index) =>
+            {dados[ativo].licençasSetor.map((e, index) =>
 
-            <LicenseModal       
-            key={index}
-            setor={ativo}
-            nomeLicença={e.nome}
-            index={index}/>
-          )}
+              <LicenseModal
+                key={index}
+                setor={ativo}
+                nomeLicença={e.nome}
+                index={index} />
+            )}
           </div>
         </motion.div>
       </div>
@@ -342,7 +346,7 @@ export default function Dashboard() {
                     style={{ backgroundColor: setorAtivo.cor3 }}
                     className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
                   >
-                  {ativoConvertido(ativo)}
+                    {ativoConvertido(ativo)}
                   </div>
 
                   {/* Ícones de Economia */}
@@ -357,10 +361,10 @@ export default function Dashboard() {
                     </button>
                   </div>
                 </div>
-                
+
                 <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4  scrollbar-custom rounded-[10px]">
                   <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
-                <CarteiraLocalizador/>
+                    <CarteiraLocalizador />
                   </div>
                 </div>
 
@@ -370,7 +374,7 @@ export default function Dashboard() {
               <div className="flex-1 w-full rounded-[20px] flex flex-col">
 
                 {/* Barra superior */}
-                <div className="h-16 w-full flex justify-start gap-[10px] items-center">
+                <div className="h-16 w-full flex justify-between gap-[10px] items-center">
                   <div
                     style={{ backgroundColor: setorAtivo.cor3 }}
                     className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
@@ -380,9 +384,6 @@ export default function Dashboard() {
 
                   {/* Ícones de Economia */}
                   <div className="flex gap-2 h-full">
-                    <div className={`h-full aspect-square rounded-[10px] flex items-center justify-center ${corEconomia(dados[ativo].economiaGlobal.estadoAtual)}`}>
-                      <img className="w-[70%]" src={circularEconomia} />
-                    </div>
                     <button
                       style={{ backgroundColor: setorAtivo.cor3 }}
                       onClick={() => setLicencaModal(true)}
@@ -390,6 +391,10 @@ export default function Dashboard() {
                     >
                       <img className="w-[70%]" src={licença} />
                     </button>
+                    <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button>
+                    <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(dados[ativo].economiaSetor.estadoAtual)}`}>
+                      <img className="w-[70%]" src={circularEconomia} />
+                    </div>
                   </div>
                 </div>
                 {/* {Localizador("Centro De Comércio De Plantações")} */}
@@ -397,8 +402,8 @@ export default function Dashboard() {
                 <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4  scrollbar-custom rounded-[10px]">
                   <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
                     {dados[ativo].edificios.map((_, index) => (
-                      <CardModal 
-                      key={index} index={index} 
+                      <CardModal
+                        key={index} index={index}
                       />
                     ))}
                   </div>
