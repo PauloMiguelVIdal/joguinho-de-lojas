@@ -21,7 +21,7 @@ export default function Informations() {
 
                 <h1 className="fonteBold text-white text-[30px]">{dados.inicioGame.nomeEmpresa}</h1>
         
-                <div className="ml-[20px] rounded-[5px] bg-gradient-to-l to-[#F27405] from-[#350973] w-[90%] flex items-center h-[40px] place-content-between pl-[10px] pr-[15px]">
+                <div className="ml-[20px] rounded-[5px] bg-gradient-to-l to-[#F27405] from-[#350973] w-[10%] flex items-center h-[40px] place-content-between pl-[10px] pr-[15px]">
                     <h1 className="fonteBold text-white text-[20px]">R$</h1>
                     <h1 className="fonteBold text-white text-[20px]"> {formatarNumero((dados.saldo))}</h1>
                 </div>
