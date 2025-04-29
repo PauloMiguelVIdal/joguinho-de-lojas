@@ -299,9 +299,9 @@ const alterarEconomiaSetor =()=>{atualizarDadosProf2([ativo,"economiaSetor","est
 
 
   return (
-    <div className={`${corClasse} w-full h-full border-white border-[2px] rounded-[20px] flex`}>
+    <div className={`${corClasse} w-full h-full border-[#350973] rounded-[20px] flex`}>
       {/* Sidebar */}
-      <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[30px] p-[0px] flex self-center flex-col items-center justify-between">
+      <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col items-center justify-between">
         <div className="w-[80px] h-[80%] pt-[20px] flex flex-col items-center justify-between">
           {setores.map((setor) => (
             <button

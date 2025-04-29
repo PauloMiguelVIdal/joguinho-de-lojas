@@ -36,7 +36,7 @@ function Interface() {
             <div className="w-[20vw] h-[100vh] flex items-center justify-around">
                 <Buy />
             </div>
-            <div className="w-[75vw] h-[95vh] shadow-2xl rounded-[40px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-10 grid-cols-10 gap-[20px] p-[20px]">
+            <div className="w-[75vw] h-[95vh] shadow-2xl rounded-[20px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-10 grid-cols-10 gap-[20px] p-[20px]">
 
                 {/* <div className="grid col-start-1 col-end-3 row-start-8 row-end-10">
                     <MoreOptions />
@@ -47,18 +47,19 @@ function Interface() {
                 <div className="grid col-start-1 col-end-9 row-start-2 row-end-11 h-full w-full ">
                     <Dashboard className="h-full" />
                 </div>
-                <div className="grid col-start-1 col-end-11 row-1 ">
-                    <div className="flex justify-center items-center gap-[10px]">
-                        <Informations />
+                <div className="grid col-start-1 col-end-9 row-1 w-full h-full">    
+                    <div className="flex justify-center items-center col-start-1 col-end-8 grid gap-[10px]">
+                        <Informations className="col-start-1 col-end-8 grid" />
+                    </div>
+                    <div className="flex w-full items-center justify-center  col-start-8 col-end-9 gap-[10px]">
+                        <Day />
+                        <EconomyGlobal />
                     </div>
                 </div>
                 <div className="grid col-start-9 col-end-11 row-start-2 row-end-3 ml-[10px]">
-                    <div className="flex w-full items-center justify-center gap-[10px]">
-                    <Day />
-                    <EconomyGlobal />
-                    </div>
+
                 </div>
-                <div className="grid col-start-9 col-end-11 row-start-3 row-end-4 ml-[10px]">
+                <div className="grid col-start-9 col-end-11 row-start-1 row-end-2 ml-[10px]">
                     <Buttons />
                 </div>
                 {/* <div className="grid col-start-9 col-end-11 row-start-4 row-end-6">

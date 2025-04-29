@@ -15,18 +15,18 @@ export default function Informations() {
 
 
     return (
-        <div className="flex flex-col align-center text-center place-content-around  rounded-[20px] h-full w-full">
+        <div className=" h-full w-full flex flex-col align-center text-center place-content-around  rounded-[20px] min-h-[50px] ">
 
-            <div className="flex items-center place-content-between">
-
-                <h1 className="fonteBold text-white text-[30px]">{dados.inicioGame.nomeEmpresa}</h1>
-        
-                <div className="ml-[20px] rounded-[5px] bg-gradient-to-l to-[#F27405] from-[#350973] w-[10%] flex items-center h-[40px] place-content-between pl-[10px] pr-[15px]">
-                    <h1 className="fonteBold text-white text-[20px]">R$</h1>
-                    <h1 className="fonteBold text-white text-[20px]"> {formatarNumero((dados.saldo))}</h1>
+            <div className="flex w-full items-center justify-between">
+                <div className="w-[65%]">
+                    <h1 className="fonteBold text-white text-[30px]">{dados.inicioGame.nomeEmpresa}</h1>
+                </div>
+                <div className="ml-[20px] rounded-[5px] bg-gradient-to-l to-white via-white from-white w-[200px] flex items-center h-[50px] place-content-between pl-[10px] pr-[15px]">
+                    <h1 className="fonteBold text-[#350973] text-[20px]">R$</h1>
+                    <h1 className="fonteBold text-[#350973] text-[20px]"> {formatarNumero((dados.saldo))}</h1>
                 </div>
             </div>
-            
+
 
             {/* <div className="flex justify-between items-center h-1/5 rounded-[12px] bg-laranja pl-[10px] pr-[15px] ">
                 <div className="flex items-center">
