@@ -308,9 +308,6 @@ const alterarEconomiaSetor =()=>{atualizarDadosProf2([ativo,"economiaSetor","est
               key={setor.id}
               onClick={() => {
                 setAtivo(setor.id)
-
-
-
               }}
               className={`
                 w-[60px] h-[60px] rounded-[20px] flex items-center justify-center 
@@ -333,7 +330,7 @@ const alterarEconomiaSetor =()=>{atualizarDadosProf2([ativo,"economiaSetor","est
         {/* Renderiza o conteúdo baseado no estado da licença */}
         {licençaComprada ? (
           // Container com licença comprada
-          <div className="w-full h-full p-4 flex flex-col">
+          <div className="w-full h- p-4 flex flex-col">
             {ativo === "grafico" && (
               <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
             )}
@@ -371,10 +368,10 @@ const alterarEconomiaSetor =()=>{atualizarDadosProf2([ativo,"economiaSetor","est
               </div>
             )}
             {ativo !== "grafico" && ativo !== "carteira" && (
-              <div className="flex-1 w-full rounded-[20px] flex flex-col">
+              <div className="flex-1 w-full rounded-[20px] flex flex-col justify-between h-full"> 
 
                 {/* Barra superior */}
-                <div className="h-16 w-full flex justify-between gap-[10px] items-center">
+                <div className="h-16 w-full flex justify-between gap-[10px] items-start">
                   <div
                     style={{ backgroundColor: setorAtivo.cor3 }}
                     className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
@@ -400,7 +397,7 @@ const alterarEconomiaSetor =()=>{atualizarDadosProf2([ativo,"economiaSetor","est
                 {/* {Localizador("Centro De Comércio De Plantações")} */}
                 {/* Container dos cards com scroll interno */}
                 <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4  scrollbar-custom rounded-[10px]">
-                  <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
+                  <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[600px] pt-[20px] pl-[20px]">
                     {dados[ativo].edificios.map((_, index) => (
                       <CardModal
                         key={index} index={index}
