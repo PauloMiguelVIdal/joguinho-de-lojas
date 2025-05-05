@@ -43,7 +43,7 @@ ChartJS.register(
 );
 
 export default function Dashboard() {
-  const { dados, atualizarDadosProf2,atualizarDados } = useContext(CentraldeDadosContext);
+  const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
   const [ativo, setAtivo] = useState("agricultura");
 
   // const economiaSetor = dados[ativo].economiaSetor.estadoAtual
@@ -163,7 +163,7 @@ export default function Dashboard() {
     }
   }
 
-const alterarEconomiaSetor =()=>{atualizarDadosProf2([ativo,"economiaSetor","estadoAtual"],"recessão")}
+  const alterarEconomiaSetor = () => { atualizarDadosProf2([ativo, "economiaSetor", "estadoAtual"], "recessão") }
 
 
 
@@ -330,7 +330,7 @@ const alterarEconomiaSetor =()=>{atualizarDadosProf2([ativo,"economiaSetor","est
         {/* Renderiza o conteúdo baseado no estado da licença */}
         {licençaComprada ? (
           // Container com licença comprada
-          <div className="w-full h- p-4 flex flex-col">
+          <div className="w-full h-full p-4 flex flex-col">
             {ativo === "grafico" && (
               <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
             )}
@@ -368,10 +368,10 @@ const alterarEconomiaSetor =()=>{atualizarDadosProf2([ativo,"economiaSetor","est
               </div>
             )}
             {ativo !== "grafico" && ativo !== "carteira" && (
-              <div className="flex-1 w-full rounded-[20px] flex flex-col justify-between h-full"> 
+              <div s className="flex-1 w-full rounded-[20px] flex flex-col justify-between h-full">
 
                 {/* Barra superior */}
-                <div className="h-16 w-full flex justify-between gap-[10px] items-start">
+                <div className="h-[50px] w-full flex justify-between gap-[10px] items-start">
                   <div
                     style={{ backgroundColor: setorAtivo.cor3 }}
                     className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
@@ -388,7 +388,7 @@ const alterarEconomiaSetor =()=>{atualizarDadosProf2([ativo,"economiaSetor","est
                     >
                       <img className="w-[70%]" src={licença} />
                     </button>
-                    <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button>
+                    {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button> */}
                     <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(dados[ativo].economiaSetor.estadoAtual)}`}>
                       <img className="w-[70%]" src={circularEconomia} />
                     </div>
@@ -396,7 +396,10 @@ const alterarEconomiaSetor =()=>{atualizarDadosProf2([ativo,"economiaSetor","est
                 </div>
                 {/* {Localizador("Centro De Comércio De Plantações")} */}
                 {/* Container dos cards com scroll interno */}
-                <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4  scrollbar-custom rounded-[10px]">
+
+
+
+                <div style={{background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4 scrollbar-custom h-[calc(100%-50px)] rounded-[10px]">
                   <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[600px] pt-[20px] pl-[20px]">
                     {dados[ativo].edificios.map((_, index) => (
                       <CardModal
@@ -405,6 +408,9 @@ const alterarEconomiaSetor =()=>{atualizarDadosProf2([ativo,"economiaSetor","est
                     ))}
                   </div>
                 </div>
+
+
+
 
               </div>
             )}
