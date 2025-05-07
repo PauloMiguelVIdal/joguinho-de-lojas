@@ -48,8 +48,8 @@ function Interface() {
                     <Dashboard className="h-full" />
                 </div>
                 <div className="grid col-start-1 col-end-9 row-1 w-full h-full">    
-                    <div className="flex justify-center items-center col-start-1 col-end-8 grid gap-[10px]">
-                        <Informations className="col-start-1 col-end-8 grid" />
+                <div className="grid gap-[10px] col-start-1 col-end-8 w-full place-items-center">
+                        <Informations className="grid col-start-1 col-end-8" />
                     </div>
                     <div className="flex w-full items-center justify-center  col-start-8 col-end-9 gap-[10px]">
                         <Day />

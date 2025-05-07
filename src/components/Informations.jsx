@@ -17,13 +17,13 @@ export default function Informations() {
     return (
         <div className=" h-full w-full flex flex-col align-center text-center place-content-around  rounded-[20px] min-h-[50px] ">
 
-            <div className="flex w-full items-center justify-between">
-                <div className="w-[65%]">
+            <div className="flex w-full items-center justify-between pr-[10px]">
+                <div className="flex-1">
                     <h1 className="fonteBold text-white text-[30px]">{dados.inicioGame.nomeEmpresa}</h1>
                 </div>
-                <div className="ml-[20px] rounded-[5px] bg-gradient-to-l to-white via-white from-white w-[200px] flex items-center h-[50px] place-content-between pl-[10px] pr-[15px]">
+                <div className="ml-[20px] rounded-[5px] bg-gradient-to-l to-white via-white from-white w-[150px] flex items-center h-[50px] place-content-between pl-[10px] pr-[15px]">
                     <h1 className="fonteBold text-[#350973] text-[20px]">R$</h1>
-                    <h1 className="fonteBold text-[#350973] text-[20px]"> {formatarNumero((dados.saldo))}</h1>
+                    <h1 className="fonteBold text-[#350973] text-[20px]">{formatarNumero((dados.saldo))}</h1>
                 </div>
             </div>
 

@@ -302,15 +302,15 @@ export default function Dashboard() {
     <div className={`${corClasse} w-full h-full border-[#350973] rounded-[20px] flex`}>
       {/* Sidebar */}
       <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col items-center justify-between">
-        <div className="w-[80px] h-[80%] pt-[20px] flex flex-col items-center justify-between">
+        <div className="w-[80px] h-[80%] pt-[20px] flex flex-col items-center justify-between ">
           {setores.map((setor) => (
-            <button
+            <button 
               key={setor.id}
               onClick={() => {
                 setAtivo(setor.id)
               }}
               className={`
-                w-[60px] h-[60px] rounded-[20px] flex items-center justify-center 
+                w-[60px] h-[60px] rounded-[20px] flex items-center justify-center shadow-md
                 hover:bg-[${setor.cor3}] active:scale-95 hover:scale-[1.05]
                 ${ativo === setor.id ? "ring-1 ring-white scale-[1.1]" : ""} transition
               `}
