@@ -194,7 +194,7 @@ if(dados.dia>20){
                                 <div className="  rounded-[5px]  h-[22%] ">
                                     <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
+                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
 
                                         <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.terrenos.preçoConstrução)}</h1>
                                     </div>
@@ -269,7 +269,7 @@ if(dados.dia>20){
                                 <div className="  rounded-[5px]  h-[22%] ">
                                     <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
+                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
 
                                         <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.lojasP.preçoConstrução)}</h1>
                                     </div>
@@ -342,7 +342,7 @@ if(dados.dia>20){
                                 <div className="  rounded-[5px]  h-[22%] ">
                                     <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
+                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
 
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.lojasM.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>
@@ -415,7 +415,7 @@ if(dados.dia>20){
                                 <div className="  rounded-[5px]  h-[22%] ">
                                     <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
+                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
 
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.lojasG.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>
@@ -482,7 +482,7 @@ if(dados.dia>20){
                                 <div className="  rounded-[5px]  h-[22%] ">
                                     <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
+                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
 
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.terrenos.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>
@@ -557,7 +557,7 @@ if(dados.dia>20){
                                 <div className="  rounded-[5px]  h-[22%] ">
                                     <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
+                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
 
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.lojasP.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>
@@ -630,7 +630,7 @@ if(dados.dia>20){
                                 <div className="  rounded-[5px]  h-[22%] ">
                                     <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
+                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
 
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.lojasM.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>
@@ -703,7 +703,7 @@ if(dados.dia>20){
                                 <div className="  rounded-[5px]  h-[22%] ">
                                     <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">P. construção</h1>
+                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
 
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.lojasG.preçoConstrução).toLocaleString('pt-BR')}</h1>
                                     </div>

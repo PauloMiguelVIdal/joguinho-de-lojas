@@ -44,7 +44,7 @@ ChartJS.register(
 
 export default function Dashboard() {
   const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
-  const [ativo, setAtivo] = useState("agricultura");
+  const [ativo, setAtivo] = useState("grafico");
 
   // const economiaSetor = dados[ativo].economiaSetor.estadoAtual
   // console.log(economiaSetor)
@@ -301,8 +301,14 @@ export default function Dashboard() {
   return (
     <div className={`${corClasse} w-full h-full border-[#350973] rounded-[20px] flex`}>
       {/* Sidebar */}
+
       <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col items-center justify-between">
-        <div className="w-[80px] h-[80%] pt-[20px] flex flex-col items-center justify-between ">
+              <div
+        className={`
+          w-[80px] h-[80%] pt-[20px] flex flex-col items-center justify-between shadow-md transition-opacity duration-500
+          ${dados.dia > 250 ? "opacity-100" : "opacity-0 pointer-events-none"}
+        `}
+      >
           {setores.map((setor) => (
             <button 
               key={setor.id}
@@ -320,11 +326,12 @@ export default function Dashboard() {
             </button>
           ))}
         </div>
-        <div className="h-[20%]"></div>
+        
       </div>
+      
 
       {/* Dashboard */}
-      <div className={`h-full rounded-[0px] flex items-center justify-center transition-all duration-300 bg-[${setorAtivo.cor2}] w-[calc(100%-100px)]`}>
+      <div className={`h-full rounded-[0px] items-center justify-center transition-all duration-300 bg-[${setorAtivo.cor2}] w-[calc(100%-100px)]`}>
 
 
         {/* Renderiza o conteúdo baseado no estado da licença */}
@@ -374,7 +381,7 @@ export default function Dashboard() {
                 <div className="h-[50px] w-full flex justify-between gap-[10px] items-start">
                   <div
                     style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px]"
+                    className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
                   >
                     {ativoConvertido(ativo)}
                   </div>
@@ -400,7 +407,7 @@ export default function Dashboard() {
 
 
                 <div style={{background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4 scrollbar-custom h-[calc(100%-50px)] rounded-[10px]">
-                  <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[600px] pt-[20px] pl-[20px]">
+                  <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
                     {dados[ativo].edificios.map((_, index) => (
                       <CardModal
                         key={index} index={index}

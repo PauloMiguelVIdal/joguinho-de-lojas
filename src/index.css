@@ -35,6 +35,13 @@ margin-top: -40px;
   box-shadow: rgba(242, 116, 5, 0.4) 5px 5px, rgba(242, 116, 5, 0.3) 10px 10px;
 margin-top: -40px;
 }
+
+.sombra{
+ box-shadow: 0 2px 5px rgba(60, 64, 67, 0.1),
+            0 1px 3px rgba(60, 64, 67, 0.08);
+}
+
+
 .fonteBold{
   font-family: 'Inter', sans-serif;
   font-weight:700;
