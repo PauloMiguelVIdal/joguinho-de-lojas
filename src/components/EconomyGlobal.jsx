@@ -8,6 +8,23 @@ export default function EconomyGlobal(){
     const economiaAtual = dados.economiaGlobal
     
 
+const arrEstadosEconômicos = [0,1,2,1,2,3]
+
+function randowEconomy(){
+    const min = -2 
+    const max = 2
+
+    if(dados.dia==10){
+        const calcNovaEconomy = () =>{
+            Math.random(max-min)
+        }
+    }
+    
+
+}
+
+
+
     const corClasse = {
       "recessão": "bg-[#FF0000]",
       "declinio": "bg-[#FF8000]",
