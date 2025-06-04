@@ -15773,7 +15773,7 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
+                nível1: 2,
                 nível2: 5,
                 nível3: 1,
               },
@@ -15841,7 +15841,7 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
+            terrenos: 40,
             lojasP: 21,
             lojasM: 32,
             lojasG: 321,
