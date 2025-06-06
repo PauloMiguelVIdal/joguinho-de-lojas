@@ -14,7 +14,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
     saldo: 180000,
-    dia: 249,
+    dia: 229,
     chanceNovoEvento: 0,
     economiaGlobal: "recessão",
     botãoOfertas: "btnNormal",

@@ -8,22 +8,29 @@ export default function EconomyGlobal(){
     const economiaAtual = dados.economiaGlobal
     
 
-const arrEstadosEconômicos = [0,1,2,1,2,3]
+    const arrEstadosEconomicos = []; // Array para armazenar os estados econômicos
 
-function randowEconomy(){
-    const min = -2 
-    const max = 2
-
-    if(dados.dia==10){
-        const calcNovaEconomy = () =>{
-            Math.random(max-min)
+    function randomEconomy() {
+        const min = -2;
+        const max = 2;
+    
+        if (dados.dia % 30 === 0) {
+            const calcNovaEconomy = () => {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            };
+    
+            const novaEconomia = calcNovaEconomy();
+            arrEstadosEconomicos.push(novaEconomia); // Armazena no array
+            console.log("Economia:", novaEconomia);
         }
     }
     
-
-}
-
-
+    for (let i = 1; i <= 30; i++) {
+        dados.dia = i;
+        randomEconomy();
+    }
+    
+    console.log("Estados econômicos registrados:", arrEstadosEconomicos);
 
     const corClasse = {
       "recessão": "bg-[#FF0000]",
