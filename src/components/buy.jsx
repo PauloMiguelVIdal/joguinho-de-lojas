@@ -21,7 +21,7 @@ export default function Buy() {
     } = useContext(CentraldeDadosContext)
     const teste = dados.terrenos.faturamentoTotal
     console.log(teste)
-    
+
     const { resultadoTerrenos, resultadoLojasP, resultadoLojasM, resultadoLojasG } = Statistic();
 
     const [quantidadeTerrenos, setQuantidadeTerrenos] = useState(1)
@@ -149,605 +149,740 @@ export default function Buy() {
         if (num >= 1e3) return (num / 1e3).toFixed(1).replace('.0', '') + 'K';   // Milhares
         return num.toString();
     };
-if(dados.dia>252){
+    if (dados.dia > 252) {
 
 
-    return (
+        return (
 
-        <div className="flex justify-around flex-col w-full">
-            {/* Container de Terrenos */}
-            <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
-                <div className="flex flex-col h-full">
-                    <div className="flex h-[85%] items-center">
-                        {/* Container principal com place-content-between */}
-                        <div className="flex justify-around w-full mb-4 h-full">
-                            {/* Botão de compra de terreno */}
-                            <div className="flex flex-col h-full justify-around">
-                                <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" ho onClick={ComprarTerreno}>
-                                        <img src={terrenoImg} alt="despesas" className="w-[50px] h-[50px]" />
-                                    </button>
-                                </div>
-                                {/* Botões de aumentar/diminuir quantidade */}
-                                <div className="flex items-center mt-2">
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeTerrenos}>
-                                        <img src={menos} className="w-4 h-4" />
-                                    </button>
+            <div className="flex justify-around flex-col w-full">
+                {/* Container de Terrenos */}
 
-                                    <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
-                                        <h1 className="text-white text-xl font-bold">{quantidadeTerrenos}</h1>
+                <Paper
+                    elevation={6}
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        p: 2,
+                        bgcolor: '#290064',
+                        borderRadius: '20px',
+                        mb: 2,
+                        height: '22vh',
+                        maxWidth: 400,
+                        position: 'relative',
+                        width: { xs: '90vw', sm: '60vw', md: '30vw', lg: '20vw' },
+                    }}
+                >
+                    <Grid container sx={{ height: '100%' }}>
+                        <Grid item xs={12} sx={{ height: '85%' }}>
+                            <Grid container justifyContent="space-between" sx={{ height: '100%' }}>
+                                {/* Botão de compra */}
+                                <Grid item sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
+                                    <Box
+                                        sx={{
+                                            backgroundColor: '#F27405',
+                                            height: '60%',
+                                            aspectRatio: '1',
+                                            borderRadius: '10px',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <IconButton
+                                            onClick={ComprarTerreno}
+                                            sx={{
+                                                width: '100%',
+                                                height: '100%',
+                                                '&:hover': {
+                                                    backgroundColor: '#E56100',
+                                                    transform: 'scale(1.05)',
+                                                },
+                                                '&:active': {
+                                                    transform: 'scale(0.95)',
+                                                },
+                                                borderRadius: '10px',
+                                            }}
+                                        >
+                                            <img src={terrenoImg} alt="terreno" width="50" height="50" />
+                                        </IconButton>
+                                    </Box>
+
+                                    {/* Controles de quantidade */}
+                                    <Box display="flex" alignItems="center" mt={1}>
+                                        <IconButton
+                                            onClick={DiminuirQuantidadeTerrenos}
+                                            sx={{
+                                                bgcolor: '#6411D9',
+                                                width: 32,
+                                                height: 32,
+                                                borderRadius: '5px',
+                                                '&:hover': { bgcolor: '#834EDB' },
+                                            }}
+                                        >
+                                            <img src={menos} width={16} height={16} />
+                                        </IconButton>
+                                        <Box
+                                            sx={{
+                                                mx: 1,
+                                                bgcolor: '#350973',
+                                                width: 32,
+                                                height: 32,
+                                                borderRadius: '5px',
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            <Typography variant="body1" color="white" fontWeight="bold">
+                                                {quantidadeTerrenos}
+                                            </Typography>
+                                        </Box>
+                                        <IconButton
+                                            onClick={AumentarQuantidadeTerrenos}
+                                            sx={{
+                                                bgcolor: '#6411D9',
+                                                width: 32,
+                                                height: 32,
+                                                borderRadius: '5px',
+                                                '&:hover': { bgcolor: '#834EDB' },
+                                            }}
+                                        >
+                                            <img src={mais} width={16} height={16} />
+                                        </IconButton>
+                                    </Box>
+                                </Grid>
+
+                                {/* Info dos terrenos */}
+                                <Grid item sx={{ flexGrow: 1, ml: 2, mr: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                    <GradientBox>
+                                        <Typography variant="h6" color="white" fontWeight="bold">
+                                            TerrenosSSS
+                                        </Typography>
+                                    </GradientBox>
+
+                                    <Box sx={{ height: '22%' }}>
+                                        <Box
+                                            sx={{
+                                                bgcolor: '#6411D9',
+                                                borderRadius: '2px',
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                                px: 1,
+                                                py: 0.5,
+                                                mt: 1,
+                                            }}
+                                        >
+                                            <Typography variant="body2" color="white" fontWeight="bold">
+                                                Construção
+                                            </Typography>
+                                            <Typography variant="body2" color="white" fontWeight="bold">
+                                                {formatarNumero(dados.terrenos.preçoConstrução)}
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+
+                                    <Box
+                                        sx={{
+                                            bgcolor: '#350973',
+                                            borderRadius: '20px',
+                                            height: '30%',
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            px: 2,
+                                            mt: 1,
+                                        }}
+                                    >
+                                        <Typography color="white" fontWeight="bold">
+                                            Valor total
+                                        </Typography>
+                                        <Typography color="white" fontWeight="bold">
+                                            {formatarNumero(dados.terrenos.preçoConstrução * quantidadeTerrenos)}
+                                        </Typography>
+                                    </Box>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                        {/* Rodapé */}
+                        <Grid item xs={12}>
+                            <GradientBox
+                                sx={{
+                                    borderRadius: '20px',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    height: '100%',
+                                    px: 2,
+                                    mt: 1,
+                                }}
+                            >
+                                <Box display="flex" alignItems="center">
+                                    <img src={DolarImg} width={24} height={24} />
+                                    <Typography variant="body1" color="white" fontWeight="bold" ml={1}>
+                                        {dados.terrenos.faturamentoTotal.toLocaleString('pt-BR')}
+                                    </Typography>
+                                </Box>
+                                <Box display="flex" alignItems="center">
+                                    <Typography variant="body1" color="white" fontWeight="bold" mr={1}>
+                                        {formatarNumero(resultadoTerrenos)}
+                                    </Typography>
+                                    <img src={porcem} width={20} height={20} />
+                                </Box>
+                            </GradientBox>
+                        </Grid>
+                    </Grid>
+
+                    {/* Quantidade flutuante */}
+                    <Box
+                        sx={{
+                            bgcolor: '#6411D9',
+                            width: 48,
+                            height: 48,
+                            borderRadius: '10px',
+                            border: '2px solid #F27405',
+                            position: 'absolute',
+                            right: -24,
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Typography color="white" fontWeight="bold">
+                            {dados.terrenos.quantidade}
+                        </Typography>
+                    </Box>
+                </Paper>
+
+
+
+
+
+
+
+
+
+
+                <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
+                    <div className="flex flex-col h-full">
+                        <div className="flex h-[85%] items-center">
+                            {/* Container principal com place-content-between */}
+                            <div className="flex justify-around w-full mb-4 h-full">
+                                {/* Botão de compra de terreno */}
+                                <div className="flex flex-col h-full justify-around">
+                                    <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
+                                        <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100]  hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaP}>
+                                            <img src={LojaPImg} alt="despesas" className="w-[50px] h-[50px]" />
+                                        </button>
                                     </div>
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeTerrenos}>
-                                        <img src={mais} className="w-4 h-4" />
-                                    </button>
-                                </div>
-                            </div>
+                                    {/* Botões de aumentar/diminuir quantidade */}
+                                    <div className="flex items-center mt-2">
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center  hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasP}>
+                                            <img src={menos} className="w-4 h-4" />
+                                        </button>
 
-                            {/* Informações do terreno */}
-                            <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
-                                {/* Título "Terrenos" */}
-                                <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
-                                    <h1 className="text-white text-xl font-bold ml-[10px]">Terrenos</h1>
-                                </div>
-
-                                {/* Informações de preço */}
-                                <div className="  rounded-[5px]  h-[22%] ">
-                                    <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
-
-                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
-
-                                        <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.terrenos.preçoConstrução)}</h1>
+                                        <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
+                                            <h1 className="text-white text-xl font-bold">{quantidadeLojasP}</h1>
+                                        </div>
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasP}>
+                                            <img src={mais} className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </div>
 
-                                {/* Rodapé com faturamento */}
-                                <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
-                                  
-                                        <h1 className="text-white font-bold ml-[10px]">Valor total</h1>
-                                        <h1 className="text-white font-bold mr-[10px]">{formatarNumero((dados.terrenos.preçoConstrução * quantidadeTerrenos))}</h1>
-                                 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Rodapé do container */}
-                    <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
-                        <div className="flex items-center">
-                            <img src={DolarImg} className="w-6 h-6" />
-                            <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.terrenos.faturamentoTotal).toLocaleString('pt-BR')}</h1>
-                        </div>
-                        <div className="flex items-center">
-                            <h1 className="text-white font-bold mr-2 text-[20px]">{formatarNumero(resultadoTerrenos)}</h1>
-                            <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
-                        </div>
-                    </div>
-                </div>
-                {/* Quadrado roxo centralizado na borda direita */}
-                <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
-                    <h1 className="text-white font-bold">{dados.terrenos.quantidade}</h1>
-                </div>
-            </div>
-
-
-
-            <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
-                <div className="flex flex-col h-full">
-                    <div className="flex h-[85%] items-center">
-                        {/* Container principal com place-content-between */}
-                        <div className="flex justify-around w-full mb-4 h-full">
-                            {/* Botão de compra de terreno */}
-                            <div className="flex flex-col h-full justify-around">
-                                <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100]  hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaP}>
-                                        <img src={LojaPImg} alt="despesas" className="w-[50px] h-[50px]" />
-                                    </button>
-                                </div>
-                                {/* Botões de aumentar/diminuir quantidade */}
-                                <div className="flex items-center mt-2">
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center  hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasP}>
-                                        <img src={menos} className="w-4 h-4" />
-                                    </button>
-
-                                    <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
-                                        <h1 className="text-white text-xl font-bold">{quantidadeLojasP}</h1>
+                                {/* Informações do terreno */}
+                                <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
+                                    {/* Título "Terrenos" */}
+                                    <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
+                                        <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Pequenas</h1>
                                     </div>
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasP}>
-                                        <img src={mais} className="w-4 h-4" />
-                                    </button>
-                                </div>
-                            </div>
 
-                            {/* Informações do terreno */}
-                            <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
-                                {/* Título "Terrenos" */}
-                                <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
-                                    <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Pequenas</h1>
-                                </div>
+                                    {/* Informações de preço */}
+                                    <div className="  rounded-[5px]  h-[22%] ">
+                                        <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                {/* Informações de preço */}
-                                <div className="  rounded-[5px]  h-[22%] ">
-                                    <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
+                                            <h1 className="text-white font-bold ml-[10px]">Construção</h1>
 
-                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
-
-                                        <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.lojasP.preçoConstrução)}</h1>
+                                            <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.lojasP.preçoConstrução)}</h1>
+                                        </div>
                                     </div>
-                                </div>
 
-                                {/* Rodapé com faturamento */}
-                                <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
-                                  
+                                    {/* Rodapé com faturamento */}
+                                    <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
+
                                         <h1 className="text-white font-bold ml-[10px]">Valor total</h1>
                                         <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.lojasP.preçoConstrução * quantidadeLojasP)}</h1>
-                                 
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Rodapé do container */}
-                    <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
-                        <div className="flex items-center">
-                            <img src={DolarImg} className="w-6 h-6" />
-                            <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.lojasP.faturamentoTotal).toLocaleString('pt-BR')}</h1>
-                        </div>
-                        <div className="flex items-center">
-                            <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoLojasP).toFixed(1)}</h1>
-                            <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
-                        </div>
-                    </div>
-                </div>
-                {/* Quadrado roxo centralizado na borda direita */}
-                <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
-                    <h1 className="text-white font-bold">{dados.lojasP.quantidade}</h1>
-                </div>
-            </div>
-
-            <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
-                <div className="flex flex-col h-full">
-                    <div className="flex h-[85%] items-center">
-                        {/* Container principal com place-content-between */}
-                        <div className="flex justify-around w-full mb-4 h-full">
-                            {/* Botão de compra de terreno */}
-                            <div className="flex flex-col h-full justify-around">
-                                <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaM}>
-                                        <img src={LojaMImg} alt="despesas" className="w-[50px] h-[50px]" />
-                                    </button>
-                                </div>
-                                {/* Botões de aumentar/diminuir quantidade */}
-                                <div className="flex items-center mt-2">
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasM}>
-                                        <img src={menos} className="w-4 h-4" />
-                                    </button>
-
-                                    <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
-                                        <h1 className="text-white text-xl font-bold">{quantidadeLojasM}</h1>
-                                    </div>
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center  hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasM}>
-                                        <img src={mais} className="w-4 h-4" />
-                                    </button>
-                                </div>
+                        {/* Rodapé do container */}
+                        <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
+                            <div className="flex items-center">
+                                <img src={DolarImg} className="w-6 h-6" />
+                                <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.lojasP.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                             </div>
+                            <div className="flex items-center">
+                                <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoLojasP).toFixed(1)}</h1>
+                                <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
+                            </div>
+                        </div>
+                    </div>
+                    {/* Quadrado roxo centralizado na borda direita */}
+                    <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
+                        <h1 className="text-white font-bold">{dados.lojasP.quantidade}</h1>
+                    </div>
+                </div>
 
-                            {/* Informações do terreno */}
-                            <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
-                                {/* Título "Terrenos" */}
-                                <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
-                                    <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Médias</h1>
-                                </div>
+                <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
+                    <div className="flex flex-col h-full">
+                        <div className="flex h-[85%] items-center">
+                            {/* Container principal com place-content-between */}
+                            <div className="flex justify-around w-full mb-4 h-full">
+                                {/* Botão de compra de terreno */}
+                                <div className="flex flex-col h-full justify-around">
+                                    <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
+                                        <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaM}>
+                                            <img src={LojaMImg} alt="despesas" className="w-[50px] h-[50px]" />
+                                        </button>
+                                    </div>
+                                    {/* Botões de aumentar/diminuir quantidade */}
+                                    <div className="flex items-center mt-2">
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasM}>
+                                            <img src={menos} className="w-4 h-4" />
+                                        </button>
 
-                                {/* Informações de preço */}
-                                <div className="  rounded-[5px]  h-[22%] ">
-                                    <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
-
-                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
-
-                                        <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.lojasM.preçoConstrução)}</h1>
+                                        <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
+                                            <h1 className="text-white text-xl font-bold">{quantidadeLojasM}</h1>
+                                        </div>
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center  hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasM}>
+                                            <img src={mais} className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </div>
 
-                                {/* Rodapé com faturamento */}
-                                <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
-                                  
+                                {/* Informações do terreno */}
+                                <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
+                                    {/* Título "Terrenos" */}
+                                    <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
+                                        <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Médias</h1>
+                                    </div>
+
+                                    {/* Informações de preço */}
+                                    <div className="  rounded-[5px]  h-[22%] ">
+                                        <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
+
+                                            <h1 className="text-white font-bold ml-[10px]">Construção</h1>
+
+                                            <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.lojasM.preçoConstrução)}</h1>
+                                        </div>
+                                    </div>
+
+                                    {/* Rodapé com faturamento */}
+                                    <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
+
                                         <h1 className="text-white font-bold ml-[10px]">Valor total</h1>
                                         <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.lojasM.preçoConstrução * quantidadeLojasM)}</h1>
-                                 
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Rodapé do container */}
-                    <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
-                        <div className="flex items-center">
-                            <img src={DolarImg} className="w-6 h-6" />
-                            <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.lojasM.faturamentoTotal).toLocaleString('pt-BR')}</h1>
-                        </div>
-                        <div className="flex items-center">
-                            <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoLojasM).toFixed(1)}</h1>
-                            <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
-                        </div>
-                    </div>
-                </div>
-                {/* Quadrado roxo centralizado na borda direita */}
-                <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
-                    <h1 className="text-white font-bold">{dados.lojasM.quantidade}</h1>
-                </div>
-            </div>
-
-            <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
-                <div className="flex flex-col h-full">
-                    <div className="flex h-[85%] items-center">
-                        {/* Container principal com place-content-between */}
-                        <div className="flex justify-around w-full mb-4 h-full">
-                            {/* Botão de compra de terreno */}
-                            <div className="flex flex-col h-full justify-around">
-                                <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaG}>
-                                        <img src={LojaGImg} alt="despesas" className="w-[50px] h-[50px]" />
-                                    </button>
-                                </div>
-                                {/* Botões de aumentar/diminuir quantidade */}
-                                <div className="flex items-center mt-2">
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasG}>
-                                        <img src={menos} className="w-4 h-4" />
-                                    </button>
-
-                                    <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
-                                        <h1 className="text-white text-xl font-bold">{quantidadeLojasG}</h1>
-                                    </div>
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasG}>
-                                        <img src={mais} className="w-4 h-4" />
-                                    </button>
-                                </div>
+                        {/* Rodapé do container */}
+                        <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
+                            <div className="flex items-center">
+                                <img src={DolarImg} className="w-6 h-6" />
+                                <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.lojasM.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                             </div>
+                            <div className="flex items-center">
+                                <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoLojasM).toFixed(1)}</h1>
+                                <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
+                            </div>
+                        </div>
+                    </div>
+                    {/* Quadrado roxo centralizado na borda direita */}
+                    <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
+                        <h1 className="text-white font-bold">{dados.lojasM.quantidade}</h1>
+                    </div>
+                </div>
 
-                            {/* Informações do terreno */}
-                            <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
-                                {/* Título "Terrenos" */}
-                                <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
-                                    <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Grandes</h1>
-                                </div>
+                <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
+                    <div className="flex flex-col h-full">
+                        <div className="flex h-[85%] items-center">
+                            {/* Container principal com place-content-between */}
+                            <div className="flex justify-around w-full mb-4 h-full">
+                                {/* Botão de compra de terreno */}
+                                <div className="flex flex-col h-full justify-around">
+                                    <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
+                                        <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaG}>
+                                            <img src={LojaGImg} alt="despesas" className="w-[50px] h-[50px]" />
+                                        </button>
+                                    </div>
+                                    {/* Botões de aumentar/diminuir quantidade */}
+                                    <div className="flex items-center mt-2">
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasG}>
+                                            <img src={menos} className="w-4 h-4" />
+                                        </button>
 
-                                {/* Informações de preço */}
-                                <div className="  rounded-[5px]  h-[22%] ">
-                                    <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
-
-                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
-
-                                        <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.lojasG.preçoConstrução)}</h1>
+                                        <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
+                                            <h1 className="text-white text-xl font-bold">{quantidadeLojasG}</h1>
+                                        </div>
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasG}>
+                                            <img src={mais} className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </div>
 
-                                {/* Rodapé com faturamento */}
-                                <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
-                                  
+                                {/* Informações do terreno */}
+                                <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
+                                    {/* Título "Terrenos" */}
+                                    <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
+                                        <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Grandes</h1>
+                                    </div>
+
+                                    {/* Informações de preço */}
+                                    <div className="  rounded-[5px]  h-[22%] ">
+                                        <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
+
+                                            <h1 className="text-white font-bold ml-[10px]">Construção</h1>
+
+                                            <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.lojasG.preçoConstrução)}</h1>
+                                        </div>
+                                    </div>
+
+                                    {/* Rodapé com faturamento */}
+                                    <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
+
                                         <h1 className="text-white font-bold ml-[10px]">Valor total</h1>
                                         <h1 className="text-white font-bold mr-[10px]">{formatarNumero(dados.lojasG.preçoConstrução * quantidadeLojasG)}</h1>
-                                 
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>                    {/* Rodapé do container */}
-                    <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
-                        <div className="flex items-center">
-                            <img src={DolarImg} className="w-6 h-6" />
-                            <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.lojasG.faturamentoTotal).toLocaleString('pt-BR')}</h1>
-                        </div>
-                        <div className="flex items-center">
-                            <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoLojasG).toFixed(1)}</h1>
-                            <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
+                        </div>                    {/* Rodapé do container */}
+                        <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
+                            <div className="flex items-center">
+                                <img src={DolarImg} className="w-6 h-6" />
+                                <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.lojasG.faturamentoTotal).toLocaleString('pt-BR')}</h1>
+                            </div>
+                            <div className="flex items-center">
+                                <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoLojasG).toFixed(1)}</h1>
+                                <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                {/* Quadrado roxo centralizado na borda direita */}
-                <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
-                    <h1 className="text-white font-bold">{dados.lojasG.quantidade}</h1>
+                    {/* Quadrado roxo centralizado na borda direita */}
+                    <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
+                        <h1 className="text-white font-bold">{dados.lojasG.quantidade}</h1>
+                    </div>
                 </div>
             </div>
-        </div>
-    )
-}else{
-    return (
+        )
+    } else {
+        return (
 
-        <div className="flex justify-around flex-col w-full">
-            {/* Container de Terrenos */}
-            <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
-                <div className="flex flex-col h-full">
-                    <div className="flex h-[85%] items-center">
-                        {/* Container principal com place-content-between */}
-                        <div className="flex justify-around w-full mb-4 h-full">
-                            {/* Botão de compra de terreno */}
-                            <div className="flex flex-col h-full justify-around">
-                                <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarTerreno}>
-                                        <img src={terrenoImg} alt="despesas" className="w-[50px] h-[50px]" />
-                                    </button>
-                                </div>
-                                {/* Botões de aumentar/diminuir quantidade */}
-                                <div className="flex items-center mt-2">
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeTerrenos}>
-                                        <img src={menos} className="w-4 h-4" />
-                                    </button>
-
-                                    <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
-                                        <h1 className="text-white text-xl font-bold">{quantidadeTerrenos}</h1>
+            <div className="flex justify-around flex-col w-full">
+                {/* Container de Terrenos */}
+                <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
+                    <div className="flex flex-col h-full">
+                        <div className="flex h-[85%] items-center">
+                            {/* Container principal com place-content-between */}
+                            <div className="flex justify-around w-full mb-4 h-full">
+                                {/* Botão de compra de terreno */}
+                                <div className="flex flex-col h-full justify-around">
+                                    <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
+                                        <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarTerreno}>
+                                            <img src={terrenoImg} alt="despesas" className="w-[50px] h-[50px]" />
+                                        </button>
                                     </div>
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeTerrenos}>
-                                        <img src={mais} className="w-4 h-4" />
-                                    </button>
-                                </div>
-                            </div>
+                                    {/* Botões de aumentar/diminuir quantidade */}
+                                    <div className="flex items-center mt-2">
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeTerrenos}>
+                                            <img src={menos} className="w-4 h-4" />
+                                        </button>
 
-                            {/* Informações do terreno */}
-                            <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
-                                {/* Título "Terrenos" */}
-                                <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
-                                    <h1 className="text-white text-xl font-bold ml-[10px]">Terrenos</h1>
-                                </div>
-
-                                {/* Informações de preço */}
-                                <div className="  rounded-[5px]  h-[22%] ">
-                                    <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
-
-                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
-
-                                        <h1 className="text-white font-bold mr-[10px]">{(dados.terrenos.preçoConstrução).toLocaleString('pt-BR')}</h1>
+                                        <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
+                                            <h1 className="text-white text-xl font-bold">{quantidadeTerrenos}</h1>
+                                        </div>
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeTerrenos}>
+                                            <img src={mais} className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </div>
 
-                                {/* Rodapé com faturamento */}
-                                <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
-                                  
+                                {/* Informações do terreno */}
+                                <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
+                                    {/* Título "Terrenos" */}
+                                    <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
+                                        <h1 className="text-white text-xl font-bold ml-[10px]">Terrenos</h1>
+                                    </div>
+
+                                    {/* Informações de preço */}
+                                    <div className="  rounded-[5px]  h-[22%] ">
+                                        <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
+
+                                            <h1 className="text-white font-bold ml-[10px]">Construção</h1>
+
+                                            <h1 className="text-white font-bold mr-[10px]">{(dados.terrenos.preçoConstrução).toLocaleString('pt-BR')}</h1>
+                                        </div>
+                                    </div>
+
+                                    {/* Rodapé com faturamento */}
+                                    <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
+
                                         <h1 className="text-white font-bold ml-[10px]">Valor total</h1>
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.terrenos.preçoConstrução * quantidadeTerrenos).toLocaleString('pt-BR')}</h1>
-                                 
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Rodapé do container */}
-                    <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
-                        <div className="flex items-center">
-                            <img src={DolarImg} className="w-6 h-6" />
-                            <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.terrenos.faturamentoTotal).toLocaleString('pt-BR')}</h1>
-                        </div>
-                        <div className="flex items-center">
-                            <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoTerrenos).toFixed(1)}</h1>
-                            <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
-                        </div>
-                    </div>
-                </div>
-                {/* Quadrado roxo centralizado na borda direita */}
-                <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
-                    <h1 className="text-white font-bold">{dados.terrenos.quantidade}</h1>
-                </div>
-            </div>
-
-
-
-            <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
-                <div className="flex flex-col h-full">
-                    <div className="flex h-[85%] items-center">
-                        {/* Container principal com place-content-between */}
-                        <div className="flex justify-around w-full mb-4 h-full">
-                            {/* Botão de compra de terreno */}
-                            <div className="flex flex-col h-full justify-around">
-                                <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100]  hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaP}>
-                                        <img src={LojaPImg} alt="despesas" className="w-[50px] h-[50px]" />
-                                    </button>
-                                </div>
-                                {/* Botões de aumentar/diminuir quantidade */}
-                                <div className="flex items-center mt-2">
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center  hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasP}>
-                                        <img src={menos} className="w-4 h-4" />
-                                    </button>
-
-                                    <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
-                                        <h1 className="text-white text-xl font-bold">{quantidadeLojasP}</h1>
-                                    </div>
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasP}>
-                                        <img src={mais} className="w-4 h-4" />
-                                    </button>
-                                </div>
+                        {/* Rodapé do container */}
+                        <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
+                            <div className="flex items-center">
+                                <img src={DolarImg} className="w-6 h-6" />
+                                <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.terrenos.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                             </div>
+                            <div className="flex items-center">
+                                <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoTerrenos).toFixed(1)}</h1>
+                                <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
+                            </div>
+                        </div>
+                    </div>
+                    {/* Quadrado roxo centralizado na borda direita */}
+                    <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
+                        <h1 className="text-white font-bold">{dados.terrenos.quantidade}</h1>
+                    </div>
+                </div>
 
-                            {/* Informações do terreno */}
-                            <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
-                                {/* Título "Terrenos" */}
-                                <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
-                                    <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Pequenas</h1>
-                                </div>
 
-                                {/* Informações de preço */}
-                                <div className="  rounded-[5px]  h-[22%] ">
-                                    <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
 
-                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
+                <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
+                    <div className="flex flex-col h-full">
+                        <div className="flex h-[85%] items-center">
+                            {/* Container principal com place-content-between */}
+                            <div className="flex justify-around w-full mb-4 h-full">
+                                {/* Botão de compra de terreno */}
+                                <div className="flex flex-col h-full justify-around">
+                                    <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
+                                        <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100]  hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaP}>
+                                            <img src={LojaPImg} alt="despesas" className="w-[50px] h-[50px]" />
+                                        </button>
+                                    </div>
+                                    {/* Botões de aumentar/diminuir quantidade */}
+                                    <div className="flex items-center mt-2">
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center  hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasP}>
+                                            <img src={menos} className="w-4 h-4" />
+                                        </button>
 
-                                        <h1 className="text-white font-bold mr-[10px]">{(dados.lojasP.preçoConstrução).toLocaleString('pt-BR')}</h1>
+                                        <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
+                                            <h1 className="text-white text-xl font-bold">{quantidadeLojasP}</h1>
+                                        </div>
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasP}>
+                                            <img src={mais} className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </div>
 
-                                {/* Rodapé com faturamento */}
-                                <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
-                                  
+                                {/* Informações do terreno */}
+                                <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
+                                    {/* Título "Terrenos" */}
+                                    <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
+                                        <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Pequenas</h1>
+                                    </div>
+
+                                    {/* Informações de preço */}
+                                    <div className="  rounded-[5px]  h-[22%] ">
+                                        <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
+
+                                            <h1 className="text-white font-bold ml-[10px]">Construção</h1>
+
+                                            <h1 className="text-white font-bold mr-[10px]">{(dados.lojasP.preçoConstrução).toLocaleString('pt-BR')}</h1>
+                                        </div>
+                                    </div>
+
+                                    {/* Rodapé com faturamento */}
+                                    <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
+
                                         <h1 className="text-white font-bold ml-[10px]">Valor total</h1>
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.lojasP.preçoConstrução * quantidadeLojasP).toLocaleString('pt-BR')}</h1>
-                                 
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Rodapé do container */}
-                    <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
-                        <div className="flex items-center">
-                            <img src={DolarImg} className="w-6 h-6" />
-                            <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.lojasP.faturamentoTotal).toLocaleString('pt-BR')}</h1>
-                        </div>
-                        <div className="flex items-center">
-                            <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoLojasP).toFixed(1)}</h1>
-                            <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
-                        </div>
-                    </div>
-                </div>
-                {/* Quadrado roxo centralizado na borda direita */}
-                <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
-                    <h1 className="text-white font-bold">{dados.lojasP.quantidade}</h1>
-                </div>
-            </div>
-
-            <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
-                <div className="flex flex-col h-full">
-                    <div className="flex h-[85%] items-center">
-                        {/* Container principal com place-content-between */}
-                        <div className="flex justify-around w-full mb-4 h-full">
-                            {/* Botão de compra de terreno */}
-                            <div className="flex flex-col h-full justify-around">
-                                <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaM}>
-                                        <img src={LojaMImg} alt="despesas" className="w-[50px] h-[50px]" />
-                                    </button>
-                                </div>
-                                {/* Botões de aumentar/diminuir quantidade */}
-                                <div className="flex items-center mt-2">
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasM}>
-                                        <img src={menos} className="w-4 h-4" />
-                                    </button>
-
-                                    <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
-                                        <h1 className="text-white text-xl font-bold">{quantidadeLojasM}</h1>
-                                    </div>
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center  hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasM}>
-                                        <img src={mais} className="w-4 h-4" />
-                                    </button>
-                                </div>
+                        {/* Rodapé do container */}
+                        <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
+                            <div className="flex items-center">
+                                <img src={DolarImg} className="w-6 h-6" />
+                                <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.lojasP.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                             </div>
+                            <div className="flex items-center">
+                                <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoLojasP).toFixed(1)}</h1>
+                                <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
+                            </div>
+                        </div>
+                    </div>
+                    {/* Quadrado roxo centralizado na borda direita */}
+                    <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
+                        <h1 className="text-white font-bold">{dados.lojasP.quantidade}</h1>
+                    </div>
+                </div>
 
-                            {/* Informações do terreno */}
-                            <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
-                                {/* Título "Terrenos" */}
-                                <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
-                                    <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Médias</h1>
-                                </div>
+                <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
+                    <div className="flex flex-col h-full">
+                        <div className="flex h-[85%] items-center">
+                            {/* Container principal com place-content-between */}
+                            <div className="flex justify-around w-full mb-4 h-full">
+                                {/* Botão de compra de terreno */}
+                                <div className="flex flex-col h-full justify-around">
+                                    <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
+                                        <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaM}>
+                                            <img src={LojaMImg} alt="despesas" className="w-[50px] h-[50px]" />
+                                        </button>
+                                    </div>
+                                    {/* Botões de aumentar/diminuir quantidade */}
+                                    <div className="flex items-center mt-2">
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasM}>
+                                            <img src={menos} className="w-4 h-4" />
+                                        </button>
 
-                                {/* Informações de preço */}
-                                <div className="  rounded-[5px]  h-[22%] ">
-                                    <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
-
-                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
-
-                                        <h1 className="text-white font-bold mr-[10px]">{(dados.lojasM.preçoConstrução).toLocaleString('pt-BR')}</h1>
+                                        <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
+                                            <h1 className="text-white text-xl font-bold">{quantidadeLojasM}</h1>
+                                        </div>
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center  hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasM}>
+                                            <img src={mais} className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </div>
 
-                                {/* Rodapé com faturamento */}
-                                <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
-                                  
+                                {/* Informações do terreno */}
+                                <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
+                                    {/* Título "Terrenos" */}
+                                    <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
+                                        <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Médias</h1>
+                                    </div>
+
+                                    {/* Informações de preço */}
+                                    <div className="  rounded-[5px]  h-[22%] ">
+                                        <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
+
+                                            <h1 className="text-white font-bold ml-[10px]">Construção</h1>
+
+                                            <h1 className="text-white font-bold mr-[10px]">{(dados.lojasM.preçoConstrução).toLocaleString('pt-BR')}</h1>
+                                        </div>
+                                    </div>
+
+                                    {/* Rodapé com faturamento */}
+                                    <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
+
                                         <h1 className="text-white font-bold ml-[10px]">Valor total</h1>
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.lojasM.preçoConstrução * quantidadeLojasM).toLocaleString('pt-BR')}</h1>
-                                 
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Rodapé do container */}
-                    <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
-                        <div className="flex items-center">
-                            <img src={DolarImg} className="w-6 h-6" />
-                            <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.lojasM.faturamentoTotal).toLocaleString('pt-BR')}</h1>
-                        </div>
-                        <div className="flex items-center">
-                            <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoLojasM).toFixed(1)}</h1>
-                            <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
-                        </div>
-                    </div>
-                </div>
-                {/* Quadrado roxo centralizado na borda direita */}
-                <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
-                    <h1 className="text-white font-bold">{dados.lojasM.quantidade}</h1>
-                </div>
-            </div>
-
-            <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
-                <div className="flex flex-col h-full">
-                    <div className="flex h-[85%] items-center">
-                        {/* Container principal com place-content-between */}
-                        <div className="flex justify-around w-full mb-4 h-full">
-                            {/* Botão de compra de terreno */}
-                            <div className="flex flex-col h-full justify-around">
-                                <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
-                                    <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaG}>
-                                        <img src={LojaGImg} alt="despesas" className="w-[50px] h-[50px]" />
-                                    </button>
-                                </div>
-                                {/* Botões de aumentar/diminuir quantidade */}
-                                <div className="flex items-center mt-2">
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasG}>
-                                        <img src={menos} className="w-4 h-4" />
-                                    </button>
-
-                                    <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
-                                        <h1 className="text-white text-xl font-bold">{quantidadeLojasG}</h1>
-                                    </div>
-                                    <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasG}>
-                                        <img src={mais} className="w-4 h-4" />
-                                    </button>
-                                </div>
+                        {/* Rodapé do container */}
+                        <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
+                            <div className="flex items-center">
+                                <img src={DolarImg} className="w-6 h-6" />
+                                <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.lojasM.faturamentoTotal).toLocaleString('pt-BR')}</h1>
                             </div>
+                            <div className="flex items-center">
+                                <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoLojasM).toFixed(1)}</h1>
+                                <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
+                            </div>
+                        </div>
+                    </div>
+                    {/* Quadrado roxo centralizado na borda direita */}
+                    <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
+                        <h1 className="text-white font-bold">{dados.lojasM.quantidade}</h1>
+                    </div>
+                </div>
 
-                            {/* Informações do terreno */}
-                            <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
-                                {/* Título "Terrenos" */}
-                                <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
-                                    <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Grandes</h1>
-                                </div>
+                <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
+                    <div className="flex flex-col h-full">
+                        <div className="flex h-[85%] items-center">
+                            {/* Container principal com place-content-between */}
+                            <div className="flex justify-around w-full mb-4 h-full">
+                                {/* Botão de compra de terreno */}
+                                <div className="flex flex-col h-full justify-around">
+                                    <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
+                                        <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarLojaG}>
+                                            <img src={LojaGImg} alt="despesas" className="w-[50px] h-[50px]" />
+                                        </button>
+                                    </div>
+                                    {/* Botões de aumentar/diminuir quantidade */}
+                                    <div className="flex items-center mt-2">
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeLojasG}>
+                                            <img src={menos} className="w-4 h-4" />
+                                        </button>
 
-                                {/* Informações de preço */}
-                                <div className="  rounded-[5px]  h-[22%] ">
-                                    <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
-
-                                        <h1 className="text-white font-bold ml-[10px]">Construção</h1>
-
-                                        <h1 className="text-white font-bold mr-[10px]">{(dados.lojasG.preçoConstrução).toLocaleString('pt-BR')}</h1>
+                                        <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
+                                            <h1 className="text-white text-xl font-bold">{quantidadeLojasG}</h1>
+                                        </div>
+                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeLojasG}>
+                                            <img src={mais} className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </div>
 
-                                {/* Rodapé com faturamento */}
-                                <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
-                                  
+                                {/* Informações do terreno */}
+                                <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
+                                    {/* Título "Terrenos" */}
+                                    <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
+                                        <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Grandes</h1>
+                                    </div>
+
+                                    {/* Informações de preço */}
+                                    <div className="  rounded-[5px]  h-[22%] ">
+                                        <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
+
+                                            <h1 className="text-white font-bold ml-[10px]">Construção</h1>
+
+                                            <h1 className="text-white font-bold mr-[10px]">{(dados.lojasG.preçoConstrução).toLocaleString('pt-BR')}</h1>
+                                        </div>
+                                    </div>
+
+                                    {/* Rodapé com faturamento */}
+                                    <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
+
                                         <h1 className="text-white font-bold ml-[10px]">Valor total</h1>
                                         <h1 className="text-white font-bold mr-[10px]">{(dados.lojasG.preçoConstrução * quantidadeLojasG).toLocaleString('pt-BR')}</h1>
-                                 
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Rodapé do container */}
-                    <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
-                        <div className="flex items-center">
-                            <img src={DolarImg} className="w-6 h-6" />
-                            <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.lojasG.faturamentoTotal).toLocaleString('pt-BR')}</h1>
-                        </div>
-                        <div className="flex items-center">
-                            <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoLojasG).toFixed(1)}</h1>
-                            <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
+                        {/* Rodapé do container */}
+                        <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
+                            <div className="flex items-center">
+                                <img src={DolarImg} className="w-6 h-6" />
+                                <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.lojasG.faturamentoTotal).toLocaleString('pt-BR')}</h1>
+                            </div>
+                            <div className="flex items-center">
+                                <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoLojasG).toFixed(1)}</h1>
+                                <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                {/* Quadrado roxo centralizado na borda direita */}
-                <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
-                    <h1 className="text-white font-bold">{dados.lojasG.quantidade}</h1>
+                    {/* Quadrado roxo centralizado na borda direita */}
+                    <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
+                        <h1 className="text-white font-bold">{dados.lojasG.quantidade}</h1>
+                    </div>
                 </div>
             </div>
-        </div>
-    )
-}
+        )
+    }
 }
