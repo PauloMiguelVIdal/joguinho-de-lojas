@@ -11,7 +11,8 @@ import porcem from "../imagens/simbolo-de-porcentagem.png"
 import mais from "../imagens/botao-de-simbolo-de-mais.png"
 import menos from "../imagens/simbolo-de-menos.png"
 import { Statistic } from './statistic'
-
+import { Box, Grid, IconButton, Paper, Typography } from '@mui/material'
+import { styled } from '@mui/system';
 
 
 export default function Buy() {
@@ -67,6 +68,12 @@ export default function Buy() {
             setQuantidadeTerrenos(quantidadeTerrenos - 1);
         }
     };
+
+    const GradientBox = styled(Box)({
+        background: 'linear-gradient(to left, #6411D9, #F27405)',
+        borderRadius: 5,
+        padding: 8,
+    });
 
 
     // Comprar Loja P
@@ -158,204 +165,209 @@ export default function Buy() {
                 {/* Container de Terrenos */}
 
                 <Paper
-                    elevation={6}
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        p: 2,
-                        bgcolor: '#290064',
-                        borderRadius: '20px',
-                        mb: 2,
-                        height: '22vh',
-                        maxWidth: 400,
-                        position: 'relative',
-                        width: { xs: '90vw', sm: '60vw', md: '30vw', lg: '20vw' },
-                    }}
-                >
-                    <Grid container sx={{ height: '100%' }}>
-                        <Grid item xs={12} sx={{ height: '85%' }}>
-                            <Grid container justifyContent="space-between" sx={{ height: '100%' }}>
-                                {/* Botão de compra */}
-                                <Grid item sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
-                                    <Box
-                                        sx={{
-                                            backgroundColor: '#F27405',
-                                            height: '60%',
-                                            aspectRatio: '1',
-                                            borderRadius: '10px',
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                        }}
-                                    >
-                                        <IconButton
-                                            onClick={ComprarTerreno}
-                                            sx={{
-                                                width: '100%',
-                                                height: '100%',
-                                                '&:hover': {
-                                                    backgroundColor: '#E56100',
-                                                    transform: 'scale(1.05)',
-                                                },
-                                                '&:active': {
-                                                    transform: 'scale(0.95)',
-                                                },
-                                                borderRadius: '10px',
-                                            }}
-                                        >
-                                            <img src={terrenoImg} alt="terreno" width="50" height="50" />
-                                        </IconButton>
-                                    </Box>
+  elevation={6}
+  sx={{
+    display: 'flex',
+    flexDirection: 'column',
+    p: 2,
+    bgcolor: '#290064',
+    borderRadius: '20px',
+    mb: 2,
+    height: '22vh',
+    maxWidth: 400,
+    position: 'relative',
+    width: { xs: '90vw', sm: '60vw', md: '30vw', lg: '20vw' },
+  }}
+>
 
-                                    {/* Controles de quantidade */}
-                                    <Box display="flex" alignItems="center" mt={1}>
-                                        <IconButton
-                                            onClick={DiminuirQuantidadeTerrenos}
-                                            sx={{
-                                                bgcolor: '#6411D9',
-                                                width: 32,
-                                                height: 32,
-                                                borderRadius: '5px',
-                                                '&:hover': { bgcolor: '#834EDB' },
-                                            }}
-                                        >
-                                            <img src={menos} width={16} height={16} />
-                                        </IconButton>
-                                        <Box
-                                            sx={{
-                                                mx: 1,
-                                                bgcolor: '#350973',
-                                                width: 32,
-                                                height: 32,
-                                                borderRadius: '5px',
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                            }}
-                                        >
-                                            <Typography variant="body1" color="white" fontWeight="bold">
-                                                {quantidadeTerrenos}
-                                            </Typography>
-                                        </Box>
-                                        <IconButton
-                                            onClick={AumentarQuantidadeTerrenos}
-                                            sx={{
-                                                bgcolor: '#6411D9',
-                                                width: 32,
-                                                height: 32,
-                                                borderRadius: '5px',
-                                                '&:hover': { bgcolor: '#834EDB' },
-                                            }}
-                                        >
-                                            <img src={mais} width={16} height={16} />
-                                        </IconButton>
-                                    </Box>
-                                </Grid>
+  {/* 🔷 Bloco Principal: Parte Superior */}
+  <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
 
-                                {/* Info dos terrenos */}
-                                <Grid item sx={{ flexGrow: 1, ml: 2, mr: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                                    <GradientBox>
-                                        <Typography variant="h6" color="white" fontWeight="bold">
-                                            TerrenosSSS
-                                        </Typography>
-                                    </GradientBox>
+    {/* 🟨 Bloco A — Controles de Compra */}
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
+      {/* Ícone grande de ação */}
+      <Box
+        sx={{
+          backgroundColor: '#F27405',
+          height: '60%',
+          aspectRatio: '1',
+          borderRadius: '10px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <IconButton
+          onClick={ComprarTerreno}
+          sx={{
+            width: '100%',
+            height: '100%',
+            borderRadius: '10px',
+            '&:hover': { backgroundColor: '#E56100', transform: 'scale(1.05)' },
+            '&:active': { transform: 'scale(0.95)' },
+          }}
+        >
+          <img src={terrenoImg} alt="terreno" width="50" height="50" />
+        </IconButton>
+      </Box>
 
-                                    <Box sx={{ height: '22%' }}>
-                                        <Box
-                                            sx={{
-                                                bgcolor: '#6411D9',
-                                                borderRadius: '2px',
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                                alignItems: 'center',
-                                                px: 1,
-                                                py: 0.5,
-                                                mt: 1,
-                                            }}
-                                        >
-                                            <Typography variant="body2" color="white" fontWeight="bold">
-                                                Construção
-                                            </Typography>
-                                            <Typography variant="body2" color="white" fontWeight="bold">
-                                                {formatarNumero(dados.terrenos.preçoConstrução)}
-                                            </Typography>
-                                        </Box>
-                                    </Box>
+      {/* Controles de quantidade */}
+      <Box display="flex" alignItems="center" mt={1}>
+        <IconButton
+          onClick={DiminuirQuantidadeTerrenos}
+          sx={{
+            bgcolor: '#6411D9',
+            width: 32,
+            height: 32,
+            borderRadius: '5px',
+            '&:hover': { bgcolor: '#834EDB' },
+          }}
+        >
+          <img src={menos} width={16} height={16} />
+        </IconButton>
+        <Box
+          sx={{
+            mx: 1,
+            bgcolor: '#350973',
+            width: 32,
+            height: 32,
+            borderRadius: '5px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="body1" color="white" fontWeight="bold">
+            {quantidadeTerrenos}
+          </Typography>
+        </Box>
+        <IconButton
+          onClick={AumentarQuantidadeTerrenos}
+          sx={{
+            bgcolor: '#6411D9',
+            width: 32,
+            height: 32,
+            borderRadius: '5px',
+            '&:hover': { bgcolor: '#834EDB' },
+          }}
+        >
+          <img src={mais} width={16} height={16} />
+        </IconButton>
+      </Box>
+    </Box>
 
-                                    <Box
-                                        sx={{
-                                            bgcolor: '#350973',
-                                            borderRadius: '20px',
-                                            height: '30%',
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            px: 2,
-                                            mt: 1,
-                                        }}
-                                    >
-                                        <Typography color="white" fontWeight="bold">
-                                            Valor total
-                                        </Typography>
-                                        <Typography color="white" fontWeight="bold">
-                                            {formatarNumero(dados.terrenos.preçoConstrução * quantidadeTerrenos)}
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                            </Grid>
-                        </Grid>
+    {/* 🟩 Bloco B — Informações Principais */}
+    <Box
+      sx={{
+        flexGrow: 1,
+        ml: 2,
+        mr: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      {/* Título */}
+      <GradientBox>
+        <Typography variant="h6" color="white" fontWeight="bold">
+          Terrenos
+        </Typography>
+      </GradientBox>
 
-                        {/* Rodapé */}
-                        <Grid item xs={12}>
-                            <GradientBox
-                                sx={{
-                                    borderRadius: '20px',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    height: '100%',
-                                    px: 2,
-                                    mt: 1,
-                                }}
-                            >
-                                <Box display="flex" alignItems="center">
-                                    <img src={DolarImg} width={24} height={24} />
-                                    <Typography variant="body1" color="white" fontWeight="bold" ml={1}>
-                                        {dados.terrenos.faturamentoTotal.toLocaleString('pt-BR')}
-                                    </Typography>
-                                </Box>
-                                <Box display="flex" alignItems="center">
-                                    <Typography variant="body1" color="white" fontWeight="bold" mr={1}>
-                                        {formatarNumero(resultadoTerrenos)}
-                                    </Typography>
-                                    <img src={porcem} width={20} height={20} />
-                                </Box>
-                            </GradientBox>
-                        </Grid>
-                    </Grid>
+      {/* Preço unitário */}
+      <Box sx={{ mt: 1 }}>
+        <Box
+          sx={{
+            bgcolor: '#6411D9',
+            borderRadius: '2px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            px: 1,
+            py: 0.5,
+          }}
+        >
+          <Typography variant="body2" color="white" fontWeight="bold">
+            Construção
+          </Typography>
+          <Typography variant="body2" color="white" fontWeight="bold">
+            {formatarNumero(dados.terrenos.preçoConstrução)}
+          </Typography>
+        </Box>
+      </Box>
 
-                    {/* Quantidade flutuante */}
-                    <Box
-                        sx={{
-                            bgcolor: '#6411D9',
-                            width: 48,
-                            height: 48,
-                            borderRadius: '10px',
-                            border: '2px solid #F27405',
-                            position: 'absolute',
-                            right: -24,
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Typography color="white" fontWeight="bold">
-                            {dados.terrenos.quantidade}
-                        </Typography>
-                    </Box>
-                </Paper>
+      {/* Valor total */}
+      <Box
+        sx={{
+          bgcolor: '#350973',
+          borderRadius: '5px',
+          height: 32,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          px: 1,
+        }}
+      >
+        <Typography variant="body2" color="white" fontWeight="bold">
+          Valor total
+        </Typography>
+        <Typography variant="body2" color="white" fontWeight="bold">
+          {formatarNumero(dados.terrenos.preçoConstrução * quantidadeTerrenos)}
+        </Typography>
+      </Box>
+    </Box>
+  </Box>
+
+  {/* 🟥 Bloco C — Faturamento e Percentual */}
+  <GradientBox
+    sx={{
+      borderRadius: '20px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      px: 2,
+      mt: 1,
+      minHeight: 40,
+    }}
+  >
+    <Box display="flex" alignItems="center">
+      <img src={DolarImg} width={16} height={16} />
+      <Typography variant="body1" color="white" fontWeight="bold" ml={1}>
+        {dados.terrenos.faturamentoTotal.toLocaleString('pt-BR')}
+      </Typography>
+    </Box>
+    <Box display="flex" alignItems="center">
+      <Typography variant="body1" color="white" fontWeight="bold" mr={1}>
+        {formatarNumero(resultadoTerrenos)}
+      </Typography>
+      <img src={porcem} width={14} height={14} />
+    </Box>
+  </GradientBox>
+
+  {/* 🔘 Quantidade Disponível (Caixa Flutuante) */}
+  <Box
+    sx={{
+      bgcolor: '#6411D9',
+      width: 48,
+      height: 48,
+      borderRadius: '10px',
+      border: '2px solid #F27405',
+      position: 'absolute',
+      right: -24,
+      top: '50%',
+      transform: 'translateY(-50%)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <Typography color="white" fontWeight="bold">
+      {dados.terrenos.quantidade}
+    </Typography>
+  </Box>
+</Paper>
+
+
 
 
 
@@ -589,78 +601,210 @@ export default function Buy() {
 
             <div className="flex justify-around flex-col w-full">
                 {/* Container de Terrenos */}
-                <div className="flex flex-col h-[22vh] w-[20vw] p-4 bg-[#290064] shadow-lg rounded-[20px] mb-4 relative w-max-[400px]">
-                    <div className="flex flex-col h-full">
-                        <div className="flex h-[85%] items-center">
-                            {/* Container principal com place-content-between */}
-                            <div className="flex justify-around w-full mb-4 h-full">
-                                {/* Botão de compra de terreno */}
-                                <div className="flex flex-col h-full justify-around">
-                                    <div className="bg-laranja h-[60%] aspect-square rounded-[10px] flex justify-center items-center">
-                                        <button className="flex justify-center items-center w-full h-full hover:bg-[#E56100] hover:rounded-[10px] active:scale-95 hover:scale-[1.05]" onClick={ComprarTerreno}>
-                                            <img src={terrenoImg} alt="despesas" className="w-[50px] h-[50px]" />
-                                        </button>
-                                    </div>
-                                    {/* Botões de aumentar/diminuir quantidade */}
-                                    <div className="flex items-center mt-2">
-                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={DiminuirQuantidadeTerrenos}>
-                                            <img src={menos} className="w-4 h-4" />
-                                        </button>
+                <Paper
+  elevation={6}
+  sx={{
+    display: 'flex',
+    flexDirection: 'column',
+    p: 2,
+    bgcolor: '#290064',
+    borderRadius: '20px',
+    mb: 2,
+    minHeight: '20vh', // permite expansão conforme necessário
+    maxWidth: 400,
+    position: 'relative',
+    width: { xs: '90vw', sm: '60vw', md: '30vw', lg: '20vw' },
+  }}
+>
+  {/* 🔷 Bloco Principal: Parte Superior */}
+  <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
+    
+    {/* 🟨 Bloco A — Controles de Compra */}
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
+    <Box
+  sx={{
+    backgroundColor: '#F27405',
+    flexGrow: 1,
+    aspectRatio: '1',
+    borderRadius: '10px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }}
+>
+  <IconButton
+    onClick={ComprarTerreno}
+    sx={{
+      width: '100%',
+      height: '100%',
+      borderRadius: '10px',
+      '&:hover': { backgroundColor: '#E56100', transform: 'scale(1.05)' },
+      '&:active': { transform: 'scale(0.95)' },
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <img src={terrenoImg} alt="terreno" width="40" height="40" />
+  </IconButton>
+</Box>
 
-                                        <div className="bg-[#350973] w-8 h-8 rounded-[5px] flex justify-center items-center mx-2">
-                                            <h1 className="text-white text-xl font-bold">{quantidadeTerrenos}</h1>
-                                        </div>
-                                        <button className="bg-[#6411D9] w-8 h-8 rounded-[5px] flex justify-center items-center hover:bg-[#834EDB] active:scale-95" onClick={AumentarQuantidadeTerrenos}>
-                                            <img src={mais} className="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                </div>
+      <Box display="flex" alignItems="center" mt={0.5}>
+        <IconButton
+          onClick={DiminuirQuantidadeTerrenos}
+          sx={{
+            bgcolor: '#6411D9',
+            width: 28,
+            height: 28,
+            borderRadius: '5px',
+            '&:hover': { bgcolor: '#834EDB' },
+          }}
+        >
+          <img src={menos} width={14} height={14} />
+        </IconButton>
+        <Box
+          sx={{
+            mx: 1,
+            bgcolor: '#350973',
+            width: 28,
+            height: 28,
+            borderRadius: '5px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="body2" color="white" fontWeight="bold">
+            {quantidadeTerrenos}
+          </Typography>
+        </Box>
+        <IconButton
+          onClick={AumentarQuantidadeTerrenos}
+          sx={{
+            bgcolor: '#6411D9',
+            width: 28,
+            height: 28,
+            borderRadius: '5px',
+            '&:hover': { bgcolor: '#834EDB' },
+          }}
+        >
+          <img src={mais} width={14} height={14} />
+        </IconButton>
+      </Box>
+    </Box>
 
-                                {/* Informações do terreno */}
-                                <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
-                                    {/* Título "Terrenos" */}
-                                    <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
-                                        <h1 className="text-white text-xl font-bold ml-[10px]">Terrenos</h1>
-                                    </div>
+    {/* 🟩 Bloco B — Informações Principais */}
+    <Box
+      sx={{
+        flexGrow: 1,
+        ml: 2,
+        mr: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      <GradientBox>
+        <Typography variant="subtitle1" color="white" fontWeight="bold">
+          Terrenos
+        </Typography>
+      </GradientBox>
 
-                                    {/* Informações de preço */}
-                                    <div className="  rounded-[5px]  h-[22%] ">
-                                        <div className="bg-[#6411D9] w-full rounded-[2px] flex items-center justify-between  p-1">
+      <Box sx={{ mt: 0.5 }}>
+        <Box
+          sx={{
+            bgcolor: '#6411D9',
+            borderRadius: '2px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            px: 1,
+            py: 0.25,
+          }}
+        >
+          <Typography variant="body2" color="white" fontWeight="bold">
+            Construção
+          </Typography>
+          <Typography variant="body2" color="white" fontWeight="bold">
+            {formatarNumero(dados.terrenos.preçoConstrução)}
+          </Typography>
+        </Box>
+      </Box>
 
-                                            <h1 className="text-white font-bold ml-[10px]">Construção</h1>
+      <Box
+        sx={{
+          bgcolor: '#350973',
+          borderRadius: '5px',
+          height: 28,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          px: 1,
+        }}
+      >
+        <Typography variant="body2" color="white" fontWeight="bold">
+          Valor total
+        </Typography>
+        <Typography variant="body2" color="white" fontWeight="bold">
+          {formatarNumero(dados.terrenos.preçoConstrução * quantidadeTerrenos)}
+        </Typography>
+      </Box>
+    </Box>
+  </Box>
 
-                                            <h1 className="text-white font-bold mr-[10px]">{(dados.terrenos.preçoConstrução).toLocaleString('pt-BR')}</h1>
-                                        </div>
-                                    </div>
+  {/* 🟥 Bloco C — Faturamento e Percentual */}
+  <GradientBox
+    sx={{
+      borderRadius: '20px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      px: 2,
+      mt: 1,
+      minHeight: 40,
+    }}
+  >
+    <Box display="flex" alignItems="center">
+      <img src={DolarImg} width={16} height={16} />
+      <Typography variant="body1" color="white" fontWeight="bold" ml={1}>
+        {dados.terrenos.faturamentoTotal.toLocaleString('pt-BR')}
+      </Typography>
+    </Box>
+    <Box display="flex" alignItems="center">
+      <Typography variant="body1" color="white" fontWeight="bold" mr={1}>
+        {formatarNumero(resultadoTerrenos)}
+      </Typography>
+      <img src={porcem} width={14} height={14} />
+    </Box>
+  </GradientBox>
 
-                                    {/* Rodapé com faturamento */}
-                                    <div className="bg-[#350973] rounded-[20px] flex items-center justify-between h-[30%] h-8 mt-2">
+  {/* 🔘 Quantidade Disponível (Caixa Flutuante) */}
+  <Box
+    sx={{
+      bgcolor: '#6411D9',
+      width: 48,
+      height: 48,
+      borderRadius: '10px',
+      border: '2px solid #F27405',
+      position: 'absolute',
+      right: -24,
+      top: '50%',
+      transform: 'translateY(-50%)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <Typography color="white" fontWeight="bold">
+      {dados.terrenos.quantidade}
+    </Typography>
+  </Box>
+</Paper>
 
-                                        <h1 className="text-white font-bold ml-[10px]">Valor total</h1>
-                                        <h1 className="text-white font-bold mr-[10px]">{(dados.terrenos.preçoConstrução * quantidadeTerrenos).toLocaleString('pt-BR')}</h1>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        {/* Rodapé do container */}
-                        <div className="bg-gradient-to-l from-[#6411D9] to-[#F27405] rounded-[20px] flex items-center justify-between h-full ">
-                            <div className="flex items-center">
-                                <img src={DolarImg} className="w-6 h-6" />
-                                <h1 className="text-white fonteBold text-[20px] ml-2">{(dados.terrenos.faturamentoTotal).toLocaleString('pt-BR')}</h1>
-                            </div>
-                            <div className="flex items-center">
-                                <h1 className="text-white font-bold mr-2 text-[20px]">{(resultadoTerrenos).toFixed(1)}</h1>
-                                <img src={porcem} alt="porcentagem" className="w-5 h-5 mr-[5px]" />
-                            </div>
-                        </div>
-                    </div>
-                    {/* Quadrado roxo centralizado na borda direita */}
-                    <div className="bg-roxo w-12 h-12 rounded-[10px] border-[2px] border-laranja text-[20px] flex justify-center items-center absolute -right-6 top-1/2 transform -translate-y-1/2">
-                        <h1 className="text-white font-bold">{dados.terrenos.quantidade}</h1>
-                    </div>
-                </div>
+
+
 
 
 
