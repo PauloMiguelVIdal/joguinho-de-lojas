@@ -23,7 +23,13 @@ export default function Texes() {
 
 
 
-
+  const formatarNumero = (num) => {
+    if (num >= 1e12) return (num / 1e12).toFixed(1).replace('.0', '') + 'T'; // Trilhões
+    if (num >= 1e9) return (num / 1e9).toFixed(1).replace('.0', '') + 'B';   // Bilhões
+    if (num >= 1e6) return (num / 1e6).toFixed(1).replace('.0', '') + 'M';   // Milhões
+    if (num >= 1e3) return (num / 1e3).toFixed(1).replace('.0', '') + 'K';   // Milhares
+    return num.toString();
+  };
 
 
 
@@ -52,17 +58,17 @@ export default function Texes() {
     <div className=' rounded-[40px] flex flex-col items-center gap-[10px]'>
       <div className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]">
         <h1 className='fonteBold text-white'>Faturado </h1>
-        <h1 className="fonteBold text-white text-[20px]"> {(dados.faturamento.faturamentoMensal).toFixed(2)}</h1>
+        <h1 className="fonteBold text-white text-[20px]"> {formatarNumero(dados.faturamento.faturamentoMensal)}</h1>
       </div>
 
       <div className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]">
         <h1 className='fonteBold text-white'>Despesas </h1>
-        <h1 className="fonteBold text-white text-[20px]"> {(dados.imposto.impostoMensal).toFixed(2)}</h1>
+        <h1 className="fonteBold text-white text-[20px]"> {formatarNumero(dados.imposto.impostoMensal)}</h1>
       </div>
 
       <div className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]">
         <h1 className='fonteBold text-white'>Lucro </h1>
-        <h1 className="fonteBold text-white text-[20px]"> {(dados.faturamento.faturamentoMensal - dados.imposto.impostoMensal).toFixed(2)}</h1>
+        <h1 className="fonteBold text-white text-[20px]"> {formatarNumero((dados.faturamento.faturamentoMensal - dados.imposto.impostoMensal))}</h1>
       </div>
     </div>
   )

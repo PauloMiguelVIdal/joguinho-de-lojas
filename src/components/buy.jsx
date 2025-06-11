@@ -676,7 +676,7 @@ export default function Buy() {
     </Box>
 
     {/* 🟨 Bloco A — Controles de Compra (agora à direita) */}
-    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around',  }}>
       <Box
         sx={{
           backgroundColor: '#F27405',
