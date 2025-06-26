@@ -1078,7 +1078,7 @@ export default function Buy() {
                   Valor total
                 </Typography>
                 <Typography variant="body2" color="white" fontWeight="bold">
-                  {formatarNumero(dados.lojasP.preçoConstrução * quantidadeTerrenos)}
+                  {formatarNumero(dados.lojasP.preçoConstrução * quantidadeLojasP)}
                 </Typography>
               </Box>
             </Box>
@@ -1097,7 +1097,7 @@ export default function Buy() {
                 }}
               >
                 <IconButton
-                  onClick={ComprarTerreno}
+                  onClick={ComprarLojaP}
                   sx={{
                     width: '100%',
                     height: '100%',
@@ -1115,7 +1115,7 @@ export default function Buy() {
 
               <Box display="flex" alignItems="center" mt={0.5}>
                 <IconButton
-                  onClick={DiminuirQuantidadeTerrenos}
+                  onClick={DiminuirQuantidadeLojasP}
                   sx={{
                     bgcolor: '#6411D9',
                     width: 28,
@@ -1143,7 +1143,7 @@ export default function Buy() {
                   </Typography>
                 </Box>
                 <IconButton
-                  onClick={AumentarQuantidadeTerrenos}
+                  onClick={AumentarQuantidadeLojasP}
                   sx={{
                     bgcolor: '#6411D9',
                     width: 28,
@@ -1178,7 +1178,7 @@ export default function Buy() {
             </Box>
             <Box display="flex" alignItems="center">
               <Typography variant="body1" color="white" fontWeight="bold" mr={1}>
-                {formatarNumero(resultadoTerrenos)}
+                {formatarNumero(resultadoLojasP)}
               </Typography>
               <img src={porcem} width={14} height={14} />
             </Box>
@@ -1206,6 +1206,209 @@ export default function Buy() {
             </Typography>
           </Box>
         </Paper>
+
+
+
+
+        <Paper
+          elevation={6}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            p: 2,
+            bgcolor: '#290064',
+            borderRadius: '20px',
+            mb: 2,
+            minHeight: '20vh',
+            maxWidth: 400,
+            position: 'relative',
+            width: { xs: '90vw', sm: '60vw', md: '30vw', lg: '20vw' },
+          }}
+        >
+          {/* 🔷 Bloco Principal: Parte Superior */}
+          <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
+            {/* 🟩 Bloco B — Informações Principais (agora à esquerda) */}
+            <Box
+              sx={{
+                flexGrow: 1,
+                mr: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
+            >
+              <GradientBox>
+                <Typography variant="subtitle1" color="white" fontWeight="bold">
+                Lojas Médias
+                </Typography>
+              </GradientBox>
+
+              <Box sx={{ mt: 0.5 }}>
+                <Box
+                  sx={{
+                    bgcolor: '#6411D9',
+                    borderRadius: '2px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    px: 1,
+                    py: 0.25,
+                  }}
+                >
+                  <Typography variant="body2" color="white" fontWeight="bold">
+                    Construção
+                  </Typography>
+                  <Typography variant="body2" color="white" fontWeight="bold">
+                    {formatarNumero(dados.lojasM.preçoConstrução)}
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box
+                sx={{
+                  bgcolor: '#350973',
+                  borderRadius: '5px',
+                  height: 28,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  px: 1,
+                }}
+              >
+                <Typography variant="body2" color="white" fontWeight="bold">
+                  Valor total
+                </Typography>
+                <Typography variant="body2" color="white" fontWeight="bold">
+                  {formatarNumero(dados.lojasP.preçoConstrução * quantidadeLojasP)}
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* 🟨 Bloco A — Controles de Compra (agora à direita) */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', }}>
+              <Box
+                sx={{
+                  backgroundColor: '#F27405',
+                  flexGrow: 1,
+                  aspectRatio: '1',
+                  borderRadius: '10px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <IconButton
+                  onClick={ComprarLojaP}
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '10px',
+                    '&:hover': { backgroundColor: '#E56100', transform: 'scale(1.05)' },
+                    '&:active': { transform: 'scale(0.95)' },
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <img src={terrenoImg} alt="terreno" width="40" height="40" />
+                </IconButton>
+              </Box>
+
+              <Box display="flex" alignItems="center" mt={0.5}>
+                <IconButton
+                  onClick={DiminuirQuantidadeLojasP}
+                  sx={{
+                    bgcolor: '#6411D9',
+                    width: 28,
+                    height: 28,
+                    borderRadius: '5px',
+                    '&:hover': { bgcolor: '#834EDB' },
+                  }}
+                >
+                  <img src={menos} width={14} height={14} />
+                </IconButton>
+                <Box
+                  sx={{
+                    mx: 1,
+                    bgcolor: '#350973',
+                    width: 28,
+                    height: 28,
+                    borderRadius: '5px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Typography variant="body2" color="white" fontWeight="bold">
+                    {quantidadeLojasM}
+                  </Typography>
+                </Box>
+                <IconButton
+                  onClick={AumentarQuantidadeLojasP}
+                  sx={{
+                    bgcolor: '#6411D9',
+                    width: 28,
+                    height: 28,
+                    borderRadius: '5px',
+                    '&:hover': { bgcolor: '#834EDB' },
+                  }}
+                >
+                  <img src={mais} width={14} height={14} />
+                </IconButton>
+              </Box>
+            </Box>
+          </Box>
+
+          {/* 🟥 Bloco C — Faturamento e Percentual */}
+          <GradientBox
+            sx={{
+              borderRadius: '20px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              px: 2,
+              mt: 1,
+              minHeight: 40,
+            }}
+          >
+            <Box display="flex" alignItems="center">
+              <img src={DolarImg} width={16} height={16} />
+              <Typography variant="body1" color="white" fontWeight="bold" ml={1}>
+                {dados.lojasM.faturamentoTotal.toLocaleString('pt-BR')}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+              <Typography variant="body1" color="white" fontWeight="bold" mr={1}>
+                {formatarNumero(resultadoLojasM)}
+              </Typography>
+              <img src={porcem} width={14} height={14} />
+            </Box>
+          </GradientBox>
+
+          {/* 🔘 Quantidade Disponível (Caixa Flutuante à esquerda) */}
+          <Box
+            sx={{
+              bgcolor: '#6411D9',
+              width: 48,
+              height: 48,
+              borderRadius: '10px',
+              border: '2px solid #F27405',
+              position: 'absolute',
+              left: -24, // invertido!
+              top: '50%',
+              transform: 'translateY(-50%)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Typography color="white" fontWeight="bold">
+              {dados.lojasM.quantidade}
+            </Typography>
+          </Box>
+        </Paper>
+
+
 
 
 
@@ -1241,7 +1444,7 @@ export default function Buy() {
                 <div className="flex flex-col w-[80%] mr-8 ml-4 justify-between h-full">
                   {/* Título "Terrenos" */}
                   <div className="bg-gradient-to-l flex items-center justify-start from-[#6411D9] to-[#F27405] h-[30%] rounded-[5px] ">
-                    <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Médias</h1>
+                    <h1 className="text-white text-xl font-bold ml-[10px]">Lojas Médias Alterar</h1>
                   </div>
 
                   {/* Informações de preço */}
