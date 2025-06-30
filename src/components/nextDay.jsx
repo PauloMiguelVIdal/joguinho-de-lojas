@@ -18,9 +18,11 @@ export function NextDay() {
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
             return;
         }
-
+        
+        alert("saçdfjasçkldfj")
         const novoDia = dados.dia + 1;
         atualizarDados("dia", novoDia);
+        console.log(dados.dia);
         calcularFaturamento();
     };
 

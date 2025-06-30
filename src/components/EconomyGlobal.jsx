@@ -25,10 +25,10 @@ export default function EconomyGlobal(){
         }
     }
     
-    for (let i = 1; i <= 30; i++) {
-        dados.dia = i;
-        randomEconomy();
-    }
+    // for (let i = 1; i <= 30; i++) {
+    //     dados.dia = i;
+    //     randomEconomy();
+    // } isso estava atribuindo o valor ao dia e não é pra fazer isso
     
     console.log("Estados econômicos registrados:", arrEstadosEconomicos);
 
