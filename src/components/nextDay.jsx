@@ -19,10 +19,10 @@ export function NextDay() {
             return;
         }
         
-        alert("saçdfjasçkldfj")
+        // alert("saçdfjasçkldfj")
         const novoDia = dados.dia + 1;
         atualizarDados("dia", novoDia);
-        console.log(dados.dia);
+        // console.log(dados.dia);
         calcularFaturamento();
     };
 
