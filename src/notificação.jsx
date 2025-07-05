@@ -113,25 +113,37 @@ else
       let headEconomiaGlobal = "";
     
       switch (dados.economiaGlobal) {
-        case "estável":
-          contentEconomiaGlobal =
-            "Há um equilíbrio entre crescimento e desafios. Existe 50% de chance de eventos favoráveis, como aumento de faturamento, redução de impostos e diminuição dos preços de construção. Por outro lado, também há 50% de chance de eventos desfavoráveis, como queda de faturamento, aumento de impostos e elevação dos preços de construção.";
-          headEconomiaGlobal = "Economia Estável";
-          break;
         case "aquecida":
           contentEconomiaGlobal =
-            "Com mercados aquecidos e demanda em alta, há 65% de chance de eventos favoráveis, incluindo crescimento no faturamento, redução de impostos e queda nos preços de construção. No entanto, ainda há 35% de probabilidade de eventos desfavoráveis, como diminuição do faturamento, aumento dos impostos e encarecimento da construção.";
+            "O mercado está aquecido, com alta demanda e grandes chances de crescimento no faturamento, favorecimento fiscal e redução nos custos de construção. Ainda assim, riscos negativos podem surgir.";
           headEconomiaGlobal = "Economia Aquecida";
+          break;
+        case "progressiva":
+          contentEconomiaGlobal =
+            "A economia avança de forma constante, com boas perspectivas de aumento de faturamento, incentivos fiscais e queda nos custos de obras. Pequenos riscos ainda estão presentes.";
+          headEconomiaGlobal = "Economia em Crescimento";
+          break;
+        case "estável":
+          contentEconomiaGlobal =
+            "O cenário está equilibrado, com igual probabilidade de incentivos ou dificuldades, como variação nos impostos, no faturamento e nos custos de construção.";
+          headEconomiaGlobal = "Economia Estável";
+          break;
+        case "declinio":
+          contentEconomiaGlobal =
+            "A economia mostra sinais de enfraquecimento, com maior risco de perdas financeiras, aumento de impostos e encarecimento de obras, embora ainda existam oportunidades pontuais.";
+          headEconomiaGlobal = "Economia em Declínio";
           break;
         case "recessão":
           contentEconomiaGlobal =
-            "A retração econômica aumenta os desafios do mercado. Nesse cenário, a chance de eventos favoráveis, como crescimento de faturamento, redução de impostos e queda dos preços de construção, é de 35%, enquanto os eventos desfavoráveis, como redução do faturamento, aumento de impostos e encarecimento da construção, possuem 65% de probabilidade.";
+            "A recessão traz um cenário adverso, com alta probabilidade de quedas no faturamento, carga tributária elevada e custos de construção maiores. Benefícios são raros, mas possíveis.";
           headEconomiaGlobal = "Economia em Recessão";
           break;
         default:
           contentEconomiaGlobal = "Informações econômicas indisponíveis.";
           headEconomiaGlobal = "Estado econômico desconhecido";
       }
+      
+      
       
 
     return (
