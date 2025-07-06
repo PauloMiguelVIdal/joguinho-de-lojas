@@ -53,3 +53,6 @@ export default function EconomyGlobal() {
     </div>
   );
 }
+
+
+//iniciar alterações
