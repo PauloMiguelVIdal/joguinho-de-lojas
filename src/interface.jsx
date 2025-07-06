@@ -18,7 +18,7 @@ import EconomyGlobal from "./components/EconomyGlobal";
 import InputName from "./components/inputName";
 import Day from "./components/day";
 import { Achievements } from "./components/Achievements"
-
+import Economys from "./components/economys";
 
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
@@ -56,14 +56,15 @@ function Interface() {
                         <EconomyGlobal />
                     </div>
                 </div>
-                <div className="grid col-start-9 col-end-11 row-start-2 row-end-3 ml-[10px]">
+                <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">
 
                 </div>
                 <div className="grid col-start-9 col-end-11 row-start-1 row-end-2 ml-[10px]">
                     <Buttons />
                 </div>
-                {/* <div className="grid col-start-9 col-end-11 row-start-4 row-end-6">
-                </div> */}
+                <div className="grid col-start-9 col-end-11 row-start-3 row-end-5">
+                <Economys/>
+                </div>
                 <div className="grid col-start-9 col-end-11 row-start-5 row-end-7">
                     <Texes />
                 </div>

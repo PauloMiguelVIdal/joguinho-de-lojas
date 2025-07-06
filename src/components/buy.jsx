@@ -192,7 +192,7 @@ export default function Buy() {
             >
               <GradientBox>
                 <Typography variant="subtitle1" color="white" fontWeight="bold">
-                  Lojas Pequenas
+                  Terrenos
                 </Typography>
               </GradientBox>
 
@@ -648,7 +648,7 @@ export default function Buy() {
                   Valor total
                 </Typography>
                 <Typography variant="body2" color="white" fontWeight="bold">
-                  {formatarNumero(dados.lojasP.preçoConstrução * quantidadeLojasP)}
+                  {formatarNumero(dados.lojasM.preçoConstrução * quantidadeLojasM)}
                 </Typography>
               </Box>
             </Box>
@@ -667,7 +667,7 @@ export default function Buy() {
                 }}
               >
                 <IconButton
-                  onClick={ComprarLojaP}
+                  onClick={ComprarLojaM}
                   sx={{
                     width: '100%',
                     height: '100%',
@@ -685,7 +685,7 @@ export default function Buy() {
 
               <Box display="flex" alignItems="center" mt={0.5}>
                 <IconButton
-                  onClick={DiminuirQuantidadeLojasP}
+                  onClick={DiminuirQuantidadeLojasM}
                   sx={{
                     bgcolor: '#6411D9',
                     width: 28,
@@ -713,7 +713,7 @@ export default function Buy() {
                   </Typography>
                 </Box>
                 <IconButton
-                  onClick={AumentarQuantidadeLojasP}
+                  onClick={AumentarQuantidadeLojasM}
                   sx={{
                     bgcolor: '#6411D9',
                     width: 28,
@@ -1016,7 +1016,7 @@ export default function Buy() {
             >
               <GradientBox>
                 <Typography variant="subtitle1" color="white" fontWeight="bold">
-                  Lojas Pequenas
+                  Terrenos
                 </Typography>
               </GradientBox>
 
@@ -1462,7 +1462,7 @@ export default function Buy() {
                   Valor total
                 </Typography>
                 <Typography variant="body2" color="white" fontWeight="bold">
-                  {formatarNumero(dados.lojasP.preçoConstrução * quantidadeLojasP)}
+                  {formatarNumero(dados.lojasM.preçoConstrução * quantidadeLojasM)}
                 </Typography>
               </Box>
             </Box>
@@ -1481,7 +1481,7 @@ export default function Buy() {
                 }}
               >
                 <IconButton
-                  onClick={ComprarLojaP}
+                  onClick={ComprarLojaM}
                   sx={{
                     width: '100%',
                     height: '100%',
@@ -1499,7 +1499,7 @@ export default function Buy() {
 
               <Box display="flex" alignItems="center" mt={0.5}>
                 <IconButton
-                  onClick={DiminuirQuantidadeLojasP}
+                  onClick={DiminuirQuantidadeLojasM}
                   sx={{
                     bgcolor: '#6411D9',
                     width: 28,
@@ -1527,7 +1527,7 @@ export default function Buy() {
                   </Typography>
                 </Box>
                 <IconButton
-                  onClick={AumentarQuantidadeLojasP}
+                  onClick={AumentarQuantidadeLojasM}
                   sx={{
                     bgcolor: '#6411D9',
                     width: 28,
