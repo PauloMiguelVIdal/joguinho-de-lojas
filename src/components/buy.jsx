@@ -1156,7 +1156,7 @@ export default function Buy() {
             </Box>
             <Box display="flex" alignItems="center">
               <Typography variant="body1" color="white" fontWeight="bold" mr={1}>
-                {formatarNumero(resultadoTerrenos)}
+                {(resultadoTerrenos).toFixed(2)}
               </Typography>
               <img src={porcem} width={14} height={14} />
             </Box>
@@ -1361,7 +1361,7 @@ export default function Buy() {
             </Box>
             <Box display="flex" alignItems="center">
               <Typography variant="body1" color="white" fontWeight="bold" mr={1}>
-                {formatarNumero(resultadoLojasP)}
+                {(resultadoLojasP).toFixed(2)}
               </Typography>
               <img src={porcem} width={14} height={14} />
             </Box>
@@ -1562,7 +1562,7 @@ export default function Buy() {
             </Box>
             <Box display="flex" alignItems="center">
               <Typography variant="body1" color="white" fontWeight="bold" mr={1}>
-                {formatarNumero(resultadoLojasM)}
+                {(resultadoLojasM).toFixed(2)}
               </Typography>
               <img src={porcem} width={14} height={14} />
             </Box>
@@ -1761,7 +1761,7 @@ export default function Buy() {
             </Box>
             <Box display="flex" alignItems="center">
               <Typography variant="body1" color="white" fontWeight="bold" mr={1}>
-                {formatarNumero(resultadoLojasM)}
+                {(resultadoLojasG).toFixed(2)}
               </Typography>
               <img src={porcem} width={14} height={14} />
             </Box>

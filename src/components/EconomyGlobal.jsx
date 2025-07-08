@@ -7,6 +7,8 @@ import industria from '../components/setores/industria.png';
 import comercio from '../components/setores/comercio.png';
 import imobiliario from '../components/setores/Imobiliário.png';
 import energia from '../components/setores/torre-eletrica.png';
+import Converter from "./Converter";
+
 
 export default function EconomyGlobal() {
   const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
@@ -39,16 +41,6 @@ export default function EconomyGlobal() {
   const valorEconomico = (estado) =>
     ({ recessão: -2, declinio: -1, estável: 0, progressiva: 1, aquecida: 2 }[estado] ?? 0);
 
-  const resultadoEconomia = (valor) => {
-    switch (valor) {
-      case valor < -5 : return "recessão";
-      case valor >=-5 && valor <-2 : return "declinio";
-      case  valor >=-2 && valor <2 : return "estável";
-      case valor >=2 && valor <5: return "progressiva";
-      case valor >=5 : return "aquecida";
-      default: return 0;
-    }
-  };
 
 
   
@@ -60,7 +52,7 @@ export default function EconomyGlobal() {
 
 
       const novaEconomia = resultadoEconomia(somaEconomias);
-      console.log(novaEconomia, "Teste")
+    
       atualizarDados('modalEconomiaGlobal', {
         ...dados.modalEconomiaGlobal,
         estadoModal: true
@@ -141,6 +133,7 @@ export default function EconomyGlobal() {
 
   return (
     <div className="flex max-h-[50px] w-[100%] bg-white rounded-[10px]">
+      <Converter />
       <div className={`${corClasse} min-h-[50px] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center`}>
         <img className="w-[60%] max-w-[58px] aspect-square" src={circularEconomia} alt="Economia" />
       </div>
