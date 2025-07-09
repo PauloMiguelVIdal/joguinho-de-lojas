@@ -47,21 +47,21 @@ export default function EconomyGlobal() {
 
   // Altera a economia global a cada 90 dias
   useEffect(() => {
-    if (dados.dia % 90 === 0 && dados.dia >269) {
+    // if (dados.dia % 90 === 0 && dados.dia >269) {
 
 
 
-      const novaEconomia = resultadoEconomia(somaEconomias);
+    //   // const novaEconomia = resultadoEconomia(somaEconomias);
     
-      atualizarDados('modalEconomiaGlobal', {
-        ...dados.modalEconomiaGlobal,
-        estadoModal: true
-      });
+    //   // atualizarDados('modalEconomiaGlobal', {
+    //   //   ...dados.modalEconomiaGlobal,
+    //   //   estadoModal: true
+    //   // });
 
 
-      atualizarDados("economiaGlobal", novaEconomia);
-      console.log("useEffect chamado5! Economia:", novaEconomia);
-    }
+    //   // atualizarDados("economiaGlobal", novaEconomia);
+    //   // console.log("useEffect chamado5! Economia:", novaEconomia);
+    // }
 
     if (dados.dia % 90 === 0 && dados.dia <= 269) {
       const novaEconomia = selecionarItem(estadosEconômicos);

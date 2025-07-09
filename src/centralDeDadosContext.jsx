@@ -13,8 +13,8 @@ const CentraldeDadosProvider = ({ children }) => {
     setorAtivo: "agricultura",
     fimGame: false,
     nomeEmpresa: "",
-    saldo: 180000,
-    dia: 248,
+    saldo: 9000000,
+    dia: 290,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -75,7 +75,7 @@ const CentraldeDadosProvider = ({ children }) => {
       },
       arrayFatu: [],
       somaArrayFatu: "",
-      quantidade: 3,
+      quantidade: 0,
       quantidadeNecTerreno: 0,
       preçoConstrução: 40000,
       faturamentoUnitário: 130,
@@ -101,7 +101,7 @@ const CentraldeDadosProvider = ({ children }) => {
       },
       arrayFatu: [],
       somaArrayFatu: 0,
-      quantidade: 2,
+      quantidade: 0,
       quantidadeNecTerreno: 1,
       preçoConstrução: 50000,
       faturamentoUnitário: 850,
@@ -127,7 +127,7 @@ const CentraldeDadosProvider = ({ children }) => {
       },
       arrayFatu: [],
       somaArrayFatu: "",
-      quantidade: 2,
+      quantidade: 0,
       quantidadeNecTerreno: 2,
       preçoConstrução: 100000,
       faturamentoUnitário: 2000,
@@ -153,7 +153,7 @@ const CentraldeDadosProvider = ({ children }) => {
       },
       arrayFatu: [],
       somaArrayFatu: "",
-      quantidade: 1,
+      quantidade: 0,
       quantidadeNecTerreno: 3,
       preçoConstrução: 240000,
       faturamentoUnitário: 5000,
@@ -271,10 +271,10 @@ const CentraldeDadosProvider = ({ children }) => {
           desc: "Base da produção agrícola. Dá suporte às fazendas e à alimentação.",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
-            liberado: true,
+            liberado: false,
           },
-          custoConstrucao: 200000,
-          quantidade: 4,
+          custoConstrucao: 2000,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 20000,
             impostoFixo: 1000,
@@ -283,118 +283,209 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            terrenos: 1,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           ForneceMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome: "Feira",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Fábrica De Embalagem",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Padaria",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Fábrica de Rações",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Refinaria de Biocombustíveis",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Usina de Biomassa",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Restaurante",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Redes de Fast-Food",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Petshop",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
+              nome: "Fábrica de Fertilizantes",
               redCusto: {
                 nível1: 10,
-                nível2: 5,
-                nível3: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
                 nível1: 1,
                 nível2: 100,
-                nível3: 1
+                nível3: 4
               }
             },
             {
-              nome: "Biofábrica",
+              nome: "Fazenda administrativa",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Mercado",
+              nome: "Silo",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome: "Cooperativas agrícolas",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Armazém",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -422,25 +513,25 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Agricultura",
             liberado: true,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 5000,
           quantidade: 1,
           finanças: {
-            faturamentoUnitário: 2000,
+            faturamentoUnitário: 550,
             impostoFixo: 1000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            terrenos: 1,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Supermercado",
+            "Mercado",
             "Feira",
             "Restaurante",
             "Redes de Fast-Food",
@@ -449,113 +540,138 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome: "Feira",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Restaurante",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Redes de Fast-Food",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Petshop",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
+              nome: "Fábrica de Fertilizantes",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 10,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 100,
+                nível3: 4
               }
             },
             {
-              nome: "Biofábrica",
+              nome: "Fazenda administrativa",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Mercado",
+              nome: "Silo",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome: "Cooperativas agrícolas",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Armazém",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
-
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -575,24 +691,24 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Agricultura",
             liberado: true,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 30000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1000,
+            impostoFixo: 5500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            terrenos: 1,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Supermercado",
+            "Mercado",
             "Feira",
             "Restaurante",
             "Redes de Fast-Food",
@@ -603,109 +719,162 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome: "Feira",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Fábrica de Bebidas",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Refinaria de Biocombustíveis",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Usina de Biomassa",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Restaurante",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Redes de Fast-Food",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
+
           RecebeMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
+              nome: "Fábrica de Fertilizantes",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Biofábrica",
+              nome: "Fazenda administrativa",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Mercado",
+              nome: "Cooperativas agrícolas",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome: "Silo",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Armazém",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -732,128 +901,104 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 200000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
+            faturamentoUnitário: 10,
+            impostoFixo: 20000,
+            impostoSobreFatu: 0.02000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
+            terrenos: 0,
             lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
 
           ForneceMelhoraEficiencia: [
             {
+              nome: "Plantação De Grãos",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Biofábrica",
+              nome: "Pomares",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Mercado",
+              nome: "Fazenda De Vacas",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome: "Granja De Aves",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Criação De Ovinos",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
+
           RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
+            
           ],
 
           recursoDeConstrução: [],
@@ -893,15 +1038,15 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
+            terrenos: 10,
             lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            lojasM: 1,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Supermercado",
+            "Mercado",
             "Feira",
             "Restaurante",
             "Redes de Fast-Food",
@@ -910,111 +1055,163 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
+              nome: "Plantação De Grãos",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Biofábrica",
+              nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Pomares",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Fazenda De Vacas",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Granja De Aves",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Criação De Ovinos",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Plantação De Eucalipto",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Plantação De Plantas Medicinais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome:  "Feira",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome:  "Fábrica de Ração",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome:  "Usina de Biomassa",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
           RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
           ],
 
           recursoDeConstrução: []
@@ -1046,10 +1243,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 1,
+            terrenos: 7,
+            lojasP: 2,
             lojasM: 2,
-            lojasG: 1,
+            lojasG: 2,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -1061,7 +1258,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Criação De Ovinos",
             "Plantação De Eucalipto",
             "Plantação De Plantas Medicinais",
-            "Supermercado",
+            "Mercado",
             "Feira",
             "Fábrica de Ração",
             "Restaurante",
@@ -1070,109 +1267,174 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
+              nome: "Plantação De Grãos",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Biofábrica",
+              nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Pomares",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Fazenda De Vacas",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Granja De Aves",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Criação De Ovinos",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Plantação De Eucalipto",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Plantação De Plantas Medicinais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome:  "Feira",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome:  "Fábrica de Ração",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome:  "Usina de Biomassa",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
+              nome:  "Fábrica de Embalagens",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -1199,7 +1461,7 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Armazenamentos Agrícolas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 90000,
           quantidade: 3,
           finanças: {
             faturamentoUnitário: 2000,
@@ -1209,10 +1471,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
+            terrenos: 0,
             lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -1224,7 +1486,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Criação De Ovinos",
             "Plantação De Eucalipto",
             "Plantação De Plantas Medicinais",
-            "Supermercado",
+            "Mercado",
             "Feira",
             "Fábrica de Ração",
             "Restaurante",
@@ -1233,111 +1495,72 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
+              nome: "Feira",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Biofábrica",
+              nome: "Usina de Biomassa",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Mercado",
+              nome: "Fábrica de Ração",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome: "Centro De Comércio De Plantações",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Cooperativa Agrícola",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
           RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
           ],
 
           recursoDeConstrução: []
@@ -1369,10 +1592,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
+            terrenos: 0,
             lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -1385,111 +1608,59 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
+              nome: "Cooperativa Agrícola",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Biofábrica",
+              nome: "Fábrica De Ração",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Mercado",
+              nome: "Usina De Biomassa",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome: "Refinaria De Biocombustíveis",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
           RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
           ],
 
           recursoDeConstrução: []
@@ -1521,10 +1692,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
+            terrenos: 2,
             lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -1536,55 +1707,42 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
+              nome: "Usina de Biomassa",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Biofábrica",
+              nome: "Refinaria de Biocombustíveis",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Mercado",
+              nome: "Fábrica de Fertilizantes",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -1592,53 +1750,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -1672,15 +1830,15 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
+            terrenos: 0,
             lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Supermercado",
+            "Mercado",
             "Açougue",
             "Feira",
             "Restaurante",
@@ -1693,109 +1851,148 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome: "Açougue",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Restaurante",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Redes de Fast-Food",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Padaria",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Fábrica De Pães",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Usina de Biomassa",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Fábrica de Fertilizantes",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
+              nome: "Fazenda Administrativa",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Biofábrica",
+              nome: "Fábrica de Ração",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -1829,15 +2026,15 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            terrenos: 1,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Supermercado",
+            "Mercado",
             "Açougue",
             "Feira",
             "Restaurante",
@@ -1849,109 +2046,135 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Feira Livre",
+              nome: "Açougue",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Restaurante",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Redes De Fast-Food",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Fábrica De Ração",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Petshop",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Usina de Biomassa",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
+              nome: "Fazenda Administrativa",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Biofábrica",
+              nome: "Fábrica de Ração",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -1993,7 +2216,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Supermercado",
+            "Mercado",
             "Açougue",
             "Feira",
             "Restaurante",
@@ -2007,107 +2230,81 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
+              nome: "Fazenda Administrativa",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
-              nome: "Biofábrica",
+              nome: "Fábrica de Ração",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -2159,53 +2356,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -2213,53 +2410,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -2310,53 +2507,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -2364,53 +2561,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -2462,53 +2659,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -2516,53 +2713,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -2611,7 +2808,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Criação De Ovinos",
             "Plantação De Eucalipto",
             "Plantação De Plantas Medicinais",
-            "Supermercado",
+            "Mercado",
             "Feira",
             "Fábrica de Ração",
             "Restaurante",
@@ -2622,53 +2819,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -2676,53 +2873,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -2772,53 +2969,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -2826,53 +3023,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -2964,53 +3161,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3018,53 +3215,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3109,53 +3306,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3163,53 +3360,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3254,53 +3451,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3308,53 +3505,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3402,53 +3599,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3456,53 +3653,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3550,53 +3747,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3604,53 +3801,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3698,53 +3895,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3752,53 +3949,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3846,53 +4043,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3900,53 +4097,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -3994,53 +4191,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -4048,53 +4245,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -4143,53 +4340,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -4197,53 +4394,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -4297,53 +4494,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -4351,53 +4548,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -4537,53 +4734,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -4591,53 +4788,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -4690,53 +4887,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -4744,53 +4941,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -4843,53 +5040,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -4897,53 +5094,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -4996,53 +5193,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5050,53 +5247,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5149,53 +5346,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5203,53 +5400,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5302,53 +5499,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5356,53 +5553,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5455,53 +5652,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5509,53 +5706,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5608,53 +5805,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5662,53 +5859,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5761,53 +5958,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5815,53 +6012,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5914,53 +6111,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -5968,53 +6165,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6068,53 +6265,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6122,53 +6319,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6221,53 +6418,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6275,53 +6472,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6374,53 +6571,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6428,53 +6625,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6528,53 +6725,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6582,53 +6779,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6681,53 +6878,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6735,53 +6932,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6834,53 +7031,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6888,53 +7085,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -6987,53 +7184,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7041,53 +7238,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7140,53 +7337,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7194,53 +7391,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7293,53 +7490,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7347,53 +7544,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7446,53 +7643,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7500,53 +7697,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7598,53 +7795,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7652,53 +7849,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7751,53 +7948,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7805,53 +8002,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7899,53 +8096,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -7953,53 +8150,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8051,53 +8248,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8105,53 +8302,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8197,53 +8394,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8251,53 +8448,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8349,53 +8546,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8403,53 +8600,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8502,53 +8699,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8556,53 +8753,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8655,53 +8852,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8709,53 +8906,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8808,53 +9005,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8862,53 +9059,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -8961,53 +9158,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -9015,53 +9212,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -9114,53 +9311,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -9168,53 +9365,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -9266,53 +9463,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -9320,53 +9517,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -9419,53 +9616,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -9473,53 +9670,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -9642,53 +9839,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -9696,53 +9893,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -9795,53 +9992,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -9849,53 +10046,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -9948,53 +10145,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10002,53 +10199,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10101,53 +10298,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10155,53 +10352,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10254,53 +10451,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10308,53 +10505,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10407,53 +10604,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10461,53 +10658,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10560,53 +10757,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10614,53 +10811,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10713,53 +10910,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10767,53 +10964,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10866,53 +11063,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -10920,53 +11117,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11019,53 +11216,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11073,53 +11270,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11172,53 +11369,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11226,53 +11423,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11325,53 +11522,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11379,53 +11576,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11478,53 +11675,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11532,53 +11729,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11631,53 +11828,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11685,53 +11882,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11784,53 +11981,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11838,53 +12035,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11937,53 +12134,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -11991,53 +12188,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -12090,53 +12287,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -12144,53 +12341,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -12243,53 +12440,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -12297,53 +12494,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -12396,53 +12593,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -12450,53 +12647,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -12549,53 +12746,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -12603,53 +12800,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -12702,53 +12899,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -12756,53 +12953,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -12855,53 +13052,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -12909,53 +13106,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13008,53 +13205,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13062,53 +13259,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13161,53 +13358,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13215,53 +13412,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13314,53 +13511,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13368,53 +13565,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13515,53 +13712,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13569,53 +13766,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13668,53 +13865,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13722,53 +13919,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13821,53 +14018,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13875,53 +14072,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -13974,53 +14171,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -14028,53 +14225,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
 
               }
             },
@@ -14128,53 +14325,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -14182,53 +14379,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -14281,53 +14478,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -14335,53 +14532,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -14434,53 +14631,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -14488,53 +14685,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -14587,53 +14784,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -14641,53 +14838,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -14740,53 +14937,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -14794,53 +14991,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -14893,53 +15090,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -14947,53 +15144,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -15046,53 +15243,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -15100,53 +15297,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -15199,53 +15396,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -15253,53 +15450,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -15352,53 +15549,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -15406,53 +15603,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -15505,53 +15702,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -15559,53 +15756,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -15706,53 +15903,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -15760,53 +15957,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
                 nível1: 2,
-                nível2: 5,
-                nível3: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -15859,53 +16056,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -15913,53 +16110,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16012,53 +16209,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16066,53 +16263,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16166,53 +16363,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16220,53 +16417,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16319,53 +16516,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16373,53 +16570,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16472,53 +16669,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16526,53 +16723,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16626,53 +16823,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16680,53 +16877,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16779,53 +16976,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16833,53 +17030,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16932,53 +17129,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -16986,53 +17183,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -17085,53 +17282,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -17139,53 +17336,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -17238,53 +17435,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -17292,53 +17489,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -17391,53 +17588,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -17445,53 +17642,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -17544,53 +17741,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],
@@ -17598,53 +17795,53 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Biofábrica",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Mercado",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
             {
               nome: "Feira Livre",
               redCusto: {
-                nível1: 4,
-                nível2: 5,
-                nível3: 1,
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
               },
               aumFatu: {
-                nível1: 3,
-                nível2: 3,
-                nível3: 1
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
               }
             },
           ],

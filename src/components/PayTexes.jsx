@@ -1,317 +1,141 @@
-import React from "react";
-import { useContext, useEffect } from 'react'
-import { CentraldeDadosContext } from '../centralDeDadosContext'
-import despesasImg from "../imagens/despesas.png";
 
-export default function PayTexes() {
+  import { useContext, useEffect } from "react";
+  import { CentraldeDadosContext } from "../centralDeDadosContext";
+  import despesasImg from "../imagens/despesas.png";
 
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext)
-  const todasLojas = [
-    "terrenos",
-    "lojasP"
-    , "lojasM",
-    "lojasG"
-  ];
-
-  let impostoTotalDiário = 0;
-  let impostoTotalFixoLojas = 0;
-  let impostoValorImpostoSobreFaturamentoAtualizadoDiário = 0;
-  let fatuTotal = 0
-
-  let fatuDiário = 0
-
-
-  useEffect(() => {
-    todasLojas.forEach(edifícioSelecionado => {
-      const valoresFaturamento = dados[edifícioSelecionado].faturamentoMensal;
-      let valoresFaturamentoDiário = dados[edifícioSelecionado].faturamentoTotal;
-
-      fatuDiário = parseFloat(valoresFaturamentoDiário);
-
-      // Adiciona o valor diário ao arrayFatu
-      dados[edifícioSelecionado].arrayFatu.push(fatuDiário);
-
-      const impostoSobreFaturamentoLojas = dados[edifícioSelecionado].impostoSobreFaturamento
-      const impostoFixosLojas = dados[edifícioSelecionado].quantidade * dados[edifícioSelecionado].impostoFixo
-      
-      const valorImpostoSobreFaturamentoAtualizado = valoresFaturamento * impostoSobreFaturamentoLojas
-      const valorImpostoSobreFaturamentoAtualizadoDiário = valoresFaturamentoDiário * impostoSobreFaturamentoLojas
-      const somaImposto = impostoFixosLojas + valorImpostoSobreFaturamentoAtualizadoDiário
-      console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
-      console.log(impostoTotalFixoLojas)
-    
-      // console.log(somaImposto)
-      console.log(impostoTotalDiário)
-    
-      impostoTotalFixoLojas += parseFloat(impostoFixosLojas)
-      impostoValorImpostoSobreFaturamentoAtualizadoDiário += parseFloat(valorImpostoSobreFaturamentoAtualizadoDiário)
-      fatuTotal += parseFloat(valorImpostoSobreFaturamentoAtualizado)
-    
-      impostoTotalDiário += parseFloat(somaImposto)
-      const impostoMensalAtualizado = impostoTotalFixoLojas + fatuTotal
-      if (dados.dia % 30 === 0) {
-        // impostoValorImpostoSobreFaturamentoAtualizadoDiário = 0;
-        // fatuTotal = 0
-      }
-
-
-
-
-      atualizarDados("imposto", {
-        ...dados.imposto,
-        impostoDiário: impostoTotalDiário,
-        impostoMensal: impostoMensalAtualizado,
-        impostoFixoMensal: impostoTotalFixoLojas,
-        impostoFaturamentoMensal: fatuTotal,
-        impostoSobreFaturamentoDiário: impostoValorImpostoSobreFaturamentoAtualizadoDiário
-      })
-      // console.log(impostoValorImpostoSobreFaturamentoAtualizadoDiário)
-      // console.log(fatuTotal)
-      atualizarDados(`${edifícioSelecionado}`, {
-        ...dados[edifícioSelecionado],
-        valorImpostoSobreFaturamento: valorImpostoSobreFaturamentoAtualizado, valorImpostoFixoTotal: impostoFixosLojas
-      })
-    
-
-
-
-
-
-      const lojaAtual = dados[edifícioSelecionado].arrayFatu;
-      const soma = lojaAtual.reduce((acumulador, valorAtual) => acumulador + valorAtual, 0);
-
-      // Atualize o estado corretamente
-      atualizarDados(`${edifícioSelecionado}`, {
-        ...dados[edifícioSelecionado],  // Copie os dados existentes
-        somaArrayFatu: soma            // Atualize somaArrayFatu com o valor calculado
+  export default function PayTexes() {
+    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  
+    const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
+  
+    // Cálculo de impostos diário e mensal
+    useEffect(() => {
+      let impostoFixoTotal = 0;
+      let impostoFaturamentoMensal = 0;
+      let impostoDiarioTotal = 0;
+  
+      todasLojas.forEach((loja) => {
+        const dadosLoja = dados[loja];
+  
+        const faturamentoDiario = parseFloat(dadosLoja.faturamentoTotal);
+        const impostoFixo = dadosLoja.quantidade * dadosLoja.impostoFixo;
+        const impostoSobreFaturamento = faturamentoDiario * dadosLoja.impostoSobreFaturamento;
+  
+        // Adiciona faturamento ao array de faturamento
+        const novoArrayFatu = [...dadosLoja.arrayFatu, faturamentoDiario].slice(-30); // Mantém últimos 30 dias
+        const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
+        const impostoMensalSobreFaturamento = somaMensalFatu * dadosLoja.impostoSobreFaturamento;
+  
+        // Atualiza dados da loja
+        atualizarDados(loja, {
+          ...dadosLoja,
+          arrayFatu: novoArrayFatu,
+          somaArrayFatu: somaMensalFatu,
+          valorImpostoSobreFaturamento: impostoSobreFaturamento,
+          valorImpostoFixoTotal: impostoFixo
+        });
+  
+        impostoFixoTotal += impostoFixo;
+        impostoFaturamentoMensal += impostoMensalSobreFaturamento;
+        impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
       });
-
-
-
-      const valoresDiários = dados[edifícioSelecionado].arrayFatu.at(-1)
-
-      let somarValoresDiários = 0
-
-      somarValoresDiários += valoresDiários
-
-      console.log(somarValoresDiários)
-
-      console.log("useEffect chamado8!");
-
-      console.log(valoresDiários)
-
-    })
-  }, [dados.dia])
-
-
-
-
-
-
-
-
-  // Calcula a soma do arrayFatu
-
-
-  // const soma = dados[edifícioSelecionado].arrayFatu.reduce((acumulador, valorAtual) => acumulador + valorAtual, 0);
-
-  // // // Atualiza os dados com a soma calculada
-  // atualizarDados(edifícioSelecionado, { ...dados[edifícioSelecionado], somaArrayFatu: soma });
-
-  // console.log(soma); // Exibe a soma no console
-
-  // useEffect(()=>{
-  //   const removerDados = () => dados[edifícioSelecionado].arrayFatu.shift(1)
-  // removerDados()
-  // },[])
-
-
-
-
-
-
-  // const valorArrayFatu =()=> dados.arrayFatuDiário.push(somaFatuDiário)
-  // valorArrayFatu()
-
-  // const valoresSomadosFatu = (faturamento) => {
-  //   dados.arrayFatuDiário.push(faturamento)
-  // }
-  // valoresSomadosFatu(somaFatuDiário)
-
-
-
-
   
+      const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
   
+      atualizarDados("imposto", {
+        impostoDiário: impostoDiarioTotal,
+        impostoMensal: impostoMensalTotal,
+        impostoFixoMensal: impostoFixoTotal,
+        impostoFaturamentoMensal: impostoFaturamentoMensal,
+        impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
+      });
+    }, [dados.dia]);
+  
+    // Atualiza relatório diário de faturamento
+    useEffect(() => {
+      atualizarDados("relatórioFaturamento", {
+        ...dados.relatorioFaturamento,
+        [dados.dia]: todasLojas.map((loja) => dados[loja].faturamentoTotal)
+      });
+    }, [todasLojas.map((loja) => dados[loja].faturamentoTotal).join(",")]);
+  
+    // Atualiza relatório de impostos
+    useEffect(() => {
+      atualizarDados("relatóriosImpostos", {
+        ...dados.relatóriosImpostos,
+        [dados.dia]: {
+          terrenos: dados.terrenos.valorImpostoSobreFaturamento,
+          lojasP: dados.lojasP.valorImpostoSobreFaturamento,
+          lojasM: dados.lojasM.valorImpostoSobreFaturamento,
+          lojasG: dados.lojasG.valorImpostoSobreFaturamento,
+          valorTotalImpostoFaturamento:
+            dados.terrenos.valorImpostoSobreFaturamento +
+            dados.lojasP.valorImpostoSobreFaturamento +
+            dados.lojasM.valorImpostoSobreFaturamento +
+            dados.lojasG.valorImpostoSobreFaturamento,
+          valorTotalImpostoFixo:
+            dados.terrenos.valorImpostoFixoTotal +
+            dados.lojasP.valorImpostoFixoTotal +
+            dados.lojasM.valorImpostoFixoTotal +
+            dados.lojasG.valorImpostoFixoTotal,
+        }
+      });
+    }, [
+      dados.terrenos.valorImpostoSobreFaturamento,
+      dados.lojasP.valorImpostoSobreFaturamento,
+      dados.lojasM.valorImpostoSobreFaturamento,
+      dados.lojasG.valorImpostoSobreFaturamento
+    ]);
+  
+    // Gatilho de pagamento de despesas no dia 30
+// Define o início do novo ciclo de despesas
+useEffect(() => {
+  if (dados.dia % 30 === 0) {
+    atualizarDados('despesas', {
+      ...dados.despesas,
+      diaPagarDespesas: true,
+      despesasPagas: false,
+      proximoPagamento: "30"
+    });
+  }
+}, [dados.despesas.proximoPagamento]);
 
+// Abre o modal se ainda não pagou
+useEffect(() => {
+  if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
+    atualizarDados('modalDespesas', {
+      ...dados.modalDespesas,
+      estadoModal: true
+    });
+  }
+}, [dados.dia, dados.despesas.despesasPagas]);
 
+// Função que paga as despesas e desconta do saldo
+const PagarDespesas = () => {
+  if (!dados.despesas.despesasPagas) {
+    const novoSaldo = dados.saldo - dados.imposto.impostoMensal;
+    atualizarDados('saldo', novoSaldo);
+    atualizarDados('despesas', {
+      ...dados.despesas,
+      despesasPagas: true
+    });
+  }
+};
 
-
-
-
-
-
-
-
-
-
-
-  let impostoFixoTotalDiário = 0
-
-  useEffect(() => {
-    todasLojas.forEach(edifícioSelecionado => {
-      const impostoFixoTotal = dados[edifícioSelecionado].impostoFixo * dados[edifícioSelecionado].quantidade
-      impostoFixoTotalDiário += parseFloat(impostoFixoTotal)
-      const impostoDiário1 = impostoFixoTotalDiário + (dados[edifícioSelecionado].valorImpostoSobreFaturamentoAtualizado)
-      atualizarDados(`${edifícioSelecionado}`, {
-        ...dados[edifícioSelecionado],
-        valorImpostoFixoTotal: impostoFixoTotal
-      })
-
-      console.log(impostoFixoTotal)
-
-      atualizarDados({
-        ...dados.imposto, impostoFixoMensal: impostoFixoTotalDiário
-        , impostoDiário: impostoDiário1
-      })
-    })
-  }, [dados.dia])
-
-  useEffect(() => {
-    atualizarDados("relatórioFaturamento", {
-      ...dados.terrenos.arrayFatu, [dados.dia]:
-        [(dados.terrenos.faturamentoTotal),
-        (dados.lojasP.faturamentoTotal),
-        (dados.lojasM.faturamentoTotal),
-        (dados.lojasG.faturamentoTotal)
-        ]
-    })
-  }, [dados.terrenos.faturamentoTotal || dados.lojasP.faturamentoTotal || dados.lojasM.faturamentoTotal || dados.lojasG.faturamentoTotal])
-
-
-
-
-  useEffect(() => {
-
-  }, [dados.terrenos.faturamentoTotal])
-
-
-
-
-
-  //gera o objeto com o imposto novo no caso diário po conta do lojasp valorImposto sobre faturamento alterar de forma diária
-  useEffect(() => {
-    atualizarDados("relatóriosImpostos", {
-      ...dados.relatóriosImpostos, [dados.dia]:
-      {
-
-        //abaixo é para gerar de forma separada 
-
-
-        "terrenos": dados.terrenos.valorImpostoSobreFaturamento,
-        "lojasP": dados.lojasP.valorImpostoSobreFaturamento,
-        "lojasM": dados.lojasM.valorImpostoSobreFaturamento,
-        "lojasG": dados.lojasG.valorImpostoSobreFaturamento,
-        "valorTotalImpostoFaturamento":
-          dados.terrenos.valorImpostoSobreFaturamento +
-          dados.lojasP.valorImpostoSobreFaturamento +
-          dados.lojasM.valorImpostoSobreFaturamento +
-          dados.lojasG.valorImpostoSobreFaturamento,
-
-        "valorTotalImpostoFixo":
-          dados.terrenos.valorImpostoFixoTotal +
-          dados.lojasP.valorImpostoFixoTotal +
-          dados.lojasM.valorImpostoFixoTotal +
-          dados.lojasG.valorImpostoFixoTotal,
-      }
-    })
-  }, [dados.terrenos.valorImpostoSobreFaturamento || dados.lojasP.valorImpostoSobreFaturamento || dados.lojasM.valorImpostoSobreFaturamento || dados.lojasG.valorImpostoSobreFaturamento])
-
-
-  // --- seria uma boa forma de armazenar os dados diários em um array e depois somente pegar esse dados
-  //  e somar para definir o total diário, ou selecionar um indice e percorrer todos esse arrays que resultando
-  // no total sobre todo esse periodo ou criar um gráfico a partir disso
-
-  //seria interresante talvez para o faturamento para gerar os gráficos
-
-  useEffect(() => {
-    atualizarDados("relatóriosImpostos", {
-      ...dados.relatóriosImpostos, [dados.dia]:
-        [
-          // "total": dados.terrenos.valorImpostoSobreFaturamento + dados.lojasP.valorImpostoSobreFaturamento + dados.lojasM.valorImpostoSobreFaturamentodados + dados.lojasG.valorImpostoSobreFaturamento,
-          dados.terrenos.valorImpostoSobreFaturamento,
-          dados.lojasP.valorImpostoSobreFaturamento,
-          dados.lojasM.valorImpostoSobreFaturamento,
-          dados.lojasG.valorImpostoSobreFaturamento]
-    })
-  }, [dados.lojasP.valorImpostoSobreFaturamento])
-
-  useEffect(() => {
-    if (dados.dia % 30 === 0) {
-      const valorimpostoMensalAtual = dados.imposto.impostoMensal
-
-    }
-  }, [dados.dia])
-
-  useEffect(() => {
-    if (dados.dia % 30 === 0) {
-      atualizarDados('despesas', { ...dados.despesas, diaPagarDespesas: true, despesasPagas: false, proximoPagamento: "30" })
-    }
-  }, [dados.despesas.proximoPagamento])
-
-  // const outroDia = dados.dia % 30 === 0? dados.dia+1 : "nada"
-
-  // if(outroDia)
-  useEffect(() => {
-    // Verifica se é necessário atualizar as despesas e o estado modal
-    if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
-      const novasDespesas = { ...dados.despesas, despesasPagas: false };
-      atualizarDados('despesas', novasDespesas);
-      atualizarDados('modalDespesas', { ...dados.modalDespesas, estadoModal: true });
-    }
-  }, [dados.dia, dados.despesas.despesasPagas]);
-
-
-
-
-  const PagarDespesas = () => {
-    if (dados.despesas.despesasPagas) {
-      // return alert("Despesas desse mês já foram pagas.");
-
-    } else {
-
-      const novoSaldo = dados.saldo - dados.imposto.impostoMensal;
-      atualizarDados('saldo', novoSaldo);
-      atualizarDados('despesas', { ...dados.despesas, despesasPagas: true });
-      // atualizarDados('imposto', { ...dados.imposto, impostoMensal: 0 });
-      // atualizarDados('imposto', { ...dados.imposto, impostoSobreFaturamentoDiário:0});
-      // atualizarDados('imposto', { ...dados.imposto, impostoFaturamentoMensal: 0 });
-      // atualizarDados('faturamento', { ...dados.faturamento, faturamentoMensal: 0 });
-      // atualizarDados('faturamento', { ...dados.faturamento, faturamentoDiário: 0 });
-      // console.log(dados.saldo)
-
-
-
-
-
-      // alert("Despesas pagas.");
-    }
+// Atualiza o contador para o próximo pagamento
+useEffect(() => {
+  const proximoDiaChegar = (n) => {
+    return ((n % 30 === 0 ? n : n + (30 - (n % 30))) - dados.dia);
   };
+  const proximoDia = proximoDiaChegar(dados.dia);
+  atualizarDados("despesas", {
+    ...dados.despesas,
+    proximoPagamento: proximoDia
+  });
+}, [dados.dia]);
 
-
-
-
-  useEffect(() => {
-
-    const proximoDiaChegar = (n) => {
-
-      return ((n % 30 === 0 ? n : n + (30 - (n % 30))) - dados.dia);
-    }
-    const proximoDia = proximoDiaChegar(dados.dia);
-    atualizarDados("despesas", { ...dados.despesas, proximoPagamento: proximoDia }
-    )
-
-  }, [dados.dia])
+  
+ 
 
   if (dados.dia % 30 !== 0) {
     return (
@@ -371,5 +195,4 @@ export default function PayTexes() {
 
     )
   }
-
 }
