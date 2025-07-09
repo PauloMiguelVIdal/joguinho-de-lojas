@@ -14,7 +14,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
     saldo: 9000000,
-    dia: 290,
+    dia: 240,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -2208,10 +2208,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
+            terrenos: 0,
             lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -2228,32 +2228,6 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
               nome: "Mercado",
               redCusto: {
                 nível1: 1,
@@ -2267,7 +2241,85 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              nome: "Feira Livre",
+              nome:  "Açougue",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Restaurante",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Redes de Fast-Food",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Fábrica de Ração",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Petshop",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Usina de Biomassa",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -2338,10 +2390,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
+            terrenos: 0,
             lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],

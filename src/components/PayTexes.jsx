@@ -1,141 +1,157 @@
 
-  import { useContext, useEffect } from "react";
-  import { CentraldeDadosContext } from "../centralDeDadosContext";
-  import despesasImg from "../imagens/despesas.png";
+import { useContext, useEffect } from "react";
+import { CentraldeDadosContext } from "../centralDeDadosContext";
+import despesasImg from "../imagens/despesas.png";
 
-  export default function PayTexes() {
-    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-  
-    const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
-  
-    // Cálculo de impostos diário e mensal
-    useEffect(() => {
-      let impostoFixoTotal = 0;
-      let impostoFaturamentoMensal = 0;
-      let impostoDiarioTotal = 0;
-  
+export default function PayTexes() {
+  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+
+  const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
+
+  // Cálculo de impostos diário e mensal
+  useEffect(() => {
+    let impostoFixoTotal = 0;
+    let impostoFaturamentoMensal = 0;
+    let impostoDiarioTotal = 0;
+
+    todasLojas.forEach((loja) => {
+      const dadosLoja = dados[loja];
+
+      const faturamentoDiario = parseFloat(dadosLoja.faturamentoTotal);
+      const impostoFixo = dadosLoja.quantidade * dadosLoja.impostoFixo;
+      const impostoSobreFaturamento = faturamentoDiario * dadosLoja.impostoSobreFaturamento;
+
+      // Adiciona faturamento ao array de faturamento
+      const novoArrayFatu = [...dadosLoja.arrayFatu, faturamentoDiario].slice(-30); // Mantém últimos 30 dias
+      const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
+      const impostoMensalSobreFaturamento = somaMensalFatu * dadosLoja.impostoSobreFaturamento;
+
+      // Atualiza dados da loja
+      atualizarDados(loja, {
+        ...dadosLoja,
+        arrayFatu: novoArrayFatu,
+        somaArrayFatu: somaMensalFatu,
+        valorImpostoSobreFaturamento: impostoSobreFaturamento,
+        valorImpostoFixoTotal: impostoFixo
+      });
+
+      impostoFixoTotal += impostoFixo;
+      impostoFaturamentoMensal += impostoMensalSobreFaturamento;
+      impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
+    });
+
+    const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
+
+
+
+    atualizarDados("imposto", {
+      impostoDiário: impostoDiarioTotal,
+      impostoMensal: impostoMensalTotal,
+      impostoFixoMensal: impostoFixoTotal,
+      impostoFaturamentoMensal: impostoFaturamentoMensal,
+      impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
+    });
+
+    if (dados.dia === 250) {
       todasLojas.forEach((loja) => {
+
         const dadosLoja = dados[loja];
-  
-        const faturamentoDiario = parseFloat(dadosLoja.faturamentoTotal);
-        const impostoFixo = dadosLoja.quantidade * dadosLoja.impostoFixo;
-        const impostoSobreFaturamento = faturamentoDiario * dadosLoja.impostoSobreFaturamento;
-  
-        // Adiciona faturamento ao array de faturamento
-        const novoArrayFatu = [...dadosLoja.arrayFatu, faturamentoDiario].slice(-30); // Mantém últimos 30 dias
-        const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
-        const impostoMensalSobreFaturamento = somaMensalFatu * dadosLoja.impostoSobreFaturamento;
-  
-        // Atualiza dados da loja
         atualizarDados(loja, {
           ...dadosLoja,
-          arrayFatu: novoArrayFatu,
-          somaArrayFatu: somaMensalFatu,
-          valorImpostoSobreFaturamento: impostoSobreFaturamento,
-          valorImpostoFixoTotal: impostoFixo
+          faturamentoUnitário: 0,
+          faturamentoUnitárioPadrão: 0,
+          impostoFixo: 0,
+          impostoSobreFaturamento:0
         });
-  
-        impostoFixoTotal += impostoFixo;
-        impostoFaturamentoMensal += impostoMensalSobreFaturamento;
-        impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
       });
-  
-      const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
-  
-      atualizarDados("imposto", {
-        impostoDiário: impostoDiarioTotal,
-        impostoMensal: impostoMensalTotal,
-        impostoFixoMensal: impostoFixoTotal,
-        impostoFaturamentoMensal: impostoFaturamentoMensal,
-        impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
-      });
-    }, [dados.dia]);
-  
-    // Atualiza relatório diário de faturamento
-    useEffect(() => {
-      atualizarDados("relatórioFaturamento", {
-        ...dados.relatorioFaturamento,
-        [dados.dia]: todasLojas.map((loja) => dados[loja].faturamentoTotal)
-      });
-    }, [todasLojas.map((loja) => dados[loja].faturamentoTotal).join(",")]);
-  
-    // Atualiza relatório de impostos
-    useEffect(() => {
-      atualizarDados("relatóriosImpostos", {
-        ...dados.relatóriosImpostos,
-        [dados.dia]: {
-          terrenos: dados.terrenos.valorImpostoSobreFaturamento,
-          lojasP: dados.lojasP.valorImpostoSobreFaturamento,
-          lojasM: dados.lojasM.valorImpostoSobreFaturamento,
-          lojasG: dados.lojasG.valorImpostoSobreFaturamento,
-          valorTotalImpostoFaturamento:
-            dados.terrenos.valorImpostoSobreFaturamento +
-            dados.lojasP.valorImpostoSobreFaturamento +
-            dados.lojasM.valorImpostoSobreFaturamento +
-            dados.lojasG.valorImpostoSobreFaturamento,
-          valorTotalImpostoFixo:
-            dados.terrenos.valorImpostoFixoTotal +
-            dados.lojasP.valorImpostoFixoTotal +
-            dados.lojasM.valorImpostoFixoTotal +
-            dados.lojasG.valorImpostoFixoTotal,
-        }
-      });
-    }, [
-      dados.terrenos.valorImpostoSobreFaturamento,
-      dados.lojasP.valorImpostoSobreFaturamento,
-      dados.lojasM.valorImpostoSobreFaturamento,
-      dados.lojasG.valorImpostoSobreFaturamento
-    ]);
-  
-    // Gatilho de pagamento de despesas no dia 30
-// Define o início do novo ciclo de despesas
-useEffect(() => {
-  if (dados.dia % 30 === 0) {
-    atualizarDados('despesas', {
-      ...dados.despesas,
-      diaPagarDespesas: true,
-      despesasPagas: false,
-      proximoPagamento: "30"
-    });
-  }
-}, [dados.despesas.proximoPagamento]);
+    }
+  }, [dados.dia]);
 
-// Abre o modal se ainda não pagou
-useEffect(() => {
-  if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
-    atualizarDados('modalDespesas', {
-      ...dados.modalDespesas,
-      estadoModal: true
+  // Atualiza relatório diário de faturamento
+  useEffect(() => {
+    atualizarDados("relatórioFaturamento", {
+      ...dados.relatorioFaturamento,
+      [dados.dia]: todasLojas.map((loja) => dados[loja].faturamentoTotal)
     });
-  }
-}, [dados.dia, dados.despesas.despesasPagas]);
+  }, [todasLojas.map((loja) => dados[loja].faturamentoTotal).join(",")]);
 
-// Função que paga as despesas e desconta do saldo
-const PagarDespesas = () => {
-  if (!dados.despesas.despesasPagas) {
-    const novoSaldo = dados.saldo - dados.imposto.impostoMensal;
-    atualizarDados('saldo', novoSaldo);
-    atualizarDados('despesas', {
-      ...dados.despesas,
-      despesasPagas: true
+  // Atualiza relatório de impostos
+  useEffect(() => {
+    atualizarDados("relatóriosImpostos", {
+      ...dados.relatóriosImpostos,
+      [dados.dia]: {
+        terrenos: dados.terrenos.valorImpostoSobreFaturamento,
+        lojasP: dados.lojasP.valorImpostoSobreFaturamento,
+        lojasM: dados.lojasM.valorImpostoSobreFaturamento,
+        lojasG: dados.lojasG.valorImpostoSobreFaturamento,
+        valorTotalImpostoFaturamento:
+          dados.terrenos.valorImpostoSobreFaturamento +
+          dados.lojasP.valorImpostoSobreFaturamento +
+          dados.lojasM.valorImpostoSobreFaturamento +
+          dados.lojasG.valorImpostoSobreFaturamento,
+        valorTotalImpostoFixo:
+          dados.terrenos.valorImpostoFixoTotal +
+          dados.lojasP.valorImpostoFixoTotal +
+          dados.lojasM.valorImpostoFixoTotal +
+          dados.lojasG.valorImpostoFixoTotal,
+      }
     });
-  }
-};
+  }, [
+    dados.terrenos.valorImpostoSobreFaturamento,
+    dados.lojasP.valorImpostoSobreFaturamento,
+    dados.lojasM.valorImpostoSobreFaturamento,
+    dados.lojasG.valorImpostoSobreFaturamento
+  ]);
 
-// Atualiza o contador para o próximo pagamento
-useEffect(() => {
-  const proximoDiaChegar = (n) => {
-    return ((n % 30 === 0 ? n : n + (30 - (n % 30))) - dados.dia);
+  // Gatilho de pagamento de despesas no dia 30
+  // Define o início do novo ciclo de despesas
+  useEffect(() => {
+    if (dados.dia % 30 === 0) {
+      atualizarDados('despesas', {
+        ...dados.despesas,
+        diaPagarDespesas: true,
+        despesasPagas: false,
+        proximoPagamento: "30"
+      });
+    }
+  }, [dados.despesas.proximoPagamento]);
+
+  // Abre o modal se ainda não pagou
+  useEffect(() => {
+    if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
+      atualizarDados('modalDespesas', {
+        ...dados.modalDespesas,
+        estadoModal: true
+      });
+    }
+  }, [dados.dia, dados.despesas.despesasPagas]);
+
+  // Função que paga as despesas e desconta do saldo
+  const PagarDespesas = () => {
+    if (!dados.despesas.despesasPagas) {
+      const novoSaldo = dados.saldo - dados.imposto.impostoMensal;
+      atualizarDados('saldo', novoSaldo);
+      atualizarDados('despesas', {
+        ...dados.despesas,
+        despesasPagas: true
+      });
+    }
   };
-  const proximoDia = proximoDiaChegar(dados.dia);
-  atualizarDados("despesas", {
-    ...dados.despesas,
-    proximoPagamento: proximoDia
-  });
-}, [dados.dia]);
 
-  
- 
+  // Atualiza o contador para o próximo pagamento
+  useEffect(() => {
+    const proximoDiaChegar = (n) => {
+      return ((n % 30 === 0 ? n : n + (30 - (n % 30))) - dados.dia);
+    };
+    const proximoDia = proximoDiaChegar(dados.dia);
+    atualizarDados("despesas", {
+      ...dados.despesas,
+      proximoPagamento: proximoDia
+    });
+  }, [dados.dia]);
+
+
+
 
   if (dados.dia % 30 !== 0) {
     return (
