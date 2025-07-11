@@ -219,9 +219,9 @@ export const CardModal = ({ index }) => {
         "estável": 1,
         "progressiva": 1.1,
         "aquecida": 1.25,
-      }[economiaSetor] ;
+    }[economiaSetor];
 
-console.log(valorEconomiaSetor)
+    console.log(valorEconomiaSetor)
     useEffect(() => {
         const quantidadeTerrenos = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
         const quantidadeLojasP = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
@@ -698,60 +698,60 @@ console.log(valorEconomiaSetor)
     const impostoSobreFatu = dados[setorAtivo].edificios[index].finanças.impostoSobreFatu
 
     const impostoSobreFatuFinal = impostoSobreFatu - (impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100))
-    const valorFatuFinal = ((valorFatu + (valorFatu * (acumuladorPowerUpAumFatuRecebe / 100))) 
-    // * valorEconomiaSetor
-)
+    const valorFatuFinal = ((valorFatu + (valorFatu * (acumuladorPowerUpAumFatuRecebe / 100)))
+        // * valorEconomiaSetor
+    )
     const valorImpostoFixoFinal = valorImpostoFixo - (valorImpostoFixo * (acumuladorPowerUpRedCustoRecebe / 100))
 
     const valorFinalMês = (((valorFatuFinal * 30) - (valorFatuFinal * 30 * impostoSobreFatuFinal)) - valorImpostoFixoFinal)
     const rentabilidade = (valorFinalMês / CustoTotalSomadoLojas) * 100
 
-    console.log("valor fatu ",valorFatuFinal)
+    console.log("valor fatu ", valorFatuFinal)
     console.log(valorFatu)
     console.log(acumuladorPowerUpAumFatuRecebe)
     console.log(valorImpostoFixoFinal)
     // useEffect(()=>{atualizarDadosProf2([setorAtivo, "edificios", index, "powerUp", "aumFatuAtual"], ResultFinalAcumuladorRedCusto)},[ResultFinalAcumuladorRedCusto])
 
 
-useEffect(()=>{
-    atualizarDados('saldo', dados.saldo + valorFatuFinal );
-    console.log(edificio.nome, "Faturamento diário:", valorFatuFinal);
-console.log("foooooooiiiiiiiiii")
-},[dados.dia])
+    useEffect(() => {
+  console.log("saldo", dados.saldo)
+        console.log(edificio.nome, "Faturamento diário:", valorFatuFinal);
+        console.log("foooooooiiiiiiiiii")
+    }, [dados.dia])
 
 
     // const calcularFaturamento = () => {
     //     let faturamentoDiario = 0;
-    
+
     //     const novasLojas = todasLojas.map((loja) => {
     //         const valorUnitário = dados[loja].faturamentoUnitárioPadrão;
     //         const valorVariável = parseFloat(
     //             (valorUnitário * (1 + (Math.random() * 0.6 - 0.3))).toFixed(2)
     //         );
-    
+
     //         const faturamentoTotal = parseFloat((valorVariável * dados[loja].quantidade).toFixed(2));
-    
+
     //         faturamentoDiario += faturamentoTotal;
-    
+
     //         return {
     //             ...dados[loja],
     //             faturamentoUnitário: valorVariável,
     //             faturamentoTotal,
     //         };
     //     });
-    
+
     //     // Verifica se é o início de um novo mês e reseta o faturamento mensal
     //     const novoFaturamentoMensal = dados.dia % 30 === 0 ? faturamentoDiario : dados.faturamento.faturamentoMensal + faturamentoDiario;
-    
+
     //     atualizarDados("saldo", dados.saldo + faturamentoDiario);
-    
+
     //     atualizarDados("faturamento", {
     //         ...dados.faturamento,
     //         faturamentoDiário: faturamentoDiario,
     //         faturamentoMensal: novoFaturamentoMensal,
     //         arrayFatuDiário: [...dados.faturamento.arrayFatuDiário, faturamentoDiario],
     //     });
-    
+
     //     todasLojas.forEach((loja, index) => {
     //         atualizarDados(loja, novasLojas[index]);
     //     });
