@@ -471,9 +471,7 @@ console.log(valorEconomiaSetor)
 
             atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], (dados[setorAtivo].edificios[index].quantidade + 1))
 
-
             console.log("foi")
-
 
             atualizarDadosProf2(["terrenos", "quantidade"], quantidadeTerrenosAtual - quantidadeTerrenosNec);
             atualizarDadosProf2(["lojasP", "quantidade"], quantidadeLojasPAtual - quantidadeLojasPNec);
@@ -700,20 +698,26 @@ console.log(valorEconomiaSetor)
     const impostoSobreFatu = dados[setorAtivo].edificios[index].finanças.impostoSobreFatu
 
     const impostoSobreFatuFinal = impostoSobreFatu - (impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100))
-    const valorFatuFinal = ((valorFatu + (valorFatu * (acumuladorPowerUpAumFatuRecebe / 100))) * valorEconomiaSetor)
+    const valorFatuFinal = ((valorFatu + (valorFatu * (acumuladorPowerUpAumFatuRecebe / 100))) 
+    // * valorEconomiaSetor
+)
     const valorImpostoFixoFinal = valorImpostoFixo - (valorImpostoFixo * (acumuladorPowerUpRedCustoRecebe / 100))
 
     const valorFinalMês = (((valorFatuFinal * 30) - (valorFatuFinal * 30 * impostoSobreFatuFinal)) - valorImpostoFixoFinal)
     const rentabilidade = (valorFinalMês / CustoTotalSomadoLojas) * 100
 
-    console.log(valorFatuFinal)
+    console.log("valor fatu ",valorFatuFinal)
     console.log(valorFatu)
     console.log(acumuladorPowerUpAumFatuRecebe)
     console.log(valorImpostoFixoFinal)
     // useEffect(()=>{atualizarDadosProf2([setorAtivo, "edificios", index, "powerUp", "aumFatuAtual"], ResultFinalAcumuladorRedCusto)},[ResultFinalAcumuladorRedCusto])
 
 
-useEffect(()=>{atualizarDados('saldo', dados.saldo + valorFatuFinal );},[dados.dia])
+useEffect(()=>{
+    atualizarDados('saldo', dados.saldo + valorFatuFinal );
+    console.log(edificio.nome, "Faturamento diário:", valorFatuFinal);
+console.log("foooooooiiiiiiiiii")
+},[dados.dia])
 
 
     // const calcularFaturamento = () => {

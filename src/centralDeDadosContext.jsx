@@ -514,7 +514,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: true,
           },
           custoConstrucao: 5000,
-          quantidade: 1,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 550,
             impostoFixo: 1000,
@@ -1029,7 +1029,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 6,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -1462,7 +1462,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 90000,
-          quantidade: 3,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -1583,7 +1583,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 1,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -3192,7 +3192,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -3336,7 +3336,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -3481,7 +3481,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -3629,7 +3629,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -3777,7 +3777,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -3925,7 +3925,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -4073,7 +4073,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -4221,7 +4221,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -4370,7 +4370,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -4519,7 +4519,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -4759,7 +4759,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -4912,7 +4912,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -5065,7 +5065,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -5218,7 +5218,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -5371,7 +5371,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -5524,7 +5524,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -5677,7 +5677,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -5830,7 +5830,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -5983,7 +5983,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -6136,7 +6136,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -6290,7 +6290,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -6443,7 +6443,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -6596,7 +6596,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -6750,7 +6750,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -6903,7 +6903,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -7056,7 +7056,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -7209,7 +7209,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -7362,7 +7362,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -7515,7 +7515,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -7668,7 +7668,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -7820,7 +7820,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -7973,7 +7973,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -8127,7 +8127,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -8273,7 +8273,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -8425,7 +8425,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 10,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -8571,7 +8571,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -8724,7 +8724,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -8877,7 +8877,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -9030,7 +9030,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -9183,7 +9183,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -9336,7 +9336,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -9488,7 +9488,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -9641,7 +9641,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -10017,7 +10017,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -10170,7 +10170,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -10323,7 +10323,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -10476,7 +10476,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -10629,7 +10629,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -10782,7 +10782,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -10935,7 +10935,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -11088,7 +11088,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -11241,7 +11241,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -11394,7 +11394,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -11547,7 +11547,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -11700,7 +11700,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -11853,7 +11853,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -12006,7 +12006,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -12159,7 +12159,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -12312,7 +12312,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -12465,7 +12465,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -12618,7 +12618,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -12771,7 +12771,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -12924,7 +12924,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -13077,7 +13077,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -13230,7 +13230,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -13383,7 +13383,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -13536,7 +13536,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -13737,7 +13737,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -13890,7 +13890,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -14043,7 +14043,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -14196,7 +14196,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -14350,7 +14350,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -14503,7 +14503,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -14656,7 +14656,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -14809,7 +14809,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -14962,7 +14962,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -15115,7 +15115,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -15268,7 +15268,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -15421,7 +15421,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -15574,7 +15574,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -15727,7 +15727,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -15928,7 +15928,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -16081,7 +16081,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -16234,7 +16234,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -16388,7 +16388,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -16541,7 +16541,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -16694,7 +16694,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -16848,7 +16848,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -17001,7 +17001,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -17154,7 +17154,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -17307,7 +17307,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -17460,7 +17460,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -17613,7 +17613,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
@@ -17766,7 +17766,7 @@ const CentraldeDadosProvider = ({ children }) => {
             liberado: false,
           },
           custoConstrucao: 200000,
-          quantidade: 20,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
