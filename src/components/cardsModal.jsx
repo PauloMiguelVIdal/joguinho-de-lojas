@@ -759,7 +759,8 @@ export const CardModal = ({ index }) => {
 
 
 
-
+//alterar o modal 
+//ajustar as finançãs
     if (modalPowerup === true) {
         return (
             <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90">
