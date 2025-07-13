@@ -757,7 +757,7 @@ export const CardModal = ({ index }) => {
     //     });
     // };
 
-
+//alterado mudanças no modais
 
 //alterar o modal 
 //ajustar as finançãs
