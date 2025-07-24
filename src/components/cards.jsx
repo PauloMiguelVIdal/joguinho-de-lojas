@@ -58,7 +58,8 @@ const Card = ({ loja, quantidade, depreciação, valor, estado, index }) => {
         </div>
 
         <div className="bg-roxo w-[60%] fonteBold text-[15px] text-white text-center flex place-content-around rounded-[5px]">
-          <h2>R$</h2> <h2>{valor.toLocaleString('pt-BR')}</h2>
+        <h2>R$</h2> <h2>{typeof valor === 'number' ? valor.toLocaleString('pt-BR') : 'N/A'}</h2>
+
         </div>
 
         <div className="bg-white absolute z-20 w-[20%] h-[15vh] shadow-lg rounded-[10px] opacity-[60%] flex justify-center items-center">
@@ -80,7 +81,8 @@ const Card = ({ loja, quantidade, depreciação, valor, estado, index }) => {
         </div>
 
         <div className="bg-roxo w-[60%] fonteLight text-[12px] text-white text-center flex place-content-around rounded-[5px]">
-          <h2>R$</h2> <h2>{valor.toLocaleString('pt-BR')}</h2>
+        <h2>R$</h2> <h2>{typeof valor === 'number' ? valor.toLocaleString('pt-BR') : 'N/A'}</h2>
+
         </div>
 
         <button className="bg-laranja w-[80%] h-[20%] rounded-[20px] text-[15px] flex items-center justify-center text-white fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]" onClick={vender}>
