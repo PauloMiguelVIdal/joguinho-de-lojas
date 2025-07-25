@@ -28,12 +28,14 @@ export default function Offers() {
                 const valorImóvelAtual = (preçoTerrenoAtual * quantidadeTerreno) + construçãoAtual
 
                 const economiaAtual = dados.economiaGlobal
-                const cenariosEconomicos = [[1, 9], [10, 25], [25, 40]]
+                const cenariosEconomicos = [[1, 5], [7, 12], [15, 25], [27, 32], [35, 40]]
                 const economiaSelecionada = (economia) => {
                     switch (economia) {
                         case "aquecida": return cenariosEconomicos[0]
-                        case "estável": return cenariosEconomicos[1]
-                        case "recessão": return cenariosEconomicos[2]
+                        case "progressiva" : return cenariosEconomicos[1]
+                        case "estável": return cenariosEconomicos[2]
+                        case "declinio": return cenariosEconomicos[3]
+                        case "recessão": return cenariosEconomicos[4]
                         default: return "nada"
                     }
                 }
