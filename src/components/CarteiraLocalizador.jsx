@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { CardLocalization } from "./cardLocalization";
 import { Localizador } from "./localizador";
@@ -11,7 +11,7 @@ import energia from "./setores/torre-eletrica.png"
 import grafico from "./setores/grafico.png"
 
 export const CarteiraLocalizador = (edificioProcurado) => {
-  const { dados } = useContext(CentraldeDadosContext);
+  const { dados,atualizarDados } = useContext(CentraldeDadosContext);
 
   const setores = [
     { id: "agricultura", cor3: "#0C9123", corClasse: "bg-[#4CAF50]", img: agricultura, descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50", },
@@ -46,8 +46,37 @@ export const CarteiraLocalizador = (edificioProcurado) => {
     console.log(setorEncontrado)
     // console.log(edificio)
     carteiraArr.push(arrFiltrado)
-    console.log("essa é a cartira atual", carteiraArr)
+    console.log("essa é a carteira atual", carteiraArr)
 
+    // useEffect(() => {
+    //   let faturamentoTotalDiario = 0;
+    //   const novaCarteira = [];
+    
+    //   setoresArr.forEach((setor) => {
+    //     const edificiosNoSetor = dados[setor]?.edificios || [];
+    
+    //     // Filtra apenas os edifícios com quantidade > 0
+    //     const edificiosAtivos = edificiosNoSetor.filter((ed) => ed.quantidade > 0);
+    
+    //     // Armazena os edifícios da carteira
+    //     novaCarteira.push(edificiosAtivos);
+    
+    //     // Soma o faturamento diário desses edifícios
+    //     edificiosAtivos.forEach((ed) => {
+    //       const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
+    //       const quantidade = ed.quantidade || 0;
+    
+    //       faturamentoTotalDiario += faturamentoUnitario * quantidade;
+    //     });
+    //   });
+    
+    //   console.log("Carteira atual:", novaCarteira);
+    //   console.log("Faturamento diário total:", faturamentoTotalDiario);
+    
+    //   // Atualiza o saldo com o faturamento diário total
+    //   atualizarDados("saldo", dados.saldo + faturamentoTotalDiario);
+    // }, [dados.dia]); // Executa todo dia
+    
 
 
 

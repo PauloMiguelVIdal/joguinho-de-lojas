@@ -465,6 +465,7 @@ export const CardModal = ({ index }) => {
             quantidadeLojasMNec > quantidadeLojasMAtual ||
             quantidadeLojasGNec > quantidadeLojasGAtual
         ) { return alert("Voce não tem lojas suficentes") }
+        else if(dados.saldo < dados[setorAtivo].edificios[index].custoConstrucao){return alert ("Você não tem dinheiro suficiente para construir")}
         else {
 
             atualizarDados("saldo", dados.saldo - (dados[setorAtivo].edificios[index].custoConstrucao))

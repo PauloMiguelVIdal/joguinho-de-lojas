@@ -151,6 +151,42 @@ export default function PayTexes() {
   }, [dados.dia]);
 
 
+  
+    useEffect(() => {
+
+      const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+      let faturamentoTotalDiario = 0;
+      const novaCarteira = [];
+    
+      setoresArr.forEach((setor) => {
+        const edificiosNoSetor = dados[setor]?.edificios || [];
+    
+        // Filtra apenas os edifícios com quantidade > 0
+        const edificiosAtivos = edificiosNoSetor.filter((ed) => ed.quantidade > 0);
+    
+        // Armazena os edifícios da carteira
+        novaCarteira.push(edificiosAtivos);
+    
+        // Soma o faturamento diário desses edifícios
+        edificiosAtivos.forEach((ed) => {
+          const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
+          const quantidade = ed.quantidade || 0;
+    
+          faturamentoTotalDiario += faturamentoUnitario * quantidade;
+        });
+      });
+    
+      console.log("Carteira atual:", novaCarteira);
+      console.log("Faturamento diário total:", faturamentoTotalDiario);
+    
+      // Atualiza o saldo com o faturamento diário total
+      atualizarDados("saldo", dados.saldo + faturamentoTotalDiario);
+    }, [dados.dia]); // Executa todo dia
+    
+
+
+
+
 
 
   if (dados.dia % 30 !== 0) {
