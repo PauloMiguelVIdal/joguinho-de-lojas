@@ -13,7 +13,7 @@ const CentraldeDadosProvider = ({ children }) => {
     setorAtivo: "agricultura",
     fimGame: false,
     nomeEmpresa: "",
-    saldo: 9000000,
+    saldo: 90000,
     dia: 0,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
@@ -276,8 +276,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 2000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 20000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 500,
+            impostoFixo: 45000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -517,7 +517,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 550,
-            impostoFixo: 1000,
+            impostoFixo: 50000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -695,7 +695,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 1000,
-            impostoFixo: 5500,
+            impostoFixo: 88000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -898,11 +898,11 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Agricultura",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 30000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 10,
-            impostoFixo: 20000,
+            impostoFixo: 30000,
             impostoSobreFatu: 0.02000,
             rent: 32
           },
@@ -1028,13 +1028,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Comércios Agrícolas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 1000050,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 35000,
+            impostoFixo: 4000000,
             impostoSobreFatu: 0.10000,
-            rent: 32
+            rent: 25
           },
 
           lojasNecessarias: {
@@ -1233,13 +1233,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Comércios Agrícolas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 38000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 12500,
+            impostoFixo: 1300000,
             impostoSobreFatu: 0.10000,
-            rent: 32
+            rent: 28
           },
 
           lojasNecessarias: {
@@ -1461,13 +1461,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Armazenamentos Agrícolas",
             liberado: false,
           },
-          custoConstrucao: 90000,
+          custoConstrucao: 0,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 250,
+            impostoFixo: 900000,
+            impostoSobreFatu: 0.05000,
+            rent: 1
           },
 
           lojasNecessarias: {
@@ -1582,13 +1582,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Armazenamentos Agrícolas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 10000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 300,
+            impostoFixo: 2550000,
+            impostoSobreFatu: 0.05000,
+            rent: 1
           },
 
           lojasNecessarias: {
@@ -1682,13 +1682,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Armazenamentos Agrícolas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 30000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 800,
+            impostoFixo: 4000000,
+            impostoSobreFatu: 0.05000,
+            rent: 1
           },
 
           lojasNecessarias: {
@@ -1820,11 +1820,11 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Fazendas De Animais",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 10000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1100,
+            impostoFixo: 100000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -2016,11 +2016,11 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Fazendas De Animais",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 10000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 600,
+            impostoFixo: 55000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -2198,13 +2198,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Fazendas De Animais",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 25000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1200,
+            impostoFixo: 100000,
             impostoSobreFatu: 0.10000,
-            rent: 32
+            rent: 34
           },
 
           lojasNecessarias: {
@@ -2380,11 +2380,11 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Áreas Especiais",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 20000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1200,
+            impostoFixo: 110000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -2532,20 +2532,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Áreas Especiais",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 10000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1000,
+            impostoFixo: 102000,
             impostoSobreFatu: 0.10000,
-            rent: 32
+            rent: 28
           },
 
           lojasNecessarias: {
-            terrenos: 20,
+            terrenos: 0,
             lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -2683,20 +2683,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Áreas Especiais",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 30000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1500,
+            impostoFixo: 190000,
             impostoSobreFatu: 0.10000,
-            rent: 32
+            rent: 23
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            terrenos: 3,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -2835,20 +2835,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Outras Plantações",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 0,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1100,
+            impostoFixo: 110000,
             impostoSobreFatu: 0.10000,
-            rent: 32
+            rent: 29
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 2,
-            lojasG: 1,
+            terrenos: 3,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -2998,10 +2998,10 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 200000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 950,
+            impostoFixo: 100000,
             impostoSobreFatu: 0.10000,
-            rent: 32
+            rent: 27
           },
 
           lojasNecessarias: {
@@ -15927,13 +15927,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Energia",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 40000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 350,
+            impostoFixo: 300000,
+            impostoSobreFatu: 0.050000,
+            rent: 3
           },
 
           lojasNecessarias: {
@@ -16080,13 +16080,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Energia",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 240000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 500,
+            impostoFixo: 500000,
+            impostoSobreFatu: 0.050000,
+            rent: 3
           },
 
           lojasNecessarias: {
@@ -16233,13 +16233,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Energia",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 280000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 3000,
+            impostoFixo: 500000,
+            impostoSobreFatu: 0.080000,
+            rent: 17
           },
 
           lojasNecessarias: {
@@ -16387,13 +16387,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Melhoria Energética",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 300000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 1000,
+            impostoFixo: 1000000,
+            impostoSobreFatu: 0.050000,
+            rent: 3
           },
 
           lojasNecessarias: {
@@ -16540,13 +16540,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Melhoria Energética",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 150000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 800,
+            impostoFixo: 5000000,
+            impostoSobreFatu: 0.050000,
+            rent: 1
           },
 
           lojasNecessarias: {
@@ -16693,7 +16693,7 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Melhoria Energética",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 120000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
@@ -16703,10 +16703,10 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 1,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -16847,11 +16847,11 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Energia Sustentável",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 160000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 12000,
+            impostoFixo: 2000000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -17306,13 +17306,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Usinas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 140000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 4200,
+            impostoFixo: 750000,
+            impostoSobreFatu: 0.080000,
+            rent: 16
           },
 
           lojasNecessarias: {

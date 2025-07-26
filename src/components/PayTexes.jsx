@@ -152,37 +152,71 @@ export default function PayTexes() {
 
 
   
-    useEffect(() => {
+  useEffect(() => {
+    const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+  
+    let faturamentoTotalDiario = 0;
+    let impostoFixoTotal = 0;
+    let impostoFaturamentoMensal = 0;
+    let impostoDiarioTotal = 0;
+  
+    const novaCarteira = [];
+  
+    setoresArr.forEach((setor) => {
+      const edificiosNoSetor = dados[setor]?.edificios || [];
+  
+      // Filtra os edifícios ativos e armazena na carteira
+      const edificiosAtivos = edificiosNoSetor.filter((ed) => ed.quantidade > 0);
+      novaCarteira.push(...edificiosAtivos); // agora será um array plano com todos os edifícios ativos
+    });
+  
+    novaCarteira.forEach((ed) => {
+      const quantidade = ed.quantidade || 0;
+      const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
+      const impostoFixo = ed?.finanças?.impostoFixo || 0;
+      const impostoSobreFaturamento = ed?.finanças?.impostoSobreFatu || 0; // Corrigido nome
+     
+  
+      const faturamentoDiario = faturamentoUnitario * quantidade;
+      faturamentoTotalDiario += faturamentoDiario;
+  
+      // Calcula o imposto diário sobre faturamento
+      const impostoFatuDiario = faturamentoDiario * impostoSobreFaturamento;
+      impostoDiarioTotal += impostoFatuDiario;
+  
+      // Array de faturamento dos últimos 30 dias
+      const arrayFatu = ed.arrayFatu || [];
+      const novoArrayFatu = [...arrayFatu, faturamentoDiario].slice(-30);
+      const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
+      const impostoMensalSobreFaturamento = somaMensalFatu * impostoSobreFaturamento;
+      impostoFaturamentoMensal += impostoMensalSobreFaturamento;
+  
+      // Imposto fixo (só se for o dia do pagamento mensal)
+      let impostoFixoAtual = 0;
+      if (dados.dia % 30 === 0) {
+        impostoFixoAtual = impostoFixo * quantidade;
+        impostoFixoTotal += impostoFixoAtual;
+      }
+  
+      // Atualiza os dados do edifício
 
-      const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-      let faturamentoTotalDiario = 0;
-      const novaCarteira = [];
-    
-      setoresArr.forEach((setor) => {
-        const edificiosNoSetor = dados[setor]?.edificios || [];
-    
-        // Filtra apenas os edifícios com quantidade > 0
-        const edificiosAtivos = edificiosNoSetor.filter((ed) => ed.quantidade > 0);
-    
-        // Armazena os edifícios da carteira
-        novaCarteira.push(edificiosAtivos);
-    
-        // Soma o faturamento diário desses edifícios
-        edificiosAtivos.forEach((ed) => {
-          const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
-          const quantidade = ed.quantidade || 0;
-    
-          faturamentoTotalDiario += faturamentoUnitario * quantidade;
-        });
-      });
-    
-      console.log("Carteira atual:", novaCarteira);
-      console.log("Faturamento diário total:", faturamentoTotalDiario);
-    
-      // Atualiza o saldo com o faturamento diário total
-      atualizarDados("saldo", dados.saldo + faturamentoTotalDiario);
-    }, [dados.dia]); // Executa todo dia
-    
+    });
+  
+    const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
+  
+    atualizarDados("imposto", {
+      impostoDiário: impostoDiarioTotal,
+      impostoMensal: impostoMensalTotal,
+      impostoFixoMensal: impostoFixoTotal,
+      impostoFaturamentoMensal: impostoFaturamentoMensal,
+      impostoSobreFaturamentoDiário: impostoDiarioTotal,
+    });
+  
+    console.log("Carteira Agora", novaCarteira);
+
+    atualizarDados("saldo", dados.saldo + faturamentoTotalDiario );
+  }, [dados.dia]);
+  
 
 
 
