@@ -277,7 +277,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 500,
-            impostoFixo: 45000,
+            impostoFixo: 1000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -517,7 +517,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 550,
-            impostoFixo: 50000,
+            impostoFixo: 1000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -695,7 +695,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 1000,
-            impostoFixo: 88000,
+            impostoFixo: 5500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -902,7 +902,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 10,
-            impostoFixo: 30000,
+            impostoFixo: 20000,
             impostoSobreFatu: 0.02000,
             rent: 32
           },
@@ -1032,7 +1032,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 35000,
-            impostoFixo: 4000000,
+            impostoFixo: 20000,
             impostoSobreFatu: 0.10000,
             rent: 25
           },
@@ -1237,7 +1237,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 12500,
-            impostoFixo: 1300000,
+            impostoFixo: 8000,
             impostoSobreFatu: 0.10000,
             rent: 28
           },
@@ -1465,7 +1465,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 250,
-            impostoFixo: 900000,
+            impostoFixo: 8000,
             impostoSobreFatu: 0.05000,
             rent: 1
           },
@@ -1586,7 +1586,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 300,
-            impostoFixo: 2550000,
+            impostoFixo: 10000,
             impostoSobreFatu: 0.05000,
             rent: 1
           },
@@ -1686,7 +1686,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 800,
-            impostoFixo: 4000000,
+            impostoFixo: 20000,
             impostoSobreFatu: 0.05000,
             rent: 1
           },
@@ -1824,7 +1824,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 1100,
-            impostoFixo: 100000,
+            impostoFixo: 1500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -2020,7 +2020,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 600,
-            impostoFixo: 55000,
+            impostoFixo: 1000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -2202,7 +2202,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 1200,
-            impostoFixo: 100000,
+            impostoFixo: 1700,
             impostoSobreFatu: 0.10000,
             rent: 34
           },
@@ -2384,7 +2384,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 1200,
-            impostoFixo: 110000,
+            impostoFixo: 1500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -2536,7 +2536,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 1000,
-            impostoFixo: 102000,
+            impostoFixo: 1200,
             impostoSobreFatu: 0.10000,
             rent: 28
           },
@@ -2687,7 +2687,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 1500,
-            impostoFixo: 190000,
+            impostoFixo: 2000,
             impostoSobreFatu: 0.10000,
             rent: 23
           },
@@ -2839,7 +2839,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 1100,
-            impostoFixo: 110000,
+            impostoFixo: 1500,
             impostoSobreFatu: 0.10000,
             rent: 29
           },
@@ -2999,7 +2999,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 950,
-            impostoFixo: 100000,
+            impostoFixo: 1300,
             impostoSobreFatu: 0.10000,
             rent: 27
           },

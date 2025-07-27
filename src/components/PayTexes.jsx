@@ -61,11 +61,143 @@ export default function PayTexes() {
           faturamentoUnitário: 0,
           faturamentoUnitárioPadrão: 0,
           impostoFixo: 0,
-          impostoSobreFaturamento:0
+          impostoSobreFaturamento: 0
         });
       });
     }
   }, [dados.dia]);
+
+  const mapaEdificioParaSetor = {
+    // Agricultura
+    "Plantação De Grãos": "agricultura",
+    "Plantação De Vegetais": "agricultura",
+    "Fazenda Administrativa": "agricultura",
+    "Pomares": "agricultura",
+    "Cooperativa Agrícola": "agricultura",
+    "Centro De Comércio De Plantações": "agricultura",
+    "Fazenda De Vacas": "agricultura",
+    "Granja De Aves": "agricultura",
+    "Criação De Ovinos": "agricultura",
+    "Armazém": "agricultura",
+    "Silo": "agricultura",
+    "Depósito De Resíduos Orgânicos": "agricultura",
+    "Madeireira": "agricultura",
+    "Área Florestal": "agricultura",
+    "Terreno De Mineração": "agricultura",
+    "Plantação De Eucalipto": "agricultura",
+    "Plantação De Plantas Medicinais": "agricultura",
+
+    // Indústria
+    "Fábrica De Móveis": "industria",
+    "Fábrica De Ração": "industria",
+    "Fábrica De Embalagem": "industria",
+    "Fábrica De Fertilizante": "industria",
+    "Fábrica De Bebidas": "industria",
+    "Fábrica De Pães": "industria",
+    "Fábrica De Turbinas Eólicas": "industria",
+    "Fábrica De Painéis Solares": "industria",
+    "Fábrica De Baterias": "industria",
+    "Fábrica De Celulose": "industria",
+    "Fábrica De Papel": "industria",
+    "Fábrica De Livros": "industria",
+    "Alto-Forno": "industria",
+    "Usina Siderúrgica": "industria",
+    "Fundição de Alumínio": "industria",
+    "Fábrica De Ligas Metálicas": "industria",
+    "Indústria De Componentes Mecânicos": "industria",
+    "Fábrica De Chapas Metálicas": "industria",
+    "Fábrica De Estruturas Metálicas": "industria",
+    "Fábrica De Peças Automotivas": "industria",
+    "Montadora De Veículos Elétricos": "industria",
+    "Fábricas De Automóveis": "industria",
+    "Refinaria de Biocombustíveis": "industria",
+    "Refinaria": "industria",
+    "Biofábrica": "industria",
+    "Fábrica De Motores": "industria",
+    "Fábrica De Foguetes": "industria",
+    "Fábrica De Aeronaves": "industria",
+    "Fábrica De Návios": "industria",
+    "Fábrica De Eletrônicos": "industria",
+    "Fábrica De Semicondutores": "industria",
+    "Fábrica De Robôs": "industria",
+    "Empresa De Automação Industrial": "industria",
+
+    // Pesquisa
+    "Servidor Em Nuvem": "tecnologia",
+    "Data Center": "tecnologia",
+    "Startup": "tecnologia",
+    "Empresa De Desenvolvimento De Software": "tecnologia",
+    "Centro de Pesquisa Química": "tecnologia",
+    "Centro De Pesquisa Em Fusão Nuclear": "tecnologia",
+    "Centro De Pesquisa Em Eletrônicos": "tecnologia",
+    "Centro De Pesquisa Aeroespacial": "tecnologia",
+    "Centro De Pesquisa Em Robótica": "tecnologia",
+    "Centro De Pesquisa Em IA": "tecnologia",
+
+    // Comércio
+    "Feira Livre": "comercio",
+    "Loja De Móveis": "comercio",
+    "Restaurante": "comercio",
+    "Livraria": "comercio",
+    "Mercado": "comercio",
+    "Adega": "comercio",
+    "Padaria": "comercio",
+    "Açougue": "comercio",
+    "Loja De Conveniência": "comercio",
+    "Posto De Gasolina": "comercio",
+    "Redes De Fast-food": "comercio",
+    "Loja De Eletrônicos": "comercio",
+    "Joalheria": "comercio",
+    "Concessionária De Veículos": "comercio",
+    "Petshop": "comercio",
+    "Farmácia": "comercio",
+    "Cafeteria": "comercio",
+    "Loja De Departamentos": "comercio",
+    "Loja De Calçados": "comercio",
+    "Loja De Vestuário": "comercio",
+    "Shopping Popular": "comercio",
+    "Shopping Center": "comercio",
+    "Centro De Distribuição": "comercio",
+    "Armazém Logístico": "comercio",
+    "Transporte Petrolífero": "comercio",
+
+    // Infraestrutura
+    "Construtora": "imobiliario",
+    "Cartório E Licenças": "imobiliario",
+    "Terraplanagem E Pavimentação": "imobiliario",
+    "Construtora De Infraestruturas": "imobiliario",
+    "Aeroporto": "imobiliario",
+    "Porto": "imobiliario",
+    "Mineradora": "imobiliario",
+    "Mineradora Radioativa": "imobiliario",
+    "Mineradora De Pedras Preciosas": "imobiliario",
+    "Mega Mercado": "imobiliario",
+    "Prédio De Alto Padrão": "imobiliario",
+    "Centro De Coleta De Biomassa": "imobiliario",
+    "Tanque De Armazenamento Biocombustível": "imobiliario",
+    "Plataforma De Petróleo": "imobiliario",
+
+    // Energia
+    "Subestação De Energia": "energia",
+    "Rede De Distribuição Elétrica": "energia",
+    "Usina Solar": "energia",
+    "Centro De Pesquisa Energética": "energia",
+    "Centro De Baterias Recicláveis": "energia",
+    "Estação De Carregamento": "energia",
+    "Usina Termelétrica A Biocombustíveis": "energia",
+    "Usina De Biomassa": "energia",
+    "Usina Hidrelétrica": "energia",
+    "Parque Eólico": "energia",
+    "Usina Termolétrica": "energia",
+    "Reator Nuclear Convencional": "energia",
+    "Usina De Fusão Nuclear": "energia"
+  };
+
+  const descobrirSetor = (nomeEdificio) => {
+    return mapaEdificioParaSetor[nomeEdificio] || null;
+  }
+
+
 
   // Atualiza relatório diário de faturamento
   useEffect(() => {
@@ -151,7 +283,103 @@ export default function PayTexes() {
   }, [dados.dia]);
 
 
-  
+
+  // useEffect(() => {
+  //   const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+
+  //   let faturamentoTotalDiario = 0;
+  //   let impostoFixoTotal = 0;
+  //   let impostoFaturamentoMensal = 0;
+  //   let impostoDiarioTotal = 0;
+
+  //   const novaCarteira = [];
+
+  //   setoresArr.forEach((setor) => {
+  //     const edificiosNoSetor = dados[setor]?.edificios || [];
+
+  //     // Filtra os edifícios ativos e armazena na carteira
+  //     const edificiosAtivos = edificiosNoSetor.filter((ed) => ed.quantidade > 0);
+  //     novaCarteira.push(...edificiosAtivos); // agora será um array plano com todos os edifícios ativos
+  //   });
+
+  //   novaCarteira.forEach((ed) => {
+  //     const quantidade = ed.quantidade || 0;
+  //     const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
+  //     const impostoFixo = ed?.finanças?.impostoFixo || 0;
+  //     const impostoSobreFatu = ed?.finanças?.impostoSobreFatu || 0;
+
+
+  //     // Novo: descobrir o setor e o fator da economia
+  //     const setorEdificio = descobrirSetor(ed.nome);
+  //     const economiaSetor = dados[setorEdificio]?.economia || "estável";
+  //     const fatorEconomico = {
+  //       recessão: 0.6,
+  //       declinio: 0.85,
+  //       estável: 1,
+  //       progressiva: 1.1,
+  //       aquecida: 1.25,
+  //     }[economiaSetor];
+
+  //     console.log("Setor:", setorEdificio, "Economia:", dados[setorEdificio]?.economia);
+
+
+  //     // Novo: aplica o fator econômico no faturamento
+  //     const faturamentoDiario = faturamentoUnitario * quantidade * fatorEconomico;
+  //     faturamentoTotalDiario += faturamentoDiario;
+
+  //     console.log("essa é a economia do setor", economiaSetor)
+
+  //     // Imposto sobre o faturamento
+  //     const impostoFatuDiario = faturamentoDiario * impostoSobreFatu;
+  //     impostoDiarioTotal += impostoFatuDiario;
+
+  //     // Histórico dos últimos 30 dias
+  //     const arrayFatu = ed.arrayFatu || [];
+  //     const novoArrayFatu = [...arrayFatu, faturamentoDiario].slice(-30);
+  //     const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
+
+
+  //     const impostoMensalSobreFaturamento = somaMensalFatu * impostoSobreFatu;
+
+  //     impostoFaturamentoMensal += impostoMensalSobreFaturamento;
+
+  //     // Imposto fixo (mensal)
+  //     let impostoFixoAtual = 0;
+  //     if (dados.dia % 30 === 0) {
+  //       impostoFixoAtual = impostoFixo * quantidade;
+  //       impostoFixoTotal += impostoFixoAtual;
+  //     }
+
+  //     console.log("Edifício:", ed.nome, "Setor encontrado:", setorEdificio);
+
+
+  //     // Atualiza os dados do edifício
+  //     atualizarDados(ed.nome, {
+  //       ...ed,
+  //       arrayFatu: novoArrayFatu,
+  //       somaArrayFatu: somaMensalFatu,
+  //       faturamentoTotal: faturamentoDiario,
+  //       valorImpostoSobreFaturamento: impostoFatuDiario,
+  //       valorImpostoFixoTotal: impostoFixoAtual,
+  //     });
+  //   });
+
+
+  //   const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
+
+  //   atualizarDados("imposto", {
+  //     impostoDiário: impostoDiarioTotal,
+  //     impostoMensal: impostoMensalTotal,
+  //     impostoFixoMensal: impostoFixoTotal,
+  //     impostoFaturamentoMensal: impostoFaturamentoMensal,
+  //     impostoSobreFaturamentoDiário: impostoDiarioTotal,
+  //   });
+
+  //   console.log("Carteira Agora", novaCarteira);
+
+  //   atualizarDados("saldo", dados.saldo + faturamentoTotalDiario);
+  // }, [dados.dia]);
+
   useEffect(() => {
     const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
   
@@ -160,48 +388,62 @@ export default function PayTexes() {
     let impostoFaturamentoMensal = 0;
     let impostoDiarioTotal = 0;
   
-    const novaCarteira = [];
-  
     setoresArr.forEach((setor) => {
-      const edificiosNoSetor = dados[setor]?.edificios || [];
+      const edificiosAtivos = dados[setor]?.edificios?.filter((ed) => ed.quantidade > 0) || [];
   
-      // Filtra os edifícios ativos e armazena na carteira
-      const edificiosAtivos = edificiosNoSetor.filter((ed) => ed.quantidade > 0);
-      novaCarteira.push(...edificiosAtivos); // agora será um array plano com todos os edifícios ativos
-    });
+      edificiosAtivos.forEach((ed) => {
+        const quantidade = ed.quantidade || 0;
+        const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
+        const impostoFixo = ed?.finanças?.impostoFixo || 0;
+        const impostoSobreFatu = ed?.finanças?.impostoSobreFatu || 0;
   
-    novaCarteira.forEach((ed) => {
-      const quantidade = ed.quantidade || 0;
-      const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
-      const impostoFixo = ed?.finanças?.impostoFixo || 0;
-      const impostoSobreFaturamento = ed?.finanças?.impostoSobreFatu || 0; // Corrigido nome
-     
+        // Descobrir o fator econômico
+        const economiaSetor = dados[setor]?.economia || "estável";
+        const fatorEconomico = {
+          recessão: 0.6,
+          declinio: 0.85,
+          estável: 1,
+          progressiva: 1.1,
+          aquecida: 1.25,
+        }[economiaSetor];
   
-      const faturamentoDiario = faturamentoUnitario * quantidade;
-      faturamentoTotalDiario += faturamentoDiario;
-  
-      // Calcula o imposto diário sobre faturamento
-      const impostoFatuDiario = faturamentoDiario * impostoSobreFaturamento;
-      impostoDiarioTotal += impostoFatuDiario;
-  
-      // Array de faturamento dos últimos 30 dias
-      const arrayFatu = ed.arrayFatu || [];
-      const novoArrayFatu = [...arrayFatu, faturamentoDiario].slice(-30);
-      const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
-      const impostoMensalSobreFaturamento = somaMensalFatu * impostoSobreFaturamento;
-      impostoFaturamentoMensal += impostoMensalSobreFaturamento;
-  
-      // Imposto fixo (só se for o dia do pagamento mensal)
-      let impostoFixoAtual = 0;
-      if (dados.dia % 30 === 0) {
-        impostoFixoAtual = impostoFixo * quantidade;
-        impostoFixoTotal += impostoFixoAtual;
-      }
-  
-      // Atualiza os dados do edifício
+        // Faturamento ajustado
+        const faturamentoDiario = faturamentoUnitario * quantidade * fatorEconomico;
+        faturamentoTotalDiario += faturamentoDiario;
+  console.log("Setor:", setor, "Economia:", fatorEconomico, "Faturamento diário:", faturamentoDiario);
 
+
+        // Imposto diário
+        const impostoFatuDiario = faturamentoDiario * impostoSobreFatu;
+        impostoDiarioTotal += impostoFatuDiario;
+  
+        // Histórico mensal
+        const arrayFatu = dados[ed.nome]?.arrayFatu || [];
+        const novoArrayFatu = [...arrayFatu, faturamentoDiario].slice(-30);
+        const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
+        const impostoMensalSobreFaturamento = somaMensalFatu * impostoSobreFatu;
+        impostoFaturamentoMensal += impostoMensalSobreFaturamento;
+  
+        // Imposto fixo (somente no dia 30)
+        let impostoFixoAtual = 0;
+        if (dados.dia % 30 === 0) {
+          impostoFixoAtual = impostoFixo * quantidade;
+          impostoFixoTotal += impostoFixoAtual;
+        }
+  
+        // Atualiza os dados do edifício (objeto separado, ex: dados["Pomares"])
+        atualizarDados(ed.nome, {
+          ...dados[ed.nome],
+          arrayFatu: novoArrayFatu,
+          somaArrayFatu: somaMensalFatu,
+          faturamentoTotal: faturamentoDiario,
+          valorImpostoSobreFaturamento: impostoFatuDiario,
+          valorImpostoFixoTotal: impostoFixoAtual,
+        });
+      });
     });
   
+    // Impostos totais
     const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
   
     atualizarDados("imposto", {
@@ -212,12 +454,10 @@ export default function PayTexes() {
       impostoSobreFaturamentoDiário: impostoDiarioTotal,
     });
   
-    console.log("Carteira Agora", novaCarteira);
-
-    atualizarDados("saldo", dados.saldo + faturamentoTotalDiario );
+    // Atualiza saldo
+    atualizarDados("saldo", dados.saldo + faturamentoTotalDiario);
   }, [dados.dia]);
   
-
 
 
 
