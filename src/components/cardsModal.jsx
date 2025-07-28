@@ -221,7 +221,7 @@ export const CardModal = ({ index }) => {
         "aquecida": 1.25,
     }[economiaSetor];
 
-    console.log(valorEconomiaSetor)
+    // console.log(valorEconomiaSetor)
     useEffect(() => {
         const quantidadeTerrenos = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
         const quantidadeLojasP = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
@@ -487,7 +487,7 @@ export const CardModal = ({ index }) => {
 
     const nomeFatu = dados[setorAtivo].edificios[index].nome
 
-    console.log(nomeFatu)
+    // console.log(nomeFatu)
     // const columnStyleNv1 =  { backgroundColor: bgColuna };
 
 
@@ -688,8 +688,8 @@ export const CardModal = ({ index }) => {
 
         setAcumuladorPowerUpRedCustoRecebe(novoAcumuladorRedCusto);
         setAcumuladorPowerUpAumFatuRecebe(novoAcumuladorAumFatu);
-        console.log(acumuladorPowerUpAumFatuRecebe)
-        console.log(acumuladorPowerUpRedCustoRecebe)
+        // console.log(acumuladorPowerUpAumFatuRecebe)
+        // console.log(acumuladorPowerUpRedCustoRecebe)
 
     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
 
@@ -707,10 +707,10 @@ export const CardModal = ({ index }) => {
     const valorFinalMês = (((valorFatuFinal * 30) - (valorFatuFinal * 30 * impostoSobreFatuFinal)) - valorImpostoFixoFinal)
     const rentabilidade = (valorFinalMês / CustoTotalSomadoLojas) * 100
 
-    console.log("valor fatu ", valorFatuFinal)
-    console.log(valorFatu)
-    console.log(acumuladorPowerUpAumFatuRecebe)
-    console.log(valorImpostoFixoFinal)
+    // console.log("valor fatu ", valorFatuFinal)
+    // console.log(valorFatu)
+    // console.log(acumuladorPowerUpAumFatuRecebe)
+    // console.log(valorImpostoFixoFinal)
     // useEffect(()=>{atualizarDadosProf2([setorAtivo, "edificios", index, "powerUp", "aumFatuAtual"], ResultFinalAcumuladorRedCusto)},[ResultFinalAcumuladorRedCusto])
 
 

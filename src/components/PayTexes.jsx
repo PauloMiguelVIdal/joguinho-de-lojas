@@ -10,49 +10,50 @@ export default function PayTexes() {
 
   // Cálculo de impostos diário e mensal
   useEffect(() => {
-    let impostoFixoTotal = 0;
-    let impostoFaturamentoMensal = 0;
-    let impostoDiarioTotal = 0;
+    if (dados.dia < 250) { // Evita cálculos no dia 0
+      let impostoFixoTotal = 0;
+      let impostoFaturamentoMensal = 0;
+      let impostoDiarioTotal = 0;
 
-    todasLojas.forEach((loja) => {
-      const dadosLoja = dados[loja];
+      todasLojas.forEach((loja) => {
+        const dadosLoja = dados[loja];
 
-      const faturamentoDiario = parseFloat(dadosLoja.faturamentoTotal);
-      const impostoFixo = dadosLoja.quantidade * dadosLoja.impostoFixo;
-      const impostoSobreFaturamento = faturamentoDiario * dadosLoja.impostoSobreFaturamento;
+        const faturamentoDiario = parseFloat(dadosLoja.faturamentoTotal);
+        const impostoFixo = dadosLoja.quantidade * dadosLoja.impostoFixo;
+        const impostoSobreFaturamento = faturamentoDiario * dadosLoja.impostoSobreFaturamento;
 
-      // Adiciona faturamento ao array de faturamento
-      const novoArrayFatu = [...dadosLoja.arrayFatu, faturamentoDiario].slice(-30); // Mantém últimos 30 dias
-      const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
-      const impostoMensalSobreFaturamento = somaMensalFatu * dadosLoja.impostoSobreFaturamento;
+        // Adiciona faturamento ao array de faturamento
+        const novoArrayFatu = [...dadosLoja.arrayFatu, faturamentoDiario].slice(-30); // Mantém últimos 30 dias
+        const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
+        const impostoMensalSobreFaturamento = somaMensalFatu * dadosLoja.impostoSobreFaturamento;
 
-      // Atualiza dados da loja
-      atualizarDados(loja, {
-        ...dadosLoja,
-        arrayFatu: novoArrayFatu,
-        somaArrayFatu: somaMensalFatu,
-        valorImpostoSobreFaturamento: impostoSobreFaturamento,
-        valorImpostoFixoTotal: impostoFixo
+        // Atualiza dados da loja
+        atualizarDados(loja, {
+          ...dadosLoja,
+          arrayFatu: novoArrayFatu,
+          somaArrayFatu: somaMensalFatu,
+          valorImpostoSobreFaturamento: impostoSobreFaturamento,
+          valorImpostoFixoTotal: impostoFixo
+        });
+
+        impostoFixoTotal += impostoFixo;
+        impostoFaturamentoMensal += impostoMensalSobreFaturamento;
+        impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
       });
 
-      impostoFixoTotal += impostoFixo;
-      impostoFaturamentoMensal += impostoMensalSobreFaturamento;
-      impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
-    });
 
-    const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
+      const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
 
 
 
-    atualizarDados("imposto", {
-      impostoDiário: impostoDiarioTotal,
-      impostoMensal: impostoMensalTotal,
-      impostoFixoMensal: impostoFixoTotal,
-      impostoFaturamentoMensal: impostoFaturamentoMensal,
-      impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
-    });
-
-    if (dados.dia === 250) {
+      atualizarDados("imposto", {
+        impostoDiário: impostoDiarioTotal,
+        impostoMensal: impostoMensalTotal,
+        impostoFixoMensal: impostoFixoTotal,
+        impostoFaturamentoMensal: impostoFaturamentoMensal,
+        impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
+      });
+    } else if (dados.dia === 250) {
       todasLojas.forEach((loja) => {
 
         const dadosLoja = dados[loja];
@@ -65,6 +66,8 @@ export default function PayTexes() {
         });
       });
     }
+    else return;
+
   }, [dados.dia]);
 
   const mapaEdificioParaSetor = {
@@ -389,61 +392,56 @@ export default function PayTexes() {
     let impostoDiarioTotal = 0;
   
     setoresArr.forEach((setor) => {
-      const edificiosAtivos = dados[setor]?.edificios?.filter((ed) => ed.quantidade > 0) || [];
+      const edificiosOriginais = dados[setor]?.edificios || [];
   
-      edificiosAtivos.forEach((ed) => {
+      const edificiosAtualizados = edificiosOriginais.map((ed) => {
+        if (ed.quantidade <= 0) return ed;
+  
         const quantidade = ed.quantidade || 0;
         const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
         const impostoFixo = ed?.finanças?.impostoFixo || 0;
         const impostoSobreFatu = ed?.finanças?.impostoSobreFatu || 0;
   
-        // Descobrir o fator econômico
-        const economiaSetor = dados[setor]?.economia || "estável";
+        const economiaSetor = dados[setor]?.economiaSetor?.estadoAtual || "estável";
         const fatorEconomico = {
-          recessão: 0.6,
-          declinio: 0.85,
-          estável: 1,
-          progressiva: 1.1,
-          aquecida: 1.25,
+          "recessão": 0.6,
+          "declinio": 0.85,
+          "estável": 1,
+          "progressiva": 1.1,
+          "aquecida": 1.25,
         }[economiaSetor];
   
-        // Faturamento ajustado
         const faturamentoDiario = faturamentoUnitario * quantidade * fatorEconomico;
         faturamentoTotalDiario += faturamentoDiario;
-  console.log("Setor:", setor, "Economia:", fatorEconomico, "Faturamento diário:", faturamentoDiario);
-
-
-        // Imposto diário
+  
         const impostoFatuDiario = faturamentoDiario * impostoSobreFatu;
         impostoDiarioTotal += impostoFatuDiario;
   
-        // Histórico mensal
-        const arrayFatu = dados[ed.nome]?.arrayFatu || [];
+        const arrayFatu = ed.arrayFatu || [];
         const novoArrayFatu = [...arrayFatu, faturamentoDiario].slice(-30);
         const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
         const impostoMensalSobreFaturamento = somaMensalFatu * impostoSobreFatu;
         impostoFaturamentoMensal += impostoMensalSobreFaturamento;
   
-        // Imposto fixo (somente no dia 30)
-        let impostoFixoAtual = 0;
-        if (dados.dia % 30 === 0) {
-          impostoFixoAtual = impostoFixo * quantidade;
-          impostoFixoTotal += impostoFixoAtual;
-        }
+        const impostoFixoAtual = (dados.dia % 30 === 0) ? impostoFixo * quantidade : ed.valorImpostoFixoTotal || 0;
+        if (dados.dia % 30 === 0) impostoFixoTotal += impostoFixoAtual;
   
-        // Atualiza os dados do edifício (objeto separado, ex: dados["Pomares"])
-        atualizarDados(ed.nome, {
-          ...dados[ed.nome],
+        return {
+          ...ed,
           arrayFatu: novoArrayFatu,
           somaArrayFatu: somaMensalFatu,
           faturamentoTotal: faturamentoDiario,
           valorImpostoSobreFaturamento: impostoFatuDiario,
-          valorImpostoFixoTotal: impostoFixoAtual,
-        });
+          valorImpostoFixoTotal: impostoFixoAtual
+        };
+      });
+  
+      atualizarDados(setor, {
+        ...dados[setor],
+        edificios: edificiosAtualizados,
       });
     });
   
-    // Impostos totais
     const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
   
     atualizarDados("imposto", {
@@ -451,14 +449,12 @@ export default function PayTexes() {
       impostoMensal: impostoMensalTotal,
       impostoFixoMensal: impostoFixoTotal,
       impostoFaturamentoMensal: impostoFaturamentoMensal,
-      impostoSobreFaturamentoDiário: impostoDiarioTotal,
+      impostoSobreFaturamentoDiário: impostoFaturamentoMensal,
     });
   
-    // Atualiza saldo
     atualizarDados("saldo", dados.saldo + faturamentoTotalDiario);
   }, [dados.dia]);
   
-
 
 
 
