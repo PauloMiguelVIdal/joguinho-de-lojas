@@ -3191,19 +3191,19 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Tecnologia",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 110000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 460,
+            impostoFixo: 3000,
+            impostoSobreFatu: 0.050000,
+            rent: 5
           },
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -3335,20 +3335,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Tecnologia",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 160000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 460,
+            impostoFixo: 3000,
+            impostoSobreFatu: 0.050000,
+            rent: 5
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -3480,20 +3480,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Tecnologia",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 60000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1300,
+            impostoFixo: 5000,
             impostoSobreFatu: 0.10000,
-            rent: 32
+            rent: 19
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -3628,20 +3628,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Tecnologia",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 60000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 3900,
+            impostoFixo: 5000,
             impostoSobreFatu: 0.10000,
-            rent: 32
+            rent: 22
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -3779,17 +3779,17 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 200000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 280,
+            impostoFixo: 3000,
             impostoSobreFatu: 0.10000,
-            rent: 32
+            rent: 5
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -3924,20 +3924,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Tecnologia Experimental",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 360000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 2035,
+            impostoFixo: 3000,
+            impostoSobreFatu: 0.050000,
+            rent: 6
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 3,
+            lojasP: 2,
+            lojasM: 1,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -4072,13 +4072,13 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Engenharia Avançada",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 130000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 800,
+            impostoFixo: 3000,
+            impostoSobreFatu: 0.050000,
+            rent: 6
           },
 
           lojasNecessarias: {
@@ -4220,20 +4220,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Engenharia Avançada",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 250000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 2200,
+            impostoFixo: 3000,
+            impostoSobreFatu: 0.050000,
+            rent: 4
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 2,
+            lojasG: 2,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -4372,17 +4372,17 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 200000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
+            faturamentoUnitário: 1500,
+            impostoFixo: 3000,
+            impostoSobreFatu: 0.050000,
+            rent: 5
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 4,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -4518,20 +4518,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Pesquisa Em Robótica e IA",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 360000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
             impostoFixo: 1000,
             impostoSobreFatu: 0.10000,
-            rent: 32
+            rent: 5
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 1,
+            lojasP: 2,
+            lojasM: 2,
+            lojasG: 2,
           },
           construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -4758,7 +4758,7 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Indústria",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 70000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
