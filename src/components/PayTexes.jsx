@@ -1,5 +1,5 @@
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect,useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import despesasImg from "../imagens/despesas.png";
 
@@ -402,6 +402,40 @@ export default function PayTexes() {
         const impostoFixo = ed?.finanças?.impostoFixo || 0;
         const impostoSobreFatu = ed?.finanças?.impostoSobreFatu || 0;
   
+        // 🔽 Cálculo do acumulador de powerUp
+        let acumuladorPowerUpRedCustoRecebe = 0;
+        let acumuladorPowerUpAumFatuRecebe = 0;
+  
+        ed.RecebeMelhoraEficiencia?.forEach((edMelhorado) => {
+          const nomeMelhorado = edMelhorado.nome;
+          let qtdMelhorado = 0;
+  
+          for (const setorAlvo of setoresArr) {
+            const index = dados[setorAlvo].edificios.findIndex(e => e.nome === nomeMelhorado);
+            if (index !== -1) {
+              qtdMelhorado = dados[setorAlvo].edificios[index].quantidade || 0;
+              break;
+            }
+          }
+  
+console.log("edMelhorado", edMelhorado)
+
+          let powerUpSelecionado = "powerUpNv1";
+          if (quantidade >= 500) powerUpSelecionado = "powerUpNv3";
+          else if (quantidade >= 100) powerUpSelecionado = "powerUpNv2";
+          
+  console.log(powerUpSelecionado, "powerUpSelecionado")
+          if (qtdMelhorado > 0) {
+            const redCusto = edMelhorado.redCusto[powerUpSelecionado === "powerUpNv1" ? "nível1" :
+                                                  powerUpSelecionado === "powerUpNv2" ? "nível2" : "nível3"];
+            const aumFatu = edMelhorado.aumFatu[powerUpSelecionado === "powerUpNv1" ? "nível1" :
+                                                 powerUpSelecionado === "powerUpNv2" ? "nível2" : "nível3"];
+  
+            acumuladorPowerUpRedCustoRecebe += redCusto;
+            acumuladorPowerUpAumFatuRecebe += aumFatu;
+          }
+        });
+  
         const economiaSetor = dados[setor]?.economiaSetor?.estadoAtual || "estável";
         const fatorEconomico = {
           "recessão": 0.6,
@@ -411,21 +445,42 @@ export default function PayTexes() {
           "aquecida": 1.25,
         }[economiaSetor];
   
-        const faturamentoDiario = faturamentoUnitario * quantidade * fatorEconomico;
+        const impostoSobreFatuFinal = impostoSobreFatu * (1 - acumuladorPowerUpRedCustoRecebe / 100);
+        const valorFatuFinal = faturamentoUnitario * (1 + acumuladorPowerUpAumFatuRecebe / 100);
+        const valorImpostoFixoFinal = impostoFixo * (1 - acumuladorPowerUpRedCustoRecebe / 100);
+  
+        const faturamentoDiario = valorFatuFinal * quantidade * fatorEconomico;
         faturamentoTotalDiario += faturamentoDiario;
   
-        const impostoFatuDiario = faturamentoDiario * impostoSobreFatu;
+        const impostoFatuDiario = faturamentoDiario * impostoSobreFatuFinal;
         impostoDiarioTotal += impostoFatuDiario;
   
         const arrayFatu = ed.arrayFatu || [];
         const novoArrayFatu = [...arrayFatu, faturamentoDiario].slice(-30);
         const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
-        const impostoMensalSobreFaturamento = somaMensalFatu * impostoSobreFatu;
+        const impostoMensalSobreFaturamento = somaMensalFatu * impostoSobreFatuFinal;
         impostoFaturamentoMensal += impostoMensalSobreFaturamento;
   
-        const impostoFixoAtual = (dados.dia % 30 === 0) ? impostoFixo * quantidade : ed.valorImpostoFixoTotal || 0;
-        if (dados.dia % 30 === 0) impostoFixoTotal += impostoFixoAtual;
+        const impostoFixoAtual = (dados.dia % 30 === 0)
+          ? valorImpostoFixoFinal * quantidade
+          : ed.valorImpostoFixoTotal || 0;
   
+        if (dados.dia % 30 === 0) impostoFixoTotal += impostoFixoAtual;
+
+        console.log("nome edificio", ed.nome)
+        console.log("quantidade", quantidade)
+        console.log("faturamentoUnitario", faturamentoUnitario)
+        console.log("impostoFixo", impostoFixo)
+        console.log("impostoSobreFatu", impostoSobreFatu)
+    
+        console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
+        console.log("acumuladorPowerUpAumFatuRecebe", acumuladorPowerUpAumFatuRecebe)
+        
+        console.log("impostoSobreFatuFinal", impostoSobreFatuFinal)
+        console.log("valorFatuFinal", valorFatuFinal)
+        console.log("valorImpostoFixoFinal", valorImpostoFixoFinal)
+        // console.log(rentabilidade, "rentabilidade")
+
         return {
           ...ed,
           arrayFatu: novoArrayFatu,
@@ -442,6 +497,9 @@ export default function PayTexes() {
       });
     });
   
+
+
+
     const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
   
     atualizarDados("imposto", {
@@ -455,6 +513,7 @@ export default function PayTexes() {
     atualizarDados("saldo", dados.saldo + faturamentoTotalDiario);
   }, [dados.dia]);
   
+
 
 
 
