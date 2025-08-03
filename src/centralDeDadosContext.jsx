@@ -288,7 +288,7 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 0,
             lojasG: 0,
           },
-          construçõesNecessárias: ["Plantação De Vegetais", "Silo"],
+          construçõesNecessárias: ["Silo"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           ForneceMelhoraEficiencia: [
             {

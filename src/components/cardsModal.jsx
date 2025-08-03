@@ -419,18 +419,23 @@ export const CardModal = ({ index }) => {
 
     // Atualiza sempre que arrayConstResources ou dados mudarem
     useEffect(() => {
-        const algumFaltando = arrayConstResources.some((nomeEdificio) => {
-            const setorDoEdificio = setoresArr.find((setor) =>
-                dados[setor].edificios.some((ed) => ed.nome === nomeEdificio)
-            );
-            if (!setorDoEdificio) return true;
-
-            const edifIndex = dados[setorDoEdificio].edificios.findIndex((ed) => ed.nome === nomeEdificio);
-            return dados[setorDoEdificio].edificios[edifIndex].quantidade === 0;
-        });
-
-        setVerificadorConstr(algumFaltando);
-    }, [arrayConstResources, dados]);
+        const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+      
+        const verificarEdificios = (listaEdificios) => {
+          return listaEdificios.some((nomeEdificio) => {
+            const setor = setoresArr.find((s) => dados[s]?.edificios?.some((ed) => ed.nome === nomeEdificio));
+            if (!setor) return true;
+      
+            const index = dados[setor].edificios.findIndex((ed) => ed.nome === nomeEdificio);
+            return dados[setor].edificios[index]?.quantidade <= 0;
+          });
+        };
+      
+        const faltandoRecurso = verificarEdificios(arrayConstResources || []);
+        const faltandoConstrucao = verificarEdificios(arrayConstNece || []);
+      
+        setVerificadorConstr(faltandoRecurso || faltandoConstrucao);
+      }, [arrayConstResources, arrayConstNece, dados]);
 
 
 
@@ -452,10 +457,8 @@ export const CardModal = ({ index }) => {
     // console.log(CustoTotalSomadoLojas)
 
     const comprarCard = () => {
-        // Localizador embutido
         const localizador = (nomeEdificio) => {
           const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-      
           for (const setor of setores) {
             const index = dados[setor]?.edificios?.findIndex((e) => e.nome === nomeEdificio);
             if (index !== -1) {
@@ -466,7 +469,6 @@ export const CardModal = ({ index }) => {
               };
             }
           }
-      
           return null;
         };
       
@@ -497,18 +499,28 @@ export const CardModal = ({ index }) => {
           return alert("Você não tem lojas suficientes.");
         }
       
-        // 🔍 Verificação dos recursos de construção
+        // 🔍 Verificação de construções NECESSÁRIAS (sem deduzir)
+        if (edif.construçõesNecessárias && edif.construçõesNecessárias.length > 0) {
+          for (const nomeConstrucao of edif.construçõesNecessárias) {
+            const resultado = localizador(nomeConstrucao);
+      
+            if (!resultado) {
+              return alert(`Construção necessária "${nomeConstrucao}" não encontrada.`);
+            }
+      
+            if (resultado.edificio.quantidade <= 0) {
+              return alert(`Você precisa de pelo menos 1 unidade de "${nomeConstrucao}".`);
+            }
+          }
+        }
+      
+        // 🔍 Verificação de recursos de construção (com dedução posterior)
         if (edif.recursoDeConstrução && edif.recursoDeConstrução.length > 0) {
           for (const nomeConstrucao of edif.recursoDeConstrução) {
             const resultado = localizador(nomeConstrucao);
       
             if (!resultado) {
-              console.warn(`Localizador: "${nomeConstrucao}" não encontrado.`);
-              return alert(`Construção necessária "${nomeConstrucao}" não encontrada.`);
-            }
-      
-            if (!resultado.edificio || resultado.edificio.quantidade === undefined) {
-              return alert(`Erro ao verificar quantidade de "${nomeConstrucao}".`);
+              return alert(`Recurso de construção "${nomeConstrucao}" não encontrado.`);
             }
       
             if (resultado.edificio.quantidade <= 0) {
@@ -526,6 +538,7 @@ export const CardModal = ({ index }) => {
         atualizarDadosProf2(["lojasM", "quantidade"], quantidadeLojasMAtual - quantidadeLojasMNec);
         atualizarDadosProf2(["lojasG", "quantidade"], quantidadeLojasGAtual - quantidadeLojasGNec);
       
+        // 🔻 Dedução dos recursos de construção
         if (edif.recursoDeConstrução && edif.recursoDeConstrução.length > 0) {
           for (const nomeConstrucao of edif.recursoDeConstrução) {
             const { setor, index, edificio } = localizador(nomeConstrucao);
@@ -535,6 +548,7 @@ export const CardModal = ({ index }) => {
       
         console.log("Compra concluída com sucesso.");
       };
+      
       
       
 
