@@ -13,8 +13,8 @@ const CentraldeDadosProvider = ({ children }) => {
     setorAtivo: "agricultura",
     fimGame: false,
     nomeEmpresa: "",
-    saldo: 990000,
-    dia: 245,
+    saldo: 900000,
+    dia: 240,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -273,17 +273,17 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Agricultura",
             liberado: false,
           },
-          custoConstrucao: 2000,
+          custoConstrucao: 40000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 500,
-            impostoFixo: 1000,
+            faturamentoUnitário: 800,
+            impostoFixo: 4000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 1,
+            terrenos: 2,
             lojasP: 0,
             lojasM: 0,
             lojasG: 0,

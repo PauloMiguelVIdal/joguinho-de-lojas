@@ -420,22 +420,22 @@ export const CardModal = ({ index }) => {
     // Atualiza sempre que arrayConstResources ou dados mudarem
     useEffect(() => {
         const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-      
+
         const verificarEdificios = (listaEdificios) => {
-          return listaEdificios.some((nomeEdificio) => {
-            const setor = setoresArr.find((s) => dados[s]?.edificios?.some((ed) => ed.nome === nomeEdificio));
-            if (!setor) return true;
-      
-            const index = dados[setor].edificios.findIndex((ed) => ed.nome === nomeEdificio);
-            return dados[setor].edificios[index]?.quantidade <= 0;
-          });
+            return listaEdificios.some((nomeEdificio) => {
+                const setor = setoresArr.find((s) => dados[s]?.edificios?.some((ed) => ed.nome === nomeEdificio));
+                if (!setor) return true;
+
+                const index = dados[setor].edificios.findIndex((ed) => ed.nome === nomeEdificio);
+                return dados[setor].edificios[index]?.quantidade <= 0;
+            });
         };
-      
+
         const faltandoRecurso = verificarEdificios(arrayConstResources || []);
         const faltandoConstrucao = verificarEdificios(arrayConstNece || []);
-      
+
         setVerificadorConstr(faltandoRecurso || faltandoConstrucao);
-      }, [arrayConstResources, arrayConstNece, dados]);
+    }, [arrayConstResources, arrayConstNece, dados]);
 
 
 
@@ -458,99 +458,99 @@ export const CardModal = ({ index }) => {
 
     const comprarCard = () => {
         const localizador = (nomeEdificio) => {
-          const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-          for (const setor of setores) {
-            const index = dados[setor]?.edificios?.findIndex((e) => e.nome === nomeEdificio);
-            if (index !== -1) {
-              return {
-                setor,
-                index,
-                edificio: dados[setor].edificios[index],
-              };
+            const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+            for (const setor of setores) {
+                const index = dados[setor]?.edificios?.findIndex((e) => e.nome === nomeEdificio);
+                if (index !== -1) {
+                    return {
+                        setor,
+                        index,
+                        edificio: dados[setor].edificios[index],
+                    };
+                }
             }
-          }
-          return null;
+            return null;
         };
-      
+
         const edif = dados[setorAtivo].edificios[index];
-      
+
         const quantidadeTerrenosNec = edif.lojasNecessarias.terrenos;
         const quantidadeLojasPNec = edif.lojasNecessarias.lojasP;
         const quantidadeLojasMNec = edif.lojasNecessarias.lojasM;
         const quantidadeLojasGNec = edif.lojasNecessarias.lojasG;
-      
+
         const quantidadeTerrenosAtual = dados.terrenos.quantidade;
         const quantidadeLojasPAtual = dados.lojasP.quantidade;
         const quantidadeLojasMAtual = dados.lojasM.quantidade;
         const quantidadeLojasGAtual = dados.lojasG.quantidade;
-      
+
         const custo = edif.custoConstrucao;
-      
+
         if (dados.saldo < custo) {
-          return alert("Você não tem dinheiro suficiente para construir.");
+            return alert("Você não tem dinheiro suficiente para construir.");
         }
-      
+
         if (
-          quantidadeTerrenosNec > quantidadeTerrenosAtual ||
-          quantidadeLojasPNec > quantidadeLojasPAtual ||
-          quantidadeLojasMNec > quantidadeLojasMAtual ||
-          quantidadeLojasGNec > quantidadeLojasGAtual
+            quantidadeTerrenosNec > quantidadeTerrenosAtual ||
+            quantidadeLojasPNec > quantidadeLojasPAtual ||
+            quantidadeLojasMNec > quantidadeLojasMAtual ||
+            quantidadeLojasGNec > quantidadeLojasGAtual
         ) {
-          return alert("Você não tem lojas suficientes.");
+            return alert("Você não tem lojas suficientes.");
         }
-      
+
         // 🔍 Verificação de construções NECESSÁRIAS (sem deduzir)
         if (edif.construçõesNecessárias && edif.construçõesNecessárias.length > 0) {
-          for (const nomeConstrucao of edif.construçõesNecessárias) {
-            const resultado = localizador(nomeConstrucao);
-      
-            if (!resultado) {
-              return alert(`Construção necessária "${nomeConstrucao}" não encontrada.`);
+            for (const nomeConstrucao of edif.construçõesNecessárias) {
+                const resultado = localizador(nomeConstrucao);
+
+                if (!resultado) {
+                    return alert(`Construção necessária "${nomeConstrucao}" não encontrada.`);
+                }
+
+                if (resultado.edificio.quantidade <= 0) {
+                    return alert(`Você precisa de pelo menos 1 unidade de "${nomeConstrucao}".`);
+                }
             }
-      
-            if (resultado.edificio.quantidade <= 0) {
-              return alert(`Você precisa de pelo menos 1 unidade de "${nomeConstrucao}".`);
-            }
-          }
         }
-      
+
         // 🔍 Verificação de recursos de construção (com dedução posterior)
         if (edif.recursoDeConstrução && edif.recursoDeConstrução.length > 0) {
-          for (const nomeConstrucao of edif.recursoDeConstrução) {
-            const resultado = localizador(nomeConstrucao);
-      
-            if (!resultado) {
-              return alert(`Recurso de construção "${nomeConstrucao}" não encontrado.`);
+            for (const nomeConstrucao of edif.recursoDeConstrução) {
+                const resultado = localizador(nomeConstrucao);
+
+                if (!resultado) {
+                    return alert(`Recurso de construção "${nomeConstrucao}" não encontrado.`);
+                }
+
+                if (resultado.edificio.quantidade <= 0) {
+                    return alert(`Você precisa de pelo menos 1 unidade de "${nomeConstrucao}".`);
+                }
             }
-      
-            if (resultado.edificio.quantidade <= 0) {
-              return alert(`Você precisa de pelo menos 1 unidade de "${nomeConstrucao}".`);
-            }
-          }
         }
-      
+
         // ✅ Compra aprovada
         atualizarDados("saldo", dados.saldo - custo);
         atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], edif.quantidade + 1);
-      
+
         atualizarDadosProf2(["terrenos", "quantidade"], quantidadeTerrenosAtual - quantidadeTerrenosNec);
         atualizarDadosProf2(["lojasP", "quantidade"], quantidadeLojasPAtual - quantidadeLojasPNec);
         atualizarDadosProf2(["lojasM", "quantidade"], quantidadeLojasMAtual - quantidadeLojasMNec);
         atualizarDadosProf2(["lojasG", "quantidade"], quantidadeLojasGAtual - quantidadeLojasGNec);
-      
+
         // 🔻 Dedução dos recursos de construção
         if (edif.recursoDeConstrução && edif.recursoDeConstrução.length > 0) {
-          for (const nomeConstrucao of edif.recursoDeConstrução) {
-            const { setor, index, edificio } = localizador(nomeConstrucao);
-            atualizarDadosProf2([setor, "edificios", index, "quantidade"], edificio.quantidade - 1);
-          }
+            for (const nomeConstrucao of edif.recursoDeConstrução) {
+                const { setor, index, edificio } = localizador(nomeConstrucao);
+                atualizarDadosProf2([setor, "edificios", index, "quantidade"], edificio.quantidade - 1);
+            }
         }
-      
+
         console.log("Compra concluída com sucesso.");
-      };
-      
-      
-      
+    };
+
+
+
 
 
 
@@ -767,6 +767,7 @@ export const CardModal = ({ index }) => {
     const valorFatu = dados[setorAtivo].edificios[index].finanças.faturamentoUnitário
     const valorImpostoFixo = dados[setorAtivo].edificios[index].finanças.impostoFixo
     const impostoSobreFatu = dados[setorAtivo].edificios[index].finanças.impostoSobreFatu
+    const custoConstrução = dados[setorAtivo].edificios[index].custoConstrucao;
 
     const impostoSobreFatuFinal = impostoSobreFatu - (impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100))
     const valorFatuFinal = ((valorFatu + (valorFatu * (acumuladorPowerUpAumFatuRecebe / 100)))
@@ -774,8 +775,22 @@ export const CardModal = ({ index }) => {
     )
     const valorImpostoFixoFinal = valorImpostoFixo - (valorImpostoFixo * (acumuladorPowerUpRedCustoRecebe / 100))
 
+    let custoRecursos = 0;
+
+    arrayConstResources?.forEach(nomeRecurso => {
+        for (const setor of setoresArr) {
+            const edificioEncontrado = dados[setor]?.edificios?.find(e => e.nome === nomeRecurso);
+            if (edificioEncontrado) {
+                custoRecursos += edificioEncontrado.custoConstrucao || 0;
+                break; // achou, não precisa continuar nos outros setores
+            }
+        }
+    });
+
+
+
     const valorFinalMês = (((valorFatuFinal * 30) - (valorFatuFinal * 30 * impostoSobreFatuFinal)) - valorImpostoFixoFinal)
-    const rentabilidade = (valorFinalMês / CustoTotalSomadoLojas) * 100
+    const rentabilidade = (valorFinalMês / (CustoTotalSomadoLojas + custoRecursos + custoConstrução)) * 100
 
     // console.log("valor fatu ", valorFatuFinal)
     // console.log(valorFatu)
@@ -785,7 +800,7 @@ export const CardModal = ({ index }) => {
 
 
     useEffect(() => {
-  console.log("saldo", dados.saldo)
+        console.log("saldo", dados.saldo)
         console.log(edificio.nome, "Faturamento diário:", valorFatuFinal);
         console.log("foooooooiiiiiiiiii")
     }, [dados.dia])
@@ -828,10 +843,10 @@ export const CardModal = ({ index }) => {
     //     });
     // };
 
-//alterado mudanças no modais
+    //alterado mudanças no modais
 
-//alterar o modal 
-//ajustar as finançãs
+    //alterar o modal 
+    //ajustar as finançãs
     if (modalPowerup === true) {
         return (
             <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90">
@@ -1394,7 +1409,7 @@ export const CardModal = ({ index }) => {
                                             <div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
                                                 {arrayConstResources.map((nomeEdificio) => (
                                                     <div
-                                                    key={`${nomeEdificio}-${index}`}
+                                                        key={`${nomeEdificio}-${index}`}
                                                         style={{ backgroundColor: setorInfo.cor3 }}
                                                         onMouseEnter={() => setCaixaTexto(true)}
                                                         onMouseLeave={() => setCaixaTexto(false)}
