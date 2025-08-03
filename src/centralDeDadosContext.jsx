@@ -490,7 +490,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Plantação De Vegetais", "Silo","Plantação De Vegetais", "Mega Mercado"]
+          recursoDeConstrução: []
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -672,7 +672,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
           ],
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Plantação De Grãos"]
           ,
           powerUp: {
             redCustoAtual: 0,

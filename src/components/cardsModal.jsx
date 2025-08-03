@@ -25,6 +25,7 @@ import LicenseNec from "./licenseNec";
 import fechar from "../imagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
 import { Localizador } from "./localizador";
+import { CardLocalization } from "./cardLocalization";
 
 
 
@@ -286,7 +287,7 @@ export const CardModal = ({ index }) => {
 
     const [caixaTexto, setCaixaTexto] = useState(false)
 
-    const edificio = { nome: dados[setorAtivo].edificios[0].nome, recursoDeConstrução: dados[setorAtivo].edificios[0].recursoDeConstrução, construNece: dados[setorAtivo].edificios[index].construçõesNecessárias };
+    const edificio = { nome: dados[setorAtivo].edificios[index].nome, recursoDeConstrução: dados[setorAtivo].edificios[index].recursoDeConstrução, construNece: dados[setorAtivo].edificios[index].construçõesNecessárias };
     const arrayConstResources = edificio.recursoDeConstrução
     const arrayConstNece = edificio.construNece
 
@@ -451,36 +452,91 @@ export const CardModal = ({ index }) => {
     // console.log(CustoTotalSomadoLojas)
 
     const comprarCard = () => {
-        const quantidadeTerrenosNec = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
-        const quantidadeLojasPNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
-        const quantidadeLojasMNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasM
-        const quantidadeLojasGNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasG
-
-        const quantidadeTerrenosAtual = dados.terrenos.quantidade
-        const quantidadeLojasPAtual = dados.lojasP.quantidade
-        const quantidadeLojasMAtual = dados.lojasM.quantidade
-        const quantidadeLojasGAtual = dados.lojasG.quantidade
-        if (quantidadeTerrenosNec > quantidadeTerrenosAtual ||
-            quantidadeLojasPNec > quantidadeLojasPAtual ||
-            quantidadeLojasMNec > quantidadeLojasMAtual ||
-            quantidadeLojasGNec > quantidadeLojasGAtual
-        ) { return alert("Voce não tem lojas suficentes") }
-        else if(dados.saldo < dados[setorAtivo].edificios[index].custoConstrucao){return alert ("Você não tem dinheiro suficiente para construir")}
-        else {
-
-            atualizarDados("saldo", dados.saldo - (dados[setorAtivo].edificios[index].custoConstrucao))
-
-            atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], (dados[setorAtivo].edificios[index].quantidade + 1))
-
-            console.log("foi")
-
-            atualizarDadosProf2(["terrenos", "quantidade"], quantidadeTerrenosAtual - quantidadeTerrenosNec);
-            atualizarDadosProf2(["lojasP", "quantidade"], quantidadeLojasPAtual - quantidadeLojasPNec);
-            atualizarDadosProf2(["lojasM", "quantidade"], quantidadeLojasMAtual - quantidadeLojasMNec);
-            atualizarDadosProf2(["lojasG", "quantidade"], quantidadeLojasGAtual - quantidadeLojasGNec);
+        // Localizador embutido
+        const localizador = (nomeEdificio) => {
+          const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+      
+          for (const setor of setores) {
+            const index = dados[setor]?.edificios?.findIndex((e) => e.nome === nomeEdificio);
+            if (index !== -1) {
+              return {
+                setor,
+                index,
+                edificio: dados[setor].edificios[index],
+              };
+            }
+          }
+      
+          return null;
+        };
+      
+        const edif = dados[setorAtivo].edificios[index];
+      
+        const quantidadeTerrenosNec = edif.lojasNecessarias.terrenos;
+        const quantidadeLojasPNec = edif.lojasNecessarias.lojasP;
+        const quantidadeLojasMNec = edif.lojasNecessarias.lojasM;
+        const quantidadeLojasGNec = edif.lojasNecessarias.lojasG;
+      
+        const quantidadeTerrenosAtual = dados.terrenos.quantidade;
+        const quantidadeLojasPAtual = dados.lojasP.quantidade;
+        const quantidadeLojasMAtual = dados.lojasM.quantidade;
+        const quantidadeLojasGAtual = dados.lojasG.quantidade;
+      
+        const custo = edif.custoConstrucao;
+      
+        if (dados.saldo < custo) {
+          return alert("Você não tem dinheiro suficiente para construir.");
         }
-
-    }
+      
+        if (
+          quantidadeTerrenosNec > quantidadeTerrenosAtual ||
+          quantidadeLojasPNec > quantidadeLojasPAtual ||
+          quantidadeLojasMNec > quantidadeLojasMAtual ||
+          quantidadeLojasGNec > quantidadeLojasGAtual
+        ) {
+          return alert("Você não tem lojas suficientes.");
+        }
+      
+        // 🔍 Verificação dos recursos de construção
+        if (edif.recursoDeConstrução && edif.recursoDeConstrução.length > 0) {
+          for (const nomeConstrucao of edif.recursoDeConstrução) {
+            const resultado = localizador(nomeConstrucao);
+      
+            if (!resultado) {
+              console.warn(`Localizador: "${nomeConstrucao}" não encontrado.`);
+              return alert(`Construção necessária "${nomeConstrucao}" não encontrada.`);
+            }
+      
+            if (!resultado.edificio || resultado.edificio.quantidade === undefined) {
+              return alert(`Erro ao verificar quantidade de "${nomeConstrucao}".`);
+            }
+      
+            if (resultado.edificio.quantidade <= 0) {
+              return alert(`Você precisa de pelo menos 1 unidade de "${nomeConstrucao}".`);
+            }
+          }
+        }
+      
+        // ✅ Compra aprovada
+        atualizarDados("saldo", dados.saldo - custo);
+        atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], edif.quantidade + 1);
+      
+        atualizarDadosProf2(["terrenos", "quantidade"], quantidadeTerrenosAtual - quantidadeTerrenosNec);
+        atualizarDadosProf2(["lojasP", "quantidade"], quantidadeLojasPAtual - quantidadeLojasPNec);
+        atualizarDadosProf2(["lojasM", "quantidade"], quantidadeLojasMAtual - quantidadeLojasMNec);
+        atualizarDadosProf2(["lojasG", "quantidade"], quantidadeLojasGAtual - quantidadeLojasGNec);
+      
+        if (edif.recursoDeConstrução && edif.recursoDeConstrução.length > 0) {
+          for (const nomeConstrucao of edif.recursoDeConstrução) {
+            const { setor, index, edificio } = localizador(nomeConstrucao);
+            atualizarDadosProf2([setor, "edificios", index, "quantidade"], edificio.quantidade - 1);
+          }
+        }
+      
+        console.log("Compra concluída com sucesso.");
+      };
+      
+      
 
 
 
@@ -1324,7 +1380,7 @@ export const CardModal = ({ index }) => {
                                             <div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
                                                 {arrayConstResources.map((nomeEdificio) => (
                                                     <div
-                                                        key={nomeEdificio}
+                                                    key={`${nomeEdificio}-${index}`}
                                                         style={{ backgroundColor: setorInfo.cor3 }}
                                                         onMouseEnter={() => setCaixaTexto(true)}
                                                         onMouseLeave={() => setCaixaTexto(false)}
