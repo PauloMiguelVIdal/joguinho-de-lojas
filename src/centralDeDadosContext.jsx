@@ -14,7 +14,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
     saldo: 990000,
-    dia: 200,
+    dia: 245,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -437,7 +437,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              nome: "Fazenda administrativa",
+              nome: "Fazenda Administrativa",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -620,7 +620,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              nome: "Fazenda administrativa",
+              nome: "Fazenda Administrativa",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -826,7 +826,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              nome: "Fazenda administrativa",
+              nome: "Fazenda Administrativa",
               redCusto: {
                 nível1: 1,
                 nível2: 2,

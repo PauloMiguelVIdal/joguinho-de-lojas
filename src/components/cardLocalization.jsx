@@ -303,7 +303,10 @@ export const CardLocalization = ({ index, setor }) => {
     const [acumuladorPowerUpAumFatuFornece, setAcumuladorPowerUpAumFatuFornece] = useState(0);
     const [acumuladorPowerUpRedCustoRecebe, setAcumuladorPowerUpRedCustoRecebe] = useState(0);
     const [acumuladorPowerUpAumFatuRecebe, setAcumuladorPowerUpAumFatuRecebe] = useState(0);
-
+console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
+    console.log("acumuladorPowerUpAumFatuRecebe", acumuladorPowerUpAumFatuRecebe)
+    console.log("acumuladorPowerUpRedCustoFornece", acumuladorPowerUpRedCustoFornece)
+    console.log("acumuladorPowerUpAumFatuFornece", acumuladorPowerUpAumFatuFornece)
     // Aqui sim, fazemos o cálculo num useEffect:
     useEffect(() => {
         let novoAcumuladorRedCusto = 0;

@@ -1,5 +1,5 @@
 
-import { useContext, useEffect,useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import despesasImg from "../imagens/despesas.png";
 
@@ -385,57 +385,83 @@ export default function PayTexes() {
 
   useEffect(() => {
     const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-  
+
     let faturamentoTotalDiario = 0;
     let impostoFixoTotal = 0;
     let impostoFaturamentoMensal = 0;
     let impostoDiarioTotal = 0;
-  
+
+
+
     setoresArr.forEach((setor) => {
       const edificiosOriginais = dados[setor]?.edificios || [];
-  
+
       const edificiosAtualizados = edificiosOriginais.map((ed) => {
         if (ed.quantidade <= 0) return ed;
-  
+
         const quantidade = ed.quantidade || 0;
         const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
         const impostoFixo = ed?.finanças?.impostoFixo || 0;
         const impostoSobreFatu = ed?.finanças?.impostoSobreFatu || 0;
-  
+        const quantidadeMinimaPowerUpNv3 = ed.powerUp?.nível3?.quantidadeMínima
+        const quantidadeMinimaPowerUpNv2 = ed.powerUp?.nível2?.quantidadeMínima
+
+
+
         // 🔽 Cálculo do acumulador de powerUp
         let acumuladorPowerUpRedCustoRecebe = 0;
         let acumuladorPowerUpAumFatuRecebe = 0;
-  
+
+
+
         ed.RecebeMelhoraEficiencia?.forEach((edMelhorado) => {
           const nomeMelhorado = edMelhorado.nome;
           let qtdMelhorado = 0;
-  
+          
           for (const setorAlvo of setoresArr) {
             const index = dados[setorAlvo].edificios.findIndex(e => e.nome === nomeMelhorado);
+            console.log(`Buscando por "${nomeMelhorado}" no setor "${setorAlvo}"`);
             if (index !== -1) {
               qtdMelhorado = dados[setorAlvo].edificios[index].quantidade || 0;
+              console.log(`✔ Encontrado no setor ${setorAlvo} com quantidade ${qtdMelhorado}`);
               break;
             }
           }
-  
-console.log("edMelhorado", edMelhorado)
-
-          let powerUpSelecionado = "powerUpNv1";
-          if (quantidade >= 500) powerUpSelecionado = "powerUpNv3";
-          else if (quantidade >= 100) powerUpSelecionado = "powerUpNv2";
           
-  console.log(powerUpSelecionado, "powerUpSelecionado")
+          console.log("qtdMelhorado:", qtdMelhorado);
+
+          let powerUpSelecionado =
+            quantidade >= quantidadeMinimaPowerUpNv3
+              ? "powerUpNv3"
+              : quantidade >= quantidadeMinimaPowerUpNv2
+                ? "powerUpNv2"
+                : "powerUpNv1";
+
+          console.log("edMelhorado", edMelhorado)
+          console.log("nome melhorado", nomeMelhorado)
+
+
+    
+   
+          console.log(powerUpSelecionado, "powerUpSelecionado")
           if (qtdMelhorado > 0) {
             const redCusto = edMelhorado.redCusto[powerUpSelecionado === "powerUpNv1" ? "nível1" :
-                                                  powerUpSelecionado === "powerUpNv2" ? "nível2" : "nível3"];
+              powerUpSelecionado === "powerUpNv2" ? "nível2" : "nível3"];
             const aumFatu = edMelhorado.aumFatu[powerUpSelecionado === "powerUpNv1" ? "nível1" :
-                                                 powerUpSelecionado === "powerUpNv2" ? "nível2" : "nível3"];
-  
+              powerUpSelecionado === "powerUpNv2" ? "nível2" : "nível3"];
+
             acumuladorPowerUpRedCustoRecebe += redCusto;
             acumuladorPowerUpAumFatuRecebe += aumFatu;
+
+
+            console.log("redCusto:", redCusto);
+            console.log("aumFatu:", aumFatu);
+            console.log("edMelhorado.nome:", nomeMelhorado);
+
+
           }
         });
-  
+
         const economiaSetor = dados[setor]?.economiaSetor?.estadoAtual || "estável";
         const fatorEconomico = {
           "recessão": 0.6,
@@ -444,27 +470,27 @@ console.log("edMelhorado", edMelhorado)
           "progressiva": 1.1,
           "aquecida": 1.25,
         }[economiaSetor];
-  
+
         const impostoSobreFatuFinal = impostoSobreFatu * (1 - acumuladorPowerUpRedCustoRecebe / 100);
         const valorFatuFinal = faturamentoUnitario * (1 + acumuladorPowerUpAumFatuRecebe / 100);
         const valorImpostoFixoFinal = impostoFixo * (1 - acumuladorPowerUpRedCustoRecebe / 100);
-  
+
         const faturamentoDiario = valorFatuFinal * quantidade * fatorEconomico;
         faturamentoTotalDiario += faturamentoDiario;
-  
+
         const impostoFatuDiario = faturamentoDiario * impostoSobreFatuFinal;
         impostoDiarioTotal += impostoFatuDiario;
-  
+
         const arrayFatu = ed.arrayFatu || [];
         const novoArrayFatu = [...arrayFatu, faturamentoDiario].slice(-30);
         const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
         const impostoMensalSobreFaturamento = somaMensalFatu * impostoSobreFatuFinal;
         impostoFaturamentoMensal += impostoMensalSobreFaturamento;
-  
+
         const impostoFixoAtual = (dados.dia % 30 === 0)
           ? valorImpostoFixoFinal * quantidade
           : ed.valorImpostoFixoTotal || 0;
-  
+
         if (dados.dia % 30 === 0) impostoFixoTotal += impostoFixoAtual;
 
         console.log("nome edificio", ed.nome)
@@ -472,14 +498,16 @@ console.log("edMelhorado", edMelhorado)
         console.log("faturamentoUnitario", faturamentoUnitario)
         console.log("impostoFixo", impostoFixo)
         console.log("impostoSobreFatu", impostoSobreFatu)
-    
+
         console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
         console.log("acumuladorPowerUpAumFatuRecebe", acumuladorPowerUpAumFatuRecebe)
-        
+
         console.log("impostoSobreFatuFinal", impostoSobreFatuFinal)
         console.log("valorFatuFinal", valorFatuFinal)
         console.log("valorImpostoFixoFinal", valorImpostoFixoFinal)
         // console.log(rentabilidade, "rentabilidade")
+
+
 
         return {
           ...ed,
@@ -490,18 +518,18 @@ console.log("edMelhorado", edMelhorado)
           valorImpostoFixoTotal: impostoFixoAtual
         };
       });
-  
+
       atualizarDados(setor, {
         ...dados[setor],
         edificios: edificiosAtualizados,
       });
     });
-  
+
 
 
 
     const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
-  
+
     atualizarDados("imposto", {
       impostoDiário: impostoDiarioTotal,
       impostoMensal: impostoMensalTotal,
@@ -509,10 +537,10 @@ console.log("edMelhorado", edMelhorado)
       impostoFaturamentoMensal: impostoFaturamentoMensal,
       impostoSobreFaturamentoDiário: impostoFaturamentoMensal,
     });
-  
+
     atualizarDados("saldo", dados.saldo + faturamentoTotalDiario);
   }, [dados.dia]);
-  
+
 
 
 
