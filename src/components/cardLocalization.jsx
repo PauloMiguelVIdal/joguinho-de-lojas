@@ -20,7 +20,7 @@ import LojaPImg from "../imagens/lojaP.png"
 import LojaMImg from "../imagens/lojaM.png"
 import LojaGImg from "../imagens/lojaG.png"
 import SelectorImage from "./selectorImage";
-import ResourcesConstruction from "./ResourcesConstruction";
+
 import LicenseNec from "./licenseNec";
 import fechar from "../imagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
@@ -108,7 +108,15 @@ export const CardLocalization = ({ index, setor }) => {
         return num.toString();
     };
 
-
+    const booleanPreReq = (nomeEd) => {
+        for (const setor of setoresArr) {
+            const idx = dados[setor].edificios.findIndex(ed => ed.nome === nomeEd);
+            if (idx !== -1) {
+                return dados[setor].edificios[idx].quantidade > 0;
+            }
+        }
+        return false;
+    };
 
 
 
@@ -162,9 +170,14 @@ export const CardLocalization = ({ index, setor }) => {
         { nivel2: "qtd", cor: "#6411D9", },
         { nivel3: "qtd", cor: "#350973", },
     ];
+    const [caixaTexto, setCaixaTexto] = useState(false)
 
     const setorInfo = setores.find(setor => setor.id === setorAtivo);
     const nomeAtivo = dados[setorAtivo]?.edificios[index]?.nome;
+    const arrayConstResources = dados[setorAtivo]?.edificios[index]?.recursoDeConstrução
+    const arrayConstNece = dados[setorAtivo]?.edificios[index]?.construçõesNecessárias
+
+
     console.log("Setor Ativo:", setorAtivo);
     console.log("Edifícios:", dados[setorAtivo]?.edificios);
 
@@ -194,6 +207,27 @@ export const CardLocalization = ({ index, setor }) => {
         }
     };
     const [verificadorDeLojasNecessárias, setVerificador] = useState(false)
+const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(true);
+
+        useEffect(() => {
+            const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+    
+            const verificarEdificios = (listaEdificios) => {
+                return listaEdificios.some((nomeEdificio) => {
+                    const setor = setoresArr.find((s) => dados[s]?.edificios?.some((ed) => ed.nome === nomeEdificio));
+                    if (!setor) return true;
+    
+                    const index = dados[setor].edificios.findIndex((ed) => ed.nome === nomeEdificio);
+                    return dados[setor].edificios[index]?.quantidade <= 0;
+                });
+            };
+    
+            const faltandoRecurso = verificarEdificios(arrayConstResources || []);
+            const faltandoConstrucao = verificarEdificios(arrayConstNece || []);
+    
+            setVerificadorConstr(faltandoRecurso || faltandoConstrucao);
+        }, [arrayConstResources, arrayConstNece, dados]);
+    
 
     useEffect(() => {
         const quantidadeTerrenos = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
@@ -293,9 +327,9 @@ export const CardLocalization = ({ index, setor }) => {
 
 
     const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução
-    const custoTotalLojasP = quantidadeLojasPNec * (dados.lojasP.preçoConstrução * dados.lojasP.quantidadeNecTerreno)
-    const custoTotalLojasM = quantidadeLojasMNec * (dados.lojasM.preçoConstrução * dados.lojasM.quantidadeNecTerreno)
-    const custoTotalLojasG = quantidadeLojasGNec * (dados.lojasG.preçoConstrução * dados.lojasG.quantidadeNecTerreno)
+    const custoTotalLojasP = quantidadeLojasPNec * (dados.lojasP.preçoConstrução + (dados.terrenos.preçoConstrução * dados.lojasP.quantidadeNecTerreno))
+    const custoTotalLojasM = quantidadeLojasMNec * (dados.lojasM.preçoConstrução + (dados.terrenos.preçoConstrução * dados.lojasM.quantidadeNecTerreno))
+    const custoTotalLojasG = quantidadeLojasGNec * (dados.lojasG.preçoConstrução + (dados.terrenos.preçoConstrução * dados.lojasG.quantidadeNecTerreno))
     const CustoTotalSomadoLojas = custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG
 
 
@@ -303,7 +337,7 @@ export const CardLocalization = ({ index, setor }) => {
     const [acumuladorPowerUpAumFatuFornece, setAcumuladorPowerUpAumFatuFornece] = useState(0);
     const [acumuladorPowerUpRedCustoRecebe, setAcumuladorPowerUpRedCustoRecebe] = useState(0);
     const [acumuladorPowerUpAumFatuRecebe, setAcumuladorPowerUpAumFatuRecebe] = useState(0);
-console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
+    console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
     console.log("acumuladorPowerUpAumFatuRecebe", acumuladorPowerUpAumFatuRecebe)
     console.log("acumuladorPowerUpRedCustoFornece", acumuladorPowerUpRedCustoFornece)
     console.log("acumuladorPowerUpAumFatuFornece", acumuladorPowerUpAumFatuFornece)
@@ -414,6 +448,7 @@ console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
     const valorFatu = dados[setorAtivo].edificios[index].finanças.faturamentoUnitário
     const valorImpostoFixo = dados[setorAtivo].edificios[index].finanças.impostoFixo
     const impostoSobreFatu = dados[setorAtivo].edificios[index].finanças.impostoSobreFatu
+    const custoConstrução = dados[setorAtivo].edificios[index].custoConstrucao;
 
     const impostoSobreFatuFinal = impostoSobreFatu - (impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100))
     const valorFatuFinal = ((valorFatu + (valorFatu * (acumuladorPowerUpAumFatuRecebe / 100)))
@@ -421,8 +456,21 @@ console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
     )
     const valorImpostoFixoFinal = valorImpostoFixo - (valorImpostoFixo * (acumuladorPowerUpRedCustoRecebe / 100))
 
-    const valorFinalMês = (((valorFatuFinal * 30) - (valorFatuFinal * 30 * impostoSobreFatuFinal)) - valorImpostoFixoFinal)
-    const rentabilidade = (valorFinalMês / CustoTotalSomadoLojas) * 100
+    let custoRecursos = 0;
+
+    arrayConstResources?.forEach(nomeRecurso => {
+        for (const setor of setoresArr) {
+            const edificioEncontrado = dados[setor]?.edificios?.find(e => e.nome === nomeRecurso);
+            if (edificioEncontrado) {
+                custoRecursos += edificioEncontrado.custoConstrucao || 0;
+                break; // achou, não precisa continuar nos outros setores
+            }
+        }
+    });
+
+    const valorFinalMês = ((valorFatuFinal * 30) - (valorFatuFinal * 30 * impostoSobreFatuFinal) - valorImpostoFixoFinal)
+    const rentabilidade = (valorFinalMês / (CustoTotalSomadoLojas + custoRecursos + custoConstrução)) * 100
+
 
 
 
@@ -877,10 +925,12 @@ console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
                                         <img className="h-[70%] aspect-square" src={constNece} onClick={() => { handleMouseEnter(), handleShow('constNece'), handleFlip() }}
                                             alt="" />
                                         <div className="absolute bottom-[-2px] right-[-2px]">
-                                            <span className="relative flex size-2">
-                                                <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
-                                                <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
-                                            </span>
+                                        {verificadorDeConstruçõesNecessárias === true &&
+                                                <span className="relative flex size-2">
+                                                    <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+                                                    <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+                                                </span>
+                                            }
                                         </div>
                                     </div>
                                     <div className="w-[35%] h-full aspect-square flex justify-between items-center">
@@ -913,7 +963,7 @@ console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
                                             <h1 className=" text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário)}</h1>
                                         </div>
                                         <div className="flex items-center justify-center h-full">
-                                            <h1 className="text-white font-bold mr-2 text-[15px]">{dados[setorAtivo].edificios[index].finanças.rent}</h1>
+                                            <h1 className="text-white font-bold mr-2 text-[15px]">{rentabilidade.toFixed(0)}</h1>
                                             <img src={porcem} alt="porcentagem" className="h-[45%] mr-[5px]" />
                                         </div>
                                     </div>
@@ -965,7 +1015,35 @@ console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
                                             <h1 className=" text-white text-[11px] text-start fonteBold">Recursos de Construção</h1>
                                         </div>
                                         <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
-                                            <ResourcesConstruction />
+                                            <div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
+                                                {arrayConstResources.map((nomeEdificio) => (
+                                                    <div
+                                                        key={`${nomeEdificio}-${index}`}
+                                                        style={{ backgroundColor: setorInfo.cor3 }}
+                                                        onMouseEnter={() => setCaixaTexto(true)}
+                                                        onMouseLeave={() => setCaixaTexto(false)}
+                                                        className="cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative"
+                                                    >
+                                                        {caixaTexto && (
+                                                            <div
+                                                                style={{ backgroundColor: setorInfo.cor1 }}
+                                                                className="absolute inset-0 flex items-center justify-center text-white text-[7px] p-2 rounded-[8px]"
+                                                            >
+                                                                {nomeEdificio}
+                                                            </div>
+                                                        )}
+                                                        <img className="h-[70%] aspect-square" src={getImageUrl(nomeEdificio)} alt={nomeEdificio} />
+                                                        <div className="absolute bottom-[-2px] right-[-2px]">
+                                                            {booleanPreReq(nomeEdificio) === false && (
+                                                                <span className="relative flex size-2">
+                                                                    <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+                                                                    <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -975,7 +1053,38 @@ console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
                                             <h1 className=" text-white text-[11px] text-start fonteBold">Construções pré-requisito</h1>
                                         </div>
                                         <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
-                                            <SelectorImage />
+                                            <div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
+                                                {arrayConstNece.map((nomeEdificio) => (
+
+                                                    <div
+
+                                                        key={nomeEdificio}
+                                                        style={{ backgroundColor: setorInfo.cor3 }}
+                                                        onMouseEnter={() => setCaixaTexto(true)}
+                                                        onMouseLeave={() => setCaixaTexto(false)}
+                                                        className="cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative"
+                                                    >
+                                                        {caixaTexto && (
+                                                            <div
+                                                                style={{ backgroundColor: setorInfo.cor1 }}
+                                                                className="absolute inset-0 flex items-center justify-center text-white text-[7px] p-2 rounded-[8px]"
+                                                            >
+                                                                {nomeEdificio}
+                                                            </div>
+                                                        )}
+                                                        <img className="h-[70%] aspect-square" src={getImageUrl(nomeEdificio)} alt={nomeEdificio} />
+                                                        <div className="absolute bottom-[-2px] right-[-2px]">
+                                                            {
+                                                                booleanPreReq(nomeEdificio) === false &&
+                                                                <span className="relative flex size-2">
+                                                                    <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
+                                                                    <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
+                                                                </span>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

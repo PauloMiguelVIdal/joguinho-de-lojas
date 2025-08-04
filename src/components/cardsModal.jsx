@@ -20,7 +20,7 @@ import LojaPImg from "../imagens/lojaP.png"
 import LojaMImg from "../imagens/lojaM.png"
 import LojaGImg from "../imagens/lojaG.png"
 import SelectorImage from "./selectorImage";
-import ResourcesConstruction from "./ResourcesConstruction";
+
 import LicenseNec from "./licenseNec";
 import fechar from "../imagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
@@ -262,20 +262,20 @@ export const CardModal = ({ index }) => {
 
         if (qtdAtual >= qtdNecessaria) {
             const novoEdificio = {
-                ...dados.agricultura.edificios[index],
+                ...dados[setorAtivo].edificios[index],
                 lojasNecessarias: {
-                    ...dados.agricultura.edificios[index].lojasNecessarias,
+                    ...dados[setorAtivo].edificios[index].lojasNecessarias,
                     [edificioSuficiente]: true
                 }
             };
 
-            const novaLista = [...dados.agricultura.edificios];
+            const novaLista = [...dados[setorAtivo].edificios];
             novaLista[index] = novoEdificio;
 
             atualizarDados({
                 ...dados,
-                agricultura: {
-                    ...dados.agricultura,
+                [setorAtivo]: {
+                    ...dados[setorAtivo],
                     edificios: novaLista
                 }
             });
@@ -446,9 +446,9 @@ export const CardModal = ({ index }) => {
 
 
     const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução
-    const custoTotalLojasP = quantidadeLojasPNec * (dados.lojasP.preçoConstrução * dados.lojasP.quantidadeNecTerreno)
-    const custoTotalLojasM = quantidadeLojasMNec * (dados.lojasM.preçoConstrução * dados.lojasM.quantidadeNecTerreno)
-    const custoTotalLojasG = quantidadeLojasGNec * (dados.lojasG.preçoConstrução * dados.lojasG.quantidadeNecTerreno)
+    const custoTotalLojasP = quantidadeLojasPNec * (dados.lojasP.preçoConstrução + (dados.terrenos.preçoConstrução * dados.lojasP.quantidadeNecTerreno))
+    const custoTotalLojasM = quantidadeLojasMNec * (dados.lojasM.preçoConstrução + (dados.terrenos.preçoConstrução * dados.lojasM.quantidadeNecTerreno))
+    const custoTotalLojasG = quantidadeLojasGNec * (dados.lojasG.preçoConstrução + (dados.terrenos.preçoConstrução * dados.lojasG.quantidadeNecTerreno))
     const CustoTotalSomadoLojas = custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG
     // console.log(custoTotalTerrenos)
     // console.log(custoTotalLojasP)
