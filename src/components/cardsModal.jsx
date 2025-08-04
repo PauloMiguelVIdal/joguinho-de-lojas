@@ -446,9 +446,21 @@ export const CardModal = ({ index }) => {
 
 
     const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução
-    const custoTotalLojasP = quantidadeLojasPNec * (dados.lojasP.preçoConstrução + (dados.terrenos.preçoConstrução * dados.lojasP.quantidadeNecTerreno))
-    const custoTotalLojasM = quantidadeLojasMNec * (dados.lojasM.preçoConstrução + (dados.terrenos.preçoConstrução * dados.lojasM.quantidadeNecTerreno))
-    const custoTotalLojasG = quantidadeLojasGNec * (dados.lojasG.preçoConstrução + (dados.terrenos.preçoConstrução * dados.lojasG.quantidadeNecTerreno))
+    const custoTotalLojasP = quantidadeLojasPNec * (
+        dados.lojasP.preçoConstrução +
+        (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+      );
+      
+      const custoTotalLojasM = quantidadeLojasMNec * (
+        dados.lojasM.preçoConstrução +
+        (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+      );
+      
+      const custoTotalLojasG = quantidadeLojasGNec * (
+        dados.lojasG.preçoConstrução +
+        (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+      );
+      
     const CustoTotalSomadoLojas = custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG
     // console.log(custoTotalTerrenos)
     // console.log(custoTotalLojasP)
@@ -778,14 +790,56 @@ export const CardModal = ({ index }) => {
     let custoRecursos = 0;
 
     arrayConstResources?.forEach(nomeRecurso => {
-        for (const setor of setoresArr) {
-            const edificioEncontrado = dados[setor]?.edificios?.find(e => e.nome === nomeRecurso);
-            if (edificioEncontrado) {
-                custoRecursos += edificioEncontrado.custoConstrucao || 0;
-                break; // achou, não precisa continuar nos outros setores
-            }
+      console.log("🔍 Verificando recurso:", nomeRecurso);
+    
+      for (const setor of setoresArr) {
+        const edificioEncontrado = dados[setor]?.edificios?.find(e => e.nome === nomeRecurso);
+    
+        if (edificioEncontrado) {
+          console.log("✅ Edifício encontrado:", edificioEncontrado.nome, "no setor:", setor);
+    
+          const custoConstrucaoRecurso = edificioEncontrado.custoConstrucao || 0;
+          console.log("🏗️ Custo da construção:", custoConstrucaoRecurso);
+    
+          const quantidadeTerrenosNec = edificioEncontrado.lojasNecessarias.terrenos || 0;
+          const quantidadeLojasPNec = edificioEncontrado.lojasNecessarias.lojasP || 0;
+          const quantidadeLojasMNec = edificioEncontrado.lojasNecessarias.lojasM || 0;
+          const quantidadeLojasGNec = edificioEncontrado.lojasNecessarias.lojasG || 0;
+    
+          console.log("📦 Lojas necessárias → Terrenos:", quantidadeTerrenosNec, "P:", quantidadeLojasPNec, "M:", quantidadeLojasMNec, "G:", quantidadeLojasGNec);
+    
+          const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução;
+    
+          const custoTotalLojasP = quantidadeLojasPNec * (
+            dados.lojasP.preçoConstrução +
+            (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+          );
+    
+          const custoTotalLojasM = quantidadeLojasMNec * (
+            dados.lojasM.preçoConstrução +
+            (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+          );
+    
+          const custoTotalLojasG = quantidadeLojasGNec * (
+            dados.lojasG.preçoConstrução +
+            (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+          );
+    
+          console.log("💰 Custo total → Terrenos:", custoTotalTerrenos, "LojasP:", custoTotalLojasP, "LojasM:", custoTotalLojasM, "LojasG:", custoTotalLojasG);
+    
+          const custoTotalRecurso = custoConstrucaoRecurso + custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG;
+    
+          console.log("📊 Custo total do recurso:", nomeRecurso, "=", custoTotalRecurso);
+    
+          custoRecursos += custoTotalRecurso;
+    
+          break; // Se nomeRecurso for único em todos os setores
         }
+      }
     });
+    
+    console.log("🔚 Custo total acumulado de todos os recursos:", custoRecursos);
+    
 
 
 
@@ -797,8 +851,8 @@ export const CardModal = ({ index }) => {
     // console.log(acumuladorPowerUpAumFatuRecebe)
     // console.log(valorImpostoFixoFinal)
     // useEffect(()=>{atualizarDadosProf2([setorAtivo, "edificios", index, "powerUp", "aumFatuAtual"], ResultFinalAcumuladorRedCusto)},[ResultFinalAcumuladorRedCusto])
-
-
+console.log("esse é o custos de recursos do",edificio.nome,custoRecursos)
+ 
     useEffect(() => {
         console.log("saldo", dados.saldo)
         console.log(edificio.nome, "Faturamento diário:", valorFatuFinal);

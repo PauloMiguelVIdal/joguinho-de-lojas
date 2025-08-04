@@ -6600,7 +6600,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 33000,
-            impostoFixo: 600000,
+            impostoFixo: 300000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -6750,11 +6750,11 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Base Metalúrgica",
             liberado: false,
           },
-          custoConstrucao: 560000,
+          custoConstrucao: 1440000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 595000,
-            impostoFixo: 11070000,
+            faturamentoUnitário: 50000,
+            impostoFixo: 134552,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -6883,7 +6883,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Alto-Forno"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
