@@ -6,7 +6,7 @@ import Buy from "./components/buy";
 import Notificação from "./notificação";
 import Events from "./components/events";
 import Employees from "./components/employees";
-import Texes from "./components/Texes";
+import Taxes from "./components/Taxes";
 import Informations from "./components/Informations";
 import Sorteio from "./components/Sorteio";
 import ActiveEvents from "./components/ActiveEvents";
@@ -67,7 +67,7 @@ function Interface() {
                 <Economys/>
                 </div>
                 <div className="grid col-start-9 col-end-11 row-start-5 row-end-7">
-                    <Texes />
+                    <Taxes />
                 </div>
                 <div className="grid col-start-9 col-end-11 row-start-7 row-end-11">
                     <ActiveEvents />
