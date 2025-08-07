@@ -54,7 +54,7 @@ function Interface() {
                     <div className="flex w-full items-center justify-center  col-start-8 col-end-9 gap-[10px]">
                         <Day />
                         <EconomyGlobal />
-                        Falta só o powerUP
+                       
                     </div>
                 </div>
                 <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">

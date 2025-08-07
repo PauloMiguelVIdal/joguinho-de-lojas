@@ -13,8 +13,8 @@ const CentraldeDadosProvider = ({ children }) => {
     setorAtivo: "agricultura",
     fimGame: false,
     nomeEmpresa: "",
-    saldo: 900000,
-    dia: 240,
+    saldo: 90000000,
+    dia: 250,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -511,7 +511,7 @@ const CentraldeDadosProvider = ({ children }) => {
           desc: "Elemento essencial do setor agrícola. Representa variedade e frescor.",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
-            liberado: true,
+            liberado: false,
           },
           custoConstrucao: 60000,
           quantidade: 0,
@@ -689,7 +689,7 @@ const CentraldeDadosProvider = ({ children }) => {
           desc: "Diversifica a produção rural. Dá suporte à indústria e ao comércio local.",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
-            liberado: true,
+            liberado: false,
           },
           custoConstrucao: 40000,
           quantidade: 0,
@@ -4693,6 +4693,13 @@ const CentraldeDadosProvider = ({ children }) => {
         status: false
       },
       {
+        nome: "Licença De Fábricas textil",
+        desc: "Habilita a produção de têxteis e vestuário, conectando a agricultura à indústria têxtil.",
+        valor: 7000,
+        edifíciosLiberados: ["Fábrica Textil", "Fábrica De Calçados", "Fábrica De Roupas"],
+        status: false
+      },
+      {
         nome: "Licença De Fábricas Energéticas",
         desc: "Habilita a fabricação de componentes para geração de energia renovável e armazenamento.",
         valor: 7000,
@@ -4704,6 +4711,13 @@ const CentraldeDadosProvider = ({ children }) => {
         desc: "Permite a produção de papel e derivados, essencial para indústrias gráficas e de embalagens.",
         valor: 7000,
         edifíciosLiberados: ["Fábrica De Celulose", "Fábrica De Papel", "Fábrica De Livros"],
+        status: false
+      },
+      {
+        nome: "Licença De Produtos Químicos",
+        desc: "Autoriza a produção de produtos químicos básicos e intermediários, essenciais para diversas indústrias.",
+        valor: 7000,
+        edifíciosLiberados: ["Laboratório Farmacêutico","Fábrica de Medicamentos","Fábrica de Plásticos", "Fábrica de Químicos Especializados" ],
         status: false
       },
       {
@@ -4724,7 +4738,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença Automotiva",
         desc: "Permite a produção de veículos e componentes automotivos, incluindo tecnologias elétricas.",
         valor: 7000,
-        edifíciosLiberados: ["Fábrica De Peças Automotivas", "Montadora De Veículos Elétricos", "Fábricas De Automóveis"],
+        edifíciosLiberados: ["Fábrica De Peças Automotivas", "Montadora De Veículos Elétricos", "Fábrica De Automóveis"],
         status: false
       },
       {
@@ -4761,8 +4775,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 70000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 1850,
-            impostoFixo: 39000,
+            faturamentoUnitário: 4500,
+            impostoFixo: 70000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -4914,8 +4928,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 90000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 1200,
-            impostoFixo: 25000,
+            faturamentoUnitário: 2000,
+            impostoFixo: 23000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -5067,8 +5081,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 130000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 1800,
-            impostoFixo: 35000,
+            faturamentoUnitário: 4000,
+            impostoFixo: 70000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -5217,20 +5231,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Fábricas Simples",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 1320000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 200000,
+            impostoFixo: 4800000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 3,
+            lojasP: 2,
+            lojasM: 2,
+            lojasG: 2,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -5669,7 +5683,463 @@ const CentraldeDadosProvider = ({ children }) => {
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
         },
-        
+        {
+          nome: "Fábrica Textil",
+          desc: "Fabrica tecidos a partir de vegetais e fibras naturais.",
+          licençaLiberado: {
+            licença: "Licença De Fábricas Simples",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 9500,
+            impostoFixo: 160000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 0,
+            lojasM: 2,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },{
+          nome: "Fábrica De Calçados",
+          desc: "Fabrica calçados a partir de vegetais e couro.",
+          licençaLiberado: {
+            licença: "Licença De Fábricas Simples",
+            liberado: false,
+          },
+          custoConstrucao: 80000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 7600,
+            impostoFixo: 140000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },{
+          nome: "Fábrica De Roupas",
+          desc: "Fabrica pães a partir de cereais e vegetais.",
+          licençaLiberado: {
+            licença: "Licença De Fábricas Simples",
+            liberado: false,
+          },
+          custoConstrucao: 200000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 7400,
+            impostoFixo: 120000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 2,
+            lojasM: 0,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
         {
           nome: "Fábrica De Turbinas Eólicas",
           desc: "Monta turbinas para gerar energia eólica.",
@@ -6139,8 +6609,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 200000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 6200,
-            impostoFixo: 116000,
+            faturamentoUnitário: 15000,
+            impostoFixo: 300000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -6293,8 +6763,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 190000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 4800,
-            impostoFixo: 92000,
+            faturamentoUnitário: 13000,
+            impostoFixo: 230000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -6302,6 +6772,159 @@ const CentraldeDadosProvider = ({ children }) => {
           lojasNecessarias: {
             terrenos: 1,
             lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Fábrica De Livros",
+          desc: "Fabrica livros utilizando papel e outros materiais.",
+          licençaLiberado: {
+            licença: "Licença De Papel E Celulose",
+            liberado: false,
+          },
+          custoConstrucao: 270000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 13000,
+            impostoFixo: 220000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 0,
             lojasM: 1,
             lojasG: 0,
           },
@@ -6457,6 +7080,618 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasP: 0,
             lojasM: 1,
             lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Fábrica de Medicamentos",
+          desc: "Produz medicamentos a partir de matérias-primas.",
+          licençaLiberado: {
+            licença: "Licença De Base Metalúrgica",
+            liberado: false,
+          },
+          custoConstrucao: 170000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 33000,
+            impostoFixo: 300000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 10,
+            lojasP: 3,
+            lojasM: 2,
+            lojasG: 5,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Laboratório Farmacêutico",
+          desc: "Desenvolve medicamentos e produtos farmacêuticos.",
+          licençaLiberado: {
+            licença: "Licença De Base Metalúrgica",
+            liberado: false,
+          },
+          custoConstrucao: 170000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 33000,
+            impostoFixo: 300000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 10,
+            lojasP: 3,
+            lojasM: 2,
+            lojasG: 5,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Fábrica de Plásticos",
+          desc: "Fabrica de plásticos a partir de matérias-primas.",
+          licençaLiberado: {
+            licença: "Licença De Base Metalúrgica",
+            liberado: false,
+          },
+          custoConstrucao: 170000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 33000,
+            impostoFixo: 300000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 10,
+            lojasP: 3,
+            lojasM: 2,
+            lojasG: 5,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Fábrica de Químicos Especializados",
+          desc: "Fabrica produtos químicos especializados para diversas indústrias.",
+          licençaLiberado: {
+            licença: "Licença De Base Metalúrgica",
+            liberado: false,
+          },
+          custoConstrucao: 1260000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 33000,
+            impostoFixo: 300000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 2,
+            lojasM: 3,
+            lojasG: 4,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -6760,7 +7995,7 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 2,
+            terrenos: 5,
             lojasP: 0,
             lojasM: 0,
             lojasG: 1,
@@ -6906,8 +8141,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 560000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 510000,
-            impostoFixo: 990000,
+            faturamentoUnitário: 37000,
+            impostoFixo: 147000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -7036,7 +8271,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Alto-Forno"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -7059,8 +8294,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 750000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 600000,
-            impostoFixo: 11700000,
+            faturamentoUnitário: 50000,
+            impostoFixo: 310000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -7189,7 +8424,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Alto-Forno"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -7212,8 +8447,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 720000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 247000,
-            impostoFixo: 4600000,
+            faturamentoUnitário: 15000,
+            impostoFixo: 32000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -7365,8 +8600,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 110000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 305000,
-            impostoFixo: 6050000,
+            faturamentoUnitário: 42000,
+            impostoFixo: 700000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -7495,7 +8730,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Indústria De Componentes Mecânicos"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -7518,8 +8753,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 120000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 340000,
-            impostoFixo: 6.500000,
+            faturamentoUnitário: 23500,
+            impostoFixo: 110000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -7648,7 +8883,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Fábrica De Chapas Metálicas"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -7671,8 +8906,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 460000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 150000,
+            impostoFixo: 3400000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -7801,7 +9036,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: [],
+          recursoDeConstrução: ["Indústria De Componentes Mecânicos"],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
@@ -7820,11 +9055,11 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Automotiva",
             liberado: false,
           },
-          custoConstrucao: 3590000,
+          custoConstrucao: 3490000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 1075000,
-            impostoFixo: 19000000,
+            faturamentoUnitário: 500000,
+            impostoFixo: 10600000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -7953,7 +9188,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Fábrica De Peças Automotivas", "Fábrica De Baterias"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -7967,26 +9202,26 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Fábricas De Automóveis",
+          nome: "Fábrica De Automóveis",
           desc: "Produz automóveis e veículos convencionais.",
           licençaLiberado: {
             licença: "Licença Automotiva",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 3450000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 350000,
+            impostoFixo: 6200000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 5,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 3,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -8106,7 +9341,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Fábrica De Peças Automotivas"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -8127,19 +9362,19 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença de Refinaria",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 750000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 400000,
+            impostoFixo: 9500000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 3,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -8254,7 +9489,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: [],
+          recursoDeConstrução: ["Fábrica de Químicos Especializados"],
           dependências: [
             { construção: "Fazenda Administrativa", quantidade: 0 }
           ],
@@ -8273,19 +9508,19 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença de Refinaria",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 1100000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 700000,
+            impostoFixo: 16000000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 1,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -8406,7 +9641,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: [],
+          recursoDeConstrução: ["Refinaria de Biocombustíveis","Fábrica de Químicos Especializados"],
           dependências: [
             { construção: "Fazenda Administrativa", quantidade: 0 }
           ],
@@ -8425,19 +9660,19 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença de Refinaria",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 1460000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 320000,
+            impostoFixo: 7750000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 5,
+            lojasP: 2,
+            lojasM: 2,
+            lojasG: 5,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -8571,20 +9806,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Engenharia Mecânica Avançada",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 3270000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 2000000,
+            impostoFixo: 48000000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 1,
+            lojasP: 3,
+            lojasM: 5,
+            lojasG: 7,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -8704,7 +9939,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Usina Siderúrgica","Fábrica De Peças Automotivas","Fábrica De Eletrônicos"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -8724,20 +9959,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Engenharia Mecânica Avançada",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 67200000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 5000000,
+            impostoFixo: 110000000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 10,
+            lojasP: 20,
+            lojasM: 10,
+            lojasG: 30,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -8857,7 +10092,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Fábrica De Motores", "Fábrica De Ligas Metálicas"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -8877,20 +10112,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Engenharia Mecânica Avançada",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 11600000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 2000000,
+            impostoFixo: 44000000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
             terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            lojasP: 30,
+            lojasM: 20,
+            lojasG: 30,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -9010,8 +10245,8 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
-          ,
+          recursoDeConstrução: ["Fábrica De Motores", "Fábrica De Estruturas Metálicas"],
+
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
@@ -9183,20 +10418,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Eletrônica Avançada",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 1340000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 500000,
+            impostoFixo: 12800000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 10,
+            lojasP: 2,
+            lojasM: 0,
+            lojasG: 3,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -9336,20 +10571,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Eletrônica Avançada",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 11500000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1000000,
+            impostoFixo: 20000000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 40,
+            lojasP: 30,
+            lojasM: 10,
+            lojasG: 40,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -9469,7 +10704,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Fábrica De Eletrônicos"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -9488,20 +10723,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Eletrônica Avançada",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 10300000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 2000000,
+            impostoFixo: 45000000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
             terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            lojasP: 10,
+            lojasM: 20,
+            lojasG: 40,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -9641,20 +10876,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Eletrônica Avançada",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 2530000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1000000,
+            impostoFixo: 26500000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 3,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 3,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -9850,7 +11085,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Logística E Transporte",
         desc: "Autoriza a operação de centros de distribuição e transporte de mercadorias, essencial para a cadeia de suprimentos da cidade.",
         valor: 7000,
-        edifíciosLiberados: ["Centro De Distribuição", "Armazém Logístico", "Transporte Petrolífero"],
+        edifíciosLiberados: ["Centro De Transporte e Entrega","Centro De Distribuição", "Armazém Logístico", "Transporte Petrolífero"],
         status: false
       }
       ]
@@ -9864,20 +11099,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Comércio",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 5000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
+            faturamentoUnitário: 550,
             impostoFixo: 1000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 1,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -10017,20 +11252,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Comércio",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 40000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1600,
+            impostoFixo: 2000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -10170,20 +11405,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Comércio",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 20000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1400,
+            impostoFixo: 2000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -10323,20 +11558,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Comércio",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 0,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
+            faturamentoUnitário: 1100	,
             impostoFixo: 1000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -10476,20 +11711,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Comércio Local",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 170000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 5800,
+            impostoFixo: 5000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -10609,7 +11844,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Padaria","Açougue"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -10629,20 +11864,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Comércio Local",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 0,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
+            faturamentoUnitário: 1150,
             impostoFixo: 1000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -10782,20 +12017,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Comércio Local",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 0,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
+            faturamentoUnitário: 	1100,
             impostoFixo: 1000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -10935,20 +12170,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Comércio Local",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 0,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1100,
+            impostoFixo: 1500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -11088,20 +12323,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Varejo",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 10000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1200,
+            impostoFixo: 1500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -11241,20 +12476,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Varejo",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 20000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1600,
+            impostoFixo: 14500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -11394,20 +12629,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Comércio Urbano",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 40000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1150,
+            impostoFixo: 1500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -11547,20 +12782,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Comércio Urbano",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 20000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1600,
+            impostoFixo: 9000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -11704,16 +12939,16 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            impostoFixo: 20000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -11853,20 +13088,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Comércio Urbano",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 30000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 3500,
+            impostoFixo: 50000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 1,
+            lojasP: 0,
+            lojasM: 1,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -12006,20 +13241,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Serviços E Saúde",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 0,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1100,
+            impostoFixo: 1500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -12159,20 +13394,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Serviços E Saúde",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 90000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1700,
+            impostoFixo: 2500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -12312,20 +13547,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Serviços E Saúde",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 0,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1100,
+            impostoFixo: 1500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -12465,20 +13700,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Varejo Especializado",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 70000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            impostoFixo: 5000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 0,
+            lojasM: 1,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -12618,20 +13853,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Varejo Especializado",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 40000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1700,
+            impostoFixo: 6000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -12771,20 +14006,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Varejo Especializado",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 20000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1400,
+            impostoFixo: 6500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -12924,20 +14159,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Shoppings",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 3610000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 110000,
+            impostoFixo: 100000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
             terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            lojasP: 8,
+            lojasM: 8,
+            lojasG: 8,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -13057,7 +14292,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Mercado","Loja De Departamentos","Redes De Fast-food","Cafeteria"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -13077,7 +14312,7 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Shoppings",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 23730000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 2000,
@@ -13087,10 +14322,163 @@ const CentraldeDadosProvider = ({ children }) => {
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 100,
+            lojasP: 25,
+            lojasM: 30,
+            lojasG: 70,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Shopping Popular","Mega Mercado","Joalheria","Concessionária De Veículos"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Centro De Transporte e Entrega",
+          desc: "Distribui produtos e mercadorias para redes varejistas.",
+          licençaLiberado: {
+            licença: "Licença De Logística E Transporte",
+            liberado: false,
+          },
+          custoConstrucao: 220000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 3000,
+            impostoFixo: 7000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -13230,20 +14618,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Logística E Transporte",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 220000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 4000,
+            impostoFixo: 8000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 3,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -13383,20 +14771,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Logística E Transporte",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 190000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 3000,
+            impostoFixo: 6000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 2,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -13539,17 +14927,17 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 200000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 15000,
+            impostoFixo: 50000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 5,
+            lojasP: 2,
+            lojasM: 3,
+            lojasG: 4,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -13669,7 +15057,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Armazém Logístico"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -13737,20 +15125,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global Imobiliária",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 750000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 10000,
+            impostoFixo: 22500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 3,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -13890,20 +15278,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global Imobiliária",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 10000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1500,
+            impostoFixo: 12000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -14043,20 +15431,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global Imobiliária",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 120000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 2500,
+            impostoFixo: 4500,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 0,
+            lojasP: 0,
+            lojasM: 1,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -14196,20 +15584,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Grandes Infraestruturas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 2000000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 90000,
+            impostoFixo: 150000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 30,
+            lojasP: 10,
+            lojasM: 10,
+            lojasG: 20,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -14330,7 +15718,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Construtora", "Terraplanagem E Pavimentação", "Cartório E Licenças"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -14350,20 +15738,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Grandes Infraestruturas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 11400000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 700000,
+            impostoFixo: 350000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 100,
+            lojasP: 20,
+            lojasM: 10,
+            lojasG: 100,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -14483,7 +15871,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Construtora De Infraestruturas"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -14503,20 +15891,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Grandes Infraestruturas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 26550000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 900000,
+            impostoFixo: 450000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 300,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 100,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -14636,7 +16024,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Construtora De Infraestruturas"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -14656,20 +16044,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Mineração",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 520000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 20000,
+            impostoFixo: 	18000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 10,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -14789,7 +16177,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Terraplanagem E Pavimentação", "Terreno De Mineração"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -14809,20 +16197,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Mineração",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 16250000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 600000,
+            impostoFixo: 300000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 500,
+            lojasP: 10,
+            lojasM: 10,
+            lojasG: 10,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -14942,7 +16330,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Mineradora","Construtora De Infraestruturas","Terraplanagem E Pavimentação","Terreno De Mineração"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -14962,20 +16350,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Mineração",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 2020000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 70000,
+            impostoFixo: 35000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 5,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -15095,7 +16483,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Mineradora","Terreno De Mineração"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -15115,20 +16503,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Comercial E Residencial",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 1090000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 45000,
+            impostoFixo: 100000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 12,
+            lojasP: 2,
+            lojasM: 3,
+            lojasG: 4,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -15248,7 +16636,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Mercado","Loja De Departamentos","Cafeteria","Livraria"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -15268,20 +16656,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Comercial E Residencial",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 3840000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 60000,
+            impostoFixo: 50000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 7,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 8,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -15421,20 +16809,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Construções Energéticas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 520000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 8000,
+            impostoFixo: 15000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 2,
+            lojasP: 2,
+            lojasM: 3,
+            lojasG: 3,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -15577,17 +16965,17 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 200000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 26500,
+            impostoFixo: 50000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 2,
+            lojasP: 2,
+            lojasM: 2,
+            lojasG: 5,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -15727,20 +17115,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Construções Energéticas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 6000000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 220000,
+            impostoFixo: 300000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 10,
+            lojasP: 10,
+            lojasM: 20,
+            lojasG: 50,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -15931,17 +17319,17 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 40000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 350,
-            impostoFixo: 300000,
+            faturamentoUnitário: 900,
+            impostoFixo: 5000,
             impostoSobreFatu: 0.050000,
             rent: 3
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 2,
+            lojasP: 0,
+            lojasM: 1,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -16085,16 +17473,16 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 500,
-            impostoFixo: 500000,
+            impostoFixo: 7000,
             impostoSobreFatu: 0.050000,
             rent: 3
           },
 
           lojasNecessarias: {
-            terrenos: 40,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 2,
+            lojasP: 2,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -16238,16 +17626,16 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 3000,
-            impostoFixo: 500000,
+            impostoFixo: 5500,
             impostoSobreFatu: 0.080000,
             rent: 17
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 2,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -16391,17 +17779,17 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 300000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 1000,
-            impostoFixo: 1000000,
+            faturamentoUnitário: 8000	,
+            impostoFixo: 12000,
             impostoSobreFatu: 0.050000,
             rent: 3
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 4,
+            lojasP: 2,
+            lojasM: 2,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -16544,17 +17932,17 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 150000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 800,
-            impostoFixo: 5000000,
+            faturamentoUnitário: 4500,
+            impostoFixo: 6000,
             impostoSobreFatu: 0.050000,
             rent: 1
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 2,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -16697,8 +18085,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 120000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 2200,
+            impostoFixo: 3000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -16851,17 +18239,17 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 160000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 12000,
-            impostoFixo: 2000000,
+            faturamentoUnitário: 26000,
+            impostoFixo: 35000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 10,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -16981,7 +18369,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Usina Termolétrica"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -17004,17 +18392,17 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 200000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 27000,
+            impostoFixo: 36000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 12,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 6,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -17154,20 +18542,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Usinas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 5990000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 120000,
+            impostoFixo: 150000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 50,
+            lojasP: 5,
+            lojasM: 12,
+            lojasG: 10,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -17287,7 +18675,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Subestação De Energia","Rede De Distribuição Elétrica"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -17310,17 +18698,17 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 140000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 4200,
-            impostoFixo: 750000,
+            faturamentoUnitário: 5500,
+            impostoFixo: 8000,
             impostoSobreFatu: 0.080000,
             rent: 16
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 6,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -17460,20 +18848,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Usinas",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 160000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 18000,
+            impostoFixo: 25000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 8,
+            lojasP: 0,
+            lojasM: 2,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -17593,7 +18981,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Subestação De Energia","Rede De Distribuição Elétrica"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -17613,20 +19001,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Usinas Nucleares",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 94900000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 1800000,
+            impostoFixo: 2500000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 400,
+            lojasP: 50,
+            lojasM: 70,
+            lojasG: 200,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -17766,20 +19154,20 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Usinas Nucleares",
             liberado: false,
           },
-          custoConstrucao: 200000,
+          custoConstrucao: 2355000000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 1000,
+            faturamentoUnitário: 35000000,
+            impostoFixo: 40000000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
 
           lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 21,
-            lojasM: 32,
-            lojasG: 321,
+            terrenos: 5000,
+            lojasP: 500,
+            lojasM: 1000,
+            lojasG: 2000,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -17899,7 +19287,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: []
+          recursoDeConstrução: ["Reator Nuclear Convencional","Subestação De Energia","Rede De Distribuição Elétrica"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
