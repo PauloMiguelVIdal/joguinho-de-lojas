@@ -18,7 +18,7 @@ export default function Sorteio() {
     const departmentEvents = [
         "faturamento",
         "custos de construção"
-        , "despesas de funcionários"
+        // , "despesas de funcionários"
         , "imposto fixo"
         ,"imposto sobre faturamento"
     ];
@@ -32,7 +32,9 @@ export default function Sorteio() {
     const economiaAtual = () => {
         switch (`${dados.economiaGlobal}`) {
             case "recessão": return [0.35, 0.65]
+            case "declinio": return [0.45, 0.55]
             case "estável": return [0.50, 0.50]
+            case "progressiva": return [0.55, 0.45]
             case "aquecida": return [0.65, 0.35]
             default: return [0.50, 0.50]
         }

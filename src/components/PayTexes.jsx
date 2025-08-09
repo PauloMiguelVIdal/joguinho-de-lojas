@@ -9,66 +9,90 @@ export default function PayTexes() {
   const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
 
   // Cálculo de impostos diário e mensal
-  useEffect(() => {
-    if (dados.dia < 250) { // Evita cálculos no dia 0
-      let impostoFixoTotal = 0;
-      let impostoFaturamentoMensal = 0;
-      let impostoDiarioTotal = 0;
+useEffect(() => {
+  if (dados.dia < 250) {
+    let impostoFixoTotal = 0;
+    let impostoFaturamentoMensal = 0;
+    let impostoDiarioTotal = 0;
 
-      todasLojas.forEach((loja) => {
-        const dadosLoja = dados[loja];
+    console.log("=== CÁLCULO DE IMPOSTOS - DIA", dados.dia, "===");
 
-        const faturamentoDiario = parseFloat(dadosLoja.faturamentoTotal);
-        const impostoFixo = dadosLoja.quantidade * dadosLoja.impostoFixo;
-        const impostoSobreFaturamento = faturamentoDiario * dadosLoja.impostoSobreFaturamento;
+    const dadosAtualizados = {}; // Armazena os dados atualizados de cada loja
 
-        // Adiciona faturamento ao array de faturamento
-        const novoArrayFatu = [...dadosLoja.arrayFatu, faturamentoDiario].slice(-30); // Mantém últimos 30 dias
-        const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
-        const impostoMensalSobreFaturamento = somaMensalFatu * dadosLoja.impostoSobreFaturamento;
+    todasLojas.forEach((loja) => {
+      const dadosLoja = dados[loja];
+      if (!dadosLoja) {
+        console.warn(`⚠️ Dados não encontrados para a loja: ${loja}`);
+        return;
+      }
 
-        // Atualiza dados da loja
-        atualizarDados(loja, {
-          ...dadosLoja,
-          arrayFatu: novoArrayFatu,
-          somaArrayFatu: somaMensalFatu,
-          valorImpostoSobreFaturamento: impostoSobreFaturamento,
-          valorImpostoFixoTotal: impostoFixo
-        });
+      const faturamentoDiario = parseFloat(dadosLoja.faturamentoTotal || 0);
+      const impostoFixo = (dadosLoja.quantidade || 0) * (dadosLoja.impostoFixo || 0);
+      const impostoSobreFaturamento = faturamentoDiario * (dadosLoja.impostoSobreFaturamento || 0);
 
-        impostoFixoTotal += impostoFixo;
-        impostoFaturamentoMensal += impostoMensalSobreFaturamento;
-        impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
+      const novoArrayFatu = [...(dadosLoja.arrayFatu || []), faturamentoDiario].slice(-30);
+      const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
+      const impostoMensalSobreFaturamento = somaMensalFatu * (dadosLoja.impostoSobreFaturamento || 0);
+
+      console.log(`--- ${loja.toUpperCase()} ---`);
+      console.log("Faturamento diário:", faturamentoDiario);
+      console.log("Imposto fixo (quant * valor):", impostoFixo);
+      console.log("Imposto sobre faturamento diário:", impostoSobreFaturamento);
+      console.log("Array Fatu atualizado:", novoArrayFatu);
+      console.log("Soma mensal faturamento:", somaMensalFatu);
+      console.log("Imposto mensal sobre faturamento:", impostoMensalSobreFaturamento);
+
+      dadosAtualizados[loja] = {
+        ...dadosLoja,
+        arrayFatu: novoArrayFatu,
+        somaArrayFatu: somaMensalFatu,
+        valorImpostoSobreFaturamento: impostoSobreFaturamento,
+        valorImpostoFixoTotal: impostoFixo
+      };
+
+      impostoFixoTotal += impostoFixo;
+      impostoFaturamentoMensal += impostoMensalSobreFaturamento;
+      impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
+    });
+
+    // Atualiza todos os dados das lojas DEPOIS do loop
+    Object.entries(dadosAtualizados).forEach(([loja, dadosAtualizadosLoja]) => {
+      atualizarDados(loja, dadosAtualizadosLoja);
+    });
+
+    const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
+
+    console.log("=== RESUMO DOS IMPOSTOS ===");
+    console.log("Imposto Fixo Total:", impostoFixoTotal);
+    console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
+    console.log("Imposto Diário Total:", impostoDiarioTotal);
+    console.log("Imposto Mensal Total:", impostoMensalTotal);
+
+    atualizarDados("imposto", {
+      impostoFixoMensal: impostoFixoTotal,
+      impostoDiário: impostoDiarioTotal,
+      impostoMensal: impostoMensalTotal,
+      impostoFaturamentoMensal: impostoFaturamentoMensal,
+      impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
+    });
+  }
+
+  else if (dados.dia === 250) {
+    console.log("=== DIA 250: ZERANDO IMPOSTOS ===");
+    todasLojas.forEach((loja) => {
+      const dadosLoja = dados[loja];
+      console.log(`Zerando dados da loja: ${loja}`);
+      atualizarDados(loja, {
+        ...dadosLoja,
+        faturamentoUnitário: 0,
+        faturamentoUnitárioPadrão: 0,
+        impostoFixo: 0,
+        impostoSobreFaturamento: 0
       });
+    });
+  }
+}, [dados.dia]);
 
-
-      const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
-
-
-
-      atualizarDados("imposto", {
-        impostoDiário: impostoDiarioTotal,
-        impostoMensal: impostoMensalTotal,
-        impostoFixoMensal: impostoFixoTotal,
-        impostoFaturamentoMensal: impostoFaturamentoMensal,
-        impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
-      });
-    } else if (dados.dia === 250) {
-      todasLojas.forEach((loja) => {
-
-        const dadosLoja = dados[loja];
-        atualizarDados(loja, {
-          ...dadosLoja,
-          faturamentoUnitário: 0,
-          faturamentoUnitárioPadrão: 0,
-          impostoFixo: 0,
-          impostoSobreFaturamento: 0
-        });
-      });
-    }
-    else return;
-
-  }, [dados.dia]);
 
   const mapaEdificioParaSetor = {
     // Agricultura

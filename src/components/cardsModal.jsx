@@ -863,15 +863,20 @@ export const CardModal = ({ index }) => {
     
     console.log("🔚 Custo total acumulado de todos os recursos:", custoRecursos);
     
-
+let fatuMensal = valorFatuFinal * 30
+let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
 console.log("custoRecursos", custoRecursos)
 console.log("custo de lojas", CustoTotalSomadoLojas)
 console.log("custo de construção", custoConstrução)
     console.log("custo total", custoRecursos + CustoTotalSomadoLojas + custoConstrução)
 
-    const valorFinalMês = (((valorFatuFinal * 30) - (valorFatuFinal * 30 * impostoSobreFatuFinal)) - valorImpostoFixoFinal)
+    const valorFinalMês = (((fatuMensal) - (valorImpostoSobreFatu)) - valorImpostoFixoFinal)
     const rentabilidade = (valorFinalMês / (CustoTotalSomadoLojas + custoRecursos + custoConstrução)) * 100
 
+    console.log("faturamento mensal", fatuMensal)
+    console.log("imposto sobre faturamento", valorImpostoSobreFatu)
+    console.log("valor final mês", valorFinalMês)
+    console.log("rentabilidade", rentabilidade)
     // console.log("valor fatu ", valorFatuFinal)
     // console.log(valorFatu)
     // console.log(acumuladorPowerUpAumFatuRecebe)

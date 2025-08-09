@@ -12,7 +12,7 @@ export default function Converter() {
 
 
     useEffect(() => {
-    if (dados.dia === 250) {
+    if (dados.dia === 251) {
 
             lojas.forEach(lojas => {
 
@@ -30,10 +30,9 @@ export default function Converter() {
                 console.log("o patrimônio total é de: ", patrimonioTotal)
 
                 atualizarDados("saldo", patrimonioTotal)
-                atualizarDados("saldo", patrimonioTotal)
                
                 console.log(  dados[lojas].quantidade)
-                atualizarDadosProf2(["lojasP", "quantidade"],0) // não estpa funcionando
+                // atualizarDadosProf2([lojas, "quantidade"],0) // está funcionando
             })
             
 
