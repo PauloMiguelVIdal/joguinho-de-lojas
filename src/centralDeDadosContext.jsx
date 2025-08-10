@@ -963,7 +963,7 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Plantação De Vegetais",
               redCusto: {
-                nível1: 1,
+                nível1: 4,
                 nível2: 2,
                 nível3: 4,
               },
