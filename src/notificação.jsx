@@ -38,10 +38,10 @@ export default function Notificação() {
   };
 
 
-  useEffect(() => console.log("chamou evento")), [dados.eventoAtual]
+  // useEffect(() => console.log("chamou evento")), [dados.eventoAtual]
 
 
-  console.log("useEffect chamado11!");
+  // console.log("useEffect chamado11!");
 
 
 

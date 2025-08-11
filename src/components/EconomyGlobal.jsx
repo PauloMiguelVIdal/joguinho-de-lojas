@@ -8,12 +8,15 @@ import comercio from '../components/setores/comercio.png';
 import imobiliario from '../components/setores/Imobiliário.png';
 import energia from '../components/setores/torre-eletrica.png';
 import Converter from "./Converter";
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
 
 export default function EconomyGlobal() {
-  const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
+  const { dados, atualizarDados} = useContext(CentraldeDadosContext);
+  const { economiaSetores, setEconomiaSetores, atualizarDadosEconomy, atualizarEco} = useContext(DadosEconomyGlobalContext);
+
   const estadosEconômicos = ["recessão", "declinio", "estável", "progressiva", "aquecida"];
-  const economiaAtual = dados.economiaGlobal;
+  const economiaAtual = economiaSetores.economiaGlobal;
   const setores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"];
 
   const imagensSetores = {
@@ -69,20 +72,22 @@ export default function EconomyGlobal() {
         ...dados.modalEconomiaGlobal,
         estadoModal: true
       });
-      atualizarDados("economiaGlobal", novaEconomia);
+      atualizarEco("economiaGlobal", novaEconomia);
       console.log("useEffect chamado5! Economia:", novaEconomia);
     }
   }, [dados.dia]);
 
   // Sorteia e atualiza a economia dos setores + soma
   useEffect(() => {
-    if (dados.dia % 90 === 0 && dados.dia > 251) {
+    if (dados.dia % 90 === 0
+       && dados.dia > 269
+      ) {
 
       setores.forEach((setor) => {
         const novaEconomia = selecionarItem(estadosEconômicos);
 
         // Atualiza a economia do setor
-        atualizarDadosProf2([setor, "economiaSetor", "estadoAtual"], novaEconomia);
+        atualizarDadosEconomy([setor, "economiaSetor", "estadoAtual"], novaEconomia);
         console.log("Economia setor sorteada:", setor, novaEconomia);
 
         // Soma os valores
@@ -91,7 +96,7 @@ export default function EconomyGlobal() {
         const decidirEconomiaSetor = () => {
           if (somaEconomias < -5) return "recessão";
           if (somaEconomias < -2) return "declinio";
-          if (somaEconomias <  2) return "estável";
+          if (somaEconomias <  2) return "estável"
           if (somaEconomias <  5) return "progressiva";
           return "aquecida";
         }        
@@ -101,23 +106,23 @@ export default function EconomyGlobal() {
 
 
 
-        console.log("essa é a soma" ,somaEconomias)
+        // console.log("essa é a soma" ,somaEconomias)
 
         const novaEconomiaGlobal = decidirEconomiaSetor();
-        console.log(novaEconomiaGlobal, "Teste")
+        // console.log(novaEconomiaGlobal, "Teste")
         atualizarDados('modalEconomiaGlobal', {
           ...dados.modalEconomiaGlobal,
           estadoModal: true
         });
         
-  
-        atualizarDados("economiaGlobal", novaEconomiaGlobal);
-        console.log("useEffect chamado5! Economia global:", novaEconomiaGlobal);
+        //  console.log("essa é a economia global", novaEconomiaGlobal)
+        atualizarEco("economiaGlobal", novaEconomiaGlobal);
+        // console.log("useEffect chamado5! Economia global:", novaEconomiaGlobal);
 
 
       });
 
-      console.log("Soma total das economias dos setores:", somaEconomias);
+      // console.log("Soma total das economias dos setores:", somaEconomias);
     }
   }, [dados.dia]);
 
@@ -128,7 +133,7 @@ export default function EconomyGlobal() {
     };
     const proximoDia = calcularProximoDia(dados.dia);
     atualizarDados("proximaEconomia", proximoDia);
-    console.log("useEffect chamado6! Dias até próxima economia:", proximoDia);
+    // console.log("useEffect chamado6! Dias até próxima economia:", proximoDia);
   }, [dados.dia]);
 
   return (

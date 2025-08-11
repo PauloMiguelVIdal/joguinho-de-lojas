@@ -90,7 +90,7 @@ export default function Offers() {
         }
     }, [dados.dia])
 
-    console.log(arrOfertas)
+    // console.log(arrOfertas)
 
     if (dados.modalOfertas.estadoModal) {
         return (

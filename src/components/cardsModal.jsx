@@ -36,7 +36,7 @@ export const CardModal = ({ index }) => {
     const economiaSetor = dados[setorAtivo].economiaSetor.estadoAtual
     useEffect(() => {
         const economiaSetor = dados[setorAtivo].economiaSetor.estadoAtual
-        console.log(economiaSetor)
+        // console.log(economiaSetor)
     }, [dados[setorAtivo].economiaSetor])
 
     const setores = [
@@ -353,24 +353,24 @@ export const CardModal = ({ index }) => {
 
 
 
-    const [rotateX, setRotateX] = useState(0);
-    const [rotateY, setRotateY] = useState(0);
+    // const [rotateX, setRotateX] = useState(0);
+    // const [rotateY, setRotateY] = useState(0);
 
-    const handleMouseMove = (e) => {
-        const { clientX, clientY, currentTarget } = e;
-        const { left, top, width, height } = currentTarget.getBoundingClientRect();
+    // const handleMouseMove = (e) => {
+    //     const { clientX, clientY, currentTarget } = e;
+    //     const { left, top, width, height } = currentTarget.getBoundingClientRect();
 
-        const x = (clientX - left) / width - 0.5;
-        const y = (clientY - top) / height - 0.5;
+    //     const x = (clientX - left) / width - 0.5;
+    //     const y = (clientY - top) / height - 0.5;
 
-        setRotateX(y * 30);
-        setRotateY(x * 30);
-    };
+    //     setRotateX(y * 30);
+    //     setRotateY(x * 30);
+    // };
 
-    const resetRotation = () => {
-        setRotateX(0);
-        setRotateY(0);
-    };
+    // const resetRotation = () => {
+    //     setRotateX(0);
+    //     setRotateY(0);
+    // };
 
     const [flipped, setFlipped] = useState(false);
 
@@ -558,7 +558,7 @@ export const CardModal = ({ index }) => {
             }
         }
 
-        console.log("Compra concluída com sucesso.");
+        // console.log("Compra concluída com sucesso.");
     };
 
 
@@ -791,23 +791,23 @@ export const CardModal = ({ index }) => {
 
     // Função recursiva para calcular custo total de um recurso
     function calcularCustoRecurso(nomeRecurso, nivel = 1) {
-      console.log("🔍".repeat(nivel), `Verificando recurso: ${nomeRecurso}`);
+    //   console.log("🔍".repeat(nivel), `Verificando recurso: ${nomeRecurso}`);
     
       for (const setor of setoresArr) {
         const edificioEncontrado = dados[setor]?.edificios?.find(e => e.nome === nomeRecurso);
     
         if (edificioEncontrado) {
-          console.log("✅".repeat(nivel), `Edifício encontrado: ${edificioEncontrado.nome}, no setor: ${setor}`);
+        //   console.log("✅".repeat(nivel), `Edifício encontrado: ${edificioEncontrado.nome}, no setor: ${setor}`);
     
           const custoConstrucaoRecurso = edificioEncontrado.custoConstrucao || 0;
-          console.log("🏗️".repeat(nivel), `Custo da construção: ${custoConstrucaoRecurso}`);
+        //   console.log("🏗️".repeat(nivel), `Custo da construção: ${custoConstrucaoRecurso}`);
     
           const quantidadeTerrenosNec = edificioEncontrado.lojasNecessarias.terrenos || 0;
           const quantidadeLojasPNec = edificioEncontrado.lojasNecessarias.lojasP || 0;
           const quantidadeLojasMNec = edificioEncontrado.lojasNecessarias.lojasM || 0;
           const quantidadeLojasGNec = edificioEncontrado.lojasNecessarias.lojasG || 0;
     
-          console.log("📦".repeat(nivel), `Lojas necessárias → Terrenos: ${quantidadeTerrenosNec}, P: ${quantidadeLojasPNec}, M: ${quantidadeLojasMNec}, G: ${quantidadeLojasGNec}`);
+        //   console.log("📦".repeat(nivel), `Lojas necessárias → Terrenos: ${quantidadeTerrenosNec}, P: ${quantidadeLojasPNec}, M: ${quantidadeLojasMNec}, G: ${quantidadeLojasGNec}`);
     
           const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução;
     
@@ -826,69 +826,69 @@ export const CardModal = ({ index }) => {
             (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
           );
     
-          console.log("💰".repeat(nivel), `Custo total → Terrenos: ${custoTotalTerrenos}, LojasP: ${custoTotalLojasP}, LojasM: ${custoTotalLojasM}, LojasG: ${custoTotalLojasG}`);
+        //   console.log("💰".repeat(nivel), `Custo total → Terrenos: ${custoTotalTerrenos}, LojasP: ${custoTotalLojasP}, LojasM: ${custoTotalLojasM}, LojasG: ${custoTotalLojasG}`);
     
           // Soma do próprio custo de construção + lojas
           let custoTotalRecurso = custoConstrucaoRecurso + custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG;
     
           // Recursão para os recursos de construção desse edifício
           if (Array.isArray(edificioEncontrado.recursoDeConstrução) && edificioEncontrado.recursoDeConstrução.length > 0) {
-            console.log("🔁".repeat(nivel), `Iniciando cálculo de recursos de construção para: ${edificioEncontrado.nome}`);
+            // console.log("🔁".repeat(nivel), `Iniciando cálculo de recursos de construção para: ${edificioEncontrado.nome}`);
     
             edificioEncontrado.recursoDeConstrução.forEach(subRecurso => {
               const custoSub = calcularCustoRecurso(subRecurso, nivel + 1);
-              console.log("➕".repeat(nivel), `Adicionando custo do sub-recurso ${subRecurso}: ${custoSub}`);
+            //   console.log("➕".repeat(nivel), `Adicionando custo do sub-recurso ${subRecurso}: ${custoSub}`);
               custoTotalRecurso += custoSub;
             });
           } else {
-            console.log("✅".repeat(nivel), `${edificioEncontrado.nome} não possui recursos adicionais.`);
+            // console.log("✅".repeat(nivel), `${edificioEncontrado.nome} não possui recursos adicionais.`);
           }
     
-          console.log("📊".repeat(nivel), `Custo total calculado de ${nomeRecurso} = ${custoTotalRecurso}`);
+        //   console.log("📊".repeat(nivel), `Custo total calculado de ${nomeRecurso} = ${custoTotalRecurso}`);
     
           return custoTotalRecurso; // retorna o total desse recurso
         }
       }
     
-      console.warn("⚠️".repeat(nivel), `Recurso não encontrado: ${nomeRecurso}`);
+    //   console.warn("⚠️".repeat(nivel), `Recurso não encontrado: ${nomeRecurso}`);
       return 0; // Caso não encontrado
     }
     
     // Início do cálculo principal com a lista original
     arrayConstResources?.forEach(nomeRecurso => {
       const custo = calcularCustoRecurso(nomeRecurso);
-      console.log("💼 Custo acumulado do recurso", nomeRecurso, "=", custo);
+    //   console.log("💼 Custo acumulado do recurso", nomeRecurso, "=", custo);
       custoRecursos += custo;
     });
     
-    console.log("🔚 Custo total acumulado de todos os recursos:", custoRecursos);
+    // console.log("🔚 Custo total acumulado de todos os recursos:", custoRecursos);
     
 let fatuMensal = valorFatuFinal * 30
 let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
-console.log("custoRecursos", custoRecursos)
-console.log("custo de lojas", CustoTotalSomadoLojas)
-console.log("custo de construção", custoConstrução)
-    console.log("custo total", custoRecursos + CustoTotalSomadoLojas + custoConstrução)
+// console.log("custoRecursos", custoRecursos)
+// console.log("custo de lojas", CustoTotalSomadoLojas)
+// console.log("custo de construção", custoConstrução)
+    // console.log("custo total", custoRecursos + CustoTotalSomadoLojas + custoConstrução)
 
     const valorFinalMês = (((fatuMensal) - (valorImpostoSobreFatu)) - valorImpostoFixoFinal)
     const rentabilidade = (valorFinalMês / (CustoTotalSomadoLojas + custoRecursos + custoConstrução)) * 100
 
-    console.log("faturamento mensal", fatuMensal)
-    console.log("imposto sobre faturamento", valorImpostoSobreFatu)
-    console.log("valor final mês", valorFinalMês)
-    console.log("rentabilidade", rentabilidade)
+    // console.log("faturamento mensal", fatuMensal)
+    // console.log("imposto sobre faturamento", valorImpostoSobreFatu)
+    // console.log("valor final mês", valorFinalMês)
+    // console.log("rentabilidade", rentabilidade)
     // console.log("valor fatu ", valorFatuFinal)
     // console.log(valorFatu)
     // console.log(acumuladorPowerUpAumFatuRecebe)
     // console.log(valorImpostoFixoFinal)
     // useEffect(()=>{atualizarDadosProf2([setorAtivo, "edificios", index, "powerUp", "aumFatuAtual"], ResultFinalAcumuladorRedCusto)},[ResultFinalAcumuladorRedCusto])
-console.log("esse é o custos de recursos do",edificio.nome,custoRecursos)
+// console.log("esse é o custos de recursos do",edificio.nome,custoRecursos)
  
-    useEffect(() => {
-        console.log("saldo", dados.saldo)
-        console.log(edificio.nome, "Faturamento diário:", valorFatuFinal);
-        console.log("foooooooiiiiiiiiii")
-    }, [dados.dia])
+    // useEffect(() => {
+    //     console.log("saldo", dados.saldo)
+    //     console.log(edificio.nome, "Faturamento diário:", valorFatuFinal);
+    //     console.log("foooooooiiiiiiiiii")
+    // }, [dados.dia])
 
 
     // const calcularFaturamento = () => {
@@ -1034,8 +1034,8 @@ console.log("esse é o custos de recursos do",edificio.nome,custoRecursos)
                                                         edMelhorado.aumFatu.nível3;
 
                                                 // atualizarDadosProf2([setorAtivo, "edificios", index, "powerUp","aumFatuAtual"],ResultFinalAcumuladorRedCusto)
-                                                console.log(index)
-                                                console.log(setorAtivo)
+                                                // console.log(index)
+                                                // console.log(setorAtivo)
 
                                             }
 
@@ -1067,7 +1067,7 @@ console.log("esse é o custos de recursos do",edificio.nome,custoRecursos)
 
 
                                             quantidadeAtivo(edMelhorado.nome)
-                                            console.log(quantidadeAtivo(edMelhorado.nome))
+                                            // console.log(quantidadeAtivo(edMelhorado.nome))
                                             return (
                                                 <tbody key={i} className="rounded-[2px]">
                                                     <tr style={{ backgroundColor: setorInfo.cor4, borderColor: setorInfo.cor2 }} className="mt-[20px] border-[1px] rounded-[2px] ">
@@ -1205,7 +1205,7 @@ console.log("esse é o custos de recursos do",edificio.nome,custoRecursos)
 
 
                                             quantidadeAtivo(edMelhorado.nome)
-                                            console.log(quantidadeAtivo(edMelhorado.nome))
+                                            // console.log(quantidadeAtivo(edMelhorado.nome))
                                             return (
                                                 <tbody key={i} className="rounded-[2px]">
                                                     <tr style={{ backgroundColor: setorInfo.cor4, borderColor: setorInfo.cor2 }} className="mt-[20px] border-[1px] rounded-[2px] ">
@@ -1254,8 +1254,8 @@ console.log("esse é o custos de recursos do",edificio.nome,custoRecursos)
 
     return (
         <motion.div
-            onMouseMove={handleMouseMove}
-            onMouseLeave={resetRotation}
+            // onMouseMove={handleMouseMove}
+            // onMouseLeave={resetRotation}
             // onClick={handleFlip} // Flip ao clicar
             style={{
                 background: `linear-gradient(135deg, ${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)`
@@ -1263,7 +1263,7 @@ console.log("esse é o custos de recursos do",edificio.nome,custoRecursos)
             className="w-[215px] h-[230px] bg-white rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
             initial={{ scale: 1 }}
             whileHover={{ scale: 1.1 }}
-            animate={{ rotateX, rotateY }}
+            // animate={{ rotateX, rotateY }}
             transition={{ type: "spring", stiffness: 100, damping: 10 }}
         >
             {/* Container do Card */}

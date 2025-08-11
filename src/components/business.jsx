@@ -43,13 +43,13 @@ export default function Business() {
         const proximoDia = proximoDiaChegar(dados.dia);
         atualizarDados("proximaOferta", proximoDia
         )
-        console.log("useEffect chamado3!");
+        // console.log("useEffect chamado3!");
     }, [dados.dia])
 
     useEffect(() => {
         atualizarDados("botãoOfertas", "btnNoti")
         if (dados.dia < 30) {
-        console.log("useEffect chamado4!");
+        // console.log("useEffect chamado4!");
 
             atualizarDados("botãoOfertas", "btnNormal")
         }

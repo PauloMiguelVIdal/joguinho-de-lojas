@@ -58,11 +58,11 @@ if(dados.modalAchievements.conquista===undefined) return;
 
   for (const lojaSelecionada of todasLojas) {
     const quantidadeLojas = dados[lojaSelecionada].quantidade;
-    console.log(quantidadeLojas);
+    // console.log(quantidadeLojas);
     
     const arrayConquistas = [5, 10, 20, 50, 100, 200, 500, 1000];
     const conquistaSelecionada = arrayConquistas.findLast(num => num <= quantidadeLojas) || arrayConquistas[0];
-    console.log(conquistaSelecionada);
+    // console.log(conquistaSelecionada);
 
     if (!dados[lojaSelecionada].achievements[conquistaSelecionada]) {
       atualizarDados(`${lojaSelecionada}`, {
@@ -90,8 +90,8 @@ if(dados.modalAchievements.conquista===undefined) return;
 
   useEffect(() => {
     //caso tenha alguma nova conquista ele chama o return com o modal
-    console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-    console.log("useEffect chamado2!");
+    // console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+    // console.log("useEffect chamado2!");
   }, [dados.terrenos.achievements, dados.lojasP.achievements, dados.lojasM.achievements, dados.lojasG.achievements])
 
 

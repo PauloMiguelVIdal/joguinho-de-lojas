@@ -7,8 +7,11 @@ import industria from '../components/setores/industria.png';
 import comercio from '../components/setores/comercio.png';
 import imobiliario from '../components/setores/Imobiliário.png';
 import energia from '../components/setores/torre-eletrica.png';
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+
+
 function Economys() {
-  const { dados } = useContext(CentraldeDadosContext);
+  const {economiaSetores } = useContext(DadosEconomyGlobalContext);
 
   const setores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"];
 
@@ -25,7 +28,7 @@ function Economys() {
   return (
     <div className="grid grid-cols-3 grid-rows-2 gap-4 p-4">
       {setores.map((setor, index) => {
-        const economiaAtual = dados[setor]?.economiaSetor?.estadoAtual;
+        const economiaAtual = economiaSetores[setor]?.economiaSetor?.estadoAtual;
 
         const corClasse = {
           "recessão": "bg-[#FF0000]",

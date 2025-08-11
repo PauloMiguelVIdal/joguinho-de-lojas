@@ -15,7 +15,7 @@ useEffect(() => {
     let impostoFaturamentoMensal = 0;
     let impostoDiarioTotal = 0;
 
-    console.log("=== CÁLCULO DE IMPOSTOS - DIA", dados.dia, "===");
+    // console.log("=== CÁLCULO DE IMPOSTOS - DIA", dados.dia, "===");
 
     const dadosAtualizados = {}; // Armazena os dados atualizados de cada loja
 
@@ -34,13 +34,13 @@ useEffect(() => {
       const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
       const impostoMensalSobreFaturamento = somaMensalFatu * (dadosLoja.impostoSobreFaturamento || 0);
 
-      console.log(`--- ${loja.toUpperCase()} ---`);
-      console.log("Faturamento diário:", faturamentoDiario);
-      console.log("Imposto fixo (quant * valor):", impostoFixo);
-      console.log("Imposto sobre faturamento diário:", impostoSobreFaturamento);
-      console.log("Array Fatu atualizado:", novoArrayFatu);
-      console.log("Soma mensal faturamento:", somaMensalFatu);
-      console.log("Imposto mensal sobre faturamento:", impostoMensalSobreFaturamento);
+      // console.log(`--- ${loja.toUpperCase()} ---`);
+      // console.log("Faturamento diário:", faturamentoDiario);
+      // console.log("Imposto fixo (quant * valor):", impostoFixo);
+      // console.log("Imposto sobre faturamento diário:", impostoSobreFaturamento);
+      // console.log("Array Fatu atualizado:", novoArrayFatu);
+      // console.log("Soma mensal faturamento:", somaMensalFatu);
+      // console.log("Imposto mensal sobre faturamento:", impostoMensalSobreFaturamento);
 
       dadosAtualizados[loja] = {
         ...dadosLoja,
@@ -62,11 +62,11 @@ useEffect(() => {
 
     const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
 
-    console.log("=== RESUMO DOS IMPOSTOS ===");
-    console.log("Imposto Fixo Total:", impostoFixoTotal);
-    console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
-    console.log("Imposto Diário Total:", impostoDiarioTotal);
-    console.log("Imposto Mensal Total:", impostoMensalTotal);
+    // console.log("=== RESUMO DOS IMPOSTOS ===");
+    // console.log("Imposto Fixo Total:", impostoFixoTotal);
+    // console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
+    // console.log("Imposto Diário Total:", impostoDiarioTotal);
+    // console.log("Imposto Mensal Total:", impostoMensalTotal);
 
     atualizarDados("imposto", {
       impostoFixoMensal: impostoFixoTotal,
@@ -78,10 +78,10 @@ useEffect(() => {
   }
 
   else if (dados.dia === 250) {
-    console.log("=== DIA 250: ZERANDO IMPOSTOS ===");
+    // console.log("=== DIA 250: ZERANDO IMPOSTOS ===");
     todasLojas.forEach((loja) => {
       const dadosLoja = dados[loja];
-      console.log(`Zerando dados da loja: ${loja}`);
+      // console.log(`Zerando dados da loja: ${loja}`);
       atualizarDados(loja, {
         ...dadosLoja,
         faturamentoUnitário: 0,
@@ -444,15 +444,15 @@ useEffect(() => {
           
           for (const setorAlvo of setoresArr) {
             const index = dados[setorAlvo].edificios.findIndex(e => e.nome === nomeMelhorado);
-            console.log(`Buscando por "${nomeMelhorado}" no setor "${setorAlvo}"`);
+            // console.log(`Buscando por "${nomeMelhorado}" no setor "${setorAlvo}"`);
             if (index !== -1) {
               qtdMelhorado = dados[setorAlvo].edificios[index].quantidade || 0;
-              console.log(`✔ Encontrado no setor ${setorAlvo} com quantidade ${qtdMelhorado}`);
+              // console.log(`✔ Encontrado no setor ${setorAlvo} com quantidade ${qtdMelhorado}`);
               break;
             }
           }
           
-          console.log("qtdMelhorado:", qtdMelhorado);
+          // console.log("qtdMelhorado:", qtdMelhorado);
 
           let powerUpSelecionado =
             quantidade >= quantidadeMinimaPowerUpNv3
@@ -461,13 +461,13 @@ useEffect(() => {
                 ? "powerUpNv2"
                 : "powerUpNv1";
 
-          console.log("edMelhorado", edMelhorado)
-          console.log("nome melhorado", nomeMelhorado)
+          // console.log("edMelhorado", edMelhorado)
+          // console.log("nome melhorado", nomeMelhorado)
 
 
     
    
-          console.log(powerUpSelecionado, "powerUpSelecionado")
+          // console.log(powerUpSelecionado, "powerUpSelecionado")
           if (qtdMelhorado > 0) {
             const redCusto = edMelhorado.redCusto[powerUpSelecionado === "powerUpNv1" ? "nível1" :
               powerUpSelecionado === "powerUpNv2" ? "nível2" : "nível3"];
@@ -478,9 +478,9 @@ useEffect(() => {
             acumuladorPowerUpAumFatuRecebe += aumFatu;
 
 
-            console.log("redCusto:", redCusto);
-            console.log("aumFatu:", aumFatu);
-            console.log("edMelhorado.nome:", nomeMelhorado);
+            // console.log("redCusto:", redCusto);
+            // console.log("aumFatu:", aumFatu);
+            // console.log("edMelhorado.nome:", nomeMelhorado);
 
 
           }
@@ -517,18 +517,18 @@ useEffect(() => {
 
         if (dados.dia % 30 === 0) impostoFixoTotal += impostoFixoAtual;
 
-        console.log("nome edificio", ed.nome)
-        console.log("quantidade", quantidade)
-        console.log("faturamentoUnitario", faturamentoUnitario)
-        console.log("impostoFixo", impostoFixo)
-        console.log("impostoSobreFatu", impostoSobreFatu)
+        // console.log("nome edificio", ed.nome)
+        // console.log("quantidade", quantidade)
+        // console.log("faturamentoUnitario", faturamentoUnitario)
+        // console.log("impostoFixo", impostoFixo)
+        // console.log("impostoSobreFatu", impostoSobreFatu)
 
-        console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
-        console.log("acumuladorPowerUpAumFatuRecebe", acumuladorPowerUpAumFatuRecebe)
+        // console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
+        // console.log("acumuladorPowerUpAumFatuRecebe", acumuladorPowerUpAumFatuRecebe)
 
-        console.log("impostoSobreFatuFinal", impostoSobreFatuFinal)
-        console.log("valorFatuFinal", valorFatuFinal)
-        console.log("valorImpostoFixoFinal", valorImpostoFixoFinal)
+        // console.log("impostoSobreFatuFinal", impostoSobreFatuFinal)
+        // console.log("valorFatuFinal", valorFatuFinal)
+        // console.log("valorImpostoFixoFinal", valorImpostoFixoFinal)
         // console.log(rentabilidade, "rentabilidade")
 
 

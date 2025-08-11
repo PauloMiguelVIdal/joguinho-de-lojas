@@ -21,7 +21,7 @@ export default function Buy() {
     dados, atualizarDados
   } = useContext(CentraldeDadosContext)
   const teste = dados.terrenos.faturamentoTotal
-  console.log(teste)
+  // console.log(teste)
 
   const { resultadoTerrenos, resultadoLojasP, resultadoLojasM, resultadoLojasG } = Statistic();
 
@@ -156,7 +156,7 @@ export default function Buy() {
     if (num >= 1e3) return (num / 1e3).toFixed(1).replace('.0', '') + 'K';   // Milhares
     return num.toString();
   };
-  if (dados.dia > 252) {
+  if (dados.dia > 269) {
 
 
     return (

@@ -5,7 +5,7 @@ export default function Sorteio() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
     const fecharModal = () => {
-        console.log(dados.eventoAtual);
+        // console.log(dados.eventoAtual);
         atualizarDados("modal", { ...dados.modal, estadoModal: false });
     };
 
@@ -42,7 +42,7 @@ export default function Sorteio() {
 
     const julgamentoSorteado = () => {
         const probabilidadesJulgamento = economiaAtual()
-        console.log(probabilidadesJulgamento)
+        // console.log(probabilidadesJulgamento)
         const random = Math.random(); // Gera um número entre 0 e 1
         return random < probabilidadesJulgamento[0] ? judgment[0] : judgment[1];
     };
@@ -87,7 +87,7 @@ export default function Sorteio() {
         const selecionarJulgamento = julgamentoSorteado();
         const selecionarPorcentagem = selecionarItem(porcentagem);
         const selecionarPeriodo = selecionarItem(periodo);
-        console.log(selecionarJulgamento)
+        // console.log(selecionarJulgamento)
         const resultadoBase =
             (selecionarDepartamento === "faturamento" && selecionarJulgamento === "ÓTIMO") ||
                 (selecionarDepartamento !== "faturamento" && selecionarJulgamento === "PÉSSIMO")
@@ -98,14 +98,14 @@ export default function Sorteio() {
         const departamentoChave = conversorDepartmentEvents(selecionarDepartamento);
         const operador = conversorSituacao(resultadoBase);
 
-        console.log(lojaChave)
-        console.log(departamentoChave)
-        console.log(operador)
+        // console.log(lojaChave)
+        // console.log(departamentoChave)
+        // console.log(operador)
         const valorInicial = dados[lojaChave]?.[departamentoChave] ?? 0;
-        console.log(valorInicial)
+        // console.log(valorInicial)
         const porcentagemDecimal = selecionarPorcentagem / 100;
         const novoValor = Math.round(calcular(valorInicial, porcentagemDecimal, operador) * 100) / 100;
-        console.log(novoValor)
+        // console.log(novoValor)
         atualizarDados("eventoAtual", {
             ...dados.eventoAtual,
             eventoAtivo: true,
@@ -123,13 +123,13 @@ export default function Sorteio() {
 
         atualizarDados("modal", { ...dados.modal, estadoModal: true });
 
-        console.log("Evento sorteado:", dados.eventoAtual);
+        // console.log("Evento sorteado:", dados.eventoAtual);
     };
 
     useEffect(() => {
         sortearNovoEvento();
-        console.log("Sorteio executado para o dia", dados.dia);
-        console.log("useEffect chamado9!");
+        // console.log("Sorteio executado para o dia", dados.dia);
+        // console.log("useEffect chamado9!");
 
     }, [dados.dia]);
 
@@ -145,8 +145,8 @@ export default function Sorteio() {
                 [departamentoChave]: novoValor
             });
 
-            console.log("Evento aplicado nas lojas!");
-            console.log("useEffect chamado10!");
+            // console.log("Evento aplicado nas lojas!");
+            // console.log("useEffect chamado10!");
 
         }
     }, [dados.eventoAtual]);

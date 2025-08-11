@@ -14,7 +14,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
     saldo: 9000000,
-    dia: 251,
+    dia: 250,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -10903,7 +10903,7 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     comercio: {
       economiaSetor: {
-        estadoAtual: "recessão"
+        estadoAtual: "estável"
       },
       licençaGlobal: {
         comprado: true,
@@ -14951,7 +14951,7 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     imobiliario: {
       economiaSetor: {
-        estadoAtual: "recessão"
+        estadoAtual: "estável"
       },
       licençaGlobal: {
         comprado: true,
@@ -17143,7 +17143,7 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     energia: {
       economiaSetor: {
-        estadoAtual: "aquecida"
+        estadoAtual: "estável"
       },
       licençaGlobal: {
         comprado: true,

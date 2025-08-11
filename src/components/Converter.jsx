@@ -7,7 +7,7 @@ export default function Converter() {
     const { dados, atualizarDados,atualizarDadosProf2 } = useContext(CentraldeDadosContext)
 
     let patrimonio = 0
-    console.log(patrimonio)
+    // console.log(patrimonio)
     const lojas = ["terrenos", "lojasP", "lojasM", "lojasG"]
 
 
@@ -25,13 +25,13 @@ export default function Converter() {
                 const custoTotalLoja = quantidadeLojas * preçoConstrução + quantidadeTerrenosNec * custoTerreno
 
                 patrimonio += custoTotalLoja
-                console.log("o patrimônio é de: ", patrimonio)
+                // console.log("o patrimônio é de: ", patrimonio)
                 const patrimonioTotal = patrimonio + dados.saldo
-                console.log("o patrimônio total é de: ", patrimonioTotal)
+                // console.log("o patrimônio total é de: ", patrimonioTotal)
 
                 atualizarDados("saldo", patrimonioTotal)
                
-                console.log(  dados[lojas].quantidade)
+                // console.log(  dados[lojas].quantidade)
                 // atualizarDadosProf2([lojas, "quantidade"],0) // está funcionando
             })
             
