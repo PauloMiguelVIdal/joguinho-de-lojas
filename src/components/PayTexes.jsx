@@ -1,10 +1,13 @@
 
 import { useContext, useEffect, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import despesasImg from "../imagens/despesas.png";
 
+
 export default function PayTexes() {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  const { dados, atualizarDados, } = useContext(CentraldeDadosContext);
+  const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
 
   const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
 
@@ -486,7 +489,7 @@ useEffect(() => {
           }
         });
 
-        const economiaSetor = dados[setor]?.economiaSetor?.estadoAtual || "estável";
+        const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
         const fatorEconomico = {
           "recessão": 0.6,
           "declinio": 0.85,
@@ -494,6 +497,8 @@ useEffect(() => {
           "progressiva": 1.1,
           "aquecida": 1.25,
         }[economiaSetor];
+
+        // console.log("Setor:", setor, "Economia:", fatorEconomico);
 
         const impostoSobreFatuFinal = impostoSobreFatu * (1 - acumuladorPowerUpRedCustoRecebe / 100);
         const valorFatuFinal = faturamentoUnitario * (1 + acumuladorPowerUpAumFatuRecebe / 100);

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { CentraldeDadosContext } from './centralDeDadosContext';
 import { motion } from "framer-motion";
+import { DadosEconomyGlobalContext } from "../src/dadosEconomyGlobal";
 
 export default function Notificação() {
 
@@ -21,6 +22,7 @@ export default function Notificação() {
 
   //   const events = ['pagarDespesas', 'faturamento', 'impostosFixos', 'impostosVariáveis'];
 
+  const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
 
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   // console.log(dados.estadoModal);
@@ -112,7 +114,7 @@ else
       let contentEconomiaGlobal = "";
       let headEconomiaGlobal = "";
     
-      switch (dados.economiaGlobal) {
+      switch (economiaSetores.economiaGlobal) {
         case "aquecida":
           contentEconomiaGlobal =
             "O mercado está aquecido, com alta demanda e grandes chances de crescimento no faturamento, favorecimento fiscal e redução nos custos de construção. Ainda assim, riscos negativos podem surgir.";

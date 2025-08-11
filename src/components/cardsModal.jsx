@@ -20,7 +20,7 @@ import LojaPImg from "../imagens/lojaP.png"
 import LojaMImg from "../imagens/lojaM.png"
 import LojaGImg from "../imagens/lojaG.png"
 import SelectorImage from "./selectorImage";
-
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import LicenseNec from "./licenseNec";
 import fechar from "../imagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
@@ -28,16 +28,16 @@ import { Localizador } from "./localizador";
 import { CardLocalization } from "./cardLocalization";
 
 
-
 export const CardModal = ({ index }) => {
+    const { economiaSetores, setEconomiaSetoxxres, } = useContext(DadosEconomyGlobalContext);
 
     const { dados, atualizarDados, atualizarDadosProf2, atualizarDadosProf3, atualizarDadosProf } = useContext(CentraldeDadosContext);
     const setorAtivo = dados.setorAtivo;
-    const economiaSetor = dados[setorAtivo].economiaSetor.estadoAtual
-    useEffect(() => {
-        const economiaSetor = dados[setorAtivo].economiaSetor.estadoAtual
-        // console.log(economiaSetor)
-    }, [dados[setorAtivo].economiaSetor])
+    const economiaSetor = economiaSetores[setorAtivo].economiaSetor.estadoAtual
+    // useEffect(() => {
+    //     const economiaSetor = dados[setorAtivo].economiaSetor.estadoAtual
+    //     // console.log(economiaSetor)
+    // }, [dados[setorAtivo].economiaSetor])
 
     const setores = [
         { id: "agricultura", cor3: "#0C9123", corClasse: "bg-[#4CAF50]", img: agricultura, descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50", },
@@ -863,7 +863,7 @@ export const CardModal = ({ index }) => {
     
     // console.log("🔚 Custo total acumulado de todos os recursos:", custoRecursos);
     
-let fatuMensal = valorFatuFinal * 30
+let fatuMensal = valorFatuFinal * 30 
 let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
 // console.log("custoRecursos", custoRecursos)
 // console.log("custo de lojas", CustoTotalSomadoLojas)

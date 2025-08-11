@@ -1,10 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+
 import ListaDeOfertas from "./ListCards";
 import fechar from "../imagens/fechar.png"
 import { motion } from "framer-motion";
 export default function Offers() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
+    const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
 
     const todasLojas = [
         "terrenos",
@@ -27,7 +30,7 @@ export default function Offers() {
                 const construçãoAtual = (dados[edificioSelecionado].preçoConstrução)
                 const valorImóvelAtual = (preçoTerrenoAtual * quantidadeTerreno) + construçãoAtual
 
-                const economiaAtual = dados.economiaGlobal
+                const economiaAtual = economiaSetores.economiaGlobal
                 const cenariosEconomicos = [[1, 5], [7, 12], [15, 25], [27, 32], [35, 40]]
                 const economiaSelecionada = (economia) => {
                     switch (economia) {

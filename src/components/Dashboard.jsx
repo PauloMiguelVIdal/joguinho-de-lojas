@@ -18,6 +18,7 @@ import fechar from "../imagens/fechar.png"
 import { LicenseModal } from "./licenseModal";
 import { Localizador } from "./localizador";
 import { CarteiraLocalizador } from "./CarteiraLocalizador";
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
 import {
   Chart as ChartJS,
@@ -43,6 +44,8 @@ ChartJS.register(
 );
 
 export default function Dashboard() {
+  const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
+
   const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
   const [ativo, setAtivo] = useState("grafico");
 
@@ -402,7 +405,7 @@ export default function Dashboard() {
                       <img className="w-[70%]" src={licença} />
                     </button>
                     {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button> */}
-                    <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(dados[ativo].economiaSetor.estadoAtual)}`}>
+                    <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(economiaSetores[ativo].economiaSetor.estadoAtual)}`}>
                       <img className="w-[70%]" src={circularEconomia} />
                     </div>
                   </div>

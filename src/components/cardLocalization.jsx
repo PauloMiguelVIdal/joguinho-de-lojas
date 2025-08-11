@@ -20,6 +20,7 @@ import LojaPImg from "../imagens/lojaP.png"
 import LojaMImg from "../imagens/lojaM.png"
 import LojaGImg from "../imagens/lojaG.png"
 import SelectorImage from "./selectorImage";
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
 import LicenseNec from "./licenseNec";
 import fechar from "../imagens/fechar.png"
@@ -28,7 +29,7 @@ import plantação from "../../public/imagens/Plantação De Grãos.png"
 
 
 export const CardLocalization = ({ index, setor }) => {
-
+    const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
     const setorAtivo = setor;
 
@@ -443,7 +444,14 @@ const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(
         // console.log(acumuladorPowerUpRedCustoRecebe)
 
     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
-
+    const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
+    const fatorEconomico = {
+      "recessão": 0.6,
+      "declinio": 0.85,
+      "estável": 1,
+      "progressiva": 1.1,
+      "aquecida": 1.25,
+    }[economiaSetor];
 
     const valorFatu = dados[setorAtivo].edificios[index].finanças.faturamentoUnitário
     const valorImpostoFixo = dados[setorAtivo].edificios[index].finanças.impostoFixo
@@ -533,8 +541,15 @@ const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(
     console.log("🔚 Custo total acumulado de todos os recursos:", custoRecursos);
     
 
-    const valorFinalMês = ((valorFatuFinal * 30) - (valorFatuFinal * 30 * impostoSobreFatuFinal) - valorImpostoFixoFinal)
-    const rentabilidade = (valorFinalMês / (CustoTotalSomadoLojas + custoRecursos + custoConstrução)) * 100
+    let fatuMensal = valorFatuFinal * 30 * fatorEconomico
+    let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
+    // console.log("custoRecursos", custoRecursos)
+    // console.log("custo de lojas", CustoTotalSomadoLojas)
+    // console.log("custo de construção", custoConstrução)
+        // console.log("custo total", custoRecursos + CustoTotalSomadoLojas + custoConstrução)
+    
+        const valorFinalMês = (((fatuMensal) - (valorImpostoSobreFatu)) - valorImpostoFixoFinal)
+        const rentabilidade = (valorFinalMês / (CustoTotalSomadoLojas + custoRecursos + custoConstrução)) * 100
 
 
 
