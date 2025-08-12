@@ -13,13 +13,16 @@ import menos from "../imagens/simbolo-de-menos.png"
 import { Statistic } from './statistic'
 import { Box, Grid, IconButton, Paper, Typography } from '@mui/material'
 import { styled } from '@mui/system';
-
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
 export default function Buy() {
 
   const {
     dados, atualizarDados
   } = useContext(CentraldeDadosContext)
+
+  const { economiaSetores, setEconomiaSetores,atualizarEco } = useContext(DadosEconomyGlobalContext);
+
   const teste = dados.terrenos.faturamentoTotal
   // console.log(teste)
 
@@ -81,7 +84,7 @@ export default function Buy() {
     if (dados.terrenos.quantidade < (dados.lojasP.quantidadeNecTerreno * quantidadeLojasP)) {
       return alert("Você não tem terreno suficiente");
     }
-    if (dados.saldo < (dados.lojasP.quantidadeNecTerreno * quantidadeLojasP)) {
+    if (economiaSetores.saldo < (dados.lojasP.quantidadeNecTerreno * quantidadeLojasP)) {
       alert("Você não tem dinheiro suficiente para construir");
     } else {
       atualizarDados('lojasP', {
@@ -92,7 +95,7 @@ export default function Buy() {
         ...dados.terrenos,
         quantidade: dados.terrenos.quantidade - (dados.lojasP.quantidadeNecTerreno * quantidadeLojasP)
       });
-      atualizarDados('saldo', dados.saldo - (dados.lojasP.preçoConstrução * quantidadeLojasP));
+      atualizarEco('saldo', economiaSetores.saldo - (dados.lojasP.preçoConstrução * quantidadeLojasP));
     }
   };
 
@@ -101,7 +104,7 @@ export default function Buy() {
     if (dados.terrenos.quantidade < (dados.lojasM.quantidadeNecTerreno * quantidadeLojasM)) {
       return alert("Você não tem terrenos suficientes");
     }
-    if (dados.saldo < (dados.lojasM.quantidadeNecTerreno * quantidadeLojasM)) {
+    if (economiaSetores.saldo < (dados.lojasM.quantidadeNecTerreno * quantidadeLojasM)) {
       alert("Você não tem dinheiro suficiente para construir");
     } else {
       atualizarDados('lojasM', {
@@ -112,7 +115,7 @@ export default function Buy() {
         ...dados.terrenos,
         quantidade: dados.terrenos.quantidade - (dados.lojasM.quantidadeNecTerreno * quantidadeLojasM)
       });
-      atualizarDados('saldo', dados.saldo - (dados.lojasM.preçoConstrução * quantidadeLojasM));
+      atualizarEco('saldo', economiaSetores.saldo - (dados.lojasM.preçoConstrução * quantidadeLojasM));
     }
   };
 
@@ -121,7 +124,7 @@ export default function Buy() {
     if (dados.terrenos.quantidade < (dados.lojasG.quantidadeNecTerreno * quantidadeLojasG)) {
       return alert("Você não tem terrenos suficientes");
     }
-    if (dados.saldo < (dados.lojasG.preçoConstrução * quantidadeLojasG)) {
+    if (economiaSetores.saldo < (dados.lojasG.preçoConstrução * quantidadeLojasG)) {
       alert("Você não tem dinheiro suficiente para construir");
     } else {
       atualizarDados('lojasG', {
@@ -132,20 +135,20 @@ export default function Buy() {
         ...dados.terrenos,
         quantidade: dados.terrenos.quantidade - (dados.lojasG.quantidadeNecTerreno * quantidadeLojasG)
       });
-      atualizarDados('saldo', dados.saldo - (dados.lojasG.preçoConstrução * quantidadeLojasG));
+      atualizarEco('saldo', economiaSetores.saldo - (dados.lojasG.preçoConstrução * quantidadeLojasG));
     }
   };
 
   // Comprar Terreno
   const ComprarTerreno = () => {
-    if (dados.saldo < (dados.terrenos.preçoConstrução * quantidadeTerrenos)) {
+    if (economiaSetores.saldo < (dados.terrenos.preçoConstrução * quantidadeTerrenos)) {
       alert("Você não tem dinheiro suficiente");
     } else {
       atualizarDados('terrenos', {
         ...dados.terrenos,
         quantidade: dados.terrenos.quantidade + quantidadeTerrenos
       });
-      atualizarDados('saldo', dados.saldo - (dados.terrenos.preçoConstrução * quantidadeTerrenos));
+      atualizarEco('saldo', economiaSetores.saldo - (dados.terrenos.preçoConstrução * quantidadeTerrenos));
     }
   };
 

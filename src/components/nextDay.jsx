@@ -2,16 +2,18 @@ import React, { useContext, useEffect } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import PróximoImg from "../imagens/proximo.png";
 import Sorteio from "./Sorteio";
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
 export function NextDay() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-
+        const { economiaSetores, setEconomiaSetores,atualizarEco } = useContext(DadosEconomyGlobalContext);
+    
     const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
 
     // Função para avançar para o próximo dia
     const ProximoDia = () => {
-        if (dados.saldo < 0) {
-            atualizarDados("fimGame", true);
+        if (economiaSetores.saldo < 0) {
+            atualizarEco("fimGame", true);
             return;
         }
 
@@ -34,22 +36,49 @@ const calcularFaturamento = () => {
         const valorVariável = parseFloat(
             (valorUnitário * (1 + (Math.random() * 0.6 - 0.3))).toFixed(2)
         );
-
+        const lojas = ["terrenos", "lojasP", "lojasM", "lojasG"]
         const faturamentoTotal = parseFloat((valorVariável * dados[loja].quantidade).toFixed(2));
 
         faturamentoDiario += faturamentoTotal;
+        if (dados.dia === 240) {
+            let patrimonio = 0;
+        
+            lojas.forEach(loja => {
+              const quantidadeLojas = dados[loja].quantidade;
+              const precoConstrucao = dados[loja].preçoConstrução;
+        
+              const quantidadeTerrenosNec = dados[loja].quantidadeNecTerreno;
+              const custoTerreno = dados.terrenos.preçoConstrução;
+        
+              const custoTotalLoja = quantidadeLojas * precoConstrucao + quantidadeTerrenosNec * custoTerreno;
+              patrimonio += custoTotalLoja;
+            //   atualizarDados(loja, { ...dados[loja], quantidade: 0 });
+              
+            });
+        
+            // const patrimonioTotal = patrimonio + economiaSetores.saldo;
+            faturamentoDiario += patrimonio;
+            // atualizarEco("saldo", economiaSetores.saldo + patrimonio);
+            //  // uma única atualização
+            //  console.log(patrimonio)
+          }
+
+
+
 
         return {
             ...dados[loja],
             faturamentoUnitário: valorVariável,
             faturamentoTotal,
         };
+
+        console.log()
     });
 
     // Verifica se é o início de um novo mês e reseta o faturamento mensal
     const novoFaturamentoMensal = dados.dia % 30 === 0 ? faturamentoDiario : dados.faturamento.faturamentoMensal + faturamentoDiario;
 
-    atualizarDados("saldo", dados.saldo + faturamentoDiario);
+    atualizarEco("saldo", economiaSetores.saldo + faturamentoDiario);
 
     atualizarDados("faturamento", {
         ...dados.faturamento,

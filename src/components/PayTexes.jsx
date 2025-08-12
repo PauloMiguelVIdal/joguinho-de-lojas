@@ -7,7 +7,7 @@ import despesasImg from "../imagens/despesas.png";
 
 export default function PayTexes() {
   const { dados, atualizarDados, } = useContext(CentraldeDadosContext);
-  const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, setEconomiaSetores,atualizarEco  } = useContext(DadosEconomyGlobalContext);
 
   const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
 
@@ -56,6 +56,8 @@ useEffect(() => {
       impostoFixoTotal += impostoFixo;
       impostoFaturamentoMensal += impostoMensalSobreFaturamento;
       impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
+
+      console.log(dadosAtualizados[loja], `⚠️ Dados da loja: ${loja}`)
     });
 
     // Atualiza todos os dados das lojas DEPOIS do loop
@@ -65,19 +67,25 @@ useEffect(() => {
 
     const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
 
-    // console.log("=== RESUMO DOS IMPOSTOS ===");
-    // console.log("Imposto Fixo Total:", impostoFixoTotal);
-    // console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
-    // console.log("Imposto Diário Total:", impostoDiarioTotal);
-    // console.log("Imposto Mensal Total:", impostoMensalTotal);
+    console.log("=== RESUMO DOS IMPOSTOS ===");
+    console.log("Imposto Fixo Total:", impostoFixoTotal);
+    console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
+    console.log("Imposto Diário Total:", impostoDiarioTotal);
+    console.log("Imposto Mensal Total:", impostoMensalTotal);
 
-    atualizarDados("imposto", {
+    atualizarEco("imposto", {
       impostoFixoMensal: impostoFixoTotal,
       impostoDiário: impostoDiarioTotal,
       impostoMensal: impostoMensalTotal,
       impostoFaturamentoMensal: impostoFaturamentoMensal,
       impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
     });
+
+    console.log("=== RESUMO DOS IMPOSTOS ===");
+    console.log("Imposto Fixo Total:", impostoFixoTotal);
+    console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
+    console.log("Imposto Diário Total:", impostoDiarioTotal);
+    console.log("Imposto Mensal Total:", impostoMensalTotal);
   }
 
   else if (dados.dia === 250) {
@@ -291,8 +299,8 @@ useEffect(() => {
   // Função que paga as despesas e desconta do saldo
   const PagarDespesas = () => {
     if (!dados.despesas.despesasPagas) {
-      const novoSaldo = dados.saldo - dados.imposto.impostoMensal;
-      atualizarDados('saldo', novoSaldo);
+      const novoSaldo = economiaSetores.saldo - dados.imposto.impostoMensal;
+      atualizarEco('saldo', novoSaldo);
       atualizarDados('despesas', {
         ...dados.despesas,
         despesasPagas: true
@@ -411,6 +419,9 @@ useEffect(() => {
   // }, [dados.dia]);
 
   useEffect(() => {
+    if(dados.dia > 250){
+
+    
     const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
     let faturamentoTotalDiario = 0;
@@ -559,7 +570,7 @@ useEffect(() => {
 
     const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
 
-    atualizarDados("imposto", {
+    atualizarEco("imposto", {
       impostoDiário: impostoDiarioTotal,
       impostoMensal: impostoMensalTotal,
       impostoFixoMensal: impostoFixoTotal,
@@ -567,7 +578,8 @@ useEffect(() => {
       impostoSobreFaturamentoDiário: impostoFaturamentoMensal,
     });
 
-    atualizarDados("saldo", dados.saldo + faturamentoTotalDiario);
+    atualizarEco("saldo", economiaSetores.saldo + faturamentoTotalDiario);
+  }
   }, [dados.dia]);
 
 

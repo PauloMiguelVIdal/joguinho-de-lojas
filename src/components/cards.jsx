@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
 const Card = ({ loja, quantidade, depreciação, valor, estado, index }) => {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-
+    const { economiaSetores, setEconomiaSetores, atualizarEco} = useContext(DadosEconomyGlobalContext);
 
   const conversorTodasLojas = (selecionarLoja) => {
     switch (selecionarLoja) {
@@ -22,7 +23,7 @@ const Card = ({ loja, quantidade, depreciação, valor, estado, index }) => {
     if (dados[lojaConvertida].quantidade < quantidade) {
       return alert("você não tem quantidade suficiente para fazer essa negociação")
     }
-    atualizarDados("saldo", dados.saldo + valor);
+    atualizarEco("saldo", economiaSetores.saldo + valor);
 
     atualizarDados(lojaConvertida, {
       ...dados[lojaConvertida],

@@ -29,7 +29,7 @@ import { CardLocalization } from "./cardLocalization";
 
 
 export const CardModal = ({ index }) => {
-    const { economiaSetores, setEconomiaSetoxxres, } = useContext(DadosEconomyGlobalContext);
+    const { economiaSetores, setEconomiaSetores,atualizarEco } = useContext(DadosEconomyGlobalContext);
 
     const { dados, atualizarDados, atualizarDadosProf2, atualizarDadosProf3, atualizarDadosProf } = useContext(CentraldeDadosContext);
     const setorAtivo = dados.setorAtivo;
@@ -498,7 +498,7 @@ export const CardModal = ({ index }) => {
 
         const custo = edif.custoConstrucao;
 
-        if (dados.saldo < custo) {
+        if (economiaSetores.saldo < custo) {
             return alert("Você não tem dinheiro suficiente para construir.");
         }
 
@@ -542,7 +542,7 @@ export const CardModal = ({ index }) => {
         }
 
         // ✅ Compra aprovada
-        atualizarDados("saldo", dados.saldo - custo);
+        atualizarEco("saldo", economiaSetores.saldo - custo);
         atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], edif.quantidade + 1);
 
         atualizarDadosProf2(["terrenos", "quantidade"], quantidadeTerrenosAtual - quantidadeTerrenosNec);

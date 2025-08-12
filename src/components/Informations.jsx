@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import PredioImg from "../imagens/predio-comercial.png"
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
 export default function Informations() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
+    const { economiaSetores, setEconomiaSetoxxres, } = useContext(DadosEconomyGlobalContext);
 
     const formatarNumero = (num) => {
         if (num >= 1e12) return (num / 1e12).toFixed(2).replace(/\.00$/, '') + 'T'; // Trilhões
@@ -23,7 +25,7 @@ export default function Informations() {
                 </div>
                 <div className="ml-[20px] rounded-[5px] bg-gradient-to-l to-white via-white from-white w-[150px] flex items-center h-[50px] place-content-between pl-[10px] pr-[15px]">
                     <h1 className="fonteBold text-[#350973] text-[20px]">R$</h1>
-                    <h1 className="fonteBold text-[#350973] text-[20px]">{formatarNumero((dados.saldo))}</h1>
+                    <h1 className="fonteBold text-[#350973] text-[20px]">{formatarNumero((economiaSetores.saldo))}</h1>
                 </div>
             </div>
 

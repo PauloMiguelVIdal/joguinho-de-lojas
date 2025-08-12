@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 export default function Sorteio() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+    const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
 
     const fecharModal = () => {
         // console.log(dados.eventoAtual);
@@ -30,7 +31,7 @@ export default function Sorteio() {
     const judgment = ["ÓTIMO", "PÉSSIMO"];
 
     const economiaAtual = () => {
-        switch (`${dados.economiaGlobal}`) {
+        switch (`${economiaSetores.economiaGlobal}`) {
             case "recessão": return [0.35, 0.65]
             case "declinio": return [0.45, 0.55]
             case "estável": return [0.50, 0.50]

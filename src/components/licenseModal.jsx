@@ -12,8 +12,12 @@ import circularEconomia from "../imagens/circular-economy.png"
 import DolarImg from "../imagens/simbolo-do-dolar.png"
 import licença from "../imagens/licença.png"
 import { Localizador } from "./localizador";
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+
+
 export const LicenseModal = ({ setor,nomeLicença,index }) => {
     const { dados,atualizarDados,atualizarDadosProf } = useContext(CentraldeDadosContext);
+    const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
 
 
     const setorAtivo = setor
@@ -40,13 +44,13 @@ export const LicenseModal = ({ setor,nomeLicença,index }) => {
     const comprarLicença = () => {
         if (dados[setorAtivo].licençasSetor[index].status === true){return} 
             
-       else if (dados.saldo < (dados[setorAtivo].licençasSetor[index].valor)) {
+       else if (economiaSetores.saldo < (dados[setorAtivo].licençasSetor[index].valor)) {
             alert("Você não tem dinheiro suficiente para comprar essa licença");
         }else{
             atualizarDadosProf(["licençasSetor", index, "status"], true);
             liberarEdificios();
             console.log("Licença comprada e edifícios liberados");
-            atualizarDados('saldo', dados.saldo - (dados[setorAtivo].licençasSetor[index].valor));
+            atualizarEco('saldo', economiaSetores.saldo - (dados[setorAtivo].licençasSetor[index].valor));
         }
     };
     
