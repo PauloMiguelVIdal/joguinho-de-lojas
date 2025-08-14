@@ -84,7 +84,7 @@ export default function Sorteio() {
         if (Math.random() * 100 > dados.chanceNovoEvento) return; // Se não atingir a chance, sai da função
 
         const selecionarLoja = selecionarItem(todasLojas);
-        const selecionarDepartamento = selecionarItem(departmentEvents);
+        const selecionarDepartamento = dados.dia<250 ? selecionarItem(departmentEvents) : "custos de construção";
         const selecionarJulgamento = julgamentoSorteado();
         const selecionarPorcentagem = selecionarItem(porcentagem);
         const selecionarPeriodo = selecionarItem(periodo);

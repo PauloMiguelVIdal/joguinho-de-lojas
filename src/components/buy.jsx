@@ -84,7 +84,7 @@ export default function Buy() {
     if (dados.terrenos.quantidade < (dados.lojasP.quantidadeNecTerreno * quantidadeLojasP)) {
       return alert("Você não tem terreno suficiente");
     }
-    if (economiaSetores.saldo < (dados.lojasP.quantidadeNecTerreno * quantidadeLojasP)) {
+    if (economiaSetores.saldo < (dados.lojasP.preçoConstrução * quantidadeLojasP)) {
       alert("Você não tem dinheiro suficiente para construir");
     } else {
       atualizarDados('lojasP', {
@@ -104,7 +104,7 @@ export default function Buy() {
     if (dados.terrenos.quantidade < (dados.lojasM.quantidadeNecTerreno * quantidadeLojasM)) {
       return alert("Você não tem terrenos suficientes");
     }
-    if (economiaSetores.saldo < (dados.lojasM.quantidadeNecTerreno * quantidadeLojasM)) {
+    if (economiaSetores.saldo < (dados.lojasM.preçoConstrução * quantidadeLojasM)) {
       alert("Você não tem dinheiro suficiente para construir");
     } else {
       atualizarDados('lojasM', {

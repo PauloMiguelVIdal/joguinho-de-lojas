@@ -13,7 +13,7 @@ export default function PayTexes() {
 
   // Cálculo de impostos diário e mensal
 useEffect(() => {
-  if (dados.dia < 250) {
+  if (dados.dia < 240) {
     let impostoFixoTotal = 0;
     let impostoFaturamentoMensal = 0;
     let impostoDiarioTotal = 0;
@@ -88,7 +88,7 @@ useEffect(() => {
     console.log("Imposto Mensal Total:", impostoMensalTotal);
   }
 
-  else if (dados.dia === 250) {
+  else if (dados.dia === 240) {
     // console.log("=== DIA 250: ZERANDO IMPOSTOS ===");
     todasLojas.forEach((loja) => {
       const dadosLoja = dados[loja];
@@ -299,7 +299,7 @@ useEffect(() => {
   // Função que paga as despesas e desconta do saldo
   const PagarDespesas = () => {
     if (!dados.despesas.despesasPagas) {
-      const novoSaldo = economiaSetores.saldo - dados.imposto.impostoMensal;
+      const novoSaldo = economiaSetores.saldo - economiaSetores.imposto.impostoMensal;
       atualizarEco('saldo', novoSaldo);
       atualizarDados('despesas', {
         ...dados.despesas,
@@ -419,7 +419,7 @@ useEffect(() => {
   // }, [dados.dia]);
 
   useEffect(() => {
-    if(dados.dia > 250){
+    if(dados.dia > 240){
 
     
     const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
@@ -527,11 +527,13 @@ useEffect(() => {
         const impostoMensalSobreFaturamento = somaMensalFatu * impostoSobreFatuFinal;
         impostoFaturamentoMensal += impostoMensalSobreFaturamento;
 
-        const impostoFixoAtual = (dados.dia % 30 === 0)
+        const ehDiaDeCobranca = ((dados.dia - 1) % 30 === 0 && dados.dia > 1);
+
+        const impostoFixoAtual = ehDiaDeCobranca
           ? valorImpostoFixoFinal * quantidade
           : ed.valorImpostoFixoTotal || 0;
-
-        if (dados.dia % 30 === 0) impostoFixoTotal += impostoFixoAtual;
+        
+        if (ehDiaDeCobranca) impostoFixoTotal += impostoFixoAtual;
 
         // console.log("nome edificio", ed.nome)
         // console.log("quantidade", quantidade)

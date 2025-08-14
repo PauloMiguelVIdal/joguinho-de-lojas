@@ -42,7 +42,7 @@ const calcularFaturamento = () => {
         faturamentoDiario += faturamentoTotal;
         if (dados.dia === 240) {
             let patrimonio = 0;
-        
+
             lojas.forEach(loja => {
               const quantidadeLojas = dados[loja].quantidade;
               const precoConstrucao = dados[loja].preçoConstrução;
@@ -57,7 +57,7 @@ const calcularFaturamento = () => {
             });
         
             // const patrimonioTotal = patrimonio + economiaSetores.saldo;
-            faturamentoDiario += patrimonio;
+            faturamentoDiario += patrimonio * 0.1;
             // atualizarEco("saldo", economiaSetores.saldo + patrimonio);
             //  // uma única atualização
             //  console.log(patrimonio)
