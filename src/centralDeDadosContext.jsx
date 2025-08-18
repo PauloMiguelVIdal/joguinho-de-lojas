@@ -288,7 +288,7 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 0,
             lojasG: 0,
           },
-          construçõesNecessárias: ["Fazenda Administrativa","Armazém"],
+          construçõesNecessárias: ["Fazenda Administrativa", "Armazém"],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           ForneceMelhoraEficiencia: [
             {
@@ -422,7 +422,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
           ],
-          RecebeMelhoraEficiencia:[
+          RecebeMelhoraEficiencia: [
             {
               nome: "Fábrica De Fertilizante",
               redCusto: {
@@ -502,7 +502,7 @@ const CentraldeDadosProvider = ({ children }) => {
               },
             },
           ],
-          
+
 
 
 
@@ -544,7 +544,7 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 0,
             lojasG: 0,
           },
-          construçõesNecessárias: ["Fazenda Administrativa","Silo"],
+          construçõesNecessárias: ["Fazenda Administrativa", "Silo"],
           licençasNecessárias: [],
           melhoraEficiencia: [
             "Mercado",
@@ -621,7 +621,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
           ],
-          RecebeMelhoraEficiencia:[
+          RecebeMelhoraEficiencia: [
             {
               nome: "Fábrica De Fertilizante",
               redCusto: {
@@ -701,7 +701,7 @@ const CentraldeDadosProvider = ({ children }) => {
               },
             },
           ],
-          
+
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -1028,7 +1028,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
 
           RecebeMelhoraEficiencia: [
-            
+
           ],
 
           recursoDeConstrução: [],
@@ -1073,7 +1073,7 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 1,
             lojasG: 1,
           },
-          construçõesNecessárias: ["Plantação De Grãos","Plantação De Vegetais","Pomares"],
+          construçõesNecessárias: ["Plantação De Grãos", "Plantação De Vegetais", "Pomares"],
           licençasNecessárias: [],
           melhoraEficiencia: [
             "Mercado",
@@ -1202,7 +1202,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              nome:  "Feira",
+              nome: "Feira",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -1215,7 +1215,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              nome:  "Fábrica de Ração",
+              nome: "Fábrica de Ração",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -1228,7 +1228,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              nome:  "Usina de Biomassa",
+              nome: "Usina de Biomassa",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -1244,8 +1244,8 @@ const CentraldeDadosProvider = ({ children }) => {
           RecebeMelhoraEficiencia: [
           ],
 
-          recursoDeConstrução: ["Armazém","Silo","Fazenda Administrativa","Centro De Comércio De Plantações"],
-          
+          recursoDeConstrução: ["Armazém", "Silo", "Fazenda Administrativa", "Centro De Comércio De Plantações"],
+
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
@@ -1414,7 +1414,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              nome:  "Feira",
+              nome: "Feira",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -1427,7 +1427,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              nome:  "Fábrica de Ração",
+              nome: "Fábrica de Ração",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -1440,7 +1440,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              nome:  "Usina de Biomassa",
+              nome: "Usina de Biomassa",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -1455,7 +1455,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome:  "Fábrica de Embalagens",
+              nome: "Fábrica de Embalagens",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -1469,7 +1469,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Armazém","Silo","Fazenda Administrativa","Plantação De Grãos"]
+          recursoDeConstrução: ["Armazém", "Silo", "Fazenda Administrativa", "Plantação De Grãos"]
           ,
           powerUp: {
             redCustoAtual: 0,
@@ -2271,7 +2271,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              nome:  "Açougue",
+              nome: "Açougue",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -3185,21 +3185,59 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença Global De Tecnologia",
         desc: "Permite a operação de empresas de tecnologia básica, incluindo infraestrutura digital e desenvolvimento de software, essencial para a economia digital.",
         valor: 7000,
-        edifíciosLiberados: ["Servidor Em Nuvem", "Data Center", "Startup", "Empresa De Desenvolvimento De Software"],
+        edifíciosLiberados: ["Servidor Em Nuvem", "Data Center", "Startup"],
+        status: false
+      },
+      {
+        nome: "Licença De Empreendimentos Tech",
+        desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
+        valor: 7000,
+        edifíciosLiberados: ["Empresa De Desenvolvimento De Software", "Empresa De Jogos Digitais", "Empresa De Telecomunicações"],
+        status: false
+      },
+      {
+        nome: "Licença De Plataformas Digitais",
+        desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
+        valor: 7000,
+        edifíciosLiberados: ["Plataforma De Redes Sociais", "Marketplace Online", "Plataforma De Streaming"],
+        status: false
+      },
+      {
+        nome: "Licença Agro e Biotecnologia",
+        desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
+        valor: 7000,
+        edifíciosLiberados: ["Instituto de Tecnologia Alimentar", "Centro De Pesquisa Agrícola", "Instituto De Biotecnologia"],
+        status: false
+      },
+      {
+        nome: "Licença Eletrônica e Design",
+        desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
+        valor: 7000,
+        edifíciosLiberados: [
+          "Laboratório De Design De Produtos"
+          , "Centro De Pesquisa Em Eletrônicos"
+          , "Laboratório De Nanotecnologia"],
+        status: false
+      },
+      {
+        nome: "Licença De Fábricas Tecnológicas",
+        desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
+        valor: 7000,
+        edifíciosLiberados: ["Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestiveis"],
         status: false
       },
       {
         nome: "Licença De Tecnologia Experimental",
         desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
         valor: 7000,
-        edifíciosLiberados: ["Centro de Pesquisa Química", "Centro De Pesquisa Em Fusão Nuclear"],
+        edifíciosLiberados: ["Centro de Pesquisa Química", "Centro De Pesquisa Em Fusão Nuclear", "Laboratório De Novos Combustíveis"],
         status: false
       },
       {
         nome: "Licença De Engenharia Avançada",
         desc: "Habilita centros de pesquisa em eletrônica de última geração e tecnologia aeroespacial, impulsionando inovações em mobilidade e comunicação.",
         valor: 7000,
-        edifíciosLiberados: ["Centro De Pesquisa Em Eletrônicos", "Centro De Pesquisa Aeroespacial"],
+        edifíciosLiberados: ["Centro De Pesquisa Aeroespacial", "Centro de Engenharia Avançada", "Centro de Pesquisa em Materiais Avançados"],
         status: false
       },
       {
@@ -3214,6 +3252,154 @@ const CentraldeDadosProvider = ({ children }) => {
 
 
       edificios: [
+        {
+          nome: "Startup",
+          desc: "Negócio inovador focado em soluções tecnológicas.",
+          licençaLiberado: {
+            licença: "Licença Global De Tecnologia",
+            liberado: false,
+          },
+          custoConstrucao: 150000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 3750,
+            impostoFixo: 28000,
+            impostoSobreFatu: 0.10000,
+            rent: 19
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 3,
+            lojasM: 0,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+        ,
         {
           nome: "Servidor Em Nuvem",
           desc: "Infraestrutura digital para armazenamento e serviços online.",
@@ -3503,159 +3689,12 @@ const CentraldeDadosProvider = ({ children }) => {
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
         },
-        {
-          nome: "Startup",
-          desc: "Negócio inovador focado em soluções tecnológicas.",
-          licençaLiberado: {
-            licença: "Licença Global De Tecnologia",
-            liberado: false,
-          },
-          custoConstrucao: 150000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 3750,
-            impostoFixo: 28000,
-            impostoSobreFatu: 0.10000,
-            rent: 19
-          },
 
-          lojasNecessarias: {
-            terrenos: 2,
-            lojasP: 3,
-            lojasM: 0,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: [],
-          melhoraEficiencia: [],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-
-          recursoDeConstrução: [],
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        }
-        ,
         {
           nome: "Empresa De Desenvolvimento De Software",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
-            licença: "Licença Global De Tecnologia",
+            licença: "Licença De Empreendimentos Tech",
             liberado: false,
           },
           custoConstrucao: 410000,
@@ -3797,8 +3836,2201 @@ const CentraldeDadosProvider = ({ children }) => {
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        }
-        ,
+        },
+        {
+          nome: "Empresa De Jogos Digitais",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença De Empreendimentos Tech",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Empresa De Telecomunicações",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença De Empreendimentos Tech",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Plataforma De Redes Sociais",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença De Plataformas Digitais",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Marketplace Online",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença De Plataformas Digitais",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Plataforma De Streaming",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença De Plataformas Digitais",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Instituto de Tecnologia Alimentar",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença Agro e Biotecnologia",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Centro De Pesquisa Agrícola",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença Agro e Biotecnologia",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Instituto De Biotecnologia",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença Agro e Biotecnologia",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Laboratório De Design De Produtos",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença Eletrônica e Design",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Centro De Pesquisa Em Eletrônicos",
+          desc: "Desenvolvimento de circuitos e dispositivos eletrônicos.",
+          licençaLiberado: {
+            licença: "Licença Eletrônica e Design",
+            liberado: false,
+          },
+          custoConstrucao: 480000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 9375,
+            impostoFixo: 160000,
+            impostoSobreFatu: 0.050000,
+            rent: 6
+          },
+
+          lojasNecessarias: {
+            terrenos: 3,
+            lojasP: 0,
+            lojasM: 1,
+            lojasG: 2,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Laboratório De Nanotecnologia",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença Eletrônica e Design",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Fábrica De Smartphones",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença De Fábricas Tecnológicas",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Fábrica De Computadores",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença De Fábricas Tecnológicas",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Fábrica De Consoles De Jogos",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença De Fábricas Tecnológicas",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Fábrica De Dispositivos Vestiveis",
+          desc: "Criação de sistemas e aplicativos sob demanda.",
+          licençaLiberado: {
+            licença: "Licença De Fábricas Tecnológicas",
+            liberado: false,
+          },
+          custoConstrucao: 410000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 15750,
+            impostoFixo: 58000,
+            impostoSobreFatu: 0.10000,
+            rent: 22
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 5,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: ["Startup"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Startup"],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
         {
           nome: "Centro de Pesquisa Química",
           desc: "Pesquisas avançadas em compostos químicos.",
@@ -4093,29 +6325,28 @@ const CentraldeDadosProvider = ({ children }) => {
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        }
-        ,
+        },
         {
-          nome: "Centro De Pesquisa Em Eletrônicos",
-          desc: "Desenvolvimento de circuitos e dispositivos eletrônicos.",
+          nome: "Laboratório De Novos Combustíveis",
+          desc: "Pesquisa para geração de energia por fusão nuclear.",
           licençaLiberado: {
-            licença: "Licença De Engenharia Avançada",
+            licença: "Licença De Tecnologia Experimental",
             liberado: false,
           },
-          custoConstrucao: 480000,
+          custoConstrucao: 1200000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 9375,
-            impostoFixo: 160000,
+            faturamentoUnitário: 25000,
+            impostoFixo: 100000,
             impostoSobreFatu: 0.050000,
             rent: 6
           },
 
           lojasNecessarias: {
-            terrenos: 3,
-            lojasP: 0,
-            lojasM: 1,
-            lojasG: 2,
+            terrenos: 5,
+            lojasP: 2,
+            lojasM: 3,
+            lojasG: 3,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -4230,7 +6461,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: [],
+          recursoDeConstrução: ["Centro de Pesquisa Química"],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
@@ -4241,10 +6472,305 @@ const CentraldeDadosProvider = ({ children }) => {
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        }
-        ,
+        },
         {
           nome: "Centro De Pesquisa Aeroespacial",
+          desc: "Tecnologias voltadas ao setor aeroespacial.",
+          licençaLiberado: {
+            licença: "Licença De Engenharia Avançada",
+            liberado: false,
+          },
+          custoConstrucao: 2000000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 22000,
+            impostoFixo: 90000,
+            impostoSobreFatu: 0.050000,
+            rent: 4
+          },
+
+          lojasNecessarias: {
+            terrenos: 4,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 3,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Centro De Pesquisa Em Eletrônicos"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Centro de Engenharia Avançada",
+          desc: "Tecnologias voltadas ao setor aeroespacial.",
+          licençaLiberado: {
+            licença: "Licença De Engenharia Avançada",
+            liberado: false,
+          },
+          custoConstrucao: 2000000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 22000,
+            impostoFixo: 90000,
+            impostoSobreFatu: 0.050000,
+            rent: 4
+          },
+
+          lojasNecessarias: {
+            terrenos: 4,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 3,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Centro De Pesquisa Em Eletrônicos"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Centro de Pesquisa em Materiais Avançados",
           desc: "Tecnologias voltadas ao setor aeroespacial.",
           licençaLiberado: {
             licença: "Licença De Engenharia Avançada",
@@ -4527,7 +7053,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Centro De Pesquisa Em Eletrônicos","Startup"]
+          recursoDeConstrução: ["Centro De Pesquisa Em Eletrônicos", "Startup"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -4681,7 +7207,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Startup","Data Center"]
+          recursoDeConstrução: ["Startup", "Data Center"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -4730,13 +7256,6 @@ const CentraldeDadosProvider = ({ children }) => {
         status: false
       },
       {
-        nome: "Licença De Fábricas Energéticas",
-        desc: "Habilita a fabricação de componentes para geração de energia renovável e armazenamento.",
-        valor: 7000,
-        edifíciosLiberados: ["Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias"],
-        status: false
-      },
-      {
         nome: "Licença De Papel E Celulose",
         desc: "Permite a produção de papel e derivados, essencial para indústrias gráficas e de embalagens.",
         valor: 7000,
@@ -4747,7 +7266,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Produtos Químicos",
         desc: "Autoriza a produção de produtos químicos básicos e intermediários, essenciais para diversas indústrias.",
         valor: 7000,
-        edifíciosLiberados: ["Laboratório Farmacêutico","Fábrica de Medicamentos","Fábrica de Plásticos", "Fábrica de Químicos Especializados" ],
+        edifíciosLiberados: ["Laboratório Farmacêutico", "Fábrica de Medicamentos", "Fábrica de Plásticos", "Fábrica de Químicos Especializados"],
         status: false
       },
       {
@@ -4786,10 +7305,17 @@ const CentraldeDadosProvider = ({ children }) => {
         status: false
       },
       {
+        nome: "Licença Microeletrônica",
+        desc: "Permite a fabricação de componentes eletrônicos complexos, robótica e sistemas de automação industrial.",
+        valor: 7000,
+        edifíciosLiberados: ["Fábrica De Chips", "Fábrica De Placas Eletrônicas", "Fábrica De Semicondutores"],
+        status: false
+      },
+      {
         nome: "Licença De Eletrônica Avançada",
         desc: "Permite a fabricação de componentes eletrônicos complexos, robótica e sistemas de automação industrial.",
         valor: 7000,
-        edifíciosLiberados: ["Fábrica De Eletrônicos", "Fábrica De Semicondutores", "Fábrica De Robôs", "Empresa De Automação Industrial"],
+        edifíciosLiberados: ["Fábrica De Eletrônicos", "Fábrica De Robôs", "Empresa De Automação Industrial"],
         status: false
       }
 
@@ -5865,7 +8391,7 @@ const CentraldeDadosProvider = ({ children }) => {
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        },{
+        }, {
           nome: "Fábrica De Calçados",
           desc: "Fabrica calçados a partir de vegetais e couro.",
           licençaLiberado: {
@@ -6017,7 +8543,7 @@ const CentraldeDadosProvider = ({ children }) => {
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        },{
+        }, {
           nome: "Fábrica De Roupas",
           desc: "Fabrica pães a partir de cereais e vegetais.",
           licençaLiberado: {
@@ -6170,465 +8696,7 @@ const CentraldeDadosProvider = ({ children }) => {
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
         },
-        {
-          nome: "Fábrica De Turbinas Eólicas",
-          desc: "Monta turbinas para gerar energia eólica.",
-          licençaLiberado: {
-            licença: "Licença De Fábricas Energéticas",
-            liberado: false,
-          },
-          custoConstrucao: 140000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 2500,
-            impostoFixo: 40000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
-          },
 
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 0,
-            lojasM: 0,
-            lojasG: 1,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Ração",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-
-          recursoDeConstrução: []
-          ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        },
-        {
-          nome: "Fábrica De Painéis Solares",
-          desc: "Produz painéis para captação solar.",
-          licençaLiberado: {
-            licença: "Licença De Fábricas Energéticas",
-            liberado: false,
-          },
-          custoConstrucao: 90000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 23000,
-            impostoFixo: 590000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
-          },
-
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 0,
-            lojasM: 0,
-            lojasG: 1,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Ração",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-
-          recursoDeConstrução: []
-          ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        },
-        {
-          nome: "Fábrica De Baterias",
-          desc: "Fabrica baterias para armazenar energia.",
-          licençaLiberado: {
-            licença: "Licença De Fábricas Energéticas",
-            liberado: false,
-          },
-          custoConstrucao: 250000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 30000,
-            impostoFixo: 775000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
-          },
-
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 1,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Ração",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-
-          recursoDeConstrução: []
-          ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        },
         {
           nome: "Fábrica De Celulose",
           desc: "Transforma celulose em papel e derivados.",
@@ -9518,7 +11586,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Refinaria de Biocombustíveis","Fábrica de Químicos Especializados"],
+          recursoDeConstrução: ["Refinaria de Biocombustíveis", "Fábrica de Químicos Especializados"],
           dependências: [
             { construção: "Fazenda Administrativa", quantidade: 0 }
           ],
@@ -9677,6 +11745,911 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
+          nome: "Fábrica De Chips",
+          desc: "Produz bioprodutos e materiais orgânicos.",
+          licençaLiberado: {
+            licença: "Licença Microeletrônica",
+            liberado: false,
+          },
+          custoConstrucao: 1460000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 200000,
+            impostoFixo: 4750000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+          lojasNecessarias: {
+            terrenos: 5,
+            lojasP: 2,
+            lojasM: 2,
+            lojasG: 5,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: ["Fábrica de Ração", "Biofábrica", "Mercado", "Feira Livre"],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "Fazenda Administrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Fábrica De Placas Eletrônicas",
+          desc: "Produz bioprodutos e materiais orgânicos.",
+          licençaLiberado: {
+            licença: "Licença Microeletrônica",
+            liberado: false,
+          },
+          custoConstrucao: 1460000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 200000,
+            impostoFixo: 4750000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+          lojasNecessarias: {
+            terrenos: 5,
+            lojasP: 2,
+            lojasM: 2,
+            lojasG: 5,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: ["Fábrica de Ração", "Biofábrica", "Mercado", "Feira Livre"],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "Fazenda Administrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Fábrica De Semicondutores",
+          desc: "Produz semicondutores e chips para tecnologia.",
+          licençaLiberado: {
+            licença: "Licença Microeletrônica",
+            liberado: false,
+          },
+          custoConstrucao: 11500000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1000000,
+            impostoFixo: 21500000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 40,
+            lojasP: 30,
+            lojasM: 10,
+            lojasG: 40,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: ["Fábrica De Eletrônicos"]
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+
+        {
+          nome: "Fábrica De Eletrônicos",
+          desc: "Fabrica dispositivos eletrônicos e componentes.",
+          licençaLiberado: {
+            licença: "Licença De Eletrônica Avançada",
+            liberado: false,
+          },
+          custoConstrucao: 1340000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 500000,
+            impostoFixo: 13080000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 10,
+            lojasP: 2,
+            lojasM: 0,
+            lojasG: 3,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Fábrica De Robôs",
+          desc: "Monta robôs e sistemas de automação.",
+          licençaLiberado: {
+            licença: "Licença De Eletrônica Avançada",
+            liberado: false,
+          },
+          custoConstrucao: 10300000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 2000000,
+            impostoFixo: 44500000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 20,
+            lojasP: 10,
+            lojasM: 20,
+            lojasG: 40,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }
+        , {
+          nome: "Empresa De Automação Industrial",
+          desc: "Desenvolve sistemas industriais automatizados.",
+          licençaLiberado: {
+            licença: "Licença De Eletrônica Avançada",
+            liberado: false,
+          },
+          custoConstrucao: 2530000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1000000,
+            impostoFixo: 28000000,
+            impostoSobreFatu: 0.05000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 3,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 3,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
           nome: "Fábrica De Motores",
           desc: "Fabrica motores para veículos e máquinas.",
           licençaLiberado: {
@@ -9816,7 +12789,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Usina Siderúrgica","Fábrica De Peças Automotivas","Fábrica De Eletrônicos"]
+          recursoDeConstrução: ["Usina Siderúrgica", "Fábrica De Peças Automotivas", "Fábrica De Eletrônicos"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -10288,617 +13261,6 @@ const CentraldeDadosProvider = ({ children }) => {
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
         },
-        {
-          nome: "Fábrica De Eletrônicos",
-          desc: "Fabrica dispositivos eletrônicos e componentes.",
-          licençaLiberado: {
-            licença: "Licença De Eletrônica Avançada",
-            liberado: false,
-          },
-          custoConstrucao: 1340000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 500000,
-            impostoFixo: 13080000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
-          },
-
-          lojasNecessarias: {
-            terrenos: 10,
-            lojasP: 2,
-            lojasM: 0,
-            lojasG: 3,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Ração",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-
-          recursoDeConstrução: []
-          ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        },
-        {
-          nome: "Fábrica De Semicondutores",
-          desc: "Produz semicondutores e chips para tecnologia.",
-          licençaLiberado: {
-            licença: "Licença De Eletrônica Avançada",
-            liberado: false,
-          },
-          custoConstrucao: 11500000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1000000,
-            impostoFixo: 21500000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
-          },
-
-          lojasNecessarias: {
-            terrenos: 40,
-            lojasP: 30,
-            lojasM: 10,
-            lojasG: 40,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Ração",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-
-          recursoDeConstrução: ["Fábrica De Eletrônicos"]
-          ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        }, {
-          nome: "Fábrica De Robôs",
-          desc: "Monta robôs e sistemas de automação.",
-          licençaLiberado: {
-            licença: "Licença De Eletrônica Avançada",
-            liberado: false,
-          },
-          custoConstrucao: 10300000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 2000000,
-            impostoFixo: 44500000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
-          },
-
-          lojasNecessarias: {
-            terrenos: 20,
-            lojasP: 10,
-            lojasM: 20,
-            lojasG: 40,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Ração",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-
-          recursoDeConstrução: []
-          ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        }
-        , {
-          nome: "Empresa De Automação Industrial",
-          desc: "Desenvolve sistemas industriais automatizados.",
-          licençaLiberado: {
-            licença: "Licença De Eletrônica Avançada",
-            liberado: false,
-          },
-          custoConstrucao: 2530000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1000000,
-            impostoFixo: 28000000,
-            impostoSobreFatu: 0.05000,
-            rent: 32
-          },
-
-          lojasNecessarias: {
-            terrenos: 3,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 3,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Ração",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-
-          recursoDeConstrução: []
-          ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        },
       ],
     },
     comercio: {
@@ -10962,7 +13324,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Logística E Transporte",
         desc: "Autoriza a operação de centros de distribuição e transporte de mercadorias, essencial para a cadeia de suprimentos da cidade.",
         valor: 7000,
-        edifíciosLiberados: ["Centro De Transporte e Entrega","Centro De Distribuição", "Armazém Logístico", "Transporte Petrolífero"],
+        edifíciosLiberados: ["Centro De Transporte e Entrega", "Centro De Distribuição", "Armazém Logístico", "Transporte Petrolífero"],
         status: false
       }
       ]
@@ -11438,7 +13800,7 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 0,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 1100 ,
+            faturamentoUnitário: 1100,
             impostoFixo: 23000,
             impostoSobreFatu: 0.10,
             rent: 7
@@ -11721,7 +14083,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Padaria","Açougue"]
+          recursoDeConstrução: ["Padaria", "Açougue"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -14169,7 +16531,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Mercado","Loja De Departamentos","Redes De Fast-food","Cafeteria"]
+          recursoDeConstrução: ["Mercado", "Loja De Departamentos", "Redes De Fast-food", "Cafeteria"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -14322,7 +16684,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Shopping Popular","Mega Mercado","Joalheria","Concessionária De Veículos"]
+          recursoDeConstrução: ["Shopping Popular", "Mega Mercado", "Joalheria", "Concessionária De Veículos"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -14957,197 +17319,63 @@ const CentraldeDadosProvider = ({ children }) => {
         comprado: true,
         valor: 20000
       },
-      licençasSetor: [{
-        nome: "Licença Global Imobiliária",
-        desc: "Permite operações básicas de construção civil, terraplanagem e regularização de propriedades, essencial para o desenvolvimento urbano inicial.",
-        valor: 7000,
-        edifíciosLiberados: ["Construtora", "Cartório E Licenças", "Terraplanagem E Pavimentação"],
-        status: false
-      },
-      {
-        nome: "Licença De Grandes Infraestruturas",
-        desc: "Autoriza a construção de obras de infraestrutura estratégica como aeroportos e portos, fundamentais para o transporte regional e nacional.",
-        valor: 7000,
-        edifíciosLiberados: ["Construtora De Infraestruturas", "Aeroporto", "Porto"],
-        status: false
-      },
-      {
-        nome: "Licença De Mineração",
-        desc: "Habilita a exploração de recursos minerais convencionais, radioativos e pedras preciosas, impulsionando a indústria extrativista.",
-        valor: 7000,
-        edifíciosLiberados: ["Mineradora", "Mineradora Radioativa", "Mineradora De Pedras Preciosas"],
-        status: false
-      },
-      {
-        nome: "Licença Comercial E Residencial",
-        desc: "Permite a construção de grandes empreendimentos mistos que combinam espaços comerciais e residenciais de alto padrão.",
-        valor: 7000,
-        edifíciosLiberados: ["Mega Mercado", "Prédio De Alto Padrão"],
-        status: false
-      },
-      {
-        nome: "Licença De Construções Energéticas",
-        desc: "Autoriza a implantação de infraestruturas especializadas em produção e armazenamento de combustíveis e bioenergia.",
-        valor: 7000,
-        edifíciosLiberados: ["Centro De Coleta De Biomassa", "Tanque De Armazenamento Biocombustível", "Plataforma De Petróleo"],
-        status: false
-      }
+      licençasSetor: [
+        {
+          nome: "Licença Global Imobiliária",
+          desc: "Permite operações básicas de construção civil, terraplanagem e regularização de propriedades, essencial para o desenvolvimento urbano inicial.",
+          valor: 7000,
+          edifíciosLiberados: ["Cartório E Licenças", "Terraplanagem E Pavimentação", "Construtora De Pequenas Obras"],
+          status: false
+        },
+        {
+          nome: "Licença De Projetos e Design",
+          desc: "Habilita a elaboração de projetos arquitetônicos, design de interiores e consultorias técnicas em engenharia civil, essenciais para obras e empreendimentos.",
+          valor: 7000,
+          edifíciosLiberados: ["Escritório De Design De Interiores", "Escritório De Arquitetura", "Consultoria Em Engenharia Civil"],
+          status: false
+        },
+        {
+          nome: "Licença De Construção Imobiliária",
+          desc: "Autoriza a atuação no setor imobiliário, permitindo a construção, administração e comercialização de imóveis residenciais e comerciais.",
+          valor: 7000,
+          edifíciosLiberados: ["Construtora",
+            "Imobiliária Residencial",
+            "Imobiliária Comercial"
+          ],
+          status: false
+        },
+        {
+          nome: "Licença De Grandes Infraestruturas",
+          desc: "Autoriza a construção de obras de infraestrutura estratégica como aeroportos e portos, fundamentais para o transporte regional e nacional.",
+          valor: 7000,
+          edifíciosLiberados: ["Construtora De Infraestruturas", "Aeroporto", "Porto"],
+          status: false
+        },
+        {
+          nome: "Licença De Mineração",
+          desc: "Habilita a exploração de recursos minerais convencionais, radioativos e pedras preciosas, impulsionando a indústria extrativista.",
+          valor: 7000,
+          edifíciosLiberados: ["Mineradora", "Mineradora Radioativa", "Mineradora De Pedras Preciosas"],
+          status: false
+        },
+        {
+          nome: "Licença Comercial E Residencial",
+          desc: "Permite a construção de grandes empreendimentos mistos que combinam espaços comerciais e residenciais de alto padrão.",
+          valor: 7000,
+          edifíciosLiberados: ["Mega Mercado", "Prédio De Alto Padrão"],
+          status: false
+        },
+        {
+          nome: "Licença De Construções Energéticas",
+          desc: "Autoriza a implantação de infraestruturas especializadas em produção e armazenamento de combustíveis e bioenergia.",
+          valor: 7000,
+          edifíciosLiberados: ["Centro De Coleta De Biomassa", "Tanque De Armazenamento Biocombustível", "Plataforma De Petróleo"],
+          status: false
+        }
 
       ],
       edificios: [
-        {
-          nome: "Construtora",
-          desc: "Constrói edifícios residenciais e comerciais.",
-          licençaLiberado: {
-            licença: "Licença Global Imobiliária",
-            liberado: false,
-          },
-          custoConstrucao: 750000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 12000,
-            impostoFixo: 170000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
-          },
 
-          lojasNecessarias: {
-            terrenos: 3,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 1,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Ração",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-
-          recursoDeConstrução: []
-          ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        },
         {
           nome: "Cartório E Licenças",
           desc: "Registra propriedades e emite licenças comerciais.",
@@ -15322,6 +17550,1073 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasP: 0,
             lojasM: 1,
             lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Construtora De Pequenas Obras",
+          desc: "Constrói edifícios residenciais e comerciais.",
+          licençaLiberado: {
+            licença: "Licença Global Imobiliária",
+            liberado: false,
+          },
+          custoConstrucao: 750000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 12000,
+            impostoFixo: 170000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 3,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Escritório De Design De Interiores",
+          desc: "Constrói edifícios residenciais e comerciais.",
+          licençaLiberado: {
+            licença: "Licença De Projetos e Design",
+            liberado: false,
+          },
+          custoConstrucao: 750000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 12000,
+            impostoFixo: 170000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 3,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Escritório De Arquitetura",
+          desc: "Constrói edifícios residenciais e comerciais.",
+          licençaLiberado: {
+            licença: "Licença De Projetos e Design",
+            liberado: false,
+          },
+          custoConstrucao: 750000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 12000,
+            impostoFixo: 170000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 3,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Consultoria Em Engenharia Civil",
+          desc: "Constrói edifícios residenciais e comerciais.",
+          licençaLiberado: {
+            licença: "Licença De Projetos e Design",
+            liberado: false,
+          },
+          custoConstrucao: 750000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 12000,
+            impostoFixo: 170000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 3,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        }, {
+          nome: "Construtora",
+          desc: "Constrói edifícios residenciais e comerciais.",
+          licençaLiberado: {
+            licença: "Licença De Construção Imobiliária",
+            liberado: false,
+          },
+          custoConstrucao: 750000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 12000,
+            impostoFixo: 170000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 3,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Imobiliária Residencial",
+          desc: "Constrói edifícios residenciais e comerciais.",
+          licençaLiberado: {
+            licença: "Licença De Construção Imobiliária",
+            liberado: false,
+          },
+          custoConstrucao: 750000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 12000,
+            impostoFixo: 170000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 3,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Imobiliária Comercial",
+          desc: "Constrói edifícios residenciais e comerciais.",
+          licençaLiberado: {
+            licença: "Licença De Construção Imobiliária",
+            liberado: false,
+          },
+          custoConstrucao: 750000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 12000,
+            impostoFixo: 170000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 3,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -15925,7 +19220,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 27000,
-            impostoFixo: 	150000,
+            impostoFixo: 150000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
@@ -16207,7 +19502,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Mineradora","Construtora De Infraestruturas","Terraplanagem E Pavimentação","Terreno De Mineração"]
+          recursoDeConstrução: ["Mineradora", "Construtora De Infraestruturas", "Terraplanagem E Pavimentação", "Terreno De Mineração"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -16360,7 +19655,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Mineradora","Terreno De Mineração"]
+          recursoDeConstrução: ["Mineradora", "Terreno De Mineração"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -16513,7 +19808,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Mercado","Loja De Departamentos","Cafeteria","Livraria"]
+          recursoDeConstrução: ["Mercado", "Loja De Departamentos", "Cafeteria", "Livraria"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -17157,10 +20452,24 @@ const CentraldeDadosProvider = ({ children }) => {
         status: false
       },
       {
+        nome: "Licença De Fábricas Energéticas",
+        desc: "Habilita a fabricação de componentes para geração de energia renovável e armazenamento.",
+        valor: 7000,
+        edifíciosLiberados: ["Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias"],
+        status: false
+      },
+      {
+        nome: "Licença De Comércios Energéticos",
+        desc: "Autoriza a abertura e operação de estabelecimentos voltados à venda e distribuição de energia e derivados, incluindo comércio de créditos energéticos e tecnologias associadas.",
+        valor: 7000,
+        edifíciosLiberados: ["Empresa De Comercio Energético", "Empresa De Consultoria Energética", "Estação De Carregamento"],
+        status: false
+      },
+      {
         nome: "Licença De Melhoria Energética",
         desc: "Autoriza centros de pesquisa e desenvolvimento de tecnologias para armazenamento e eficiência energética, incluindo estações de carregamento veicular.",
         valor: 7000,
-        edifíciosLiberados: ["Centro De Pesquisa Energética", "Centro De Baterias Recicláveis", "Estação De Carregamento"],
+        edifíciosLiberados: ["Centro De Pesquisa Energética", "Centro De Baterias Recicláveis", "Centro de Pesquisa Em Energias Renováveis"],
         status: false
       },
       {
@@ -17644,8 +20953,1077 @@ const CentraldeDadosProvider = ({ children }) => {
             nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
-        },
+        }, {
+          nome: "Fábrica De Turbinas Eólicas",
+          desc: "Monta turbinas para gerar energia eólica.",
+          licençaLiberado: {
+            licença: "Licença De Fábricas Energéticas",
+            liberado: false,
+          },
+          custoConstrucao: 140000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 2500,
+            impostoFixo: 40000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
 
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Fábrica De Painéis Solares",
+          desc: "Produz painéis para captação solar.",
+          licençaLiberado: {
+            licença: "Licença De Fábricas Energéticas",
+            liberado: false,
+          },
+          custoConstrucao: 90000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 23000,
+            impostoFixo: 590000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Fábrica De Baterias",
+          desc: "Fabrica baterias para armazenar energia.",
+          licençaLiberado: {
+            licença: "Licença De Fábricas Energéticas",
+            liberado: false,
+          },
+          custoConstrucao: 250000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 30000,
+            impostoFixo: 775000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Empresa De Comercio Energético",
+          desc: "Transporta eletricidade para todas as estruturas.",
+          licençaLiberado: {
+            licença: "Licença De Comércios Energéticos",
+            liberado: false,
+          },
+          custoConstrucao: 240000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 500,
+            impostoFixo: 5000,
+            impostoSobreFatu: 0.050000,
+            rent: 3
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 2,
+            lojasM: 0,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Empresa De Consultoria Energética",
+          desc: "Transporta eletricidade para todas as estruturas.",
+          licençaLiberado: {
+            licença: "Licença De Comércios Energéticos",
+            liberado: false,
+          },
+          custoConstrucao: 240000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 500,
+            impostoFixo: 5000,
+            impostoSobreFatu: 0.050000,
+            rent: 3
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 2,
+            lojasM: 0,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Estação De Carregamento",
+          desc: "Fornece carregamento para veículos elétricos.",
+          licençaLiberado: {
+            licença: "Licença De Comércios Energéticos",
+            liberado: false,
+          },
+          custoConstrucao: 120000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 2200,
+            impostoFixo: 22000,
+            impostoSobreFatu: 0.10000,
+            rent: 32
+          },
+
+          lojasNecessarias: {
+            terrenos: 1,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
+        {
+          nome: "Centro de Pesquisa Em Energias Renováveis",
+          desc: "Transporta eletricidade para todas as estruturas.",
+          licençaLiberado: {
+            licença: "Licença De Melhoria Energética",
+            liberado: false,
+          },
+          custoConstrucao: 240000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 500,
+            impostoFixo: 5000,
+            impostoSobreFatu: 0.050000,
+            rent: 3
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 2,
+            lojasM: 0,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Mercado",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+            {
+              nome: "Feira Livre",
+              redCusto: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4,
+              },
+              aumFatu: {
+                nível1: 1,
+                nível2: 2,
+                nível3: 4
+              }
+            },
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+          }
+        },
         {
           nome: "Centro De Pesquisa Energética",
           desc: "Desenvolve novas tecnologias energéticas.",
@@ -17656,7 +22034,7 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 300000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 8000	,
+            faturamentoUnitário: 8000,
             impostoFixo: 330000,
             impostoSobreFatu: 0.050000,
             rent: 3
@@ -17952,159 +22330,7 @@ const CentraldeDadosProvider = ({ children }) => {
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
         },
-        {
-          nome: "Estação De Carregamento",
-          desc: "Fornece carregamento para veículos elétricos.",
-          licençaLiberado: {
-            licença: "Licença De Melhoria Energética",
-            liberado: false,
-          },
-          custoConstrucao: 120000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 2200,
-            impostoFixo: 22000,
-            impostoSobreFatu: 0.10000,
-            rent: 32
-          },
 
-          lojasNecessarias: {
-            terrenos: 1,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Ração",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-
-          recursoDeConstrução: []
-          ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        },
 
         {
           nome: "Usina Termelétrica A Biocombustíveis",
@@ -18552,7 +22778,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Subestação De Energia","Rede De Distribuição Elétrica"]
+          recursoDeConstrução: ["Subestação De Energia", "Rede De Distribuição Elétrica"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -18858,7 +23084,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Subestação De Energia","Rede De Distribuição Elétrica"]
+          recursoDeConstrução: ["Subestação De Energia", "Rede De Distribuição Elétrica"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -19164,7 +23390,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Reator Nuclear Convencional","Subestação De Energia","Rede De Distribuição Elétrica"]
+          recursoDeConstrução: ["Reator Nuclear Convencional", "Subestação De Energia", "Rede De Distribuição Elétrica"]
           ,
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
@@ -19311,7 +23537,7 @@ const CentraldeDadosProvider = ({ children }) => {
     setDados(prevState => {
       const novosDados = JSON.parse(JSON.stringify(prevState)); // cópia profunda
       let ref = novosDados;
-  
+
       for (let i = 0; i < caminho.length - 1; i++) {
         if (!ref[caminho[i]]) {
           console.error(`Caminho inválido em atualizarDadosProf2: ${caminho[i]} está undefined no passo ${i}`);
@@ -19319,13 +23545,13 @@ const CentraldeDadosProvider = ({ children }) => {
         }
         ref = ref[caminho[i]];
       }
-  
+
       ref[caminho[caminho.length - 1]] = novoValor;
-  
+
       return novosDados;
     });
   }
-  
+
   const atualizarDadosProf3 = (caminho, novoValor) => {
     setDados(prevState => {
       const novosDados = JSON.parse(JSON.stringify(prevState)); // cópia profunda
@@ -19362,7 +23588,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
 
   return (
-    <CentraldeDadosContext.Provider value={{ dados, atualizarDados, atualizarDadosProf, atualizarDadosProf2, atualizarDadosProf3,atualizarDadosVariados }}>
+    <CentraldeDadosContext.Provider value={{ dados, atualizarDados, atualizarDadosProf, atualizarDadosProf2, atualizarDadosProf3, atualizarDadosVariados }}>
       {children}
     </CentraldeDadosContext.Provider>
   );
