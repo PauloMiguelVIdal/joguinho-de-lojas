@@ -14,7 +14,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
 
-    dia: 1,
+    dia: 251,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -15465,7 +15465,7 @@ const CentraldeDadosProvider = ({ children }) => {
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 111000,
-            impostoFixo: 720000,
+            impostoFixo: 1200000,
             impostoSobreFatu: 0.10000,
             rent: 32
           },
