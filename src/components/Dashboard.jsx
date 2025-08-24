@@ -19,6 +19,7 @@ import { LicenseModal } from "./licenseModal";
 import { Localizador } from "./localizador";
 import { CarteiraLocalizador } from "./CarteiraLocalizador";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+import patrimônio from "../../public/imagens/patrimônio.png";
 
 import {
   Chart as ChartJS,
@@ -226,6 +227,27 @@ export default function Dashboard() {
 
   const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
 
+  const LiberarLicença = () => {
+    if (economiaSetores.saldo >= licenciaValor) {
+      if (licençaComprada) {
+        return alert("Licença já comprada.");
+      } else {
+        const novoSaldo = economiaSetores.saldo - licenciaValor;
+        atualizarDados('saldo', novoSaldo);
+        atualizarDadosProf2([ativo, 'licençaGlobal', 'comprado'], true);
+        // Liberar licenças específicas
+        arrayLicenseNece.forEach(licenca => {
+          const licençaIndex = dados[ativo].licençasSetor.findIndex(l => l.nome === licenca);
+          if (licençaIndex !== -1) {
+            atualizarDadosProf2([ativo, 'licençasSetor', licençaIndex, 'status'], true);
+          }
+        });
+        // alert("Licença comprada com sucesso!");
+      }
+    } else {
+      alert("Saldo insuficiente para comprar a licença.");
+    }
+  }
 
   const config = {
     type: 'line',
@@ -308,41 +330,40 @@ export default function Dashboard() {
 
 
       {dados.dia >= 250 && (
-        
-      <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col items-center justify-between">
-        <div
-          className={`
+
+        <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col items-center justify-between">
+          <div
+            className={`
           w-[80px] h-[80%] pt-[20px] flex flex-col items-center justify-between shadow-md transition-opacity duration-500
           ${dados.dia > 250 ? "opacity-100" : "opacity-0 pointer-events-none"}
         `}
-        >
-          {setores.map((setor) => (
-            <button
-              key={setor.id}
-              onClick={() => {
-                setAtivo(setor.id)
-              }}
-              className={`
+          >
+            {setores.map((setor) => (
+              <button
+                key={setor.id}
+                onClick={() => {
+                  setAtivo(setor.id)
+                }}
+                className={`
                 w-[60px] h-[60px] rounded-[20px] flex items-center justify-center shadow-md
                 hover:bg-[${setor.cor3}] active:scale-95 hover:scale-[1.05]
                 ${ativo === setor.id ? "ring-1 ring-white scale-[1.1]" : ""} transition
               `}
-              style={{ backgroundColor: setor.cor3 }}
-            >
-              <img src={setor.img} alt={setor.id} className="h-[60%] aspect-square" />
-            </button>
-          ))}
+                style={{ backgroundColor: setor.cor3 }}
+              >
+                <img src={setor.img} alt={setor.id} className="h-[60%] aspect-square" />
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
       )}
 
 
       {/* Dashboard */}
       <div
-  className={`h-full rounded-[0px] items-center justify-center transition-all duration-300 bg-[${setorAtivo.cor2}] ${
-    dados.dia >= 250 ? "w-[calc(100%-100px)]" : "w-[calc(100%)]"
-  }`}
->
+        className={`h-full rounded-[0px] items-center justify-center transition-all duration-300 bg-[${setorAtivo.cor2}] ${dados.dia >= 250 ? "w-[calc(100%-100px)]" : "w-[calc(100%)]"
+          }`}
+      >
         {/* Renderiza o conteúdo baseado no estado da licença */}
         {licençaComprada ? (
           // Container com licença comprada
@@ -395,6 +416,30 @@ export default function Dashboard() {
                     {ativoConvertido(ativo)}
                   </div>
 
+                  <div className="flex gap-2 h-full">
+                    {/* <div
+                      style={{ backgroundColor: setorAtivo.cor3 }}
+                      className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
+                    >
+                      <button
+                        style={{ backgroundColor: setorAtivo.cor3 }}
+                        onClick={() => setLicencaModal(true)}
+                        className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+                      >
+
+                        <img className="w-[70%]" src={patrimônio} />
+                        230302030203
+                      </button>
+                    </div> */}
+                  <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
+                  >
+                      <img src={patrimônio} className="h-[60%] aspect-square ml-[5px]" />
+                      <h1 className="text-white fonteBold text-[15px]">{234234234}</h1>
+                    </div>
+                    {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button> */}
+                  </div>
                   {/* Ícones de Economia */}
                   <div className="flex gap-2 h-full">
                     <button
@@ -409,6 +454,7 @@ export default function Dashboard() {
                       <img className="w-[70%]" src={circularEconomia} />
                     </div>
                   </div>
+
                 </div>
                 {/* {Localizador("Centro De Comércio De Plantações")} */}
                 {/* Container dos cards com scroll interno */}
@@ -435,18 +481,21 @@ export default function Dashboard() {
 
         ) : (
           // Container sem licença comprada
-          <div className="p-4 rounded-[30px] w-[90%] h-[90%] flex flex-col items-center justify-between" style={{ backgroundColor: setorAtivo.cor2 }}>
-            <div className="w-[90%] text-center rounded-[10px]" style={{ backgroundColor: setorAtivo.cor3 }}>
-              <h1 className="text-white text-3xl fonteBold">Licença Global de {ativo} </h1>
-            </div>
-            <p className="text-white p-[40px]">{setorAtivo.descLicença}</p>
-            <div className="flex justify-center gap-[20px] w-full ">
-              <div className="text-white flex items-center justify-around w-[20%] rounded-[10px]" style={{ backgroundColor: setorAtivo.cor1 }}>
-                <img className="w-[20px]" src={DolarImg} />
-                <h1 className="fonteBold">{licenciaValor}</h1>
+          <div className="w-full h-full flex flex-col items-center justify-center p-4">
+
+            <div className="p-4 rounded-[30px] w-[90%] h-[90%] flex flex-col self-center items-center justify-between" style={{ backgroundColor: setorAtivo.cor2 }}>
+              <div className="w-[90%] text-center rounded-[10px]" style={{ backgroundColor: setorAtivo.cor3 }}>
+                <h1 className="text-white text-3xl fonteBold text-[40px]">Licença Global de {ativo} </h1>
               </div>
-              <div className="w-[20%]">
-                <button className="bg-[#350973] text-white fonteBold w-full rounded-[10px] h-[40px]">Comprar</button>
+              <p className="text-white p-[40px]">{setorAtivo.descLicença}</p>
+              <div className="flex justify-center gap-[20px] w-full ">
+                <div className="text-white flex items-center justify-around w-[20%] rounded-[10px]" style={{ backgroundColor: setorAtivo.cor1 }}>
+                  <img className="w-[20px]" src={DolarImg} />
+                  <h1 className="fonteBold">{licenciaValor}</h1>
+                </div>
+                <div className="w-[20%]">
+                  <button onClick={LiberarLicença} className="bg-[#350973] text-white fonteBold w-full rounded-[10px] h-[40px]">Comprar</button>
+                </div>
               </div>
             </div>
           </div>

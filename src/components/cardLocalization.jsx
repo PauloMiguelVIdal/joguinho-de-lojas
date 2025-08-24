@@ -208,27 +208,27 @@ export const CardLocalization = ({ index, setor }) => {
         }
     };
     const [verificadorDeLojasNecessárias, setVerificador] = useState(false)
-const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(true);
+    const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(true);
 
-        useEffect(() => {
-            const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-    
-            const verificarEdificios = (listaEdificios) => {
-                return listaEdificios.some((nomeEdificio) => {
-                    const setor = setoresArr.find((s) => dados[s]?.edificios?.some((ed) => ed.nome === nomeEdificio));
-                    if (!setor) return true;
-    
-                    const index = dados[setor].edificios.findIndex((ed) => ed.nome === nomeEdificio);
-                    return dados[setor].edificios[index]?.quantidade <= 0;
-                });
-            };
-    
-            const faltandoRecurso = verificarEdificios(arrayConstResources || []);
-            const faltandoConstrucao = verificarEdificios(arrayConstNece || []);
-    
-            setVerificadorConstr(faltandoRecurso || faltandoConstrucao);
-        }, [arrayConstResources, arrayConstNece, dados]);
-    
+    useEffect(() => {
+        const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+
+        const verificarEdificios = (listaEdificios) => {
+            return listaEdificios.some((nomeEdificio) => {
+                const setor = setoresArr.find((s) => dados[s]?.edificios?.some((ed) => ed.nome === nomeEdificio));
+                if (!setor) return true;
+
+                const index = dados[setor].edificios.findIndex((ed) => ed.nome === nomeEdificio);
+                return dados[setor].edificios[index]?.quantidade <= 0;
+            });
+        };
+
+        const faltandoRecurso = verificarEdificios(arrayConstResources || []);
+        const faltandoConstrucao = verificarEdificios(arrayConstNece || []);
+
+        setVerificadorConstr(faltandoRecurso || faltandoConstrucao);
+    }, [arrayConstResources, arrayConstNece, dados]);
+
 
     useEffect(() => {
         const quantidadeTerrenos = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
@@ -446,11 +446,11 @@ const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(
     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
     const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
     const fatorEconomico = {
-      "recessão": 0.6,
-      "declinio": 0.85,
-      "estável": 1,
-      "progressiva": 1.1,
-      "aquecida": 1.25,
+        "recessão": 0.6,
+        "declinio": 0.85,
+        "estável": 1,
+        "progressiva": 1.1,
+        "aquecida": 1.25,
     }[economiaSetor];
 
     const valorFatu = dados[setorAtivo].edificios[index].finanças.faturamentoUnitário
@@ -468,88 +468,88 @@ const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(
 
     // Função recursiva para calcular custo total de um recurso
     function calcularCustoRecurso(nomeRecurso, nivel = 1) {
-      console.log("🔍".repeat(nivel), `Verificando recurso: ${nomeRecurso}`);
-    
-      for (const setor of setoresArr) {
-        const edificioEncontrado = dados[setor]?.edificios?.find(e => e.nome === nomeRecurso);
-    
-        if (edificioEncontrado) {
-          console.log("✅".repeat(nivel), `Edifício encontrado: ${edificioEncontrado.nome}, no setor: ${setor}`);
-    
-          const custoConstrucaoRecurso = edificioEncontrado.custoConstrucao || 0;
-          console.log("🏗️".repeat(nivel), `Custo da construção: ${custoConstrucaoRecurso}`);
-    
-          const quantidadeTerrenosNec = edificioEncontrado.lojasNecessarias.terrenos || 0;
-          const quantidadeLojasPNec = edificioEncontrado.lojasNecessarias.lojasP || 0;
-          const quantidadeLojasMNec = edificioEncontrado.lojasNecessarias.lojasM || 0;
-          const quantidadeLojasGNec = edificioEncontrado.lojasNecessarias.lojasG || 0;
-    
-          console.log("📦".repeat(nivel), `Lojas necessárias → Terrenos: ${quantidadeTerrenosNec}, P: ${quantidadeLojasPNec}, M: ${quantidadeLojasMNec}, G: ${quantidadeLojasGNec}`);
-    
-          const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução;
-    
-          const custoTotalLojasP = quantidadeLojasPNec * (
-            dados.lojasP.preçoConstrução +
-            (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-          );
-    
-          const custoTotalLojasM = quantidadeLojasMNec * (
-            dados.lojasM.preçoConstrução +
-            (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-          );
-    
-          const custoTotalLojasG = quantidadeLojasGNec * (
-            dados.lojasG.preçoConstrução +
-            (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-          );
-    
-          console.log("💰".repeat(nivel), `Custo total → Terrenos: ${custoTotalTerrenos}, LojasP: ${custoTotalLojasP}, LojasM: ${custoTotalLojasM}, LojasG: ${custoTotalLojasG}`);
-    
-          // Soma do próprio custo de construção + lojas
-          let custoTotalRecurso = custoConstrucaoRecurso + custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG;
-    
-          // Recursão para os recursos de construção desse edifício
-          if (Array.isArray(edificioEncontrado.recursoDeConstrução) && edificioEncontrado.recursoDeConstrução.length > 0) {
-            console.log("🔁".repeat(nivel), `Iniciando cálculo de recursos de construção para: ${edificioEncontrado.nome}`);
-    
-            edificioEncontrado.recursoDeConstrução.forEach(subRecurso => {
-              const custoSub = calcularCustoRecurso(subRecurso, nivel + 1);
-              console.log("➕".repeat(nivel), `Adicionando custo do sub-recurso ${subRecurso}: ${custoSub}`);
-              custoTotalRecurso += custoSub;
-            });
-          } else {
-            console.log("✅".repeat(nivel), `${edificioEncontrado.nome} não possui recursos adicionais.`);
-          }
-    
-          console.log("📊".repeat(nivel), `Custo total calculado de ${nomeRecurso} = ${custoTotalRecurso}`);
-    
-          return custoTotalRecurso; // retorna o total desse recurso
+        console.log("🔍".repeat(nivel), `Verificando recurso: ${nomeRecurso}`);
+
+        for (const setor of setoresArr) {
+            const edificioEncontrado = dados[setor]?.edificios?.find(e => e.nome === nomeRecurso);
+
+            if (edificioEncontrado) {
+                console.log("✅".repeat(nivel), `Edifício encontrado: ${edificioEncontrado.nome}, no setor: ${setor}`);
+
+                const custoConstrucaoRecurso = edificioEncontrado.custoConstrucao || 0;
+                console.log("🏗️".repeat(nivel), `Custo da construção: ${custoConstrucaoRecurso}`);
+
+                const quantidadeTerrenosNec = edificioEncontrado.lojasNecessarias.terrenos || 0;
+                const quantidadeLojasPNec = edificioEncontrado.lojasNecessarias.lojasP || 0;
+                const quantidadeLojasMNec = edificioEncontrado.lojasNecessarias.lojasM || 0;
+                const quantidadeLojasGNec = edificioEncontrado.lojasNecessarias.lojasG || 0;
+
+                console.log("📦".repeat(nivel), `Lojas necessárias → Terrenos: ${quantidadeTerrenosNec}, P: ${quantidadeLojasPNec}, M: ${quantidadeLojasMNec}, G: ${quantidadeLojasGNec}`);
+
+                const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução;
+
+                const custoTotalLojasP = quantidadeLojasPNec * (
+                    dados.lojasP.preçoConstrução +
+                    (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+                );
+
+                const custoTotalLojasM = quantidadeLojasMNec * (
+                    dados.lojasM.preçoConstrução +
+                    (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+                );
+
+                const custoTotalLojasG = quantidadeLojasGNec * (
+                    dados.lojasG.preçoConstrução +
+                    (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+                );
+
+                console.log("💰".repeat(nivel), `Custo total → Terrenos: ${custoTotalTerrenos}, LojasP: ${custoTotalLojasP}, LojasM: ${custoTotalLojasM}, LojasG: ${custoTotalLojasG}`);
+
+                // Soma do próprio custo de construção + lojas
+                let custoTotalRecurso = custoConstrucaoRecurso + custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG;
+
+                // Recursão para os recursos de construção desse edifício
+                if (Array.isArray(edificioEncontrado.recursoDeConstrução) && edificioEncontrado.recursoDeConstrução.length > 0) {
+                    console.log("🔁".repeat(nivel), `Iniciando cálculo de recursos de construção para: ${edificioEncontrado.nome}`);
+
+                    edificioEncontrado.recursoDeConstrução.forEach(subRecurso => {
+                        const custoSub = calcularCustoRecurso(subRecurso, nivel + 1);
+                        console.log("➕".repeat(nivel), `Adicionando custo do sub-recurso ${subRecurso}: ${custoSub}`);
+                        custoTotalRecurso += custoSub;
+                    });
+                } else {
+                    console.log("✅".repeat(nivel), `${edificioEncontrado.nome} não possui recursos adicionais.`);
+                }
+
+                console.log("📊".repeat(nivel), `Custo total calculado de ${nomeRecurso} = ${custoTotalRecurso}`);
+
+                return custoTotalRecurso; // retorna o total desse recurso
+            }
         }
-      }
-    
-      console.warn("⚠️".repeat(nivel), `Recurso não encontrado: ${nomeRecurso}`);
-      return 0; // Caso não encontrado
+
+        console.warn("⚠️".repeat(nivel), `Recurso não encontrado: ${nomeRecurso}`);
+        return 0; // Caso não encontrado
     }
-    
+
     // Início do cálculo principal com a lista original
     arrayConstResources?.forEach(nomeRecurso => {
-      const custo = calcularCustoRecurso(nomeRecurso);
-      console.log("💼 Custo acumulado do recurso", nomeRecurso, "=", custo);
-      custoRecursos += custo;
+        const custo = calcularCustoRecurso(nomeRecurso);
+        console.log("💼 Custo acumulado do recurso", nomeRecurso, "=", custo);
+        custoRecursos += custo;
     });
-    
+
     console.log("🔚 Custo total acumulado de todos os recursos:", custoRecursos);
-    
+
 
     let fatuMensal = valorFatuFinal * 30 * fatorEconomico
     let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
     // console.log("custoRecursos", custoRecursos)
     // console.log("custo de lojas", CustoTotalSomadoLojas)
     // console.log("custo de construção", custoConstrução)
-        // console.log("custo total", custoRecursos + CustoTotalSomadoLojas + custoConstrução)
-    
-        const valorFinalMês = (((fatuMensal) - (valorImpostoSobreFatu)) - valorImpostoFixoFinal)
-        const rentabilidade = (valorFinalMês / (CustoTotalSomadoLojas + custoRecursos + custoConstrução)) * 100
+    // console.log("custo total", custoRecursos + CustoTotalSomadoLojas + custoConstrução)
+
+    const valorFinalMês = (((fatuMensal) - (valorImpostoSobreFatu)) - valorImpostoFixoFinal)
+    const rentabilidade = (valorFinalMês / (CustoTotalSomadoLojas + custoRecursos + custoConstrução)) * 100
 
 
 
@@ -1005,7 +1005,7 @@ const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(
                                         <img className="h-[70%] aspect-square" src={constNece} onClick={() => { handleMouseEnter(), handleShow('constNece'), handleFlip() }}
                                             alt="" />
                                         <div className="absolute bottom-[-2px] right-[-2px]">
-                                        {verificadorDeConstruçõesNecessárias === true &&
+                                            {verificadorDeConstruçõesNecessárias === true &&
                                                 <span className="relative flex size-2">
                                                     <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFFFFF] opacity-75"></span>
                                                     <span className="relative inline-flex size-2 rounded-full bg-[#FFFFFF]"></span>
@@ -1055,6 +1055,45 @@ const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(
                             </div >
 
                         </div>
+                        {/* <div className="flex  justify-between items-center h-[15%] w-full">
+                            <div className="w-full flex h-full flex justify-between items-center">
+                                <div className="w-[60%] h-[80%] rounded-[5px] ">
+                                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between  h-full">
+                                        <div className="flex items-center justify-center h-full drop-shadow-2xl">
+                                            <img src={DolarImg} className="h-[60%] ml-[2px] " />
+                                            <h1 className=" text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário)}</h1>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <button
+                                    // onClick={comprarCard}
+                                    style={{
+                                        "--cor4": setorInfo.cor4,
+                                        "--cor1": setorInfo.cor1,
+                                    }}
+                                    className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9] rounded-[20px] w-[full] fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9] hover:from-[--cor4] duration-300 ease-in-out cursor-pointer`}
+                                >
+                                    Vender
+                                </button>
+
+
+                            </div >
+
+                        </div> */}
+                        {/* <div className="flex items-center justify-center w-[90%] h-[10%] drop-shadow-md">
+                            <button
+                                // onClick={comprarCard}
+                                style={{
+                                    "--cor4": setorInfo.cor4,
+                                    "--cor1": setorInfo.cor1,
+                                }}
+                                className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9] rounded-[20px] w-[50%] fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9] hover:from-[--cor4] duration-300 ease-in-out cursor-pointer`}
+                            >
+                                Vender
+                            </button>
+                        </div> */}
 
                     </div>
                 </div>

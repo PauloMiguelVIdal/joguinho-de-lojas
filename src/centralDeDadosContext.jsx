@@ -212,7 +212,7 @@ const CentraldeDadosProvider = ({ children }) => {
         estadoAtual: "estável"
       },
       licençaGlobal: {
-        comprado: true,
+        comprado: false,
         valor: 20000
       },
       licençasSetor: [
