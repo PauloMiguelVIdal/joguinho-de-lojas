@@ -7301,7 +7301,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Engenharia Mecânica Avançada",
         desc: "Habilita a produção de motores e veículos aeroespaciais/navais de alta complexidade tecnológica.",
         valor: 7000,
-        edifíciosLiberados: ["Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves", "Fábrica De Návios"],
+        edifíciosLiberados: ["Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves", "Estaleiro"],
         status: false
       },
       {
@@ -13109,7 +13109,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Fábrica De Návios",
+          nome: "Estaleiro",
           desc: "Constrói navios e embarcações de grande porte.",
           licençaLiberado: {
             licença: "Licença De Engenharia Mecânica Avançada",
@@ -13289,7 +13289,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Varejo",
         desc: "Habilita estabelecimentos de conveniência e postos de combustível, importantes para o abastecimento local e mobilidade urbana.",
         valor: 7000,
-        edifíciosLiberados: ["Loja De Conveniência", "Posto De Gasolina"],
+        edifíciosLiberados: ["Loja De Conveniência", "Posto De Combustíveis"],
         status: false
       },
       {
@@ -14716,7 +14716,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Posto De Gasolina",
+          nome: "Posto De Combustíveis",
           desc: "Vende combustíveis e serviços para veículos automotivos.",
           licençaLiberado: {
             licença: "Licença De Varejo",
@@ -16861,7 +16861,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Loja De Informática",
            desc: "Oferece computadores, notebooks, peças de hardware e periféricos voltados para o público em geral e profissionais de tecnologia.",
           licençaLiberado: {
-            licença: "Licença De Comércio De Tecnologia",
+            licença: "Licença De Comércio De Tecnologiac",
             liberado: false,
           },
           custoConstrucao: 20000,
@@ -21088,7 +21088,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Melhoria Energética",
         desc: "Autoriza centros de pesquisa e desenvolvimento de tecnologias para armazenamento e eficiência energética, incluindo estações de carregamento veicular.",
         valor: 7000,
-        edifíciosLiberados: ["Centro De Pesquisa Energética", "Centro De Baterias Recicláveis", "Centro de Pesquisa Em Energias Renováveis"],
+        edifíciosLiberados: ["Centro De Pesquisa Energética", "Centro De Reciclagem De Baterias", "Centro de Pesquisa Em Energias Renováveis"],
         status: false
       },
       {
@@ -22797,7 +22797,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Centro De Baterias Recicláveis",
+          nome: "Centro De Reciclagem De Baterias",
           desc: "Recicla baterias para produção sustentável.",
           licençaLiberado: {
             licença: "Licença De Melhoria Energética",
