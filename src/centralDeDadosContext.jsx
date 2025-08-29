@@ -292,215 +292,332 @@ const CentraldeDadosProvider = ({ children }) => {
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           ForneceMelhoraEficiencia: [
             {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
+              "nome": "Fábrica De Pães",
+              "redCusto": {
+                "nível1": 3,
+                "nível2": 4,
+                "nível3": 12
               },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               }
             },
             {
-              nome: "Feira",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
+              "nome": "Restaurante",
+              "redCusto": {
+                "nível1": 1,
+                "nível2": 1,
+                "nível3": 3
               },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               }
             },
             {
-              nome: "Fábrica De Embalagem",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
+              "nome": "Cafeteria",
+              "redCusto": {
+                "nível1": 3,
+                "nível2": 4,
+                "nível3": 10
               },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               }
             },
             {
-              nome: "Padaria",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
+              "nome": "Petshop",
+              "redCusto": {
+                "nível1": 8,
+                "nível2": 12,
+                "nível3": 25
               },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               }
             },
             {
-              nome: "Fábrica de Rações",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
+              "nome": "Fábrica De Rações",
+              "redCusto": {
+                "nível1": 2,
+                "nível2": 3,
+                "nível3": 7
               },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               }
             },
             {
-              nome: "Refinaria de Biocombustíveis",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
+              "nome": "Refinaria De Biocombustíveis",
+              "redCusto": {
+                "nível1": 1,
+                "nível2": 1,
+                "nível3": 1
               },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               }
             },
             {
-              nome: "Usina de Biomassa",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
+              "nome": "Centro De Coleta De Biomassa",
+              "redCusto": {
+                "nível1": 2,
+                "nível2": 3,
+                "nível3": 3
               },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               }
             },
             {
-              nome: "Restaurante",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
+              "nome": "Feira",
+              "redCusto": {
+                "nível1": 1,
+                "nível2": 2,
+                "nível3": 4
               },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               }
             },
             {
-              nome: "Redes de Fast-Food",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
+              "nome": "Depósito De Resíduos Orgânicos",
+              "redCusto": {
+                "nível1": 2,
+                "nível2": 3,
+                "nível3": 4
               },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               }
             },
             {
-              nome: "Petshop",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
+              "nome": "Fábrica Textil",
+              "redCusto": {
+                "nível1": 1,
+                "nível2": 2,
+                "nível3": 3
               },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               }
             },
+            {
+              "nome": "Fábrica De Bebidas",
+              "redCusto": {
+                "nível1": 5,
+                "nível2": 7,
+                "nível3": 19
+              },
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
+              }
+            },
+            {
+              "nome": "Biofábrica",
+              "redCusto": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 1
+              },
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
+              }
+            },
+            {
+              "nome": "Mercado",
+              "redCusto": {
+                "nível1": 1,
+                "nível2": 1,
+                "nível3": 3
+              },
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
+              }
+            }
           ],
-          RecebeMelhoraEficiencia: [
+          "RecebeMelhoraEficiencia": [
             {
-              nome: "Fábrica De Fertilizante",
-              redCusto: {
-                nível1: 0,
-                nível2: 1,
-                nível3: 2,
+              "nome": "Fábrica De Fertilizantes",
+              "redCusto": {
+                "nível1": 1,
+                "nível2": 3,
+                "nível3": 6
               },
-              aumFatu: {
-                nível1: 2,
-                nível2: 10,
-                nível3: 20,
-              },
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
+              }
             },
             {
-              nome: "Fazenda Administrativa",
-              redCusto: {
-                nível1: 1,
-                nível2: 1,
-                nível3: 3,
+              "nome": "Fazenda Administrativa",
+              "redCusto": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               },
-              aumFatu: {
-                nível1: 2,
-                nível2: 10,
-                nível3: 20,
-              },
+              "aumFatu": {
+                "nível1": 2,
+                "nível2": 5,
+                "nível3": 9
+              }
             },
             {
-              nome: "Cooperativa Agrícola",
-              redCusto: {
-                nível1: 1,
-                nível2: 1,
-                nível3: 4,
+              "nome": "Cooperativas Agrícolas",
+              "redCusto": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               },
-              aumFatu: {
-                nível1: 2,
-                nível2: 12,
-                nível3: 30,
-              },
+              "aumFatu": {
+                "nível1": 3,
+                "nível2": 7,
+                "nível3": 15
+              }
             },
             {
-              nome: "Silo",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 2,
+              "nome": "Silo",
+              "redCusto": {
+                "nível1": 1,
+                "nível2": 1,
+                "nível3": 2
               },
-              aumFatu: {
-                nível1: 2,
-                nível2: 10,
-                nível3: 10,
-              },
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
+              }
             },
             {
-              nome: "Armazém",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 2,
+              "nome": "Armazém",
+              "redCusto": {
+                "nível1": 1,
+                "nível2": 2,
+                "nível3": 3
               },
-              aumFatu: {
-                nível1: 3,
-                nível2: 8,
-                nível3: 10,
-              },
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
+              }
             },
             {
-              nome: "Centro De Comércio De Plantações",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 7,
+              "nome": "Centro De Comércio De Plantações",
+              "redCusto": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
               },
-              aumFatu: {
-                nível1: 5,
-                nível2: 15,
-                nível3: 40,
-              },
+              "aumFatu": {
+                "nível1": 5,
+                "nível2": 15,
+                "nível3": 40
+              }
             },
+            {
+              "nome": "Depósito De Resíduos Orgânicos",
+              "redCusto": {
+                "nível1": 1,
+                "nível2": 2,
+                "nível3": 4
+              },
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
+              }
+            },
+            {
+              "nome": "Instituto De Tecnologia Alimentar",
+              "redCusto": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
+              },
+              "aumFatu": {
+                "nível1": 5,
+                "nível2": 17,
+                "nível3": 29
+              }
+            },
+            {
+              "nome": "Centro De Pesquisa Agrícola",
+              "redCusto": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
+              },
+              "aumFatu": {
+                "nível1": 2,
+                "nível2": 8,
+                "nível3": 12
+              }
+            },
+            {
+              "nome": "Instituto De Biotecnologia",
+              "redCusto": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
+              },
+              "aumFatu": {
+                "nível1": 3,
+                "nível2": 13,
+                "nível3": 25
+              }
+            },
+            {
+              "nome": "Terraplanagem e Pavimentação",
+              "redCusto": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 1
+              },
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
+              }
+            },
+            {
+              "nome": "Armazém Logístico",
+              "redCusto": {
+                "nível1": 1,
+                "nível2": 2,
+                "nível3": 4
+              },
+              "aumFatu": {
+                "nível1": 0,
+                "nível2": 0,
+                "nível3": 0
+              }
+            }
           ],
 
 
@@ -556,150 +673,122 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
+              "nome": "Fábrica De Pães",
+              "redCusto": { "nível1": 1, "nível2": 1, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Feira",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
+              "nome": "Restaurante",
+              "redCusto": { "nível1": 1, "nível2": 1, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Restaurante",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
+              "nome": "Redes De Fast-Food",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 5 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Redes de Fast-Food",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
+              "nome": "Fábrica De Rações",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 6 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Petshop",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
+              "nome": "Cafeteria",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 2 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
+            {
+              "nome": "Centro De Coleta De Biomassa",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Feira",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 6 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Mercado",
+              "redCusto": { "nível1": 1, "nível2": 1, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica Textil",
+              "redCusto": { "nível1": 1, "nível2": 1, "nível3": 2 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Biofábrica",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Depósito De Resíduos Orgânicos",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 4 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            }
           ],
-          RecebeMelhoraEficiencia: [
+          "RecebeMelhoraEficiencia": [
             {
-              nome: "Fábrica De Fertilizante",
-              redCusto: {
-                nível1: 0,
-                nível2: 1,
-                nível3: 2,
-              },
-              aumFatu: {
-                nível1: 2,
-                nível2: 10,
-                nível3: 20,
-              },
+              "nome": "Fábrica De Fertilizantes",
+              "redCusto": { "nível1": 1, "nível2": 3, "nível3": 6 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Fazenda Administrativa",
-              redCusto: {
-                nível1: 1,
-                nível2: 1,
-                nível3: 3,
-              },
-              aumFatu: {
-                nível1: 2,
-                nível2: 10,
-                nível3: 20,
-              },
+              "nome": "Fazenda Administrativa",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 2, "nível2": 5, "nível3": 9 }
             },
             {
-              nome: "Cooperativa Agrícola",
-              redCusto: {
-                nível1: 1,
-                nível2: 1,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 2,
-                nível2: 12,
-                nível3: 30,
-              },
+              "nome": "Cooperativas Agrícolas",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 3, "nível2": 7, "nível3": 15 }
             },
             {
-              nome: "Silo",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 2,
-              },
-              aumFatu: {
-                nível1: 2,
-                nível2: 10,
-                nível3: 10,
-              },
+              "nome": "Silo",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Armazém",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 2,
-              },
-              aumFatu: {
-                nível1: 3,
-                nível2: 8,
-                nível3: 10,
-              },
+              "nome": "Armazém",
+              "redCusto": { "nível1": 1, "nível2": 1, "nível3": 2 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Centro De Comércio De Plantações",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 7,
-              },
-              aumFatu: {
-                nível1: 5,
-                nível2: 15,
-                nível3: 40,
-              },
+              "nome": "Centro De Comércio De Plantações",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 5, "nível2": 18, "nível3": 40 }
             },
+            {
+              "nome": "Depósito De Resíduos Orgânicos",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 4 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Instituto De Tecnologia Alimentar",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 4, "nível2": 14, "nível3": 29 }
+            },
+            {
+              "nome": "Centro De Pesquisa Agrícola",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 2, "nível2": 8, "nível3": 12 }
+            },
+            {
+              "nome": "Instituto De Biotecnologia",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 4, "nível2": 13, "nível3": 25 }
+            },
+            {
+              "nome": "Terraplanagem e Pavimentação",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Armazém Logístico",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 4 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            }
           ],
 
           recursoDeConstrução: []
@@ -749,96 +838,112 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
+              "nome": "Mercado",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Feira",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
+              "nome": "Feira",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 6 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Fábrica de Bebidas",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
+              "nome": "Restaurante",
+              "redCusto": { "nível1": 1, "nível2": 1, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Refinaria de Biocombustíveis",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
+              "nome": "Depósito De Resíduos Orgânicos",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Usina de Biomassa",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
+              "nome": "Fábrica De Bebidas",
+              "redCusto": { "nível1": 3, "nível2": 4, "nível3": 5 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Restaurante",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
+              "nome": "Centro De Coleta De Biomassa",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 4 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              nome: "Redes de Fast-Food",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
+              "nome": "Refinaria De Biocombustíveis",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
+            {
+              "nome": "Fábrica De Rações",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 6 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Biofábrica",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            }
+          ],
+          "RecebeMelhoraEficiencia": [
+            {
+              "nome": "Fábrica De Fertilizantes",
+              "redCusto": { "nível1": 1, "nível2": 3, "nível3": 6 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fazenda Administrativa",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 2, "nível2": 5, "nível3": 9 }
+            },
+            {
+              "nome": "Cooperativas Agrícolas",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 3, "nível2": 7, "nível3": 15 }
+            },
+            {
+              "nome": "Silo",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Armazém",
+              "redCusto": { "nível1": 1, "nível2": 1, "nível3": 2 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Comércio De Plantações",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 5, "nível2": 12, "nível3": 40 }
+            },
+            {
+              "nome": "Depósito De Resíduos Orgânicos",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 4 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Instituto De Tecnologia Alimentar",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 2, "nível2": 14, "nível3": 16 }
+            },
+            {
+              "nome": "Centro De Pesquisa Agrícola",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 4, "nível2": 14, "nível3": 25 }
+            },
+            {
+              "nome": "Instituto De Biotecnologia",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 4, "nível2": 13, "nível3": 25 }
+            },
+            {
+              "nome": "Terraplanagem e Pavimentação",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Armazém Logístico",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 4 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            }
           ],
 
           RecebeMelhoraEficiencia: [
