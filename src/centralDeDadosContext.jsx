@@ -10,6 +10,7 @@ const CentraldeDadosProvider = ({ children }) => {
       estadoModal: true,
       nomeEmpresa: ""
     },
+    edObjetivos : [],
     setorAtivo: "agricultura",
     fimGame: false,
     nomeEmpresa: "",
