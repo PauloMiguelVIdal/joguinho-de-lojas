@@ -13,15 +13,32 @@ import DolarImg from "../imagens/simbolo-do-dolar.png"
 import licença from "../imagens/licença.png"
 import { Localizador } from "./localizador";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-
+import {useSetor} from "./Redirector"
 
 export const LicenseModal = ({ setor,nomeLicença,index }) => {
     const { dados,atualizarDados,atualizarDadosProf } = useContext(CentraldeDadosContext);
     const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
+   const { setorAtivo, dadosSetor } = useSetor(); 
+
+   const setorSelecionado = (setorAtivo) => {
+    switch (setorAtivo) {
+      case "agricultura": return "dadosAgricultura";
+      case "tecnologia": return "dadosTecnologia";
+      case "industria": return "dadosIndustria";
+      case "comercio": return "dadosComercio";
+      case "imobiliario": return "dadosImobiliario";
+      case "energia": return "dadosEnergia";
+      case "carteira": return "dadosCarteira";
+    }
+  }
+
+const setorDados = dadosSetor; // pegando os dados completos do setor
+    const baseSetor = setorDados[setorSelecionado(setorAtivo)][setorAtivo]
+    const economiaSetor = baseSetor.economiaSetor.estadoAtual
 
 
-    const setorAtivo = setor
-
+  
+console.log(setorAtivo)
     const formatarNumero = (num) => {
         if (num >= 1e12) return (num / 1e12).toFixed(1).replace('.0', '') + 'T'; // Trilhões
         if (num >= 1e9) return (num / 1e9).toFixed(1).replace('.0', '') + 'B';   // Bilhões
@@ -104,11 +121,9 @@ export const LicenseModal = ({ setor,nomeLicença,index }) => {
                 <div className="w-full h-[85%] flex ">
 
                     <div style={{ background: `linear-gradient(20deg,${setorInfo.cor1} 0%, ${setorInfo.cor3} 20%, ${setorInfo.cor3} 40%, ${setorInfo.cor4} 60%,${setorInfo.cor2}  100%)` }} className="flex h-full w-[80%] justify-around rounded-bl-[20px] items-center ">
-                        {dados[setorAtivo].licençasSetor[index].edifíciosLiberados
+                        {baseSetor.licençasSetor[index].edifíciosLiberados
                            .map((e) => (
-                            <React.Fragment key={e}>
-                                {Localizador(e)}
-                            </React.Fragment>
+                            <Localizador key={e} edificioProcurado={e} />
                         ))
                         }
                     </div>
@@ -118,11 +133,11 @@ export const LicenseModal = ({ setor,nomeLicença,index }) => {
                         }}
                         className="h-full w-[20%] flex flex-col justify-around items-center rounded-br-[20px]">
                         <div style={{ backgroundColor: setorInfo.cor3 }} className="h-[65%] w-[90%] text-white p-[10px] fonteBold rounded-[20px]">
-                            {dados[setorAtivo].licençasSetor[index].desc}
+                            {baseSetor.licençasSetor[index].desc}
                         </div>
                         <div style={{ backgroundColor: setorInfo.cor3 }} className="flex items-center justify-between p-[5px] rounded-[20px] h-[10%] w-[90%] drop-shadow-2xl">
                             <img src={DolarImg} className="h-[100%] " />
-                            <h1 className="text-white fonteBold text-[15px] mr-[2px]">{formatarNumero(dados[setorAtivo].licençasSetor[index].valor)}</h1>
+                            <h1 className="text-white fonteBold text-[15px] mr-[2px]">{formatarNumero(baseSetor.licençasSetor[index].valor)}</h1>
                         </div>
                         <div className="flex items-center justify-center w-[90%] h-[13%] drop-shadow-md">
                             <button onClick={comprarLicença} style={{ "--cor4": setorInfo.cor4, "--cor1": setorInfo.cor1, }} className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9]   rounded-[20px] w-full fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9]  hover:from-[--cor4]  duration-300 ease-in-out  cursor-pointer`}> Comprar</button>

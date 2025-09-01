@@ -110,7 +110,7 @@ export default function Sorteio() {
         atualizarDados("eventoAtual", {
             ...dados.eventoAtual,
             eventoAtivo: true,
-            title: `${selecionarLoja} terão ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento} no período de ${selecionarPeriodo} dias`,
+            title: `${selecionarLoja} terão ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento}. No período de ${selecionarPeriodo} dias, não terá novos eventos.`,
             lojaSelecionada: selecionarLoja,
             situacaoSelecionada: resultadoBase,
             porcentagemSelecionada: selecionarPorcentagem,

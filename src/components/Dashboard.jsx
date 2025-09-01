@@ -21,7 +21,7 @@ import { CarteiraLocalizador } from "./CarteiraLocalizador";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import patrimônio from "../../public/imagens/patrimônio.png";
 import impostoAnual from "../../public/imagens/impostoAnual.png";
-
+import {useSetor} from "./Redirector"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -49,7 +49,9 @@ export default function Dashboard() {
   const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
 
   const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
-  const [ativo, setAtivo] = useState("grafico");
+  const { setorAtivo, dadosSetor } = useSetor();
+
+  const [ativo, setAtivo] = useState("Agricultura");
 
   // const economiaSetor = dados[ativo].economiaSetor.estadoAtual
   // console.log(economiaSetor)
@@ -66,6 +68,22 @@ export default function Dashboard() {
       case "carteira": return "Carteira";
     }
   }
+
+
+  const setorSelecionado = (setorAtivo) => {
+    switch (setorAtivo) {
+      case "agricultura": return "dadosAgricultura";
+      case "tecnologia": return "dadosTecnologia";
+      case "industria": return "dadosIndustria";
+      case "comercio": return "dadosComercio";
+      case "imobiliario": return "dadosImobiliario";
+      case "energia": return "dadosEnergia";
+      case "carteira": return "dadosCarteira";
+    }
+  }
+
+
+
 
   const formatarNumero = (num) => {
     if (num >= 1e12) return (num / 1e12).toFixed(1).replace('.0', '') + 'T'; // Trilhões
@@ -175,26 +193,35 @@ export default function Dashboard() {
 
 
   // Pegando o setor ativo
-  const setorAtivo = setores.find((setor) => setor.id === ativo);
+  // const setorAtivo = setores.find((setor) => setor.id === ativo);
   const setorInfo = setores.find(setor => setor.id === setorAtivo);
 
-
-  if (ativo) {
-    const atualizarSetor = (novoSetor) =>
-      dados.setorAtivo = novoSetor
-    atualizarSetor(ativo)
-  }
+  // if (ativo) {
+  //   const atualizarSetor = (novoSetor) =>
+  //     dadosSetor = novoSetor
+  //   atualizarSetor(ativo)
+  // } acredito que não ira usar mais pois vai direto
 
 
 
 
   // Definindo as cores dinâmicas
-  const corClasse = setorAtivo ? setorAtivo.corClasse : "bg-[#350973]";
+  const corClasse = setorAtivo ? setorInfo.corClasse : "bg-[#350973]";
+  
 
+  
   // Pegando os dados do setor ativo
-  const setorDados = dados[ativo]; // Dados do setor ativo
-  const licençaComprada = setorDados.licençaGlobal.comprado;
-  const licenciaValor = setorDados.licençaGlobal.valor;
+  const setorDados = dadosSetor; // pegando os dados completos do setor
+  const baseSetor = setorDados[setorSelecionado(setorAtivo)][setorAtivo]
+  const licençaComprada = baseSetor?.licençaGlobal?.comprado; // opcional chaining
+  const licenciaValor = baseSetor?.licençaGlobal?.valor;
+
+  console.log("🔍 setorAtivo:", setorAtivo);
+  console.log("📊 setorDados:", setorDados);
+  // console.log(setorDados.dadosAgricultura.agricultura.edificios[0].nome)
+  console.log(setorDados[setorSelecionado(setorAtivo)][setorAtivo])
+  console.log("✅ licençaComprada:", licençaComprada);
+  console.log("💰 licenciaValor:", licenciaValor);
 
   // Dados do gráfico
   const dadosDia = dados.terrenos.arrayFatu.map((_, index) => index + 1);
@@ -309,7 +336,7 @@ export default function Dashboard() {
             <h1 className="text-center text-white text-[40px] fonteBold">Licenças - {ativo}</h1>
           </div >
           <div className="overflow-y-visible overflow-x-hidden w-full scrollbar-custom ">
-            {dados[ativo].licençasSetor.map((e, index) =>
+            {baseSetor.licençasSetor.map((e, index) =>
 
               <LicenseModal
                 key={index}
@@ -501,7 +528,7 @@ export default function Dashboard() {
                       <img className="w-[70%]" src={licença} />
                     </button>
                     {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button> */}
-                    <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(economiaSetores[ativo].economiaSetor.estadoAtual)}`}>
+                    <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(economiaSetores[setorAtivo].economiaSetor.estadoAtual)}`}>
                       <img className="w-[70%]" src={circularEconomia} />
                     </div>
                   </div>
@@ -514,7 +541,7 @@ export default function Dashboard() {
 
                 <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4 scrollbar-custom h-[calc(100%-50px)] rounded-[10px]">
                   <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
-                    {dados[ativo].edificios.map((_, index) => (
+                    {baseSetor.edificios.map((_, index) => (
                       <CardModal
                         key={index} index={index}
                       />
@@ -536,7 +563,7 @@ export default function Dashboard() {
 
             <div className="p-4 rounded-[30px] w-[90%] h-[90%] flex flex-col self-center items-center justify-between" style={{ backgroundColor: setorAtivo.cor2 }}>
               <div className="w-[90%] text-center rounded-[10px]" style={{ backgroundColor: setorAtivo.cor3 }}>
-                <h1 className="text-white text-3xl fonteBold text-[40px]">Licença Global de {ativo} </h1>
+                <h1 className="text-white text-3xl fonteBold text-[40px]">Licença Global de {setorAtivo} </h1>
               </div>
               <p className="text-white p-[40px]">{setorAtivo.descLicença}</p>
               <div className="flex justify-center gap-[20px] w-full ">

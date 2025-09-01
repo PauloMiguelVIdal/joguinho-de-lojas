@@ -26,18 +26,34 @@ import fechar from "../imagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
 import { Localizador } from "./localizador";
 import { CardLocalization } from "./cardLocalization";
+import {useSetor} from "./Redirector"
 
 
 export const CardModal = ({ index }) => {
     const { economiaSetores, setEconomiaSetores,atualizarEco } = useContext(DadosEconomyGlobalContext);
-
+    const { setorAtivo, dadosSetor } = useSetor(); 
+    
+    const setorSelecionado = (setorAtivo) => {
+        switch (setorAtivo) {
+          case "agricultura": return "dadosAgricultura";
+          case "tecnologia": return "dadosTecnologia";
+          case "industria": return "dadosIndustria";
+          case "comercio": return "dadosComercio";
+          case "imobiliario": return "dadosImobiliario";
+          case "energia": return "dadosEnergia";
+          case "carteira": return "dadosCarteira";
+        }
+      }
+    const setorDados = dadosSetor; // pegando os dados completos do setor
+    const baseSetor = setorDados[setorSelecionado(setorAtivo)][setorAtivo]
     const { dados, atualizarDados, atualizarDadosProf2, atualizarDadosProf3, atualizarDadosProf } = useContext(CentraldeDadosContext);
-    const setorAtivo = dados.setorAtivo;
-    const economiaSetor = economiaSetores[setorAtivo].economiaSetor.estadoAtual
+    const economiaSetor = baseSetor.economiaSetor.estadoAtual
+    //   console.log(setorDados.dadosAgricultura.agricultura.edificios[0].nome)
+
     // useEffect(() => {
-    //     const economiaSetor = dados[setorAtivo].economiaSetor.estadoAtual
+    //     const economiaSetor = dadosSetor.economiaSetor.estadoAtual
     //     // console.log(economiaSetor)
-    // }, [dados[setorAtivo].economiaSetor])
+    // }, [dadosSetor.economiaSetor])
 
     const setores = [
         { id: "agricultura", cor3: "#0C9123", corClasse: "bg-[#4CAF50]", img: agricultura, descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50", },
@@ -61,7 +77,7 @@ export const CardModal = ({ index }) => {
 
     const contabilidadeDeFalta = (edificio) => {
         const qtdAtual = dados[edificio].quantidade
-        const qtdNecessaria = dados[setorAtivo].edificios[index].lojasNecessarias[edificio]
+        const qtdNecessaria = baseSetor.edificios[index].lojasNecessarias[edificio]
 
         const qtdFalta = qtdAtual >= qtdNecessaria ? 0 : qtdNecessaria - qtdAtual;
         const custoTotalConst = edificio === "terrenos" ? dados[edificio].preçoConstrução : edificio === "lojasP" ? dados[edificio].preçoConstrução + dados.terrenos.preçoConstrução : edificio === "lojasM" ? dados[edificio].preçoConstrução + 2 * dados.terrenos.preçoConstrução : edificio === "lojasG" ? dados[edificio].preçoConstrução + 3 * dados.terrenos.preçoConstrução : "lascou"
@@ -70,6 +86,10 @@ export const CardModal = ({ index }) => {
         return qtdFalta * custoTotalConst
 
     }
+
+
+    
+
 
     const mapaEdificioParaSetor = {
         // Agricultura
@@ -241,7 +261,7 @@ export const CardModal = ({ index }) => {
     //     verificadorDeConstruçõesNecessárias &&
     //     verificadorDeLojasNecessárias &&
     //     verificadorDeRecursosNecessários &&
-    //     dados.saldo > dados[setorAtivo].edificios[index].custoConstrucao
+    //     dados.saldo > dadosSetor.edificios[index].custoConstrucao
     // );
 
 
@@ -250,7 +270,7 @@ export const CardModal = ({ index }) => {
     // console.log("verificadorDeLojasNecessárias", verificadorDeLojasNecessárias);
     // console.log("verificadorDeRecursosNecessários", verificadorDeRecursosNecessários);
     // console.log("Saldo:", dados.saldo);
-    // console.log("Custo:", dados[setorAtivo].edificios[index].custoConstrucao);
+    // console.log("Custo:", dadosSetor.edificios[index].custoConstrucao);
     // console.log("✅ Pode Comprar?", podeComprar);
     // const [verificadorDeRecursosNecessários, setVerificadorRec] = useState(true)
 
@@ -264,10 +284,10 @@ export const CardModal = ({ index }) => {
 
     // console.log(valorEconomiaSetor)
     useEffect(() => {
-        const quantidadeTerrenos = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
-        const quantidadeLojasP = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
-        const quantidadeLojasM = dados[setorAtivo].edificios[index].lojasNecessarias.lojasM
-        const quantidadeLojasG = dados[setorAtivo].edificios[index].lojasNecessarias.lojasG
+        const quantidadeTerrenos = baseSetor.edificios[index].lojasNecessarias.terrenos
+        const quantidadeLojasP = baseSetor.edificios[index].lojasNecessarias.lojasP
+        const quantidadeLojasM = baseSetor.edificios[index].lojasNecessarias.lojasM
+        const quantidadeLojasG = baseSetor.edificios[index].lojasNecessarias.lojasG
 
         const quantidadeTerrenosAtual = dados.terrenos.quantidade
         const quantidadeLojasPAtual = dados.lojasP.quantidade
@@ -287,9 +307,9 @@ export const CardModal = ({ index }) => {
 
 
     useEffect(() => {
-        const edificio = "lojasP";
+        const edificio = "lojasP"; // isso está errado
         const qtdAtual = dados[edificio]?.quantidade;
-        const qtdNecessaria = dados[setorAtivo]?.edificios?.[index]?.lojasNecessarias?.[edificio];
+        const qtdNecessaria = dadosSetor?.edificios?.[index]?.lojasNecessarias?.[edificio];
 
         const edificioSuficiente =
             edificio === "terrenos" ? "terrenosSuficientes" :
@@ -302,20 +322,20 @@ export const CardModal = ({ index }) => {
 
         if (qtdAtual >= qtdNecessaria) {
             const novoEdificio = {
-                ...dados[setorAtivo].edificios[index],
+                ...dadosSetor.edificios[index],
                 lojasNecessarias: {
-                    ...dados[setorAtivo].edificios[index].lojasNecessarias,
+                    ...dadosSetor.edificios[index].lojasNecessarias,
                     [edificioSuficiente]: true
                 }
             };
 
-            const novaLista = [...dados[setorAtivo].edificios];
+            const novaLista = [...dadosSetor.edificios];
             novaLista[index] = novoEdificio;
 
             atualizarDados({
                 ...dados,
                 [setorAtivo]: {
-                    ...dados[setorAtivo],
+                    ...dadosSetor,
                     edificios: novaLista
                 }
             });
@@ -327,7 +347,7 @@ export const CardModal = ({ index }) => {
 
     const [caixaTexto, setCaixaTexto] = useState(false)
 
-    const edificio = { nome: dados[setorAtivo].edificios[index].nome, recursoDeConstrução: dados[setorAtivo].edificios[index].recursoDeConstrução, construNece: dados[setorAtivo].edificios[index].construçõesNecessárias };
+    const edificio = { nome: baseSetor.edificios[index].nome, recursoDeConstrução: baseSetor.edificios[index].recursoDeConstrução, construNece: baseSetor.edificios[index].construçõesNecessárias };
     const arrayConstResources = edificio.recursoDeConstrução
     const arrayConstNece = edificio.construNece
 
@@ -431,15 +451,15 @@ export const CardModal = ({ index }) => {
     ];
 
     const setorInfo = setores.find(setor => setor.id === setorAtivo);
-    // const nomeAtivo = dados[setorAtivo].edificios[index].nome
-    // const quantidadeAtivo = dados[setorAtivo].edificios[index].quantidade;
+    // const nomeAtivo = dadosSetor.edificios[index].nome
+    // const quantidadeAtivo = dadosSetor.edificios[index].quantidade;
 
 
 
 
 
-    const quantidadeMinimaPowerUpNv2 = dados[setorAtivo].edificios[index].powerUp.nível2.quantidadeMínima;
-    const quantidadeMinimaPowerUpNv3 = dados[setorAtivo].edificios[index].powerUp.nível3.quantidadeMínima;
+    const quantidadeMinimaPowerUpNv2 = baseSetor.edificios[index].powerUp.nível2.quantidadeMínima;
+    const quantidadeMinimaPowerUpNv3 = baseSetor.edificios[index].powerUp.nível3.quantidadeMínima;
     const corPadrão = { backgroundColor: setorInfo.cor2 };
 
 
@@ -479,10 +499,10 @@ export const CardModal = ({ index }) => {
 
 
 
-    const quantidadeTerrenosNec = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
-    const quantidadeLojasPNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
-    const quantidadeLojasMNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasM
-    const quantidadeLojasGNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasG
+    const quantidadeTerrenosNec = baseSetor.edificios[index].lojasNecessarias.terrenos
+    const quantidadeLojasPNec = baseSetor.edificios[index].lojasNecessarias.lojasP
+    const quantidadeLojasMNec = baseSetor.edificios[index].lojasNecessarias.lojasM
+    const quantidadeLojasGNec = baseSetor.edificios[index].lojasNecessarias.lojasG
 
 
     const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução
@@ -524,7 +544,7 @@ export const CardModal = ({ index }) => {
             return null;
         };
 
-        const edif = dados[setorAtivo].edificios[index];
+        const edif = baseSetor.edificios[index];
 
         const quantidadeTerrenosNec = edif.lojasNecessarias.terrenos;
         const quantidadeLojasPNec = edif.lojasNecessarias.lojasP;
@@ -607,7 +627,7 @@ export const CardModal = ({ index }) => {
 
 
 
-    const nomeFatu = dados[setorAtivo].edificios[index].nome
+    const nomeFatu = baseSetor.edificios[index].nome
 
     // console.log(nomeFatu)
     // const columnStyleNv1 =  { backgroundColor: bgColuna };
@@ -630,7 +650,7 @@ export const CardModal = ({ index }) => {
     let setorEncontrado = null;
 
     let indice = -1
-    const quantidadeAtivoAtual = dados[setorAtivo].edificios[index].quantidade;
+    const quantidadeAtivoAtual = baseSetor.edificios[index].quantidade;
 
 
 
@@ -659,10 +679,10 @@ export const CardModal = ({ index }) => {
     const columnStyleNv2 = { backgroundColor: bgColuna2 };
     const columnStyleNv3 = { backgroundColor: bgColuna3 };
 
-    // console.log(dados[setorAtivo].edificios[index])
+    // console.log(dadosSetor.edificios[index])
 
 
-    // dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia.map((edMelhorado, i) => {
+    // dadosSetor.edificios[index].RecebeMelhoraEficiencia.map((edMelhorado, i) => {
 
 
 
@@ -713,113 +733,138 @@ export const CardModal = ({ index }) => {
     const [acumuladorPowerUpAumFatuRecebe, setAcumuladorPowerUpAumFatuRecebe] = useState(0);
 
     // Aqui sim, fazemos o cálculo num useEffect:
-    useEffect(() => {
-        let novoAcumuladorRedCusto = 0;
-        let novoAcumuladorAumFatu = 0;
+    
+// useEffect(() => {
+//         let novoAcumuladorRedCusto = 0;
+//         let novoAcumuladorAumFatu = 0;
 
-        dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia.forEach((edMelhorado) => {
-            let setorEncontrado = null;
-            let indice = -1;
-            const quantidadeAtivo = (nomeEd) => {
-                for (const setor of setoresArr) {
-                    setorEncontrado = setor;
-                    indice = dados[setorEncontrado].edificios.findIndex(ed => ed.nome === nomeEd);
-                    if (indice !== -1) {
-                        return dados[setor].edificios[indice].quantidade;
-                    }
-                }
-                return 0;
-            };
+//         const setorDef = (setorDef) => {
+//             switch (setorDef) {
+//               case "agricultura": return "dadosAgricultura";
+//               case "tecnologia": return "dadosTecnologia";
+//               case "industria": return "dadosIndustria";
+//               case "comercio": return "dadosComercio";
+//               case "imobiliario": return "dadosImobiliario";
+//               case "energia": return "dadosEnergia";
+//               case "carteira": return "dadosCarteira";
+//             }
+//           }
 
-            const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
-            const qtd = quantidadeAtivo(dados[setorAtivo].edificios[index].nome);
+//         baseSetor.edificios[index].ForneceMelhoraEficiencia.forEach((edMelhorado) => {
+//             let setorEncontrado = null;
+//             let indice = -1;
+        
+//             // Função que procura o edifício pelo nome em todos os setores
+//             const quantidadeAtivo = (nomeEd) => {
+//                 for (const setor of setoresArr) {
+//                   const chave = setorDef(setor);
+//                   if (!chave) continue;
+              
+//                   const idx = [chave][setor].edificios.findIndex(ed => ed.nome === nomeEd);
+              
+//                   if (idx !== -1) {
+//                     setorEncontrado = setor;
+//                     console.log(setorEncontrado)
+//                     indice = idx;
+//                     return [chave][setor].edificios[idx].quantidade;
+//                   }
+//                 }
+//                 return 0;
+//               };
+        
+//             // Quantidade do edifício que recebe o benefício
+//             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
+        
+//             // Quantidade do edifício que fornece o benefício
+//             const qtdFornecedor = quantidadeAtivo(baseSetor.edificios[index].nome);
+        
+//             // Define qual nível de power-up usar
+//             const powerUpSelecionado =
+//                 qtdFornecedor >= quantidadeMinimaPowerUpNv3
+//                     ? "powerUpNv3"
+//                     : qtdFornecedor >= quantidadeMinimaPowerUpNv2
+//                         ? "powerUpNv2"
+//                         : "powerUpNv1";
+        
+//             // Só acumula se realmente existe quem recebe o benefício
+//             if (qtdMelhorado > 0) {
+//                 const ValorpowerUpAtualRedCustoFornece =
+//                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 :
+//                     powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 :
+//                     edMelhorado.redCusto.nível3;
+        
+//                 novoAcumuladorRedCusto += ValorpowerUpAtualRedCustoFornece;
+        
+//                 const ValorpowerUpAtualAumFatuFornece =
+//                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 :
+//                     powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 :
+//                     edMelhorado.aumFatu.nível3;
+        
+//                 novoAcumuladorAumFatu += ValorpowerUpAtualAumFatuFornece;
+//             }
+//         });
 
-            const powerUpSelecionado =
-                qtd >= quantidadeMinimaPowerUpNv3
-                    ? "powerUpNv3"
-                    : qtd >= quantidadeMinimaPowerUpNv2
-                        ? "powerUpNv2"
-                        : "powerUpNv1";
+//         setAcumuladorPowerUpRedCustoFornece(novoAcumuladorRedCusto);
+//         setAcumuladorPowerUpAumFatuFornece(novoAcumuladorAumFatu);
+//     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
 
-            if (qtdMelhorado > 0) {
-                const ValorpowerUpAtualRedCustoFornece =
-                    powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 :
-                        powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 :
-                            edMelhorado.redCusto.nível3;
+//     useEffect(() => {
+//         let novoAcumuladorRedCusto = 0;
+//         let novoAcumuladorAumFatu = 0;
 
-                novoAcumuladorRedCusto += ValorpowerUpAtualRedCustoFornece;
+//         baseSetor.edificios[index].RecebeMelhoraEficiencia.forEach((edMelhorado) => {
+//             let setorEncontrado = null;
+//             let indice = -1;
+//             const quantidadeAtivo = (nomeEd) => {
+//                 for (const setor of setoresArr) {
+//                     setorEncontrado = setor;
+//                     indice = dados[setorEncontrado].edificios.findIndex(ed => ed.nome === nomeEd);
+//                     if (indice !== -1) {
+//                         return dados[setor].edificios[indice].quantidade;
+//                     }
+//                 }
+//                 return 0;
+//             };
 
-                const ValorpowerUpAtualAumFatuFornece =
-                    powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 :
-                        powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 :
-                            edMelhorado.aumFatu.nível3;
+//             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
+//             const qtd = quantidadeAtivo(baseSetor.edificios[index].nome);
 
-                novoAcumuladorAumFatu += ValorpowerUpAtualAumFatuFornece;
-            }
-        });
+//             const powerUpSelecionado =
+//                 qtd >= quantidadeMinimaPowerUpNv3
+//                     ? "powerUpNv3"
+//                     : qtd >= quantidadeMinimaPowerUpNv2
+//                         ? "powerUpNv2"
+//                         : "powerUpNv1";
 
-        setAcumuladorPowerUpRedCustoFornece(novoAcumuladorRedCusto);
-        setAcumuladorPowerUpAumFatuFornece(novoAcumuladorAumFatu);
-    }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
+//             if (qtdMelhorado > 0) {
+//                 const ValorpowerUpAtualRedCustoFornece =
+//                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 :
+//                         powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 :
+//                             edMelhorado.redCusto.nível3;
 
+//                 novoAcumuladorRedCusto += ValorpowerUpAtualRedCustoFornece;
 
-    useEffect(() => {
-        let novoAcumuladorRedCusto = 0;
-        let novoAcumuladorAumFatu = 0;
+//                 const ValorpowerUpAtualAumFatuFornece =
+//                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 :
+//                         powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 :
+//                             edMelhorado.aumFatu.nível3;
 
-        dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia.forEach((edMelhorado) => {
-            let setorEncontrado = null;
-            let indice = -1;
-            const quantidadeAtivo = (nomeEd) => {
-                for (const setor of setoresArr) {
-                    setorEncontrado = setor;
-                    indice = dados[setorEncontrado].edificios.findIndex(ed => ed.nome === nomeEd);
-                    if (indice !== -1) {
-                        return dados[setor].edificios[indice].quantidade;
-                    }
-                }
-                return 0;
-            };
+//                 novoAcumuladorAumFatu += ValorpowerUpAtualAumFatuFornece;
+//             }
+//         });
 
-            const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
-            const qtd = quantidadeAtivo(dados[setorAtivo].edificios[index].nome);
+//         setAcumuladorPowerUpRedCustoRecebe(novoAcumuladorRedCusto);
+//         setAcumuladorPowerUpAumFatuRecebe(novoAcumuladorAumFatu);
+//         // console.log(acumuladorPowerUpAumFatuRecebe)
+//         // console.log(acumuladorPowerUpRedCustoRecebe)
 
-            const powerUpSelecionado =
-                qtd >= quantidadeMinimaPowerUpNv3
-                    ? "powerUpNv3"
-                    : qtd >= quantidadeMinimaPowerUpNv2
-                        ? "powerUpNv2"
-                        : "powerUpNv1";
-
-            if (qtdMelhorado > 0) {
-                const ValorpowerUpAtualRedCustoFornece =
-                    powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 :
-                        powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 :
-                            edMelhorado.redCusto.nível3;
-
-                novoAcumuladorRedCusto += ValorpowerUpAtualRedCustoFornece;
-
-                const ValorpowerUpAtualAumFatuFornece =
-                    powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 :
-                        powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 :
-                            edMelhorado.aumFatu.nível3;
-
-                novoAcumuladorAumFatu += ValorpowerUpAtualAumFatuFornece;
-            }
-        });
-
-        setAcumuladorPowerUpRedCustoRecebe(novoAcumuladorRedCusto);
-        setAcumuladorPowerUpAumFatuRecebe(novoAcumuladorAumFatu);
-        // console.log(acumuladorPowerUpAumFatuRecebe)
-        // console.log(acumuladorPowerUpRedCustoRecebe)
-
-    }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
+//     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
 
 
-    const valorFatu = dados[setorAtivo].edificios[index].finanças.faturamentoUnitário
-    const valorImpostoFixo = dados[setorAtivo].edificios[index].finanças.impostoFixo
-    const impostoSobreFatu = dados[setorAtivo].edificios[index].finanças.impostoSobreFatu
-    const custoConstrução = dados[setorAtivo].edificios[index].custoConstrucao;
+    const valorFatu = baseSetor.edificios[index].finanças.faturamentoUnitário
+    const valorImpostoFixo = baseSetor.edificios[index].finanças.impostoFixo
+    const impostoSobreFatu = baseSetor.edificios[index].finanças.impostoSobreFatu
+    const custoConstrução = baseSetor.edificios[index].custoConstrucao;
 
     const impostoSobreFatuFinal = impostoSobreFatu - (impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100))
     const valorFatuFinal = ((valorFatu + (valorFatu * (acumuladorPowerUpAumFatuRecebe / 100)))
@@ -989,7 +1034,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
                         <img src={fechar} alt="Fechar" className="w-[60%]" />
                     </button>
                     <div style={{ backgroundColor: setorInfo.cor1 }} className="flex w-[95%] text-[50px] fonteBold text-white h-[15%] rounded-[20px] justify-center items-center ">
-                        {dados[setorAtivo].edificios[index].nome}
+                        {baseSetor.edificios[index].nome}
                     </div >
 
                     <div style={{ backgroundColor: setorInfo.cor2 }} className="w-[95%] h-[75%] rounded-[20px] self-center">
@@ -1037,7 +1082,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
                                             </tr>
                                         </thead>
 
-                                        {dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia.map((edMelhorado, i) => {
+                                        {baseSetor.edificios[index].ForneceMelhoraEficiencia.map((edMelhorado, i) => {
 
                                             let setorEncontrado = null;
 
@@ -1055,7 +1100,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
 
                                             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
 
-                                            const qtd = quantidadeAtivo(dados[setorAtivo].edificios[index].nome);
+                                            const qtd = quantidadeAtivo(baseSetor.edificios[index].nome);
 
                                             const powerUpSelecionado =
                                                 qtd >= quantidadeMinimaPowerUpNv3
@@ -1185,7 +1230,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
                                                 </th>
                                             </tr>
                                         </thead>
-                                        {dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia.map((edMelhorado, i) => {
+                                        {baseSetor.edificios[index].RecebeMelhoraEficiencia.map((edMelhorado, i) => {
 
                                             let setorEncontrado = null;
 
@@ -1203,7 +1248,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
 
                                             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
 
-                                            const qtd = quantidadeAtivo(dados[setorAtivo].edificios[index].nome);
+                                            const qtd = quantidadeAtivo(baseSetor.edificios[index].nome);
 
                                             const powerUpSelecionado =
                                                 qtd >= quantidadeMinimaPowerUpNv3
@@ -1321,7 +1366,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
 
 
 
-                {dados[setorAtivo].edificios[index].licençaLiberado.liberado === false && (
+                {baseSetor.edificios[index].licençaLiberado.liberado === false && (
                     <motion.div
                         style={{
                             background: `transparent`, // fundo transparente para o container principal
@@ -1372,7 +1417,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
                                             >
                                                 <img
                                                     className="h-[70%] aspect-square absolute"
-                                                    src={getImageUrl(dados[setorAtivo].edificios[index].licençaLiberado.licença)}
+                                                    src={getImageUrl(baseSetor.edificios[index].licençaLiberado.licença)}
                                                     alt=""
                                                 />
                                             </div>
@@ -1388,11 +1433,11 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
                     <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
                         <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[35%] rounded-[10px] flex justify-between drop-shadow-xs">
                             <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
-                                <img className="h-[70%]" src={getImageUrl(dados[setorAtivo].edificios[index].nome)} alt="" />
+                                <img className="h-[70%]" src={getImageUrl(baseSetor.edificios[index].nome)} alt="" />
                             </div>
 
                             <div className="flex p-[10px] justify-center">
-                                <h1 className="text-white fonteBold text-[12px]">{dados[setorAtivo].edificios[index].nome}</h1>
+                                <h1 className="text-white fonteBold text-[12px]">{baseSetor.edificios[index].nome}</h1>
                             </div>
                         </div>
                         {/* <div className="h-[05%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
@@ -1437,7 +1482,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
                                                         <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                     </div>
                                                     <div className="flex justify-center items-center w-full">
-                                                        <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[index].quantidade}
+                                                        <h2 className="text-white text-[15px] fonteBold">{baseSetor.edificios[index].quantidade}
                                                         </h2>
                                                     </div>
                                                 </div>
@@ -1464,7 +1509,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
                                 </div>
                                 <div style={{ backgroundColor: setorInfo.cor3 }} className=" w-[40%] h-[80%] flex items-center justify-around rounded-[5px]">
                                     <img src={ConstuirImg} className="h-[60%] aspect-square ml-[5px]" />
-                                    <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].custoConstrucao)}</h1>
+                                    <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(baseSetor.edificios[index].custoConstrucao)}</h1>
                                 </div>
                             </div >
 
@@ -1633,7 +1678,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.terrenos}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{baseSetor.edificios[index].lojasNecessarias.terrenos}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.terrenos.quantidade}</h2>
                                                 </div>
@@ -1652,7 +1697,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasP}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{baseSetor.edificios[index].lojasNecessarias.lojasP}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasP.quantidade}</h2>
                                                 </div>
@@ -1671,7 +1716,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasM}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{baseSetor.edificios[index].lojasNecessarias.lojasM}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasM.quantidade}</h2>
                                                 </div>
@@ -1690,7 +1735,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasG}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{baseSetor.edificios[index].lojasNecessarias.lojasG}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasG.quantidade}</h2>
                                                 </div>
@@ -1753,7 +1798,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center w-full">
-                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[index].powerUp.nível1.quantidadeMínima}
+                                                    <h2 className="text-white text-[10px] fonteBold">{baseSetor.edificios[index].powerUp.nível1.quantidadeMínima}
                                                     </h2>
                                                 </div>
                                             </div>
@@ -1762,7 +1807,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center h-full w-full">
-                                                    <h2 className="text-white text-[10px]  fonteBold">{dados[setorAtivo].edificios[index].powerUp.nível2.quantidadeMínima}
+                                                    <h2 className="text-white text-[10px]  fonteBold">{baseSetor.edificios[index].powerUp.nível2.quantidadeMínima}
                                                     </h2>
                                                 </div>
                                             </div>
@@ -1771,7 +1816,7 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center w-full">
-                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[index].powerUp.nível3.quantidadeMínima}
+                                                    <h2 className="text-white text-[10px] fonteBold">{baseSetor.edificios[index].powerUp.nível3.quantidadeMínima}
                                                     </h2>
                                                 </div>
                                             </div>

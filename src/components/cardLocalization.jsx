@@ -26,13 +26,31 @@ import LicenseNec from "./licenseNec";
 import fechar from "../imagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
 //nome [setorAtivo].edificios[nome]
-
+import {useSetor} from "./Redirector"
 
 export const CardLocalization = ({ index, setor }) => {
     const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-    const setorAtivo = setor;
+    // const setorAtivo = setor;
 
+
+   
+        const {setorAtivo,dadosSetor } = useSetor(); 
+        
+        const setorSelecionado = (setorAtivo) => {
+            switch (setorAtivo) {
+              case "agricultura": return "dadosAgricultura";
+              case "tecnologia": return "dadosTecnologia";
+              case "industria": return "dadosIndustria";
+              case "comercio": return "dadosComercio";
+              case "imobiliario": return "dadosImobiliario";
+              case "energia": return "dadosEnergia";
+              case "carteira": return "dadosCarteira";
+            }
+          }
+        const setorDados = dadosSetor; // pegando os dados completos do setor
+        const baseSetor = setorDados[setorSelecionado(setorAtivo)][setorAtivo]
+        const economiaSetor = baseSetor.economiaSetor.estadoAtual
 
     const setores = [
         { id: "agricultura", cor3: "#0C9123", corClasse: "bg-[#4CAF50]", img: agricultura, descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50", },
@@ -174,7 +192,7 @@ export const CardLocalization = ({ index, setor }) => {
     const [caixaTexto, setCaixaTexto] = useState(false)
 
     const setorInfo = setores.find(setor => setor.id === setorAtivo);
-    const nomeAtivo = dados[setorAtivo]?.edificios[index]?.nome;
+    const nomeAtivo = baseSetor?.edificios[index]?.nome;
     const arrayConstResources = dados[setorAtivo]?.edificios[index]?.recursoDeConstrução
     const arrayConstNece = dados[setorAtivo]?.edificios[index]?.construçõesNecessárias
 
@@ -189,9 +207,9 @@ export const CardLocalization = ({ index, setor }) => {
     // Verificar o nome
 
     console.log("Nome do Edifício Ativo:", nomeAtivo);
-    const quantidadeAtivo = dados[setorAtivo].edificios[index].quantidade;
-    const quantidadeMinimaPowerUpNv2 = dados[setorAtivo].edificios[index].powerUp.nível2.quantidadeMínima;
-    const quantidadeMinimaPowerUpNv3 = dados[setorAtivo].edificios[index].powerUp.nível3.quantidadeMínima;
+    const quantidadeAtivo = baseSetor.edificios[index].quantidade;
+    const quantidadeMinimaPowerUpNv2 = baseSetor.edificios[index].powerUp.nível2.quantidadeMínima;
+    const quantidadeMinimaPowerUpNv3 = baseSetor.edificios[index].powerUp.nível3.quantidadeMínima;
     const corPadrão = { backgroundColor: setorInfo.cor2 };
 
 
@@ -444,7 +462,7 @@ export const CardLocalization = ({ index, setor }) => {
         // console.log(acumuladorPowerUpRedCustoRecebe)
 
     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
-    const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
+    // const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
     const fatorEconomico = {
         "recessão": 0.6,
         "declinio": 0.85,
