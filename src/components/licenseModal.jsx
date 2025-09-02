@@ -17,7 +17,7 @@ import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
 export const LicenseModal = ({ setor,nomeLicença,index }) => {
     const { dados,atualizarDados,atualizarDadosProf } = useContext(CentraldeDadosContext);
-    const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
+    const { economiaSetores, setEconomiaSetores, atualizarEco} = useContext(DadosEconomyGlobalContext);
 
 
     const setorAtivo = setor
