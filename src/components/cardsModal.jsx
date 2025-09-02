@@ -26,30 +26,35 @@ import fechar from "../imagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
 import { Localizador } from "./localizador";
 import { CardLocalization } from "./cardLocalization";
-import {useSetor} from "./Redirector"
-
+import { useSetor } from "./Redirector"
+import { useAgricultura } from "./AgriculturaContext";
+import { useComercio } from "./ComercioContext";
+import { useIndustria } from "./IndustriaContext";
+import { useEnergia } from "./EnergiaContext";
+import { useImobiliario } from "./ImobiliarioContext";
+import { useTecnologia } from "./TecnologiaContext";
 
 export const CardModal = ({ index }) => {
-    const { economiaSetores, setEconomiaSetores,atualizarEco } = useContext(DadosEconomyGlobalContext);
-    const { setorAtivo, dadosSetor } = useSetor(); 
-    
+    const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+    const { setorAtivo, dadosSetor } = useSetor();
+
     const setorSelecionado = (setorAtivo) => {
         switch (setorAtivo) {
-          case "agricultura": return "dadosAgricultura";
-          case "tecnologia": return "dadosTecnologia";
-          case "industria": return "dadosIndustria";
-          case "comercio": return "dadosComercio";
-          case "imobiliario": return "dadosImobiliario";
-          case "energia": return "dadosEnergia";
-          case "carteira": return "dadosCarteira";
+            case "agricultura": return "dadosAgricultura";
+            case "tecnologia": return "dadosTecnologia";
+            case "industria": return "dadosIndustria";
+            case "comercio": return "dadosComercio";
+            case "imobiliario": return "dadosImobiliario";
+            case "energia": return "dadosEnergia";
+            case "carteira": return "dadosCarteira";
         }
-      }
+    }
     const setorDados = dadosSetor; // pegando os dados completos do setor
     const baseSetor = setorDados[setorSelecionado(setorAtivo)][setorAtivo]
     const { dados, atualizarDados, atualizarDadosProf2, atualizarDadosProf3, atualizarDadosProf } = useContext(CentraldeDadosContext);
     const economiaSetor = baseSetor.economiaSetor.estadoAtual
     //   console.log(setorDados.dadosAgricultura.agricultura.edificios[0].nome)
-
+    console.log(baseSetor)
     // useEffect(() => {
     //     const economiaSetor = dadosSetor.economiaSetor.estadoAtual
     //     // console.log(economiaSetor)
@@ -88,7 +93,7 @@ export const CardModal = ({ index }) => {
     }
 
 
-    
+
 
 
     const mapaEdificioParaSetor = {
@@ -144,7 +149,7 @@ export const CardModal = ({ index }) => {
         "Fábrica De Chips": "industria",
         "Fábrica De Placas Eletrônicas": "industria",
         "Fábrica De Semicondutores": "industria",
-        "Fábrica De Eletrônicos": "industria",        
+        "Fábrica De Eletrônicos": "industria",
         "Fábrica De Robôs": "industria",
         "Empresa De Automação Industrial": "industria",
         "Fábrica De Motores": "industria",
@@ -509,18 +514,18 @@ export const CardModal = ({ index }) => {
     const custoTotalLojasP = quantidadeLojasPNec * (
         dados.lojasP.preçoConstrução +
         (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-      );
-      
-      const custoTotalLojasM = quantidadeLojasMNec * (
+    );
+
+    const custoTotalLojasM = quantidadeLojasMNec * (
         dados.lojasM.preçoConstrução +
         (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-      );
-      
-      const custoTotalLojasG = quantidadeLojasGNec * (
+    );
+
+    const custoTotalLojasG = quantidadeLojasGNec * (
         dados.lojasG.preçoConstrução +
         (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-      );
-      
+    );
+
     const CustoTotalSomadoLojas = custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG
     // console.log(custoTotalTerrenos)
     // console.log(custoTotalLojasP)
@@ -532,12 +537,12 @@ export const CardModal = ({ index }) => {
         const localizador = (nomeEdificio) => {
             const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
             for (const setor of setores) {
-                const index = dados[setor]?.edificios?.findIndex((e) => e.nome === nomeEdificio);
+                const index = baseSetor?.edificios?.findIndex((e) => e.nome === nomeEdificio);
                 if (index !== -1) {
                     return {
                         setor,
                         index,
-                        edificio: dados[setor].edificios[index],
+                        edificio: baseSetor.edificios[index],
                     };
                 }
             }
@@ -603,7 +608,7 @@ export const CardModal = ({ index }) => {
 
         // ✅ Compra aprovada
         atualizarEco("saldo", economiaSetores.saldo - custo);
-        atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], edif.quantidade + 1);
+        atualizarDadosProf2([baseSetor, "edificios", index, "quantidade"], edif.quantidade + 1);
 
         atualizarDadosProf2(["terrenos", "quantidade"], quantidadeTerrenosAtual - quantidadeTerrenosNec);
         atualizarDadosProf2(["lojasP", "quantidade"], quantidadeLojasPAtual - quantidadeLojasPNec);
@@ -679,6 +684,7 @@ export const CardModal = ({ index }) => {
     const columnStyleNv2 = { backgroundColor: bgColuna2 };
     const columnStyleNv3 = { backgroundColor: bgColuna3 };
 
+
     // console.log(dadosSetor.edificios[index])
 
 
@@ -726,6 +732,36 @@ export const CardModal = ({ index }) => {
     // }, [acumuladorPowerUpRedCustoRecebe]);
 
 
+    // const meDaSetor = (setor) => {
+    //     switch (setor) {
+    //       case "agricultura":
+    //         return useAgricultura();
+    //       case "comercio":
+    //         return useComercio();
+    //       case "industria":
+    //         return useIndustria();
+    //       case "energia":
+    //         return useEnergia();
+    //       case "imobiliario":
+    //         return useImobiliario();
+    //       case "tecnologia":
+    //         return useTecnologia();
+    //       default:
+    //         return null;
+    //     }
+    //   };
+
+    //   const descobrirSetor = (edMelhorado) => mapaEdificioParaSetor[edMelhorado];
+
+
+              
+    //   // exemplo de uso
+    // //   const setorDescoberto = descobrirSetor("Restaurante"); 
+    //   const dadosCorretosSetor = meDaSetor(setorDescoberto);
+
+    //   console.log("Setor descoberto:", setorDescoberto);
+    //   console.log("Contexto retornado:", dadosCorretosSetor);
+
 
     const [acumuladorPowerUpRedCustoFornece, setAcumuladorPowerUpRedCustoFornece] = useState(0);
     const [acumuladorPowerUpAumFatuFornece, setAcumuladorPowerUpAumFatuFornece] = useState(0);
@@ -733,132 +769,149 @@ export const CardModal = ({ index }) => {
     const [acumuladorPowerUpAumFatuRecebe, setAcumuladorPowerUpAumFatuRecebe] = useState(0);
 
     // Aqui sim, fazemos o cálculo num useEffect:
-    
-// useEffect(() => {
-//         let novoAcumuladorRedCusto = 0;
-//         let novoAcumuladorAumFatu = 0;
 
-//         const setorDef = (setorDef) => {
-//             switch (setorDef) {
-//               case "agricultura": return "dadosAgricultura";
-//               case "tecnologia": return "dadosTecnologia";
-//               case "industria": return "dadosIndustria";
-//               case "comercio": return "dadosComercio";
-//               case "imobiliario": return "dadosImobiliario";
-//               case "energia": return "dadosEnergia";
-//               case "carteira": return "dadosCarteira";
-//             }
-//           }
+    // useEffect(() => {
+    //         let novoAcumuladorRedCusto = 0;
+    //         let novoAcumuladorAumFatu = 0;
 
-//         baseSetor.edificios[index].ForneceMelhoraEficiencia.forEach((edMelhorado) => {
-//             let setorEncontrado = null;
-//             let indice = -1;
-        
-//             // Função que procura o edifício pelo nome em todos os setores
-//             const quantidadeAtivo = (nomeEd) => {
-//                 for (const setor of setoresArr) {
-//                   const chave = setorDef(setor);
-//                   if (!chave) continue;
+    //         const setorDef = (setorDef) => {
+    //             switch (setorDef) {
+    //               case "agricultura": return "dadosAgricultura";
+    //               case "tecnologia": return "dadosTecnologia";
+    //               case "industria": return "dadosIndustria";
+    //               case "comercio": return "dadosComercio";
+    //               case "imobiliario": return "dadosImobiliario";
+    //               case "energia": return "dadosEnergia";
+    //               case "carteira": return "dadosCarteira";
+    //             }
+    //           }
+
+
               
-//                   const idx = [chave][setor].edificios.findIndex(ed => ed.nome === nomeEd);
-              
-//                   if (idx !== -1) {
-//                     setorEncontrado = setor;
-//                     console.log(setorEncontrado)
-//                     indice = idx;
-//                     return [chave][setor].edificios[idx].quantidade;
-//                   }
-//                 }
-//                 return 0;
-//               };
-        
-//             // Quantidade do edifício que recebe o benefício
-//             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
-        
-//             // Quantidade do edifício que fornece o benefício
-//             const qtdFornecedor = quantidadeAtivo(baseSetor.edificios[index].nome);
-        
-//             // Define qual nível de power-up usar
-//             const powerUpSelecionado =
-//                 qtdFornecedor >= quantidadeMinimaPowerUpNv3
-//                     ? "powerUpNv3"
-//                     : qtdFornecedor >= quantidadeMinimaPowerUpNv2
-//                         ? "powerUpNv2"
-//                         : "powerUpNv1";
-        
-//             // Só acumula se realmente existe quem recebe o benefício
-//             if (qtdMelhorado > 0) {
-//                 const ValorpowerUpAtualRedCustoFornece =
-//                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 :
-//                     powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 :
-//                     edMelhorado.redCusto.nível3;
-        
-//                 novoAcumuladorRedCusto += ValorpowerUpAtualRedCustoFornece;
-        
-//                 const ValorpowerUpAtualAumFatuFornece =
-//                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 :
-//                     powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 :
-//                     edMelhorado.aumFatu.nível3;
-        
-//                 novoAcumuladorAumFatu += ValorpowerUpAtualAumFatuFornece;
-//             }
-//         });
 
-//         setAcumuladorPowerUpRedCustoFornece(novoAcumuladorRedCusto);
-//         setAcumuladorPowerUpAumFatuFornece(novoAcumuladorAumFatu);
-//     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
+    //         baseSetor.edificios[index].ForneceMelhoraEficiencia.forEach((edMelhorado) => {
+    //             let setorEncontrado = null;
+    //             let indice = -1;
 
-//     useEffect(() => {
-//         let novoAcumuladorRedCusto = 0;
-//         let novoAcumuladorAumFatu = 0;
+    //             // Função que procura o edifício pelo nome em todos os setores
+    //             const quantidadeAtivo = (nomeEd) => {
+    //                 for (const setor of setoresArr) {
 
-//         baseSetor.edificios[index].RecebeMelhoraEficiencia.forEach((edMelhorado) => {
-//             let setorEncontrado = null;
-//             let indice = -1;
-//             const quantidadeAtivo = (nomeEd) => {
-//                 for (const setor of setoresArr) {
-//                     setorEncontrado = setor;
-//                     indice = dados[setorEncontrado].edificios.findIndex(ed => ed.nome === nomeEd);
-//                     if (indice !== -1) {
-//                         return dados[setor].edificios[indice].quantidade;
-//                     }
-//                 }
-//                 return 0;
-//             };
+    //                     // const dadosCorretosSetor = meDaSetor(setorDescoberto);
 
-//             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
-//             const qtd = quantidadeAtivo(baseSetor.edificios[index].nome);
 
-//             const powerUpSelecionado =
-//                 qtd >= quantidadeMinimaPowerUpNv3
-//                     ? "powerUpNv3"
-//                     : qtd >= quantidadeMinimaPowerUpNv2
-//                         ? "powerUpNv2"
-//                         : "powerUpNv1";
+    //                   const chave = setorDef(setor);
+                      
+    //                   if (!chave) continue;
+                      
+    //                   const setorDescoberto = descobrirSetor(nomeEd); 
+    //                 //   descobrirSetor(nomeEd)
+                      
+    //                 console.log(dadosCorretosSetor)
+    //                 const dadosCorretosSetor = meDaSetor(setorDescoberto);
+    //                   console.log(nomeEd)
+    //                   console.log(setorDescoberto)
+    //                   const idx = dadosCorretosSetor[setorDescoberto].edificios.findIndex(ed => ed.nome === nomeEd);
+                      
+    //                   console.log(idx)
 
-//             if (qtdMelhorado > 0) {
-//                 const ValorpowerUpAtualRedCustoFornece =
-//                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 :
-//                         powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 :
-//                             edMelhorado.redCusto.nível3;
+    //                   if (idx !== -1) {
+    //                     setorEncontrado = setor;
+    //                     console.log(setorEncontrado)
+    //                     indice = idx;
+    //                     return [chave][setor].edificios[idx].quantidade;
+    //                   }
+    //                 }
+    //                 return 0;
+    //               };
 
-//                 novoAcumuladorRedCusto += ValorpowerUpAtualRedCustoFornece;
+    //             // Quantidade do edifício que recebe o benefício
+    //             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
 
-//                 const ValorpowerUpAtualAumFatuFornece =
-//                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 :
-//                         powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 :
-//                             edMelhorado.aumFatu.nível3;
+    //             // Quantidade do edifício que fornece o benefício
+    //             const qtdFornecedor = quantidadeAtivo(baseSetor.edificios[index].nome);
 
-//                 novoAcumuladorAumFatu += ValorpowerUpAtualAumFatuFornece;
-//             }
-//         });
+    //             // Define qual nível de power-up usar
+    //             const powerUpSelecionado =
+    //                 qtdFornecedor >= quantidadeMinimaPowerUpNv3
+    //                     ? "powerUpNv3"
+    //                     : qtdFornecedor >= quantidadeMinimaPowerUpNv2
+    //                         ? "powerUpNv2"
+    //                         : "powerUpNv1";
 
-//         setAcumuladorPowerUpRedCustoRecebe(novoAcumuladorRedCusto);
-//         setAcumuladorPowerUpAumFatuRecebe(novoAcumuladorAumFatu);
-//         // console.log(acumuladorPowerUpAumFatuRecebe)
-//         // console.log(acumuladorPowerUpRedCustoRecebe)
+    //             // Só acumula se realmente existe quem recebe o benefício
+    //             if (qtdMelhorado > 0) {
+    //                 const ValorpowerUpAtualRedCustoFornece =
+    //                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 :
+    //                     powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 :
+    //                     edMelhorado.redCusto.nível3;
 
-//     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
+    //                 novoAcumuladorRedCusto += ValorpowerUpAtualRedCustoFornece;
+
+    //                 const ValorpowerUpAtualAumFatuFornece =
+    //                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 :
+    //                     powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 :
+    //                     edMelhorado.aumFatu.nível3;
+
+    //                 novoAcumuladorAumFatu += ValorpowerUpAtualAumFatuFornece;
+    //             }
+    //         });
+
+    //         setAcumuladorPowerUpRedCustoFornece(novoAcumuladorRedCusto);
+    //         setAcumuladorPowerUpAumFatuFornece(novoAcumuladorAumFatu);
+    //     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
+
+    //     useEffect(() => {
+    //         let novoAcumuladorRedCusto = 0;
+    //         let novoAcumuladorAumFatu = 0;
+
+    //         baseSetor.edificios[index].RecebeMelhoraEficiencia.forEach((edMelhorado) => {
+    //             let setorEncontrado = null;
+    //             let indice = -1;
+    //             const quantidadeAtivo = (nomeEd) => {
+    //                 for (const setor of setoresArr) {
+    //                     setorEncontrado = setor;
+    //                     indice = dados[setorEncontrado].edificios.findIndex(ed => ed.nome === nomeEd);
+    //                     if (indice !== -1) {
+    //                         return dados[setor].edificios[indice].quantidade;
+    //                     }
+    //                 }
+    //                 return 0;
+    //             };
+
+    //             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
+    //             const qtd = quantidadeAtivo(baseSetor.edificios[index].nome);
+
+    //             const powerUpSelecionado =
+    //                 qtd >= quantidadeMinimaPowerUpNv3
+    //                     ? "powerUpNv3"
+    //                     : qtd >= quantidadeMinimaPowerUpNv2
+    //                         ? "powerUpNv2"
+    //                         : "powerUpNv1";
+
+    //             if (qtdMelhorado > 0) {
+    //                 const ValorpowerUpAtualRedCustoFornece =
+    //                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 :
+    //                         powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 :
+    //                             edMelhorado.redCusto.nível3;
+
+    //                 novoAcumuladorRedCusto += ValorpowerUpAtualRedCustoFornece;
+
+    //                 const ValorpowerUpAtualAumFatuFornece =
+    //                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 :
+    //                         powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 :
+    //                             edMelhorado.aumFatu.nível3;
+
+    //                 novoAcumuladorAumFatu += ValorpowerUpAtualAumFatuFornece;
+    //             }
+    //         });
+
+    //         setAcumuladorPowerUpRedCustoRecebe(novoAcumuladorRedCusto);
+    //         setAcumuladorPowerUpAumFatuRecebe(novoAcumuladorAumFatu);
+    //         // console.log(acumuladorPowerUpAumFatuRecebe)
+    //         // console.log(acumuladorPowerUpRedCustoRecebe)
+
+    //     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
 
 
     const valorFatu = baseSetor.edificios[index].finanças.faturamentoUnitário
@@ -876,83 +929,83 @@ export const CardModal = ({ index }) => {
 
     // Função recursiva para calcular custo total de um recurso
     function calcularCustoRecurso(nomeRecurso, nivel = 1) {
-    //   console.log("🔍".repeat(nivel), `Verificando recurso: ${nomeRecurso}`);
-    
-      for (const setor of setoresArr) {
-        const edificioEncontrado = dados[setor]?.edificios?.find(e => e.nome === nomeRecurso);
-    
-        if (edificioEncontrado) {
-        //   console.log("✅".repeat(nivel), `Edifício encontrado: ${edificioEncontrado.nome}, no setor: ${setor}`);
-    
-          const custoConstrucaoRecurso = edificioEncontrado.custoConstrucao || 0;
-        //   console.log("🏗️".repeat(nivel), `Custo da construção: ${custoConstrucaoRecurso}`);
-    
-          const quantidadeTerrenosNec = edificioEncontrado.lojasNecessarias.terrenos || 0;
-          const quantidadeLojasPNec = edificioEncontrado.lojasNecessarias.lojasP || 0;
-          const quantidadeLojasMNec = edificioEncontrado.lojasNecessarias.lojasM || 0;
-          const quantidadeLojasGNec = edificioEncontrado.lojasNecessarias.lojasG || 0;
-    
-        //   console.log("📦".repeat(nivel), `Lojas necessárias → Terrenos: ${quantidadeTerrenosNec}, P: ${quantidadeLojasPNec}, M: ${quantidadeLojasMNec}, G: ${quantidadeLojasGNec}`);
-    
-          const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução;
-    
-          const custoTotalLojasP = quantidadeLojasPNec * (
-            dados.lojasP.preçoConstrução +
-            (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-          );
-    
-          const custoTotalLojasM = quantidadeLojasMNec * (
-            dados.lojasM.preçoConstrução +
-            (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-          );
-    
-          const custoTotalLojasG = quantidadeLojasGNec * (
-            dados.lojasG.preçoConstrução +
-            (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-          );
-    
-        //   console.log("💰".repeat(nivel), `Custo total → Terrenos: ${custoTotalTerrenos}, LojasP: ${custoTotalLojasP}, LojasM: ${custoTotalLojasM}, LojasG: ${custoTotalLojasG}`);
-    
-          // Soma do próprio custo de construção + lojas
-          let custoTotalRecurso = custoConstrucaoRecurso + custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG;
-    
-          // Recursão para os recursos de construção desse edifício
-          if (Array.isArray(edificioEncontrado.recursoDeConstrução) && edificioEncontrado.recursoDeConstrução.length > 0) {
-            // console.log("🔁".repeat(nivel), `Iniciando cálculo de recursos de construção para: ${edificioEncontrado.nome}`);
-    
-            edificioEncontrado.recursoDeConstrução.forEach(subRecurso => {
-              const custoSub = calcularCustoRecurso(subRecurso, nivel + 1);
-            //   console.log("➕".repeat(nivel), `Adicionando custo do sub-recurso ${subRecurso}: ${custoSub}`);
-              custoTotalRecurso += custoSub;
-            });
-          } else {
-            // console.log("✅".repeat(nivel), `${edificioEncontrado.nome} não possui recursos adicionais.`);
-          }
-    
-        //   console.log("📊".repeat(nivel), `Custo total calculado de ${nomeRecurso} = ${custoTotalRecurso}`);
-    
-          return custoTotalRecurso; // retorna o total desse recurso
+        //   console.log("🔍".repeat(nivel), `Verificando recurso: ${nomeRecurso}`);
+
+        for (const setor of setoresArr) {
+            const edificioEncontrado = dados[setor]?.edificios?.find(e => e.nome === nomeRecurso);
+
+            if (edificioEncontrado) {
+                //   console.log("✅".repeat(nivel), `Edifício encontrado: ${edificioEncontrado.nome}, no setor: ${setor}`);
+
+                const custoConstrucaoRecurso = edificioEncontrado.custoConstrucao || 0;
+                //   console.log("🏗️".repeat(nivel), `Custo da construção: ${custoConstrucaoRecurso}`);
+
+                const quantidadeTerrenosNec = edificioEncontrado.lojasNecessarias.terrenos || 0;
+                const quantidadeLojasPNec = edificioEncontrado.lojasNecessarias.lojasP || 0;
+                const quantidadeLojasMNec = edificioEncontrado.lojasNecessarias.lojasM || 0;
+                const quantidadeLojasGNec = edificioEncontrado.lojasNecessarias.lojasG || 0;
+
+                //   console.log("📦".repeat(nivel), `Lojas necessárias → Terrenos: ${quantidadeTerrenosNec}, P: ${quantidadeLojasPNec}, M: ${quantidadeLojasMNec}, G: ${quantidadeLojasGNec}`);
+
+                const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução;
+
+                const custoTotalLojasP = quantidadeLojasPNec * (
+                    dados.lojasP.preçoConstrução +
+                    (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+                );
+
+                const custoTotalLojasM = quantidadeLojasMNec * (
+                    dados.lojasM.preçoConstrução +
+                    (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+                );
+
+                const custoTotalLojasG = quantidadeLojasGNec * (
+                    dados.lojasG.preçoConstrução +
+                    (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+                );
+
+                //   console.log("💰".repeat(nivel), `Custo total → Terrenos: ${custoTotalTerrenos}, LojasP: ${custoTotalLojasP}, LojasM: ${custoTotalLojasM}, LojasG: ${custoTotalLojasG}`);
+
+                // Soma do próprio custo de construção + lojas
+                let custoTotalRecurso = custoConstrucaoRecurso + custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG;
+
+                // Recursão para os recursos de construção desse edifício
+                if (Array.isArray(edificioEncontrado.recursoDeConstrução) && edificioEncontrado.recursoDeConstrução.length > 0) {
+                    // console.log("🔁".repeat(nivel), `Iniciando cálculo de recursos de construção para: ${edificioEncontrado.nome}`);
+
+                    edificioEncontrado.recursoDeConstrução.forEach(subRecurso => {
+                        const custoSub = calcularCustoRecurso(subRecurso, nivel + 1);
+                        //   console.log("➕".repeat(nivel), `Adicionando custo do sub-recurso ${subRecurso}: ${custoSub}`);
+                        custoTotalRecurso += custoSub;
+                    });
+                } else {
+                    // console.log("✅".repeat(nivel), `${edificioEncontrado.nome} não possui recursos adicionais.`);
+                }
+
+                //   console.log("📊".repeat(nivel), `Custo total calculado de ${nomeRecurso} = ${custoTotalRecurso}`);
+
+                return custoTotalRecurso; // retorna o total desse recurso
+            }
         }
-      }
-    
-    //   console.warn("⚠️".repeat(nivel), `Recurso não encontrado: ${nomeRecurso}`);
-      return 0; // Caso não encontrado
+
+        //   console.warn("⚠️".repeat(nivel), `Recurso não encontrado: ${nomeRecurso}`);
+        return 0; // Caso não encontrado
     }
-    
+
     // Início do cálculo principal com a lista original
     arrayConstResources?.forEach(nomeRecurso => {
-      const custo = calcularCustoRecurso(nomeRecurso);
-    //   console.log("💼 Custo acumulado do recurso", nomeRecurso, "=", custo);
-      custoRecursos += custo;
+        const custo = calcularCustoRecurso(nomeRecurso);
+        //   console.log("💼 Custo acumulado do recurso", nomeRecurso, "=", custo);
+        custoRecursos += custo;
     });
-    
+
     // console.log("🔚 Custo total acumulado de todos os recursos:", custoRecursos);
-    
-let fatuMensal = valorFatuFinal * 30 
-let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
-// console.log("custoRecursos", custoRecursos)
-// console.log("custo de lojas", CustoTotalSomadoLojas)
-// console.log("custo de construção", custoConstrução)
+
+    let fatuMensal = valorFatuFinal * 30
+    let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
+    // console.log("custoRecursos", custoRecursos)
+    // console.log("custo de lojas", CustoTotalSomadoLojas)
+    // console.log("custo de construção", custoConstrução)
     // console.log("custo total", custoRecursos + CustoTotalSomadoLojas + custoConstrução)
 
     const valorFinalMês = (((fatuMensal) - (valorImpostoSobreFatu)) - valorImpostoFixoFinal)
@@ -967,8 +1020,8 @@ let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal
     // console.log(acumuladorPowerUpAumFatuRecebe)
     // console.log(valorImpostoFixoFinal)
     // useEffect(()=>{atualizarDadosProf2([setorAtivo, "edificios", index, "powerUp", "aumFatuAtual"], ResultFinalAcumuladorRedCusto)},[ResultFinalAcumuladorRedCusto])
-// console.log("esse é o custos de recursos do",edificio.nome,custoRecursos)
- 
+    // console.log("esse é o custos de recursos do",edificio.nome,custoRecursos)
+
     // useEffect(() => {
     //     console.log("saldo", dados.saldo)
     //     console.log(edificio.nome, "Faturamento diário:", valorFatuFinal);

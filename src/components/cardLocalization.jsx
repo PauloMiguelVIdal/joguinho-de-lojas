@@ -31,11 +31,11 @@ import {useSetor} from "./Redirector"
 export const CardLocalization = ({ index, setor }) => {
     const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-    // const setorAtivo = setor;
+    const setorAtivo = setor;
 
 
-   
-        const {setorAtivo,dadosSetor } = useSetor(); 
+   console.log(setorAtivo)
+        const {dadosSetor } = useSetor(); 
         
         const setorSelecionado = (setorAtivo) => {
             switch (setorAtivo) {
@@ -69,7 +69,7 @@ export const CardLocalization = ({ index, setor }) => {
 
     const contabilidadeDeFalta = (edificio) => {
         const qtdAtual = dados[edificio].quantidade
-        const qtdNecessaria = dados[setorAtivo].edificios[index].lojasNecessarias[edificio]
+        const qtdNecessaria = baseSetor.edificios[index].lojasNecessarias[edificio]
 
         const qtdFalta = qtdAtual >= qtdNecessaria ? 0 : qtdNecessaria - qtdAtual;
         const custoTotalConst = edificio === "terrenos" ? dados[edificio].preçoConstrução : edificio === "lojasP" ? dados[edificio].preçoConstrução + dados.terrenos.preçoConstrução : edificio === "lojasM" ? dados[edificio].preçoConstrução + 2 * dados.terrenos.preçoConstrução : edificio === "lojasG" ? dados[edificio].preçoConstrução + 3 * dados.terrenos.preçoConstrução : "lascou"
@@ -85,7 +85,7 @@ export const CardLocalization = ({ index, setor }) => {
     useEffect(() => {
         const edificio = "lojasP";
         const qtdAtual = dados[edificio]?.quantidade;
-        const qtdNecessaria = dados[setorAtivo]?.edificios?.[index]?.lojasNecessarias?.[edificio];
+        const qtdNecessaria = baseSetor?.edificios?.[index]?.lojasNecessarias?.[edificio];
 
         const edificioSuficiente =
             edificio === "terrenos" ? "terrenosSuficientes" :
@@ -96,20 +96,20 @@ export const CardLocalization = ({ index, setor }) => {
 
         if (qtdAtual >= qtdNecessaria) {
             const novoEdificio = {
-                ...dados[setorAtivo].edificios[index],
+                ...baseSetor.edificios[index],
                 lojasNecessarias: {
-                    ...dados[setorAtivo].edificios[index].lojasNecessarias,
+                    ...baseSetor.edificios[index].lojasNecessarias,
                     [edificioSuficiente]: true
                 }
             };
 
-            const novaLista = [...dados[setorAtivo].edificios];
+            const novaLista = [...baseSetor.edificios];
             novaLista[index] = novoEdificio;
 
             atualizarDados({
                 ...dados,
                 [setorAtivo]: {
-                    ...dados[setorAtivo],
+                    ...baseSetor,
                     edificios: novaLista
                 }
             });
@@ -193,16 +193,16 @@ export const CardLocalization = ({ index, setor }) => {
 
     const setorInfo = setores.find(setor => setor.id === setorAtivo);
     const nomeAtivo = baseSetor?.edificios[index]?.nome;
-    const arrayConstResources = dados[setorAtivo]?.edificios[index]?.recursoDeConstrução
-    const arrayConstNece = dados[setorAtivo]?.edificios[index]?.construçõesNecessárias
+    const arrayConstResources = baseSetor?.edificios[index]?.recursoDeConstrução
+    const arrayConstNece = baseSetor?.edificios[index]?.construçõesNecessárias
 
 
     console.log("Setor Ativo:", setorAtivo);
-    console.log("Edifícios:", dados[setorAtivo]?.edificios);
+    console.log("Edifícios:", baseSetor?.edificios);
 
     // Verificar o índice
     console.log("Índice:", index);
-    console.log("Edifício:", dados[setorAtivo]?.edificios[index]);
+    console.log("Edifício:", baseSetor?.edificios[index]);
 
     // Verificar o nome
 
@@ -236,8 +236,8 @@ export const CardLocalization = ({ index, setor }) => {
                 const setor = setoresArr.find((s) => dados[s]?.edificios?.some((ed) => ed.nome === nomeEdificio));
                 if (!setor) return true;
 
-                const index = dados[setor].edificios.findIndex((ed) => ed.nome === nomeEdificio);
-                return dados[setor].edificios[index]?.quantidade <= 0;
+                const index = baseSetor.edificios.findIndex((ed) => ed.nome === nomeEdificio);
+                return baseSetor.edificios[index]?.quantidade <= 0;
             });
         };
 
@@ -249,10 +249,10 @@ export const CardLocalization = ({ index, setor }) => {
 
 
     useEffect(() => {
-        const quantidadeTerrenos = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
-        const quantidadeLojasP = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
-        const quantidadeLojasM = dados[setorAtivo].edificios[index].lojasNecessarias.lojasM
-        const quantidadeLojasG = dados[setorAtivo].edificios[index].lojasNecessarias.lojasG
+        const quantidadeTerrenos = baseSetor.edificios[index].lojasNecessarias.terrenos
+        const quantidadeLojasP = baseSetor.edificios[index].lojasNecessarias.lojasP
+        const quantidadeLojasM = baseSetor.edificios[index].lojasNecessarias.lojasM
+        const quantidadeLojasG = baseSetor.edificios[index].lojasNecessarias.lojasG
         const quantidadeTerrenosAtual = dados.terrenos.quantidade
         const quantidadeLojasPAtual = dados.lojasP.quantidade
         const quantidadeLojasMAtual = dados.lojasM.quantidade
@@ -339,10 +339,10 @@ export const CardLocalization = ({ index, setor }) => {
 
     const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
 
-    const quantidadeTerrenosNec = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
-    const quantidadeLojasPNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
-    const quantidadeLojasMNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasM
-    const quantidadeLojasGNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasG
+    const quantidadeTerrenosNec = baseSetor.edificios[index].lojasNecessarias.terrenos
+    const quantidadeLojasPNec = baseSetor.edificios[index].lojasNecessarias.lojasP
+    const quantidadeLojasMNec = baseSetor.edificios[index].lojasNecessarias.lojasM
+    const quantidadeLojasGNec = baseSetor.edificios[index].lojasNecessarias.lojasG
 
 
     const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução
@@ -365,7 +365,7 @@ export const CardLocalization = ({ index, setor }) => {
         let novoAcumuladorRedCusto = 0;
         let novoAcumuladorAumFatu = 0;
 
-        dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia.forEach((edMelhorado) => {
+        baseSetor.edificios[index].ForneceMelhoraEficiencia.forEach((edMelhorado) => {
             let setorEncontrado = null;
             let indice = -1;
             const quantidadeAtivo = (nomeEd) => {
@@ -380,7 +380,7 @@ export const CardLocalization = ({ index, setor }) => {
             };
 
             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
-            const qtd = quantidadeAtivo(dados[setorAtivo].edificios[index].nome);
+            const qtd = quantidadeAtivo(baseSetor.edificios[index].nome);
 
             const powerUpSelecionado =
                 qtd >= quantidadeMinimaPowerUpNv3
@@ -415,7 +415,7 @@ export const CardLocalization = ({ index, setor }) => {
         let novoAcumuladorRedCusto = 0;
         let novoAcumuladorAumFatu = 0;
 
-        dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia.forEach((edMelhorado) => {
+        baseSetor.edificios[index].RecebeMelhoraEficiencia.forEach((edMelhorado) => {
             let setorEncontrado = null;
             let indice = -1;
             const quantidadeAtivo = (nomeEd) => {
@@ -430,7 +430,7 @@ export const CardLocalization = ({ index, setor }) => {
             };
 
             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
-            const qtd = quantidadeAtivo(dados[setorAtivo].edificios[index].nome);
+            const qtd = quantidadeAtivo(baseSetor.edificios[index].nome);
 
             const powerUpSelecionado =
                 qtd >= quantidadeMinimaPowerUpNv3
@@ -471,10 +471,10 @@ export const CardLocalization = ({ index, setor }) => {
         "aquecida": 1.25,
     }[economiaSetor];
 
-    const valorFatu = dados[setorAtivo].edificios[index].finanças.faturamentoUnitário
-    const valorImpostoFixo = dados[setorAtivo].edificios[index].finanças.impostoFixo
-    const impostoSobreFatu = dados[setorAtivo].edificios[index].finanças.impostoSobreFatu
-    const custoConstrução = dados[setorAtivo].edificios[index].custoConstrucao;
+    const valorFatu = baseSetor.edificios[index].finanças.faturamentoUnitário
+    const valorImpostoFixo = baseSetor.edificios[index].finanças.impostoFixo
+    const impostoSobreFatu = baseSetor.edificios[index].finanças.impostoSobreFatu
+    const custoConstrução = baseSetor.edificios[index].custoConstrucao;
 
     const impostoSobreFatuFinal = impostoSobreFatu - (impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100))
     const valorFatuFinal = ((valorFatu + (valorFatu * (acumuladorPowerUpAumFatuRecebe / 100)))
@@ -590,7 +590,7 @@ export const CardLocalization = ({ index, setor }) => {
                         <img src={fechar} alt="Fechar" className="w-[60%]" />
                     </button>
                     <div style={{ backgroundColor: setorInfo.cor1 }} className="flex w-[95%] text-[50px] fonteBold text-white h-[15%] rounded-[20px] justify-center items-center ">
-                        {dados[setorAtivo].edificios[index].nome}
+                        {baseSetor.edificios[index].nome}
                     </div >
 
                     <div style={{ backgroundColor: setorInfo.cor2 }} className="w-[95%] h-[75%] rounded-[20px] self-center">
@@ -638,7 +638,7 @@ export const CardLocalization = ({ index, setor }) => {
                                             </tr>
                                         </thead>
 
-                                        {dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia.map((edMelhorado, i) => {
+                                        {baseSetor.edificios[index].ForneceMelhoraEficiencia.map((edMelhorado, i) => {
 
                                             let setorEncontrado = null;
 
@@ -656,7 +656,7 @@ export const CardLocalization = ({ index, setor }) => {
 
                                             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
 
-                                            const qtd = quantidadeAtivo(dados[setorAtivo].edificios[index].nome);
+                                            const qtd = quantidadeAtivo(baseSetor.edificios[index].nome);
 
                                             const powerUpSelecionado =
                                                 qtd >= quantidadeMinimaPowerUpNv3
@@ -786,7 +786,7 @@ export const CardLocalization = ({ index, setor }) => {
                                                 </th>
                                             </tr>
                                         </thead>
-                                        {dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia.map((edMelhorado, i) => {
+                                        {baseSetor.edificios[index].RecebeMelhoraEficiencia.map((edMelhorado, i) => {
 
                                             let setorEncontrado = null;
 
@@ -804,7 +804,7 @@ export const CardLocalization = ({ index, setor }) => {
 
                                             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
 
-                                            const qtd = quantidadeAtivo(dados[setorAtivo].edificios[index].nome);
+                                            const qtd = quantidadeAtivo(baseSetor.edificios[index].nome);
 
                                             const powerUpSelecionado =
                                                 qtd >= quantidadeMinimaPowerUpNv3
@@ -922,7 +922,7 @@ export const CardLocalization = ({ index, setor }) => {
 
 
 
-                {dados[setorAtivo].edificios[index].licençaLiberado.liberado === false && (
+                {baseSetor.edificios[index].licençaLiberado.liberado === false && (
                     <motion.div
                         style={{
                             background: `transparent`, // fundo transparente para o container principal
@@ -973,7 +973,7 @@ export const CardLocalization = ({ index, setor }) => {
                                             >
                                                 <img
                                                     className="h-[70%] aspect-square absolute"
-                                                    src={getImageUrl(dados[setorAtivo].edificios[index].licençaLiberado.licença)}
+                                                    src={getImageUrl(baseSetor.edificios[index].licençaLiberado.licença)}
                                                     alt=""
                                                 />
                                             </div>
@@ -989,15 +989,15 @@ export const CardLocalization = ({ index, setor }) => {
                     <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
                         <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[25%] rounded-[10px] flex justify-between drop-shadow-xs">
                             <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
-                                <img className="h-[70%]" src={getImageUrl(dados[setorAtivo].edificios[index].nome)} alt="" />
+                                <img className="h-[70%]" src={getImageUrl(baseSetor.edificios[index].nome)} alt="" />
                             </div>
 
                             <div className="flex p-[10px] justify-center">
-                                <h1 className="text-white fonteBold text-[12px]">{dados[setorAtivo].edificios[index].nome}</h1>
+                                <h1 className="text-white fonteBold text-[12px]">{baseSetor.edificios[index].nome}</h1>
                             </div>
                         </div>
                         <div className="h-[35%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
-                            <h2 style={{ color: setorInfo.cor1 }} className="text-[12px] fonteBold text-[#003816]">{dados[setorAtivo].edificios[index].desc}</h2>
+                            <h2 style={{ color: setorInfo.cor1 }} className="text-[12px] fonteBold text-[#003816]">{baseSetor.edificios[index].desc}</h2>
                         </div>
                         <div className="h-[25%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
 
@@ -1041,7 +1041,7 @@ export const CardLocalization = ({ index, setor }) => {
                                                         <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                     </div>
                                                     <div className="flex justify-center items-center w-full">
-                                                        <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[index].quantidade}
+                                                        <h2 className="text-white text-[15px] fonteBold">{baseSetor.edificios[index].quantidade}
                                                         </h2>
                                                     </div>
                                                 </div>
@@ -1058,7 +1058,7 @@ export const CardLocalization = ({ index, setor }) => {
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between  h-full">
                                         <div className="flex items-center justify-center h-full drop-shadow-2xl">
                                             <img src={DolarImg} className="h-[60%] ml-[2px] " />
-                                            <h1 className=" text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário)}</h1>
+                                            <h1 className=" text-white fonteBold text-[15px] ml-2">{formatarNumero(baseSetor.edificios[index].finanças.faturamentoUnitário)}</h1>
                                         </div>
                                         <div className="flex items-center justify-center h-full">
                                             <h1 className="text-white font-bold mr-2 text-[15px]">{rentabilidade.toFixed(0)}</h1>
@@ -1068,7 +1068,7 @@ export const CardLocalization = ({ index, setor }) => {
                                 </div>
                                 <div style={{ backgroundColor: setorInfo.cor3 }} className=" w-[40%] h-[80%] flex items-center justify-around rounded-[5px]">
                                     <img src={ConstuirImg} className="h-[60%] aspect-square ml-[5px]" />
-                                    <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].custoConstrucao)}</h1>
+                                    <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(baseSetor.edificios[index].custoConstrucao)}</h1>
                                 </div>
                             </div >
 
@@ -1079,7 +1079,7 @@ export const CardLocalization = ({ index, setor }) => {
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between  h-full">
                                         <div className="flex items-center justify-center h-full drop-shadow-2xl">
                                             <img src={DolarImg} className="h-[60%] ml-[2px] " />
-                                            <h1 className=" text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário)}</h1>
+                                            <h1 className=" text-white fonteBold text-[15px] ml-2">{formatarNumero(baseSetor.edificios[index].finanças.faturamentoUnitário)}</h1>
                                         </div>
 
                                     </div>
@@ -1249,7 +1249,7 @@ export const CardLocalization = ({ index, setor }) => {
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.terrenos}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{baseSetor.edificios[index].lojasNecessarias.terrenos}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.terrenos.quantidade}</h2>
                                                 </div>
@@ -1268,7 +1268,7 @@ export const CardLocalization = ({ index, setor }) => {
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasP}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{baseSetor.edificios[index].lojasNecessarias.lojasP}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasP.quantidade}</h2>
                                                 </div>
@@ -1287,7 +1287,7 @@ export const CardLocalization = ({ index, setor }) => {
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasM}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{baseSetor.edificios[index].lojasNecessarias.lojasM}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasM.quantidade}</h2>
                                                 </div>
@@ -1306,7 +1306,7 @@ export const CardLocalization = ({ index, setor }) => {
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasG}</h2>
+                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{baseSetor.edificios[index].lojasNecessarias.lojasG}</h2>
                                                 <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasG.quantidade}</h2>
                                                 </div>
@@ -1369,7 +1369,7 @@ export const CardLocalization = ({ index, setor }) => {
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center w-full">
-                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[index].powerUp.nível1.quantidadeMínima}
+                                                    <h2 className="text-white text-[10px] fonteBold">{baseSetor.edificios[index].powerUp.nível1.quantidadeMínima}
                                                     </h2>
                                                 </div>
                                             </div>
@@ -1378,7 +1378,7 @@ export const CardLocalization = ({ index, setor }) => {
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center h-full w-full">
-                                                    <h2 className="text-white text-[10px]  fonteBold">{dados[setorAtivo].edificios[index].powerUp.nível2.quantidadeMínima}
+                                                    <h2 className="text-white text-[10px]  fonteBold">{baseSetor.edificios[index].powerUp.nível2.quantidadeMínima}
                                                     </h2>
                                                 </div>
                                             </div>
@@ -1387,7 +1387,7 @@ export const CardLocalization = ({ index, setor }) => {
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
                                                 <div className="flex justify-center items-center w-full">
-                                                    <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[index].powerUp.nível3.quantidadeMínima}
+                                                    <h2 className="text-white text-[10px] fonteBold">{baseSetor.edificios[index].powerUp.nível3.quantidadeMínima}
                                                     </h2>
                                                 </div>
                                             </div>
