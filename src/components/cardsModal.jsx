@@ -25,7 +25,7 @@ import LicenseNec from "./licenseNec";
 import fechar from "../imagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
 import { Localizador } from "./localizador";
-import { CardLocalization } from "./cardLocalization";
+
 import { useSetor } from "./Redirector"
 import { useAgricultura } from "./AgriculturaContext";
 import { useComercio } from "./ComercioContext";

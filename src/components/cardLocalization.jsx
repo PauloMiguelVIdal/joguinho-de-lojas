@@ -21,7 +21,7 @@ import LojaMImg from "../imagens/lojaM.png"
 import LojaGImg from "../imagens/lojaG.png"
 import SelectorImage from "./selectorImage";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-
+import { useMemo, useRef } from "react";
 import LicenseNec from "./licenseNec";
 import fechar from "../imagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
@@ -37,20 +37,29 @@ export const CardLocalization = ({ index, setor }) => {
    console.log(setorAtivo)
         const {dadosSetor } = useSetor(); 
         
-        const setorSelecionado = (setorAtivo) => {
-            switch (setorAtivo) {
-              case "agricultura": return "dadosAgricultura";
-              case "tecnologia": return "dadosTecnologia";
-              case "industria": return "dadosIndustria";
-              case "comercio": return "dadosComercio";
-              case "imobiliario": return "dadosImobiliario";
-              case "energia": return "dadosEnergia";
-              case "carteira": return "dadosCarteira";
-            }
-          }
-        const setorDados = dadosSetor; // pegando os dados completos do setor
-        const baseSetor = setorDados[setorSelecionado(setorAtivo)][setorAtivo]
-        const economiaSetor = baseSetor.economiaSetor.estadoAtual
+        const setorSelecionado = (s) => ({
+            agricultura: "dadosAgricultura",
+            tecnologia: "dadosTecnologia",
+            industria: "dadosIndustria",
+            comercio: "dadosComercio",
+            imobiliario: "dadosImobiliario",
+            energia: "dadosEnergia",
+            carteira: "dadosCarteira",
+          }[s]);
+
+          const setorKey = useMemo(() => setorSelecionado(setorAtivo), [setorAtivo]);
+
+   
+        const baseSetor = useMemo(
+            () => dadosSetor?.[setorKey]?.[setorAtivo],
+            [dadosSetor, setorKey, setorAtivo]
+          );
+          const edificio = baseSetor?.edificios?.[index];
+          if (!baseSetor || !edificio) return null;
+        
+          // a partir daqui, SEM "?.": já garantimos que existe
+          const economiaSetor = baseSetor.economiaSetor?.estadoAtual ?? "estável";
+          const quantidadeAtivo = edificio.quantidade ?? 0;
 
     const setores = [
         { id: "agricultura", cor3: "#0C9123", corClasse: "bg-[#4CAF50]", img: agricultura, descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50", },
@@ -207,7 +216,7 @@ export const CardLocalization = ({ index, setor }) => {
     // Verificar o nome
 
     console.log("Nome do Edifício Ativo:", nomeAtivo);
-    const quantidadeAtivo = baseSetor.edificios[index].quantidade;
+    // const quantidadeAtivo = baseSetor.edificios[index].quantidade;
     const quantidadeMinimaPowerUpNv2 = baseSetor.edificios[index].powerUp.nível2.quantidadeMínima;
     const quantidadeMinimaPowerUpNv3 = baseSetor.edificios[index].powerUp.nível3.quantidadeMínima;
     const corPadrão = { backgroundColor: setorInfo.cor2 };
