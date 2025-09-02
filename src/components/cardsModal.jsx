@@ -33,6 +33,7 @@ import { useIndustria } from "./IndustriaContext";
 import { useEnergia } from "./EnergiaContext";
 import { useImobiliario } from "./ImobiliarioContext";
 import { useTecnologia } from "./TecnologiaContext";
+import { useMemo, useRef } from "react";
 
 export const CardModal = ({ index }) => {
     const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
@@ -49,8 +50,9 @@ export const CardModal = ({ index }) => {
             case "carteira": return "dadosCarteira";
         }
     }
+    const setorKey = setorSelecionado(setorAtivo);
     const setorDados = dadosSetor; // pegando os dados completos do setor
-    const baseSetor = setorDados[setorSelecionado(setorAtivo)][setorAtivo]
+    const baseSetor = setorDados?.[setorKey]?.[setorAtivo];
     const { dados, atualizarDados, atualizarDadosProf2, atualizarDadosProf3, atualizarDadosProf } = useContext(CentraldeDadosContext);
     const economiaSetor = baseSetor.economiaSetor.estadoAtual
     //   console.log(setorDados.dadosAgricultura.agricultura.edificios[0].nome)
@@ -769,150 +771,89 @@ export const CardModal = ({ index }) => {
     const [acumuladorPowerUpAumFatuRecebe, setAcumuladorPowerUpAumFatuRecebe] = useState(0);
 
     // Aqui sim, fazemos o cálculo num useEffect:
+        const indicePorNome = useMemo(() => {
+            const map = {};
+            for (const s of setoresArr) {
+              dados[s]?.edificios?.forEach((ed, i) => { map[ed.nome] = { setor: s, idx: i, ed }; });
+            }
+            return map;
+          }, [dados]);
+    const quantidadePorNome = (nome) => indicePorNome[nome]?.ed?.quantidade ?? 0;
 
-    // useEffect(() => {
-    //         let novoAcumuladorRedCusto = 0;
-    //         let novoAcumuladorAumFatu = 0;
-
-    //         const setorDef = (setorDef) => {
-    //             switch (setorDef) {
-    //               case "agricultura": return "dadosAgricultura";
-    //               case "tecnologia": return "dadosTecnologia";
-    //               case "industria": return "dadosIndustria";
-    //               case "comercio": return "dadosComercio";
-    //               case "imobiliario": return "dadosImobiliario";
-    //               case "energia": return "dadosEnergia";
-    //               case "carteira": return "dadosCarteira";
-    //             }
-    //           }
-
-
-              
-
-    //         baseSetor.edificios[index].ForneceMelhoraEficiencia.forEach((edMelhorado) => {
-    //             let setorEncontrado = null;
-    //             let indice = -1;
-
-    //             // Função que procura o edifício pelo nome em todos os setores
-    //             const quantidadeAtivo = (nomeEd) => {
-    //                 for (const setor of setoresArr) {
-
-    //                     // const dadosCorretosSetor = meDaSetor(setorDescoberto);
-
-
-    //                   const chave = setorDef(setor);
-                      
-    //                   if (!chave) continue;
-                      
-    //                   const setorDescoberto = descobrirSetor(nomeEd); 
-    //                 //   descobrirSetor(nomeEd)
-                      
-    //                 console.log(dadosCorretosSetor)
-    //                 const dadosCorretosSetor = meDaSetor(setorDescoberto);
-    //                   console.log(nomeEd)
-    //                   console.log(setorDescoberto)
-    //                   const idx = dadosCorretosSetor[setorDescoberto].edificios.findIndex(ed => ed.nome === nomeEd);
-                      
-    //                   console.log(idx)
-
-    //                   if (idx !== -1) {
-    //                     setorEncontrado = setor;
-    //                     console.log(setorEncontrado)
-    //                     indice = idx;
-    //                     return [chave][setor].edificios[idx].quantidade;
-    //                   }
-    //                 }
-    //                 return 0;
-    //               };
-
-    //             // Quantidade do edifício que recebe o benefício
-    //             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
-
-    //             // Quantidade do edifício que fornece o benefício
-    //             const qtdFornecedor = quantidadeAtivo(baseSetor.edificios[index].nome);
-
-    //             // Define qual nível de power-up usar
-    //             const powerUpSelecionado =
-    //                 qtdFornecedor >= quantidadeMinimaPowerUpNv3
-    //                     ? "powerUpNv3"
-    //                     : qtdFornecedor >= quantidadeMinimaPowerUpNv2
-    //                         ? "powerUpNv2"
-    //                         : "powerUpNv1";
-
-    //             // Só acumula se realmente existe quem recebe o benefício
-    //             if (qtdMelhorado > 0) {
-    //                 const ValorpowerUpAtualRedCustoFornece =
-    //                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 :
-    //                     powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 :
-    //                     edMelhorado.redCusto.nível3;
-
-    //                 novoAcumuladorRedCusto += ValorpowerUpAtualRedCustoFornece;
-
-    //                 const ValorpowerUpAtualAumFatuFornece =
-    //                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 :
-    //                     powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 :
-    //                     edMelhorado.aumFatu.nível3;
-
-    //                 novoAcumuladorAumFatu += ValorpowerUpAtualAumFatuFornece;
-    //             }
-    //         });
-
-    //         setAcumuladorPowerUpRedCustoFornece(novoAcumuladorRedCusto);
-    //         setAcumuladorPowerUpAumFatuFornece(novoAcumuladorAumFatu);
-    //     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
-
-    //     useEffect(() => {
-    //         let novoAcumuladorRedCusto = 0;
-    //         let novoAcumuladorAumFatu = 0;
-
-    //         baseSetor.edificios[index].RecebeMelhoraEficiencia.forEach((edMelhorado) => {
-    //             let setorEncontrado = null;
-    //             let indice = -1;
-    //             const quantidadeAtivo = (nomeEd) => {
-    //                 for (const setor of setoresArr) {
-    //                     setorEncontrado = setor;
-    //                     indice = dados[setorEncontrado].edificios.findIndex(ed => ed.nome === nomeEd);
-    //                     if (indice !== -1) {
-    //                         return dados[setor].edificios[indice].quantidade;
-    //                     }
-    //                 }
-    //                 return 0;
-    //             };
-
-    //             const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
-    //             const qtd = quantidadeAtivo(baseSetor.edificios[index].nome);
-
-    //             const powerUpSelecionado =
-    //                 qtd >= quantidadeMinimaPowerUpNv3
-    //                     ? "powerUpNv3"
-    //                     : qtd >= quantidadeMinimaPowerUpNv2
-    //                         ? "powerUpNv2"
-    //                         : "powerUpNv1";
-
-    //             if (qtdMelhorado > 0) {
-    //                 const ValorpowerUpAtualRedCustoFornece =
-    //                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 :
-    //                         powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 :
-    //                             edMelhorado.redCusto.nível3;
-
-    //                 novoAcumuladorRedCusto += ValorpowerUpAtualRedCustoFornece;
-
-    //                 const ValorpowerUpAtualAumFatuFornece =
-    //                     powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 :
-    //                         powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 :
-    //                             edMelhorado.aumFatu.nível3;
-
-    //                 novoAcumuladorAumFatu += ValorpowerUpAtualAumFatuFornece;
-    //             }
-    //         });
-
-    //         setAcumuladorPowerUpRedCustoRecebe(novoAcumuladorRedCusto);
-    //         setAcumuladorPowerUpAumFatuRecebe(novoAcumuladorAumFatu);
-    //         // console.log(acumuladorPowerUpAumFatuRecebe)
-    //         // console.log(acumuladorPowerUpRedCustoRecebe)
-
-    //     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
-
+    useEffect(() => {
+        let novoAcumuladorRedCusto = 0;
+        let novoAcumuladorAumFatu = 0;
+    
+        baseSetor.edificios[index].ForneceMelhoraEficiencia.forEach((edMelhorado) => {
+            const qtdMelhorado = quantidadePorNome(edMelhorado.nome);
+            const qtdFornecedor = quantidadePorNome(baseSetor.edificios[index].nome);
+    
+            // Define qual nível de power-up usar
+            const powerUpSelecionado =
+                qtdFornecedor >= quantidadeMinimaPowerUpNv3
+                    ? "powerUpNv3"
+                    : qtdFornecedor >= quantidadeMinimaPowerUpNv2
+                        ? "powerUpNv2"
+                        : "powerUpNv1";
+    
+            if (qtdMelhorado > 0) {
+                const valRedCusto =
+                    powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 :
+                    powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 :
+                    edMelhorado.redCusto.nível3;
+    
+                const valAumFatu =
+                    powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 :
+                    powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 :
+                    edMelhorado.aumFatu.nível3;
+    
+                novoAcumuladorRedCusto += valRedCusto;
+                novoAcumuladorAumFatu += valAumFatu;
+            }
+        });
+    
+        setAcumuladorPowerUpRedCustoFornece(novoAcumuladorRedCusto);
+        setAcumuladorPowerUpAumFatuFornece(novoAcumuladorAumFatu);
+    
+    }, [dados, index, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
+    
+    
+    useEffect(() => {
+        let novoAcumuladorRedCusto = 0;
+        let novoAcumuladorAumFatu = 0;
+    
+        baseSetor.edificios[index].RecebeMelhoraEficiencia.forEach((edMelhorado) => {
+            const qtdMelhorado = quantidadePorNome(edMelhorado.nome);
+            const qtdRecebedor = quantidadePorNome(baseSetor.edificios[index].nome);
+    
+            const powerUpSelecionado =
+                qtdRecebedor >= quantidadeMinimaPowerUpNv3
+                    ? "powerUpNv3"
+                    : qtdRecebedor >= quantidadeMinimaPowerUpNv2
+                        ? "powerUpNv2"
+                        : "powerUpNv1";
+    
+            if (qtdMelhorado > 0) {
+                const valRedCusto =
+                    powerUpSelecionado === "powerUpNv1" ? edMelhorado.redCusto.nível1 :
+                    powerUpSelecionado === "powerUpNv2" ? edMelhorado.redCusto.nível2 :
+                    edMelhorado.redCusto.nível3;
+    
+                const valAumFatu =
+                    powerUpSelecionado === "powerUpNv1" ? edMelhorado.aumFatu.nível1 :
+                    powerUpSelecionado === "powerUpNv2" ? edMelhorado.aumFatu.nível2 :
+                    edMelhorado.aumFatu.nível3;
+    
+                novoAcumuladorRedCusto += valRedCusto;
+                novoAcumuladorAumFatu += valAumFatu;
+            }
+        });
+    
+        setAcumuladorPowerUpRedCustoRecebe(novoAcumuladorRedCusto);
+        setAcumuladorPowerUpAumFatuRecebe(novoAcumuladorAumFatu);
+    
+    }, [dados, index, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
+    
 
     const valorFatu = baseSetor.edificios[index].finanças.faturamentoUnitário
     const valorImpostoFixo = baseSetor.edificios[index].finanças.impostoFixo

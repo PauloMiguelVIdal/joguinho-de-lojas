@@ -161,18 +161,9 @@ export const CardLocalization = ({ index, setor }) => {
 
 
 
-    const handleMouseEnter = () => {
-        // Aguardar 1 segundo (1000ms) após o mouse entrar
-        timer = setTimeout(() => {
-            setIsModalOpen(true);
-        }, 0);
-    };
-
-    const handleMouseLeave = () => {
-        // Se o mouse sair antes de 1 segundo, cancela a ação
-        clearTimeout(timer);
-    };
-
+    const timerRef = useRef(null);
+    const handleMouseEnter = () => { timerRef.current = setTimeout(() => setIsModalOpen(true), 0); };
+    const handleMouseLeave = () => { if (timerRef.current) clearTimeout(timerRef.current); };
 
     const handleMouseLeaveFinal = () => {
         // Aguardar 1 segundo (1000ms) após o mouse entrar
