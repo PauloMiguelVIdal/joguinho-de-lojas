@@ -16,8 +16,8 @@ import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import {useSetor} from "./Redirector"
 
 export const LicenseModal = ({ setor,nomeLicença,index }) => {
-    const { dados,atualizarDados,atualizarDadosProf } = useContext(CentraldeDadosContext);
-    const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
+    const { dados,atualizarDados,atualizarDadosProf,atualizarDadosProf2 } = useContext(CentraldeDadosContext);
+    const { economiaSetores, setEconomiaSetores,atualizarEco } = useContext(DadosEconomyGlobalContext);
    const { setorAtivo, dadosSetor } = useSetor(); 
 
    const setorSelecionado = (setorAtivo) => {
@@ -32,8 +32,9 @@ export const LicenseModal = ({ setor,nomeLicença,index }) => {
     }
   }
 
-const setorDados = dadosSetor; // pegando os dados completos do setor
-    const baseSetor = setorDados[setorSelecionado(setorAtivo)][setorAtivo]
+  const setorKey = setorSelecionado(setorAtivo);
+  const setorDados = dadosSetor; // pegando os dados completos do setor
+  const baseSetor = setorDados?.[setorKey]?.[setorAtivo];
     const economiaSetor = baseSetor.economiaSetor.estadoAtual
 
 
@@ -59,28 +60,28 @@ console.log(setorAtivo)
     ];
 
     const comprarLicença = () => {
-        if (dados[setorAtivo].licençasSetor[index].status === true){return} 
+        if (setorKey.licençasSetor[index].status === true){return} 
             
-       else if (economiaSetores.saldo < (dados[setorAtivo].licençasSetor[index].valor)) {
+       else if (economiaSetores.saldo < (baseSetor.licençasSetor[index].valor)) {
             alert("Você não tem dinheiro suficiente para comprar essa licença");
         }else{
-            atualizarDadosProf(["licençasSetor", index, "status"], true);
+            atualizarDadosProf2([setorKey,"licençasSetor", index, "status"], true);
             liberarEdificios();
             console.log("Licença comprada e edifícios liberados");
-            atualizarEco('saldo', economiaSetores.saldo - (dados[setorAtivo].licençasSetor[index].valor));
+            atualizarEco('saldo', economiaSetores.saldo - (baseSetor.licençasSetor[index].valor));
         }
     };
     
 
     const liberarEdificios = () => {
-        const edificiosLiberados = dados[setorAtivo].licençasSetor[index].edifíciosLiberados;
+        const edificiosLiberados = baseSetor.licençasSetor[index].edifíciosLiberados;
     
         edificiosLiberados.forEach(nomeEd => {
-            const indice = dados[setorAtivo].edificios.findIndex(ed => ed.nome === nomeEd);
+            const indice = baseSetor.edificios.findIndex(ed => ed.nome === nomeEd);
             if (indice === -1) return;
     
-            atualizarDadosProf(["edificios", indice, "licençaLiberado"], {
-                ...dados[setorAtivo].edificios[indice].licençaLiberado,
+            atualizarDadosProf2([,"edificios", indice, "licençaLiberado"], {
+                ...baseSetor.edificios[indice].licençaLiberado,
                 liberado: true
             });
 

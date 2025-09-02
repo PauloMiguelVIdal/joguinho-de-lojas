@@ -11,7 +11,7 @@ const CentraldeDadosProvider = ({ children }) => {
       nomeEmpresa: ""
     },
     edObjetivos : [],
-    setorAtivo: "industria",
+    setorAtivo: "agricultura",
     fimGame: false,
     nomeEmpresa: "",
 
