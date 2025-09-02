@@ -30,8 +30,9 @@ import {useSetor} from "./Redirector"
 
 export const CardLocalization = ({ index, setor }) => {
     const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
-    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+    const { dados, atualizarDados,atualizarDadosProf2 } = useContext(CentraldeDadosContext);
     const setorAtivo = setor;
+    const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
 
    console.log(setorAtivo)
@@ -78,7 +79,7 @@ export const CardLocalization = ({ index, setor }) => {
 
     const contabilidadeDeFalta = (edificio) => {
         const qtdAtual = dados[edificio].quantidade
-        const qtdNecessaria = baseSetor.edificios[index].lojasNecessarias[edificio]
+        const qtdNecessaria = edificio.lojasNecessarias?.[edificio] ?? 0;
 
         const qtdFalta = qtdAtual >= qtdNecessaria ? 0 : qtdNecessaria - qtdAtual;
         const custoTotalConst = edificio === "terrenos" ? dados[edificio].preçoConstrução : edificio === "lojasP" ? dados[edificio].preçoConstrução + dados.terrenos.preçoConstrução : edificio === "lojasM" ? dados[edificio].preçoConstrução + 2 * dados.terrenos.preçoConstrução : edificio === "lojasG" ? dados[edificio].preçoConstrução + 3 * dados.terrenos.preçoConstrução : "lascou"
@@ -87,8 +88,6 @@ export const CardLocalization = ({ index, setor }) => {
         return qtdFalta * custoTotalConst
 
     }
-
-    const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
 
     useEffect(() => {
@@ -103,30 +102,25 @@ export const CardLocalization = ({ index, setor }) => {
                         edificio === "lojasG" ? "lojasGSuficientes" :
                             "lascou";
 
-        if (qtdAtual >= qtdNecessaria) {
-            const novoEdificio = {
-                ...baseSetor.edificios[index],
-                lojasNecessarias: {
-                    ...baseSetor.edificios[index].lojasNecessarias,
-                    [edificioSuficiente]: true
-                }
-            };
-
-            const novaLista = [...baseSetor.edificios];
-            novaLista[index] = novoEdificio;
-
-            atualizarDados({
-                ...dados,
-                [setorAtivo]: {
-                    ...baseSetor,
-                    edificios: novaLista
-                }
-            });
-        }
-
     }, [dados.dia]);
 
-
+    useEffect(() => {
+        if (!edificio) return;
+        const qtdAtual = dados.lojasP?.quantidade ?? 0;
+        const qtdNec = edificio.lojasNecessarias?.lojasP ?? 0;
+      
+        const novoFlag = qtdAtual >= qtdNec;
+        const flagAtual = edificio.lojasNecessarias?.lojasPSuficientes ?? false;
+      
+        if (novoFlag !== flagAtual) {
+          // Atualize SÓ o caminho necessário
+          atualizarDadosProf2(
+            [setorAtivo, 'edificios', index, 'lojasNecessarias', 'lojasPSuficientes'],
+            novoFlag
+          );
+        }
+      }, [dados.lojasP?.quantidade, edificio, index, setorAtivo]);
+      
 
     const formatarNumero = (num) => {
         if (num >= 1e12) return (num / 1e12).toFixed(1).replace('.0', '') + 'T'; // Trilhões
@@ -136,15 +130,18 @@ export const CardLocalization = ({ index, setor }) => {
         return num.toString();
     };
 
-    const booleanPreReq = (nomeEd) => {
-        for (const setor of setoresArr) {
-            const idx = dados[setor].edificios.findIndex(ed => ed.nome === nomeEd);
-            if (idx !== -1) {
-                return dados[setor].edificios[idx].quantidade > 0;
-            }
+
+    const indicePorNome = useMemo(() => {
+        const map = {};
+        for (const s of setoresArr) {
+          dados[s]?.edificios?.forEach((ed, i) => { map[ed.nome] = { setor: s, idx: i, ed }; });
         }
-        return false;
-    };
+        return map;
+      }, [dados]);
+      
+      const quantidadePorNome = (nome) => indicePorNome[nome]?.ed?.quantidade ?? 0;
+
+      const booleanPreReq = (nomeEd) => quantidadePorNome(nomeEd) > 0;
 
 
 
@@ -236,25 +233,18 @@ export const CardLocalization = ({ index, setor }) => {
     };
     const [verificadorDeLojasNecessárias, setVerificador] = useState(false)
     const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(true);
-
+   
+   
     useEffect(() => {
-        const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-
-        const verificarEdificios = (listaEdificios) => {
-            return listaEdificios.some((nomeEdificio) => {
-                const setor = setoresArr.find((s) => dados[s]?.edificios?.some((ed) => ed.nome === nomeEdificio));
-                if (!setor) return true;
-
-                const index = baseSetor.edificios.findIndex((ed) => ed.nome === nomeEdificio);
-                return baseSetor.edificios[index]?.quantidade <= 0;
-            });
-        };
-
-        const faltandoRecurso = verificarEdificios(arrayConstResources || []);
-        const faltandoConstrucao = verificarEdificios(arrayConstNece || []);
-
+        const verificarEdificios = (listaEdificios = []) =>
+            listaEdificios.some(nomeEdificio => quantidadePorNome(nomeEdificio) <= 0);
+    
+        const faltandoRecurso = verificarEdificios(arrayConstResources);
+        const faltandoConstrucao = verificarEdificios(arrayConstNece);
+    
         setVerificadorConstr(faltandoRecurso || faltandoConstrucao);
-    }, [arrayConstResources, arrayConstNece, dados]);
+    }, [arrayConstResources, arrayConstNece, indicePorNome]);
+    
 
 
     useEffect(() => {
@@ -346,6 +336,9 @@ export const CardLocalization = ({ index, setor }) => {
         setFlipped(!flipped);
     };
 
+
+
+
     const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
 
     const quantidadeTerrenosNec = baseSetor.edificios[index].lojasNecessarias.terrenos
@@ -377,19 +370,10 @@ export const CardLocalization = ({ index, setor }) => {
         baseSetor.edificios[index].ForneceMelhoraEficiencia.forEach((edMelhorado) => {
             let setorEncontrado = null;
             let indice = -1;
-            const quantidadeAtivo = (nomeEd) => {
-                for (const setor of setoresArr) {
-                    setorEncontrado = setor;
-                    indice = dados[setorEncontrado].edificios.findIndex(ed => ed.nome === nomeEd);
-                    if (indice !== -1) {
-                        return dados[setor].edificios[indice].quantidade;
-                    }
-                }
-                return 0;
-            };
+            
 
-            const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
-            const qtd = quantidadeAtivo(baseSetor.edificios[index].nome);
+            const qtdMelhorado = quantidadePorNome(edMelhorado.nome);
+            const qtd = quantidadePorNome(baseSetor.edificios[index].nome);
 
             const powerUpSelecionado =
                 qtd >= quantidadeMinimaPowerUpNv3
@@ -425,21 +409,10 @@ export const CardLocalization = ({ index, setor }) => {
         let novoAcumuladorAumFatu = 0;
 
         baseSetor.edificios[index].RecebeMelhoraEficiencia.forEach((edMelhorado) => {
-            let setorEncontrado = null;
-            let indice = -1;
-            const quantidadeAtivo = (nomeEd) => {
-                for (const setor of setoresArr) {
-                    setorEncontrado = setor;
-                    indice = dados[setorEncontrado].edificios.findIndex(ed => ed.nome === nomeEd);
-                    if (indice !== -1) {
-                        return dados[setor].edificios[indice].quantidade;
-                    }
-                }
-                return 0;
-            };
 
-            const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
-            const qtd = quantidadeAtivo(baseSetor.edificios[index].nome);
+
+            const qtdMelhorado = quantidadePorNome(edMelhorado.nome);
+            const qtd = quantidadePorNome(baseSetor.edificios[index].nome);
 
             const powerUpSelecionado =
                 qtd >= quantidadeMinimaPowerUpNv3
@@ -480,10 +453,10 @@ export const CardLocalization = ({ index, setor }) => {
         "aquecida": 1.25,
     }[economiaSetor];
 
-    const valorFatu = baseSetor.edificios[index].finanças.faturamentoUnitário
+    const valorFatu = edificio.finanças?.faturamentoUnitário ?? 0
     const valorImpostoFixo = baseSetor.edificios[index].finanças.impostoFixo
     const impostoSobreFatu = baseSetor.edificios[index].finanças.impostoSobreFatu
-    const custoConstrução = baseSetor.edificios[index].custoConstrucao;
+    const custoConstrução = edificio.custoConstrucao ?? 0;
 
     const impostoSobreFatuFinal = impostoSobreFatu - (impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100))
     const valorFatuFinal = ((valorFatu + (valorFatu * (acumuladorPowerUpAumFatuRecebe / 100)))
@@ -492,15 +465,16 @@ export const CardLocalization = ({ index, setor }) => {
     const valorImpostoFixoFinal = valorImpostoFixo - (valorImpostoFixo * (acumuladorPowerUpRedCustoRecebe / 100))
 
     let custoRecursos = 0;
-
     // Função recursiva para calcular custo total de um recurso
     function calcularCustoRecurso(nomeRecurso, nivel = 1) {
+        const edData = indicePorNome[nomeRecurso]?.ed;
         console.log("🔍".repeat(nivel), `Verificando recurso: ${nomeRecurso}`);
 
         for (const setor of setoresArr) {
             const edificioEncontrado = dados[setor]?.edificios?.find(e => e.nome === nomeRecurso);
 
-            if (edificioEncontrado) {
+            if (edData) {
+                const edificioEncontrado = edData;
                 console.log("✅".repeat(nivel), `Edifício encontrado: ${edificioEncontrado.nome}, no setor: ${setor}`);
 
                 const custoConstrucaoRecurso = edificioEncontrado.custoConstrucao || 0;
