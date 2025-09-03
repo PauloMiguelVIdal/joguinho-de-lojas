@@ -10,12 +10,12 @@ const CentraldeDadosProvider = ({ children }) => {
       estadoModal: true,
       nomeEmpresa: ""
     },
-    itensSorteados : [],
+    itensSorteados: [],
     setorAtivo: "agricultura",
     fimGame: false,
     nomeEmpresa: "",
 
-    dia: 251,
+    dia: 1,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -225,42 +225,42 @@ const CentraldeDadosProvider = ({ children }) => {
         {
           nome: "Licença Global De Agricultura",
           desc: "Autoriza operações agrícolas básicas incluindo cultivo de grãos, hortaliças e frutas, formando a base da cadeia produtiva de alimentos.",
-          valor: 2000,
+          valor: 57000,
           edifíciosLiberados: ["Plantação De Grãos", "Plantação De Vegetais", "Fazenda Administrativa", "Pomares"],
           status: false
         },
         {
           nome: "Licença De Comércios Agrícolas",
           desc: "Permite a criação de centros de distribuição e cooperativas para otimizar a comercialização de produtos agrícolas entre regiões.",
-          valor: 3000,
+          valor: 750000,
           edifíciosLiberados: ["Cooperativa Agrícola", "Centro De Comércio De Plantações"],
           status: false
         },
         {
           nome: "Licença De Fazendas De Animais",
           desc: "Habilita a criação profissional de animais como gado, aves e ovinos, essencial para abastecer frigoríficos e laticínios.",
-          valor: 2500,
+          valor: 78000,
           edifíciosLiberados: ["Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos"],
           status: false
         },
         {
           nome: "Licença De Armazenamentos Agrícolas",
           desc: "Concede permissão para construção de unidades de armazenamento especializadas para grãos e insumos agrícolas.",
-          valor: 3200,
+          valor: 44000,
           edifíciosLiberados: ["Armazém", "Silo", "Depósito De Resíduos Orgânicos"],
           status: false
         },
         {
           nome: "Licença De Áreas Especiais",
           desc: "Autoriza a exploração sustentável de recursos naturais como madeira e minérios em áreas designadas.",
-          valor: 6200,
+          valor: 140000,
           edifíciosLiberados: ["Madeireira", "Área Florestal", "Terreno De Mineração"],
           status: false
         },
         {
           nome: "Licença De Outras Plantações",
           desc: "Permite o cultivo de espécies vegetais especiais com alto valor agregado para indústrias específicas.",
-          valor: 5300,
+          valor: 44000,
           edifíciosLiberados: ["Plantação De Eucalipto", "Plantação De Plantas Medicinais"],
           status: false
         }
@@ -637,9 +637,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
 
           }
         },
@@ -802,9 +802,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -1025,9 +1025,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -1149,9 +1149,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -1278,9 +1278,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -1414,9 +1414,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -1513,9 +1513,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -1601,9 +1601,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -1758,9 +1758,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -1906,9 +1906,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -2071,9 +2071,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -2198,9 +2198,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -2281,9 +2281,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -2363,9 +2363,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -2446,9 +2446,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -2572,9 +2572,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -2703,9 +2703,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 2, aumFatu: 3 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 4, aumFatu: 2 },
-            nível3: { status: true, quantidadeMínima: 7, redCusto: 3, aumFatu: 1 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
       ],
@@ -2726,35 +2726,35 @@ const CentraldeDadosProvider = ({ children }) => {
       licençasSetor: [{
         nome: "Licença Global De Tecnologia",
         desc: "Permite a operação de empresas de tecnologia básica, incluindo infraestrutura digital e desenvolvimento de software, essencial para a economia digital.",
-        valor: 7000,
+        valor: 540000,
         edifíciosLiberados: ["Servidor Em Nuvem", "Data Center", "Startup"],
         status: false
       },
       {
         nome: "Licença De Empreendimentos Tech",
         desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
-        valor: 7000,
+        valor: 1260000,
         edifíciosLiberados: ["Empresa De Desenvolvimento De Software", "Empresa De Jogos Digitais", "Empresa De Telecomunicações"],
         status: false
       },
       {
         nome: "Licença De Plataformas Digitais",
         desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
-        valor: 7000,
+        valor: 3060000,
         edifíciosLiberados: ["Plataforma De Redes Sociais", "Marketplace Online", "Plataforma De Streaming"],
         status: false
       },
       {
         nome: "Licença Agro e Biotecnologia",
         desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
-        valor: 7000,
+        valor: 880000,
         edifíciosLiberados: ["Instituto De Tecnologia Alimentar", "Centro De Pesquisa Agrícola", "Instituto De Biotecnologia"],
         status: false
       },
       {
         nome: "Licença Eletrônica e Design",
         desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
-        valor: 7000,
+        valor: 1100000,
         edifíciosLiberados: [
           "Laboratório De Design De Produtos"
           , "Centro De Pesquisa Em Eletrônicos"
@@ -2764,28 +2764,28 @@ const CentraldeDadosProvider = ({ children }) => {
       {
         nome: "Licença De Fábricas Tecnológicas",
         desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
-        valor: 7000,
+        valor: 4500000,
         edifíciosLiberados: ["Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestiveis"],
         status: false
       },
       {
         nome: "Licença De Tecnologia Experimental",
         desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
-        valor: 7000,
+        valor: 1320000,
         edifíciosLiberados: ["Centro De Pesquisa Química", "Centro De Pesquisa Em Fusão Nuclear", "Laboratório De Novos Combustíveis"],
         status: false
       },
       {
         nome: "Licença De Engenharia Avançada",
         desc: "Habilita centros de pesquisa em eletrônica de última geração e tecnologia aeroespacial, impulsionando inovações em mobilidade e comunicação.",
-        valor: 7000,
+        valor: 2050000,
         edifíciosLiberados: ["Centro De Pesquisa Aeroespacial", "Centro De Engenharia Avançada", "Centro De Pesquisa Em Materiais Avançados"],
         status: false
       },
       {
         nome: "Licença De Pesquisa Em Robótica e IA",
         desc: "Permite o desenvolvimento de inteligência artificial e sistemas robóticos autônomos, representando o estado da arte em automação e machine learning.",
-        valor: 7000,
+        valor: 1180000,
         edifíciosLiberados: ["Centro De Pesquisa Em Robótica", "Centro De Pesquisa Em IA"],
         status: false
       }
@@ -3023,9 +3023,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -3209,9 +3209,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -3353,9 +3353,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -3456,9 +3456,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Empresa De Telecomunicações",
@@ -3487,43 +3487,43 @@ const CentraldeDadosProvider = ({ children }) => {
           melhoraEficiencia: [],
 
           ForneceMelhoraEficiencia: [],
-    RecebeMelhoraEficiencia: [
-      {
-        "nome": "Usina Hidrelétrica",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Reator Nuclear Convencional",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Usina De Fusão Nuclear",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 2 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Smartphones",
-        "redCusto": { "nível1": 10, "nível2": 19, "nível3": 25 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Pesquisa Em Eletrônicos",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 12, "nível2": 18, "nível3": 22 }
-      },
-      {
-        "nome": "Construtora",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Pesquisa Em Inteligência Artificial",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 8, "nível2": 12, "nível3": 18 }
-      }
-    ],
+          RecebeMelhoraEficiencia: [
+            {
+              "nome": "Usina Hidrelétrica",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Reator Nuclear Convencional",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Usina De Fusão Nuclear",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 2 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Smartphones",
+              "redCusto": { "nível1": 10, "nível2": 19, "nível3": 25 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Pesquisa Em Eletrônicos",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 12, "nível2": 18, "nível3": 22 }
+            },
+            {
+              "nome": "Construtora",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Pesquisa Em Inteligência Artificial",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 8, "nível2": 12, "nível3": 18 }
+            }
+          ],
 
           recursoDeConstrução: ["Startup"],
           dependências: [
@@ -3532,9 +3532,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Plataforma De Redes Sociais",
@@ -3619,9 +3619,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Marketplace Online",
@@ -3776,9 +3776,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Plataforma De Streaming",
@@ -3857,9 +3857,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Instituto De Tecnologia Alimentar",
@@ -4039,9 +4039,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Centro De Pesquisa Agrícola",
@@ -4171,9 +4171,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Instituto De Biotecnologia",
@@ -4298,9 +4298,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Laboratório De Design De Produtos",
@@ -4450,9 +4450,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -4703,9 +4703,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -4811,9 +4811,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Fábrica De Smartphones",
@@ -4963,9 +4963,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Fábrica De Computadores",
@@ -5105,9 +5105,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Fábrica De Consoles De Jogos",
@@ -5237,9 +5237,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -5380,9 +5380,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -5683,9 +5683,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         }
         ,
@@ -5802,9 +5802,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -5925,9 +5925,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -6074,9 +6074,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -6393,9 +6393,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -6637,9 +6637,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }
         ,
@@ -6827,9 +6827,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }
         ,
@@ -7052,9 +7052,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         }
 
@@ -7074,85 +7074,85 @@ const CentraldeDadosProvider = ({ children }) => {
       licençasSetor: [{
         nome: "Licença Global De Indústria",
         desc: "Permite a operação de indústrias básicas de transformação, essencial para o início da cadeia produtiva industrial.",
-        valor: 7000,
+        valor: 95000,
         edifíciosLiberados: ["Fábrica De Móveis", "Fábrica De Ração", "Fábrica De Embalagem"],
         status: false
       },
       {
         nome: "Licença De Fábricas Simples",
         desc: "Autoriza a produção de insumos agrícolas e alimentos processados, conectando o campo à indústria.",
-        valor: 7000,
+        valor: 140000,
         edifíciosLiberados: ["Fábrica De Fertilizante", "Fábrica De Bebidas", "Fábrica De Pães"],
         status: false
       },
       {
         nome: "Licença De Fábricas textil",
         desc: "Habilita a produção de têxteis e vestuário, conectando a agricultura à indústria têxtil.",
-        valor: 7000,
+        valor: 160000,
         edifíciosLiberados: ["Fábrica Textil", "Fábrica De Calçados", "Fábrica De Roupas"],
         status: false
       },
       {
         nome: "Licença De Papel E Celulose",
         desc: "Permite a produção de papel e derivados, essencial para indústrias gráficas e de embalagens.",
-        valor: 7000,
+        valor: 2200000,
         edifíciosLiberados: ["Fábrica De Celulose", "Fábrica De Papel", "Fábrica De Livros"],
         status: false
       },
       {
         nome: "Licença De Produtos Químicos",
         desc: "Autoriza a produção de produtos químicos básicos e intermediários, essenciais para diversas indústrias.",
-        valor: 7000,
-        edifíciosLiberados: ["Laboratório FarmacêuDico", "Fábrica De Medicamentos", "Fábrica De Plásticos", "Fábrica De Químicos Especializados"],
+        valor: 1500000,
+        edifíciosLiberados: ["Laboratório Farmacêutico", "Fábrica De Medicamentos", "Fábrica De Plásticos", "Fábrica De Químicos Especializados"],
         status: false
       },
       {
         nome: "Licença De Base Metalúrgica",
         desc: "Autoriza processos metalúrgicos primários, transformando minérios em metais brutos para indústrias.",
-        valor: 7000,
+        valor: 2450000,
         edifíciosLiberados: ["Alto-Forno", "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas"],
         status: false
       },
       {
         nome: "Licença De Metalúrgia Avançada",
         desc: "Habilita a fabricação de componentes metálicos complexos para setores estratégicos.",
-        valor: 7000,
+        valor: 1050000,
         edifíciosLiberados: ["Indústria De Componentes Mecânicos", "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas"],
         status: false
       },
       {
         nome: "Licença Automotiva",
         desc: "Permite a produção de veículos e componentes automotivos, incluindo tecnologias elétricas.",
-        valor: 7000,
+        valor: 3200000,
         edifíciosLiberados: ["Fábrica De Peças Automotivas", "Montadora De Veículos Elétricos", "Fábrica De Automóveis"],
         status: false
       },
       {
         nome: "Licença de Refinaria",
         desc: "Autoriza o processamento de combustíveis fósseis e biocombustíveis, essencial para o setor energético.",
-        valor: 7000,
+        valor: 1500000,
         edifíciosLiberados: ["Refinaria De Biocombustíveis", "Refinaria", "Biofábrica"],
-        status: false
-      },
-      {
-        nome: "Licença De Engenharia Mecânica Avançada",
-        desc: "Habilita a produção de motores e veículos aeroespaciais/navais de alta complexidade tecnológica.",
-        valor: 7000,
-        edifíciosLiberados: ["Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves", "Estaleiro"],
         status: false
       },
       {
         nome: "Licença Microeletrônica",
         desc: "Permite a fabricação de componentes eletrônicos complexos, robótica e sistemas de automação industrial.",
-        valor: 7000,
+        valor: 9000000,
         edifíciosLiberados: ["Fábrica De Chips", "Fábrica De Placas Eletrônicas", "Fábrica De Semicondutores"],
         status: false
       },
       {
         nome: "Licença De Eletrônica Avançada",
         desc: "Permite a fabricação de componentes eletrônicos complexos, robótica e sistemas de automação industrial.",
-        valor: 7000,
+        valor: 5200000,
         edifíciosLiberados: ["Fábrica De Eletrônicos", "Fábrica De Robôs", "Empresa De Automação Industrial"],
+        status: false
+      },
+      {
+        nome: "Licença De Engenharia Mecânica Avançada",
+        desc: "Habilita a produção de motores e veículos aeroespaciais/navais de alta complexidade tecnológica.",
+        valor: 32000000,
+        edifíciosLiberados: ["Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves", "Estaleiro"],
         status: false
       }
 
@@ -7233,7 +7233,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             }
           ]
-      ,
+          ,
 
           recursoDeConstrução: []
           ,
@@ -7243,9 +7243,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: false, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -7357,9 +7357,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -7476,9 +7476,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -7630,9 +7630,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -7744,9 +7744,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -7848,9 +7848,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -7957,9 +7957,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Fábrica De Calçados",
@@ -8065,9 +8065,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Fábrica De Roupas",
@@ -8178,9 +8178,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -8308,9 +8308,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -8433,9 +8433,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -8512,13 +8512,13 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
-        nome: "Fábrica De Medicamentos",
+          nome: "Fábrica De Medicamentos",
           desc: "Produz medicamentos a partir de matérias-primas.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -8564,7 +8564,7 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               "nome": "Laboratório Farmacêutico",
               "redCusto": { "nível1": 2, "nível2": 2, "nível3": 5 },
-              "aumFatu": { "nível1": 0, "nível2": 2,"nível3": 0 }
+              "aumFatu": { "nível1": 0, "nível2": 2, "nível3": 0 }
             },
             {
               "nome": "Empresa De Automação Industrial",
@@ -8616,9 +8616,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -8769,9 +8769,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -8908,9 +8908,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -9127,9 +9127,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -9276,9 +9276,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -9446,9 +9446,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -9610,9 +9610,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -9789,9 +9789,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -9988,9 +9988,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -10172,9 +10172,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -10356,9 +10356,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -10519,9 +10519,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -10673,9 +10673,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -10807,9 +10807,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -10985,9 +10985,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -11178,9 +11178,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -11375,9 +11375,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -11542,9 +11542,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -11699,9 +11699,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -11863,9 +11863,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -12088,9 +12088,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -12277,9 +12277,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
           }
         }
         , {
@@ -12606,9 +12606,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -12775,9 +12775,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -12927,7 +12927,7 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               "nome": "Laboratório De Novos Combustíveis",
               "redCusto": { "nível1": 1, "nível2": 5, "nível3": 10 },
-              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0}
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
               "nome": "Refinaria",
@@ -12947,7 +12947,7 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               "nome": "Centro De Pesquisa Em Materiais Avançados",
               "redCusto": { "nível1": 3, "nível2": 12, "nível3": 26 },
-              "aumFatu": { "nível1": 0,"nível2": 0, "nível3": 0 }
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
               "nome": "Centro De Pesquisa Em Robótica",
@@ -12964,9 +12964,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -13163,9 +13163,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -13337,9 +13337,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
       ],
@@ -13355,64 +13355,77 @@ const CentraldeDadosProvider = ({ children }) => {
       licençasSetor: [{
         nome: "Licença Global De Comércio",
         desc: "Permite a abertura de estabelecimentos comerciais básicos, formando a rede inicial de comércio e serviços essenciais.",
-        valor: 7000,
-        edifíciosLiberados: ["Feira", "Loja De Móveis", "Restaurante", "Livraria"],
+        valor: 28500,
+        edifíciosLiberados: ["Feira", "Loja De Móveis", "Restaurante"],
         status: false
       },
       {
         nome: "Licença De Comércio Local",
         desc: "Autoriza operações de comércio varejista de alimentos e produtos básicos para suprir necessidades diárias da população.",
-        valor: 7000,
-        edifíciosLiberados: ["Mercado", "Adega", "Padaria", "Açougue"],
-        status: false
-      },
-      {
-        nome: "Licença De Varejo",
-        desc: "Habilita estabelecimentos de conveniência e postos de combustível, importantes para o abastecimento local e mobilidade urbana.",
-        valor: 7000,
-        edifíciosLiberados: ["Loja De Conveniência", "Posto De Combustíveis"],
-        status: false
-      },
-      {
-        nome: "Licença De Comércio De Tecnologia",
-        desc: "Permite a abertura de lojas voltadas para a venda de eletrônicos e dispositivos tecnológicos, desbloqueando novos mercados de consumo.",
-        valor: 7000,
-        edifíciosLiberados: ["Loja De Gadgets E Wearables", "Loja De Games","Loja De Celulares","Loja De Informática"],
-        status: false
-      },
-      {
-        nome: "Licença De Comércio Urbano",
-        desc: "Permite a operação de lojas especializadas e serviços urbanos de médio porte, elevando o nível comercial da cidade.",
-        valor: 7000,
-        edifíciosLiberados: ["Redes De Fast-food", "Loja De Eletrônicos", "Joalheria", "Concessionária De Veículos"],
+        valor: 18000,
+        edifíciosLiberados: [ "Padaria", "Açougue"],
         status: false
       },
       {
         nome: "Licença De Serviços E Saúde",
         desc: "Autoriza a prestação de serviços especializados em saúde animal, humana e alimentação, melhorando a qualidade de vida urbana.",
-        valor: 7000,
+        valor: 30000,
         edifíciosLiberados: ["Petshop", "Farmácia", "Cafeteria"],
+        status: false
+      },
+      {
+        nome: "Licença Global De Comércio",
+        desc: "Permite a abertura de estabelecimentos comerciais básicos, formando a rede inicial de comércio e serviços essenciais.",
+        valor: 66000,
+        edifíciosLiberados: ["Livraria","Mercado", "Adega",],
+        status: false
+      },
+
+
+      {
+        nome: "Licença De Varejo",
+        desc: "Habilita estabelecimentos de conveniência e postos de combustível, importantes para o abastecimento local e mobilidade urbana.",
+        valor: 139000,
+        edifíciosLiberados: ["Loja De Conveniência", "Posto De Combustíveis","Redes De Fast-food"],
         status: false
       },
       {
         nome: "Licença De Varejo Especializado",
         desc: "Habilita lojas departamentais e especializadas em moda, ampliando as opções de consumo e vestuário para a população.",
-        valor: 7000,
+        valor: 41000,
         edifíciosLiberados: ["Loja De Departamentos", "Loja De Calçados", "Loja De Vestuário"],
+        status: false
+      },
+      {
+        nome: "Licença De Comércio De Tecnologia",
+        desc: "Permite a abertura de lojas voltadas para a venda de eletrônicos e dispositivos tecnológicos, desbloqueando novos mercados de consumo.",
+        valor: 165000,
+        edifíciosLiberados: ["Loja De Gadgets E Wearables", "Loja De Games", "Loja De Celulares", "Loja De Informática"],
+        status: false
+      },
+
+      
+      {
+        nome: "Licença De Logística E Transporte",
+        desc: "Autoriza a operação de centros de distribuição e transporte de mercadorias, essencial para a cadeia de suprimentos da cidade.",
+        valor: 502000,
+        edifíciosLiberados: ["Centro De Transporte E Entrega", "Centro De Distribuição", "Armazém Logístico", "Transporte Petrolífero"],
+        status: false
+      },
+
+
+      {
+        nome: "Licença De Comércio Urbano",
+        desc: "Permite a operação de lojas especializadas e serviços urbanos de médio porte, elevando o nível comercial da cidade.",
+        valor: 325000,
+        edifíciosLiberados: [ "Loja De Eletrônicos", "Joalheria", "Concessionária De Veículos"],
         status: false
       },
       {
         nome: "Licença De Shoppings",
         desc: "Permite a construção de centros comerciais de grande porte, impulsionando a economia e o comércio em escala regional.",
-        valor: 7000,
+        valor: 1000000,
         edifíciosLiberados: ["Shopping Popular", "Shopping Center"],
-        status: false
-      },
-      {
-        nome: "Licença De Logística E Transporte",
-        desc: "Autoriza a operação de centros de distribuição e transporte de mercadorias, essencial para a cadeia de suprimentos da cidade.",
-        valor: 7000,
-        edifíciosLiberados: ["Centro De Transporte E Entrega", "Centro De Distribuição", "Armazém Logístico", "Transporte Petrolífero"],
         status: false
       }
       ]
@@ -13502,9 +13515,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -13539,38 +13552,38 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
 
           ForneceMelhoraEficiencia: [],
-    RecebeMelhoraEficiencia: [
-      {
-        "nome": "Fábrica De Móveis",
-        "redCusto": { "nível1": 7, "nível2": 12, "nível3": 24 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Transporte E Entrega",
-        "redCusto": { "nível1": 3, "nível2": 3, "nível3": 5 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Marketplace Online",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 7, "nível2": 10, "nível3": 14 }
-      },
-      {
-        "nome": "Construtora De Pequenas Obras",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Laboratório De Design De Produtos",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 12, "nível2": 16, "nível3": 20 }
-      },
-      {
-        "nome": "Escritório De Design De Interiores",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 11, "nível2": 14, "nível3": 16 }
-      }
-    ],
+          RecebeMelhoraEficiencia: [
+            {
+              "nome": "Fábrica De Móveis",
+              "redCusto": { "nível1": 7, "nível2": 12, "nível3": 24 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Transporte E Entrega",
+              "redCusto": { "nível1": 3, "nível2": 3, "nível3": 5 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Marketplace Online",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 7, "nível2": 10, "nível3": 14 }
+            },
+            {
+              "nome": "Construtora De Pequenas Obras",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Laboratório De Design De Produtos",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 12, "nível2": 16, "nível3": 20 }
+            },
+            {
+              "nome": "Escritório De Design De Interiores",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 11, "nível2": 14, "nível3": 16 }
+            }
+          ],
 
           recursoDeConstrução: []
           ,
@@ -13580,9 +13593,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -13617,68 +13630,68 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
 
           ForneceMelhoraEficiencia: [],
-    RecebeMelhoraEficiencia: [
-      {
-        "nome": "Mega Mercado",
-        "redCusto": { "nível1": 2, "nível2": 3, "nível3": 4 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Mercado",
-        "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Açougue",
-        "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Transporte E Entrega",
-        "redCusto": { "nível1": 2, "nível2": 3, "nível3": 6 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Construtora De Pequenas Obras",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Plantação De Grãos",
-        "redCusto": { "nível1": 1, "nível2": 1, "nível3": 3 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Plantação De Vegetais",
-        "redCusto": { "nível1": 1, "nível2": 1, "nível3": 3 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Pomares",
-        "redCusto": { "nível1": 1, "nível2": 1, "nível3": 3 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Bebidas",
-        "redCusto": { "nível1": 1, "nível2": 2, "nível3": 4 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Instituto De Tecnologia Alimentar",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 10, "nível2": 14, "nível3": 18 }
-      },
-      {
-        "nome": "Centro De Comércio De Plantações",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 12, "nível2": 15, "nível3": 20 }
-      },
-      {
-        "nome": "Escritório De Design De Interiores",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 8, "nível2": 11, "nível3": 12 }
-      }
-    ],
+          RecebeMelhoraEficiencia: [
+            {
+              "nome": "Mega Mercado",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 4 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Mercado",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Açougue",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Transporte E Entrega",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 6 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Construtora De Pequenas Obras",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Plantação De Grãos",
+              "redCusto": { "nível1": 1, "nível2": 1, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Plantação De Vegetais",
+              "redCusto": { "nível1": 1, "nível2": 1, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Pomares",
+              "redCusto": { "nível1": 1, "nível2": 1, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Bebidas",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 4 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Instituto De Tecnologia Alimentar",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 10, "nível2": 14, "nível3": 18 }
+            },
+            {
+              "nome": "Centro De Comércio De Plantações",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 12, "nível2": 15, "nível3": 20 }
+            },
+            {
+              "nome": "Escritório De Design De Interiores",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 8, "nível2": 11, "nível3": 12 }
+            }
+          ],
 
           recursoDeConstrução: []
           ,
@@ -13688,9 +13701,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -13761,9 +13774,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -13875,9 +13888,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -13948,9 +13961,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -14021,9 +14034,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -14110,9 +14123,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -14122,7 +14135,7 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença De Varejo",
             liberado: false,
           },
-          custoConstrucao: 10000,
+          custoConstrucao: 110000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 1200,
@@ -14178,9 +14191,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -14193,17 +14206,17 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 20000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 1600,
-            impostoFixo: 21000,
+            faturamentoUnitário: 8000,
+            impostoFixo: 32000,
             impostoSobreFatu: 0.10,
             rent: 15
           },
 
           lojasNecessarias: {
-            terrenos: 1,
-            lojasP: 1,
+            terrenos: 5,
+            lojasP: 2,
             lojasM: 0,
-            lojasG: 0,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
@@ -14262,9 +14275,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -14356,260 +14369,12 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
-        {
-          nome: "Loja De Eletrônicos",
-          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
-          licençaLiberado: {
-            licença: "Licença De Comércio Urbano",
-            liberado: false,
-          },
-          custoConstrucao: 90000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1600,
-            impostoFixo: 22000,
-            impostoSobreFatu: 0.10,
-            rent: 12
-          },
 
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Ração",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-          RecebeMelhoraEficiencia: [
-            {
-              "nome": "Fábrica De Eletrônicos",
-              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
-              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-            },
-            {
-              "nome": "Fábricas De Semicondutores",
-              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
-              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-            },
-            {
-              "nome": "Centro De Transporte E Entrega",
-              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 5 },
-              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-            },
-            {
-              "nome": "Centro De Pesquisa Em Eletrônicos",
-              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-              "aumFatu": { "nível1": 18, "nível2": 24, "nível3": 28 }
-            },
-            {
-              "nome": "Fábrica De Smartphones",
-              "redCusto": { "nível1": 2, "nível2": 2, "nível3": 5 },
-              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-            },
-            {
-              "nome": "Fábrica De Computadores",
-              "redCusto": { "nível1": 2, "nível2": 2, "nível3": 5 },
-              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-            },
-            {
-              "nome": "Fábrica De Consoles De Jogos",
-              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 4 },
-              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-            },
-            {
-              "nome": "Fábrica De Dispositivos Vestíveis",
-              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 4 },
-              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-            },
-            {
-              "nome": "Construtora De Pequenas Obras",
-              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
-              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-            },
-            {
-              "nome": "Escritório De Design De Interiores",
-              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-              "aumFatu": { "nível1": 12, "nível2": 16, "nível3": 22 }
-            }
-          ],
-
-          recursoDeConstrução: []
-          ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        },
-        {
-          nome: "Joalheria",
-          desc: "Vende joias, relógios e acessórios de luxo.",
-          licençaLiberado: {
-            licença: "Licença De Comércio Urbano",
-            liberado: false,
-          },
-          custoConstrucao: 30000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 2000,
-            impostoFixo: 30000,
-            impostoSobreFatu: 0.10,
-            rent: 15
-          },
-
-          lojasNecessarias: {
-            terrenos: 1,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Ração",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-    RecebeMelhoraEficiencia: [
-      {
-        "nome": "Mineradora De Pedras Preciosas",
-        "redCusto": { "nível1": 7, "nível2": 10, "nível3": 23 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Transporte E Entrega",
-        "redCusto": { "nível1": 2, "nível2": 3, "nível3": 4 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Construtora De Pequenas Obras",
-        "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Laboratório De Design De Produtos",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 15, "nível2": 20, "nível3": 25 }
-      },
-      {
-        "nome": "Escritório De Design De Interiores",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 15, "nível2": 20, "nível3": 25 }
-      }
-    ],
-
-          recursoDeConstrução: []
-          ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        },
-        {
-          nome: "Concessionária De Veículos",
-          desc: "Revende veículos novos e usados de diversas marcas.",
-          licençaLiberado: {
-            licença: "Licença De Comércio Urbano",
-            liberado: false,
-          },
-          custoConstrucao: 30000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 3200,
-            impostoFixo: 57000,
-            impostoSobreFatu: 0.10,
-            rent: 12
-          },
-
-          lojasNecessarias: {
-            terrenos: 1,
-            lojasP: 0,
-            lojasM: 1,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Ração",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-    RecebeMelhoraEficiencia: [
-      {
-        "nome": "Fábrica De Automóveis",
-        "redCusto": { "nível1": 4, "nível2": 5, "nível3": 13 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Peças Automotivas",
-        "redCusto": { "nível1": 3, "nível2": 5, "nível3": 8 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Transporte E Entrega",
-        "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Construtora",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Montadora De Veículos Elétricos",
-        "redCusto": { "nível1": 2, "nível2": 3, "nível3": 5 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Escritório De Design De Interiores",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 30, "nível2": 40, "nível3": 50 }
-      }
-    ],
-
-          recursoDeConstrução: []
-          ,
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 }
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
-          }
-        },
         {
           nome: "Petshop",
           desc: "Oferece produtos e serviços para animais de estimação.",
@@ -14642,28 +14407,28 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
 
           ForneceMelhoraEficiencia: [],
-    RecebeMelhoraEficiencia: [
-      {
-        "nome": "Centro De Transporte E Entrega",
-        "redCusto": { "nível1": 2, "nível2": 3, "nível3": 4 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Rações",
-        "redCusto": { "nível1": 8, "nível2": 12, "nível3": 25 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Construtora De Pequenas Obras",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Escritório De Design De Interiores",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 30, "nível2": 40, "nível3": 50 }
-      }
-    ],
+          RecebeMelhoraEficiencia: [
+            {
+              "nome": "Centro De Transporte E Entrega",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 4 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Rações",
+              "redCusto": { "nível1": 8, "nível2": 12, "nível3": 25 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Construtora De Pequenas Obras",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Escritório De Design De Interiores",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 30, "nível2": 40, "nível3": 50 }
+            }
+          ],
 
           recursoDeConstrução: []
           ,
@@ -14673,9 +14438,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -14751,9 +14516,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -14845,9 +14610,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -14918,9 +14683,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -14991,9 +14756,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -15064,9 +14829,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -15101,38 +14866,38 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
 
           ForneceMelhoraEficiencia: [],
-    RecebeMelhoraEficiencia: [
-      {
-        "nome": "Fábrica De Smartphones",
-        "redCusto": { "nível1": 3, "nível2": 4, "nível3": 7 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Dispositivos Vestíveis",
-        "redCusto": { "nível1": 5, "nível2": 7, "nível3": 15 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Marketplace Online",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 12, "nível2": 16, "nível3": 22 }
-      },
-      {
-        "nome": "Construtora De Pequenas Obras",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 2 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Transporte E Entrega",
-        "redCusto": { "nível1": 2, "nível2": 3, "nível3": 6 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Escritório De Design De Interiores",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 18, "nível2": 24, "nível3": 28 }
-      }
-    ],
+          RecebeMelhoraEficiencia: [
+            {
+              "nome": "Fábrica De Smartphones",
+              "redCusto": { "nível1": 3, "nível2": 4, "nível3": 7 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Dispositivos Vestíveis",
+              "redCusto": { "nível1": 5, "nível2": 7, "nível3": 15 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Marketplace Online",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 12, "nível2": 16, "nível3": 22 }
+            },
+            {
+              "nome": "Construtora De Pequenas Obras",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 2 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Transporte E Entrega",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 6 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Escritório De Design De Interiores",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 18, "nível2": 24, "nível3": 28 }
+            }
+          ],
 
           recursoDeConstrução: []
           ,
@@ -15142,9 +14907,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -15220,9 +14985,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -15298,14 +15063,14 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
           nome: "Loja De Informática",
-           desc: "Oferece computadores, notebooks, peças de hardware e periféricos voltados para o público em geral e profissionais de tecnologia.",
+          desc: "Oferece computadores, notebooks, peças de hardware e periféricos voltados para o público em geral e profissionais de tecnologia.",
           licençaLiberado: {
             licença: "Licença De Comércio De Tecnologiac",
             liberado: false,
@@ -15376,11 +15141,262 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
+
+        {
+          nome: "Loja De Eletrônicos",
+          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
+          licençaLiberado: {
+            licença: "Licença De Comércio Urbano",
+            liberado: false,
+          },
+          custoConstrucao: 80000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1600,
+            impostoFixo: 22000,
+            impostoSobreFatu: 0.10,
+            rent: 12
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [
+            {
+              "nome": "Fábrica De Eletrônicos",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábricas De Semicondutores",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Transporte E Entrega",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 5 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Pesquisa Em Eletrônicos",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 18, "nível2": 24, "nível3": 28 }
+            },
+            {
+              "nome": "Fábrica De Smartphones",
+              "redCusto": { "nível1": 2, "nível2": 2, "nível3": 5 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Computadores",
+              "redCusto": { "nível1": 2, "nível2": 2, "nível3": 5 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Consoles De Jogos",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 4 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Dispositivos Vestíveis",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 4 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Construtora De Pequenas Obras",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Escritório De Design De Interiores",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 12, "nível2": 16, "nível3": 22 }
+            }
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+          }
+        },
+        {
+          nome: "Joalheria",
+          desc: "Vende joias, relógios e acessórios de luxo.",
+          licençaLiberado: {
+            licença: "Licença De Comércio Urbano",
+            liberado: false,
+          },
+          custoConstrucao: 180000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 2000,
+            impostoFixo: 30000,
+            impostoSobreFatu: 0.10,
+            rent: 15
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 2,
+            lojasM: 3,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [
+            {
+              "nome": "Mineradora De Pedras Preciosas",
+              "redCusto": { "nível1": 7, "nível2": 10, "nível3": 23 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Transporte E Entrega",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 4 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Construtora De Pequenas Obras",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Laboratório De Design De Produtos",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 15, "nível2": 20, "nível3": 25 }
+            },
+            {
+              "nome": "Escritório De Design De Interiores",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 15, "nível2": 20, "nível3": 25 }
+            }
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+          }
+        },
+        {
+          nome: "Concessionária De Veículos",
+          desc: "Revende veículos novos e usados de diversas marcas.",
+          licençaLiberado: {
+            licença: "Licença De Comércio Urbano",
+            liberado: false,
+          },
+          custoConstrucao: 1160000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 11000,
+            impostoFixo: 57000,
+            impostoSobreFatu: 0.10,
+            rent: 12
+          },
+
+          lojasNecessarias: {
+            terrenos: 1,
+            lojasP: 0,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [
+            {
+              "nome": "Fábrica De Automóveis",
+              "redCusto": { "nível1": 4, "nível2": 5, "nível3": 13 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Peças Automotivas",
+              "redCusto": { "nível1": 3, "nível2": 5, "nível3": 8 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Transporte E Entrega",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Construtora",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Montadora De Veículos Elétricos",
+              "redCusto": { "nível1": 2, "nível2": 3, "nível3": 5 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Escritório De Design De Interiores",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 30, "nível2": 40, "nível3": 50 }
+            }
+          ],
+
+          recursoDeConstrução: []
+          ,
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+          }
+        },
+
         {
           nome: "Shopping Popular",
           desc: "Conjunto de lojas e serviços em um espaço popular.",
@@ -15422,7 +15438,7 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               "nome": "Fábrica De Roupas",
               "redCusto": { "nível1": 1, "nível2": 2, "nível3": 2 },
-              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 2}
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 2 }
             },
             {
               "nome": "Fábrica De Calçados",
@@ -15474,9 +15490,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -15573,7 +15589,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 12, "nível2": 40, "nível3": 80 }
             }
           ]
-      ,
+          ,
 
           recursoDeConstrução: ["Shopping Popular", "Mega Mercado", "Joalheria", "Concessionária De Veículos"]
           ,
@@ -15583,9 +15599,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -15787,9 +15803,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -15906,9 +15922,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -16225,9 +16241,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -16354,9 +16370,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
       ],
@@ -16373,21 +16389,21 @@ const CentraldeDadosProvider = ({ children }) => {
         {
           nome: "Licença Global Imobiliária",
           desc: "Permite operações básicas de construção civil, terraplanagem e regularização de propriedades, essencial para o desenvolvimento urbano inicial.",
-          valor: 7000,
+          valor: 180000,
           edifíciosLiberados: ["Cartório E Licenças", "Terraplanagem E Pavimentação", "Construtora De Pequenas Obras"],
           status: false
         },
         {
           nome: "Licença De Projetos e Design",
           desc: "Habilita a elaboração de projetos arquitetônicos, design de interiores e consultorias técnicas em engenharia civil, essenciais para obras e empreendimentos.",
-          valor: 7000,
+          valor: 240000,
           edifíciosLiberados: ["Escritório De Design De Interiores", "Escritório De Arquitetura", "Consultoria Em Engenharia Civil"],
           status: false
         },
         {
           nome: "Licença De Construção Imobiliária",
           desc: "Autoriza a atuação no setor imobiliário, permitindo a construção, administração e comercialização de imóveis residenciais e comerciais.",
-          valor: 7000,
+          valor: 320000,
           edifíciosLiberados: ["Construtora",
             "Imobiliária Residencial",
             "Imobiliária Comercial"
@@ -16397,28 +16413,28 @@ const CentraldeDadosProvider = ({ children }) => {
         {
           nome: "Licença De Grandes Infraestruturas",
           desc: "Autoriza a construção de obras de infraestrutura estratégica como aeroportos e portos, fundamentais para o transporte regional e nacional.",
-          valor: 7000,
+          valor: 26000000,
           edifíciosLiberados: ["Construtora De Infraestruturas", "Aeroporto", "Porto"],
           status: false
         },
         {
           nome: "Licença De Mineração",
           desc: "Habilita a exploração de recursos minerais convencionais, radioativos e pedras preciosas, impulsionando a indústria extrativista.",
-          valor: 7000,
+          valor: 10500000,
           edifíciosLiberados: ["Mineradora", "Mineradora Radioativa", "Mineradora De Pedras Preciosas"],
           status: false
         },
         {
           nome: "Licença Comercial E Residencial",
           desc: "Permite a construção de grandes empreendimentos mistos que combinam espaços comerciais e residenciais de alto padrão.",
-          valor: 7000,
+          valor: 1800000,
           edifíciosLiberados: ["Mega Mercado", "Prédio De Alto Padrão"],
           status: false
         },
         {
           nome: "Licença De Construções Energéticas",
           desc: "Autoriza a implantação de infraestruturas especializadas em produção e armazenamento de combustíveis e bioenergia.",
-          valor: 7000,
+          valor: 5500000,
           edifíciosLiberados: ["Centro De Coleta De Biomassa", "Tanque De Armazenamento Biocombustível", "Plataforma De Petróleo"],
           status: false
         }
@@ -16515,9 +16531,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -16654,9 +16670,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -17078,9 +17094,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -17292,9 +17308,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Escritório De Arquitetura",
@@ -17424,9 +17440,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Consultoria Em Engenharia Civil",
@@ -17632,9 +17648,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Construtora",
@@ -17915,9 +17931,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -17983,9 +17999,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -18020,28 +18036,28 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
 
           ForneceMelhoraEficiencia: [],
-    RecebeMelhoraEficiencia: [
-      {
-        "nome": "Construtora",
-        "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Cartório E Licenças",
-        "redCusto": { "nível1": 4, "nível2": 6, "nível3": 12 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Escritório De Arquitetura",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 12, "nível2": 40, "nível3": 90 }
-      },
-      {
-        "nome": "Escritório De Design De Interiores",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 8, "nível2": 25, "nível3": 40 }
-      }
-    ],
+          RecebeMelhoraEficiencia: [
+            {
+              "nome": "Construtora",
+              "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Cartório E Licenças",
+              "redCusto": { "nível1": 4, "nível2": 6, "nível3": 12 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Escritório De Arquitetura",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 12, "nível2": 40, "nível3": 90 }
+            },
+            {
+              "nome": "Escritório De Design De Interiores",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 8, "nível2": 25, "nível3": 40 }
+            }
+          ],
 
           recursoDeConstrução: []
           ,
@@ -18051,9 +18067,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -18280,9 +18296,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -18439,9 +18455,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -18593,9 +18609,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -18732,9 +18748,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -18866,9 +18882,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -19000,9 +19016,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -19154,9 +19170,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -19191,43 +19207,43 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
 
           ForneceMelhoraEficiencia: [],
-    RecebeMelhoraEficiencia: [
-      {
-        "nome": "Construtora De Grandes Estruturas",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Terraplanagem E Pavimentação",
-        "redCusto": { "nível1": 3, "nível2": 4, "nível3": 7 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Móveis",
-        "redCusto": { "nível1": 6, "nível2": 10, "nível3": 20 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Construtora De Grandes Infraestruturas",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Transporte E Entrega",
-        "redCusto": { "nível1": 1, "nível2": 1, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Escritório De Design De Interiores",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 12, "nível2": 18, "nível3": 22 }
-      },
-      {
-        "nome": "Escritório De Arquitetura",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 18, "nível2": 22, "nível3": 28 }
-      }
-    ],
+          RecebeMelhoraEficiencia: [
+            {
+              "nome": "Construtora De Grandes Estruturas",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Terraplanagem E Pavimentação",
+              "redCusto": { "nível1": 3, "nível2": 4, "nível3": 7 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Móveis",
+              "redCusto": { "nível1": 6, "nível2": 10, "nível3": 20 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Construtora De Grandes Infraestruturas",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Transporte E Entrega",
+              "redCusto": { "nível1": 1, "nível2": 1, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Escritório De Design De Interiores",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 12, "nível2": 18, "nível3": 22 }
+            },
+            {
+              "nome": "Escritório De Arquitetura",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 18, "nível2": 22, "nível3": 28 }
+            }
+          ],
 
           recursoDeConstrução: []
           ,
@@ -19237,9 +19253,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -19356,9 +19372,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -19440,9 +19456,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -19584,9 +19600,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -19603,49 +19619,49 @@ const CentraldeDadosProvider = ({ children }) => {
       licençasSetor: [{
         nome: "Licença Global De Energia",
         desc: "Permite a construção de infraestrutura básica de distribuição e geração de energia, incluindo redes elétricas e usinas solares fotovoltaicas.",
-        valor: 7000,
+        valor: 250000,
         edifíciosLiberados: ["Subestação De Energia", "Rede De Distribuição Elétrica", "Usina Solar"],
         status: false
       },
       {
         nome: "Licença De Fábricas Energéticas",
         desc: "Habilita a fabricação de componentes para geração de energia renovável e armazenamento.",
-        valor: 7000,
+        valor: 310000,
         edifíciosLiberados: ["Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias"],
         status: false
       },
       {
         nome: "Licença De Comércios Energéticos",
         desc: "Autoriza a abertura e operação de estabelecimentos voltados à venda e distribuição de energia e derivados, incluindo comércio de créditos energéticos e tecnologias associadas.",
-        valor: 7000,
+        valor: 490000,
         edifíciosLiberados: ["Empresa De Comercio Energético", "Empresa De Consultoria Energética", "Estação De Carregamento"],
         status: false
       },
       {
         nome: "Licença De Melhoria Energética",
         desc: "Autoriza centros de pesquisa e desenvolvimento de tecnologias para armazenamento e eficiência energética, incluindo estações de carregamento veicular.",
-        valor: 7000,
+        valor: 500000,
         edifíciosLiberados: ["Centro De Pesquisa Energética", "Centro De Reciclagem De Baterias", "Centro De Pesquisa Em Energias Renováveis"],
         status: false
       },
       {
         nome: "Licença De Energia Sustentável",
         desc: "Habilita a construção de usinas que utilizam biomassa e biocombustíveis, oferecendo soluções energéticas renováveis e de baixo impacto ambiental.",
-        valor: 7000,
+        valor: 1100000,
         edifíciosLiberados: ["Usina Termelétrica A Biocombustíveis", "Usina De Biomassa"],
         status: false
       },
       {
         nome: "Licença De Usinas",
         desc: "Permite a instalação de grandes complexos geradores de energia convencionais, incluindo hidrelétricas, termelétricas e parques eólicos.",
-        valor: 7000,
+        valor: 3500000,
         edifíciosLiberados: ["Usina Hidrelétrica", "Parque Eólico", "Usina Termolétrica"],
         status: false
       },
       {
         nome: "Licença De Usinas Nucleares",
         desc: "Concede autorização para construção e operação de usinas nucleares de fissão e fusão, representando o ápice da tecnologia energética no jogo.",
-        valor: 7000,
+        valor: 100000000,
         edifíciosLiberados: ["Reator Nuclear Convencional", "Usina De Fusão Nuclear"],
         status: false
       }
@@ -19755,9 +19771,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -19834,9 +19850,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -20188,9 +20204,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         }, {
           nome: "Fábrica De Turbinas Eólicas",
@@ -20336,9 +20352,10 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+
           }
         },
         {
@@ -20481,7 +20498,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 3, "nível2": 5, "nível3": 6 }
             }
           ]
-      ,
+          ,
 
           recursoDeConstrução: []
           ,
@@ -20491,9 +20508,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -20646,7 +20663,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 4, "nível2": 7, "nível3": 10 }
             }
           ],
-        
+
 
           recursoDeConstrução: []
           ,
@@ -20656,9 +20673,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 2, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -20805,9 +20822,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -21029,9 +21046,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -21113,9 +21130,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -21208,7 +21225,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             }
           ],
-        
+
 
           recursoDeConstrução: []
           ,
@@ -21218,9 +21235,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -21402,9 +21419,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -21481,9 +21498,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
 
@@ -21838,7 +21855,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             }
           ]
-      ,
+          ,
 
           recursoDeConstrução: ["Usina Termolétrica"]
           ,
@@ -21848,9 +21865,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -22207,9 +22224,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -22596,9 +22613,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -22632,315 +22649,315 @@ const CentraldeDadosProvider = ({ children }) => {
             "Feira Livre",
           ],
 
-        ForneceMelhoraEficiencia: [
-      {
-        "nome": "Alto-Forno",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Usina Siderúrgica",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fundição De Alumínio",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Ligas Metálicas",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Refinaria",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Plataforma De Petróleo",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Mineradora",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Mineradora De Minérios Radioativos",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Mineradora De Pedras Preciosas",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Celulose",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Papel",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Plásticos",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Químicos Especializados",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Semicondutores",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábricas De Eletrônicos",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábricas De Robôs",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Empresa De Automação Industrial",
-        "redCusto": { "nível1": 1, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Pesquisa Em Fusão Nuclear",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Pesquisa Em Eletrônicos",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Pesquisa Aeroespacial",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Pesquisa Em Robótica",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Pesquisa Em Inteligência Artificial",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Laboratório Farmacêutico",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Servidores De Nuvem",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Data Centers",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Aeroportos",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Portos",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Pesquisa Energética",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Turbinas Eólicas",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Painéis Solares",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Baterias",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Foguetes",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Aeronaves",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Estaleiro",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Peças Automotivas",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Chips",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Placas Eletrônicas",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Indústria De Componentes Mecânicos",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Chapas Metálicas",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Estruturas Metálicas",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Mega Mercado",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 1 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Empresa De Comercio Energético",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Subestação De Energia",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Empresa De Desenvolvimento De Software",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Smartphones",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Computadores",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Consoles De Jogos",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Fábrica De Dispositivos Vestíveis",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Laboratório De Nanotecnologia",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Engenharia Avançada",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Pesquisa Em Materiais Avançados",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Pesquisa Química",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Instituto De Tecnologia Alimentar",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      }
-    ],
-    RecebeMelhoraEficiencia: [
-      {
-        "nome": "Centro De Pesquisa Em Energias Renováveis",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 3, "nível2": 4, "nível3": 6 }
-      },
-      {
-        "nome": "Empresa De Consultoria Energética",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 3, "nível2": 4, "nível3": 6 }
-      },
-      {
-        "nome": "Fábrica De Turbinas Eólicas",
-        "redCusto": { "nível1": 10, "nível2": 20, "nível3": 30 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Empresa De Comercio Energético",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 3, "nível2": 6, "nível3": 6 }
-      },
-      {
-        "nome": "Centro De Pesquisa Energética",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 4, "nível2": 6, "nível3": 8 }
-      },
-      {
-        "nome": "Construtora De Pequenas Obras",
-        "redCusto": { "nível1": 0, "nível2": 1, "nível3": 2 },
-        "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
-      },
-      {
-        "nome": "Centro De Engenharia Avançada",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 4, "nível2": 6, "nível3": 7 }
-      },
-      {
-        "nome": "Consultoria Em Engenharia Civil",
-        "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-        "aumFatu": { "nível1": 3, "nível2": 4, "nível3": 7 }
-      }
-    ],
+          ForneceMelhoraEficiencia: [
+            {
+              "nome": "Alto-Forno",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Usina Siderúrgica",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fundição De Alumínio",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Ligas Metálicas",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Refinaria",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Plataforma De Petróleo",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Mineradora",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Mineradora De Minérios Radioativos",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Mineradora De Pedras Preciosas",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Celulose",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Papel",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Plásticos",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Químicos Especializados",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Semicondutores",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábricas De Eletrônicos",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábricas De Robôs",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Empresa De Automação Industrial",
+              "redCusto": { "nível1": 1, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Pesquisa Em Fusão Nuclear",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Pesquisa Em Eletrônicos",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Pesquisa Aeroespacial",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Pesquisa Em Robótica",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Pesquisa Em Inteligência Artificial",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Laboratório Farmacêutico",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Servidores De Nuvem",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Data Centers",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Aeroportos",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Portos",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Pesquisa Energética",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Turbinas Eólicas",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Painéis Solares",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Baterias",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Foguetes",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Aeronaves",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Estaleiro",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Peças Automotivas",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Chips",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Placas Eletrônicas",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Indústria De Componentes Mecânicos",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Chapas Metálicas",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Estruturas Metálicas",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Mega Mercado",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 1 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Empresa De Comercio Energético",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Subestação De Energia",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Empresa De Desenvolvimento De Software",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Smartphones",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Computadores",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Consoles De Jogos",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Fábrica De Dispositivos Vestíveis",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Laboratório De Nanotecnologia",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Engenharia Avançada",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Pesquisa Em Materiais Avançados",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Pesquisa Química",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Instituto De Tecnologia Alimentar",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            }
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              "nome": "Centro De Pesquisa Em Energias Renováveis",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 3, "nível2": 4, "nível3": 6 }
+            },
+            {
+              "nome": "Empresa De Consultoria Energética",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 3, "nível2": 4, "nível3": 6 }
+            },
+            {
+              "nome": "Fábrica De Turbinas Eólicas",
+              "redCusto": { "nível1": 10, "nível2": 20, "nível3": 30 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Empresa De Comercio Energético",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 3, "nível2": 6, "nível3": 6 }
+            },
+            {
+              "nome": "Centro De Pesquisa Energética",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 4, "nível2": 6, "nível3": 8 }
+            },
+            {
+              "nome": "Construtora De Pequenas Obras",
+              "redCusto": { "nível1": 0, "nível2": 1, "nível3": 2 },
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
+            },
+            {
+              "nome": "Centro De Engenharia Avançada",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 4, "nível2": 6, "nível3": 7 }
+            },
+            {
+              "nome": "Consultoria Em Engenharia Civil",
+              "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
+              "aumFatu": { "nível1": 3, "nível2": 4, "nível3": 7 }
+            }
+          ],
 
           recursoDeConstrução: []
           ,
@@ -22950,9 +22967,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -23304,9 +23321,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -23693,9 +23710,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto:0, aumFatu:0},
+            nível2: { status: true, quantidadeMínima: 2, redCusto:0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 3, redCusto:0, aumFatu:0 },
           }
         },
         {
@@ -24092,9 +24109,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 100, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto:0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 2, redCusto:0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 3, redCusto:0, aumFatu:0 },
           }
         }
       ],
@@ -24142,9 +24159,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 10, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 50, impacto: 15 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto:0, aumFatu:0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
+            nível3: { status: true, quantidadeMínima: 50, redCusto:0, aumFatu:0 },
           }
         }
       }

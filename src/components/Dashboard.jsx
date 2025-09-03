@@ -426,7 +426,7 @@ export default function Dashboard() {
                       onClick={() => setLicencaModal(true)}
                       className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
                     >
-                      <img className="w-[70%]" src={licença} />
+                      {/* <img className="w-[70%]" src={licença} /> */}
                     </button>
                     {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button> */}
                     {/* <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(economiaSetores[ativo].economiaSetor.estadoAtual)}`}>
