@@ -19,7 +19,7 @@ import InputName from "./components/inputName";
 import Day from "./components/day";
 import { Achievements } from "./components/Achievements"
 import Economys from "./components/economys";
-
+import RaffledBuildings from "./components/RaffledBuildings";
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
@@ -54,7 +54,7 @@ function Interface() {
                     <div className="flex w-full items-center justify-center  col-start-8 col-end-9 gap-[10px]">
                         <Day />
                         <EconomyGlobal />
-                       
+                  <RaffledBuildings/>     
                     </div>
                 </div>
                 <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">

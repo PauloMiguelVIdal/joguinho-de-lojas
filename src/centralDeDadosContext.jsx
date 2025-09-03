@@ -10,7 +10,7 @@ const CentraldeDadosProvider = ({ children }) => {
       estadoModal: true,
       nomeEmpresa: ""
     },
-    edObjetivos : [],
+    itensSorteados : [],
     setorAtivo: "agricultura",
     fimGame: false,
     nomeEmpresa: "",
@@ -27,6 +27,11 @@ const CentraldeDadosProvider = ({ children }) => {
       proximoPagamento: ""
     },
     modal: {
+      estadoModal: false,
+      head: "",
+      content: ""
+    },
+    modalObjetivos: {
       estadoModal: false,
       head: "",
       content: ""
@@ -834,7 +839,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Redes de Fast-Food",
             "Fábrica de Bebidas",
             "Usina de Biomassa",
-            "Refinaria de Biocombustíveis",
+            "Refinaria De Biocombustíveis",
           ],
 
           ForneceMelhoraEficiencia: [
@@ -1629,7 +1634,7 @@ const CentraldeDadosProvider = ({ children }) => {
           licençasNecessárias: [],
           melhoraEficiencia: [
             "Usina de Biomassa",
-            "Refinaria de Biocombustíveis",
+            "Refinaria De Biocombustíveis",
             "Fábrica de Fertilizantes",
           ],
 
@@ -2615,7 +2620,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Fábrica De Medicamentos",
+              "Dome": "Fábrica De Medicamentos",
               "redCusto": { "nível1": 2, "nível2": 3, "nível3": 5 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
@@ -2743,7 +2748,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença Agro e Biotecnologia",
         desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
         valor: 7000,
-        edifíciosLiberados: ["Instituto de Tecnologia Alimentar", "Centro De Pesquisa Agrícola", "Instituto De Biotecnologia"],
+        edifíciosLiberados: ["Instituto De Tecnologia Alimentar", "Centro De Pesquisa Agrícola", "Instituto De Biotecnologia"],
         status: false
       },
       {
@@ -2767,14 +2772,14 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Tecnologia Experimental",
         desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
         valor: 7000,
-        edifíciosLiberados: ["Centro de Pesquisa Química", "Centro De Pesquisa Em Fusão Nuclear", "Laboratório De Novos Combustíveis"],
+        edifíciosLiberados: ["Centro De Pesquisa Química", "Centro De Pesquisa Em Fusão Nuclear", "Laboratório De Novos Combustíveis"],
         status: false
       },
       {
         nome: "Licença De Engenharia Avançada",
         desc: "Habilita centros de pesquisa em eletrônica de última geração e tecnologia aeroespacial, impulsionando inovações em mobilidade e comunicação.",
         valor: 7000,
-        edifíciosLiberados: ["Centro De Pesquisa Aeroespacial", "Centro de Engenharia Avançada", "Centro de Pesquisa em Materiais Avançados"],
+        edifíciosLiberados: ["Centro De Pesquisa Aeroespacial", "Centro De Engenharia Avançada", "Centro De Pesquisa Em Materiais Avançados"],
         status: false
       },
       {
@@ -3681,7 +3686,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 14, "nível2": 16, "nível3": 22 }
             },
             {
-              "nome": "Loja De Gadgets e Wearables",
+              "nome": "Loja De Gadgets E Wearables",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 12, "nível2": 16, "nível3": 22 }
             },
@@ -3743,7 +3748,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Centro De Transporte e Entrega",
+              "nome": "Centro De Transporte E Entrega",
               "redCusto": { "nível1": 2, "nível2": 3, "nível3": 3 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
@@ -3857,7 +3862,7 @@ const CentraldeDadosProvider = ({ children }) => {
             nível3: { status: true, quantidadeMínima: 500, impacto: 15 },
           }
         }, {
-          nome: "Instituto de Tecnologia Alimentar",
+          nome: "Instituto De Tecnologia Alimentar",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença Agro e Biotecnologia",
@@ -4380,7 +4385,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 3, "nível2": 8, "nível3": 10 }
             },
             {
-              "nome": "Fábricas De Automóveis",
+              "nome": "Fábrica De Automóveis",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 2, "nível2": 3, "nível3": 4 }
             },
@@ -4503,7 +4508,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 4, "nível2": 12, "nível3": 30 }
             },
             {
-              "nome": "Fábricas De Automóveis",
+              "nome": "Fábrica De Automóveis",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 3, "nível2": 10, "nível3": 22 }
             },
@@ -4843,7 +4848,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 5, "nível2": 7, "nível3": 18 }
             },
             {
-              "nome": "Loja De Gadgets e Wearables",
+              "nome": "Loja De Gadgets E Wearables",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 3, "nível2": 4, "nível3": 7 }
             },
@@ -5265,7 +5270,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              "nome": "Loja De Gadgets e Wearables",
+              "nome": "Loja De Gadgets E Wearables",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 5, "nível2": 7, "nível3": 15 }
             },
@@ -5381,7 +5386,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Centro de Pesquisa Química",
+          nome: "Centro De Pesquisa Química",
           desc: "Pesquisas avançadas em compostos químicos.",
           licençaLiberado: {
             licença: "Licença De Tecnologia Experimental",
@@ -5488,7 +5493,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 5, "nível2": 7, "nível3": 9 }
             },
             {
-              "nome": "Fábricas De Automóveis",
+              "nome": "Fábrica De Automóveis",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 3, "nível2": 5, "nível3": 6 }
             },
@@ -5563,7 +5568,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 8, "nível2": 8, "nível3": 10 }
             },
             {
-              "nome": "Fábrica De Medicamentos",
+              "Dome": "Fábrica De Medicamentos",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 20, "nível2": 25, "nível3": 35 }
             },
@@ -5790,7 +5795,7 @@ const CentraldeDadosProvider = ({ children }) => {
             }
           ],
 
-          recursoDeConstrução: ["Centro de Pesquisa Química"],
+          recursoDeConstrução: ["Centro De Pesquisa Química"],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
@@ -5913,7 +5918,7 @@ const CentraldeDadosProvider = ({ children }) => {
             }
           ],
 
-          recursoDeConstrução: ["Centro de Pesquisa Química"],
+          recursoDeConstrução: ["Centro De Pesquisa Química"],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 }
           ],
@@ -6075,7 +6080,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Centro de Engenharia Avançada",
+          nome: "Centro De Engenharia Avançada",
           desc: "Tecnologias voltadas ao setor aeroespacial.",
           licençaLiberado: {
             licença: "Licença De Engenharia Avançada",
@@ -6394,7 +6399,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Centro de Pesquisa em Materiais Avançados",
+          nome: "Centro De Pesquisa Em Materiais Avançados",
           desc: "Tecnologias voltadas ao setor aeroespacial.",
           licençaLiberado: {
             licença: "Licença De Engenharia Avançada",
@@ -7098,14 +7103,14 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Produtos Químicos",
         desc: "Autoriza a produção de produtos químicos básicos e intermediários, essenciais para diversas indústrias.",
         valor: 7000,
-        edifíciosLiberados: ["Laboratório Farmacêutico", "Fábrica de Medicamentos", "Fábrica de Plásticos", "Fábrica de Químicos Especializados"],
+        edifíciosLiberados: ["Laboratório FarmacêuDico", "Fábrica De Medicamentos", "Fábrica De Plásticos", "Fábrica De Químicos Especializados"],
         status: false
       },
       {
         nome: "Licença De Base Metalúrgica",
         desc: "Autoriza processos metalúrgicos primários, transformando minérios em metais brutos para indústrias.",
         valor: 7000,
-        edifíciosLiberados: ["Alto-Forno", "Usina Siderúrgica", "Fundição de Alumínio", "Fábrica De Ligas Metálicas"],
+        edifíciosLiberados: ["Alto-Forno", "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas"],
         status: false
       },
       {
@@ -7126,7 +7131,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença de Refinaria",
         desc: "Autoriza o processamento de combustíveis fósseis e biocombustíveis, essencial para o setor energético.",
         valor: 7000,
-        edifíciosLiberados: ["Refinaria de Biocombustíveis", "Refinaria", "Biofábrica"],
+        edifíciosLiberados: ["Refinaria De Biocombustíveis", "Refinaria", "Biofábrica"],
         status: false
       },
       {
@@ -8513,7 +8518,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Fábrica de Medicamentos",
+        nome: "Fábrica De Medicamentos",
           desc: "Produz medicamentos a partir de matérias-primas.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -8770,7 +8775,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Fábrica de Plásticos",
+          nome: "Fábrica De Plásticos",
           desc: "Fabrica de plásticos a partir de matérias-primas.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -8909,7 +8914,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Fábrica de Químicos Especializados",
+          nome: "Fábrica De Químicos Especializados",
           desc: "Fabrica produtos químicos especializados para diversas indústrias.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -8966,7 +8971,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Fábrica De Medicamentos",
+              "Dome": "Fábrica De Medicamentos",
               "redCusto": { "nível1": 1, "nível2": 1, "nível3": 3 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
@@ -9447,7 +9452,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Fundição de Alumínio",
+          nome: "Fundição De Alumínio",
           desc: "Produz alumínio a partir de bauxita e outros minerais.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -9867,7 +9872,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Fábricas De Automóveis",
+              "nome": "Fábrica De Automóveis",
               "redCusto": { "nível1": 2, "nível2": 2, "nível3": 0 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
@@ -10399,7 +10404,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 3, "nível2": 5, "nível3": 8 }
             },
             {
-              "nome": "Fábricas De Automóveis",
+              "nome": "Fábrica De Automóveis",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 2, "nível2": 3, "nível3": 4 }
             }
@@ -10809,7 +10814,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
 
         {
-          nome: "Refinaria de Biocombustíveis",
+          nome: "Refinaria De Biocombustíveis",
           desc: "Transforma biomassa em biocombustíveis.",
           licençaLiberado: {
             licença: "Licença de Refinaria",
@@ -10973,7 +10978,7 @@ const CentraldeDadosProvider = ({ children }) => {
             }
           ],
 
-          recursoDeConstrução: ["Fábrica de Químicos Especializados"],
+          recursoDeConstrução: ["Fábrica De Químicos Especializados"],
           dependências: [
             { construção: "Fazenda Administrativa", quantidade: 0 }
           ],
@@ -11166,7 +11171,7 @@ const CentraldeDadosProvider = ({ children }) => {
             }
           ],
 
-          recursoDeConstrução: ["Refinaria de Biocombustíveis", "Fábrica de Químicos Especializados"],
+          recursoDeConstrução: ["Refinaria De Biocombustíveis", "Fábrica De Químicos Especializados"],
           dependências: [
             { construção: "Fazenda Administrativa", quantidade: 0 }
           ],
@@ -11210,7 +11215,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 3, "nível2": 5, "nível3": 12 }
             },
             {
-              "nome": "Fábrica De Medicamentos",
+              "Dome": "Fábrica De Medicamentos",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 1, "nível2": 2, "nível3": 5 }
             },
@@ -12228,17 +12233,17 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 1, "nível2": 4, "nível3": 6 }
             },
             {
-              "nome": "Centro de Pesquisa Química",
+              "nome": "Centro De Pesquisa Química",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 1, "nível2": 4, "nível3": 7 }
             },
             {
-              "nome": "Centro de Engenharia Avançada",
+              "nome": "Centro De Engenharia Avançada",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 2, "nível2": 6, "nível3": 6 }
             },
             {
-              "nome": "Centro de Pesquisa em Materiais Avançados",
+              "nome": "Centro De Pesquisa Em Materiais Avançados",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 2, "nível2": 6, "nível3": 6 }
             },
@@ -12395,7 +12400,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 30, "nível2": 40, "nível3": 50 }
             },
             {
-              "nome": "Fábrica de Medicamentos",
+              "Dome": "Fábrica De Medicamentos",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 10, "nível2": 15, "nível3": 15 }
             },
@@ -12405,7 +12410,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 12, "nível2": 18, "nível3": 22 }
             },
             {
-              "nome": "Fábrica de Plásticos",
+              "nome": "Fábrica De Plásticos",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 10, "nível2": 15, "nível3": 20 }
             },
@@ -12425,7 +12430,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 2, "nível2": 3, "nível3": 4 }
             },
             {
-              "nome": "Fundição de Alumínio",
+              "nome": "Fundição De Alumínio",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 2, "nível2": 3, "nível3": 4 }
             },
@@ -12460,12 +12465,12 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 1, "nível2": 2, "nível3": 3 }
             },
             {
-              "nome": "Fábricas de Automóveis",
+              "nome": "Fábrica De Automóveis",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 2, "nível2": 3, "nível3": 4 }
             },
             {
-              "nome": "Refinaria de Biocombustíveis",
+              "nome": "Refinaria De Biocombustíveis",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 1, "nível2": 2, "nível3": 3 }
             },
@@ -12572,17 +12577,17 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Centro de Pesquisa Química",
+              "nome": "Centro De Pesquisa Química",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 3, "nível2": 0, "nível3": 5 }
             },
             {
-              "nome": "Centro de Engenharia Avançada",
+              "nome": "Centro De Engenharia Avançada",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 4, "nível2": 0, "nível3": 5 }
             },
             {
-              "nome": "Centro de Pesquisa em Materiais Avançados",
+              "nome": "Centro De Pesquisa Em Materiais Avançados",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 3, "nível2": 0, "nível3": 5 }
             },
@@ -12654,7 +12659,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 1, "nível2": 1, "nível3": 1 }
             },
             {
-              "nome": "Fábricas De Automóveis",
+              "nome": "Fábrica De Automóveis",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 1, "nível2": 2, "nível3": 3 }
             },
@@ -13104,7 +13109,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 2, "nível2": 4, "nível3": 8 }
             },
             {
-              "nome": "Centro de Pesquisa Química",
+              "nome": "Centro De Pesquisa Química",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 1, "nível2": 3, "nível3": 5 }
             },
@@ -13119,17 +13124,17 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Refinaria de Biocombustíveis",
+              "nome": "Refinaria De Biocombustíveis",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Centro de Engenharia Avançada",
+              "nome": "Centro De Engenharia Avançada",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 3, "nível2": 15, "nível3": 27 }
             },
             {
-              "nome": "Centro de Pesquisa em Materiais Avançados",
+              "nome": "Centro De Pesquisa Em Materiais Avançados",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 2, "nível2": 12, "nível3": 20 }
             },
@@ -13308,17 +13313,17 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Refinaria de Biocombustíveis",
+              "nome": "Refinaria De Biocombustíveis",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Centro de Engenharia Avançada",
+              "nome": "Centro De Engenharia Avançada",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 4, "nível2": 18, "nível3": 42 }
             },
             {
-              "nome": "Centro de Pesquisa em Materiais Avançados",
+              "nome": "Centro De Pesquisa Em Materiais Avançados",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 4, "nível2": 17, "nível3": 37 }
             }
@@ -13372,7 +13377,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Comércio De Tecnologia",
         desc: "Permite a abertura de lojas voltadas para a venda de eletrônicos e dispositivos tecnológicos, desbloqueando novos mercados de consumo.",
         valor: 7000,
-        edifíciosLiberados: ["Loja de Gadgets e Wearables", "Loja De Games","Loja De Celulares","Loja De Informática"],
+        edifíciosLiberados: ["Loja De Gadgets E Wearables", "Loja De Games","Loja De Celulares","Loja De Informática"],
         status: false
       },
       {
@@ -13407,7 +13412,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Logística E Transporte",
         desc: "Autoriza a operação de centros de distribuição e transporte de mercadorias, essencial para a cadeia de suprimentos da cidade.",
         valor: 7000,
-        edifíciosLiberados: ["Centro De Transporte e Entrega", "Centro De Distribuição", "Armazém Logístico", "Transporte Petrolífero"],
+        edifíciosLiberados: ["Centro De Transporte E Entrega", "Centro De Distribuição", "Armazém Logístico", "Transporte Petrolífero"],
         status: false
       }
       ]
@@ -14561,7 +14566,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ForneceMelhoraEficiencia: [],
     RecebeMelhoraEficiencia: [
       {
-        "nome": "Fábricas De Automóveis",
+        "nome": "Fábrica De Automóveis",
         "redCusto": { "nível1": 4, "nível2": 5, "nível3": 13 },
         "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
       },
@@ -14707,7 +14712,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ForneceMelhoraEficiencia: [],
           RecebeMelhoraEficiencia: [
             {
-              "nome": "Fábrica De Medicamentos",
+              "Dome": "Fábrica De Medicamentos",
               "redCusto": { "nível1": 6, "nível2": 8, "nível3": 19 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
@@ -15065,7 +15070,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Loja de Gadgets e Wearables",
+          nome: "Loja De Gadgets E Wearables",
           desc: "Especializada na venda de dispositivos tecnológicos inovadores, como smartwatches, óculos inteligentes e outros gadgets modernos.",
           licençaLiberado: {
             licença: "Licença De Comércio De Tecnologia",
@@ -15584,7 +15589,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Centro De Transporte e Entrega",
+          nome: "Centro De Transporte E Entrega",
           desc: "Distribui produtos e mercadorias para redes varejistas.",
           licençaLiberado: {
             licença: "Licença De Logística E Transporte",
@@ -16079,7 +16084,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Fábrica De Medicamentos",
+              "Dome": "Fábrica De Medicamentos",
               "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
@@ -16293,7 +16298,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Fábrica De Medicamentos",
+              "Dome": "Fábrica De Medicamentos",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
@@ -16997,7 +17002,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Centro De Pesquisa Em Eficiência Energética",
+              "nome": "Centro De Pesquisa Energética",
               "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
@@ -17042,7 +17047,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Fábrica De Medicamentos",
+              "Dome": "Fábrica De Medicamentos",
               "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             }
@@ -19620,7 +19625,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Melhoria Energética",
         desc: "Autoriza centros de pesquisa e desenvolvimento de tecnologias para armazenamento e eficiência energética, incluindo estações de carregamento veicular.",
         valor: 7000,
-        edifíciosLiberados: ["Centro De Pesquisa Energética", "Centro De Reciclagem De Baterias", "Centro de Pesquisa Em Energias Renováveis"],
+        edifíciosLiberados: ["Centro De Pesquisa Energética", "Centro De Reciclagem De Baterias", "Centro De Pesquisa Em Energias Renováveis"],
         status: false
       },
       {
@@ -21114,7 +21119,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Centro de Pesquisa Em Energias Renováveis",
+          nome: "Centro De Pesquisa Em Energias Renováveis",
           desc: "Transporta eletricidade para todas as estruturas.",
           licençaLiberado: {
             licença: "Licença De Melhoria Energética",
@@ -22535,7 +22540,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Fábricas De Automóveis",
+              "nome": "Fábrica De Automóveis",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
@@ -23632,7 +23637,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Fábricas De Automóveis",
+              "nome": "Fábrica De Automóveis",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 1 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
@@ -24021,7 +24026,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Fábricas De Automóveis",
+              "nome": "Fábrica De Automóveis",
               "redCusto": { "nível1": 0, "nível2": 1, "nível3": 2 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
