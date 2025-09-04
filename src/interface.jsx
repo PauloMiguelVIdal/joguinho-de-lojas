@@ -20,6 +20,7 @@ import Day from "./components/day";
 import { Achievements } from "./components/Achievements"
 import Economys from "./components/economys";
 import RaffledBuildings from "./components/RaffledBuildings";
+import {CardSpecials} from "./components/cardsSpecials"
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
@@ -28,6 +29,7 @@ function Interface() {
     return (
         <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-around items-center">
             <Achievements />
+            <CardSpecials/>
             <InputName />
             <Offers />
             <Events />
