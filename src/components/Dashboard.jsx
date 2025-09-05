@@ -399,7 +399,7 @@ export default function Dashboard() {
                     <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
                       <img src={impostoAnual} className="h-[60%] aspect-square" />
                     </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{"3%"}</h1>
+                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{211}%</h1>
                   </div>
                   <div className="flex gap-2 h-full">
                     {/* <div
@@ -471,7 +471,7 @@ export default function Dashboard() {
                     <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
                       <img src={impostoAnual} className="h-[60%] aspect-square" />
                     </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{"3%"}</h1>
+                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{economiaSetores[ativo].economiaSetor.percImpostoAnualAtual}%</h1>
                   </div>
                   <div className="flex gap-2 h-full">
                     {/* <div

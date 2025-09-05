@@ -200,7 +200,7 @@ export const CardSpecials = () =>{
 
 
 useEffect(() => {
-    console.log("▶️ useEffect Terraplanagem");
+    // console.log("▶️ useEffect Terraplanagem");
   
     const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
     const baseComercio = dados.imobiliario;
@@ -226,15 +226,15 @@ useEffect(() => {
   
     // console.log(`🏗️ Terraplanagem: q=${q} | nv2=${nv2} | nv3=${nv3} | redução=${reducao * 100}%`);
   
-    const arrayTerraplanagem = [
-      "Plantação De Grãos",
-      "Plantação De Vegetais",
-      "Pomar",
-      "Plantação De Eucalipto",
-      "Plantação De Plantas Medicinais",
-      "Área Florestal",
-      "Terreno De Mineração",
-    ];
+    // const arrayTerraplanagem = [
+    //   "Plantação De Grãos",
+    //   "Plantação De Vegetais",
+    //   "Pomar",
+    //   "Plantação De Eucalipto",
+    //   "Plantação De Plantas Medicinais",
+    //   "Área Florestal",
+    //   "Terreno De Mineração",
+    // ];
   
     arrayTerraplanagem.forEach((nomeEd) => {
       for (const setor of setoresArr) {
@@ -329,7 +329,7 @@ useEffect(() => {
 
 
   useEffect(() => {
-    console.log("▶️ useEffect Construtora");
+    // console.log("▶️ useEffect Construtora");
   
     const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
     const baseImobiliario = dados.imobiliario;
@@ -338,7 +338,7 @@ useEffect(() => {
     );
   
     if (!construtora) {
-      console.warn("❌ Construtora não encontrada em dados.imobiliario.edificios");
+      // console.warn("❌ Construtora não encontrada em dados.imobiliario.edificios");
       return;
     }
   
@@ -352,7 +352,7 @@ useEffect(() => {
     else if (q >= 1) reducao = 0.05;
     else reducao = 0;
   
-    console.log(`🏗️ Construtora: q=${q} | nv2=${nv2} | nv3=${nv3} | redução=${reducao * 100}%`);
+    // console.log(`🏗️ Construtora: q=${q} | nv2=${nv2} | nv3=${nv3} | redução=${reducao * 100}%`);
     
     arrayConstrutora.forEach((nomeEd) => {
       for (const setor of setoresArr) {
@@ -368,14 +368,14 @@ useEffect(() => {
   
           if (edif.custoConstrucaoOriginal == null) {
             dados[setor].edificios[i].custoConstrucaoOriginal = original;
-            console.log(`💾 Salvei custo original de ${nomeEd} (${setor}):`, original);
+            // console.log(`💾 Salvei custo original de ${nomeEd} (${setor}):`, original);
           }
   
           // aplica desconto sempre a partir do original
           const novo = Math.floor(original * (1 - reducao));
           dados[setor].edificios[i].custoConstrucao = novo;
   
-          console.log(`🏢 ${nomeEd} | setor=${setor} | original=${original} -> novo=${novo}`);
+          // console.log(`🏢 ${nomeEd} | setor=${setor} | original=${original} -> novo=${novo}`);
         }
       }
     });
@@ -384,7 +384,7 @@ useEffect(() => {
 
 
   useEffect(() => {
-    console.log("▶️ useEffect Construtora De Infraestruturas");
+    // console.log("▶️ useEffect Construtora De Infraestruturas");
   
     const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
     const baseImobiliario = dados.imobiliario;
@@ -393,7 +393,7 @@ useEffect(() => {
     );
   
     if (!constrInfra) {
-      console.warn("❌ Construtora De Infraestruturas não encontrada em dados.imobiliario.edificios");
+      // console.warn("❌ Construtora De Infraestruturas não encontrada em dados.imobiliario.edificios");
       return;
     }
   
@@ -407,41 +407,8 @@ useEffect(() => {
     else if (q >= 1) reducao = 0.05;
     else reducao = 0;
   
-    console.log(`🏗️ Construtora De Infraestruturas: q=${q} | nv2=${nv2} | nv3=${nv3} | redução=${reducao * 100}%`);
+    // console.log(`🏗️ Construtora De Infraestruturas: q=${q} | nv2=${nv2} | nv3=${nv3} | redução=${reducao * 100}%`);
   
-    const arrayConstrutoraInfraestrutura = [
-      "Cooperativa Agrícola",
-      "Shopping Popular",
-      "Transporte Petrolífero",
-      "Fábrica De Smartphones",
-      "Fábrica De Computadores",
-      "Fábrica De Consoles De Jogos",
-      "Centro De Pesquisa Aeroespacial",
-      "Mineradora De Pedras Preciosas",
-      "Mega Mercado",
-      "Prédio De Alto Padrão",
-      "Usina Siderúrgica",
-      "Montadora De Veículos Elétricos",
-      "Fábrica De Automóveis",
-      "Refinaria De Biocombustíveis",
-      "Refinaria",
-      "Fábrica De Navios",
-      "Usina Hidrelétrica",
-      "Construtora De Infraestruturas",
-      "Aeroporto",
-      "Mineradora De Minérios Radioativos",
-      "Plataforma De Petróleo",
-      "Fábrica De Chips",
-      "Fábrica De Semicondutores",
-      "Fábrica De Robôs",
-      "Fábrica De Motores",
-      "Fábrica De Aeronaves",
-      "Reator Nuclear Convencional",
-      "Usina De Fusão Nuclear",
-      "Shopping Center",
-      "Porto",
-      "Fábrica De Foguetes"
-    ];
   
     arrayConstrutoraInfraestrutura.forEach((nomeEd) => {
       for (const setor of setoresArr) {
@@ -457,28 +424,28 @@ useEffect(() => {
   
           if (edif.custoConstrucaoOriginal == null) {
             dados[setor].edificios[i].custoConstrucaoOriginal = original;
-            console.log(`💾 Salvei custo original de ${nomeEd} (${setor}):`, original);
+            // console.log(`💾 Salvei custo original de ${nomeEd} (${setor}):`, original);
           }
   
           // aplica desconto sempre a partir do original
           const novo = Math.floor(original * (1 - reducao));
           dados[setor].edificios[i].custoConstrucao = novo;
   
-          console.log(`🏢 ${nomeEd} | setor=${setor} | original=${original} -> novo=${novo}`);
+          // console.log(`🏢 ${nomeEd} | setor=${setor} | original=${original} -> novo=${novo}`);
         }
       }
     });
   }, [dados.imobiliario.edificios]);
   
   useEffect(() => {
-    console.log("▶️ useEffect Cartório E Licenças - início");
+    // console.log("▶️ useEffect Cartório E Licenças - início");
   
     const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
   
     // Cartório E Licenças do setor imobiliário
     const cartorio = dados.imobiliario.edificios.find(ed => ed.nome === "Cartório E Licenças");
     if (!cartorio) {
-      console.log("⚠️ Cartório E Licenças não encontrado no setor imobiliário.");
+      // console.log("⚠️ Cartório E Licenças não encontrado no setor imobiliário.");
       return;
     }
   
@@ -493,13 +460,13 @@ useEffect(() => {
     else if (quantidade >= 1) reducao = 0.05;
     else reducao = 0;
   
-    console.log(`🏛️ Cartório E Licenças: quantidade=${quantidade}, nv2=${nv2}, nv3=${nv3}, redução=${reducao * 100}%`);
+    // console.log(`🏛️ Cartório E Licenças: quantidade=${quantidade}, nv2=${nv2}, nv3=${nv3}, redução=${reducao * 100}%`);
   
     // Aplica redução em todas as licenças de todos os setores
     setoresArr.forEach(setor => {
       const licencasSetor = dados[setor]?.licençasSetor;
       if (!Array.isArray(licencasSetor)) {
-        console.log(`⚠️ Licenças do setor '${setor}' não são um array.`);
+        // console.log(`⚠️ Licenças do setor '${setor}' não são um array.`);
         return;
       }
   
@@ -510,18 +477,18 @@ useEffect(() => {
           // Salva valor original se ainda não estiver salvo
           if (licenca.valorOriginal == null) {
             dados[setor].licençasSetor[index].valorOriginal = valorOriginal;
-            console.log(`💾 Valor original salvo da licença '${licenca.nome}' no setor ${setor}: ${valorOriginal}`);
+            // console.log(`💾 Valor original salvo da licença '${licenca.nome}' no setor ${setor}: ${valorOriginal}`);
           }
   
           const novoValor = Math.floor(valorOriginal * (1 - reducao));
           dados[setor].licençasSetor[index].valor = novoValor;
   
-          console.log(`💰 Licença '${licenca.nome}' | setor=${setor} | original=${valorOriginal} -> novo=${novoValor}`);
+          // console.log(`💰 Licença '${licenca.nome}' | setor=${setor} | original=${valorOriginal} -> novo=${novoValor}`);
         }
       });
     });
   
-    console.log("✅ useEffect Cartório E Licenças - fim");
+    // console.log("✅ useEffect Cartório E Licenças - fim");
   }, [dados.imobiliario.edificios]); 
   
   

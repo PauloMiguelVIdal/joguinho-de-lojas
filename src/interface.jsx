@@ -21,6 +21,8 @@ import { Achievements } from "./components/Achievements"
 import Economys from "./components/economys";
 import RaffledBuildings from "./components/RaffledBuildings";
 import {CardSpecials} from "./components/cardsSpecials"
+import { TaxesYear } from "./components/TaxesYear";
+
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
@@ -34,6 +36,7 @@ function Interface() {
             <Offers />
             <Events />
             <Employees />
+            <TaxesYear/>
             <Notificação />
             <div className="w-[20vw] h-[100vh] flex items-center justify-around">
                 <Buy />

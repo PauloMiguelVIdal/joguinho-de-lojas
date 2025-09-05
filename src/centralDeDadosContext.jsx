@@ -15,7 +15,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
 
-    dia: 1000,
+    dia: 350,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -19610,7 +19610,7 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     energia: {
       economiaSetor: {
-        estadoAtual: "estável"
+        estadoAtual: "estável",
       },
       licençaGlobal: {
         comprado: true,

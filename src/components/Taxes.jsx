@@ -72,6 +72,10 @@ export default function Taxes() {
         <h1 className='fonteBold text-white'>Lucro </h1>
         <h1 className="fonteBold text-white text-[20px]"> {formatarNumero((dados.faturamento.faturamentoMensal - dados.imposto.impostoMensal))}</h1>
       </div>
+      <div className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]">
+        <h1 className='fonteBold text-white'>Imposto Anual </h1>
+        <h1 className="fonteBold text-white text-[20px]"> {formatarNumero((economiaSetores.valorImpostoAnual))}</h1>
+      </div>
     </div>
   )
 }
