@@ -1,26 +1,26 @@
 import React, { useContext, useState } from "react";
-import { CentraldeDadosContext } from "./centralDeDadosContext";
-import PayTexes from "./components/PayTexes";
-import ButtonChange from "./components/ButtonChange";
-import Buy from "./components/buy";
-import Notificação from "./notificação";
-import Events from "./components/events";
-import Employees from "./components/employees";
-import Taxes from "./components/Taxes";
-import Informations from "./components/Informations";
-import Sorteio from "./components/Sorteio";
-import ActiveEvents from "./components/ActiveEvents";
-import Buttons from "./components/Buttons";
-import Dashboard from "./components/Dashboard";
-import MoreOptions from "./components/MoreOptions";
-import Offers from "./components/Offers";
-import EconomyGlobal from "./components/EconomyGlobal";
-import InputName from "./components/inputName";
-import Day from "./components/day";
-import { Achievements } from "./components/Achievements"
-import Economys from "./components/economys";
-import RaffledBuildings from "./components/RaffledBuildings";
-import {CardSpecials} from "./components/cardsSpecials"
+import { CentraldeDadosContext } from "./centralDeDadosContext.jsx";
+import PayTexes from "./components/PayTexes.jsx";
+import ButtonChange from "./components/ButtonChange.jsx";
+import Buy from "./components/buy.jsx";
+import Notificação from "./notificação.jsx";
+import Events from "./components/events.jsx";
+import Employees from "./components/employees.jsx";
+import Taxes from "./components/Taxes.jsx";
+import Informations from "./components/Informations.jsx";
+import Sorteio from "./components/Sorteio.jsx";
+import ActiveEvents from "./components/ActiveEvents.jsx";
+import Buttons from "./components/Buttons.jsx";
+import Dashboard from "./components/Dashboard.jsx";
+import MoreOptions from "./components/MoreOptions.jsx";
+import Offers from "./components/Offers.jsx";
+import EconomyGlobal from "./components/EconomyGlobal.jsx";
+import InputName from "./components/inputName.jsx";
+import Day from "./components/day.jsx";
+import { Achievements } from "./components/Achievements.jsx"
+import Economys from "./components/Economys.jsx";
+import RaffledBuildings from "./components/RaffledBuildings.jsx";
+import {CardSpecials} from "./components/cardsSpecials.jsx"
 import { TaxesYear } from "./components/TaxesYear.jsx";
 
 function Interface() {
