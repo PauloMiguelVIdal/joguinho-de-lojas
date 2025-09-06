@@ -21,7 +21,7 @@ import { Achievements } from "./components/Achievements"
 import Economys from "./components/economys";
 import RaffledBuildings from "./components/RaffledBuildings";
 import {CardSpecials} from "./components/cardsSpecials"
-import { TaxesYear } from "./components/TaxesYear";
+import { TaxesYear } from "./components/TaxesYear.jsx";
 
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
