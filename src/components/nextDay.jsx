@@ -16,7 +16,9 @@ export function NextDay() {
             atualizarEco("fimGame", true);
             return;
         }
-
+        if (dados.dia % 360 === 0 && !economiaSetores.despesasImpostoAnual.impostoAnualPago) {
+            return;
+        }
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
             return;
         }

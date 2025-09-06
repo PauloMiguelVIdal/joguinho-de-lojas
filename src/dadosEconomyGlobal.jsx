@@ -11,6 +11,16 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         fimGame: false,
         economiaGlobal: "estável",
         valorImpostoAnual:0,
+        despesasImpostoAnual: {
+          diaPagarImpostoAnual: false,
+          impostoAnualPago: false,
+          proximoPagamento: ""
+        },
+        modalImpostoAnual: {
+          estadoModal: false,
+          head: "",
+          content: ""
+        },
         imposto: {
             impostoFixoMensal: 0,
             impostoDiário: 0,
@@ -132,8 +142,46 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         });
       };
 
+      const atualizarEcoProfSeguro = (caminho, valorOuFunc) => {
+        if (!Array.isArray(caminho) || caminho.length === 0) {
+          console.warn("❌ Caminho inválido passado para atualizarEcoProfSeguro:", caminho);
+          return;
+        }
+      
+        atualizarEcoProf(prevState => {
+          const novosDados = JSON.parse(JSON.stringify(prevState));
+          let ref = novosDados;
+      
+          for (let i = 0; i < caminho.length - 1; i++) {
+            const chave = caminho[i];
+            if (chave === undefined || chave === null) {
+              console.warn("❌ Chave indefinida no caminho em atualizarEcoProfSeguro:", caminho, "passo", i);
+              return prevState;
+            }
+            if (!ref[chave]) ref[chave] = {}; // cria objeto se não existir
+            ref = ref[chave];
+          }
+      
+          const ultimaChave = caminho[caminho.length - 1];
+          if (ultimaChave === undefined || ultimaChave === null) {
+            console.warn("❌ Última chave indefinida em atualizarEcoProfSeguro:", caminho);
+            return prevState;
+          }
+      
+          if (typeof valorOuFunc === "function") {
+            ref[ultimaChave] = valorOuFunc(ref[ultimaChave] || {});
+          } else {
+            ref[ultimaChave] = valorOuFunc;
+          }
+      
+          console.log("🔧 Atualização segura:", caminho, "->", ref[ultimaChave]);
+          return novosDados;
+        });
+      };
+      
+
     return (
-        <DadosEconomyGlobalContext.Provider value={{ economiaSetores, atualizarEco, setEconomiaSetores, atualizarDadosEconomy, atualizarEcoProf }}>
+        <DadosEconomyGlobalContext.Provider value={{ economiaSetores, atualizarEco, setEconomiaSetores, atualizarDadosEconomy, atualizarEcoProf,atualizarEcoProfSeguro }}>
             {children}
         </DadosEconomyGlobalContext.Provider>
     );

@@ -36,7 +36,6 @@ function Interface() {
             <Offers />
             <Events />
             <Employees />
-            <TaxesYear/>
             <Notificação />
             <div className="w-[20vw] h-[100vh] flex items-center justify-around">
                 <Buy />
@@ -45,10 +44,10 @@ function Interface() {
 
                 {/* <div className="grid col-start-1 col-end-3 row-start-8 row-end-10">
                     <MoreOptions />
-                </div> */}
+                    </div> */}
                 {/* <div className="grid col-start-4 col-end-9 row-start-1 row-end-10">
                     <ButtonChange />
-                </div> */}
+                    </div> */}
                 <div className="grid col-start-1 col-end-9 row-start-2 row-end-11 h-full w-full ">
                     <Dashboard className="h-full" />
                 </div>
@@ -58,6 +57,7 @@ function Interface() {
                     </div>
                     <div className="flex w-full items-center justify-center  col-start-8 col-end-9 gap-[10px]">
                         <Day />
+                    <TaxesYear/>
                         <EconomyGlobal />
                   <RaffledBuildings/>     
                     </div>
