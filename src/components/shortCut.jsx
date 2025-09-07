@@ -7,13 +7,13 @@ export default function AtalhoTeclaP() {
     }
   };
 
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyPress);
+  // useEffect(() => {
+  //   window.addEventListener("keydown", handleKeyPress);
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyPress);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyPress);
+  //   };
+  // }, []);
 
   return <div>Pressione "P" para ativar a ação.</div>;
 }

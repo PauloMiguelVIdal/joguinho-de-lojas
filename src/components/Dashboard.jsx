@@ -390,7 +390,7 @@ export default function Dashboard() {
                     <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
                       <img src={patrimônio} className="h-[60%] aspect-square" />
                     </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{formatarNumero(234234234)}</h1>
+                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{formatarNumero(22222222222)}</h1>
                   </div>
                   <div
                     style={{ backgroundColor: setorAtivo.cor3 }}
@@ -462,7 +462,7 @@ export default function Dashboard() {
                     <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
                       <img src={patrimônio} className="h-[60%] aspect-square" />
                     </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{formatarNumero(234234234)}</h1>
+                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{formatarNumero(economiaSetores[ativo].economiaSetor.valorImpostoAnualAtual)}</h1>
                   </div>
                   <div
                     style={{ backgroundColor: setorAtivo.cor3 }}
