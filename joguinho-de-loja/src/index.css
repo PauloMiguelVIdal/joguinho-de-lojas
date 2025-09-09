@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+=======
+
+
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
 
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital@1&family=Inter:wght@200;300;400;600&family=Noto+Serif:ital,wght@1,700&display=swap');
 .largura{
@@ -36,6 +41,16 @@ margin-top: -40px;
   box-shadow: rgba(242, 116, 5, 0.4) 5px 5px, rgba(242, 116, 5, 0.3) 10px 10px;
 margin-top: -40px;
 }
+<<<<<<< HEAD
+=======
+
+.sombra{
+ box-shadow: 0 2px 5px rgba(60, 64, 67, 0.1),
+            0 1px 3px rgba(60, 64, 67, 0.08);
+}
+
+
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
 .fonteBold{
   font-family: 'Inter', sans-serif;
   font-weight:700;
@@ -83,4 +98,38 @@ cursor: pointer;
   border-radius: 10px;
   cursor: pointer;
   
+<<<<<<< HEAD
 }
+=======
+}
+
+/* Scroll personalizado */
+.scrollbar-custom {
+  scrollbar-width: thin;              /* Firefox */
+  scrollbar-color: #6A00FF #350973;      /* Firefox */
+
+  /* Para WebKit (Chrome, Edge, etc.) */
+}
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: #350973;
+  border-radius: 10px;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #350973;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: #350973;
+}
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a

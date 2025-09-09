@@ -7075,7 +7075,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença Global De Indústria",
         desc: "Permite a operação de indústrias básicas de transformação, essencial para o início da cadeia produtiva industrial.",
         valor: 95000,
-        edifíciosLiberados: ["Fábrica De Móveis", "Fábrica De Ração", "Fábrica De Embalagem"],
+        edifíciosLiberados: ["Fábrica De Móveis", "Fábrica De Ração", "Fábrica De Embalagens"],
         status: false
       },
       {
@@ -7363,7 +7363,7 @@ const CentraldeDadosProvider = ({ children }) => {
           }
         },
         {
-          nome: "Fábrica De Embalagem",
+          nome: "Fábrica De Embalagens",
           desc: "Produz embalagens para diversos produtos.",
           licençaLiberado: {
             licença: "Licença Global De Indústria",
@@ -8483,7 +8483,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Fábrica De Embalagem",
+              "nome": "Fábrica De Embalagens",
               "redCusto": { "nível1": 2, "nível2": 3, "nível3": 4 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },

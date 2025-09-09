@@ -29,7 +29,7 @@ import { CardLocalization } from "./cardLocalization";
 
 
 export const CardModal = ({ index }) => {
-    const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+    const { economiaSetores, setEconomiaSetores, atualizarEco, verificarLimites } = useContext(DadosEconomyGlobalContext);
 
     const { dados, atualizarDados, atualizarDadosProf2, atualizarDadosProf3, atualizarDadosProf } = useContext(CentraldeDadosContext);
     const setorAtivo = dados.setorAtivo;
@@ -255,8 +255,8 @@ export const CardModal = ({ index }) => {
     // const [verificadorDeRecursosNecessários, setVerificadorRec] = useState(true)
 
     const valorEconomiaSetor = {
-        "recessão": 0.6,
-        "declinio": 0.85,
+        "recessão": 0.4,
+        "declinio": 0.8,
         "estável": 1,
         "progressiva": 1.1,
         "aquecida": 1.25,
@@ -508,101 +508,136 @@ export const CardModal = ({ index }) => {
     // console.log(custoTotalLojasG)
     // console.log(CustoTotalSomadoLojas)
 
-    const comprarCard = () => {
-        const localizador = (nomeEdificio) => {
-            const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-            for (const setor of setores) {
-                const index = dados[setor]?.edificios?.findIndex((e) => e.nome === nomeEdificio);
-                if (index !== -1) {
-                    return {
-                        setor,
-                        index,
-                        edificio: dados[setor].edificios[index],
-                    };
-                }
-            }
-            return null;
-        };
+const comprarCard = () => {
+  console.log("=== comprarCard START ===");
 
-        const edif = dados[setorAtivo].edificios[index];
+  const setoresArr = ["agricultura","tecnologia","comercio","industria","imobiliario","energia"];
 
-        const quantidadeTerrenosNec = edif.lojasNecessarias.terrenos;
-        const quantidadeLojasPNec = edif.lojasNecessarias.lojasP;
-        const quantidadeLojasMNec = edif.lojasNecessarias.lojasM;
-        const quantidadeLojasGNec = edif.lojasNecessarias.lojasG;
+  // 🔹 Função para localizar edifícios
+  const localizador = (nomeEdificio) => {
+    for (const setor of setoresArr) {
+      const index = dados[setor]?.edificios?.findIndex((e) => e.nome === nomeEdificio);
+      if (index !== -1) {
+        return { setor, index, edificio: dados[setor].edificios[index] };
+      }
+    }
+    return null;
+  };
 
-        const quantidadeTerrenosAtual = dados.terrenos.quantidade;
-        const quantidadeLojasPAtual = dados.lojasP.quantidade;
-        const quantidadeLojasMAtual = dados.lojasM.quantidade;
-        const quantidadeLojasGAtual = dados.lojasG.quantidade;
+  // 🔹 Edifício que está sendo comprado
+  const edif = dados?.[setorAtivo]?.edificios?.[index];
+  if (!edif) {
+    console.error("Edifício não encontrado", { setorAtivo, index, dados });
+    return alert("Erro: edifício não encontrado.");
+  }
+  console.log("Tentando comprar:", edif.nome, "quantidade atual:", edif.quantidade);
 
-        const custo = edif.custoConstrucao;
+  // 🔹 Carteira atual
+  const carteira = economiaSetores?.carteira?.carteiraAtual ?? [];
+  console.log("Carteira atual antes da compra:", carteira);
 
-        if (economiaSetores.saldo < custo) {
-            return alert("Você não tem dinheiro suficiente para construir.");
-        }
+  // 🔹 Verificar limites
+  const resultado = verificarLimites(edif, setorAtivo, carteira);
+  if (resultado !== true) {
+    console.warn("Compra bloqueada:", resultado);
+    return alert(resultado);
+  }
+  console.log("Verificações de limite ok");
 
-        if (
-            quantidadeTerrenosNec > quantidadeTerrenosAtual ||
-            quantidadeLojasPNec > quantidadeLojasPAtual ||
-            quantidadeLojasMNec > quantidadeLojasMAtual ||
-            quantidadeLojasGNec > quantidadeLojasGAtual
-        ) {
-            return alert("Você não tem lojas suficientes.");
-        }
+  // 🔹 Verificar saldo
+  const custo = Number(edif.custoConstrucao ?? 0);
+  if (economiaSetores.saldo < custo) return alert("Você não tem dinheiro suficiente para construir.");
 
-        // 🔍 Verificação de construções NECESSÁRIAS (sem deduzir)
-        if (edif.construçõesNecessárias && edif.construçõesNecessárias.length > 0) {
-            for (const nomeConstrucao of edif.construçõesNecessárias) {
-                const resultado = localizador(nomeConstrucao);
+  // 🔹 Verificar lojas/terrenos
+  const { terrenos: qTerrenos = 0, lojasP: qP = 0, lojasM: qM = 0, lojasG: qG = 0 } = edif.lojasNecessarias || {};
+  const qTerrenosAtual = Number(dados?.terrenos?.quantidade ?? 0);
+  const qPAtual = Number(dados?.lojasP?.quantidade ?? 0);
+  const qMAtual = Number(dados?.lojasM?.quantidade ?? 0);
+  const qGAtual = Number(dados?.lojasG?.quantidade ?? 0);
 
-                if (!resultado) {
-                    return alert(`Construção necessária "${nomeConstrucao}" não encontrada.`);
-                }
+  if (qTerrenos > qTerrenosAtual || qP > qPAtual || qM > qMAtual || qG > qGAtual)
+    return alert("Você não tem lojas/terrenos suficientes.");
 
-                if (resultado.edificio.quantidade <= 0) {
-                    return alert(`Você precisa de pelo menos 1 unidade de "${nomeConstrucao}".`);
-                }
-            }
-        }
+  // 🔹 Construções necessárias
+  if (edif.construçõesNecessárias?.length) {
+    for (const nome of edif.construçõesNecessárias) {
+      const res = localizador(nome);
+      if (!res) return alert(`Construção necessária "${nome}" não encontrada.`);
+      if (res.edificio.quantidade <= 0) return alert(`Você precisa de pelo menos 1 unidade de "${nome}".`);
+    }
+  }
 
-        // 🔍 Verificação de recursos de construção (com dedução posterior)
-        if (edif.recursoDeConstrução && edif.recursoDeConstrução.length > 0) {
-            for (const nomeConstrucao of edif.recursoDeConstrução) {
-                const resultado = localizador(nomeConstrucao);
+  // 🔹 Recursos de construção
+  if (edif.recursoDeConstrução?.length) {
+    for (const nome of edif.recursoDeConstrução) {
+      const res = localizador(nome);
+      if (!res) return alert(`Recurso de construção "${nome}" não encontrado.`);
+      if (res.edificio.quantidade <= 0) return alert(`Você precisa de pelo menos 1 unidade de "${nome}".`);
+    }
+  }
 
-                if (!resultado) {
-                    return alert(`Recurso de construção "${nomeConstrucao}" não encontrado.`);
-                }
+  // === Compra aprovada ===
+  console.log("Compra aprovada. Aplicando atualizações...");
 
-                if (resultado.edificio.quantidade <= 0) {
-                    return alert(`Você precisa de pelo menos 1 unidade de "${nomeConstrucao}".`);
-                }
-            }
-        }
+  // 🔹 1) Deduz saldo
+  atualizarEco("saldo", economiaSetores.saldo - custo);
 
-        // ✅ Compra aprovada
-        atualizarEco("saldo", economiaSetores.saldo - custo);
-        atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], edif.quantidade + 1);
+  // 🔹 2) Incrementa quantidade do edifício
+  const novaQuantidade = (edif.quantidade || 0) + 1;
+  atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], novaQuantidade);
 
-        atualizarDadosProf2(["terrenos", "quantidade"], quantidadeTerrenosAtual - quantidadeTerrenosNec);
-        atualizarDadosProf2(["lojasP", "quantidade"], quantidadeLojasPAtual - quantidadeLojasPNec);
-        atualizarDadosProf2(["lojasM", "quantidade"], quantidadeLojasMAtual - quantidadeLojasMNec);
-        atualizarDadosProf2(["lojasG", "quantidade"], quantidadeLojasGAtual - quantidadeLojasGNec);
+  // 🔹 3) Deduz lojas/terrenos
+  atualizarDadosProf2(["terrenos", "quantidade"], qTerrenosAtual - qTerrenos);
+  atualizarDadosProf2(["lojasP", "quantidade"], qPAtual - qP);
+  atualizarDadosProf2(["lojasM", "quantidade"], qMAtual - qM);
+  atualizarDadosProf2(["lojasG", "quantidade"], qGAtual - qG);
 
-        // 🔻 Dedução dos recursos de construção
-        if (edif.recursoDeConstrução && edif.recursoDeConstrução.length > 0) {
-            for (const nomeConstrucao of edif.recursoDeConstrução) {
-                const { setor, index, edificio } = localizador(nomeConstrucao);
-                atualizarDadosProf2([setor, "edificios", index, "quantidade"], edificio.quantidade - 1);
-            }
-        }
+  // 🔹 4) Deduz recursos de construção
+  if (edif.recursoDeConstrução?.length) {
+    for (const nome of edif.recursoDeConstrução) {
+      const { setor: sRec, index: iRec, edificio: edifRec } = localizador(nome) || {};
+      if (edifRec) atualizarDadosProf2([sRec, "edificios", iRec, "quantidade"], (edifRec.quantidade || 0) - 1);
+    }
+  }
 
-        // console.log("Compra concluída com sucesso.");
+  // 🔹 5) Atualiza carteira imediatamente
+  const setorIndex = setoresArr.indexOf(setorAtivo);
+  const novaCarteira = [...carteira];
+  if (!novaCarteira[setorIndex]) novaCarteira[setorIndex] = [];
+  novaCarteira[setorIndex] = [...novaCarteira[setorIndex], { ...edif, quantidade: 1 }]; // adiciona 1 unidade
+  atualizarEco("carteira", { ...economiaSetores.carteira, carteiraAtual: novaCarteira });
+
+  console.log("Carteira atualizada:", novaCarteira);
+
+  // 🔹 6) Atualiza centralEdificios
+  const atualizarCentralEdificios = () => {
+    const carteiraNorm = setoresArr.map((_, i) => Array.isArray(novaCarteira[i]) ? novaCarteira[i] : []);
+    let totalEdificios = 0;
+    const nomesSet = new Set();
+    carteiraNorm.forEach(arr => {
+      arr.forEach(item => {
+        if (!item) return;
+        nomesSet.add(item.nome);
+        totalEdificios += Number(item.quantidade ?? 1);
+      });
+    });
+    const setoresAtivos = carteiraNorm.reduce((acc, arr) => acc + (arr.length > 0 ? 1 : 0), 0);
+
+    const novosCentral = {
+      ...economiaSetores.centralEdificios,
+      quantidadeSetoresAtual: setoresAtivos,
+      QuantidadeEdifíciosAtual: totalEdificios,
+      QuantidadeDiversosEdificiosAtual: nomesSet.size,
     };
 
+    atualizarEco("centralEdificios", novosCentral);
+    console.log("centralEdificios atualizado:", novosCentral);
+  };
 
+  atualizarCentralEdificios();
 
+  console.log("=== comprarCard END ===");
+};
 
 
 

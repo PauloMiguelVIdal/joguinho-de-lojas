@@ -1,16 +1,30 @@
 import React, { useContext, useState } from "react";
 import { CentraldeDadosContext } from "./centralDeDadosContext";
+<<<<<<< HEAD
 import terrenoImg from "./imagens/terreno.png"
 import LojaPImg from "./imagens/lojaP.png"
 import LojaMImg from "./imagens/lojaM.png"
 import LojaGImg from "./imagens/lojaG.png"
 import ConstuirImg from "./imagens/construir.png"
 import DolarImg from "./imagens/simbolo-do-dolar.png"
+=======
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
 import NextDay from "./components/nextDay";
 import Buy from "./components/buy";
 import Notificação from "./notificação";
 import Events from "./components/events";
 
+<<<<<<< HEAD
+=======
+import Employees from "./components/employees";
+
+
+import Texes from "./components/Texes";
+
+import PayTexes from "./components/PayTexes";
+
+
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
 
 function Interface() {
         const { dados, atualizarDados } = useContext(CentraldeDadosContext)
@@ -34,7 +48,10 @@ function Interface() {
             </div>
             <div className="flex justify-between pr-[10px] pl-[10px] items-center w-[300px] h-[30px] rounded-[20px] bg-white box2 absolute top-[20px] left-[20px]">
                 <h1 className="fonteLight text-roxo text-[20px] ">Mercados Mandakaru</h1>
+<<<<<<< HEAD
                 {/* <h1 className="fonteBold text-roxo text-[20px]">{dadosSaldo}</h1> */}
+=======
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
             </div>
             {/* <div className="flex justify-evenly items-center w-[250px] h-[30px] rounded-[20px] bg-white box2">
                     <h1 className="fonteLight text-roxo text-[20px]">faturamento Atual diário:</h1>
@@ -42,11 +59,19 @@ function Interface() {
                 </div> */}
             {/* <div className="flex justify-evenly items-center w-[250px] h-[30px] rounded-[20px] bg-white box2">
                     <h1 className="fonteLight text-roxo text-[20px]">Despesas do mês Atual:</h1>
+<<<<<<< HEAD
                     <h1 className="fonteBold text-roxo text-[20px]">{dadosFaturamentoLojasP + dadosFaturamentoLojasM + dadosFaturamentoLojasG}</h1>
+=======
+                    <h1 className="fonteBold text-roxo text-[20px]">gerar</h1>
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
                 </div> */}
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
             {/* <h1>Preço terrenos:{dadosPreçosTerrenos}</h1>
 
 
@@ -90,10 +115,25 @@ function Interface() {
                         
                         
                         <h1>faturamentoTotalLojasG:{dadosFaturamentoTotalLojasG}</h1> */}
+<<<<<<< HEAD
 
             <Buy />
             <NextDay />
             <Events/>
+=======
+            {/* <Texes/> */}
+
+            <Buy />
+            <div className="grid col-start-1 col-end-3 row-2">
+            <div className="flex justify-center mt-[20px]">
+            <NextDay />
+           <PayTexes/>
+            </div>
+            </div>
+            <Texes/>
+            <Events/>
+
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
         </div>
     )
 

@@ -10,7 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "react": "^18.2.0",
+=======
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^7.1.1",
+    "chart.js": "^4.4.8",
+    "framer-motion": "^12.4.3",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.3.0",
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
     "react-dom": "^18.2.0"
   },
   "devDependencies": {

@@ -1,12 +1,17 @@
 import React, { useContext,useEffect } from 'react';
 import { CentraldeDadosContext } from '../centralDeDadosContext';
 import PróximoImg from "../imagens/proximo.png";
+<<<<<<< HEAD
 import despesasImg from "../imagens/despesas.png";
+=======
+
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
 
 
 export default function NextDay() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
+<<<<<<< HEAD
     useEffect(() => {
         // Verifica se é necessário atualizar as despesas e o estado modal
         if (dados.dia % 30 === 0){
@@ -20,11 +25,18 @@ export default function NextDay() {
             // Chame o modelo de pagar dívidas aqui
           }
         }, [dados.dia, dados.despesas.despesasPagas]);
+=======
+
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
 
 
 
     const ProximoDia = () => {
         console.log(dados.despesas);
+<<<<<<< HEAD
+=======
+        atualizarDados('despesas', { ...dados.despesas, despesasPagas: false });
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
             alert("Você não pode avançar para o próximo dia sem pagar as despesas.");
             return; // Impede o avanço do dia se as despesas não forem pagas
@@ -77,6 +89,7 @@ export default function NextDay() {
 
   
 
+<<<<<<< HEAD
     const PagarDespesas = () => {
         if (dados.despesas.despesasPagas) {
             return alert("Despesas desse mês já foram pagas.");
@@ -90,6 +103,8 @@ export default function NextDay() {
         }
     };
     
+=======
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
     const gerarFaturamentoTerrenos = () => {
         const novoFatuUnitárioTerreno = Math.floor(Math.random() * (dados.terrenos.faturamentoMáximo - dados.terrenos.faturamentoMínimo + 1)) + dados.terrenos.faturamentoMínimo;
         const faturamentoTotalTerrenos = (novoFatuUnitárioTerreno * dados.terrenos.quantidade).toFixed(2);
@@ -133,6 +148,7 @@ export default function NextDay() {
     return (
 
         <div className="grid col-start-1 col-end-3 row-2">
+<<<<<<< HEAD
             <div className="flex justify-center mt-[20px]">
                 <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center mr-[10px]" onClick={ProximoDia}>
                     <img className="w-[72px] h-[72px]" src={PróximoImg} />
@@ -141,5 +157,13 @@ export default function NextDay() {
                     onClick={PagarDespesas}><img className="w-[72px] h-[72px]" src={despesasImg} /></button>
             </div>
         </div>
+=======
+                <button className="w-[100px] h-[100px] bg-laranja rounded-[20px] flex items-center justify-center mr-[10px]" onClick={ProximoDia}>
+                    <img className="w-[72px] h-[72px]" src={PróximoImg} />
+                </button>
+             
+            </div>
+       
+>>>>>>> 4eecf25e3e3b0d0eca1f16931d01c2d9df1ce00a
     )
 }

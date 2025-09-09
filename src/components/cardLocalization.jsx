@@ -21,17 +21,17 @@ import LojaMImg from "../imagens/lojaM.png"
 import LojaGImg from "../imagens/lojaG.png"
 import SelectorImage from "./selectorImage";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-
 import LicenseNec from "./licenseNec";
 import fechar from "../imagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
 //nome [setorAtivo].edificios[nome]
 
 
-export const CardLocalization = ({ index, setor }) => {
+export const CardLocalization = ({ index, setor,abrirModalSell }) => {
     const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
     const setorAtivo = setor;
+    const setorAtualContext = dados.setorAtivo;
 
 
     const setores = [
@@ -48,6 +48,7 @@ export const CardLocalization = ({ index, setor }) => {
     const [isModalOpen, setIsModalOpen] = useState(true);
     const [visibleId, setVisibleId] = useState('lojasNec');
     const [modalPowerup, setModalPowerUp] = useState(false)
+  
 
     const contabilidadeDeFalta = (edificio) => {
         const qtdAtual = dados[edificio].quantidade
@@ -446,8 +447,8 @@ export const CardLocalization = ({ index, setor }) => {
     }, [dados, setorAtivo, index, setoresArr, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
     const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
     const fatorEconomico = {
-        "recessão": 0.6,
-        "declinio": 0.85,
+        "recessão": 0.4,
+        "declinio": 0.8,
         "estável": 1,
         "progressiva": 1.1,
         "aquecida": 1.25,
@@ -904,6 +905,8 @@ export const CardLocalization = ({ index, setor }) => {
 
 
 
+
+
                 {dados[setorAtivo].edificios[index].licençaLiberado.liberado === false && (
                     <motion.div
                         style={{
@@ -981,7 +984,8 @@ export const CardLocalization = ({ index, setor }) => {
                         <div className="h-[35%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
                             <h2 style={{ color: setorInfo.cor1 }} className="text-[12px] fonteBold text-[#003816]">{dados[setorAtivo].edificios[index].desc}</h2>
                         </div>
-                        <div className="h-[25%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
+
+                        {setorAtualContext !== "carteira" && <div className="h-[25%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
 
                             <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-full">
 
@@ -1034,6 +1038,7 @@ export const CardLocalization = ({ index, setor }) => {
 
                             </div>
                         </div>
+                        }
                         <div className="flex  justify-between items-center h-[15%] w-full">
                             <div className="w-full flex h-full flex justify-between items-center">
                                 <div className="w-[55%] h-[80%] rounded-[5px] ">
@@ -1055,33 +1060,46 @@ export const CardLocalization = ({ index, setor }) => {
                             </div >
 
                         </div>
-                        {/* <div className="flex  justify-between items-center h-[15%] w-full">
-                            <div className="w-full flex h-full flex justify-between items-center">
-                                <div className="w-[60%] h-[80%] rounded-[5px] ">
-                                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between  h-full">
-                                        <div className="flex items-center justify-center h-full drop-shadow-2xl">
-                                            <img src={DolarImg} className="h-[60%] ml-[2px] " />
-                                            <h1 className=" text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário)}</h1>
-                                        </div>
+                        {setorAtualContext === "carteira" && <div className="h-[25%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
 
+                            <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-full">
+
+                                <div className="w-[100%] rounded-[20px] flex justify-around items-center h-full ">
+
+                                    <div className="w-[35%] h-full aspect-square flex justify-between items-center">
+                                        <div
+                                            onClick={() => { handleMouseEnter(), handleShow('powerUp') }}
+                                            className="w-full h-[80%] flex justify-center items-center drop-shadow-2xl">
+                                            <div className="h-full w-full aspect-square flex justify-center items-center">
+                                                <div style={{ backgroundColor: setorInfo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
+                                                    <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%, ${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)` }} onClick={() => handleFlip()} className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
+                                                        <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                                                    </div>
+                                                    <div className="flex justify-center items-center w-full">
+                                                        <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[index].quantidade}
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <button
+                                        onClick={() => abrirModalSell(setor , index)}
+                                        style={{
+                                            "--cor4": setorInfo.cor4,
+                                            "--cor1": setorInfo.cor1,
+                                        }}
+                                        className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9] rounded-[12px] h-[80%] w-[60%] fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9] hover:from-[--cor4] duration-300 ease-in-out cursor-pointer`}
+                                    >
+                                        Vender
+                                    </button>
                                 </div>
 
-                                <button
-                                    // onClick={comprarCard}
-                                    style={{
-                                        "--cor4": setorInfo.cor4,
-                                        "--cor1": setorInfo.cor1,
-                                    }}
-                                    className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9] rounded-[20px] w-[full] fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9] hover:from-[--cor4] duration-300 ease-in-out cursor-pointer`}
-                                >
-                                    Vender
-                                </button>
+                            </div>
+                        </div>
 
+                        }
 
-                            </div >
-
-                        </div> */}
                         {/* <div className="flex items-center justify-center w-[90%] h-[10%] drop-shadow-md">
                             <button
                                 // onClick={comprarCard}

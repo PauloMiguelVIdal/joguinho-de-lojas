@@ -21,7 +21,12 @@ import { CarteiraLocalizador } from "./CarteiraLocalizador";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import patrimônio from "../../public/imagens/patrimônio.png";
 import impostoAnual from "../../public/imagens/impostoAnual.png";
-
+import { BusinessLicence } from "./BusinessLicence";
+import limitar from "../imagens/limite.png";
+import soma from "../imagens/Soma.png"
+import setoresImg from "../imagens/setores.png"
+import diversidade from "../imagens/diversidade.png"
+import { SellModal} from "./SellModal";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -50,9 +55,18 @@ export default function Dashboard() {
 
   const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
   const [ativo, setAtivo] = useState("grafico");
-
+  const [modalSell, setModalSell] = useState(false)
   // const economiaSetor = dados[ativo].economiaSetor.estadoAtual
   // console.log(economiaSetor)
+
+    const [modalSellOpen, setModalSellOpen] = useState(false);
+  const [modalProps, setModalProps] = useState({ setor: "", nomeLicença: "", index: 0 });
+
+  const abrirModalSell = (setor, index) => {
+    setModalProps({ setor, index });
+    setModalSellOpen(true);
+  };
+
 
 
   const ativoConvertido = (ativo) => {
@@ -147,6 +161,17 @@ export default function Dashboard() {
   // teste()
 
 
+
+
+
+
+
+
+
+
+
+
+
   const setores = [
     { id: "agricultura", cor3: "#0C9123", corClasse: "bg-[#4CAF50]", img: agricultura, descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50", },
     { id: "tecnologia", cor3: "#FF6F00 ", corClasse: "bg-[#FF8C42]", img: tecnologia, descLicença: "Com a Licença Global de Tecnologia, você desbloqueia inovações que podem transformar sua infraestrutura, otimizar processos e maximizar os lucros. Invista no futuro agora!", cor1: "#A64B00 ", cor2: "#D45A00 ", cor3: "#FF6F00 ", cor4: "#FF8C42 ", },
@@ -169,6 +194,7 @@ export default function Dashboard() {
   }
 
   const alterarEconomiaSetor = () => { atualizarDadosProf2([ativo, "economiaSetor", "estadoAtual"], "recessão") }
+
 
 
 
@@ -227,6 +253,12 @@ export default function Dashboard() {
   };
 
   const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
+
+  const dadosCarteiraEdificios = economiaSetores.centralEdificios
+
+
+
+
 
   const LiberarLicença = () => {
     if (economiaSetores.saldo >= licenciaValor) {
@@ -287,6 +319,7 @@ export default function Dashboard() {
   };
 
   const [licencaModal, setLicencaModal] = useState(false)
+  const [businessLicenceModal, setBusinessLicenceModal] = useState(false)
 
 
   if (licencaModal === true) {
@@ -312,6 +345,70 @@ export default function Dashboard() {
             {dados[ativo].licençasSetor.map((e, index) =>
 
               <LicenseModal
+                key={index}
+                setor={ativo}
+                nomeLicença={e.nome}
+                index={index} />
+            )}
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  {
+    modalSell && (
+      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="w-[80vw] h-[80vh] bg-[#350973] rounded-[20px] relative flex flex-col items-center justify-around"
+        >
+          <h1 className="text-center text-white p-[10px] text-[50px] fonteBold">Fim</h1>
+
+          <div className="w-[80%] h-[15px] bg-gradient-to-l from-laranja to-roxo rounded-[7px]"></div>
+
+          <h2 className="text-center text-white opacity-80 text-[35px] fonteLight">
+          </h2>
+         
+
+          <button
+            className="absolute right-[20px] bottom-[20px] text-white bg-laranja px-[25px] py-[15px] rounded-[40px] fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+            onClick={() => setModalSell(false)}
+          >
+            entendido
+          </button>
+        </motion.div>
+      </div>
+    )
+  }
+
+
+  if (businessLicenceModal === true) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90 ">
+        <motion.div style={{ backgroundColor: setorAtivo.cor4 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="w-[80vw] h-[80vh] bg-[#F52623] p-[20px] gap-[20px] rounded-[10px] flex flex-col items-center relative "
+        >
+          <button
+            className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
+            onClick={() => setBusinessLicenceModal(false)}
+          >
+            <img src={fechar} alt="Fechar" className="w-[60%]" />
+          </button>
+          <div style={{ backgroundColor: setorAtivo.cor1 }} className="flex shadow-xl justify-center items-center w-[100%] h-[15%]  rounded-[20px] self-center ">
+            <h1 className="text-center text-white text-[40px] fonteBold">Licenças - {ativo}</h1>
+          </div >
+          <div className="overflow-y-visible overflow-x-hidden w-full scrollbar-custom ">
+            {economiaSetores.porteEmpresa.map((e, index) =>
+
+              <BusinessLicence
                 key={index}
                 setor={ativo}
                 nomeLicença={e.nome}
@@ -385,12 +482,38 @@ export default function Dashboard() {
                   </div>
                   <div
                     style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
+                    className="w-[30%] rounded-[20px] text-[10px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
+                  >
+                    <h1 className="text-[20px]">
+                      {dadosCarteiraEdificios.classificacaoPorteEmpresa}
+                    </h1>
+                  </div>
+                  <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[25%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between  text-[30px] sombra"
                   >
                     <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
                       <img src={patrimônio} className="h-[60%] aspect-square" />
                     </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{formatarNumero(22222222222)}</h1>
+                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{formatarNumero(0)}</h1>
+                  </div>
+                  {/* <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
+                  >
+                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                      <img src={impostoAnual} className="h-[60%] aspect-square" />
+                    </div>
+                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{211}%</h1>
+                  </div> */}
+                  {/* <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
+                  >
+                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                      <img src={impostoAnual} className="h-[60%] aspect-square" />
+                    </div>
+                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{211}/{211}</h1>
                   </div>
                   <div
                     style={{ backgroundColor: setorAtivo.cor3 }}
@@ -399,7 +522,118 @@ export default function Dashboard() {
                     <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
                       <img src={impostoAnual} className="h-[60%] aspect-square" />
                     </div>
+                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{211}/{211}</h1>
+                  </div>
+                  <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
+                  >
+                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                      <img src={impostoAnual} className="h-[60%] aspect-square" />
+                    </div>
+                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{211}/{211}</h1>
+                  </div> */}
+                  <div className="flex gap-2 h-full">
+                    {/* <div
+                      style={{ backgroundColor: setorAtivo.cor3 }}
+                      className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
+                    >
+                      <button
+                        style={{ backgroundColor: setorAtivo.cor3 }}
+                        onClick={() => setLicencaModal(true)}
+                        className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+                      >
+
+                        <img className="w-[70%]" src={patrimônio} />
+                        230302030203
+                      </button>
+                    </div> */}
+
+                    {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button> */}
+                  </div>
+
+                  <div className="flex gap-2 h-full">
+                    <button
+                      style={{ backgroundColor: setorAtivo.cor3 }}
+                      onClick={() => setBusinessLicenceModal(true)}
+                      className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+                    >
+                      <img className="w-[70%]" src={licença} />
+                    </button>
+                    {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button>
+                    <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(economiaSetores[ativo].economiaSetor.estadoAtual)}`}>
+                      <img className="w-[70%]" src={circularEconomia} />
+                    </div> */}
+                  </div>
+
+                </div>
+
+
+
+
+
+
+                <div className="h-[50px] w-full flex justify-between pt-[10px] gap-[10px] items-start">
+                  {/* <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
+                  >
+                    {ativoConvertido(ativo)}
+                  </div> */}
+                  {/* <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between  text-[30px] sombra"
+                  >
+                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                      <img src={patrimônio} className="h-[60%] aspect-square" />
+                    </div>
+                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{formatarNumero(22222222222)}</h1>
+                  </div> */}
+                  {/* <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
+                  >
+                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                      <img src={impostoAnual} className="h-[60%] aspect-square" />
+                    </div>
                     <h1 className="text-white fonteBold text-[20px] mr-[20px]">{211}%</h1>
+                  </div> */}
+
+                  <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[25%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
+                  >
+                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                      <img src={limitar} className="h-[60%] aspect-square" />
+                    </div>
+                    <h1 className="text-white fonteBold text-[20px] mr-[10px]">{dadosCarteiraEdificios.quantidadeUnicoMax}</h1>
+                  </div>
+                  <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[25%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
+                  >
+                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                      <img src={setoresImg} className="h-[60%] aspect-square" />
+                    </div>
+                    <h1 className="text-white fonteBold text-[20px] mr-[10px]">{dadosCarteiraEdificios.quantidadeSetoresAtual}/{dadosCarteiraEdificios.quantidadeSetoresMax}</h1>
+                  </div>
+                  <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[25%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
+                  >
+                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                      <img src={diversidade} className="h-[60%] aspect-square" />
+                    </div>
+                    <h1 className="text-white fonteBold text-[20px] mr-[10px]">{dadosCarteiraEdificios.quantidadeDiversosEdificiosAtual}/{dadosCarteiraEdificios.quantidadeDiversosEdificiosMax}</h1>
+                  </div>
+                  <div
+                    style={{ backgroundColor: setorAtivo.cor3 }}
+                    className="w-[25%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
+                  >
+                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                      <img src={soma} className="h-[60%] aspect-square" />
+                    </div>
+                    <h1 className="text-white fonteBold text-[20px] mr-[10px]">{dadosCarteiraEdificios.quantidadeEdificiosAtual}/{dadosCarteiraEdificios.quantidadeEdificiosMax}</h1>
                   </div>
                   <div className="flex gap-2 h-full">
                     {/* <div
@@ -419,26 +653,34 @@ export default function Dashboard() {
 
                     {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button> */}
                   </div>
-                  {/* Ícones de Economia */}
+
                   <div className="flex gap-2 h-full">
-                    <button
+                    {/* <button
                       style={{ backgroundColor: setorAtivo.cor3 }}
-                      onClick={() => setLicencaModal(true)}
+                   
                       className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
                     >
-                      {/* <img className="w-[70%]" src={licença} /> */}
-                    </button>
-                    {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button> */}
-                    {/* <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(economiaSetores[ativo].economiaSetor.estadoAtual)}`}>
+                      <img className="w-[70%]" src={licença} />
+                    </button> */}
+                    {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button>
+                    <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(economiaSetores[ativo].economiaSetor.estadoAtual)}`}>
                       <img className="w-[70%]" src={circularEconomia} />
                     </div> */}
                   </div>
 
                 </div>
-
                 <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4  scrollbar-custom rounded-[10px]">
+
                   <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
-                    <CarteiraLocalizador />
+                    <CarteiraLocalizador abrirModalSell={abrirModalSell} />
+                    {modalSellOpen && (
+                      <SellModal
+                        setor={modalProps.setor}
+                        nomeLicença={modalProps.nomeLicença}
+                        index={modalProps.index}
+                        onClose={() => setModalSellOpen(false)}
+                      />
+                    )}
                   </div>
                 </div>
 
