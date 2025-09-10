@@ -195,27 +195,48 @@ const Campanhas = [
     { nome: "Energia Sustentável", descricao: "Controle fontes de energia limpa", obrigatorios: ["Usina Solar", "Parque Eólico", "Centro De Pesquisa Em Energias Renováveis", "Usina De Fusão Nuclear"] },
     { nome: "Cidade Inteligente", descricao: "Desenvolva infraestrutura e serviços urbanos", obrigatorios: ["Shopping Center", "Posto De Combustíveis", "Rede De Distribuição Elétrica", "Estação De Carregamento"] },
     { nome: "Amazonia Tech", descricao: "Domine o mercado de varejo online e tecnologia", obrigatorios: ["Marketplace Online", "Data Center", "Centro De Distribuição", "Fábrica De Eletrônicos"] },
-    { nome: "PetroGlobal", descricao: "Controle o mercado de energia e combustíveis fósseis", obrigatorios: ["Plataforma De Petróleo", "Refinaria", "Transporte Petrolífero", "Posto De Combustíveis"] },
+    { nome: "PetroGlobal", descricao: "Controle o mercado de energia e combustíveis fósseis", obrigatorios: ["Plataforma De Petróleo", "Refinaria", "Transporte Petrolífero", "Posto De Combustíveis"] }, //limpo
     { nome: "BioFuture", descricao: "Lidere a revolução da biotecnologia e energias renováveis", obrigatorios: ["Biofábrica", "Usina De Biomassa", "Instituto De Biotecnologia", "Refinaria De Biocombustíveis"] },
     { nome: "MetaVerse Inc", descricao: "Crie o império de entretenimento digital e realidade virtual", obrigatorios: ["Fábrica De Chips", "Plataforma De Streaming", "Empresa De Jogos Digitais", "Loja De Games"] },
-    { nome: "ConstruMax", descricao: "Torne-se líder em construção e desenvolvimento urbano", obrigatorios: ["Construtora De Infraestruturas", "Construtora", "Imobiliária Comercial", "Prédio De Alto Padrão"] },
+    { nome: "ConstruMax", descricao: "Torne-se líder em construção e desenvolvimento urbano", obrigatorios: ["Construtora De Infraestruturas", "Construtora", "Imobiliária Comercial", "Prédio De Alto Padrão"] },  //////errado
     { nome: "HealthPlus", descricao: "Domine o mercado farmacêutico e de saúde", obrigatorios: ["Fábrica De Medicamentos", "Laboratório Farmacêutico", "Farmácia", "Plantação De Plantas Medicinais"] },
     { nome: "AutoGroup", descricao: "Lidere a indústria automotiva e de mobilidade", obrigatorios: ["Montadora De Veículos Elétricos", "Fábrica De Peças Automotivas", "Concessionária De Veículos", "Estação De Carregamento"] },
     { nome: "FoodNetwork", descricao: "Controle a cadeia produtiva de alimentos", obrigatorios: ["Cooperativa Agrícola", "Mega Mercado", "Restaurante", "Fábrica De Ração"] },
     { nome: "TechResearch", descricao: "Torne-se referência em pesquisa e desenvolvimento tecnológico", obrigatorios: ["Centro De Pesquisa Em IA", "Centro De Pesquisa Em Materiais Avançados", "Laboratório De Nanotecnologia", "Centro De Pesquisa Em Eletrônicos"] },
     { nome: "EcoPower", descricao: "Lidere a transição para energias renováveis", obrigatorios: ["Usina Solar", "Parque Eólico", "Fábrica De Painéis Solares", "Fábrica De Turbinas Eólicas"] },
     { nome: "SteelIndustry", descricao: "Domine a produção de aço e metais", obrigatorios: ["Alto-Forno", "Usina Siderúrgica", "Mineradora", "Fábrica De Estruturas Metálicas"] },
-    { nome: "FashionStyle", descricao: "Torne-se líder no mercado de moda e vestuário", obrigatorios: ["Fábrica Têxtil", "Fábrica De Roupas", "Fábrica De Calçados", "Loja De Vestuário"] },
+    { nome: "PetLove", descricao: "Crie o maior ecossistema de produtos para animais de estimação", obrigatorios: ["Petshop", "Fábrica De Ração", "Fazenda De Vacas", "Granja De Aves", "Centro De Distribuição", "Mercado", "Farmácia", "Fábrica De Medicamentos"] },
+    { nome: "Home&Decor", descricao: "Domine o mercado de móveis e decoração para residências", obrigatorios: ["Loja De Móveis", "Fábrica De Móveis", "Madeireira", "Plantação De Eucalipto", "Escritório De Design De Interiores", "Centro De Distribuição", "Construtora", "Prédio De Alto Padrão"] },
+    { nome: "EntregaExpress", descricao: "Monte a maior rede de logística e entregas do país", obrigatorios: ["Centro De Transporte E Entrega", "Centro De Distribuição", "Armazém Logístico", "Aeroporto", "Porto", "Marketplace Online", "Empresa De Telecomunicações", "Servidor Em Nuvem"] },
     { nome: "NetConnect", descricao: "Controle as redes de comunicação e telecomunicações", obrigatorios: ["Empresa De Telecomunicações", "Servidor Em Nuvem", "Plataforma De Redes Sociais", "Loja De Celulares"] },
-    { nome: "EduTech", descricao: "Revolucione o mercado educacional com tecnologia", obrigatorios: ["Empresa De Desenvolvimento De Software", "Livraria", "Data Center", "Centro De Pesquisa Em IA"] }
+    { nome: "EduTech", descricao: "Revolucione o mercado educacional com tecnologia", obrigatorios: ["Empresa De Desenvolvimento De Software", "Livraria", "Data Center", "Centro De Pesquisa Em IA"] },
+    { nome: "Diamond Empire", descricao: "Domine o mercado de joias luxuosas e mineração de pedras preciosas", obrigatorios: ["Mineradora De Pedras Preciosas", "Joalheria", "Terreno De Mineração", "Laboratório De Design De Produtos", "Terraplanagem E Pavimentação", "Consultoria Em Engenharia Civil"] },
+    { nome: "Construtora Elite", descricao: "Torne-se referência em construções de alto padrão e design sofisticado", obrigatorios: ["Fábrica De Móveis", "Prédio De Alto Padrão", "Escritório De Arquitetura", "Escritório De Design De Interiores", "Terraplanagem E Pavimentação"] },
+    { nome: "Galaxy Tech", descricao: "Domine a tecnologia aeroespacial com foguetes, pesquisa avançada e propulsão", obrigatorios: ["Fábrica De Foguetes", "Fábrica De Motores", "Centro De Engenharia Avançada", "Centro De Pesquisa Em Materiais Avançados", "Centro De Pesquisa Em Robótica", "Laboratório De Novos Combustíveis", "Centro De Pesquisa Aeroespacial"] },
+    { nome: "Naval Force", descricao: "Lidere a construção naval com estaleiros de ponta e engenharia avançada", obrigatorios: ["Estaleiro", "Centro De Pesquisa Em Materiais Avançados", "Centro De Engenharia Avançada", "Indústria De Componentes Mecânicos", "Fábrica De Estruturas Metálicas"] },
+    { nome: "RoboTech", descricao: "Revolutionize a indústria com automação, robótica e inteligência artificial", obrigatorios: ["Fábrica De Robôs", "Fábrica De Placas Eletrônicas", "Fábrica De Chips", "Indústria De Componentes Mecânicos", "Centro De Pesquisa Em IA", "Centro De Pesquisa Em Eletrônicos", "Centro De Pesquisa Em Robótica", "Fábrica De Eletrônicos"] },
+    { nome: "Verde & Papel", descricao: "Monte o ecossistema completo de produção de papel desde a floresta até as livrarias", obrigatorios: ["Fábrica De Celulose", "Fábrica De Papel", "Madeireira", "Área Florestal", "Plantação De Eucalipto", "Centro De Pesquisa Química", "Empresa De Automação Industrial", "Livraria"] },
+    { nome: "AgroPower Brasil", descricao: "Domine toda a cadeia produtiva do agronegócio brasileiro, desde a plantação até a exportação", obrigatorios: ["Plantação De Grãos", "Plantação De Vegetais", "Cooperativa Agrícola", "Centro De Comércio De Plantações", "Fazenda Administrativa", "Armazém", "Silo", "Centro De Distribuição"] },
+    { nome: "BioCombustíveis Nacional", descricao: "Lidere a produção de energia renovável a partir de biomassa e resíduos agrícolas", obrigatorios: ["Plantação De Grãos", "Plantação De Vegetais", "Depósito De Resíduos Orgânicos", "Centro De Coleta De Biomassa", "Refinaria De Biocombustíveis", "Usina Termelétrica A Biocombustíveis", "Biofábrica", "Fazenda Administrativa"] },
+    { nome: "FarmaVerde", descricao: "Monopolize a produção de plantas medicinais e produtos farmacêuticos naturais", obrigatorios: ["Plantação De Plantas Medicinais", "Biofábrica", "Laboratório Farmacêutico", "Fábrica De Medicamentos", "Fábrica De Químicos Especializados", "Instituto De Biotecnologia", "Depósito De Resíduos Orgânicos", "Centro De Pesquisa Agrícola"] },
+    { nome: "Madeira & Papel", descricao: "Controle a cadeia completa de produção madeireira e de papel", obrigatorios: ["Plantação De Eucalipto", "Madeireira", "Área Florestal", "Fábrica De Celulose", "Fábrica De Papel", "Fábrica De Móveis", "Terraplanagem E Pavimentação", "Fazenda Administrativa"] },
+    { nome: "TecnoAgro", descricao: "Implemente a agricultura 4.0 com pesquisa de ponta e automação", obrigatorios: ["Centro De Pesquisa Agrícola", "Instituto De Biotecnologia", "Instituto De Tecnologia Alimentar", "Empresa De Automação Industrial", "Biofábrica", "Cooperativa Agrícola", "Armazém Logístico", "Fazenda Administrativa"] },
+    { nome: "Shopping Brasil", descricao: "Domine o varejo nacional com shoppings populares e centers", obrigatorios: ["Shopping Center", "Shopping Popular", "Mega Mercado", "Loja De Departamentos", "Loja De Vestuário", "Loja De Calçados", "Restaurante", "Cafeteria"] },
+    { nome: "TechMall", descricao: "Crie o maior centro de tecnologia e gadgets do país", obrigatorios: ["Loja De Eletrônicos", "Loja De Celulares", "Loja De Informática", "Loja De Games", "Loja De Gadgets E Wearables", "Fábrica De Smartphones", "Fábrica De Computadores", "Marketplace Online"] },
+    { nome: "HealthCare Brasil", descricao: "Controle a cadeia completa de saúde e farmácias", obrigatorios: ["Farmácia", "Laboratório Farmacêutico", "Fábrica De Medicamentos", "Plantação De Plantas Medicinais", "Biofábrica", "Centro De Pesquisa Química", "Centro De Distribuição", "Instituto De Biotecnologia"] },
+    { nome: "AutoShopping", descricao: "Integre concessionárias e centros automotivos", obrigatorios: ["Concessionária De Veículos", "Posto De Combustíveis", "Fábrica De Peças Automotivas", "Montadora De Veículos Elétricos", "Fábrica De Automóveis", "Centro De Distribuição", "Escritório De Design De Interiores", "Consultoria Em Engenharia Civil"] },
+    { nome: "FashionStyle", descricao: "Torne-se líder no mercado de moda e vestuário", obrigatorios: ["Fábrica Textil", "Fábrica De Roupas", "Fábrica De Calçados", "Loja De Vestuário"] },
+    { nome: "Átomo Avançado", descricao: "Lidere a revolução da energia nuclear com pesquisa de ponta e mineração radioativa", obrigatorios: ["Terreno De Mineração", "Mineradora Radioativa", "Usina De Fusão Nuclear", "Consultoria Em Engenharia Civil", "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Química"] },
+    { nome: "Aço & Alumínio", descricao: "Monopolize a produção metalúrgica desde a mineração até a fabricação", obrigatorios: ["Alto-Forno", "Usina Siderúrgica", "Fundição De Alumínio", "Mineradora", "Terreno De Mineração"] },
 ];
 
-    // 🔹 Função para sortear itens
-    const getRandomItems = (array, n) => {
-        const copy = [...array];
-        const result = [];
-        for (let i = 0; i < n && copy.length > 0; i++) {
-            const idx = Math.floor(Math.random() * copy.length);
+
+// 🔹 Função para sortear itens
+const getRandomItems = (array, n) => {
+    const copy = [...array];
+    const result = [];
+    for (let i = 0; i < n && copy.length > 0; i++) {
+        const idx = Math.floor(Math.random() * copy.length);
             result.push(copy[idx]);
             copy.splice(idx, 1);
         }
@@ -293,7 +314,7 @@ const Campanhas = [
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="w-[90vw] max-w-[1200px] h-[90vh] bg-[#1a0a3b] rounded-[20px] z-20 relative flex flex-col"
+            className="w-[90vw] max-w-[1600px] h-[90vh] bg-[#1a0a3b] rounded-[20px] z-20 relative flex flex-col"
         >
             <h1 className="text-center text-white py-4 text-[30px] fonteBold">
                 Objetivos do jogo
@@ -309,7 +330,7 @@ const Campanhas = [
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4 }}
-                        className="flex flex-col md:flex-row items-center justify-between bg-[#2a0f50] rounded-2xl p-6 w-full max-w-[900px]"
+                        className="flex flex-col md:flex-row items-center justify-between bg-[#2a0f50] rounded-2xl p-6 w-full max-w-[1400px]"
                     >
                         <div className="flex -space-x-6 h-[230px] mb-4 md:mb-0">
                             {c.obrigatorios.map((nome, j) => (
