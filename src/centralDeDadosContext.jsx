@@ -15,7 +15,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
 
-    dia: 1,
+    dia: 1000,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -2904,7 +2904,7 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 0,
             lojasG: 1,
           },
-          construçõesNecessárias: ["Data Center"],
+          construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [],
 

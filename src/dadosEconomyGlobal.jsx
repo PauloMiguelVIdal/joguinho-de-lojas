@@ -7,7 +7,7 @@ const DadosEconomyGlobalContext = createContext();
 const DadosEconomyGlobalProvider = ({ children }) => {
 
   const [economiaSetores, setEconomiaSetores] = useState({
-    saldo: 90000,
+    saldo: 90000000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
@@ -55,7 +55,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
   {
     chave: "empresa_regional",
     nome: "Empresa Regional",
-    qtdMaxSetores: 4,
+    qtdMaxSetores: 3,
     edificiosUnicosMax: 7,
     qtdMaxDiversificar: 7,
     totalMaxEdificios: 25,
@@ -67,7 +67,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
   {
     chave: "companhia_local",
     nome: "Companhia Local",
-    qtdMaxSetores: 5,
+    qtdMaxSetores: 4,
     edificiosUnicosMax: 10,
     qtdMaxDiversificar: 9,
     totalMaxEdificios: 40,
@@ -79,7 +79,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
   {
     chave: "empresa_estadual",
     nome: "Empresa Estadual",
-    qtdMaxSetores: 6,
+    qtdMaxSetores: 5,
     edificiosUnicosMax: 12,
     qtdMaxDiversificar: 12,
     totalMaxEdificios: 60,
@@ -91,10 +91,10 @@ const DadosEconomyGlobalProvider = ({ children }) => {
   {
     chave: "companhia_nacional",
     nome: "Companhia Nacional",
-    qtdMaxSetores: 6,
-    edificiosUnicosMax: 15,
-    qtdMaxDiversificar: 15,
-    totalMaxEdificios: 90,
+    qtdMaxSetores: 5,
+    edificiosUnicosMax: 20,
+    qtdMaxDiversificar: 40,
+    totalMaxEdificios: 100,
     custoUpgrade: 5000000,
     status: false,
     descricao: "Empresa com alcance nacional, gerando grande volume de operações.",
@@ -104,9 +104,9 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     chave: "corporacao_multissetorial",
     nome: "Corporação Multissetorial",
     qtdMaxSetores: 6,
-    edificiosUnicosMax: 20,
-    qtdMaxDiversificar: 18,
-    totalMaxEdificios: 130,
+    edificiosUnicosMax: 40,
+    qtdMaxDiversificar: 50,
+    totalMaxEdificios: 300,
     custoUpgrade: 10000000,
     status: false,
     descricao: "Corporação de grande porte, com atuação em múltiplos setores e alto faturamento.",
@@ -116,9 +116,9 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     chave: "grupo_empresarial",
     nome: "Grupo Empresarial",
     qtdMaxSetores: 6,
-    edificiosUnicosMax: 25,
-    qtdMaxDiversificar: 22,
-    totalMaxEdificios: 180,
+    edificiosUnicosMax: 55,
+    qtdMaxDiversificar: 70,
+    totalMaxEdificios: 500,
     custoUpgrade: 20000000,
     status: false,
     descricao: "Grupo com alcance estratégico nacional e diversificação de negócios.",
@@ -128,9 +128,9 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     chave: "conglomerado_global",
     nome: "Conglomerado Global",
     qtdMaxSetores: 6,
-    edificiosUnicosMax: 35,
-    qtdMaxDiversificar: 26,
-    totalMaxEdificios: 250,
+    edificiosUnicosMax: 70,
+    qtdMaxDiversificar: 100,
+    totalMaxEdificios: 1000,
     custoUpgrade: 40000000,
     status: false,
     descricao: "Empresa de alcance internacional, com domínio de múltiplos mercados.",
@@ -142,7 +142,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     qtdMaxSetores: 6,
     edificiosUnicosMax: 100,
     qtdMaxDiversificar: 160,
-    totalMaxEdificios: 100000,
+    totalMaxEdificios: 1000000,
     custoUpgrade: 80000000,
     status: false,
     descricao: "Holding máxima, sem limites de operação, capaz de dominar todo o mercado.",
@@ -348,25 +348,17 @@ const verificarLimites = (edificio, setor, carteiraParam) => {
     const v = carteiraRaw[i];
     if (Array.isArray(v)) return v;
     if (v === undefined || v === null) return [];
-    // se por algum motivo vier um objeto único
-    if (typeof v === "object") return [v];
-    // fallback
+    if (typeof v === "object") return [v]; // se vier objeto único
     return [];
   });
   console.log("carteira normalizada:", carteira);
 
   // leitura tolerante dos limites no centralEdificios
   const ce = economiaSetores?.centralEdificios ?? {};
-  const quantidadeUnicoMax = Number(ce.quantidadeUnicoMax ?? ce.quantidadeUnicoMax ?? ce.quantidadeUnicoMax ?? 999);
-  const quantidadeSetoresMax = Number(ce.quantidadeSetoresMax ?? ce.quantidadeSetoresMax ?? 999);
-  const quantidadeDiversosEdificiosMax = Number(ce.quantidadeDiversosEdificiosMax ?? ce.quantidadeDiversosEdificiosMax ?? 999);
-  const quantidadeEdificiosMax = Number(
-    ce.quantidadeEdificiosMax ??
-    ce.quantidadeEdificiosMax ??
-    ce.quantidadeEdificiosMax ??
-    ce.quantidadeEdificiosMax ??
-    999
-  );
+  const quantidadeUnicoMax = Number(ce.quantidadeUnicoMax ?? 999);
+  const quantidadeSetoresMax = Number(ce.quantidadeSetoresMax ?? 999);
+  const quantidadeDiversosEdificiosMax = Number(ce.quantidadeDiversosEdificiosMax ?? 999);
+  const quantidadeEdificiosMax = Number(ce.quantidadeEdificiosMax ?? 999);
 
   console.log("limites lidos:", { quantidadeUnicoMax, quantidadeSetoresMax, quantidadeDiversosEdificiosMax, quantidadeEdificiosMax });
 
@@ -397,7 +389,7 @@ const verificarLimites = (edificio, setor, carteiraParam) => {
 
   // 3) diversidade: tipos diferentes de edifícios (contagem por nome único)
   const nomesSet = new Set();
-  carteira.forEach((arr, idx) => {
+  carteira.forEach(arr => {
     if (!Array.isArray(arr)) return;
     arr.forEach(item => {
       if (!item) return;
@@ -405,11 +397,18 @@ const verificarLimites = (edificio, setor, carteiraParam) => {
       else if (typeof item === "object" && item.nome) nomesSet.add(String(item.nome));
     });
   });
+
   console.log("nomes únicos atuais na carteira:", Array.from(nomesSet));
   const jaExisteTipo = nomesSet.has(String(edificio?.nome));
   const novosTipos = jaExisteTipo ? nomesSet.size : nomesSet.size + 1;
-  console.log("jaExisteTipo:", jaExisteTipo, "novosTipos:", novosTipos, "max:", quantidadeEdificiosMax);
-  if (novosTipos > quantidadeEdificiosMax) {
+
+  // atualiza centralEdificios
+  if (economiaSetores?.centralEdificios) {
+    economiaSetores.centralEdificios.quantidadeDiversosEdificiosAtual = nomesSet.size;
+  }
+
+  console.log("jaExisteTipo:", jaExisteTipo, "novosTipos:", novosTipos, "max:", quantidadeDiversosEdificiosMax);
+  if (novosTipos > quantidadeDiversosEdificiosMax) {
     console.log("-> falha: ultrapassa limite de diversidade");
     return `Você não pode ter mais que ${quantidadeDiversosEdificiosMax} tipos diferentes de edifícios.`;
   }
@@ -420,6 +419,12 @@ const verificarLimites = (edificio, setor, carteiraParam) => {
     return sum + arr.reduce((s, e) => s + (Number(e?.quantidade ?? 0)), 0);
   }, 0);
   const novosTotalEdificios = totalEdificiosAtuais + 1; // compra adiciona 1 unidade
+
+  // atualiza centralEdificios
+  if (economiaSetores?.centralEdificios) {
+    economiaSetores.centralEdificios.quantidadeEdificiosAtual = totalEdificiosAtuais;
+  }
+
   console.log("totalEdificiosAtuais:", totalEdificiosAtuais, "novosTotalEdificios:", novosTotalEdificios, "max:", quantidadeEdificiosMax);
   if (novosTotalEdificios > quantidadeEdificiosMax) {
     console.log("-> falha: ultrapassa limite total de edifícios");
@@ -430,33 +435,34 @@ const verificarLimites = (edificio, setor, carteiraParam) => {
   return true;
 };
 
+
 // Função para liberar o próximo nível
- const liberaProximoNivel = () => {
-    setEconomiaSetores(prev => {
-      const nivelAtualIndex = prev.porteEmpresa.findIndex(n => n.status === true);
-      const proximoNivel = prev.porteEmpresa[nivelAtualIndex + 1];
-      if (!proximoNivel) return prev;
+const liberaProximoNivel = () => {
+  setEconomiaSetores(prev => {
+    const novoArray = prev.porteEmpresa.map((nivel, i) =>
+      i === index ? { ...nivel, status: true } : nivel
+    );
 
-      const novaPorteEmpresa = prev.porteEmpresa.map((nivel, index) =>
-        index === nivelAtualIndex + 1 ? { ...nivel, status: true } : nivel
-      );
+    const nivelAtual = novoArray[index];
 
-      const novoCentralEdificios = {
+    return {
+      ...prev,
+      centralEdificios: {
         ...prev.centralEdificios,
-        classificacaoPorteEmpresa: proximoNivel.nome,
-        quantidadeUnicoMax: proximoNivel.edificiosUnicosMax ?? prev.centralEdificios.quantidadeUnicoMax,
-        quantidadeSetoresMax: proximoNivel.qtdMaxSetores ?? prev.centralEdificios.quantidadeSetoresMax,
-        quantidadeDiversosEdificiosMax: proximoNivel.qtdMaxDiversificar ?? prev.centralEdificios.quantidadeDiversosEdificiosMax,
-        quantidadeEdificiosMax: proximoNivel.totalMaxEdificios ?? prev.centralEdificios.quantidadeEdificiosMax
-      };
+        classificacaoPorteEmpresa: nivelAtual.nome ?? prev.centralEdificios.classificacaoPorteEmpresa,
+        quantidadeUnicoMax: prev.centralEdificios.quantidadeUnicoMax + (nivelAtual.edificiosUnicosMax ?? 0),
+        quantidadeSetoresMax: prev.centralEdificios.quantidadeSetoresMax + (nivelAtual.qtdMaxSetores ?? 0),
+        quantidadeDiversosEdificiosMax: prev.centralEdificios.quantidadeDiversosEdificiosMax + (nivelAtual.qtdMaxDiversificar ?? 0),
+        quantidadeEdificiosMax: prev.centralEdificios.quantidadeEdificiosMax + (nivelAtual.totalMaxEdificios ?? 0)
+      },
+      porteEmpresa: novoArray
+    };
+  });
+};
 
-      return {
-        ...prev,
-        centralEdificios: novoCentralEdificios,
-        porteEmpresa: novaPorteEmpresa
-      };
-    });
-  };
+
+
+
 
 
   return (

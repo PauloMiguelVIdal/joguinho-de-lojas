@@ -71,6 +71,7 @@ export const LicenseModal = ({ setor,nomeLicença,index }) => {
 
         });
     };
+    
     const setorInfo = setores.find(setor => setor.id === setorAtivo);
     const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
 
