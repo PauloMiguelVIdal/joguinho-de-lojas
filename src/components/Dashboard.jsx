@@ -27,6 +27,7 @@ import soma from "../imagens/Soma.png"
 import setoresImg from "../imagens/setores.png"
 import diversidade from "../imagens/diversidade.png"
 import { SellModal} from "./SellModal";
+import Map from "../Map";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -467,7 +468,8 @@ export default function Dashboard() {
           // Container com licença comprada
           <div className="w-full h-full p-4 flex flex-col">
             {ativo === "grafico" && (
-              <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
+              // <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
+              <Map/>
             )}
             {ativo === "carteira" && (
               <div className="flex-1 w-full rounded-[20px] flex flex-col">
