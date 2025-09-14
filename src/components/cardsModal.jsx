@@ -1816,8 +1816,7 @@ const comprarCard = () => {
                                 </div>
 
                                 <div style={{ backgroundColor: setorInfo.cor2 }} className="h-[50%] w-full rounded-[10px] flex flex-col items-center justify-around">
-                                    <p className="text-white text-[10px] h-[65%] p-[5px]">Dara power up principalemente
-                                        em industria alimenticia e rações. </p>
+                                    <p className="text-white text-[10px] h-[65%] p-[5px]">{dados[setorAtivo].edificios[index].desc}. </p>
                                     <button onClick={openModalPowerUps} className=" w-[85%] h-[25%] z-50 text-white text-[10px] bg-[#6411D9] rounded-[10px] hover:scale-[1.10] duration-300 ease-in-out">Todos power ups</button>
                                 </div>
                             </div>)

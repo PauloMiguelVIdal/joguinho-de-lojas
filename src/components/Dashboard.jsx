@@ -468,8 +468,8 @@ export default function Dashboard() {
           // Container com licença comprada
           <div className="w-full h-full p-4 flex flex-col">
             {ativo === "grafico" && (
-              // <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
-              <Map/>
+              <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
+              // <Map/>
             )}
             {ativo === "carteira" && (
               <div className="flex-1 w-full rounded-[20px] flex flex-col">
