@@ -12,7 +12,7 @@ import grafico from "./setores/grafico.png"
 export default function SelectorImage({ index }) {
   const { dados, AtualizarDados } = useContext(CentraldeDadosContext);
   //   const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
-  const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
+ const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
   const setorAtivo = dados.setorAtivo
 
 

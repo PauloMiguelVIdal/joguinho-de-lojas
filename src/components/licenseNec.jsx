@@ -27,7 +27,7 @@ export default function LicenseNec() {
   ];
 
   //   const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
-  const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
+const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
   const setorAtivo = dados.setorAtivo
   const setorInfo = setores.find(setor => setor.id === setorAtivo);
   console.log(setorInfo)

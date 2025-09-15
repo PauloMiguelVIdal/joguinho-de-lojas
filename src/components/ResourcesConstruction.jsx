@@ -24,7 +24,7 @@ export default function ResourcesConstruction() {
   const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
   //   const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
-  const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
+const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
   const setorAtivo = dados.setorAtivo
   const setorInfo = setores.find(setor => setor.id === setorAtivo);
 

@@ -418,7 +418,8 @@ export const CardModal = ({ index }) => {
         setFlipped(!flipped);
     };
 
-    const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
+const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
+
 
 
     const handleShow = (id) => setVisibleId(id);

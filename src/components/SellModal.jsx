@@ -177,7 +177,7 @@ atualizarEco("saldo",economiaSetores.saldo + (patrimônioDepreciado * quantidade
     });
   };
   const setorInfo = setores.find(setor => setor.id === setorAtivo);
-  const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
+const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
 
 return (
   <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90 ">

@@ -320,7 +320,7 @@ export const CardLocalization = ({ index, setor,abrirModalSell }) => {
         setFlipped(!flipped);
     };
 
-    const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
+const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
 
     const quantidadeTerrenosNec = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
     const quantidadeLojasPNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
