@@ -20,7 +20,7 @@ import Day from "./components/day.jsx";
 import { Achievements } from "./components/Achievements.jsx"
 import Economys from "./components/Economys.jsx";
 import RaffledBuildings from "./components/RaffledBuildings.jsx";
-import {CardSpecials} from "./components/cardsSpecials.jsx"
+import { CardSpecials } from "./components/cardsSpecials.jsx"
 import { TaxesYear } from "./components/TaxesYear.jsx";
 
 function Interface() {
@@ -31,7 +31,7 @@ function Interface() {
     return (
         <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-around items-center">
             <Achievements />
-            <CardSpecials/>
+            <CardSpecials />
             <InputName />
             <Offers />
             <Events />
@@ -51,25 +51,25 @@ function Interface() {
                 <div className="grid col-start-1 col-end-9 row-start-2 row-end-11 h-full w-full ">
                     <Dashboard className="h-full" />
                 </div>
-                <div className="grid col-start-1 col-end-9 row-1 w-full h-full">    
-                <div className="grid gap-[10px] col-start-1 col-end-8 w-full place-items-center">
+                <div className="grid col-start-1 col-end-9 row-1 w-full h-full">
+                    <div className="grid gap-[10px] col-start-1 col-end-8 w-full place-items-center">
                         <Informations className="grid col-start-1 col-end-8" />
                     </div>
                     <div className="flex w-full items-center justify-center  col-start-8 col-end-9 gap-[10px]">
                         <Day />
-                    <TaxesYear/>
+                        <TaxesYear />
                         <EconomyGlobal />
-                  <RaffledBuildings/>     
+                        <RaffledBuildings />
                     </div>
                 </div>
                 <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">
 
                 </div>
-                <div className="grid col-start-9 col-end-11 row-start-1 row-end-2 ml-[10px]">
+                <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">
                     <Buttons />
                 </div>
-                <div className="grid col-start-9 col-end-11 row-start-3 row-end-5">
-                <Economys/>
+                <div className="grid col-start-9 col-end-11 row-start-3 row-end-5 ">
+                    <Economys />
                 </div>
                 <div className="grid col-start-9 col-end-11 row-start-5 row-end-7">
                     <Taxes />

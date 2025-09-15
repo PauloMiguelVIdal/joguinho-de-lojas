@@ -11,7 +11,7 @@ import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
 
 function Economys() {
-  const {economiaSetores } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores } = useContext(DadosEconomyGlobalContext);
 
   const setores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"];
 
@@ -24,9 +24,9 @@ function Economys() {
     energia
   };
 
-  
+
   return (
-    <div className="grid grid-cols-3 grid-rows-2 gap-4 p-4">
+    <div className="grid grid-cols-3 grid-rows-2 gap-2 h-full w-full self-center place-items-center">
       {setores.map((setor, index) => {
         const economiaAtual = economiaSetores[setor]?.economiaSetor?.estadoAtual;
 
@@ -41,9 +41,14 @@ function Economys() {
         return (
           <div
             key={index}
-            className={`${corClasse} min-h-[50px] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex items-center justify-center`}
+            className={`${corClasse} min-h-[60px] max-h-[70px] max-w-[70px] min-w-[60px] aspect-square rounded-[10px] flex items-center justify-center`}
           >
-            <img className="w-[60%] max-w-[58px] aspect-square" src={imagensSetores[setor]} alt={setor} />
+            <div
+              key={index}
+              className={`bg-[#350973] min-h-[30px] max-h-[50px] max-w-[50px] min-w-[30px] aspect-square rounded-[10px] flex items-center justify-center`}
+            >
+              <img className="w-[60%] max-w-[50px] aspect-square" src={imagensSetores[setor]} alt={setor} />
+            </div>
           </div>
         );
       })}
