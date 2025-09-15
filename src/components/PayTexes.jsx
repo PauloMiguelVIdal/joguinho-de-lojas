@@ -424,7 +424,7 @@ useEffect(() => {
   // }, [dados.dia]);
 
   useEffect(() => {
-    if (dados.dia > 270) {
+    if (dados.dia >= 270) {
       const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
   
       let faturamentoTotalDiario = 0;
