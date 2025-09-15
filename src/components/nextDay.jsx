@@ -42,7 +42,7 @@ const calcularFaturamento = () => {
         const faturamentoTotal = parseFloat((valorVariável * dados[loja].quantidade).toFixed(2));
 
         faturamentoDiario += faturamentoTotal;
-        if (dados.dia === 240) {
+        if (dados.dia === 270) {
             let patrimonio = 0;
 
             lojas.forEach(loja => {
@@ -96,23 +96,23 @@ const calcularFaturamento = () => {
 
 
     // Função para capturar a tecla espaço
-    const handleKeyDown = (event) => {
-        if (event.key === " ") {
-            event.preventDefault(); // Impede o comportamento padrão da tecla espaço (scroll)
-            ProximoDia(); // Chama a função do próximo dia
-        }
-    };
+    // const handleKeyDown = (event) => {
+    //     if (event.key === " ") {
+    //         event.preventDefault(); // Impede o comportamento padrão da tecla espaço (scroll)
+    //         ProximoDia(); // Chama a função do próximo dia
+    //     }
+    // };
 
     // Hook para adicionar e remover o event listener
-    useEffect(() => {
-        const handleKeyDownWrapper = (event) => handleKeyDown(event);
-        //alterar pois está quebrando
-        window.addEventListener("keydown", handleKeyDownWrapper);
+    // useEffect(() => {
+    //     const handleKeyDownWrapper = (event) => handleKeyDown(event);
+    //     //alterar pois está quebrando
+    //     window.addEventListener("keydown", handleKeyDownWrapper);
 
-        return () => {
-            window.removeEventListener("keydown", handleKeyDownWrapper);
-        };
-    }, [dados.dia]); // Adiciona uma dependência em `dados.dia` para garantir que o evento seja escutado em todas as renderizações
+    //     return () => {
+    //         window.removeEventListener("keydown", handleKeyDownWrapper);
+    //     };
+    // }, [dados.dia]); // Adiciona uma dependência em `dados.dia` para garantir que o evento seja escutado em todas as renderizações
 
     return (
         <div className="flex">

@@ -13,7 +13,7 @@ export default function PayTexes() {
 
   // Cálculo de impostos diário e mensal
 useEffect(() => {
-  if (dados.dia < 240) {
+  if (dados.dia < 270) {
     let impostoFixoTotal = 0;
     let impostoFaturamentoMensal = 0;
     let impostoDiarioTotal = 0;
@@ -88,7 +88,7 @@ useEffect(() => {
     console.log("Imposto Mensal Total:", impostoMensalTotal);
   }
 
-  else if (dados.dia === 240) {
+  else if (dados.dia === 270) {
     // console.log("=== DIA 250: ZERANDO IMPOSTOS ===");
     todasLojas.forEach((loja) => {
       const dadosLoja = dados[loja];
@@ -306,7 +306,7 @@ useEffect(() => {
         despesasPagas: true
       });
     }
-    if (dados.dia > 240) {
+    if (dados.dia > 270) {
       atualizarEco("imposto", {
         impostoMensal: 0,
       });
@@ -424,7 +424,7 @@ useEffect(() => {
   // }, [dados.dia]);
 
   useEffect(() => {
-    if (dados.dia > 240) {
+    if (dados.dia > 270) {
       const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
   
       let faturamentoTotalDiario = 0;

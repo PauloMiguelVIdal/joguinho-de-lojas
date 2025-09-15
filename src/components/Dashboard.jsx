@@ -428,13 +428,13 @@ export default function Dashboard() {
       {/* Sidebar */}
 
 
-      {dados.dia >= 250 && (
+      {dados.dia >= 270 && (
 
         <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col items-center justify-between">
           <div
             className={`
           w-[80px] h-[80%] pt-[20px] flex flex-col items-center justify-between shadow-md transition-opacity duration-500
-          ${dados.dia > 250 ? "opacity-100" : "opacity-0 pointer-events-none"}
+          ${dados.dia >= 270 ? "opacity-100" : "opacity-0 pointer-events-none"}
         `}
           >
             {setores.map((setor) => (
@@ -460,7 +460,7 @@ export default function Dashboard() {
 
       {/* Dashboard */}
       <div
-        className={`h-full rounded-[0px] items-center justify-center transition-all duration-300 bg-[${setorAtivo.cor2}] ${dados.dia >= 250 ? "w-[calc(100%-100px)]" : "w-[calc(100%)]"
+        className={`h-full rounded-[0px] items-center justify-center transition-all duration-300 bg-[${setorAtivo.cor2}] ${dados.dia >= 270 ? "w-[calc(100%-100px)]" : "w-[calc(100%)]"
           }`}
       >
         {/* Renderiza o conteúdo baseado no estado da licença */}

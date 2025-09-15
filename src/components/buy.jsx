@@ -186,7 +186,7 @@ return (
         <Box sx={{ flexGrow: 1, mr: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <GradientBox>
             <Typography variant="subtitle1" color="white" fontWeight="bold">
-              Terrenos
+              Terreno
             </Typography>
           </GradientBox>
           <Box sx={{ mt: 0.5, ml: 2.5 }}>
@@ -434,7 +434,7 @@ return (
       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
         <Box sx={{ flexGrow: 1, mr: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <GradientBox>
-            <Typography variant="subtitle1" color="white" fontWeight="bold">Terrenos</Typography>
+            <Typography variant="subtitle1" color="white" fontWeight="bold">Terreno</Typography>
           </GradientBox>
           <Box sx={{ mt: 0.5 }}>
             <Box sx={{ bgcolor: '#6411D9', borderRadius: '2px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 1, py: 0.25 }}>
@@ -489,7 +489,7 @@ return (
       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
         <Box sx={{ flexGrow: 1, mr: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <GradientBox>
-            <Typography variant="subtitle1" color="white" fontWeight="bold">Lojas Pequenas</Typography>
+            <Typography variant="subtitle1" color="white" fontWeight="bold">Imóvel Pequeno</Typography>
           </GradientBox>
           <Box sx={{ mt: 0.5 }}>
             <Box sx={{ bgcolor: '#6411D9', borderRadius: '2px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 1, py: 0.25 }}>
@@ -544,7 +544,7 @@ return (
       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
         <Box sx={{ flexGrow: 1, mr: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <GradientBox>
-            <Typography variant="subtitle1" color="white" fontWeight="bold">Lojas Médias</Typography>
+            <Typography variant="subtitle1" color="white" fontWeight="bold">Imóvel Médio</Typography>
           </GradientBox>
           <Box sx={{ mt: 0.5 }}>
             <Box sx={{ bgcolor: '#6411D9', borderRadius: '2px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 1, py: 0.25 }}>
@@ -599,7 +599,7 @@ return (
       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
         <Box sx={{ flexGrow: 1, mr: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <GradientBox>
-            <Typography variant="subtitle1" color="white" fontWeight="bold">Lojas Grandes</Typography>
+            <Typography variant="subtitle1" color="white" fontWeight="bold">Imóvel Grande</Typography>
           </GradientBox>
           <Box sx={{ mt: 0.5 }}>
             <Box sx={{ bgcolor: '#6411D9', borderRadius: '2px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 1, py: 0.25 }}>

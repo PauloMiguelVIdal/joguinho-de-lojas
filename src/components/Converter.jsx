@@ -15,7 +15,7 @@ export default function Converter() {
 
 
     useEffect(() => {
-        if (dados.dia === 260) {
+        if (dados.dia === 270) {
           let patrimonio = 0;
       
           lojas.forEach(loja => {

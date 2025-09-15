@@ -80,7 +80,7 @@ export default function EconomyGlobal() {
   // Sorteia e atualiza a economia dos setores + soma
   useEffect(() => {
     if (dados.dia % 90 === 0
-       && dados.dia > 269
+       && dados.dia >= 270
       ) {
 
       setores.forEach((setor) => {
