@@ -253,7 +253,7 @@ export default function Dashboard() {
     datasets: datasets,
   };
 
-  const getImageUrl = (nomeArquivo) => `../../public/imagens/${nomeArquivo}.png`;
+ const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
 
   const dadosCarteiraEdificios = economiaSetores.centralEdificios
 
