@@ -1,8 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { CentraldeDadosProvider } from "./centralDeDadosContext";
 import Interface from "./interface";
 import { DadosEconomyGlobalProvider } from "./dadosEconomyGlobal";
 import Notificação from "./notificação";
+import telaCheia from "./imagens/tela cheia.png";
+import reduzirTela from "./imagens/reduzir tela.png";
 
 import {
   Chart as ChartJS,
@@ -29,16 +31,25 @@ ChartJS.register(
 
 function App() {
   const containerRef = useRef(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      if (containerRef.current.requestFullscreen) {
-        containerRef.current.requestFullscreen();
-      }
+      containerRef.current.requestFullscreen?.();
     } else {
-      document.exitFullscreen();
+      document.exitFullscreen?.();
     }
   };
+
+  // Detecta mudanças no fullscreen e atualiza o estado
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
 
   return (
     <CentraldeDadosProvider>
@@ -50,9 +61,13 @@ function App() {
           {/* Botão de Tela Cheia */}
           <button
             onClick={toggleFullscreen}
-            className="absolute top-2 right-2 px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 z-50"
+            className="absolute top-2 right-5 z-50"
           >
-            {document.fullscreenElement ? "Sair da Tela Cheia" : "Tela Cheia"}
+            <img
+              className="w-[30px] h-[30px]"
+              src={isFullscreen ? reduzirTela : telaCheia}
+              alt={isFullscreen ? "Sair da Tela Cheia" : "Tela Cheia"}
+            />
           </button>
 
           {/* Seu jogo */}
