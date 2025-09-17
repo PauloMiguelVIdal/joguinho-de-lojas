@@ -315,6 +315,9 @@ const RaffledBuildings = () => {
   };
 
   const fecharModal = () => setIsModalObjOpen(false);
+  
+if(dados.dia<270) return null;
+if(dados.dia>=270){
 
   return (
     <div>
@@ -323,23 +326,23 @@ const RaffledBuildings = () => {
         data-tooltip-id="saldo-tip"
         data-tooltip-content="Observe os objetivos do jogo"
         className="bg-laranja min-h-[50px] hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center"
-      >
+        >
         <img
           className="w-[60%] max-w-[58px] aspect-square"
           src={alvo}
           alt="Economia"
-        />
+          />
       </button>
             <Tooltip
                 id="saldo-tip"
                 style={{
-                    backgroundColor: "#FFFFFF",   // fundo branco
-                    color: "#350973",            // texto roxo
-                    border: "1px solid #350973", // borda fina
-                    borderRadius: "6px",         // cantos arredondados
-                    padding: "6px 10px",         // espaçamento interno
-                    fontWeight: "600",           // deixa a fonte mais destacada
-                    fontSize: "14px"
+                  backgroundColor: "#FFFFFF",   // fundo branco
+                  color: "#350973",            // texto roxo
+                  border: "1px solid #350973", // borda fina
+                  borderRadius: "6px",         // cantos arredondados
+                  padding: "6px 10px",         // espaçamento interno
+                  fontWeight: "600",           // deixa a fonte mais destacada
+                  fontSize: "14px"
                 }}/>
       {ModalObjOpen && (
         <div className="flex justify-center items-center z-50 bg-black bg-opacity-90 w-[100vw] h-[100vh] fixed top-0 left-0 select-none">
@@ -349,11 +352,11 @@ const RaffledBuildings = () => {
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="w-[90vw] max-w-[1600px] h-[90vh] bg-[#1a0a3b] rounded-[20px] z-20 relative flex flex-col"
-          >
+            >
             <button
               className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
               onClick={fecharModal}
-            >
+              >
               <img src={fechar} alt="Fechar" className="w-[60%]" />
             </button>
 
@@ -368,11 +371,11 @@ const RaffledBuildings = () => {
               {!campanhaSelecionada &&
                 getRandomItems(Campanhas, 3).map((c, i) => (
                   <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="flex flex-col md:flex-row items-center justify-between bg-[#2a0f50] rounded-2xl p-6 w-full max-w-[1400px]"
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex flex-col md:flex-row items-center justify-between bg-[#2a0f50] rounded-2xl p-6 w-full max-w-[1400px]"
                   >
                     <div className="flex -space-x-6 h-[230px] mb-4 md:mb-0">
                       {c.obrigatorios.map((nome, j) => (
@@ -392,7 +395,7 @@ const RaffledBuildings = () => {
                       <button
                         onClick={() => gerarCampanha(c.nome)}
                         className="bg-gradient-to-r from-[#F27405] to-[#6A00FF] text-white px-6 py-2 rounded-xl font-bold hover:scale-105 transition-transform duration-200 shadow-md"
-                      >
+                        >
                         Selecionar
                       </button>
                     </div>
@@ -402,9 +405,9 @@ const RaffledBuildings = () => {
               {/* 🔹 Renderiza todos os edifícios da campanha selecionada */}
               {campanhaSelecionada && (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex flex-wrap gap-6 justify-center mt-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex flex-wrap gap-6 justify-center mt-4"
                 >
                   {selectedItems.map((ed, i) => {
                     const setores = [
@@ -417,7 +420,7 @@ const RaffledBuildings = () => {
                     ];
                     let setorEncontrado = null;
                     let indice = -1;
-
+                    
                     for (const setor of setores) {
                       indice = dados[setor].edificios.findIndex(
                         (e) => e.nome === ed.nome
@@ -427,29 +430,29 @@ const RaffledBuildings = () => {
                         break;
                       }
                     }
-
+                    
                     const quantidade =
-                      setorEncontrado && indice !== -1
-                        ? dados[setorEncontrado].edificios[indice].quantidade
-                        : 0;
-
+                    setorEncontrado && indice !== -1
+                    ? dados[setorEncontrado].edificios[indice].quantidade
+                    : 0;
+                    
                     const gradienteDourado = `
-                      linear-gradient(45deg, #b8860b, #8b7500 25%, #daa520 50%, #cfa200 75%, #b8860b 100%),
-                      linear-gradient(135deg, #8b6914, #ffd700 25%, #bfa600 50%, #806000 75%, #b8860b 100%)
+                    linear-gradient(45deg, #b8860b, #8b7500 25%, #daa520 50%, #cfa200 75%, #b8860b 100%),
+                    linear-gradient(135deg, #8b6914, #ffd700 25%, #bfa600 50%, #806000 75%, #b8860b 100%)
                     `;
                     return (
                       <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ delay: i * 0.1, type: "spring", stiffness: 120 }}
-                        className="w-[300px] h-[300px] p-2 rounded-xl flex items-center justify-center shadow-lg"
-                        style={{
-                          background:
-                            quantidade > 0 ? gradienteDourado : "#ffffff10",
-                          backgroundBlendMode:
-                            quantidade > 0 ? "overlay" : "normal",
-                        }}
+                      key={i}
+                      initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ delay: i * 0.1, type: "spring", stiffness: 120 }}
+                      className="w-[300px] h-[300px] p-2 rounded-xl flex items-center justify-center shadow-lg"
+                      style={{
+                        background:
+                        quantidade > 0 ? gradienteDourado : "#ffffff10",
+                        backgroundBlendMode:
+                        quantidade > 0 ? "overlay" : "normal",
+                      }}
                       >
                         {Localizador(ed.nome)}
                       </motion.div>
@@ -463,6 +466,7 @@ const RaffledBuildings = () => {
       )}
     </div>
   );
+}
 };
 
 export default RaffledBuildings;

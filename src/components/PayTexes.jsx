@@ -7,102 +7,102 @@ import { Tooltip } from "@mui/material"; // Exemplo de tooltip, pode usar outro 
 
 export default function PayTexes() {
   const { dados, atualizarDados, } = useContext(CentraldeDadosContext);
-  const { economiaSetores, setEconomiaSetores,atualizarEco  } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
   const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
 
   // Cálculo de impostos diário e mensal
-useEffect(() => {
-  if (dados.dia < 270) {
-    let impostoFixoTotal = 0;
-    let impostoFaturamentoMensal = 0;
-    let impostoDiarioTotal = 0;
+  useEffect(() => {
+    if (dados.dia < 270) {
+      let impostoFixoTotal = 0;
+      let impostoFaturamentoMensal = 0;
+      let impostoDiarioTotal = 0;
 
-    // console.log("=== CÁLCULO DE IMPOSTOS - DIA", dados.dia, "===");
+      // console.log("=== CÁLCULO DE IMPOSTOS - DIA", dados.dia, "===");
 
-    const dadosAtualizados = {}; // Armazena os dados atualizados de cada loja
+      const dadosAtualizados = {}; // Armazena os dados atualizados de cada loja
 
-    todasLojas.forEach((loja) => {
-      const dadosLoja = dados[loja];
-      if (!dadosLoja) {
-        console.warn(`⚠️ Dados não encontrados para a loja: ${loja}`);
-        return;
-      }
+      todasLojas.forEach((loja) => {
+        const dadosLoja = dados[loja];
+        if (!dadosLoja) {
+          console.warn(`⚠️ Dados não encontrados para a loja: ${loja}`);
+          return;
+        }
 
-      const faturamentoDiario = parseFloat(dadosLoja.faturamentoTotal || 0);
-      const impostoFixo = (dadosLoja.quantidade || 0) * (dadosLoja.impostoFixo || 0);
-      const impostoSobreFaturamento = faturamentoDiario * (dadosLoja.impostoSobreFaturamento || 0);
+        const faturamentoDiario = parseFloat(dadosLoja.faturamentoTotal || 0);
+        const impostoFixo = (dadosLoja.quantidade || 0) * (dadosLoja.impostoFixo || 0);
+        const impostoSobreFaturamento = faturamentoDiario * (dadosLoja.impostoSobreFaturamento || 0);
 
-      const novoArrayFatu = [...(dadosLoja.arrayFatu || []), faturamentoDiario].slice(-30);
-      const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
-      const impostoMensalSobreFaturamento = somaMensalFatu * (dadosLoja.impostoSobreFaturamento || 0);
+        const novoArrayFatu = [...(dadosLoja.arrayFatu || []), faturamentoDiario].slice(-30);
+        const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
+        const impostoMensalSobreFaturamento = somaMensalFatu * (dadosLoja.impostoSobreFaturamento || 0);
 
-      // console.log(`--- ${loja.toUpperCase()} ---`);
-      // console.log("Faturamento diário:", faturamentoDiario);
-      // console.log("Imposto fixo (quant * valor):", impostoFixo);
-      // console.log("Imposto sobre faturamento diário:", impostoSobreFaturamento);
-      // console.log("Array Fatu atualizado:", novoArrayFatu);
-      // console.log("Soma mensal faturamento:", somaMensalFatu);
-      // console.log("Imposto mensal sobre faturamento:", impostoMensalSobreFaturamento);
+        // console.log(`--- ${loja.toUpperCase()} ---`);
+        // console.log("Faturamento diário:", faturamentoDiario);
+        // console.log("Imposto fixo (quant * valor):", impostoFixo);
+        // console.log("Imposto sobre faturamento diário:", impostoSobreFaturamento);
+        // console.log("Array Fatu atualizado:", novoArrayFatu);
+        // console.log("Soma mensal faturamento:", somaMensalFatu);
+        // console.log("Imposto mensal sobre faturamento:", impostoMensalSobreFaturamento);
 
-      dadosAtualizados[loja] = {
-        ...dadosLoja,
-        arrayFatu: novoArrayFatu,
-        somaArrayFatu: somaMensalFatu,
-        valorImpostoSobreFaturamento: impostoSobreFaturamento,
-        valorImpostoFixoTotal: impostoFixo
-      };
+        dadosAtualizados[loja] = {
+          ...dadosLoja,
+          arrayFatu: novoArrayFatu,
+          somaArrayFatu: somaMensalFatu,
+          valorImpostoSobreFaturamento: impostoSobreFaturamento,
+          valorImpostoFixoTotal: impostoFixo
+        };
 
-      impostoFixoTotal += impostoFixo;
-      impostoFaturamentoMensal += impostoMensalSobreFaturamento;
-      impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
+        impostoFixoTotal += impostoFixo;
+        impostoFaturamentoMensal += impostoMensalSobreFaturamento;
+        impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
 
-      console.log(dadosAtualizados[loja], `⚠️ Dados da loja: ${loja}`)
-    });
-
-    // Atualiza todos os dados das lojas DEPOIS do loop
-    Object.entries(dadosAtualizados).forEach(([loja, dadosAtualizadosLoja]) => {
-      atualizarDados(loja, dadosAtualizadosLoja);
-    });
-
-    const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
-
-    console.log("=== RESUMO DOS IMPOSTOS ===");
-    console.log("Imposto Fixo Total:", impostoFixoTotal);
-    console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
-    console.log("Imposto Diário Total:", impostoDiarioTotal);
-    console.log("Imposto Mensal Total:", impostoMensalTotal);
-
-    atualizarEco("imposto", {
-      impostoFixoMensal: impostoFixoTotal,
-      impostoDiário: impostoDiarioTotal,
-      impostoMensal: impostoMensalTotal,
-      impostoFaturamentoMensal: impostoFaturamentoMensal,
-      impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
-    });
-
-    console.log("=== RESUMO DOS IMPOSTOS ===");
-    console.log("Imposto Fixo Total:", impostoFixoTotal);
-    console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
-    console.log("Imposto Diário Total:", impostoDiarioTotal);
-    console.log("Imposto Mensal Total:", impostoMensalTotal);
-  }
-
-  else if (dados.dia === 270) {
-    // console.log("=== DIA 250: ZERANDO IMPOSTOS ===");
-    todasLojas.forEach((loja) => {
-      const dadosLoja = dados[loja];
-      // console.log(`Zerando dados da loja: ${loja}`);
-      atualizarDados(loja, {
-        ...dadosLoja,
-        faturamentoUnitário: 0,
-        faturamentoUnitárioPadrão: 0,
-        impostoFixo: 0,
-        impostoSobreFaturamento: 0
+        console.log(dadosAtualizados[loja], `⚠️ Dados da loja: ${loja}`)
       });
-    });
-  }
-}, [dados.dia]);
+
+      // Atualiza todos os dados das lojas DEPOIS do loop
+      Object.entries(dadosAtualizados).forEach(([loja, dadosAtualizadosLoja]) => {
+        atualizarDados(loja, dadosAtualizadosLoja);
+      });
+
+      const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
+
+      console.log("=== RESUMO DOS IMPOSTOS ===");
+      console.log("Imposto Fixo Total:", impostoFixoTotal);
+      console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
+      console.log("Imposto Diário Total:", impostoDiarioTotal);
+      console.log("Imposto Mensal Total:", impostoMensalTotal);
+
+      atualizarEco("imposto", {
+        impostoFixoMensal: impostoFixoTotal,
+        impostoDiário: impostoDiarioTotal,
+        impostoMensal: impostoMensalTotal,
+        impostoFaturamentoMensal: impostoFaturamentoMensal,
+        impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
+      });
+
+      console.log("=== RESUMO DOS IMPOSTOS ===");
+      console.log("Imposto Fixo Total:", impostoFixoTotal);
+      console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
+      console.log("Imposto Diário Total:", impostoDiarioTotal);
+      console.log("Imposto Mensal Total:", impostoMensalTotal);
+    }
+
+    else if (dados.dia === 269) {
+      // console.log("=== DIA 250: ZERANDO IMPOSTOS ===");
+      todasLojas.forEach((loja) => {
+        const dadosLoja = dados[loja];
+        // console.log(`Zerando dados da loja: ${loja}`);
+        atualizarDados(loja, {
+          ...dadosLoja,
+          faturamentoUnitário: 0,
+          faturamentoUnitárioPadrão: 0,
+          impostoFixo: 0,
+          impostoSobreFaturamento: 0
+        });
+      });
+    }
+  }, [dados.dia]);
 
 
   const mapaEdificioParaSetor = {
@@ -306,7 +306,7 @@ useEffect(() => {
         despesasPagas: true
       });
     }
-    if (dados.dia > 270) {
+    if (dados.dia === 270) {
       atualizarEco("imposto", {
         impostoMensal: 0,
       });
@@ -329,17 +329,17 @@ useEffect(() => {
   useEffect(() => {
     if (dados.dia >= 270) {
       const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-  
+
       let faturamentoTotalDiario = 0;
       let impostoDiarioTotal = 0;
       let impostoFaturamentoMensal = 0;
       let impostoFixoTotal = 0;
-  
+
       // 🔹 Transferência do imposto fixo do dia 30 para o dia 1
       let impostoFixoMensalAcumulado = 0;
       const ehPrimeiroDiaDoMes = dados.dia % 30 === 1;
       const ehDiaDeCobranca = dados.dia % 30 === 0 && dados.dia > 0;
-  
+
       if (ehPrimeiroDiaDoMes) {
         setoresArr.forEach((setor) => {
           dados[setor]?.edificios?.forEach((ed) => {
@@ -349,20 +349,20 @@ useEffect(() => {
         });
         impostoFixoTotal = impostoFixoMensalAcumulado; // previsão do imposto fixo no dia 1
       }
-  
+
       setoresArr.forEach((setor) => {
         const edificiosOriginais = dados[setor]?.edificios || [];
-  
+
         const edificiosAtualizados = edificiosOriginais.map((ed) => {
           if (ed.quantidade <= 0) return ed;
-  
+
           const quantidade = ed.quantidade || 0;
           const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
           const impostoFixo = ed?.finanças?.impostoFixo || 0;
           const impostoSobreFatu = ed?.finanças?.impostoSobreFatu || 0;
           const quantidadeMinimaPowerUpNv3 = ed.powerUp?.nível3?.quantidadeMínima;
           const quantidadeMinimaPowerUpNv2 = ed.powerUp?.nível2?.quantidadeMínima;
-  
+
           // 🔹 Cálculo de power-ups
           let acumuladorRedCusto = 0;
           let acumuladorAumFatu = 0;
@@ -380,14 +380,14 @@ useEffect(() => {
                 quantidade >= quantidadeMinimaPowerUpNv3
                   ? "nível3"
                   : quantidade >= quantidadeMinimaPowerUpNv2
-                  ? "nível2"
-                  : "nível1";
-  
+                    ? "nível2"
+                    : "nível1";
+
               acumuladorRedCusto += edMelhorado.redCusto[powerUpSelecionado] || 0;
               acumuladorAumFatu += edMelhorado.aumFatu[powerUpSelecionado] || 0;
             }
           });
-  
+
           const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
           const fatorEconomico = {
             recessão: 0.4,
@@ -396,24 +396,24 @@ useEffect(() => {
             progressiva: 1.1,
             aquecida: 1.25,
           }[economiaSetor];
-  
+
           const valorFatuFinal = faturamentoUnitario * (1 + acumuladorAumFatu / 100);
           const faturamentoDiario = valorFatuFinal * quantidade * fatorEconomico;
           faturamentoTotalDiario += faturamentoDiario;
-  
+
           // 🔹 Imposto sobre faturamento diário
           const impostoFatuFinal = impostoSobreFatu * (1 - acumuladorRedCusto / 100);
           const impostoFatuDiario = faturamentoDiario * impostoFatuFinal;
           impostoDiarioTotal += impostoFatuDiario;
-  
+
           // 🔹 Histórico de faturamento para cálculo mensal
           const arrayFatu = ed.arrayFatu || [];
           const novoArrayFatu = [...arrayFatu, faturamentoDiario].slice(-30);
           const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
 
-          const impostoMensalSobreFaturamento = somaMensalFatu * impostoFatuFinal ;
+          const impostoMensalSobreFaturamento = somaMensalFatu * impostoFatuFinal;
           impostoFaturamentoMensal += impostoMensalSobreFaturamento;
-  
+
 
           // 🔹 Imposto fixo
           let impostoFixoAtual = ed.valorImpostoFixoTotal || 0;
@@ -425,7 +425,7 @@ useEffect(() => {
             impostoFixoAtual = impostoFixo * (1 - acumuladorRedCusto / 100) * quantidade;
             impostoFixoTotal += impostoFixoAtual;
           }
-  
+
           // 🔹 Acumular imposto sobre faturamento diariamente (não substituir)
           if (!ehDiaDeCobranca) {
             impostoFaturamentoMensal += impostoFatuDiario;
@@ -433,7 +433,7 @@ useEffect(() => {
             // no fechamento, travar valor mensal
             impostoFaturamentoMensal = somaMensalFatu * impostoFatuFinal;
           }
-  
+
           return {
             ...ed,
             arrayFatu: novoArrayFatu,
@@ -444,15 +444,15 @@ useEffect(() => {
             impostoMensal: somaMensalFatu * impostoFatuFinal,
           };
         });
-  
+
         atualizarDados(setor, {
           ...dados[setor],
           edificios: edificiosAtualizados,
         });
       });
-  
+
       const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
-  
+
       atualizarEco("imposto", {
         impostoDiário: impostoDiarioTotal,
         impostoMensal: impostoMensalTotal,
@@ -466,82 +466,82 @@ useEffect(() => {
       atualizarEco("saldo", economiaSetores.saldo + faturamentoTotalDiario);
     }
   }, [dados.dia]);
-  
-    const tooltipText = `
+
+  const tooltipText = `
   Clique aqui para pagar as despesas mensais.
 
   Detalhes dos impostos:
-    Imposto Fixo Mensal: R$ ${economiaSetores.imposto.impostoFixoTotal?.toFixed(2) || 0}
-    Imposto sobre Faturamento: R$ ${economiaSetores.imposto.impostoFaturamentoMensal?.toFixed(2) || 0}
-    Total Mensal: R$ ${economiaSetores.imposto.impostoMensal?.toFixed(2) || 0}
+  Imposto Fixo Mensal: R$ ${economiaSetores.imposto.impostoFixoTotal?.toFixed(2) || 0}
+  Imposto sobre Faturamento: R$ ${economiaSetores.imposto.impostoFaturamentoMensal?.toFixed(2) || 0}
+  Total Mensal: R$ ${economiaSetores.imposto.impostoMensal?.toFixed(2) || 0}
   `;
 
 
 
   if (dados.dia % 30 !== 0) {
     return (
-          <Tooltip title={<pre className="whitespace-pre-wrap">{tooltipText}</pre>} placement="top">
+      <Tooltip title={<pre className="whitespace-pre-wrap">{tooltipText}</pre>} placement="top">
 
-      <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px]" >
-        <div className="flex justify-center items-center w-full">
-          <h2 className={` text-white text-[20px] fonteBold`}>
-            {dados.despesas.proximoPagamento}
-          </h2>
+        <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px]" >
+          <div className="flex justify-center items-center w-full">
+            <h2 className={` text-white text-[20px] fonteBold`}>
+              {dados.despesas.proximoPagamento}
+            </h2>
+          </div>
+          <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-[#F4CCB6] rounded-[10px] flex items-center justify-center"
+            onClick={PagarDespesas}><img className=" h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
+          </button>
         </div>
-        <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-[#F4CCB6] rounded-[10px] flex items-center justify-center"
-          onClick={PagarDespesas}><img className=" h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
-        </button>
-      </div>
       </Tooltip>
     )
   } else if (dados.dia % 30 === 0 && dados.despesas.despesasPagas === false) {
 
     return (
-                <Tooltip title={<pre className="whitespace-pre-wrap">{tooltipText}</pre>} placement="top">
+      <Tooltip title={<pre className="whitespace-pre-wrap">{tooltipText}</pre>} placement="top">
 
-      <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative"> {/* Adicionei o `relative` aqui */}
-        <div className="flex justify-center items-center w-full">
-          <h2 className="text-white text-[20px] fonteBold">
-            {dados.despesas.proximoPagamento}
-          </h2>
+        <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative"> {/* Adicionei o `relative` aqui */}
+          <div className="flex justify-center items-center w-full">
+            <h2 className="text-white text-[20px] fonteBold">
+              {dados.despesas.proximoPagamento}
+            </h2>
+          </div>
+          <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+            onClick={PagarDespesas}>
+            <img className="h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
+          </button>
+          <div className="absolute bottom-[-5px] right-[-5px]">
+            <span className="relative flex size-3">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF0000] opacity-75"></span>
+              <span className="relative inline-flex size-3 rounded-full bg-[#FF0000]"></span>
+            </span>
+          </div>
         </div>
-        <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-          onClick={PagarDespesas}>
-          <img className="h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
-        </button>
-        <div className="absolute bottom-[-5px] right-[-5px]">
-          <span className="relative flex size-3">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF0000] opacity-75"></span>
-            <span className="relative inline-flex size-3 rounded-full bg-[#FF0000]"></span>
-          </span>
-        </div>
-      </div>
       </Tooltip>
 
     )
   }
   else {
     return (
-                      <Tooltip title={<pre className="whitespace-pre-wrap">{tooltipText}</pre>} placement="top">
+      <Tooltip title={<pre className="whitespace-pre-wrap">{tooltipText}</pre>} placement="top">
 
-      <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative"> {/* Adicionei o `relative` aqui */}
-        <div className="flex justify-center items-center w-full">
-          <h2 className="text-white text-[20px] fonteBold">
-            {dados.despesas.proximoPagamento}
-          </h2>
+        <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative"> {/* Adicionei o `relative` aqui */}
+          <div className="flex justify-center items-center w-full">
+            <h2 className="text-white text-[20px] fonteBold">
+              {dados.despesas.proximoPagamento}
+            </h2>
+          </div>
+          <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+            onClick={PagarDespesas}>
+            <img className="h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
+          </button>
+          <div className="absolute bottom-[-5px] right-[-5px]">
+            <span className="relative flex size-3">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#008000] opacity-75"></span>
+              <span className="relative inline-flex size-3 rounded-full bg-[#008000]"></span>
+            </span>
+          </div>
         </div>
-        <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-          onClick={PagarDespesas}>
-          <img className="h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
-        </button>
-        <div className="absolute bottom-[-5px] right-[-5px]">
-          <span className="relative flex size-3">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#008000] opacity-75"></span>
-            <span className="relative inline-flex size-3 rounded-full bg-[#008000]"></span>
-          </span>
-        </div>
-      </div>
-    </Tooltip>
+      </Tooltip>
     )
   }
 }
