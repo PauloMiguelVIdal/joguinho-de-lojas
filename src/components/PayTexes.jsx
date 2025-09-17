@@ -3,7 +3,8 @@ import { useContext, useEffect, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import despesasImg from "../imagens/despesas.png";
-import { Tooltip } from "@mui/material"; // Exemplo de tooltip, pode usar outro estilo
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 export default function PayTexes() {
   const { dados, atualizarDados, } = useContext(CentraldeDadosContext);
@@ -467,81 +468,66 @@ export default function PayTexes() {
     }
   }, [dados.dia]);
 
-  const tooltipText = `
-  Clique aqui para pagar as despesas mensais.
+const tooltipText = `
+<div>
+  <p>Clique aqui para pagar as despesas mensais.</p>
+  <p style="margin-top:4px;">Detalhes dos impostos:</p>
+  <p><p/>
+  <p style="margin-left:10px;">Imposto Fixo Mensal: R$ ${economiaSetores.imposto.impostoFixoTotal?.toFixed(2) || 0}</p>
+  <p style="margin-left:10px;">Imposto sobre Faturamento: R$ ${economiaSetores.imposto.impostoFaturamentoMensal?.toFixed(2) || 0}</p>
+  <p style="margin-left:10px;">Total Mensal: R$ ${economiaSetores.imposto.impostoMensal?.toFixed(2) || 0}</p>
+</div>
+`;
 
-  Detalhes dos impostos:
-  Imposto Fixo Mensal: R$ ${economiaSetores.imposto.impostoFixoTotal?.toFixed(2) || 0}
-  Imposto sobre Faturamento: R$ ${economiaSetores.imposto.impostoFaturamentoMensal?.toFixed(2) || 0}
-  Total Mensal: R$ ${economiaSetores.imposto.impostoMensal?.toFixed(2) || 0}
-  `;
+
+const tooltipStyle = {
+  backgroundColor: "#FFFFFF",
+  color: "#350973",
+  border: "1px solid #350973",
+  borderRadius: "6px",
+  padding: "6px 10px",
+  fontWeight: "600",
+  fontSize: "14px",
+};
+
+return (
+  <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative">
+    <div className="flex justify-center items-center w-full">
+      <h2 className="text-white text-[20px] fonteBold">
+        {dados.despesas.proximoPagamento}
+      </h2>
+    </div>
+<button
+  data-tooltip-id="tooltip-despesas"
+  data-tooltip-html={tooltipText}
+  className="w-[50%] min-h-[50px] aspect-square bg-[#F4CCB6] rounded-[10px] flex items-center justify-center"
+  onClick={PagarDespesas}
+>
+  <img className="h-[70%] min-w-[20px] aspect-square" src={despesasImg} />
+</button>
 
 
+    {/* Badge vermelho ou verde */}
+    {dados.dia % 30 === 0 && (
+      <div className="absolute bottom-[-5px] right-[-5px]">
+        <span className="relative flex size-3">
+          <span
+            className={`absolute inline-flex h-full w-full animate-ping rounded-full ${
+              dados.despesas.despesasPagas ? "bg-[#008000] opacity-75" : "bg-[#FF0000] opacity-75"
+            }`}
+          ></span>
+          <span
+            className={`relative inline-flex size-3 rounded-full ${
+              dados.despesas.despesasPagas ? "bg-[#008000]" : "bg-[#FF0000]"
+            }`}
+          ></span>
+        </span>
+      </div>
+    )}
 
-  if (dados.dia % 30 !== 0) {
-    return (
-      <Tooltip title={<pre className="whitespace-pre-wrap">{tooltipText}</pre>} placement="top">
+    {/* Tooltip global */}
+    <Tooltip style={tooltipStyle} id="tooltip-despesas" />
+  </div>
+);
 
-        <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px]" >
-          <div className="flex justify-center items-center w-full">
-            <h2 className={` text-white text-[20px] fonteBold`}>
-              {dados.despesas.proximoPagamento}
-            </h2>
-          </div>
-          <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-[#F4CCB6] rounded-[10px] flex items-center justify-center"
-            onClick={PagarDespesas}><img className=" h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
-          </button>
-        </div>
-      </Tooltip>
-    )
-  } else if (dados.dia % 30 === 0 && dados.despesas.despesasPagas === false) {
-
-    return (
-      <Tooltip title={<pre className="whitespace-pre-wrap">{tooltipText}</pre>} placement="top">
-
-        <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative"> {/* Adicionei o `relative` aqui */}
-          <div className="flex justify-center items-center w-full">
-            <h2 className="text-white text-[20px] fonteBold">
-              {dados.despesas.proximoPagamento}
-            </h2>
-          </div>
-          <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={PagarDespesas}>
-            <img className="h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
-          </button>
-          <div className="absolute bottom-[-5px] right-[-5px]">
-            <span className="relative flex size-3">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF0000] opacity-75"></span>
-              <span className="relative inline-flex size-3 rounded-full bg-[#FF0000]"></span>
-            </span>
-          </div>
-        </div>
-      </Tooltip>
-
-    )
-  }
-  else {
-    return (
-      <Tooltip title={<pre className="whitespace-pre-wrap">{tooltipText}</pre>} placement="top">
-
-        <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative"> {/* Adicionei o `relative` aqui */}
-          <div className="flex justify-center items-center w-full">
-            <h2 className="text-white text-[20px] fonteBold">
-              {dados.despesas.proximoPagamento}
-            </h2>
-          </div>
-          <button className="w-[50%] h-[100%] w-max-[70px] min-h-[50px] h-1/2 w-full aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={PagarDespesas}>
-            <img className="h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
-          </button>
-          <div className="absolute bottom-[-5px] right-[-5px]">
-            <span className="relative flex size-3">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#008000] opacity-75"></span>
-              <span className="relative inline-flex size-3 rounded-full bg-[#008000]"></span>
-            </span>
-          </div>
-        </div>
-      </Tooltip>
-    )
-  }
 }

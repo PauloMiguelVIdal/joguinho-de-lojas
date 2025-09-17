@@ -26,8 +26,10 @@ import limitar from "../imagens/limite.png";
 import soma from "../imagens/Soma.png"
 import setoresImg from "../imagens/setores.png"
 import diversidade from "../imagens/diversidade.png"
-import { SellModal} from "./SellModal";
+import { SellModal } from "./SellModal";
 import Map from "../Map";
+import { Tooltip } from "react-tooltip";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -35,7 +37,6 @@ import {
   PointElement,
   LineElement,
   Title,
-  Tooltip,
   Filler,
   Legend,
 } from 'chart.js';
@@ -46,7 +47,7 @@ ChartJS.register(
   PointElement,
   LineElement,
   Title,
-  Tooltip,
+
   Filler,
   Legend
 );
@@ -60,7 +61,7 @@ export default function Dashboard() {
   // const economiaSetor = dados[ativo].economiaSetor.estadoAtual
   // console.log(economiaSetor)
 
-    const [modalSellOpen, setModalSellOpen] = useState(false);
+  const [modalSellOpen, setModalSellOpen] = useState(false);
   const [modalProps, setModalProps] = useState({ setor: "", nomeLicença: "", index: 0 });
 
   const abrirModalSell = (setor, index) => {
@@ -68,7 +69,15 @@ export default function Dashboard() {
     setModalSellOpen(true);
   };
 
-
+  const tooltipStyle = {
+    backgroundColor: "#FFFFFF",
+    color: "#350973",
+    border: "1px solid #350973",
+    borderRadius: "6px",
+    padding: "6px 10px",
+    fontWeight: "600",
+    fontSize: "14px",
+  };
 
   const ativoConvertido = (ativo) => {
     switch (ativo) {
@@ -253,7 +262,7 @@ export default function Dashboard() {
     datasets: datasets,
   };
 
- const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
+  const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
 
   const dadosCarteiraEdificios = economiaSetores.centralEdificios
 
@@ -373,7 +382,7 @@ export default function Dashboard() {
 
           <h2 className="text-center text-white opacity-80 text-[35px] fonteLight">
           </h2>
-         
+
 
           <button
             className="absolute right-[20px] bottom-[20px] text-white bg-laranja px-[25px] py-[15px] rounded-[40px] fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
@@ -473,16 +482,32 @@ export default function Dashboard() {
             )}
             {ativo === "carteira" && (
               <div className="flex-1 w-full rounded-[20px] flex flex-col">
+                {/* Tooltips */}
+                <Tooltip style={tooltipStyle} id="tooltip-setorAtivo" />
+                <Tooltip style={tooltipStyle} id="tooltip-porteEmpresa" />
+                <Tooltip style={tooltipStyle} id="tooltip-patrimonio" />
+                <Tooltip style={tooltipStyle} id="tooltip-licenca" />
+                <Tooltip style={tooltipStyle} id="tooltip-limiteUnico" />
+                <Tooltip style={tooltipStyle} id="tooltip-setores" />
+                <Tooltip style={tooltipStyle} id="tooltip-diversidade" />
+                <Tooltip style={tooltipStyle} id="tooltip-totalEdificios" />
 
                 {/* Barra superior */}
                 <div className="h-[50px] w-full flex justify-between gap-[10px] items-start">
+                  {/* Setor ativo */}
                   <div
+                    data-tooltip-id="tooltip-setorAtivo"
+                    data-tooltip-html="Setor atual da sua carteira"
                     style={{ backgroundColor: setorAtivo.cor3 }}
                     className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
                   >
                     {ativoConvertido(ativo)}
                   </div>
+
+                  {/* Porte da empresa */}
                   <div
+                    data-tooltip-id="tooltip-porteEmpresa"
+                    data-tooltip-html="Classificação do porte da empresa"
                     style={{ backgroundColor: setorAtivo.cor3 }}
                     className="w-[30%] rounded-[20px] text-[10px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
                   >
@@ -490,189 +515,124 @@ export default function Dashboard() {
                       {dadosCarteiraEdificios.classificacaoPorteEmpresa}
                     </h1>
                   </div>
+
+                  {/* Patrimônio */}
                   <div
+                    data-tooltip-id="tooltip-patrimonio"
+                    data-tooltip-html="Valor total do patrimônio atual"
                     style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[25%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between  text-[30px] sombra"
+                    className="w-[25%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
                   >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                    <div
+                      style={{ backgroundColor: setorAtivo.cor4 }}
+                      className="h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center"
+                    >
                       <img src={patrimônio} className="h-[60%] aspect-square" />
                     </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{formatarNumero(0)}</h1>
-                  </div>
-                  {/* <div
-                    style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
-                  >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
-                      <img src={impostoAnual} className="h-[60%] aspect-square" />
-                    </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{211}%</h1>
-                  </div> */}
-                  {/* <div
-                    style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
-                  >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
-                      <img src={impostoAnual} className="h-[60%] aspect-square" />
-                    </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{211}/{211}</h1>
-                  </div>
-                  <div
-                    style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
-                  >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
-                      <img src={impostoAnual} className="h-[60%] aspect-square" />
-                    </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{211}/{211}</h1>
-                  </div>
-                  <div
-                    style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
-                  >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
-                      <img src={impostoAnual} className="h-[60%] aspect-square" />
-                    </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{211}/{211}</h1>
-                  </div> */}
-                  <div className="flex gap-2 h-full">
-                    {/* <div
-                      style={{ backgroundColor: setorAtivo.cor3 }}
-                      className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
-                    >
-                      <button
-                        style={{ backgroundColor: setorAtivo.cor3 }}
-                        onClick={() => setLicencaModal(true)}
-                        className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
-                      >
-
-                        <img className="w-[70%]" src={patrimônio} />
-                        230302030203
-                      </button>
-                    </div> */}
-
-                    {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button> */}
+                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">
+                      {formatarNumero(0)}
+                    </h1>
                   </div>
 
+                  {/* Licenças */}
                   <div className="flex gap-2 h-full">
                     <button
+                      data-tooltip-id="tooltip-licenca"
+                      data-tooltip-html="Abrir menu de licenças empresariais"
                       style={{ backgroundColor: setorAtivo.cor3 }}
                       onClick={() => setBusinessLicenceModal(true)}
                       className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
                     >
                       <img className="w-[70%]" src={licença} />
                     </button>
-                    {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button>
-                    <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(economiaSetores[ativo].economiaSetor.estadoAtual)}`}>
-                      <img className="w-[70%]" src={circularEconomia} />
-                    </div> */}
                   </div>
-
                 </div>
 
-
-
-
-
-
+                {/* Linha de métricas */}
                 <div className="h-[50px] w-full flex justify-between pt-[10px] gap-[10px] items-start">
-                  {/* <div
-                    style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
-                  >
-                    {ativoConvertido(ativo)}
-                  </div> */}
-                  {/* <div
-                    style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between  text-[30px] sombra"
-                  >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
-                      <img src={patrimônio} className="h-[60%] aspect-square" />
-                    </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{formatarNumero(22222222222)}</h1>
-                  </div> */}
-                  {/* <div
-                    style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
-                  >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
-                      <img src={impostoAnual} className="h-[60%] aspect-square" />
-                    </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{211}%</h1>
-                  </div> */}
-
+                  {/* Limite por edifício único */}
                   <div
+                    data-tooltip-id="tooltip-limiteUnico"
+                    data-tooltip-html="Limite máximo de unidades do mesmo edifício"
                     style={{ backgroundColor: setorAtivo.cor3 }}
                     className="w-[25%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
                   >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                    <div
+                      style={{ backgroundColor: setorAtivo.cor4 }}
+                      className="h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center"
+                    >
                       <img src={limitar} className="h-[60%] aspect-square" />
                     </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[10px]">{dadosCarteiraEdificios.quantidadeUnicoMax}</h1>
+                    <h1 className="text-white fonteBold text-[20px] mr-[10px]">
+                      {dadosCarteiraEdificios.quantidadeUnicoMax}
+                    </h1>
                   </div>
+
+                  {/* Setores ativos */}
                   <div
+                    data-tooltip-id="tooltip-setores"
+                    data-tooltip-html="Quantidade de setores ativos vs máximo disponível"
                     style={{ backgroundColor: setorAtivo.cor3 }}
                     className="w-[25%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
                   >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                    <div
+                      style={{ backgroundColor: setorAtivo.cor4 }}
+                      className="h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center"
+                    >
                       <img src={setoresImg} className="h-[60%] aspect-square" />
                     </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[10px]">{dadosCarteiraEdificios.quantidadeSetoresAtual}/{dadosCarteiraEdificios.quantidadeSetoresMax}</h1>
+                    <h1 className="text-white fonteBold text-[20px] mr-[10px]">
+                      {dadosCarteiraEdificios.quantidadeSetoresAtual}/
+                      {dadosCarteiraEdificios.quantidadeSetoresMax}
+                    </h1>
                   </div>
+
+                  {/* Diversidade de edifícios */}
                   <div
+                    data-tooltip-id="tooltip-diversidade"
+                    data-tooltip-html="Número de tipos diferentes de edifícios construídos"
                     style={{ backgroundColor: setorAtivo.cor3 }}
                     className="w-[25%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
                   >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                    <div
+                      style={{ backgroundColor: setorAtivo.cor4 }}
+                      className="h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center"
+                    >
                       <img src={diversidade} className="h-[60%] aspect-square" />
                     </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[10px]">{dadosCarteiraEdificios.quantidadeDiversosEdificiosAtual}/{dadosCarteiraEdificios.quantidadeDiversosEdificiosMax}</h1>
+                    <h1 className="text-white fonteBold text-[20px] mr-[10px]">
+                      {dadosCarteiraEdificios.quantidadeDiversosEdificiosAtual}/
+                      {dadosCarteiraEdificios.quantidadeDiversosEdificiosMax}
+                    </h1>
                   </div>
+
+                  {/* Total de edifícios */}
                   <div
+                    data-tooltip-id="tooltip-totalEdificios"
+                    data-tooltip-html="Quantidade total de edifícios construídos"
                     style={{ backgroundColor: setorAtivo.cor3 }}
                     className="w-[25%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
                   >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
+                    <div
+                      style={{ backgroundColor: setorAtivo.cor4 }}
+                      className="h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center"
+                    >
                       <img src={soma} className="h-[60%] aspect-square" />
                     </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[10px]">{dadosCarteiraEdificios.quantidadeEdificiosAtual}/{dadosCarteiraEdificios.quantidadeEdificiosMax}</h1>
+                    <h1 className="text-white fonteBold text-[20px] mr-[10px]">
+                      {dadosCarteiraEdificios.quantidadeEdificiosAtual}/
+                      {dadosCarteiraEdificios.quantidadeEdificiosMax}
+                    </h1>
                   </div>
-                  <div className="flex gap-2 h-full">
-                    {/* <div
-                      style={{ backgroundColor: setorAtivo.cor3 }}
-                      className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
-                    >
-                      <button
-                        style={{ backgroundColor: setorAtivo.cor3 }}
-                        onClick={() => setLicencaModal(true)}
-                        className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
-                      >
-
-                        <img className="w-[70%]" src={patrimônio} />
-                        230302030203
-                      </button>
-                    </div> */}
-
-                    {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button> */}
-                  </div>
-
-                  <div className="flex gap-2 h-full">
-                    {/* <button
-                      style={{ backgroundColor: setorAtivo.cor3 }}
-                   
-                      className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
-                    >
-                      <img className="w-[70%]" src={licença} />
-                    </button> */}
-                    {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button>
-                    <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(economiaSetores[ativo].economiaSetor.estadoAtual)}`}>
-                      <img className="w-[70%]" src={circularEconomia} />
-                    </div> */}
-                  </div>
-
                 </div>
-                <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4  scrollbar-custom rounded-[10px]">
 
+                {/* Conteúdo da carteira */}
+                <div
+                  style={{
+                    background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)`,
+                  }}
+                  className="flex-1 overflow-y-auto mt-4 scrollbar-custom rounded-[10px]"
+                >
                   <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
                     <CarteiraLocalizador abrirModalSell={abrirModalSell} />
                     {modalSellOpen && (
@@ -685,91 +645,111 @@ export default function Dashboard() {
                     )}
                   </div>
                 </div>
-
               </div>
             )}
+
             {ativo !== "grafico" && ativo !== "carteira" && (
-              <div s className="flex-1 w-full rounded-[20px] flex flex-col justify-between h-full">
+ <div className="flex-1 w-full rounded-[20px] flex flex-col justify-between h-full">
+    {/* Tooltips */}
+    <Tooltip style={tooltipStyle} id="tooltip-setorAtivo" />
+    <Tooltip style={tooltipStyle} id="tooltip-impostoAnualValor" />
+    <Tooltip style={tooltipStyle} id="tooltip-impostoAnualPerc" />
+    <Tooltip style={tooltipStyle} id="tooltip-licenca" />
+    <Tooltip style={tooltipStyle} id="tooltip-economia" />
 
-                {/* Barra superior */}
-                <div className="h-[50px] w-full flex justify-between gap-[10px] items-start">
-                  <div
-                    style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
-                  >
-                    {ativoConvertido(ativo)}
-                  </div>
-                  <div
-                    style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
-                  >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
-                      <img src={patrimônio} className="h-[60%] aspect-square" />
-                    </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{formatarNumero(economiaSetores[ativo].economiaSetor.valorImpostoAnualAtual)}</h1>
-                  </div>
-                  <div
-                    style={{ backgroundColor: setorAtivo.cor3 }}
-                    className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
-                  >
-                    <div style={{ backgroundColor: setorAtivo.cor4 }} className={`h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center`}>
-                      <img src={impostoAnual} className="h-[60%] aspect-square" />
-                    </div>
-                    <h1 className="text-white fonteBold text-[20px] mr-[20px]">{economiaSetores[ativo].economiaSetor.percImpostoAnualAtual}%</h1>
-                  </div>
-                  <div className="flex gap-2 h-full">
-                    {/* <div
-                      style={{ backgroundColor: setorAtivo.cor3 }}
-                      className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
-                    >
-                      <button
-                        style={{ backgroundColor: setorAtivo.cor3 }}
-                        onClick={() => setLicencaModal(true)}
-                        className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
-                      >
+    {/* Barra superior */}
+    <div className="h-[50px] w-full flex justify-between gap-[10px] items-start">
+      {/* Setor ativo */}
+      <div
+        data-tooltip-id="tooltip-setorAtivo"
+        data-tooltip-html="Setor atual selecionado"
+        style={{ backgroundColor: setorAtivo.cor3 }}
+        className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-center text-[30px] sombra"
+      >
+        {ativoConvertido(ativo)}
+      </div>
 
-                        <img className="w-[70%]" src={patrimônio} />
-                        230302030203
-                      </button>
-                    </div> */}
+      {/* Imposto anual (valor) */}
+      <div
+        data-tooltip-id="tooltip-impostoAnualValor"
+        data-tooltip-html="Valor total de imposto anual do setor"
+        style={{ backgroundColor: setorAtivo.cor3 }}
+        className="w-[30%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
+      >
+        <div
+          style={{ backgroundColor: setorAtivo.cor4 }}
+          className="h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center"
+        >
+          <img src={patrimônio} className="h-[60%] aspect-square" />
+        </div>
+        <h1 className="text-white fonteBold text-[20px] mr-[20px]">
+          {formatarNumero(
+            economiaSetores[ativo].economiaSetor.valorImpostoAnualAtual
+          )}
+        </h1>
+      </div>
 
-                    {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button> */}
-                  </div>
-                  {/* Ícones de Economia */}
-                  <div className="flex gap-2 h-full">
-                    <button
-                      style={{ backgroundColor: setorAtivo.cor3 }}
-                      onClick={() => setLicencaModal(true)}
-                      className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
-                    >
-                      <img className="w-[70%]" src={licença} />
-                    </button>
-                    {/* <button className="bg-white" onClick={alterarEconomiaSetor}>teste</button> */}
-                    <div className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(economiaSetores[ativo].economiaSetor.estadoAtual)}`}>
-                      <img className="w-[70%]" src={circularEconomia} />
-                    </div>
-                  </div>
+      {/* Imposto anual (percentual) */}
+      <div
+        data-tooltip-id="tooltip-impostoAnualPerc"
+        data-tooltip-html="Percentual de imposto anual aplicado ao setor"
+        style={{ backgroundColor: setorAtivo.cor3 }}
+        className="w-[15%] rounded-[20px] h-full fonteBold text-white flex items-center justify-between text-[30px] sombra"
+      >
+        <div
+          style={{ backgroundColor: setorAtivo.cor4 }}
+          className="h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center"
+        >
+          <img src={impostoAnual} className="h-[60%] aspect-square" />
+        </div>
+        <h1 className="text-white fonteBold text-[20px] mr-[20px]">
+          {economiaSetores[ativo].economiaSetor.percImpostoAnualAtual}%
+        </h1>
+      </div>
 
-                </div>
-                {/* {Localizador("Centro De Comércio De Plantações")} */}
-                {/* Container dos cards com scroll interno */}
+      {/* Espaço vazio para alinhar */}
+      <div className="flex gap-2 h-full"></div>
 
+      {/* Ícones de Economia */}
+      <div className="flex gap-2 h-full">
+        {/* Licença */}
+        <button
+          data-tooltip-id="tooltip-licenca"
+          data-tooltip-html="Abrir menu de licenças do setor"
+          style={{ backgroundColor: setorAtivo.cor3 }}
+          onClick={() => setLicencaModal(true)}
+          className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+        >
+          <img className="w-[70%]" src={licença} />
+        </button>
 
+        {/* Economia atual */}
+        <div
+          data-tooltip-id="tooltip-economia"
+          data-tooltip-html="Estado atual da economia deste setor"
+          className={`h-full aspect-square rounded-[10px] border-[2px] flex items-center justify-center ${corEconomia(
+            economiaSetores[ativo].economiaSetor.estadoAtual
+          )}`}
+        >
+          <img className="w-[70%]" src={circularEconomia} />
+        </div>
+      </div>
+    </div>
 
-                <div style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4}  100%)` }} className="flex-1 overflow-y-auto mt-4 scrollbar-custom h-[calc(100%-50px)] rounded-[10px]">
-                  <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
-                    {dados[ativo].edificios.map((_, index) => (
-                      <CardModal
-                        key={index} index={index}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-
-
-
-              </div>
+    {/* Container dos cards com scroll interno */}
+    <div
+      style={{
+        background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%,${setorAtivo.cor4} 100%)`,
+      }}
+      className="flex-1 overflow-y-auto mt-4 scrollbar-custom h-[calc(100%-50px)] rounded-[10px]"
+    >
+      <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
+        {dados[ativo].edificios.map((_, index) => (
+          <CardModal key={index} index={index} />
+        ))}
+      </div>
+    </div>
+  </div>
             )}
           </div>
 

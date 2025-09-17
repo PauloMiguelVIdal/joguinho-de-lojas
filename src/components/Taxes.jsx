@@ -2,6 +2,8 @@ import React from 'react'
 import { useContext, useEffect } from 'react'
 import { CentraldeDadosContext } from '../centralDeDadosContext'
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 import despesasImg from "../imagens/despesas.png";
 
@@ -10,6 +12,15 @@ export default function Taxes() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext)
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
+  const tooltipStyle = {
+    backgroundColor: "#FFFFFF",
+    color: "#350973",
+    border: "1px solid #350973",
+    borderRadius: "6px",
+    padding: "6px 10px",
+    fontWeight: "600",
+    fontSize: "14px",
+  };
 
   // useEffect(() => {
   //   // Verifica se é necessário atualizar as despesas e o estado modal
@@ -58,24 +69,59 @@ export default function Taxes() {
   };
 
   return (
+
     <div className=' rounded-[40px] flex flex-col items-center gap-[10px]'>
-      <div className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]">
-        <h1 className='fonteBold text-white'>Faturado </h1>
-        <h1 className="fonteBold text-white text-[20px]"> {formatarNumero(dados.faturamento.faturamentoMensal)}</h1>
+      <Tooltip style={tooltipStyle} id="tooltip-faturado" />
+      <Tooltip style={tooltipStyle} id="tooltip-despesas" />
+      <Tooltip style={tooltipStyle} id="tooltip-lucro" />
+      <Tooltip style={tooltipStyle} id="tooltip-impostoAnual" />
+      <div
+        data-tooltip-id="tooltip-faturado"
+        data-tooltip-html="Faturamento total acumulado no mês atual"
+        className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]"
+      >
+        <h1 className="fonteBold text-white">Faturado</h1>
+        <h1 className="fonteBold text-white text-[20px]">
+          {formatarNumero(dados.faturamento.faturamentoMensal)}
+        </h1>
       </div>
 
-      <div className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]">
-        <h1 className='fonteBold text-white'>Despesas </h1>
-        <h1 className="fonteBold text-white text-[20px]"> {formatarNumero(economiaSetores.imposto.impostoMensal)}</h1>
+      {/* Despesas */}
+      <div
+        data-tooltip-id="tooltip-despesas"
+        data-tooltip-html="Despesas mensais referentes a impostos do período"
+        className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]"
+      >
+        <h1 className="fonteBold text-white">Despesas</h1>
+        <h1 className="fonteBold text-white text-[20px]">
+          {formatarNumero(economiaSetores.imposto.impostoMensal)}
+        </h1>
       </div>
-      <div className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]">
-        <h1 className='fonteBold text-white'>Lucro </h1>
-        <h1 className="fonteBold text-white text-[20px]"> {formatarNumero((dados.faturamento.faturamentoMensal - dados.imposto.impostoMensal))}</h1>
+
+      {/* Lucro */}
+      <div
+        data-tooltip-id="tooltip-lucro"
+        data-tooltip-html="Lucro líquido mensal após pagamento dos impostos"
+        className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]"
+      >
+        <h1 className="fonteBold text-white">Lucro</h1>
+        <h1 className="fonteBold text-white text-[20px]">
+          {formatarNumero(dados.faturamento.faturamentoMensal - dados.imposto.impostoMensal)}
+        </h1>
       </div>
-      <div className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]">
-        <h1 className='fonteBold text-white'>Imposto Anual </h1>
-        <h1 className="fonteBold text-white text-[20px]"> {formatarNumero((economiaSetores.valorImpostoAnual))}</h1>
-      </div>
+      {dados.dia > 270 && (
+        <div
+          data-tooltip-id="tooltip-impostoAnual"
+          data-tooltip-html="Total de impostos acumulados durante o ano"
+          className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]"
+        >
+          <h1 className="fonteBold text-white">Imposto Anual</h1>
+          <h1 className="fonteBold text-white text-[20px]">
+            {formatarNumero(economiaSetores.valorImpostoAnual)}
+          </h1>
+        </div>
+      )
+      }
     </div>
   )
 }
