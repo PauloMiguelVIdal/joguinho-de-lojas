@@ -56,6 +56,7 @@ function Interface() {
                         <Informations className="grid col-start-1 col-end-8" />
                     </div>
                     <div className="flex w-full items-center justify-center  col-start-8 col-end-9 gap-[10px]">
+                       
                         <Day />
                         <TaxesYear />
                         <EconomyGlobal />

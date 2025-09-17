@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import despesasImg from "../imagens/despesas.png";
-
+import { Tooltip } from "@mui/material"; // Exemplo de tooltip, pode usar outro estilo
 
 export default function PayTexes() {
   const { dados, atualizarDados, } = useContext(CentraldeDadosContext);
@@ -326,103 +326,6 @@ useEffect(() => {
   }, [dados.dia]);
 
 
-
-  // useEffect(() => {
-  //   const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-
-  //   let faturamentoTotalDiario = 0;
-  //   let impostoFixoTotal = 0;
-  //   let impostoFaturamentoMensal = 0;
-  //   let impostoDiarioTotal = 0;
-
-  //   const novaCarteira = [];
-
-  //   setoresArr.forEach((setor) => {
-  //     const edificiosNoSetor = dados[setor]?.edificios || [];
-
-  //     // Filtra os edifícios ativos e armazena na carteira
-  //     const edificiosAtivos = edificiosNoSetor.filter((ed) => ed.quantidade > 0);
-  //     novaCarteira.push(...edificiosAtivos); // agora será um array plano com todos os edifícios ativos
-  //   });
-
-  //   novaCarteira.forEach((ed) => {
-  //     const quantidade = ed.quantidade || 0;
-  //     const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
-  //     const impostoFixo = ed?.finanças?.impostoFixo || 0;
-  //     const impostoSobreFatu = ed?.finanças?.impostoSobreFatu || 0;
-
-
-  //     // Novo: descobrir o setor e o fator da economia
-  //     const setorEdificio = descobrirSetor(ed.nome);
-  //     const economiaSetor = dados[setorEdificio]?.economia || "estável";
-  //     const fatorEconomico = {
-  //       recessão: 0.6,
-  //       declinio: 0.85,
-  //       estável: 1,
-  //       progressiva: 1.1,
-  //       aquecida: 1.25,
-  //     }[economiaSetor];
-
-  //     console.log("Setor:", setorEdificio, "Economia:", dados[setorEdificio]?.economia);
-
-
-  //     // Novo: aplica o fator econômico no faturamento
-  //     const faturamentoDiario = faturamentoUnitario * quantidade * fatorEconomico;
-  //     faturamentoTotalDiario += faturamentoDiario;
-
-  //     console.log("essa é a economia do setor", economiaSetor)
-
-  //     // Imposto sobre o faturamento
-  //     const impostoFatuDiario = faturamentoDiario * impostoSobreFatu;
-  //     impostoDiarioTotal += impostoFatuDiario;
-
-  //     // Histórico dos últimos 30 dias
-  //     const arrayFatu = ed.arrayFatu || [];
-  //     const novoArrayFatu = [...arrayFatu, faturamentoDiario].slice(-30);
-  //     const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
-
-
-  //     const impostoMensalSobreFaturamento = somaMensalFatu * impostoSobreFatu;
-
-  //     impostoFaturamentoMensal += impostoMensalSobreFaturamento;
-
-  //     // Imposto fixo (mensal)
-  //     let impostoFixoAtual = 0;
-  //     if (dados.dia % 30 === 0) {
-  //       impostoFixoAtual = impostoFixo * quantidade;
-  //       impostoFixoTotal += impostoFixoAtual;
-  //     }
-
-  //     console.log("Edifício:", ed.nome, "Setor encontrado:", setorEdificio);
-
-
-  //     // Atualiza os dados do edifício
-  //     atualizarDados(ed.nome, {
-  //       ...ed,
-  //       arrayFatu: novoArrayFatu,
-  //       somaArrayFatu: somaMensalFatu,
-  //       faturamentoTotal: faturamentoDiario,
-  //       valorImpostoSobreFaturamento: impostoFatuDiario,
-  //       valorImpostoFixoTotal: impostoFixoAtual,
-  //     });
-  //   });
-
-
-  //   const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
-
-  //   atualizarDados("imposto", {
-  //     impostoDiário: impostoDiarioTotal,
-  //     impostoMensal: impostoMensalTotal,
-  //     impostoFixoMensal: impostoFixoTotal,
-  //     impostoFaturamentoMensal: impostoFaturamentoMensal,
-  //     impostoSobreFaturamentoDiário: impostoDiarioTotal,
-  //   });
-
-  //   console.log("Carteira Agora", novaCarteira);
-
-  //   atualizarDados("saldo", dados.saldo + faturamentoTotalDiario);
-  // }, [dados.dia]);
-
   useEffect(() => {
     if (dados.dia >= 270) {
       const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
@@ -564,13 +467,21 @@ useEffect(() => {
     }
   }, [dados.dia]);
   
-  
+    const tooltipText = `
+  Clique aqui para pagar as despesas mensais.
 
+  Detalhes dos impostos:
+    Imposto Fixo Mensal: R$ ${economiaSetores.imposto.impostoFixoTotal?.toFixed(2) || 0}
+    Imposto sobre Faturamento: R$ ${economiaSetores.imposto.impostoFaturamentoMensal?.toFixed(2) || 0}
+    Total Mensal: R$ ${economiaSetores.imposto.impostoMensal?.toFixed(2) || 0}
+  `;
 
 
 
   if (dados.dia % 30 !== 0) {
     return (
+          <Tooltip title={<pre className="whitespace-pre-wrap">{tooltipText}</pre>} placement="top">
+
       <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px]" >
         <div className="flex justify-center items-center w-full">
           <h2 className={` text-white text-[20px] fonteBold`}>
@@ -581,10 +492,13 @@ useEffect(() => {
           onClick={PagarDespesas}><img className=" h-[70%] w-max-[58px] aspect-square" src={despesasImg} />
         </button>
       </div>
+      </Tooltip>
     )
   } else if (dados.dia % 30 === 0 && dados.despesas.despesasPagas === false) {
 
     return (
+                <Tooltip title={<pre className="whitespace-pre-wrap">{tooltipText}</pre>} placement="top">
+
       <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative"> {/* Adicionei o `relative` aqui */}
         <div className="flex justify-center items-center w-full">
           <h2 className="text-white text-[20px] fonteBold">
@@ -602,11 +516,14 @@ useEffect(() => {
           </span>
         </div>
       </div>
+      </Tooltip>
 
     )
   }
   else {
     return (
+                      <Tooltip title={<pre className="whitespace-pre-wrap">{tooltipText}</pre>} placement="top">
+
       <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative"> {/* Adicionei o `relative` aqui */}
         <div className="flex justify-center items-center w-full">
           <h2 className="text-white text-[20px] fonteBold">
@@ -624,7 +541,7 @@ useEffect(() => {
           </span>
         </div>
       </div>
-
+    </Tooltip>
     )
   }
 }
