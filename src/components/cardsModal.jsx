@@ -26,6 +26,14 @@ import fechar from "../imagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
 import { Localizador } from "./localizador";
 import { CardLocalization } from "./cardLocalization";
+import imgLucro from "../imagens/imgLucroLiquido.png"
+import imgFatuMensal from "../imagens/imgFaturamentoMensal.png"
+import imgPercFatu from "../imagens/imgPercFaturamento.png"
+import imgSomaImposto from "../imagens/imgSomaImpostos.png"
+import imgImpostoFixo from "../imagens/imgImpostoFixo.png"
+import imgFaturamentoDiario from "../imagens/imgFaturamentoDiario.png"
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 
 export const CardModal = ({ index }) => {
@@ -70,6 +78,17 @@ export const CardModal = ({ index }) => {
         return qtdFalta * custoTotalConst
 
     }
+
+  const tooltipStyle = {
+    backgroundColor: "#FFFFFF",
+    color: "#350973",
+    border: "1px solid #350973",
+    borderRadius: "6px",
+    padding: "6px 10px",
+    fontWeight: "600",
+    fontSize: "14px",
+    zIndex: 10, // 👈 garante que vai ficar por cima de tudo
+  };
 
     const mapaEdificioParaSetor = {
         // Agricultura
@@ -418,7 +437,7 @@ export const CardModal = ({ index }) => {
         setFlipped(!flipped);
     };
 
-const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
+    const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
 
 
 
@@ -509,136 +528,136 @@ const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
     // console.log(custoTotalLojasG)
     // console.log(CustoTotalSomadoLojas)
 
-const comprarCard = () => {
-  console.log("=== comprarCard START ===");
+    const comprarCard = () => {
+        console.log("=== comprarCard START ===");
 
-  const setoresArr = ["agricultura","tecnologia","comercio","industria","imobiliario","energia"];
+        const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
-  // 🔹 Função para localizar edifícios
-  const localizador = (nomeEdificio) => {
-    for (const setor of setoresArr) {
-      const index = dados[setor]?.edificios?.findIndex((e) => e.nome === nomeEdificio);
-      if (index !== -1) {
-        return { setor, index, edificio: dados[setor].edificios[index] };
-      }
-    }
-    return null;
-  };
+        // 🔹 Função para localizar edifícios
+        const localizador = (nomeEdificio) => {
+            for (const setor of setoresArr) {
+                const index = dados[setor]?.edificios?.findIndex((e) => e.nome === nomeEdificio);
+                if (index !== -1) {
+                    return { setor, index, edificio: dados[setor].edificios[index] };
+                }
+            }
+            return null;
+        };
 
-  // 🔹 Edifício que está sendo comprado
-  const edif = dados?.[setorAtivo]?.edificios?.[index];
-  if (!edif) {
-    console.error("Edifício não encontrado", { setorAtivo, index, dados });
-    return alert("Erro: edifício não encontrado.");
-  }
-  console.log("Tentando comprar:", edif.nome, "quantidade atual:", edif.quantidade);
+        // 🔹 Edifício que está sendo comprado
+        const edif = dados?.[setorAtivo]?.edificios?.[index];
+        if (!edif) {
+            console.error("Edifício não encontrado", { setorAtivo, index, dados });
+            return alert("Erro: edifício não encontrado.");
+        }
+        console.log("Tentando comprar:", edif.nome, "quantidade atual:", edif.quantidade);
 
-  // 🔹 Carteira atual
-  const carteira = economiaSetores?.carteira?.carteiraAtual ?? [];
-  console.log("Carteira atual antes da compra:", carteira);
+        // 🔹 Carteira atual
+        const carteira = economiaSetores?.carteira?.carteiraAtual ?? [];
+        console.log("Carteira atual antes da compra:", carteira);
 
-  // 🔹 Verificar limites
-  const resultado = verificarLimites(edif, setorAtivo, carteira);
-  if (resultado !== true) {
-    console.warn("Compra bloqueada:", resultado);
-    return alert(resultado);
-  }
-  console.log("Verificações de limite ok");
+        // 🔹 Verificar limites
+        const resultado = verificarLimites(edif, setorAtivo, carteira);
+        if (resultado !== true) {
+            console.warn("Compra bloqueada:", resultado);
+            return alert(resultado);
+        }
+        console.log("Verificações de limite ok");
 
-  // 🔹 Verificar saldo
-  const custo = Number(edif.custoConstrucao ?? 0);
-  if (economiaSetores.saldo < custo) return alert("Você não tem dinheiro suficiente para construir.");
+        // 🔹 Verificar saldo
+        const custo = Number(edif.custoConstrucao ?? 0);
+        if (economiaSetores.saldo < custo) return alert("Você não tem dinheiro suficiente para construir.");
 
-  // 🔹 Verificar lojas/terrenos
-  const { terrenos: qTerrenos = 0, lojasP: qP = 0, lojasM: qM = 0, lojasG: qG = 0 } = edif.lojasNecessarias || {};
-  const qTerrenosAtual = Number(dados?.terrenos?.quantidade ?? 0);
-  const qPAtual = Number(dados?.lojasP?.quantidade ?? 0);
-  const qMAtual = Number(dados?.lojasM?.quantidade ?? 0);
-  const qGAtual = Number(dados?.lojasG?.quantidade ?? 0);
+        // 🔹 Verificar lojas/terrenos
+        const { terrenos: qTerrenos = 0, lojasP: qP = 0, lojasM: qM = 0, lojasG: qG = 0 } = edif.lojasNecessarias || {};
+        const qTerrenosAtual = Number(dados?.terrenos?.quantidade ?? 0);
+        const qPAtual = Number(dados?.lojasP?.quantidade ?? 0);
+        const qMAtual = Number(dados?.lojasM?.quantidade ?? 0);
+        const qGAtual = Number(dados?.lojasG?.quantidade ?? 0);
 
-  if (qTerrenos > qTerrenosAtual || qP > qPAtual || qM > qMAtual || qG > qGAtual)
-    return alert("Você não tem lojas/terrenos suficientes.");
+        if (qTerrenos > qTerrenosAtual || qP > qPAtual || qM > qMAtual || qG > qGAtual)
+            return alert("Você não tem lojas/terrenos suficientes.");
 
-  // 🔹 Construções necessárias
-  if (edif.construçõesNecessárias?.length) {
-    for (const nome of edif.construçõesNecessárias) {
-      const res = localizador(nome);
-      if (!res) return alert(`Construção necessária "${nome}" não encontrada.`);
-      if (res.edificio.quantidade <= 0) return alert(`Você precisa de pelo menos 1 unidade de "${nome}".`);
-    }
-  }
+        // 🔹 Construções necessárias
+        if (edif.construçõesNecessárias?.length) {
+            for (const nome of edif.construçõesNecessárias) {
+                const res = localizador(nome);
+                if (!res) return alert(`Construção necessária "${nome}" não encontrada.`);
+                if (res.edificio.quantidade <= 0) return alert(`Você precisa de pelo menos 1 unidade de "${nome}".`);
+            }
+        }
 
-  // 🔹 Recursos de construção
-  if (edif.recursoDeConstrução?.length) {
-    for (const nome of edif.recursoDeConstrução) {
-      const res = localizador(nome);
-      if (!res) return alert(`Recurso de construção "${nome}" não encontrado.`);
-      if (res.edificio.quantidade <= 0) return alert(`Você precisa de pelo menos 1 unidade de "${nome}".`);
-    }
-  }
+        // 🔹 Recursos de construção
+        if (edif.recursoDeConstrução?.length) {
+            for (const nome of edif.recursoDeConstrução) {
+                const res = localizador(nome);
+                if (!res) return alert(`Recurso de construção "${nome}" não encontrado.`);
+                if (res.edificio.quantidade <= 0) return alert(`Você precisa de pelo menos 1 unidade de "${nome}".`);
+            }
+        }
 
-  // === Compra aprovada ===
-  console.log("Compra aprovada. Aplicando atualizações...");
+        // === Compra aprovada ===
+        console.log("Compra aprovada. Aplicando atualizações...");
 
-  // 🔹 1) Deduz saldo
-  atualizarEco("saldo", economiaSetores.saldo - custo);
+        // 🔹 1) Deduz saldo
+        atualizarEco("saldo", economiaSetores.saldo - custo);
 
-  // 🔹 2) Incrementa quantidade do edifício
-  const novaQuantidade = (edif.quantidade || 0) + 1;
-  atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], novaQuantidade);
+        // 🔹 2) Incrementa quantidade do edifício
+        const novaQuantidade = (edif.quantidade || 0) + 1;
+        atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], novaQuantidade);
 
-  // 🔹 3) Deduz lojas/terrenos
-  atualizarDadosProf2(["terrenos", "quantidade"], qTerrenosAtual - qTerrenos);
-  atualizarDadosProf2(["lojasP", "quantidade"], qPAtual - qP);
-  atualizarDadosProf2(["lojasM", "quantidade"], qMAtual - qM);
-  atualizarDadosProf2(["lojasG", "quantidade"], qGAtual - qG);
+        // 🔹 3) Deduz lojas/terrenos
+        atualizarDadosProf2(["terrenos", "quantidade"], qTerrenosAtual - qTerrenos);
+        atualizarDadosProf2(["lojasP", "quantidade"], qPAtual - qP);
+        atualizarDadosProf2(["lojasM", "quantidade"], qMAtual - qM);
+        atualizarDadosProf2(["lojasG", "quantidade"], qGAtual - qG);
 
-  // 🔹 4) Deduz recursos de construção
-  if (edif.recursoDeConstrução?.length) {
-    for (const nome of edif.recursoDeConstrução) {
-      const { setor: sRec, index: iRec, edificio: edifRec } = localizador(nome) || {};
-      if (edifRec) atualizarDadosProf2([sRec, "edificios", iRec, "quantidade"], (edifRec.quantidade || 0) - 1);
-    }
-  }
+        // 🔹 4) Deduz recursos de construção
+        if (edif.recursoDeConstrução?.length) {
+            for (const nome of edif.recursoDeConstrução) {
+                const { setor: sRec, index: iRec, edificio: edifRec } = localizador(nome) || {};
+                if (edifRec) atualizarDadosProf2([sRec, "edificios", iRec, "quantidade"], (edifRec.quantidade || 0) - 1);
+            }
+        }
 
-  // 🔹 5) Atualiza carteira imediatamente
-  const setorIndex = setoresArr.indexOf(setorAtivo);
-  const novaCarteira = [...carteira];
-  if (!novaCarteira[setorIndex]) novaCarteira[setorIndex] = [];
-  novaCarteira[setorIndex] = [...novaCarteira[setorIndex], { ...edif, quantidade: 1 }]; // adiciona 1 unidade
-  atualizarEco("carteira", { ...economiaSetores.carteira, carteiraAtual: novaCarteira });
+        // 🔹 5) Atualiza carteira imediatamente
+        const setorIndex = setoresArr.indexOf(setorAtivo);
+        const novaCarteira = [...carteira];
+        if (!novaCarteira[setorIndex]) novaCarteira[setorIndex] = [];
+        novaCarteira[setorIndex] = [...novaCarteira[setorIndex], { ...edif, quantidade: 1 }]; // adiciona 1 unidade
+        atualizarEco("carteira", { ...economiaSetores.carteira, carteiraAtual: novaCarteira });
 
-  console.log("Carteira atualizada:", novaCarteira);
+        console.log("Carteira atualizada:", novaCarteira);
 
-  // 🔹 6) Atualiza centralEdificios
-  const atualizarCentralEdificios = () => {
-    const carteiraNorm = setoresArr.map((_, i) => Array.isArray(novaCarteira[i]) ? novaCarteira[i] : []);
-    let totalEdificios = 0;
-    const nomesSet = new Set();
-    carteiraNorm.forEach(arr => {
-      arr.forEach(item => {
-        if (!item) return;
-        nomesSet.add(item.nome);
-        totalEdificios += Number(item.quantidade ?? 1);
-      });
-    });
-    const setoresAtivos = carteiraNorm.reduce((acc, arr) => acc + (arr.length > 0 ? 1 : 0), 0);
+        // 🔹 6) Atualiza centralEdificios
+        const atualizarCentralEdificios = () => {
+            const carteiraNorm = setoresArr.map((_, i) => Array.isArray(novaCarteira[i]) ? novaCarteira[i] : []);
+            let totalEdificios = 0;
+            const nomesSet = new Set();
+            carteiraNorm.forEach(arr => {
+                arr.forEach(item => {
+                    if (!item) return;
+                    nomesSet.add(item.nome);
+                    totalEdificios += Number(item.quantidade ?? 1);
+                });
+            });
+            const setoresAtivos = carteiraNorm.reduce((acc, arr) => acc + (arr.length > 0 ? 1 : 0), 0);
 
-    const novosCentral = {
-      ...economiaSetores.centralEdificios,
-      quantidadeSetoresAtual: setoresAtivos,
-      QuantidadeEdifíciosAtual: totalEdificios,
-      QuantidadeDiversosEdificiosAtual: nomesSet.size,
+            const novosCentral = {
+                ...economiaSetores.centralEdificios,
+                quantidadeSetoresAtual: setoresAtivos,
+                QuantidadeEdifíciosAtual: totalEdificios,
+                QuantidadeDiversosEdificiosAtual: nomesSet.size,
+            };
+
+            atualizarEco("centralEdificios", novosCentral);
+            console.log("centralEdificios atualizado:", novosCentral);
+        };
+
+        atualizarCentralEdificios();
+
+        console.log("=== comprarCard END ===");
     };
-
-    atualizarEco("centralEdificios", novosCentral);
-    console.log("centralEdificios atualizado:", novosCentral);
-  };
-
-  atualizarCentralEdificios();
-
-  console.log("=== comprarCard END ===");
-};
 
 
 
@@ -1484,18 +1503,21 @@ const comprarCard = () => {
 
                             </div>
                         </div>
-                        <div className="flex  justify-between items-center h-[15%] w-full">
+                        <div className="flex  justify-between items-center h-[20%] w-full">
                             <div className="w-full flex h-full flex justify-between items-center">
-                                <div className="w-[55%] h-[80%] rounded-[5px] ">
+                                <div className="w-[20%] h-[80%] rounded-[5px] flex items-center justify-center">
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between  h-full">
-                                        <div className="flex items-center justify-center h-full drop-shadow-2xl">
-                                            <img src={DolarImg} className="h-[60%] ml-[2px] " />
-                                            <h1 className=" text-white fonteBold text-[13px] ml-2">{formatarNumero(valorFatuFinal)}</h1>
-                                        </div>
-                                        <div className="flex items-center justify-center h-full">
-                                            <h1 className="text-white font-bold mr-2 text-[15px]">{rentabilidade.toFixed(0)}</h1>
-                                            <img src={porcem} alt="porcentagem" className="h-[45%] mr-[5px]" />
-                                        </div>
+                                        <button style={{ backgroundColor: setorInfo.cor1 }} onClick={() => { handleShow('finançasEd'), handleFlip() }} className=" hover:scale-[1.10] ease-in-out cursor-pointer flex items-center justify-center w-min-[20%] aspect-square rounded-[10px] h-full drop-shadow-2xl">
+                                            <img src={DolarImg} className="h-[60%] flex items-center justify-center" />
+                                        </button>
+
+                                    </div>
+
+                                </div>
+                                <div style={{ backgroundColor: setorInfo.cor3 }} className="w-[30%] h-[80%] rounded-[5px] items-center justify-center flex">
+                                    <div className="flex items-center justify-center h-full">
+                                        <h1 className="text-white font-bold mr-2 text-[17px]">{rentabilidade.toFixed(0)}</h1>
+                                        <img src={porcem} alt="porcentagem" className="h-[45%] mr-[0px]" />
                                     </div>
                                 </div>
                                 <div style={{ backgroundColor: setorInfo.cor3 }} className=" w-[40%] h-[80%] flex items-center justify-around rounded-[5px]">
@@ -1823,6 +1845,306 @@ const comprarCard = () => {
                             </div>)
 
                     }
+                    {visibleId === 'finançasEd' && isModalOpen === true && (
+           
+  <div
+    onClick={() => handleFlip()}
+    className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center relative z-[99999] overflow-visible"
+    style={{ pointerEvents: 'auto' }}
+  >
+    {/* Barra superior */}
+    <div
+      style={{ backgroundColor: setorInfo.cor1 }}
+      className="w-full h-[20%] rounded-[10px] flex justify-between"
+    >
+      {/* Ícone com tooltip */}
+      <div
+        className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center relative group"
+        style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%, ${setorInfo.cor1} 100%)` }}
+      >
+        <img className="h-[70%]" src={DolarImg} alt="" />
+
+        {/* Tooltip (aparece ao hover) */}
+        <div
+          className="absolute hidden group-hover:flex items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap"
+          style={{
+            top: '-40px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: '#222',
+            color: '#fff',
+            zIndex: 2147483647
+          }}
+        >
+          Ícone de finanças
+        </div>
+      </div>
+
+      <div className="flex p-[10px] justify-center items-center relative group">
+        <h1 className="text-white fonteBold text-[12px]">Finanças do edifício</h1>
+
+        <div
+          className="absolute hidden group-hover:flex items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap"
+          style={{
+            top: '-34px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: '#222',
+            color: '#fff',
+            zIndex: 2147483647
+          }}
+        >
+          Informações financeiras detalhadas do edifício
+        </div>
+      </div>
+    </div>
+
+    {/* Área principal */}
+    <div className="flex items-center justify-around w-full h-[70%] rounded-[10px] flex-col">
+      {/* Linha 1 */}
+      <div className="w-full h-[22%] flex justify-around items-center">
+        <div className="h-full w-full aspect-square flex justify-around items-center">
+          {/* Faturamento Mensal */}
+          <div
+            style={{ backgroundColor: setorInfo.cor2 }}
+            className="flex justify-between rounded-[10px] items-center h-full w-[45%] relative group overflow-visible"
+          >
+            <div
+              style={{ backgroundColor: setorInfo.cor1 }}
+              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
+            >
+              <img className="h-[50%]" src={imgFatuMensal} alt="" />
+            </div>
+            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+              {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30)}
+            </h2>
+
+            <div
+              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
+              style={{
+                top: '-36px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: '#222',
+                color: '#fff',
+                zIndex: 2147483647
+              }}
+            >
+              Faturamento mensal estimado (30 dias)
+            </div>
+          </div>
+
+          {/* Imposto Fixo */}
+          <div
+            style={{ backgroundColor: setorInfo.cor2 }}
+            className="flex justify-between rounded-[10px] items-center h-full w-[45%] relative group overflow-visible"
+          >
+            <div
+              style={{ backgroundColor: setorInfo.cor1 }}
+              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
+            >
+              <img className="h-[50%]" src={imgImpostoFixo} alt="" />
+            </div>
+            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+              {formatarNumero(dados[setorAtivo].edificios[index].finanças.impostoFixo)}
+            </h2>
+
+            <div
+              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
+              style={{
+                top: '-36px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: '#222',
+                color: '#fff',
+                zIndex: 2147483647
+              }}
+            >
+              Imposto fixo cobrado mensalmente
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Linha 2 */}
+      <div className="w-full h-[22%] flex justify-around items-center">
+        <div className="h-full w-full aspect-square flex justify-around items-center">
+          {/* Faturamento Diário */}
+          <div
+            style={{ backgroundColor: setorInfo.cor2 }}
+            className="flex justify-between rounded-[10px] items-center h-full w-[45%] relative group overflow-visible"
+          >
+            <div
+              style={{ backgroundColor: setorInfo.cor1 }}
+              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
+            >
+              <img className="h-[50%]" src={imgFaturamentoDiario} alt="" />
+            </div>
+            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+              {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário)}
+            </h2>
+
+            <div
+              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
+              style={{
+                top: '-36px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: '#222',
+                color: '#fff',
+                zIndex: 2147483647
+              }}
+            >
+              Faturamento médio diário do edifício
+            </div>
+          </div>
+
+          {/* % Imposto sobre faturamento */}
+          <div
+            style={{ backgroundColor: setorInfo.cor2 }}
+            className="flex justify-between rounded-[10px] items-center h-full w-[45%] relative group overflow-visible"
+          >
+            <div
+              style={{ backgroundColor: setorInfo.cor1 }}
+              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
+            >
+              <img className="h-[50%]" src={imgPercFatu} alt="" />
+            </div>
+            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+              {(dados[setorAtivo].edificios[index].finanças.impostoSobreFatu * 100).toFixed(0)}%
+            </h2>
+
+            <div
+              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
+              style={{
+                top: '-36px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: '#222',
+                color: '#fff',
+                zIndex: 2147483647
+              }}
+            >
+              Percentual de imposto aplicado sobre o faturamento
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Linha 3 */}
+      <div className="w-full h-[22%] flex justify-around items-center">
+        <div className="h-full w-full aspect-square flex justify-around items-center">
+          {/* Rentabilidade */}
+          <div
+            style={{ backgroundColor: setorInfo.cor2 }}
+            className="flex justify-between rounded-[10px] items-center h-full w-[45%] relative group overflow-visible"
+          >
+            <div
+              style={{ backgroundColor: setorInfo.cor1 }}
+              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
+            >
+              <img className="h-[50%]" src={porcem} alt="" />
+            </div>
+            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+              {rentabilidade.toFixed(0)}%
+            </h2>
+
+            <div
+              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
+              style={{
+                top: '-36px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: '#222',
+                color: '#fff',
+                zIndex: 2147483647
+              }}
+            >
+              Rentabilidade percentual do edifício
+            </div>
+          </div>
+
+          {/* Soma impostos */}
+          <div
+            style={{ backgroundColor: setorInfo.cor2 }}
+            className="flex justify-between rounded-[10px] items-center h-full w-[45%] relative group overflow-visible"
+          >
+            <div
+              style={{ backgroundColor: setorInfo.cor1 }}
+              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
+            >
+              <img className="h-[50%]" src={imgSomaImposto} alt="" />
+            </div>
+            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+              {formatarNumero(
+                dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 *
+                  dados[setorAtivo].edificios[index].finanças.impostoSobreFatu +
+                  dados[setorAtivo].edificios[index].finanças.impostoFixo
+              )}
+            </h2>
+
+            <div
+              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
+              style={{
+                top: '-36px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: '#222',
+                color: '#fff',
+                zIndex: 2147483647
+              }}
+            >
+              Valor total dos impostos (fixo + sobre faturamento)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Linha 4 */}
+      <div className="w-full h-[22%] flex justify-around items-center">
+        <div className="h-full w-full aspect-square flex justify-around items-center">
+          {/* Lucro líquido */}
+          <div
+            style={{ backgroundColor: setorInfo.cor2 }}
+            className="flex justify-between rounded-[10px] items-center h-full w-[80%] relative group overflow-visible"
+          >
+            <div
+              style={{ backgroundColor: setorInfo.cor1 }}
+              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
+            >
+              <img className="h-[50%]" src={imgLucro} alt="" />
+            </div>
+            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+              {formatarNumero(
+                dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 -
+                  dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 *
+                    dados[setorAtivo].edificios[index].finanças.impostoSobreFatu +
+                  dados[setorAtivo].edificios[index].finanças.impostoFixo
+              )}
+            </h2>
+
+            <div
+              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
+              style={{
+                top: '-36px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: '#222',
+                color: '#fff',
+                zIndex: 2147483647
+              }}
+            >
+              Lucro líquido mensal (após impostos)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+                    )}
+
                 </div>
 
 
