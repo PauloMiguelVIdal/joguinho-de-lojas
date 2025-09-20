@@ -34,6 +34,8 @@ import imgImpostoFixo from "../imagens/imgImpostoFixo.png"
 import imgFaturamentoDiario from "../imagens/imgFaturamentoDiario.png"
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
+import { useRef } from "react";
+import { createPortal } from "react-dom";
 
 
 export const CardModal = ({ index }) => {
@@ -78,17 +80,61 @@ export const CardModal = ({ index }) => {
         return qtdFalta * custoTotalConst
 
     }
+    function Tooltip({ text, children }) {
+        const [show, setShow] = useState(false);
+        const ref = useRef();
 
-  const tooltipStyle = {
-    backgroundColor: "#FFFFFF",
-    color: "#350973",
-    border: "1px solid #350973",
-    borderRadius: "6px",
-    padding: "6px 10px",
-    fontWeight: "600",
-    fontSize: "14px",
-    zIndex: 10, // 👈 garante que vai ficar por cima de tudo
-  };
+        const tooltip = show && ref.current && createPortal(
+            <div
+                style={{
+                    position: "absolute",
+                    top: ref.current.getBoundingClientRect().top - 40, // sobe o tooltip
+                    left:
+                        ref.current.getBoundingClientRect().left +
+                        ref.current.offsetWidth / 2,
+                    transform: "translateX(-50%)",
+                    backgroundColor: "#222",
+                    color: "#fff",
+                    padding: "4px 8px",
+                    borderRadius: "6px",
+                    fontSize: "12px",
+                    whiteSpace: "nowrap",
+                    zIndex: 2147483647,
+                    pointerEvents: "none"
+                }}
+            >
+                {text}
+            </div>,
+            document.body
+        );
+
+        return (
+            <>
+                <div
+                    ref={ref}
+                    onMouseEnter={() => setShow(true)}
+                    onMouseLeave={() => setShow(false)}
+                    className="relative flex items-center justify-center"
+                >
+                    {children}
+                </div>
+                {tooltip}
+            </>
+        );
+    }
+
+
+
+    const tooltipStyle = {
+        backgroundColor: "#FFFFFF",
+        color: "#350973",
+        border: "1px solid #350973",
+        borderRadius: "6px",
+        padding: "6px 10px",
+        fontWeight: "600",
+        fontSize: "14px",
+        zIndex: 10, // 👈 garante que vai ficar por cima de tudo
+    };
 
     const mapaEdificioParaSetor = {
         // Agricultura
@@ -1381,7 +1427,7 @@ export const CardModal = ({ index }) => {
                         style={{
                             background: `transparent`, // fundo transparente para o container principal
                         }}
-                        className="w-[215px] h-[230px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective z-10 cursor-pointer absolute"
+                        className="w-[215px] h-[230px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective z-[2] cursor-pointer absolute"
                         initial={{ scale: 1 }}
                         transition={{ type: "spring", stiffness: 100, damping: 10 }}
                     >
@@ -1396,7 +1442,7 @@ export const CardModal = ({ index }) => {
 
                         {/* Container do Card */}
                         <motion.div
-                            className="relative flex justify-center items-center w-full h-full z-10"
+                            className="relative flex justify-center items-center w-full h-full z-[2]"
                             animate={{ rotateY: flipped ? 180 : 0 }}
                             transition={{ duration: 0.5, ease: "easeInOut" }}
                             style={{
@@ -1405,25 +1451,25 @@ export const CardModal = ({ index }) => {
                         >
                             <div
                                 style={{ backgroundColor: setorInfo.cor1 }}
-                                className="h-[40%] flex justify-center items-center aspect-square rounded-[20px] relative z-10"
+                                className="h-[40%] flex justify-center items-center aspect-square rounded-[20px] relative z-[2]"
                             >
                                 <div
                                     style={{ backgroundColor: setorInfo.cor3 }}
-                                    className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-10"
+                                    className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-[2]"
                                 >
                                     <div
                                         style={{ backgroundColor: setorInfo.cor1 }}
-                                        className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-10"
+                                        className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-[2]"
                                     >
                                         <div
                                             style={{ backgroundColor: setorInfo.cor2 }}
-                                            className="flex items-center justify-center h-[95%] aspect-square rounded-[30px] absolute z-10"
+                                            className="flex items-center justify-center h-[95%] aspect-square rounded-[30px] absolute z-[2]"
                                         >
                                             <div
                                                 style={{
                                                     background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor4} 100%)`,
                                                 }}
-                                                className="flex items-center justify-center h-[95%] aspect-square rounded-[60px] absolute z-10 relative"
+                                                className="flex items-center justify-center h-[95%] aspect-square rounded-[60px] absolute z-[2] relative"
                                             >
                                                 <img
                                                     className="h-[70%] aspect-square absolute"
@@ -1846,10 +1892,9 @@ export const CardModal = ({ index }) => {
 
                     }
                     {visibleId === 'finançasEd' && isModalOpen === true && (
-           
   <div
     onClick={() => handleFlip()}
-    className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center relative z-[99999] overflow-visible"
+    className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center relative z-[20] overflow-visible"
     style={{ pointerEvents: 'auto' }}
   >
     {/* Barra superior */}
@@ -1857,16 +1902,16 @@ export const CardModal = ({ index }) => {
       style={{ backgroundColor: setorInfo.cor1 }}
       className="w-full h-[20%] rounded-[10px] flex justify-between"
     >
-      {/* Ícone com tooltip */}
+      {/* Ícone */}
       <div
-        className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center relative group"
-        style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%, ${setorInfo.cor1} 100%)` }}
+        className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center relative group overflow-visible"
+        style={{
+          background: `linear-gradient(135deg, ${setorInfo.cor3} 0%, ${setorInfo.cor1} 100%)`
+        }}
       >
         <img className="h-[70%]" src={DolarImg} alt="" />
-
-        {/* Tooltip (aparece ao hover) */}
         <div
-          className="absolute hidden group-hover:flex items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap"
+          className="absolute group-hover:flex hidden items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap pointer-events-none"
           style={{
             top: '-40px',
             left: '50%',
@@ -1880,11 +1925,11 @@ export const CardModal = ({ index }) => {
         </div>
       </div>
 
-      <div className="flex p-[10px] justify-center items-center relative group">
+      {/* Título */}
+      <div className="flex p-[10px] justify-center items-center relative group overflow-visible">
         <h1 className="text-white fonteBold text-[12px]">Finanças do edifício</h1>
-
         <div
-          className="absolute hidden group-hover:flex items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap"
+          className="absolute group-hover:flex hidden items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap pointer-events-none"
           style={{
             top: '-34px',
             left: '50%',
@@ -1899,251 +1944,236 @@ export const CardModal = ({ index }) => {
       </div>
     </div>
 
-    {/* Área principal */}
-    <div className="flex items-center justify-around w-full h-[70%] rounded-[10px] flex-col">
-      {/* Linha 1 */}
-      <div className="w-full h-[22%] flex justify-around items-center">
-        <div className="h-full w-full aspect-square flex justify-around items-center">
-          {/* Faturamento Mensal */}
+    {/* Linha 1 */}
+    <div className="flex w-full h-[15%] justify-around">
+      {/* Faturamento mensal */}
+      <div
+        style={{ backgroundColor: setorInfo.cor2 }}
+        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+      >
+        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+             style={{ backgroundColor: setorInfo.cor1 }}>
+          <img className="h-[50%]" src={imgFatuMensal} alt="" />
           <div
-            style={{ backgroundColor: setorInfo.cor2 }}
-            className="flex justify-between rounded-[10px] items-center h-full w-[45%] relative group overflow-visible"
+            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+            style={{
+              top: '-36px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: '#222',
+              color: '#fff',
+              zIndex: 2147483647
+            }}
           >
-            <div
-              style={{ backgroundColor: setorInfo.cor1 }}
-              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
-            >
-              <img className="h-[50%]" src={imgFatuMensal} alt="" />
-            </div>
-            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-              {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30)}
-            </h2>
-
-            <div
-              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
-              style={{
-                top: '-36px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                backgroundColor: '#222',
-                color: '#fff',
-                zIndex: 2147483647
-              }}
-            >
-              Faturamento mensal estimado (30 dias)
-            </div>
-          </div>
-
-          {/* Imposto Fixo */}
-          <div
-            style={{ backgroundColor: setorInfo.cor2 }}
-            className="flex justify-between rounded-[10px] items-center h-full w-[45%] relative group overflow-visible"
-          >
-            <div
-              style={{ backgroundColor: setorInfo.cor1 }}
-              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
-            >
-              <img className="h-[50%]" src={imgImpostoFixo} alt="" />
-            </div>
-            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-              {formatarNumero(dados[setorAtivo].edificios[index].finanças.impostoFixo)}
-            </h2>
-
-            <div
-              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
-              style={{
-                top: '-36px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                backgroundColor: '#222',
-                color: '#fff',
-                zIndex: 2147483647
-              }}
-            >
-              Imposto fixo cobrado mensalmente
-            </div>
+            Faturamento mensal estimado
           </div>
         </div>
+        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+          {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30)}
+        </h2>
       </div>
 
-      {/* Linha 2 */}
-      <div className="w-full h-[22%] flex justify-around items-center">
-        <div className="h-full w-full aspect-square flex justify-around items-center">
-          {/* Faturamento Diário */}
+      {/* Imposto mensal */}
+      <div
+        style={{ backgroundColor: setorInfo.cor2 }}
+        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+      >
+        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+             style={{ backgroundColor: setorInfo.cor1 }}>
+          <img className="h-[50%]" src={imgImpostoFixo} alt="" />
           <div
-            style={{ backgroundColor: setorInfo.cor2 }}
-            className="flex justify-between rounded-[10px] items-center h-full w-[45%] relative group overflow-visible"
+            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+            style={{
+              top: '-36px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: '#222',
+              color: '#fff',
+              zIndex: 2147483647
+            }}
           >
-            <div
-              style={{ backgroundColor: setorInfo.cor1 }}
-              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
-            >
-              <img className="h-[50%]" src={imgFaturamentoDiario} alt="" />
-            </div>
-            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-              {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário)}
-            </h2>
-
-            <div
-              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
-              style={{
-                top: '-36px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                backgroundColor: '#222',
-                color: '#fff',
-                zIndex: 2147483647
-              }}
-            >
-              Faturamento médio diário do edifício
-            </div>
-          </div>
-
-          {/* % Imposto sobre faturamento */}
-          <div
-            style={{ backgroundColor: setorInfo.cor2 }}
-            className="flex justify-between rounded-[10px] items-center h-full w-[45%] relative group overflow-visible"
-          >
-            <div
-              style={{ backgroundColor: setorInfo.cor1 }}
-              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
-            >
-              <img className="h-[50%]" src={imgPercFatu} alt="" />
-            </div>
-            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-              {(dados[setorAtivo].edificios[index].finanças.impostoSobreFatu * 100).toFixed(0)}%
-            </h2>
-
-            <div
-              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
-              style={{
-                top: '-36px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                backgroundColor: '#222',
-                color: '#fff',
-                zIndex: 2147483647
-              }}
-            >
-              Percentual de imposto aplicado sobre o faturamento
-            </div>
+            Imposto sobre faturamento
           </div>
         </div>
+        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+          {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário)*30}
+        </h2>
+      </div>
+    </div>
+
+    {/* Linha 2 */}
+    <div className="flex w-full h-[15%] justify-around">
+      {/* Rentabilidade */}
+      <div
+        style={{ backgroundColor: setorInfo.cor2 }}
+        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+      >
+        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+             style={{ backgroundColor: setorInfo.cor1 }}>
+          <img className="h-[50%]" src={porcem} alt="" />
+          <div
+            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+            style={{
+              top: '-36px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: '#222',
+              color: '#fff',
+              zIndex: 2147483647
+            }}
+          >
+            Rentabilidade atual
+          </div>
+        </div>
+        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+          {dados[setorAtivo].edificios[index].finanças.rentabilidade}%
+        </h2>
       </div>
 
-      {/* Linha 3 */}
-      <div className="w-full h-[22%] flex justify-around items-center">
-        <div className="h-full w-full aspect-square flex justify-around items-center">
-          {/* Rentabilidade */}
+      {/* Lucro mensal */}
+      <div
+        style={{ backgroundColor: setorInfo.cor2 }}
+        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+      >
+        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+             style={{ backgroundColor: setorInfo.cor1 }}>
+          <img className="h-[50%]" src={imgLucro} alt="" />
           <div
-            style={{ backgroundColor: setorInfo.cor2 }}
-            className="flex justify-between rounded-[10px] items-center h-full w-[45%] relative group overflow-visible"
+            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+            style={{
+              top: '-36px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: '#222',
+              color: '#fff',
+              zIndex: 2147483647
+            }}
           >
-            <div
-              style={{ backgroundColor: setorInfo.cor1 }}
-              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
-            >
-              <img className="h-[50%]" src={porcem} alt="" />
-            </div>
-            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-              {rentabilidade.toFixed(0)}%
-            </h2>
-
-            <div
-              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
-              style={{
-                top: '-36px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                backgroundColor: '#222',
-                color: '#fff',
-                zIndex: 2147483647
-              }}
-            >
-              Rentabilidade percentual do edifício
-            </div>
-          </div>
-
-          {/* Soma impostos */}
-          <div
-            style={{ backgroundColor: setorInfo.cor2 }}
-            className="flex justify-between rounded-[10px] items-center h-full w-[45%] relative group overflow-visible"
-          >
-            <div
-              style={{ backgroundColor: setorInfo.cor1 }}
-              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
-            >
-              <img className="h-[50%]" src={imgSomaImposto} alt="" />
-            </div>
-            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-              {formatarNumero(
-                dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 *
-                  dados[setorAtivo].edificios[index].finanças.impostoSobreFatu +
-                  dados[setorAtivo].edificios[index].finanças.impostoFixo
-              )}
-            </h2>
-
-            <div
-              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
-              style={{
-                top: '-36px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                backgroundColor: '#222',
-                color: '#fff',
-                zIndex: 2147483647
-              }}
-            >
-              Valor total dos impostos (fixo + sobre faturamento)
-            </div>
+            Lucro mensal líquido
           </div>
         </div>
+        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+        {formatarNumero( dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 * dados[setorAtivo].edificios[index].finanças.impostoSobreFatu + dados[setorAtivo].edificios[index].finanças.impostoFixo )}
+        </h2>
+      </div>
+    </div>
+
+    {/* Linha 3 */}
+    <div className="flex w-full h-[15%] justify-around">
+      {/* Custos Fixos */}
+      <div
+        style={{ backgroundColor: setorInfo.cor2 }}
+        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+      >
+        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+             style={{ backgroundColor: setorInfo.cor1 }}>
+          <img className="h-[50%]" src={imgSomaImposto} alt="" />
+          <div
+            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+            style={{
+              top: '-36px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: '#222',
+              color: '#fff',
+              zIndex: 2147483647
+            }}
+          >
+            Custos fixos mensais
+          </div>
+        </div>
+        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+          {(dados[setorAtivo].edificios[index].finanças.impostoDiário)}
+        </h2>
       </div>
 
-      {/* Linha 4 */}
-      <div className="w-full h-[22%] flex justify-around items-center">
-        <div className="h-full w-full aspect-square flex justify-around items-center">
-          {/* Lucro líquido */}
+      {/* Manutenção */}
+      <div
+        style={{ backgroundColor: setorInfo.cor2 }}
+        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+      >
+        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+             style={{ backgroundColor: setorInfo.cor1 }}>
+          <img className="h-[50%]" src={imgFaturamentoDiario} alt="" />
           <div
-            style={{ backgroundColor: setorInfo.cor2 }}
-            className="flex justify-between rounded-[10px] items-center h-full w-[80%] relative group overflow-visible"
+            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+            style={{
+              top: '-36px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: '#222',
+              color: '#fff',
+              zIndex: 2147483647
+            }}
           >
-            <div
-              style={{ backgroundColor: setorInfo.cor1 }}
-              className="h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative"
-            >
-              <img className="h-[50%]" src={imgLucro} alt="" />
-            </div>
-            <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-              {formatarNumero(
-                dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 -
-                  dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 *
-                    dados[setorAtivo].edificios[index].finanças.impostoSobreFatu +
-                  dados[setorAtivo].edificios[index].finanças.impostoFixo
-              )}
-            </h2>
-
-            <div
-              className="absolute hidden group-hover:flex items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap"
-              style={{
-                top: '-36px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                backgroundColor: '#222',
-                color: '#fff',
-                zIndex: 2147483647
-              }}
-            >
-              Lucro líquido mensal (após impostos)
-            </div>
+            Custos de manutenção
           </div>
         </div>
+        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+          {/* {formatarNumero(dados[setorAtivo].edificios[index].finanças.impostoDiário)} */}
+        </h2>
+      </div>
+    </div>
+
+    {/* Linha 4 */}
+    <div className="flex w-full h-[15%] justify-around">
+      {/* Receita bruta */}
+      <div
+        style={{ backgroundColor: setorInfo.cor2 }}
+        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+      >
+        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+             style={{ backgroundColor: setorInfo.cor1 }}>
+          <img className="h-[50%]" src={imgPercFatu} alt="" />
+          <div
+            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+            style={{
+              top: '-36px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: '#222',
+              color: '#fff',
+              zIndex: 2147483647
+            }}
+          >
+            Receita bruta total
+          </div>
+        </div>
+        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+          {/* {formatarNumero(dados[setorAtivo].edificios[index].finanças.impostoDiário)} */}
+        </h2>
+      </div>
+
+      {/* Caixa disponível */}
+      <div
+        style={{ backgroundColor: setorInfo.cor2 }}
+        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+      >
+        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+             style={{ backgroundColor: setorInfo.cor1 }}>
+          <img className="h-[50%]" src={porcem} alt="" />
+          <div
+            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+            style={{
+              top: '-36px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: '#222',
+              color: '#fff',
+              zIndex: 2147483647
+            }}
+          >
+            Caixa disponível
+          </div>
+        </div>
+        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+          {/* {formatarNumero(dados[setorAtivo].edificios[index].finanças.impostoDiário)} */}
+        </h2>
       </div>
     </div>
   </div>
+)}
 
-
-                    )}
 
                 </div>
 
