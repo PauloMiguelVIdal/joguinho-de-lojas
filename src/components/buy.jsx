@@ -1054,16 +1054,16 @@ export default function Buy() {
           <Box data-tooltip-id="tooltip-lojag-posse" data-tooltip-html="Quantidade total que você já possui desse imóvel" sx={{ bgcolor: '#6411D9', width: { xs: 40, sm: 48 }, height: { xs: 40, sm: 48 }, borderRadius: '10px', border: '2px solid #F27405', position: 'absolute', left: { xs: -20, sm: -24 }, top: '50%', transform: 'translateY(-50%)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 16 }}>{dados.lojasG.quantidade}</Typography>
           </Box>
-            <Tooltip style={tooltipStyle} id="tooltip-lojag-tipo" />
-  <Tooltip style={tooltipStyle} id="tooltip-lojag-preco" />
-  <Tooltip style={tooltipStyle} id="tooltip-lojag-total" />
-  <Tooltip style={tooltipStyle} id="tooltip-lojag-comprar" />
-  <Tooltip style={tooltipStyle} id="tooltip-lojag-diminuir" />
-  <Tooltip style={tooltipStyle} id="tooltip-lojag-quantidade" />
-  <Tooltip style={tooltipStyle} id="tooltip-lojag-aumentar" />
-  <Tooltip style={tooltipStyle} id="tooltip-lojag-faturamento" />
-  <Tooltip style={tooltipStyle} id="tooltip-lojag-rentabilidade" />
-  <Tooltip style={tooltipStyle} id="tooltip-lojag-posse" />
+          <Tooltip style={tooltipStyle} id="tooltip-lojag-tipo" />
+          <Tooltip style={tooltipStyle} id="tooltip-lojag-preco" />
+          <Tooltip style={tooltipStyle} id="tooltip-lojag-total" />
+          <Tooltip style={tooltipStyle} id="tooltip-lojag-comprar" />
+          <Tooltip style={tooltipStyle} id="tooltip-lojag-diminuir" />
+          <Tooltip style={tooltipStyle} id="tooltip-lojag-quantidade" />
+          <Tooltip style={tooltipStyle} id="tooltip-lojag-aumentar" />
+          <Tooltip style={tooltipStyle} id="tooltip-lojag-faturamento" />
+          <Tooltip style={tooltipStyle} id="tooltip-lojag-rentabilidade" />
+          <Tooltip style={tooltipStyle} id="tooltip-lojag-posse" />
         </Paper>
       </div>
     )

@@ -1735,10 +1735,10 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                                         <div className="h-[20%] w-[90%] flex flex-col justify-center ">
                                             <h1 className=" text-white text-[11px] text-start fonteBold">Recursos de Construção</h1>
                                         </div>
-                                        <div  style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
+                                        <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
 
-                                            <div   data-tooltip-id="tooltip-faturado"
-                                                             data-tooltip-html={`
+                                            <div data-tooltip-id="tooltip-faturado"
+                                                data-tooltip-html={`
       <b>Recursos de Construção</b><br/><br/>
       <div style="max-width: 600px;">
         <p>
@@ -1756,7 +1756,7 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
     `} className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
                                                 {arrayConstResources.map((nomeEdificio) => (
                                                     <div
-                                                   
+
                                                         key={`${nomeEdificio}-${index}`}
                                                         style={{ backgroundColor: setorInfo.cor3 }}
                                                         onMouseEnter={() => setCaixaTexto(true)}
@@ -1795,7 +1795,7 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                                         <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
 
                                             <div data-tooltip-id="tooltip-faturado"
-    data-tooltip-html={`
+                                                data-tooltip-html={`
       <b>Construções Necessárias</b><br/><br/>
       <div style="max-width: 600px;">
         <p>
@@ -1880,7 +1880,7 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                                             </div>
 
                                             <div data-tooltip-id="tooltip-faturado"
-                                                    data-tooltip-html="Valor necessário para comprar os terrenos que faltam" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                                data-tooltip-html="Valor necessário para comprar os terrenos que faltam" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
                                                 <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> {formatarNumero(contabilidadeDeFalta("terrenos"))}</h2>
                                             </div>
 
@@ -1888,22 +1888,22 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                                     </div>
                                     <div className="w-full h-[22%] flex justify-around items-center ">
                                         <div className="h-full w-full aspect-square flex justify-around items-center ">
-                                            <div  data-tooltip-id="tooltip-faturado"
+                                            <div data-tooltip-id="tooltip-faturado"
                                                 data-tooltip-html="Imóveis pequenos" style={{ backgroundColor: setorInfo.cor1 }} className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
                                                 <img className="h-[70%]" src={LojaPImg} alt="" />
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
                                                 <h2 data-tooltip-id="tooltip-faturado"
-                                                data-tooltip-html=" Quantidade de imóveis pequenos necessários" style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasP}</h2>
+                                                    data-tooltip-html=" Quantidade de imóveis pequenos necessários" style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasP}</h2>
                                                 <div data-tooltip-id="tooltip-faturado"
-                                                data-tooltip-html="Quantidade de imóveis pequenos atual " style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
+                                                    data-tooltip-html="Quantidade de imóveis pequenos atual " style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasP.quantidade}</h2>
                                                 </div>
                                             </div>
 
                                             <div data-tooltip-id="tooltip-faturado"
-                                                    data-tooltip-html="Valor necessário para comprar os imóveis pequenos que faltam" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                                data-tooltip-html="Valor necessário para comprar os imóveis pequenos que faltam" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
                                                 <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold">{formatarNumero(contabilidadeDeFalta("lojasP"))}</h2>
                                             </div>
 
@@ -1918,15 +1918,15 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
                                                 <h2 data-tooltip-id="tooltip-faturado"
-                                                data-tooltip-html="Quantidade de Imóveis médios necessários " style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasM}</h2>
+                                                    data-tooltip-html="Quantidade de Imóveis médios necessários " style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasM}</h2>
                                                 <div data-tooltip-id="tooltip-faturado"
-                                                data-tooltip-html="Quantidade de Imóveis médios atual " style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
+                                                    data-tooltip-html="Quantidade de Imóveis médios atual " style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasM.quantidade}</h2>
                                                 </div>
                                             </div>
 
                                             <div data-tooltip-id="tooltip-faturado"
-                                                    data-tooltip-html="Valor necessário para comprar os imóveis médios que faltam" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                                data-tooltip-html="Valor necessário para comprar os imóveis médios que faltam" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
                                                 <h2 style={{ backgroundColor: setorInfo.cor }} className="text-white text-[15px] fonteBold"> {formatarNumero(contabilidadeDeFalta("lojasM"))}</h2>
                                             </div>
 
@@ -1941,15 +1941,15 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
                                                 <h2 data-tooltip-id="tooltip-faturado"
-                                                data-tooltip-html=" Quantidade de imóveis grandes necessários" style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasG}</h2>
+                                                    data-tooltip-html=" Quantidade de imóveis grandes necessários" style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasG}</h2>
                                                 <div data-tooltip-id="tooltip-faturado"
-                                                data-tooltip-html="Quantidade de imóveis grandes atual" atual style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
+                                                    data-tooltip-html="Quantidade de imóveis grandes atual" atual style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasG.quantidade}</h2>
                                                 </div>
                                             </div>
 
                                             <div data-tooltip-id="tooltip-faturado"
-                                                    data-tooltip-html="Valor necessário para comprar os imóveis grandes que faltam" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                                data-tooltip-html="Valor necessário para comprar os imóveis grandes que faltam" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
                                                 <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> {formatarNumero(contabilidadeDeFalta("lojasG"))}</h2>
                                             </div>
 
@@ -2002,7 +2002,7 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
 
                                         <div className="w-[100%] rounded-[20px] flex justify-around items-center  h-full">
                                             <div data-tooltip-id="tooltip-faturado"
-                                                    data-tooltip-html="Quantidade mínima de edifícios para <b>Power Up Nível 1</b>" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
+                                                data-tooltip-html="Quantidade mínima de edifícios para <b>Power Up Nível 1</b>" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
                                                 <div className="bg-[#8F5ADA] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
@@ -2012,7 +2012,7 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                                                 </div>
                                             </div>
                                             <div data-tooltip-id="tooltip-faturado"
-                                                    data-tooltip-html="Quantidade mínima de edifícios para <b>Power Up Nível 2</b>" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
+                                                data-tooltip-html="Quantidade mínima de edifícios para <b>Power Up Nível 2</b>" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
                                                 <div className="bg-[#6411D9] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
@@ -2022,7 +2022,7 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                                                 </div>
                                             </div>
                                             <div data-tooltip-id="tooltip-faturado"
-                                                    data-tooltip-html="Quantidade mínima de edifícios para <b>Power Up Nível 3</b>" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
+                                                data-tooltip-html="Quantidade mínima de edifícios para <b>Power Up Nível 3</b>" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
                                                 <div className="bg-[#350973] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
@@ -2039,7 +2039,7 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                                 <div style={{ backgroundColor: setorInfo.cor2 }} className="h-[50%] w-full rounded-[10px] flex flex-col items-center justify-around">
                                     <p className="text-white text-[10px] h-[65%] p-[5px]">{dados[setorAtivo].edificios[index].desc}. </p>
                                     <button data-tooltip-id="tooltip-faturado"
-                                                    data-tooltip-html="Exibe uma tabela com todos os edifícios que concedem ou recebem power-ups deste edifício." onClick={openModalPowerUps} className=" w-[85%] h-[25%] z-50 text-white text-[10px] bg-[#6411D9] rounded-[10px] hover:scale-[1.10] duration-300 ease-in-out">Todos power ups</button>
+                                        data-tooltip-html="Exibe uma tabela com todos os edifícios que concedem ou recebem power-ups deste edifício." onClick={openModalPowerUps} className=" w-[85%] h-[25%] z-50 text-white text-[10px] bg-[#6411D9] rounded-[10px] hover:scale-[1.10] duration-300 ease-in-out">Todos power ups</button>
                                 </div>
                             </div>)
 
