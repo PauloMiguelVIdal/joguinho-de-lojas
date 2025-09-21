@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { Line } from 'react-chartjs-2';
 import agricultura from "./setores/agricultura.png"
@@ -99,7 +99,49 @@ export default function Dashboard() {
     return num.toString();
   };
 
+function Tooltip({ text, children }) {
+        const [show, setShow] = useState(false);
+        const ref = useRef();
 
+        const tooltip = show && ref.current && createPortal(
+            <div
+                style={{
+                    position: "absolute",
+                    top: ref.current.getBoundingClientRect().top - 40, // sobe o tooltip
+                    left:
+                        ref.current.getBoundingClientRect().left +
+                        ref.current.offsetWidth / 2,
+                    transform: "translateX(-50%)",
+                    backgroundColor: "#FFFFFF",
+                    color: "#350973",
+                    padding: "6px 10px",
+                    borderRadius: "6px",
+                    ontWeight: "600",
+                    whiteSpace: "pre-line", // respeita \n como quebra de linha
+                    zIndex: 2147483647,
+                    pointerEvents: "none",
+                    maxWidth: "400px",
+                }}
+            >
+                {text}
+            </div>,
+            document.body
+        );
+
+        return (
+            <>
+                <div
+                    ref={ref}
+                    onMouseEnter={() => setShow(true)}
+                    onMouseLeave={() => setShow(false)}
+                    className="relative flex items-center justify-center"
+                >
+                    {children}
+                </div>
+                {tooltip}
+            </>
+        );
+    }
   // const setoresArray = ["Agricultura", "Tecnologia", "industria", "comercio", "imobiliario", "energia"]
 
   // const licencasAgriculturaArray = [
@@ -438,33 +480,36 @@ export default function Dashboard() {
 
 
       {dados.dia >= 270 && (
+  <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col items-center justify-between">
+    <div
+      className={`
+        w-[80px] h-[80%] pt-[20px] flex flex-col items-center justify-between shadow-md transition-opacity duration-500
+        ${dados.dia >= 270 ? "opacity-100" : "opacity-0 pointer-events-none"}
+      `}
+    >
+      <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
+      {setores.map((setor) => (
+        <div key={setor.id}>
+          {/* Tooltip para cada setor */}
 
-        <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col items-center justify-between">
-          <div
+          <button
+            onClick={() => setAtivo(setor.id)}
+            data-tooltip-id={`tooltip-faturado`}
+            data-tooltip-html={setor.id}  // <-- aqui mostra o nome do setor
             className={`
-          w-[80px] h-[80%] pt-[20px] flex flex-col items-center justify-between shadow-md transition-opacity duration-500
-          ${dados.dia >= 270 ? "opacity-100" : "opacity-0 pointer-events-none"}
-        `}
+              w-[60px] h-[60px] rounded-[20px] flex items-center justify-center shadow-md
+              hover:bg-[${setor.cor3}] active:scale-95 hover:scale-[1.05]
+              ${ativo === setor.id ? "ring-1 ring-white scale-[1.1]" : ""} transition
+            `}
+            style={{ backgroundColor: setor.cor3 }}
           >
-            {setores.map((setor) => (
-              <button
-                key={setor.id}
-                onClick={() => {
-                  setAtivo(setor.id)
-                }}
-                className={`
-                w-[60px] h-[60px] rounded-[20px] flex items-center justify-center shadow-md
-                hover:bg-[${setor.cor3}] active:scale-95 hover:scale-[1.05]
-                ${ativo === setor.id ? "ring-1 ring-white scale-[1.1]" : ""} transition
-              `}
-                style={{ backgroundColor: setor.cor3 }}
-              >
-                <img src={setor.img} alt={setor.id} className="h-[60%] aspect-square" />
-              </button>
-            ))}
-          </div>
+            <img src={setor.img} alt={setor.id} className="h-[60%] aspect-square" />
+          </button>
         </div>
-      )}
+      ))}
+    </div>
+  </div>
+)}
 
 
       {/* Dashboard */}

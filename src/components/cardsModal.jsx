@@ -32,6 +32,7 @@ import imgPercFatu from "../imagens/imgPercFaturamento.png"
 import imgSomaImposto from "../imagens/imgSomaImpostos.png"
 import imgImpostoFixo from "../imagens/imgImpostoFixo.png"
 import imgFaturamentoDiario from "../imagens/imgFaturamentoDiario.png"
+import imgImpostoSFatu from "../imagens/imgImpostoSfatu.png"
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import { useRef } from "react";
@@ -93,14 +94,15 @@ export const CardModal = ({ index }) => {
                         ref.current.getBoundingClientRect().left +
                         ref.current.offsetWidth / 2,
                     transform: "translateX(-50%)",
-                    backgroundColor: "#222",
-                    color: "#fff",
-                    padding: "4px 8px",
+                    backgroundColor: "#FFFFFF",
+                    color: "#350973",
+                    padding: "6px 10px",
                     borderRadius: "6px",
-                    fontSize: "12px",
-                    whiteSpace: "nowrap",
+                    ontWeight: "600",
+                    whiteSpace: "pre-line", // respeita \n como quebra de linha
                     zIndex: 2147483647,
-                    pointerEvents: "none"
+                    pointerEvents: "none",
+                    maxWidth: "400px",
                 }}
             >
                 {text}
@@ -1492,7 +1494,7 @@ export const CardModal = ({ index }) => {
                                 <img className="h-[70%]" src={getImageUrl(dados[setorAtivo].edificios[index].nome)} alt="" />
                             </div>
 
-                            <div className="flex p-[10px] justify-center">
+                            <div data-tooltip-id="tooltip-faturado" data-tooltip-html="Nome do edifício" className="flex p-[10px] justify-center">
                                 <h1 className="text-white fonteBold text-[12px]">{dados[setorAtivo].edificios[index].nome}</h1>
                             </div>
                         </div>
@@ -1505,7 +1507,32 @@ export const CardModal = ({ index }) => {
                                     <div style={{ backgroundColor: setorInfo.cor3 }} onClick={() => { handleShow('lojasNec'), handleFlip() }}
                                         // onMouseLeave={handleHide}
                                         className=" hover:scale-[1.20] ease-in-out cursor-pointer h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative">
-                                        <img className="h-[70%] aspect-square" src={terrenoImg} alt="" />
+                                        <img data-tooltip-id="tooltip-faturado"
+                                            data-tooltip-html={`
+
+  <div style="max-width: 600px;">
+    <b>Imóveis Necessários</b> <br/><br/>
+    <p>
+      Para construir este edifício, você precisará ter previamente alguns imóveis básicos que servem como base:
+    </p>
+    <ul style="margin-left: 15px; padding-left: 0; list-style-type: disc;">
+      <li><b>Terreno:</b> Necessário para plantações.</li>
+      <li><b>Imóvel Pequeno :</b> Necessário para edifícios de pequeno porte.</li>
+      <li><b>Imóvel Médio:</b> Necessário para edifícios de porte médio.</li>
+      <li><b>Imóvel Grande :</b> Necessário para edifícios de grande porte.</li>
+    </ul>
+    <p>
+      Certifique-se de possuir os imóveis exigidos antes de iniciar a construção. Sem essas bases, o edifício não poderá ser erguido, mesmo que você tenha dinheiro suficiente.
+    </p>
+    <p>
+      Dica: Planeje sua evolução estratégica construindo primeiro os imóveis básicos certos para desbloquear edifícios mais avançados.
+    </p>
+        <p>
+      <b>Obs:</b> Caso tenha uma bolinha branca, significa que você não possui imóvel necessário para a construção.
+    </p>
+  </div>
+
+`} className="h-[70%] aspect-square" src={terrenoImg} alt="" />
 
                                         {verificadorDeLojasNecessárias === false &&
                                             <div className="absolute bottom-[-2px] right-[-2px]">
@@ -1516,8 +1543,20 @@ export const CardModal = ({ index }) => {
                                             </div>
                                         }
                                     </div>
+                                    <Tooltip style={tooltipStyle} id="tooltip-faturado" />
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className="h-[80%] aspect-square rounded-[8px] flex items-center justify-center relative hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
-                                        <img className="h-[70%] aspect-square" src={constNece} onClick={() => { handleMouseEnter(), handleShow('constNece'), handleFlip() }}
+                                        <img
+                                            data-tooltip-id="tooltip-faturado"
+                                            data-tooltip-html={`
+  <div style="max-width: 400px;">
+    <b>Construções Necessárias</b> <br/><br/>
+    <p>
+Dependendo para construir este edifício, você precisa já possuir previamente um ou mais edifícios específicos. Sem eles, não será possível construir.
+    </p>
+  </div>
+  <b>Obs:</b> Caso tenha uma bolinha branca, significa que você não possui alguma construção necessária para a construção.
+`}
+                                            className="h-[70%] aspect-square" src={constNece} onClick={() => { handleMouseEnter(), handleShow('constNece'), handleFlip() }}
                                             alt="" />
                                         <div className="absolute bottom-[-2px] right-[-2px]">
                                             {verificadorDeConstruçõesNecessárias === true &&
@@ -1535,9 +1574,34 @@ export const CardModal = ({ index }) => {
                                             <div className="h-full w-full aspect-square flex justify-center items-center">
                                                 <div style={{ backgroundColor: setorInfo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
                                                     <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%, ${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)` }} onClick={() => handleFlip()} className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
-                                                        <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                                                        <img
+                                                            data-tooltip-id="tooltip-faturado"
+                                                            data-tooltip-html={`
+<div style="max-width: 600px;">
+  <b>Power-Ups</b> <br/><br/>
+  <p>
+    Power-Ups são <b>bônus especiais</b> que aumentam o desempenho dos seus edifícios. Eles podem afetar o faturamento, reduzir custos ou melhorar outras características do edifício.
+  </p>
+  <p>
+    Existem diferentes tipos de Power-Ups:
+  </p>
+  <ul style="margin-left: 15px; padding-left: 0; list-style-type: disc;">
+    <li><b>Aumento de Faturamento:</b> Eleva o lucro gerado pelo edifício.</li>
+    <li><b>Redução de custos:</b> Diminui o valor de custos pagos pelo edifício.</li>
+  </ul>
+  <p>
+    <b>Como obter:</b> Basta possuir <b>uma unidade do edifício</b> que fornece o Power-Up para ter acesso ao efeito. Você pode aumentar o potencial desses bônus atingindo quantidades específicas do mesmo edifício, aumentando o nível do Power-Up em até <b>3 níveis</b>.
+  </p>
+  <p>
+    Dica: Planeje a construção de seus edifícios estratégicos para maximizar os efeitos acumulativos dos Power-Ups e potencializar sua estratégia de lucro.
+  </p>
+</div>
+
+`}
+                                                            className="h-[70%] aspect-square rotate-[270deg]"
+                                                            src={PróximoImg} />
                                                     </div>
-                                                    <div className="flex justify-center items-center w-full">
+                                                    <div data-tooltip-id="tooltip-faturado" data-tooltip-html="Quantidade atual de edifícios" className="flex justify-center items-center w-full">
                                                         <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[index].quantidade}
                                                         </h2>
                                                     </div>
@@ -1549,24 +1613,62 @@ export const CardModal = ({ index }) => {
 
                             </div>
                         </div>
+                        <Tooltip style={tooltipStyle} id="tooltip-faturado" />
+                        <Tooltip style={tooltipStyle} id="tooltip-constru" />
                         <div className="flex  justify-between items-center h-[20%] w-full">
                             <div className="w-full flex h-full flex justify-between items-center">
+                                <Tooltip style={tooltipStyle} id="tooltip-faturado" />
                                 <div className="w-[20%] h-[80%] rounded-[5px] flex items-center justify-center">
                                     <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between  h-full">
-                                        <button style={{ backgroundColor: setorInfo.cor1 }} onClick={() => { handleShow('finançasEd'), handleFlip() }} className=" hover:scale-[1.10] ease-in-out cursor-pointer flex items-center justify-center w-min-[20%] aspect-square rounded-[10px] h-full drop-shadow-2xl">
+                                        <button
+                                            data-tooltip-id="tooltip-faturado"
+                                            data-tooltip-html="Informações financeiras do edifício" style={{ backgroundColor: setorInfo.cor1 }} onClick={() => { handleShow('finançasEd'), handleFlip() }} className=" hover:scale-[1.10] ease-in-out cursor-pointer flex items-center justify-center w-min-[20%] aspect-square rounded-[10px] h-full drop-shadow-2xl">
                                             <img src={DolarImg} className="h-[60%] flex items-center justify-center" />
                                         </button>
-
                                     </div>
-
                                 </div>
                                 <div style={{ backgroundColor: setorInfo.cor3 }} className="w-[30%] h-[80%] rounded-[5px] items-center justify-center flex">
-                                    <div className="flex items-center justify-center h-full">
+                                    <div
+                                        data-tooltip-id="tooltip-faturado"
+                                        data-tooltip-html="Rentabilidade do edifício na economia do setor estável"
+                                        className="flex items-center justify-center h-full">
                                         <h1 className="text-white font-bold mr-2 text-[17px]">{rentabilidade.toFixed(0)}</h1>
+                                        {/* <Tooltip text={"valor do imposto sobre o faturamento mensal\nO imposto sobre o faturamento é um percentual cobrado sobre o faturamento mensal."}
+                                         
+                                        >
+                                            
+                                        </Tooltip> */}
                                         <img src={porcem} alt="porcentagem" className="h-[45%] mr-[0px]" />
                                     </div>
                                 </div>
-                                <div style={{ backgroundColor: setorInfo.cor3 }} className=" w-[40%] h-[80%] flex items-center justify-around rounded-[5px]">
+                                <div
+                                    data-tooltip-id="tooltip-faturado"
+
+                                    data-tooltip-html={`
+  <b>Valor gasto para construir o edifício</b> <br/><br/>
+  <div style="max-width: 600px;">
+    <p>
+      Para construir qualquer edifício, você precisa de <b>imóveis base</b>: Terreno, Imóvel Pequeno, Imóvel Médio e Imóvel Grande. Cada edifício exige uma combinação desses imóveis e tem um <b>custo de construção</b> específico, que representa o dinheiro necessário para finalizar a obra.
+    </p>
+    <p>
+      Quanto mais complexo ou lucrativo for o edifício, maior será o preço de construção. Planeje bem quais imóveis base você possui antes de construir, porque cada edifício consome esses recursos e o dinheiro gasto não pode ser recuperado.
+    </p>
+    <p>
+      Alguns edifícios podem reduzir os custos de construção:
+    </p>
+    <ul style="margin-left: 15px; padding-left: 0; list-style-type: disc;">
+      <li><b>Terraplanagem e Pavimentação:</b> reduzem o custo de plantações.</li>
+      <li><b>Construtora Pequena:</b> reduz o custo de edifícios com valor total menor que 300.000.</li>
+      <li><b>Construtora:</b> reduz o custo de edifícios com valor total entre 300.000 e 1.000.000.</li>
+      <li><b>Construtora de Infraestruturas:</b> reduz o custo de edifícios com valor total maior que 1.000.000.</li>
+    </ul>
+    <p>
+      Dica: planeje sua estratégia considerando tanto os imóveis base quanto os edifícios que podem reduzir custos. Isso ajuda a economizar dinheiro e construir mais eficientemente.
+    </p>
+  </div>
+`}
+
+                                    style={{ backgroundColor: setorInfo.cor3 }} className=" w-[40%] h-[80%] flex items-center justify-around rounded-[5px]">
                                     <img src={ConstuirImg} className="h-[60%] aspect-square ml-[5px]" />
                                     <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].custoConstrucao)}</h1>
                                 </div>
@@ -1630,14 +1732,31 @@ export const CardModal = ({ index }) => {
 
                                 <div className="h-[35%] w-full flex flex-col items-center justify-center drop-shadow-xs ">
                                     <div style={{ background: `linear-gradient(135deg, ${setorInfo.cor3} 0%,${setorInfo.cor4} 100%)` }} className="h-full flex flex-col w-full items-center justify-around rounded-[10px]">
-                                        <div className="h-[20%] w-[90%] flex flex-col justify-center  ">
+                                        <div className="h-[20%] w-[90%] flex flex-col justify-center ">
                                             <h1 className=" text-white text-[11px] text-start fonteBold">Recursos de Construção</h1>
                                         </div>
-                                        <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
+                                        <div  style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
 
-                                            <div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
+                                            <div   data-tooltip-id="tooltip-faturado"
+                                                             data-tooltip-html={`
+      <b>Recursos de Construção</b><br/><br/>
+      <div style="max-width: 600px;">
+        <p>
+          Diferente dos pré-requisitos, aqui você precisa de <b>edifícios que serão usados como material</b>
+          para erguer outro.
+        </p>
+        <p>
+          Esses recursos são <b>consumidos</b> no processo da obra, deixando de estar disponíveis depois.
+        </p>
+        <p>
+          Exemplo: Para erguer um <i>Shopping popular</i>, pode ser necessário gastar <i>Mercado</i> e <i>Loja De Departementos</i>.
+        </p>
+        <p><b>Dica:</b> Pense bem antes de usar recursos valiosos, porque uma vez gastos, não voltam.</p>
+      </div>
+    `} className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
                                                 {arrayConstResources.map((nomeEdificio) => (
                                                     <div
+                                                   
                                                         key={`${nomeEdificio}-${index}`}
                                                         style={{ backgroundColor: setorInfo.cor3 }}
                                                         onMouseEnter={() => setCaixaTexto(true)}
@@ -1675,7 +1794,20 @@ export const CardModal = ({ index }) => {
                                         </div>
                                         <div style={{ backgroundColor: setorInfo.cor2 }} className=" flex items-center justify-around h-[65%] w-[90%]  z-[20] rounded-[10px]">
 
-                                            <div className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
+                                            <div data-tooltip-id="tooltip-faturado"
+    data-tooltip-html={`
+      <b>Construções Necessárias</b><br/><br/>
+      <div style="max-width: 600px;">
+        <p>
+          Algumas construções só podem ser erguidas se você já possuir <b>outros edifícios</b> prontos.
+          Esses edifícios funcionam como <b>pré-requisitos</b>.
+        </p>
+        <p>
+          Exemplo: Para construir uma <i>Fábrica de Roupas</i>, pode ser necessário já possuir uma <i>Fábrica Têxtil</i>.
+        </p>
+        <p><b>Dica:</b> Planeje o crescimento da sua empresa pensando nos pré-requisitos para não travar seu progresso.</p>
+      </div>
+    `} className="flex justify-start ml-[5px] gap-[5px] items-center h-full w-full">
                                                 {arrayConstNece.map((nomeEdificio) => (
 
                                                     <div
@@ -1725,25 +1857,30 @@ export const CardModal = ({ index }) => {
                                     </div>
 
                                     <div className="flex p-[10px] justify-center items-center">
-                                        <h1 className="text-white fonteBold text-[12px]">Lojas necessárias</h1>
+                                        <h1 className="text-white fonteBold text-[12px]">Imóveis necessários</h1>
                                     </div>
                                 </div>
-
                                 <div className=" flex items-center justify-around w-full h-[70%]  rounded-[10px] flex-col">
+                                    <Tooltip style={tooltipStyle} id="tooltip-faturado" />
                                     <div className="w-full h-[22%] flex justify-around items-center ">
                                         <div className="h-full w-full aspect-square flex justify-around items-center ">
-                                            <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
+                                            <div style={{ backgroundColor: setorInfo.cor1 }}
+                                                data-tooltip-id="tooltip-faturado"
+                                                data-tooltip-html="Terrenos"
+                                                className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
                                                 <img className="h-[70%]" src={terrenoImg} alt="" />
-
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.terrenos}</h2>
-                                                <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
+                                                <h2 data-tooltip-id="tooltip-faturado"
+                                                    data-tooltip-html="Quantidade de terrenos necessários" style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.terrenos}</h2>
+                                                <div data-tooltip-id="tooltip-faturado"
+                                                    data-tooltip-html="Quantidade de terrenos atual" style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.terrenos.quantidade}</h2>
                                                 </div>
                                             </div>
 
-                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                            <div data-tooltip-id="tooltip-faturado"
+                                                    data-tooltip-html="Valor necessário para comprar os terrenos que faltam" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
                                                 <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> {formatarNumero(contabilidadeDeFalta("terrenos"))}</h2>
                                             </div>
 
@@ -1751,18 +1888,22 @@ export const CardModal = ({ index }) => {
                                     </div>
                                     <div className="w-full h-[22%] flex justify-around items-center ">
                                         <div className="h-full w-full aspect-square flex justify-around items-center ">
-                                            <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
+                                            <div  data-tooltip-id="tooltip-faturado"
+                                                data-tooltip-html="Imóveis pequenos" style={{ backgroundColor: setorInfo.cor1 }} className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
                                                 <img className="h-[70%]" src={LojaPImg} alt="" />
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasP}</h2>
-                                                <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
+                                                <h2 data-tooltip-id="tooltip-faturado"
+                                                data-tooltip-html=" Quantidade de imóveis pequenos necessários" style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasP}</h2>
+                                                <div data-tooltip-id="tooltip-faturado"
+                                                data-tooltip-html="Quantidade de imóveis pequenos atual " style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasP.quantidade}</h2>
                                                 </div>
                                             </div>
 
-                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                            <div data-tooltip-id="tooltip-faturado"
+                                                    data-tooltip-html="Valor necessário para comprar os imóveis pequenos que faltam" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
                                                 <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold">{formatarNumero(contabilidadeDeFalta("lojasP"))}</h2>
                                             </div>
 
@@ -1770,18 +1911,22 @@ export const CardModal = ({ index }) => {
                                     </div>
                                     <div className="w-full h-[22%] flex justify-around items-center ">
                                         <div className="h-full w-full aspect-square flex justify-around items-center ">
-                                            <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
+                                            <div data-tooltip-id="tooltip-faturado"
+                                                data-tooltip-html="Imóveis médios" style={{ backgroundColor: setorInfo.cor1 }} className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
                                                 <img className="h-[70%]" src={LojaMImg} alt="" />
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasM}</h2>
-                                                <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
+                                                <h2 data-tooltip-id="tooltip-faturado"
+                                                data-tooltip-html="Quantidade de Imóveis médios necessários " style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasM}</h2>
+                                                <div data-tooltip-id="tooltip-faturado"
+                                                data-tooltip-html="Quantidade de Imóveis médios atual " style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasM.quantidade}</h2>
                                                 </div>
                                             </div>
 
-                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                            <div data-tooltip-id="tooltip-faturado"
+                                                    data-tooltip-html="Valor necessário para comprar os imóveis médios que faltam" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
                                                 <h2 style={{ backgroundColor: setorInfo.cor }} className="text-white text-[15px] fonteBold"> {formatarNumero(contabilidadeDeFalta("lojasM"))}</h2>
                                             </div>
 
@@ -1789,18 +1934,22 @@ export const CardModal = ({ index }) => {
                                     </div>
                                     <div className="w-full h-[22%] flex justify-around items-center ">
                                         <div className="h-full w-full aspect-square flex justify-around items-center ">
-                                            <div style={{ backgroundColor: setorInfo.cor1 }} className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
+                                            <div data-tooltip-id="tooltip-faturado"
+                                                data-tooltip-html="Imóveis grandes" style={{ backgroundColor: setorInfo.cor1 }} className="w-[15%] h-full flex items-center justify-center aspect-square bg-white rounded-[10px] relative">
                                                 <img className="h-[70%]" src={LojaGImg} alt="" />
 
                                             </div>
                                             <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[35%] h-full rounded-[5px] "> {/* Adicionei o `relative` aqui */}
-                                                <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasG}</h2>
-                                                <div style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
+                                                <h2 data-tooltip-id="tooltip-faturado"
+                                                data-tooltip-html=" Quantidade de imóveis grandes necessários" style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-center text-[15px] w-full fonteBold rounded-[5px]">{dados[setorAtivo].edificios[index].lojasNecessarias.lojasG}</h2>
+                                                <div data-tooltip-id="tooltip-faturado"
+                                                data-tooltip-html="Quantidade de imóveis grandes atual" atual style={{ backgroundColor: setorInfo.cor4 }} className="flex justify-center items-center h-full w-full rounded-[5px]">
                                                     <h2 className="text-white text-[15px] fonteBold">{dados.lojasG.quantidade}</h2>
                                                 </div>
                                             </div>
 
-                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
+                                            <div data-tooltip-id="tooltip-faturado"
+                                                    data-tooltip-html="Valor necessário para comprar os imóveis grandes que faltam" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-center rounded-[10px] items-center h-full w-[40%]">
                                                 <h2 style={{ backgroundColor: setorInfo.cor2 }} className="text-white text-[15px] fonteBold"> {formatarNumero(contabilidadeDeFalta("lojasG"))}</h2>
                                             </div>
 
@@ -1852,7 +2001,8 @@ export const CardModal = ({ index }) => {
                                     <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] h-full">
 
                                         <div className="w-[100%] rounded-[20px] flex justify-around items-center  h-full">
-                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
+                                            <div data-tooltip-id="tooltip-faturado"
+                                                    data-tooltip-html="Quantidade mínima de edifícios para <b>Power Up Nível 1</b>" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
                                                 <div className="bg-[#8F5ADA] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
@@ -1861,7 +2011,8 @@ export const CardModal = ({ index }) => {
                                                     </h2>
                                                 </div>
                                             </div>
-                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
+                                            <div data-tooltip-id="tooltip-faturado"
+                                                    data-tooltip-html="Quantidade mínima de edifícios para <b>Power Up Nível 2</b>" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
                                                 <div className="bg-[#6411D9] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
@@ -1870,7 +2021,8 @@ export const CardModal = ({ index }) => {
                                                     </h2>
                                                 </div>
                                             </div>
-                                            <div style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
+                                            <div data-tooltip-id="tooltip-faturado"
+                                                    data-tooltip-html="Quantidade mínima de edifícios para <b>Power Up Nível 3</b>" style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]"> {/* Adicionei o `relative` aqui */}
                                                 <div className="bg-[#350973] w-[50%] h-full w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                                     <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                 </div>
@@ -1886,293 +2038,229 @@ export const CardModal = ({ index }) => {
 
                                 <div style={{ backgroundColor: setorInfo.cor2 }} className="h-[50%] w-full rounded-[10px] flex flex-col items-center justify-around">
                                     <p className="text-white text-[10px] h-[65%] p-[5px]">{dados[setorAtivo].edificios[index].desc}. </p>
-                                    <button onClick={openModalPowerUps} className=" w-[85%] h-[25%] z-50 text-white text-[10px] bg-[#6411D9] rounded-[10px] hover:scale-[1.10] duration-300 ease-in-out">Todos power ups</button>
+                                    <button data-tooltip-id="tooltip-faturado"
+                                                    data-tooltip-html="Exibe uma tabela com todos os edifícios que concedem ou recebem power-ups deste edifício." onClick={openModalPowerUps} className=" w-[85%] h-[25%] z-50 text-white text-[10px] bg-[#6411D9] rounded-[10px] hover:scale-[1.10] duration-300 ease-in-out">Todos power ups</button>
                                 </div>
                             </div>)
 
                     }
                     {visibleId === 'finançasEd' && isModalOpen === true && (
-  <div
-    onClick={() => handleFlip()}
-    className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center relative z-[20] overflow-visible"
-    style={{ pointerEvents: 'auto' }}
-  >
-    {/* Barra superior */}
-    <div
-      style={{ backgroundColor: setorInfo.cor1 }}
-      className="w-full h-[20%] rounded-[10px] flex justify-between"
-    >
-      {/* Ícone */}
-      <div
-        className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center relative group overflow-visible"
-        style={{
-          background: `linear-gradient(135deg, ${setorInfo.cor3} 0%, ${setorInfo.cor1} 100%)`
-        }}
-      >
-        <img className="h-[70%]" src={DolarImg} alt="" />
-        <div
-          className="absolute group-hover:flex hidden items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap pointer-events-none"
-          style={{
-            top: '-40px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            backgroundColor: '#222',
-            color: '#fff',
-            zIndex: 2147483647
-          }}
-        >
-          Ícone de finanças
-        </div>
-      </div>
+                        <div
+                            onClick={() => handleFlip()}
+                            className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center relative z-[20] overflow-visible"
+                            style={{ pointerEvents: 'auto' }}
+                        >
+                            {/* Barra superior */}
+                            <div
+                                style={{ backgroundColor: setorInfo.cor1 }}
+                                className="w-full h-[20%] rounded-[10px] flex justify-between"
+                            >
+                                {/* Ícone */}
+                                <div
+                                    className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center relative group overflow-visible"
+                                    style={{
+                                        background: `linear-gradient(135deg, ${setorInfo.cor3} 0%, ${setorInfo.cor1} 100%)`
+                                    }}
+                                >
+                                    <img className="h-[70%]" src={DolarImg} alt="" />
+                                    <div
+                                        className="absolute group-hover:flex hidden items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap pointer-events-none"
+                                        style={{
+                                            top: '-40px',
+                                            left: '50%',
+                                            transform: 'translateX(-50%)',
+                                            backgroundColor: '#222',
+                                            color: '#fff',
+                                            zIndex: 2147483647
+                                        }}
+                                    >
 
-      {/* Título */}
-      <div className="flex p-[10px] justify-center items-center relative group overflow-visible">
-        <h1 className="text-white fonteBold text-[12px]">Finanças do edifício</h1>
-        <div
-          className="absolute group-hover:flex hidden items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap pointer-events-none"
-          style={{
-            top: '-34px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            backgroundColor: '#222',
-            color: '#fff',
-            zIndex: 2147483647
-          }}
-        >
-          Informações financeiras detalhadas do edifício
-        </div>
-      </div>
-    </div>
+                                    </div>
+                                </div>
 
-    {/* Linha 1 */}
-    <div className="flex w-full h-[15%] justify-around">
-      {/* Faturamento mensal */}
-      <div
-        style={{ backgroundColor: setorInfo.cor2 }}
-        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-      >
-        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-             style={{ backgroundColor: setorInfo.cor1 }}>
-          <img className="h-[50%]" src={imgFatuMensal} alt="" />
-          <div
-            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-            style={{
-              top: '-36px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              backgroundColor: '#222',
-              color: '#fff',
-              zIndex: 2147483647
-            }}
-          >
-            Faturamento mensal estimado
-          </div>
-        </div>
-        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-          {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30)}
-        </h2>
-      </div>
+                                {/* Título */}
+                                <div className="flex p-[10px] justify-center items-center relative group overflow-visible">
+                                    <h1 className="text-white fonteBold text-[12px]">Finanças do edifício</h1>
+                                    <div
+                                        className="absolute group-hover:flex hidden items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap pointer-events-none"
+                                        style={{
+                                            top: '-34px',
+                                            left: '50%',
+                                            transform: 'translateX(-50%)',
+                                            backgroundColor: '#222',
+                                            color: '#fff',
+                                            zIndex: 2147483647
+                                        }}
+                                    >
 
-      {/* Imposto mensal */}
-      <div
-        style={{ backgroundColor: setorInfo.cor2 }}
-        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-      >
-        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-             style={{ backgroundColor: setorInfo.cor1 }}>
-          <img className="h-[50%]" src={imgImpostoFixo} alt="" />
-          <div
-            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-            style={{
-              top: '-36px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              backgroundColor: '#222',
-              color: '#fff',
-              zIndex: 2147483647
-            }}
-          >
-            Imposto sobre faturamento
-          </div>
-        </div>
-        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-          {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário)*30}
-        </h2>
-      </div>
-    </div>
+                                    </div>
+                                </div>
+                            </div>
 
-    {/* Linha 2 */}
-    <div className="flex w-full h-[15%] justify-around">
-      {/* Rentabilidade */}
-      <div
-        style={{ backgroundColor: setorInfo.cor2 }}
-        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-      >
-        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-             style={{ backgroundColor: setorInfo.cor1 }}>
-          <img className="h-[50%]" src={porcem} alt="" />
-          <div
-            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-            style={{
-              top: '-36px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              backgroundColor: '#222',
-              color: '#fff',
-              zIndex: 2147483647
-            }}
-          >
-            Rentabilidade atual
-          </div>
-        </div>
-        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-          {dados[setorAtivo].edificios[index].finanças.rentabilidade}%
-        </h2>
-      </div>
+                            {/* Linha 1 */}
+                            <div className="flex w-full h-[15%] justify-around">
+                                {/* Faturamento mensal */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text={"Faturamento mensal estimado\n caso você detenha o edifício por um mês inteiro."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[20px]" src={imgFatuMensal} alt="" />
 
-      {/* Lucro mensal */}
-      <div
-        style={{ backgroundColor: setorInfo.cor2 }}
-        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-      >
-        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-             style={{ backgroundColor: setorInfo.cor1 }}>
-          <img className="h-[50%]" src={imgLucro} alt="" />
-          <div
-            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-            style={{
-              top: '-36px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              backgroundColor: '#222',
-              color: '#fff',
-              zIndex: 2147483647
-            }}
-          >
-            Lucro mensal líquido
-          </div>
-        </div>
-        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-        {formatarNumero( dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 * dados[setorAtivo].edificios[index].finanças.impostoSobreFatu + dados[setorAtivo].edificios[index].finanças.impostoFixo )}
-        </h2>
-      </div>
-    </div>
+                                        </Tooltip>
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30)}
+                                    </h2>
+                                </div>
 
-    {/* Linha 3 */}
-    <div className="flex w-full h-[15%] justify-around">
-      {/* Custos Fixos */}
-      <div
-        style={{ backgroundColor: setorInfo.cor2 }}
-        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-      >
-        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-             style={{ backgroundColor: setorInfo.cor1 }}>
-          <img className="h-[50%]" src={imgSomaImposto} alt="" />
-          <div
-            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-            style={{
-              top: '-36px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              backgroundColor: '#222',
-              color: '#fff',
-              zIndex: 2147483647
-            }}
-          >
-            Custos fixos mensais
-          </div>
-        </div>
-        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-          {(dados[setorAtivo].edificios[index].finanças.impostoDiário)}
-        </h2>
-      </div>
+                                {/* Imposto mensal */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text={"Imposto fixo mensal\nO imposto fixo mensal tem um valor fixo que é cobrado se você detém o edifício até o fim do mês."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[20px]" src={imgImpostoFixo} alt="" />
 
-      {/* Manutenção */}
-      <div
-        style={{ backgroundColor: setorInfo.cor2 }}
-        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-      >
-        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-             style={{ backgroundColor: setorInfo.cor1 }}>
-          <img className="h-[50%]" src={imgFaturamentoDiario} alt="" />
-          <div
-            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-            style={{
-              top: '-36px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              backgroundColor: '#222',
-              color: '#fff',
-              zIndex: 2147483647
-            }}
-          >
-            Custos de manutenção
-          </div>
-        </div>
-        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-          {/* {formatarNumero(dados[setorAtivo].edificios[index].finanças.impostoDiário)} */}
-        </h2>
-      </div>
-    </div>
+                                        </Tooltip>
 
-    {/* Linha 4 */}
-    <div className="flex w-full h-[15%] justify-around">
-      {/* Receita bruta */}
-      <div
-        style={{ backgroundColor: setorInfo.cor2 }}
-        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-      >
-        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-             style={{ backgroundColor: setorInfo.cor1 }}>
-          <img className="h-[50%]" src={imgPercFatu} alt="" />
-          <div
-            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-            style={{
-              top: '-36px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              backgroundColor: '#222',
-              color: '#fff',
-              zIndex: 2147483647
-            }}
-          >
-            Receita bruta total
-          </div>
-        </div>
-        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-          {/* {formatarNumero(dados[setorAtivo].edificios[index].finanças.impostoDiário)} */}
-        </h2>
-      </div>
 
-      {/* Caixa disponível */}
-      <div
-        style={{ backgroundColor: setorInfo.cor2 }}
-        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-      >
-        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-             style={{ backgroundColor: setorInfo.cor1 }}>
-          <img className="h-[50%]" src={porcem} alt="" />
-          <div
-            className="absolute group-hover:flex hidden items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-            style={{
-              top: '-36px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              backgroundColor: '#222',
-              color: '#fff',
-              zIndex: 2147483647
-            }}
-          >
-            Caixa disponível
-          </div>
-        </div>
-        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-          {/* {formatarNumero(dados[setorAtivo].edificios[index].finanças.impostoDiário)} */}
-        </h2>
-      </div>
-    </div>
-  </div>
-)}
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {formatarNumero(dados[setorAtivo].edificios[index].finanças.impostoFixo)}
+                                    </h2>
+                                </div>
+                            </div>
+
+                            {/* Linha 2 */}
+                            <div className="flex w-full h-[15%] justify-around">
+                                {/* Rentabilidade */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text={"Faturamento diário médio\nEsse valor é estimado caso você esteja com a economia do setor estável."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[15px]" src={imgFaturamentoDiario} alt="" />
+                                        </Tooltip>
+
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {formatarNumero((dados[setorAtivo].edificios[index].finanças.faturamentoUnitário))}
+                                    </h2>
+                                </div>
+
+                                {/* Lucro mensal */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text={"valor do imposto sobre o faturamento mensal\nO imposto sobre o faturamento é um percentual cobrado sobre o faturamento mensal."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[20px]" src={imgImpostoSFatu} alt="" />
+
+                                        </Tooltip>
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 * dados[setorAtivo].edificios[index].finanças.impostoSobreFatu)}
+                                    </h2>
+                                </div>
+                            </div>
+
+                            {/* Linha 3 */}
+                            <div className="flex w-full h-[15%] justify-around">
+                                {/* Custos Fixos */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+
+                                        <Tooltip text={"Rentabilidade do edifício\nA rentabilidade é a porcentagem do lucro líquido em relação ao faturamento mensal. esse valor pode variar conforme as condições econômicas do setor."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[16px]" src={porcem} alt="" />
+                                        </Tooltip>
+
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {(rentabilidade).toFixed(0)}%
+                                    </h2>
+                                </div>
+
+                                {/* Manutenção */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text="essa é a porcentagem do imposto sobre o faturamento mensal"
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[20px]" src={imgPercFatu} alt="" />
+
+                                        </Tooltip>
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {(dados[setorAtivo].edificios[index].finanças.impostoSobreFatu * 100).toFixed(0)}%
+                                    </h2>
+                                </div>
+                            </div>
+
+                            {/* Linha 4 */}
+                            <div className="flex w-full h-[15%] justify-around">
+                                {/* Receita bruta */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text={"O valor do lucro líquido mensal\nO lucro líquido mensal é o valor que sobra após deduzir todos os custos e impostos do faturamento mensal."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[20px]" src={imgLucro} alt="" />
+                                        </Tooltip>
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 - ((dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 * dados[setorAtivo].edificios[index].finanças.impostoSobreFatu) + dados[setorAtivo].edificios[index].finanças.impostoFixo))}
+                                    </h2>
+                                </div>
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text={"Esse é o valor total de impostos mensais\nO valor total de impostos mensais é a soma do imposto fixo mensal com o imposto sobre o faturamento mensal."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[20px]" src={imgSomaImposto} alt="" />
+                                        </Tooltip>
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {formatarNumero((dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 * dados[setorAtivo].edificios[index].finanças.impostoSobreFatu) + dados[setorAtivo].edificios[index].finanças.impostoFixo)}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
 
                 </div>
@@ -2180,7 +2268,7 @@ export const CardModal = ({ index }) => {
 
 
             </motion.div>
-        </motion.div>
+        </motion.div >
 
     )
 
