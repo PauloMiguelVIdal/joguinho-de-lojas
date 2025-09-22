@@ -7128,7 +7128,7 @@ const CentraldeDadosProvider = ({ children }) => {
         status: false
       },
       {
-        nome: "Licença de Refinaria",
+        nome: "Licença De Refinaria",
         desc: "Autoriza o processamento de combustíveis fósseis e biocombustíveis, essencial para o setor energético.",
         valor: 1500000,
         edifíciosLiberados: ["Refinaria De Biocombustíveis", "Refinaria", "Biofábrica"],
@@ -15072,7 +15072,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Loja De Informática",
           desc: "Oferece computadores, notebooks, peças de hardware e periféricos voltados para o público em geral e profissionais de tecnologia.",
           licençaLiberado: {
-            licença: "Licença De Comércio De Tecnologiac",
+            licença: "Licença De Comércio De Tecnologia",
             liberado: false,
           },
           custoConstrucao: 20000,
