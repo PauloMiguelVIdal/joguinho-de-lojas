@@ -11,9 +11,9 @@ module.exports = {
     //   '6xl': '40px'
     // },
     extend: {
-          colors: {
+      colors: {
         'roxo': '#6411D9',
-        "roxoForte": "#331B8C", 
+        "roxoForte": "#331B8C",
         'marinho': '#1A1246',
         'laranja': '#F27405',
         'laranjaFraco': '#FF8F2D',
@@ -46,7 +46,9 @@ module.exports = {
         '17': '17deg',
         '27': '27deg',
       },
-
+      clipPath: {
+        'losango': 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
+      }
     },
   },
   plugins: [],

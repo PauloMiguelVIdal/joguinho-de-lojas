@@ -52,6 +52,27 @@ export default function Map() {
       return novoMapa;
     });
   }
+  //               <div className="flex-1 w-full rounded-[20px] flex flex-col">
+
+
+//               <div className="relative flex justify-center items-center">
+//                 {/* Terreno (solo) em forma de losango (como uma imagem) */}
+//                 <img
+//                   src={solo}
+//                   alt="Terreno"
+//                   className="w-[100%] h-auto" // A imagem do solo já tem a forma de losango
+//                 />
+
+//                 {/* Prédio */}
+//                 <div className="absolute bottom-[-300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+//                   <img
+//                     src={buildBusiness}
+//                     alt="Prédio"
+//                     className="w-[500px] h-auto"
+//                   />
+//                 </div>
+//               </div>
+// </div>
 
   // efeito de compra automática pela lógica do contexto
   useEffect(() => {
@@ -101,7 +122,8 @@ export default function Map() {
         </button>
       </div>
 
-      {/* mapa */}
+
+      
       {map.map((row, i) =>
         row.map((cell, j) => {
           const isoX = (j - i) * (tileWidth / 2) + 500 + offset.x;
