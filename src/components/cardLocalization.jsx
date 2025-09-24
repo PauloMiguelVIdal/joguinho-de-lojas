@@ -31,7 +31,7 @@ import imgSomaImposto from "../imagens/imgSomaImpostos.png"
 import imgImpostoFixo from "../imagens/imgImpostoFixo.png"
 import imgFaturamentoDiario from "../imagens/imgFaturamentoDiario.png"
 import imgImpostoSFatu from "../imagens/imgImpostoSfatu.png"
-//nome [setorAtivo].edificios[nome]
+import { createPortal } from "react-dom";
 
 
 export const CardLocalization = ({ index, setor,abrirModalSell }) => {

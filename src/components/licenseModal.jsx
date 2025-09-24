@@ -16,6 +16,7 @@ import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 
+
 export const LicenseModal = ({ setor, nomeLicença, index }) => {
     const { dados, atualizarDados, atualizarDadosProf } = useContext(CentraldeDadosContext);
     const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
