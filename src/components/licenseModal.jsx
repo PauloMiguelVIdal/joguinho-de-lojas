@@ -8,9 +8,9 @@ import imobiliario from "./setores/Imobiliário.png"
 import energia from "./setores/torre-eletrica.png"
 import { CardModal } from "./cardsModal";
 import { CardLocalization } from "./cardLocalization";
-import circularEconomia from "../imagens/circular-economy.png"
-import DolarImg from "../imagens/simbolo-do-dolar.png"
-import licença from "../imagens/licença.png"
+import circularEconomia from "../../public/outrasImagens/circular-economy.png"
+import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png"
+import licença from "../../public/outrasImagens/licença.png"
 import { Localizador } from "./localizador";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { Tooltip } from "react-tooltip";

@@ -8,13 +8,13 @@ import industria from "./setores/industria.png"
 import imobiliario from "./setores/Imobiliário.png"
 import energia from "./setores/torre-eletrica.png"
 import grafico from "./setores/grafico.png"
-import circularEconomia from "../imagens/circular-economy.png"
-import DolarImg from "../imagens/simbolo-do-dolar.png"
+import circularEconomia from "../../public/outrasImagens/circular-economy.png"
+import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png"
 import { CardModal } from "./cardsModal";
-import licença from "../imagens/licença.png"
+import licença from "../../public/outrasImagens/licença.png"
 import Carteira from "../../public/imagens/Carteira.png"
 import { motion, useAnimation } from "framer-motion";
-import fechar from "../imagens/fechar.png"
+import fechar from "../../public/outrasImagens/fechar.png"
 import { LicenseModal } from "./licenseModal";
 import { Localizador } from "./localizador";
 import { CarteiraLocalizador } from "./CarteiraLocalizador";
@@ -22,25 +22,25 @@ import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import patrimônio from "../../public/imagens/patrimônio.png";
 import impostoAnual from "../../public/imagens/impostoAnual.png";
 import { BusinessLicence } from "./BusinessLicence";
-import limitar from "../imagens/limite.png";
-import soma from "../imagens/Soma.png"
-import setoresImg from "../imagens/setores.png"
-import diversidade from "../imagens/diversidade.png"
+import limitar from "../../public/outrasImagens/limite.png";
+import soma from "../../public/outrasImagens/Soma.png"
+import setoresImg from "../../public/outrasImagens/setores.png"
+import diversidade from "../../public/outrasImagens/diversidade.png"
 import { SellModal } from "./SellModal";
 import Map from "../Map";
 import { Tooltip } from "react-tooltip";
-import solo from "../imagens/solo.png"
-import buildBusiness from "../imagens/business.png"
+import solo from "../../public/outrasImagens/solo.png"
+import buildBusiness from "../../public/outrasImagens/business.png"
 //imagens cena escritório
-import imgChefePé from "../imagens/chefe em pé.png"
-import imgchefeIcon from "../imagens/chefe.png"
-import imgFuncionarioIcon from "../imagens/funcionário 1.png"
-import imgFuncionarioPé from "../imagens/funcionário 1 em pé.png"
-import imgMesa from "../imagens/mesa de trabalho.png"
-import imgCadeira from "../imagens/cadeira.png"
+import imgChefePé from "../../public/outrasImagens/chefe em pé.png"
+import imgchefeIcon from "../../public/outrasImagens/chefe.png"
+import imgFuncionarioIcon from "../../public/outrasImagens/funcionário 1.png"
+import imgFuncionarioPé from "../../public/outrasImagens/funcionário 1 em pé.png"
+import imgMesa from "../../public/outrasImagens/mesa de trabalho.png"
+import imgCadeira from "../../public/outrasImagens/cadeira.png"
 import { Office } from "./Office";
-import maps from "../imagens/maps.png"
-import computador from "../imagens/computer-screen.png"
+import maps from "../../public/outrasImagens/maps.png"
+import computador from "../../public/outrasImagens/computer-screen.png"
 
 
 

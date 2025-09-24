@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-import PredioImg from "../imagens/predio-comercial.png";
+import PredioImg from "../../public/outrasImagens/predio-comercial.png";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
 // Tooltip

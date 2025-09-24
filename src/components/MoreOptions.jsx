@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-import terrenoImg from "../imagens/terreno.png"
-import LojaPImg from "../imagens/lojaP.png"
-import LojaMImg from "../imagens/lojaM.png"
-import LojaGImg from "../imagens/lojaG.png"
+import terrenoImg from "../../public/outrasImagens/terreno.png"
+import LojaPImg from "../../public/outrasImagens/lojaP.png"
+import LojaMImg from "../../public/outrasImagens/lojaM.png"
+import LojaGImg from "../../public/outrasImagens/lojaG.png"
 
 export default function MoreOptions() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)

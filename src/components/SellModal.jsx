@@ -8,15 +8,15 @@ import imobiliario from "./setores/Imobiliário.png"
 import energia from "./setores/torre-eletrica.png"
 import { CardModal } from "./cardsModal";
 import { CardLocalization } from "./cardLocalization";
-import circularEconomia from "../imagens/circular-economy.png"
-import DolarImg from "../imagens/simbolo-do-dolar.png"
-import licença from "../imagens/licença.png"
+import circularEconomia from "../../public/outrasImagens/circular-economy.png"
+import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png"
+import licença from "../../public/outrasImagens/licença.png"
 import { Localizador } from "./localizador";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { motion } from "framer-motion";
-import fechar from "../imagens/fechar.png"
-import mais from "../imagens/botao-de-simbolo-de-mais.png"
-import menos from "../imagens/simbolo-de-menos.png"
+import fechar from "../../public/outrasImagens/fechar.png"
+import mais from "../../public/outrasImagens/botao-de-simbolo-de-mais.png"
+import menos from "../../public/outrasImagens/simbolo-de-menos.png"
 import { Statistic } from './statistic'
 import { Box, Grid, IconButton, Paper, Typography } from '@mui/material'
 import { styled } from '@mui/system';

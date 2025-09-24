@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useContext, useState ,useRef} from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-import porcem from "../imagens/simbolo-de-porcentagem.png"
-import terrenoImg from "../imagens/terreno.png"
-import constNece from "../imagens/construção necessária.png"
-import PróximoImg from "../imagens/proximo.png";
-import ConstuirImg from "../imagens/martelo.png"
-import licença from "../imagens/licença.png"
+import porcem from "../../public/outrasImagens/simbolo-de-porcentagem.png"
+import terrenoImg from "../../public/outrasImagens/terreno.png"
+import constNece from "../../public/outrasImagens/construção necessária.png"
+import PróximoImg from "../../public/outrasImagens/proximo.png";
+import ConstuirImg from "../../public/outrasImagens/martelo.png"
+import licença from "../../public/outrasImagens/licença.png"
 import agricultura from "./setores/agricultura.png"
 import tecnologia from "./setores/tecnologia.png"
 import comercio from "./setores/comercio.png"
@@ -14,23 +14,23 @@ import industria from "./setores/industria.png"
 import imobiliario from "./setores/Imobiliário.png"
 import energia from "./setores/torre-eletrica.png"
 import grafico from "./setores/grafico.png"
-import DolarImg from "../imagens/simbolo-do-dolar.png"
+import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png"
 import { motion } from "framer-motion";
-import LojaPImg from "../imagens/lojaP.png"
-import LojaMImg from "../imagens/lojaM.png"
-import LojaGImg from "../imagens/lojaG.png"
+import LojaPImg from "../../public/outrasImagens/lojaP.png"
+import LojaMImg from "../../public/outrasImagens/lojaM.png"
+import LojaGImg from "../../public/outrasImagens/lojaG.png"
 import SelectorImage from "./selectorImage";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import LicenseNec from "./licenseNec";
-import fechar from "../imagens/fechar.png"
+import fechar from "../../public/outrasImagens/fechar.png"
 import plantação from "../../public/imagens/Plantação De Grãos.png"
-import imgLucro from "../imagens/imgLucroLiquido.png"
-import imgFatuMensal from "../imagens/imgFaturamentoMensal.png"
-import imgPercFatu from "../imagens/imgPercFaturamento.png"
-import imgSomaImposto from "../imagens/imgSomaImpostos.png"
-import imgImpostoFixo from "../imagens/imgImpostoFixo.png"
-import imgFaturamentoDiario from "../imagens/imgFaturamentoDiario.png"
-import imgImpostoSFatu from "../imagens/imgImpostoSfatu.png"
+import imgLucro from "../../public/outrasImagens/imgLucroLiquido.png"
+import imgFatuMensal from "../../public/outrasImagens/imgFaturamentoMensal.png"
+import imgPercFatu from "../../public/outrasImagens/imgPercFaturamento.png"
+import imgSomaImposto from "../../public/outrasImagens/imgSomaImpostos.png"
+import imgImpostoFixo from "../../public/outrasImagens/imgImpostoFixo.png"
+import imgFaturamentoDiario from "../../public/outrasImagens/imgFaturamentoDiario.png"
+import imgImpostoSFatu from "../../public/outrasImagens/imgImpostoSfatu.png"
 import { createPortal } from "react-dom";
 
 

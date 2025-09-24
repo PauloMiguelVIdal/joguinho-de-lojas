@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { CentraldeDadosContext } from '../centralDeDadosContext';
-import correto from '../imagens/simbolo-correto (1).png'
+import correto from '../../public/outrasImagens//simbolo-correto (1).png'
 
 
 const InputName = () => {

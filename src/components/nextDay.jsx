@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-import PróximoImg from "../imagens/proximo.png";
+import PróximoImg from "../../public/outrasImagens/proximo.png";
 import Sorteio from "./Sorteio";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { Tooltip } from "react-tooltip";

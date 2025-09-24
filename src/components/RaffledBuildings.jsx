@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
-import fechar from "../imagens/fechar.png";
+import fechar from "../../public/outrasImagens/fechar.png";
 import { Localizador } from "./localizador";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-import alvo from "../imagens/alvo.png";
+import alvo from "../../public/outrasImagens/alvo.png";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 

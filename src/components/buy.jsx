@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { useContext } from 'react'
 import { CentraldeDadosContext } from '../centralDeDadosContext'
-import terrenoImg from "../imagens/terreno.png"
-import LojaPImg from "../imagens/lojaP.png"
-import LojaMImg from "../imagens/lojaM.png"
-import LojaGImg from "../imagens/lojaG.png"
-import ConstuirImg from "../imagens/construir.png"
-import DolarImg from "../imagens/simbolo-do-dolar.png"
-import porcem from "../imagens/simbolo-de-porcentagem.png"
-import mais from "../imagens/botao-de-simbolo-de-mais.png"
-import menos from "../imagens/simbolo-de-menos.png"
+import terrenoImg from "../../public/outrasImagens/terreno.png"
+import LojaPImg from "../../public/outrasImagens/lojaP.png"
+import LojaMImg from "../../public/outrasImagens/lojaM.png"
+import LojaGImg from "../../public/outrasImagens/lojaG.png"
+import ConstuirImg from "../../public/outrasImagens/construir.png"
+import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png"
+import porcem from "../../public/outrasImagens/simbolo-de-porcentagem.png"
+import mais from "../../public/outrasImagens/botao-de-simbolo-de-mais.png"
+import menos from "../../public/outrasImagens/simbolo-de-menos.png"
 import { Statistic } from './statistic'
 import { Box, Grid, IconButton, Paper, Typography } from '@mui/material'
 

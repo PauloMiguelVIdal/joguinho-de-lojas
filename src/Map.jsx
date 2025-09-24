@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext } from "react";
-import lote from "./imagens/lote.png";
-import lote2 from "./imagens/lote2.png";
-import buildingA from "../src/imagens/building-a.png";
-import buildingB from "../src/imagens/building-b.png";
-import buildingC from "../src/imagens/building-c.png";
-import plantacaoDeGraosImg from "./imagens/Plantação De Grãos.png";
+import lote from "../public/outrasImagens/lote.png";
+import lote2 from "../public/outrasImagens/lote2.png";
+import buildingA from "../public/outrasImagens/building-a.png";
+import buildingB from "../public/outrasImagens/building-b.png";
+import buildingC from "../public/outrasImagens/building-c.png";
+import plantacaoDeGraosImg from "../public/outrasImagens/Plantação De Grãos.png";
 import { CentraldeDadosContext } from "./centralDeDadosContext";
 
 export default function Map() {

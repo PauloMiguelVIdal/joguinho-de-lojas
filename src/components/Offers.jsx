@@ -3,7 +3,7 @@ import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
 import ListaDeOfertas from "./ListCards";
-import fechar from "../imagens/fechar.png"
+import fechar from "../../public/outrasImagens/fechar.png"
 import { motion } from "framer-motion";
 export default function Offers() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)

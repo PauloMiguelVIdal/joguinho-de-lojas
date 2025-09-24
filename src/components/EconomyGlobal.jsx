@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-import circularEconomia from "../imagens/circular-economy.png";
+import circularEconomia from "../../public/outrasImagens/circular-economy.png";
 import agricultura from '../components/setores/agricultura.png';
 import tecnologia from '../components/setores/tecnologia.png';
 import industria from '../components/setores/industria.png';

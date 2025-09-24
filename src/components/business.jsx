@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import acordo from "../imagens/negocios-internacionais.png";
+import acordo from "../../public/outrasImagens/negocios-internacionais.png";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 // Tooltip

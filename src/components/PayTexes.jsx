@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-import despesasImg from "../imagens/despesas.png";
+import despesasImg from "../../public/outrasImagens/despesas.png";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 

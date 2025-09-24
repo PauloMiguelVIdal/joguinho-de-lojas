@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-import DolarImg from "../imagens/simbolo-do-dolar.png";
+import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
-import limitar from "../imagens/limite.png";
-import soma from "../imagens/Soma.png"
-import setoresImg from "../imagens/setores.png"
-import diversidade from "../imagens/diversidade.png"
+import limitar from "../../public/outrasImagens/limite.png";
+import soma from "../../public/outrasImagens/Soma.png"
+import setoresImg from "../../public/outrasImagens/setores.png"
+import diversidade from "../../public/outrasImagens/diversidade.png"
 
 export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
   const { dados, atualizarDadosProf } = useContext(CentraldeDadosContext);

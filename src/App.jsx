@@ -3,8 +3,8 @@ import { CentraldeDadosProvider } from "./centralDeDadosContext";
 import Interface from "./interface";
 import { DadosEconomyGlobalProvider } from "./dadosEconomyGlobal";
 import Notificação from "./notificação";
-import telaCheia from "./imagens/tela cheia.png";
-import reduzirTela from "./imagens/reduzir tela.png";
+import telaCheia from "../public/outrasImagens//tela cheia.png";
+import reduzirTela from "../public/outrasImagens/reduzir tela.png";
 
 import {
   Chart as ChartJS,

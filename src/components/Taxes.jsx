@@ -5,7 +5,7 @@ import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 
-import despesasImg from "../imagens/despesas.png";
+import despesasImg from "../../public/outrasImagens/despesas.png";
 
 export default function Taxes() {
 
