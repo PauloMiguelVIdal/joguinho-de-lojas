@@ -8,14 +8,14 @@ import imgCadeira from "../../public/outrasImagens/cadeira.png";
 
 export const Office = () => {
   return (
-    <div className="w-full h-screen bg-purple-700 flex flex-col items-center justify-start p-6 text-white">
+    <div className="w-full h-full bg-purple-700 flex flex-col items-center justify-start p-6 text-white">
       {/* Caixa de diálogo */}
-      <div className="bg-purple-200 text-black p-4 rounded-md max-w-2xl w-full flex items-center justify-between gap-4 shadow-lg">
+      <div className="bg-purple-200 text-black p-4 rounded-md max-w-2xl w-full flex items-center justify-between gap-4 shadow-lg ">
         {/* Ícone funcionário */}
         <img
           src={imgFuncionarioIcon}
           alt="funcionário"
-          className="w-12 h-12 rounded-full"
+          className="w-12 h-12 rounded-full "
         />
 
         {/* Texto central */}
@@ -29,7 +29,7 @@ export const Office = () => {
         <img
           src={imgchefeIcon}
           alt="chefe"
-          className="w-12 h-12 rounded-full"
+          className="w-12 h-12 rounded-full "
         />
       </div>
 
@@ -44,7 +44,7 @@ export const Office = () => {
       </div>
 
       {/* Cena isométrica escalável */}
-      <div className="relative w-full flex justify-center mt-12">
+      <div className="relative w-full flex justify-center mt-12 ">
         <div className="relative w-[500px] h-[350px] scale-100 origin-bottom">
           {/* Mesa */}
           <img
@@ -71,7 +71,7 @@ export const Office = () => {
           <img
             src={imgFuncionarioPé}
             alt="funcionário"
-            className="absolute bottom-[40%] right-[1%] w-[256px] h-auto"
+            className="absolute bottom-[40%] right-[1%] w-[256px] h-auto "
           />
         </div>
       </div>

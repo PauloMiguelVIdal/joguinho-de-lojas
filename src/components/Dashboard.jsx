@@ -41,8 +41,8 @@ import imgCadeira from "../../public/outrasImagens/cadeira.png"
 import { Office } from "./Office";
 import maps from "../../public/outrasImagens/maps.png"
 import computador from "../../public/outrasImagens/computer-screen.png"
-
-
+import CreditCard from "./CreditCard";
+import bank from "../../public/outrasImagens/bank.png"
 
 
 
@@ -80,6 +80,7 @@ export default function Dashboard() {
 
   const abrirMapa = () => setVision("mapa")
   const abrirDashboard = () => setVision("dashboard")
+  const abrirBanco = () => setVision("bank")
 
   const [modalSellOpen, setModalSellOpen] = useState(false);
   const [modalProps, setModalProps] = useState({ setor: "", nomeLicença: "", index: 0 });
@@ -521,7 +522,8 @@ export default function Dashboard() {
               {ativo === "grafico" && (
                 // <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
                 // <Map/>
-                <Office />
+                // <Office />
+                <CreditCard />
                 // <div className="w-full flex-1 p-4 flex flex-col">
                 //   <div className="flex-1 w-full rounded-[20px] flex flex-col">
                 //     <motion.div
@@ -862,15 +864,15 @@ export default function Dashboard() {
               <img
                 src={solo}
                 alt="Terreno"
-                className="w-[900px] h-[800px] top-[100px] relative z-[10]"
+                className="w-[700px] h-[600px] top-[100px] relative z-[10]"
               />
 
               {/* Prédio */}
-              <div className="absolute bottom-[-150px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[10]">
+              <div className="absolute bottom-[-100px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[10]">
                 <img
                   src={buildBusiness}
                   alt="Prédio"
-                  className="w-[500px] h-auto"
+                  className="w-[400px] h-auto"
                 />
               </div>
 
@@ -882,7 +884,24 @@ export default function Dashboard() {
               />
 
               {/* Container dos botões no canto inferior direito */}
-              <div className="absolute bottom-4 left-4 z-[20] flex flex-col gap-2">
+              <div className="absolute top-4 left-4 z-[10] flex flex-col gap-2">
+
+                {/* Botão do Computador */}
+                <button
+                  onClick={abrirBanco}
+                  data-tooltip-id="saldo-tip"
+                  data-tooltip-content="Abrir dashboard"
+                  className="w-[100px] h-[100px] bg-laranja rounded-[15px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] transition-transform"
+                >
+                  <img
+                    className="w-[70px] h-[70px]"
+                    src={bank}
+                    alt="Abrir dashboard"
+                  />
+                </button>
+
+              </div>
+              <div className="absolute bottom-4 left-4 z-[10] flex flex-col gap-2">
 
                 {/* Botão do Computador */}
                 <button
@@ -899,7 +918,7 @@ export default function Dashboard() {
                 </button>
 
               </div>
-              <div className="absolute bottom-4 right-4 z-[20] flex flex-col gap-2">
+              <div className="absolute opacity-[90] bottom-4 right-4 z-[10] flex flex-col gap-2">
 
                 {/* Botão do Computador */}
 
@@ -908,7 +927,7 @@ export default function Dashboard() {
                 <button
                   onClick={() => setAtivo("grafico")} // Corrigido: setAtivo em vez de setorAtivo
                   data-tooltip-id="saldo-tip"
-                  data-tooltip-content="Abrir gráficos"
+                  data-tooltip-content="Escritório"
                   className="w-[100px] h-[100px] bg-laranja rounded-[15px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] transition-transform"
                 >
                   <img
@@ -924,4 +943,11 @@ export default function Dashboard() {
       </div>
     )
   }
+    if (vision === "bank") {
+      return (
+        <div className="w-full h-full border-[#350973] rounded-[20px] flex">
+          <CreditCard />
+        </div>)
+    }
+  
 }

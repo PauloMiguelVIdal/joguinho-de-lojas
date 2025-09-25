@@ -5,7 +5,7 @@ const CentraldeDadosContext = createContext();
 const CentraldeDadosProvider = ({ children }) => {
 
   const [dados, setDados] = useState({
-    ofertas: {},
+    ofertas: [],
     inicioGame: {
       estadoModal: true,
       nomeEmpresa: ""
