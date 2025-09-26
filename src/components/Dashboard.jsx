@@ -945,8 +945,8 @@ export default function Dashboard() {
     if (vision === "bank") {
       return (
         <div className="w-full h-full border-[#350973] rounded-[20px] flex">
-          <CreditCard />
-{/* <BankDetailsInterface/> */}
+          {/* <CreditCard /> */}
+<BankDetailsInterface/>
         </div>)
     }
   
