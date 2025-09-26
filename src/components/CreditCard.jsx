@@ -1,330 +1,330 @@
-// import React from 'react';
+import React from 'react';
 
-// const CreditCard = () => {
-//   const setores = [
-//     { 
-//       id: "agricultura", 
-//       cor1: "#003816", 
-//       cor2: "#1A5E2A", 
-//       cor3: "#0C9123", 
-//       cor4: "#4CAF50",
-//       bancos: ["AGRO BANK", "COOPERTATIVA BANK", "FARM BANK"]
-//     },
-//     { 
-//       id: "tecnologia", 
-//       cor1: "#A64B00", 
-//       cor2: "#D45A00", 
-//       cor3: "#FF6F00", 
-//       cor4: "#FF8C42",
-//       bancos: ["TECH BANK", "BANK OF ROBOTS", "AERO BANK"]
-//     },
-//     { 
-//       id: "industria", 
-//       cor1: "#1A1A1A", 
-//       cor2: "#4D4D4D", 
-//       cor3: "#808080", 
-//       cor4: "#B3B3B3",
-//       bancos: ["STEEL BANK", "FACTORY BANK", "INDUSTRIAL BANK"]
-//     },
-//     { 
-//       id: "comercio", 
-//       cor1: "#660000", 
-//       cor2: "#A31919", 
-//       cor3: "#E60000", 
-//       cor4: "#FF4D4D",
-//       bancos: ["TRADE BANK", "COMMERCE BANK", "BUSINESS BANK"]
-//     },
-//     { 
-//       id: "imobiliario", 
-//       cor1: "#000066", 
-//       cor2: "#1A1A8C", 
-//       cor3: "#3333CC", 
-//       cor4: "#6666FF",
-//       bancos: ["REAL ESTATE BANK", "PROPERTY BANK", "HOME BANK"]
-//     },
-//     { 
-//       id: "energia", 
-//       cor1: "#665200", 
-//       cor2: "#A37F19", 
-//       cor3: "#E6B800", 
-//       cor4: "#FFD966",
-//       bancos: ["ENERGY BANK", "POWER BANK", "ECO BANK"]
-//     },
-//   ];
-
-//   return (
-//     <div className="h-[700px] w-full bg-gray-100 overflow-hidden">
-//       <div className="h-full flex flex-col p-8">
-//         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800 flex-shrink-0">
-//           Cartões Empresariais por Setor
-//         </h1>
-        
-//         <div className="flex-1 overflow-y-auto">
-//           <div className="max-w-4xl mx-auto space-y-8 pb-8">
-//             {setores.map((setor) => (
-//               <div key={setor.id} className="flex flex-col items-center space-y-4">
-//                 <h2 className="text-2xl font-semibold capitalize text-gray-700">
-//                   {setor.id}
-//                 </h2>
-                
-//                 <div className="perspective-1000">
-//                   <div 
-//                     className="w-96 h-60 rounded-2xl p-8 text-white relative overflow-hidden cursor-pointer transform transition-all duration-300 hover:-translate-y-2 hover:rotate-x-1 shadow-xl"
-//                     style={{
-//                       background: `linear-gradient(135deg, ${setor.cor1} 0%, ${setor.cor2} 40%, ${setor.cor3} 80%, ${setor.cor4} 100%)`,
-//                       boxShadow: `0 15px 35px ${setor.cor1}66`
-//                     }}
-//                   >
-//                     {/* Padrão decorativo de fundo */}
-//                     <div className="absolute -top-1/2 -right-1/5 w-48 h-48 bg-white/10 rounded-full opacity-30">
-//                       <div className="absolute top-12 left-12 w-24 h-24 bg-white/10 rounded-full"></div>
-//                     </div>
-
-//                     {/* Efeito de brilho animado */}
-//                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-pulse"></div>
-                    
-//                     {/* Logo do banco */}
-//                     <div 
-//                       className="absolute top-6 right-6 text-white px-4 py-2 rounded-lg text-sm font-bold backdrop-blur-sm shadow-lg"
-//                       style={{
-//                         backgroundColor: `${setor.cor4}E6`
-//                       }}
-//                     >
-//                       {setor.bancos[0]}
-//                     </div>
-                    
-//                     {/* Chip do cartão */}
-//                     <div className="w-12 h-9 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-lg mt-5 mb-6 relative shadow-inner">
-//                       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-5 bg-black/10 rounded-sm"></div>
-//                     </div>
-                    
-//                     {/* Número do cartão */}
-//                     <div className="text-2xl font-medium tracking-widest my-6 drop-shadow-sm">
-//                       4532 1234 5678 9000
-//                     </div>
-                    
-//                     {/* Informações do portador */}
-//                     <div className="flex justify-between items-end mt-5">
-//                       <div className="flex-1">
-//                         <div className="text-xs opacity-80 uppercase tracking-wide mb-1">
-//                           Empresa
-//                         </div>
-//                         <div className="text-base font-medium uppercase tracking-wide">
-//                           VANE CORP
-//                         </div>
-//                       </div>
-                      
-//                       <div className="text-right">
-//                         <div className="text-xs opacity-80 uppercase tracking-wide mb-1">
-//                           Válido até
-//                         </div>
-//                         <div className="text-base font-medium tracking-wide">
-//                           1500
-//                         </div>
-//                       </div>
-//                     </div>
-                    
-//                     {/* Badge empresarial */}
-//                     <div 
-//                       className="absolute bottom-6 right-6 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg"
-//                       style={{
-//                         backgroundColor: `${setor.cor4}E6`
-//                       }}
-//                     >
-//                       EMPRESARIAL
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-
-//       <style jsx>{`
-//         /* Customizar scrollbar */
-//         .overflow-y-auto::-webkit-scrollbar {
-//           width: 6px;
-//         }
-        
-//         .overflow-y-auto::-webkit-scrollbar-track {
-//           background: rgba(0, 0, 0, 0.1);
-//           border-radius: 3px;
-//         }
-        
-//         .overflow-y-auto::-webkit-scrollbar-thumb {
-//           background: rgba(0, 0, 0, 0.3);
-//           border-radius: 3px;
-//         }
-        
-//         .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-//           background: rgba(0, 0, 0, 0.5);
-//         }
-
-//         .perspective-1000 {
-//           perspective: 1000px;
-//         }
-        
-//         .rotate-x-1 {
-//           transform: translateY(-8px) rotateX(5deg);
-//         }
-
-//         @keyframes shine {
-//           0% { transform: translateX(-100%); }
-//           50% { transform: translateX(100%); }
-//           100% { transform: translateX(100%); }
-//         }
-
-//         .animate-shine {
-//           animation: shine 3s infinite;
-//         }
-
-//         @media (max-width: 480px) {
-//           .w-96 {
-//             width: 320px;
-//           }
-//           .h-60 {
-//             height: 200px;
-//           }
-//           .p-8 {
-//             padding: 25px;
-//           }
-//           .text-2xl {
-//             font-size: 18px;
-//             letter-spacing: 2px;
-//           }
-//           .text-base {
-//             font-size: 14px;
-//           }
-//         }
-//       `}</style>
-//     </div>
-//   );
-// };
-
-// export default CreditCard;
-
-
-
-const CreditCardVariations = () => {
-  const cards = [
-    {
-      id: 1,
-      name: "Minimalista Clean",
-      className:
-        "bg-white border border-gray-200 text-gray-800 shadow-lg",
-      numberClass: "text-xl font-mono tracking-widest text-gray-800",
-      chipClass: "from-gray-400 to-gray-600",
+const CreditCard = () => {
+  const setores = [
+    { 
+      id: "agricultura", 
+      cor1: "#003816", 
+      cor2: "#1A5E2A", 
+      cor3: "#0C9123", 
+      cor4: "#4CAF50",
+      bancos: ["AGRO BANK", "COOPERTATIVA BANK", "FARM BANK"]
     },
-    {
-      id: 2,
-      name: "Premium Dark",
-      className:
-        "bg-gradient-to-br from-black to-gray-900 text-white shadow-2xl",
-      numberClass: "text-2xl font-semibold tracking-widest text-yellow-300",
-      chipClass: "from-yellow-400 to-yellow-600",
+    { 
+      id: "tecnologia", 
+      cor1: "#A64B00", 
+      cor2: "#D45A00", 
+      cor3: "#FF6F00", 
+      cor4: "#FF8C42",
+      bancos: ["TECH BANK", "BANK OF ROBOTS", "AERO BANK"]
     },
-    {
-      id: 3,
-      name: "Futurista Neon",
-      className:
-        "bg-black text-white border-2 border-green-400 shadow-lg animate-pulse",
-      numberClass: "text-2xl font-mono tracking-widest text-green-300",
-      chipClass: "from-green-400 to-green-600",
+    { 
+      id: "industria", 
+      cor1: "#1A1A1A", 
+      cor2: "#4D4D4D", 
+      cor3: "#808080", 
+      cor4: "#B3B3B3",
+      bancos: ["STEEL BANK", "FACTORY BANK", "INDUSTRIAL BANK"]
     },
-    {
-      id: 4,
-      name: "Nature/Agrícola",
-      className:
-        "text-white shadow-xl",
-      style: {
-        background:
-          "linear-gradient(135deg, #003816 0%, #1A5E2A 40%, #0C9123 80%, #4CAF50 100%)",
-      },
-      numberClass: "text-2xl font-semibold tracking-widest",
-      chipClass: "from-yellow-300 to-yellow-500",
+    { 
+      id: "comercio", 
+      cor1: "#660000", 
+      cor2: "#A31919", 
+      cor3: "#E60000", 
+      cor4: "#FF4D4D",
+      bancos: ["TRADE BANK", "COMMERCE BANK", "BUSINESS BANK"]
     },
-    {
-      id: 5,
-      name: "Retro 80s",
-      className:
-        "bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 text-white shadow-xl",
-      numberClass: "text-2xl font-bold tracking-widest text-yellow-200",
-      chipClass: "from-pink-400 to-yellow-300",
+    { 
+      id: "imobiliario", 
+      cor1: "#000066", 
+      cor2: "#1A1A8C", 
+      cor3: "#3333CC", 
+      cor4: "#6666FF",
+      bancos: ["REAL ESTATE BANK", "PROPERTY BANK", "HOME BANK"]
     },
-    {
-      id: 6,
-      name: "Vidro Fosco",
-      className:
-        "bg-white/20 backdrop-blur-lg border border-white/40 text-white shadow-lg",
-      numberClass: "text-xl font-medium tracking-widest text-white",
-      chipClass: "from-gray-200 to-gray-400",
-    },
-    {
-      id: 7,
-      name: "Rainbow Gradient",
-      className:
-        "bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-600 text-white shadow-lg",
-      numberClass: "text-2xl font-semibold tracking-widest drop-shadow-lg",
-      chipClass: "from-white to-gray-200",
-    },
-    {
-      id: 8,
-      name: "Corporativo Clean",
-      className:
-        "bg-gray-100 text-gray-800 border border-gray-300 shadow-md",
-      numberClass: "text-xl font-mono tracking-widest text-gray-700",
-      chipClass: "from-gray-300 to-gray-500",
+    { 
+      id: "energia", 
+      cor1: "#665200", 
+      cor2: "#A37F19", 
+      cor3: "#E6B800", 
+      cor4: "#FFD966",
+      bancos: ["ENERGY BANK", "POWER BANK", "ECO BANK"]
     },
   ];
 
   return (
-    <div className="w-full min-h-screen bg-gray-100 p-6 flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">
-        Variações de Cartões Empresariais
-      </h1>
+    <div className="h-[700px] w-full bg-gray-100 overflow-hidden">
+      <div className="h-full flex flex-col p-8">
+        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800 flex-shrink-0">
+          Cartões Empresariais por Setor
+        </h1>
+        
+        <div className="flex-1 overflow-y-auto">
+          <div className="max-w-4xl mx-auto space-y-8 pb-8">
+            {setores.map((setor) => (
+              <div key={setor.id} className="flex flex-col items-center space-y-4">
+                <h2 className="text-2xl font-semibold capitalize text-gray-700">
+                  {setor.id}
+                </h2>
+                
+                <div className="perspective-1000">
+                  <div 
+                    className="w-96 h-60 rounded-2xl p-8 text-white relative overflow-hidden cursor-pointer transform transition-all duration-300 hover:-translate-y-2 hover:rotate-x-1 shadow-xl"
+                    style={{
+                      background: `linear-gradient(135deg, ${setor.cor1} 0%, ${setor.cor2} 40%, ${setor.cor3} 80%, ${setor.cor4} 100%)`,
+                      boxShadow: `0 15px 35px ${setor.cor1}66`
+                    }}
+                  >
+                    {/* Padrão decorativo de fundo */}
+                    <div className="absolute -top-1/2 -right-1/5 w-48 h-48 bg-white/10 rounded-full opacity-30">
+                      <div className="absolute top-12 left-12 w-24 h-24 bg-white/10 rounded-full"></div>
+                    </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {cards.map((card) => (
-          <div
-            key={card.id}
-            className={`w-96 h-60 rounded-2xl p-8 relative overflow-hidden flex flex-col justify-between ${card.className}`}
-            style={card.style || {}}
-          >
-            {/* Chip */}
-            <div
-              className={`w-12 h-9 bg-gradient-to-br ${card.chipClass} rounded-lg shadow-inner`}
-            ></div>
-
-            {/* Número */}
-            <div className={`${card.numberClass} my-4`}>
-              4532 1234 5678 9000
-            </div>
-
-            {/* Empresa + validade */}
-            <div className="flex justify-between text-sm">
-              <div>
-                <p className="uppercase opacity-80">Empresa</p>
-                <p className="font-bold">VANE CORP</p>
+                    {/* Efeito de brilho animado */}
+                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-pulse"></div>
+                    
+                    {/* Logo do banco */}
+                    <div 
+                      className="absolute top-6 right-6 text-white px-4 py-2 rounded-lg text-sm font-bold backdrop-blur-sm shadow-lg"
+                      style={{
+                        backgroundColor: `${setor.cor4}E6`
+                      }}
+                    >
+                      {setor.bancos[0]}
+                    </div>
+                    
+                    {/* Chip do cartão */}
+                    <div className="w-12 h-9 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-lg mt-5 mb-6 relative shadow-inner">
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-5 bg-black/10 rounded-sm"></div>
+                    </div>
+                    
+                    {/* Número do cartão */}
+                    <div className="text-2xl font-medium tracking-widest my-6 drop-shadow-sm">
+                      4532 1234 5678 9000
+                    </div>
+                    
+                    {/* Informações do portador */}
+                    <div className="flex justify-between items-end mt-5">
+                      <div className="flex-1">
+                        <div className="text-xs opacity-80 uppercase tracking-wide mb-1">
+                          Empresa
+                        </div>
+                        <div className="text-base font-medium uppercase tracking-wide">
+                          VANE CORP
+                        </div>
+                      </div>
+                      
+                      <div className="text-right">
+                        <div className="text-xs opacity-80 uppercase tracking-wide mb-1">
+                          Válido até
+                        </div>
+                        <div className="text-base font-medium tracking-wide">
+                          1500
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Badge empresarial */}
+                    <div 
+                      className="absolute bottom-6 right-6 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg"
+                      style={{
+                        backgroundColor: `${setor.cor4}E6`
+                      }}
+                    >
+                      EMPRESARIAL
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="text-right">
-                <p className="uppercase opacity-80">Válido até</p>
-                <p className="font-bold">1500</p>
-              </div>
-            </div>
-
-            {/* Badge */}
-            <div className="absolute bottom-4 right-4 bg-black/30 text-white text-xs px-3 py-1 rounded-full">
-              {card.name}
-            </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
+
+      <style jsx>{`
+        /* Customizar scrollbar */
+        .overflow-y-auto::-webkit-scrollbar {
+          width: 6px;
+        }
+        
+        .overflow-y-auto::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.1);
+          border-radius: 3px;
+        }
+        
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+          background: rgba(0, 0, 0, 0.3);
+          border-radius: 3px;
+        }
+        
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+          background: rgba(0, 0, 0, 0.5);
+        }
+
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        
+        .rotate-x-1 {
+          transform: translateY(-8px) rotateX(5deg);
+        }
+
+        @keyframes shine {
+          0% { transform: translateX(-100%); }
+          50% { transform: translateX(100%); }
+          100% { transform: translateX(100%); }
+        }
+
+        .animate-shine {
+          animation: shine 3s infinite;
+        }
+
+        @media (max-width: 480px) {
+          .w-96 {
+            width: 320px;
+          }
+          .h-60 {
+            height: 200px;
+          }
+          .p-8 {
+            padding: 25px;
+          }
+          .text-2xl {
+            font-size: 18px;
+            letter-spacing: 2px;
+          }
+          .text-base {
+            font-size: 14px;
+          }
+        }
+      `}</style>
     </div>
   );
 };
 
-export default CreditCardVariations;
+export default CreditCard;
+
+
+
+// const CreditCardVariations = () => {
+//   const cards = [
+//     {
+//       id: 1,
+//       name: "Minimalista Clean",
+//       className:
+//         "bg-white border border-gray-200 text-gray-800 shadow-lg",
+//       numberClass: "text-xl font-mono tracking-widest text-gray-800",
+//       chipClass: "from-gray-400 to-gray-600",
+//     },
+//     {
+//       id: 2,
+//       name: "Premium Dark",
+//       className:
+//         "bg-gradient-to-br from-black to-gray-900 text-white shadow-2xl",
+//       numberClass: "text-2xl font-semibold tracking-widest text-yellow-300",
+//       chipClass: "from-yellow-400 to-yellow-600",
+//     },
+//     {
+//       id: 3,
+//       name: "Futurista Neon",
+//       className:
+//         "bg-black text-white border-2 border-green-400 shadow-lg animate-pulse",
+//       numberClass: "text-2xl font-mono tracking-widest text-green-300",
+//       chipClass: "from-green-400 to-green-600",
+//     },
+//     {
+//       id: 4,
+//       name: "Nature/Agrícola",
+//       className:
+//         "text-white shadow-xl",
+//       style: {
+//         background:
+//           "linear-gradient(135deg, #003816 0%, #1A5E2A 40%, #0C9123 80%, #4CAF50 100%)",
+//       },
+//       numberClass: "text-2xl font-semibold tracking-widest",
+//       chipClass: "from-yellow-300 to-yellow-500",
+//     },
+//     {
+//       id: 5,
+//       name: "Retro 80s",
+//       className:
+//         "bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 text-white shadow-xl",
+//       numberClass: "text-2xl font-bold tracking-widest text-yellow-200",
+//       chipClass: "from-pink-400 to-yellow-300",
+//     },
+//     {
+//       id: 6,
+//       name: "Vidro Fosco",
+//       className:
+//         "bg-white/20 backdrop-blur-lg border border-white/40 text-white shadow-lg",
+//       numberClass: "text-xl font-medium tracking-widest text-white",
+//       chipClass: "from-gray-200 to-gray-400",
+//     },
+//     {
+//       id: 7,
+//       name: "Rainbow Gradient",
+//       className:
+//         "bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-600 text-white shadow-lg",
+//       numberClass: "text-2xl font-semibold tracking-widest drop-shadow-lg",
+//       chipClass: "from-white to-gray-200",
+//     },
+//     {
+//       id: 8,
+//       name: "Corporativo Clean",
+//       className:
+//         "bg-gray-100 text-gray-800 border border-gray-300 shadow-md",
+//       numberClass: "text-xl font-mono tracking-widest text-gray-700",
+//       chipClass: "from-gray-300 to-gray-500",
+//     },
+//   ];
+
+//   return (
+//     <div className="w-full min-h-screen bg-gray-100 p-6 flex flex-col items-center">
+//       <h1 className="text-3xl font-bold mb-8 text-gray-800">
+//         Variações de Cartões Empresariais
+//       </h1>
+
+//       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+//         {cards.map((card) => (
+//           <div
+//             key={card.id}
+//             className={`w-96 h-60 rounded-2xl p-8 relative overflow-hidden flex flex-col justify-between ${card.className}`}
+//             style={card.style || {}}
+//           >
+//             {/* Chip */}
+//             <div
+//               className={`w-12 h-9 bg-gradient-to-br ${card.chipClass} rounded-lg shadow-inner`}
+//             ></div>
+
+//             {/* Número */}
+//             <div className={`${card.numberClass} my-4`}>
+//               4532 1234 5678 9000
+//             </div>
+
+//             {/* Empresa + validade */}
+//             <div className="flex justify-between text-sm">
+//               <div>
+//                 <p className="uppercase opacity-80">Empresa</p>
+//                 <p className="font-bold">VANE CORP</p>
+//               </div>
+//               <div className="text-right">
+//                 <p className="uppercase opacity-80">Válido até</p>
+//                 <p className="font-bold">1500</p>
+//               </div>
+//             </div>
+
+//             {/* Badge */}
+//             <div className="absolute bottom-4 right-4 bg-black/30 text-white text-xs px-3 py-1 rounded-full">
+//               {card.name}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default CreditCardVariations;
 
 // import React from 'react';
 

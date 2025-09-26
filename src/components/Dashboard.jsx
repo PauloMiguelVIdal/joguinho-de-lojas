@@ -43,8 +43,7 @@ import maps from "../../public/outrasImagens/maps.png"
 import computador from "../../public/outrasImagens/computer-screen.png"
 import CreditCard from "./CreditCard";
 import bank from "../../public/outrasImagens/bank.png"
-
-
+import BankDetailsInterface from "./BankModel";
 
 import {
   Chart as ChartJS,
@@ -947,6 +946,7 @@ export default function Dashboard() {
       return (
         <div className="w-full h-full border-[#350973] rounded-[20px] flex">
           <CreditCard />
+{/* <BankDetailsInterface/> */}
         </div>)
     }
   
