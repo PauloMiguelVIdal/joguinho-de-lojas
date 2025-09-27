@@ -31,6 +31,9 @@ const CentraldeDadosProvider = ({ children }) => {
       head: "",
       content: ""
     },
+    vision: {
+      visionAtual: "mapa",
+    },
     modalObjetivos: {
       estadoModal: false,
       head: "",

@@ -75,10 +75,16 @@ export default function Dashboard() {
   const [modalSell, setModalSell] = useState(false)
   // const economiaSetor = dados[ativo].economiaSetor.estadoAtual
   // console.log(economiaSetor)
-  const [vision, setVision] = useState("mapa");
+  const vision = dados.vision.visionAtual 
+  console.log(vision)
 
+const setVision = (newVision) => {
+  atualizarDados("vision",{
+...dados.vision,visionAtual:newVision
+});
+}
   const abrirMapa = () => setVision("mapa")
-  const abrirDashboard = () => setVision("dashboard")
+  // const abrirDashboard = () => setVision("dashboard")
   const abrirBanco = () => setVision("bank")
 
   const [modalSellOpen, setModalSellOpen] = useState(false);
@@ -889,13 +895,13 @@ export default function Dashboard() {
                 <button
                   onClick={abrirBanco}
                   data-tooltip-id="saldo-tip"
-                  data-tooltip-content="Abrir dashboard"
+                  data-tooltip-content="Abrir Bancos"
                   className="w-[100px] h-[100px] bg-laranja rounded-[15px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] transition-transform"
                 >
                   <img
                     className="w-[70px] h-[70px]"
                     src={bank}
-                    alt="Abrir dashboard"
+                    alt="Abrir Bancos"
                   />
                 </button>
 

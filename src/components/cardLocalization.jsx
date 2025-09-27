@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useContext, useState ,useRef} from "react";
+import { useContext, useState, useRef } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import porcem from "../../public/outrasImagens/simbolo-de-porcentagem.png"
 import terrenoImg from "../../public/outrasImagens/terreno.png"
@@ -34,7 +34,7 @@ import imgImpostoSFatu from "../../public/outrasImagens/imgImpostoSfatu.png"
 import { createPortal } from "react-dom";
 
 
-export const CardLocalization = ({ index, setor,abrirModalSell }) => {
+export const CardLocalization = ({ index, setor, abrirModalSell }) => {
     const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
     const setorAtivo = setor;
@@ -55,7 +55,7 @@ export const CardLocalization = ({ index, setor,abrirModalSell }) => {
     const [isModalOpen, setIsModalOpen] = useState(true);
     const [visibleId, setVisibleId] = useState('lojasNec');
     const [modalPowerup, setModalPowerUp] = useState(false)
-  
+
 
     const contabilidadeDeFalta = (edificio) => {
         const qtdAtual = dados[edificio].quantidade
@@ -72,50 +72,50 @@ export const CardLocalization = ({ index, setor,abrirModalSell }) => {
     const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
     function Tooltip({ text, children }) {
-            const [show, setShow] = useState(false);
-            const ref = useRef();
-    
-            const tooltip = show && ref.current && createPortal(
-                <div
-                    style={{
-                        position: "absolute",
-                        top: ref.current.getBoundingClientRect().top - 40, // sobe o tooltip
-                        left:
-                            ref.current.getBoundingClientRect().left +
-                            ref.current.offsetWidth / 2,
-                        transform: "translateX(-50%)",
-                        backgroundColor: "#FFFFFF",
-                        color: "#350973",
-                        padding: "6px 10px",
-                        borderRadius: "6px",
-                        ontWeight: "600",
-                        whiteSpace: "pre-line", // respeita \n como quebra de linha
-                        zIndex: 2147483647,
-                        pointerEvents: "none",
-                        maxWidth: "400px",
-                    }}
-                >
-                    {text}
-                </div>,
-                document.body
-            );
-    
-            return (
-                <>
-                    <div
-                        ref={ref}
-                        onMouseEnter={() => setShow(true)}
-                        onMouseLeave={() => setShow(false)}
-                        className="relative flex items-center justify-center"
-                    >
-                        {children}
-                    </div>
-                    {tooltip}
-                </>
-            );
-        }
+        const [show, setShow] = useState(false);
+        const ref = useRef();
 
-            const tooltipStyle = {
+        const tooltip = show && ref.current && createPortal(
+            <div
+                style={{
+                    position: "absolute",
+                    top: ref.current.getBoundingClientRect().top - 40, // sobe o tooltip
+                    left:
+                        ref.current.getBoundingClientRect().left +
+                        ref.current.offsetWidth / 2,
+                    transform: "translateX(-50%)",
+                    backgroundColor: "#FFFFFF",
+                    color: "#350973",
+                    padding: "6px 10px",
+                    borderRadius: "6px",
+                    ontWeight: "600",
+                    whiteSpace: "pre-line", // respeita \n como quebra de linha
+                    zIndex: 2147483647,
+                    pointerEvents: "none",
+                    maxWidth: "400px",
+                }}
+            >
+                {text}
+            </div>,
+            document.body
+        );
+
+        return (
+            <>
+                <div
+                    ref={ref}
+                    onMouseEnter={() => setShow(true)}
+                    onMouseLeave={() => setShow(false)}
+                    className="relative flex items-center justify-center"
+                >
+                    {children}
+                </div>
+                {tooltip}
+            </>
+        );
+    }
+
+    const tooltipStyle = {
         backgroundColor: "#FFFFFF",
         color: "#350973",
         border: "1px solid #350973",
@@ -381,7 +381,7 @@ export const CardLocalization = ({ index, setor,abrirModalSell }) => {
         setFlipped(!flipped);
     };
 
-const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
+    const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
 
     const quantidadeTerrenosNec = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos
     const quantidadeLojasPNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP
@@ -1100,36 +1100,87 @@ const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
                             </div>
                         </div>
                         }
-              <div className="flex  justify-between items-center h-[20%] w-full">
-                                          <div className="w-full flex h-full flex justify-between items-center">
-                                              <Tooltip style={tooltipStyle} id="tooltip-faturado" />
-                                              <div className="w-[20%] h-[80%] rounded-[5px] flex items-center justify-center">
-                                                  <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between  h-full">
-                                                      <button
-                                                          data-tooltip-id="tooltip-faturado"
-                                                          data-tooltip-html="Informações financeiras do edifício" style={{ backgroundColor: setorInfo.cor1 }} onClick={() => { handleShow('finançasEd'), handleFlip() }} className=" hover:scale-[1.10] ease-in-out cursor-pointer flex items-center justify-center w-min-[20%] aspect-square rounded-[10px] h-full drop-shadow-2xl">
-                                                          <img src={DolarImg} className="h-[60%] flex items-center justify-center" />
-                                                      </button>
-                                                  </div>
-                                              </div>
-                                              <div style={{ backgroundColor: setorInfo.cor3 }} className="w-[30%] h-[80%] rounded-[5px] items-center justify-center flex">
-                                                  <div
-                                                      data-tooltip-id="tooltip-faturado"
-                                                      data-tooltip-html="Rentabilidade do edifício na economia do setor estável"
-                                                      className="flex items-center justify-center h-full">
-                                                      <h1 className="text-white font-bold mr-2 text-[17px]">{rentabilidade.toFixed(0)}</h1>
-                                                      {/* <Tooltip text={"valor do imposto sobre o faturamento mensal\nO imposto sobre o faturamento é um percentual cobrado sobre o faturamento mensal."}
+                        <div className="flex  justify-between items-center h-[20%] w-full">
+                            <div className="w-full flex h-full flex justify-around items-center">
+                                <Tooltip style={tooltipStyle} id="tooltip-faturado" />
+                                <div className="w-[20%] h-[80%] rounded-[5px] flex items-center justify-center">
+                                    <div style={{ backgroundColor: setorInfo.cor3 }} className=" rounded-[10px] flex items-center justify-between h-full">
+                                        <button
+                                            data-tooltip-id="tooltip-faturado"
+                                            data-tooltip-html="Informações financeiras do edifício" style={{ backgroundColor: setorInfo.cor1 }} onClick={() => { handleShow('finançasEd'), handleFlip() }} className=" hover:scale-[1.10] ease-in-out cursor-pointer flex items-center justify-center w-min-[20%] aspect-square rounded-[10px] h-full drop-shadow-2xl">
+                                            <img src={DolarImg} className="h-[60%] flex items-center justify-center" />
+                                        </button>
+                                    </div>
+                                </div>
+                                <div style={{ backgroundColor: setorInfo.cor3 }} className="w-[30%] h-[80%] rounded-[5px] items-center justify-center flex">
+                                    <div
+                                        data-tooltip-id="tooltip-faturado"
+                                        data-tooltip-html="Rentabilidade do edifício na economia do setor estável"
+                                        className="flex items-center justify-center h-full">
+                                        <h1 className="text-white font-bold mr-2 text-[17px]">{rentabilidade.toFixed(0)}</h1>
+                                        {/* <Tooltip text={"valor do imposto sobre o faturamento mensal\nO imposto sobre o faturamento é um percentual cobrado sobre o faturamento mensal."}
                                                        
                                                       >
                                                           
                                                       </Tooltip> */}
-                                                      <img src={porcem} alt="porcentagem" className="h-[45%] mr-[0px]" />
-                                                  </div>
-                                              </div>
-                                              <div
-                                                  data-tooltip-id="tooltip-faturado"
-              
-                                                  data-tooltip-html={`
+                                        <img src={porcem} alt="porcentagem" className="h-[45%] mr-[0px]" />
+                                    </div>
+                                </div>
+                                <div className="w-[40%] h-full aspect-square flex justify-between items-center">
+                                    <div
+                                        onClick={() => { handleMouseEnter(), handleShow('powerUp') }}
+                                        className="w-full h-[80%] flex justify-center items-center drop-shadow-2xl">
+                                        <div className="h-full w-full aspect-square flex justify-center items-center">
+                                            <div style={{ backgroundColor: setorInfo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
+                                                <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%, ${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)` }} onClick={() => handleFlip()} className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
+                                                    <img
+                                                        data-tooltip-id="tooltip-faturado"
+                                                        data-tooltip-html={`
+                                    <div style="max-width: 600px;">
+                                      <b>Power-Ups</b> <br/><br/>
+                                      <p>
+                                        Power-Ups são <b>bônus especiais</b> que aumentam o desempenho dos seus edifícios. Eles podem afetar o faturamento, reduzir custos ou melhorar outras características do edifício.
+                                      </p>
+                                      <p>
+                                        Existem diferentes tipos de Power-Ups:
+                                      </p>
+                                      <ul style="margin-left: 15px; padding-left: 0; list-style-type: disc;">
+                                        <li><b>Aumento de Faturamento:</b> Eleva o lucro gerado pelo edifício.</li>
+                                        <li><b>Redução de custos:</b> Diminui o valor de custos pagos pelo edifício.</li>
+                                      </ul>
+                                      <p>
+                                        <b>Como obter:</b> Basta possuir <b>uma unidade do edifício</b> que fornece o Power-Up para ter acesso ao efeito. Você pode aumentar o potencial desses bônus atingindo quantidades específicas do mesmo edifício, aumentando o nível do Power-Up em até <b>3 níveis</b>.
+                                      </p>
+                                      <p>
+                                        Dica: Planeje a construção de seus edifícios estratégicos para maximizar os efeitos acumulativos dos Power-Ups e potencializar sua estratégia de lucro.
+                                      </p>
+                                    </div>
+                                    
+                                    `}
+                                                        className="h-[70%] aspect-square rotate-[270deg]"
+                                                        src={PróximoImg} />
+                                                </div>
+                                                <div data-tooltip-id="tooltip-faturado" data-tooltip-html="Quantidade atual de edifícios" className="flex justify-center items-center w-full">
+                                                    <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[index].quantidade}
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div >
+
+                        </div>
+                        {setorAtualContext === "carteira" && <div className="h-[25%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
+
+                            <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-full">
+
+                                <div className="w-[100%] rounded-[20px] flex justify-around items-center h-full ">
+ <button
+                                    data-tooltip-id="tooltip-faturado"
+
+                                    data-tooltip-html={`
                 <b>Valor gasto para construir o edifício</b> <br/><br/>
                 <div style="max-width: 600px;">
                   <p>
@@ -1152,71 +1203,21 @@ const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
                   </p>
                 </div>
               `}
-              
-                                                  style={{ backgroundColor: setorInfo.cor3 }} className=" w-[40%] h-[80%] flex items-center justify-around rounded-[5px]">
-                                                  <img src={ConstuirImg} className="h-[60%] aspect-square ml-[5px]" />
-                                                  <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].custoConstrucao)}</h1>
-                                              </div>
-                                          </div >
-              
-                                      </div>
-                        {setorAtualContext === "carteira" && <div className="h-[25%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
 
-                            <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-full">
+                                    style={{ backgroundColor: setorInfo.cor3 }} className=" w-[20%]  h-[80%] flex items-center justify-around rounded-[12px]">
+                                    <img src={ConstuirImg} className="h-[60%] aspect-square " />
+                                    {/* <h1 className="text-white fonteBold text-[15px] ml-2">{formatarNumero(dados[setorAtivo].edificios[index].custoConstrucao)}</h1> */}
+                                </button>
 
-                                <div className="w-[100%] rounded-[20px] flex justify-around items-center h-full ">
-
-                                    <div className="w-[35%] h-full aspect-square flex justify-between items-center">
-                                                                            <div
-                                                                                onClick={() => { handleMouseEnter(), handleShow('powerUp') }}
-                                                                                className="w-full h-[80%] flex justify-center items-center drop-shadow-2xl">
-                                                                                <div className="h-full w-full aspect-square flex justify-center items-center">
-                                                                                    <div style={{ backgroundColor: setorInfo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
-                                                                                        <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%, ${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)` }} onClick={() => handleFlip()} className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
-                                                                                            <img
-                                                                                                data-tooltip-id="tooltip-faturado"
-                                                                                                data-tooltip-html={`
-                                    <div style="max-width: 600px;">
-                                      <b>Power-Ups</b> <br/><br/>
-                                      <p>
-                                        Power-Ups são <b>bônus especiais</b> que aumentam o desempenho dos seus edifícios. Eles podem afetar o faturamento, reduzir custos ou melhorar outras características do edifício.
-                                      </p>
-                                      <p>
-                                        Existem diferentes tipos de Power-Ups:
-                                      </p>
-                                      <ul style="margin-left: 15px; padding-left: 0; list-style-type: disc;">
-                                        <li><b>Aumento de Faturamento:</b> Eleva o lucro gerado pelo edifício.</li>
-                                        <li><b>Redução de custos:</b> Diminui o valor de custos pagos pelo edifício.</li>
-                                      </ul>
-                                      <p>
-                                        <b>Como obter:</b> Basta possuir <b>uma unidade do edifício</b> que fornece o Power-Up para ter acesso ao efeito. Você pode aumentar o potencial desses bônus atingindo quantidades específicas do mesmo edifício, aumentando o nível do Power-Up em até <b>3 níveis</b>.
-                                      </p>
-                                      <p>
-                                        Dica: Planeje a construção de seus edifícios estratégicos para maximizar os efeitos acumulativos dos Power-Ups e potencializar sua estratégia de lucro.
-                                      </p>
-                                    </div>
-                                    
-                                    `}
-                                                                                                className="h-[70%] aspect-square rotate-[270deg]"
-                                                                                                src={PróximoImg} />
-                                                                                        </div>
-                                                                                        <div data-tooltip-id="tooltip-faturado" data-tooltip-html="Quantidade atual de edifícios" className="flex justify-center items-center w-full">
-                                                                                            <h2 className="text-white text-[15px] fonteBold">{dados[setorAtivo].edificios[index].quantidade}
-                                                                                            </h2>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
                                     <button
-                                        onClick={() => abrirModalSell(setor , index)}
-                                         data-tooltip-id="tooltip-faturado"
-                                                                                                data-tooltip-html={`Abre a interface de venda do edifício`}
+                                        onClick={() => abrirModalSell(setor, index)}
+                                        data-tooltip-id="tooltip-faturado"
+                                        data-tooltip-html={`Abre a interface de venda do edifício`}
                                         style={{
                                             "--cor4": setorInfo.cor4,
                                             "--cor1": setorInfo.cor1,
                                         }}
-                                        className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9] rounded-[12px] h-[80%] w-[60%] fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9] hover:from-[--cor4] duration-300 ease-in-out cursor-pointer`}
+                                        className={`bg-gradient-to-br to-[#6411D9] from-[#6411D9] rounded-[12px] h-[80%] w-[70%] fonteBold text-white hover:scale-[1.10] hover:to-[--cor1] hover:via-[#6411D9] hover:from-[--cor4] duration-300 ease-in-out cursor-pointer`}
                                     >
                                         Vender
                                     </button>
@@ -1531,222 +1532,222 @@ const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
 
                     }
                     {visibleId === 'finançasEd' && isModalOpen === true && (
-                                            <div
-                                                onClick={() => handleFlip()}
-                                                className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center relative z-[20] overflow-visible"
-                                                style={{ pointerEvents: 'auto' }}
-                                            >
-                                                {/* Barra superior */}
-                                                <div
-                                                    style={{ backgroundColor: setorInfo.cor1 }}
-                                                    className="w-full h-[20%] rounded-[10px] flex justify-between"
-                                                >
-                                                    {/* Ícone */}
-                                                    <div
-                                                        className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center relative group overflow-visible"
-                                                        style={{
-                                                            background: `linear-gradient(135deg, ${setorInfo.cor3} 0%, ${setorInfo.cor1} 100%)`
-                                                        }}
-                                                    >
-                                                        <img className="h-[70%]" src={DolarImg} alt="" />
-                                                        <div
-                                                            className="absolute group-hover:flex hidden items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap pointer-events-none"
-                                                            style={{
-                                                                top: '-40px',
-                                                                left: '50%',
-                                                                transform: 'translateX(-50%)',
-                                                                backgroundColor: '#222',
-                                                                color: '#fff',
-                                                                zIndex: 2147483647
-                                                            }}
-                                                        >
-                    
-                                                        </div>
-                                                    </div>
-                    
-                                                    {/* Título */}
-                                                    <div className="flex p-[10px] justify-center items-center relative group overflow-visible">
-                                                        <h1 className="text-white fonteBold text-[12px]">Finanças do edifício</h1>
-                                                        <div
-                                                            className="absolute group-hover:flex hidden items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap pointer-events-none"
-                                                            style={{
-                                                                top: '-34px',
-                                                                left: '50%',
-                                                                transform: 'translateX(-50%)',
-                                                                backgroundColor: '#222',
-                                                                color: '#fff',
-                                                                zIndex: 2147483647
-                                                            }}
-                                                        >
-                    
-                                                        </div>
-                                                    </div>
-                                                </div>
-                    
-                                                {/* Linha 1 */}
-                                                <div className="flex w-full h-[15%] justify-around">
-                                                    {/* Faturamento mensal */}
-                                                    <div
-                                                        style={{ backgroundColor: setorInfo.cor2 }}
-                                                        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-                                                    >
-                                                        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-                                                            style={{ backgroundColor: setorInfo.cor1 }}>
-                                                            <Tooltip text={"Faturamento mensal estimado\n caso você detenha o edifício por um mês inteiro."}
-                                                                className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-                                                            >
-                                                                <img className="h-[20px]" src={imgFatuMensal} alt="" />
-                    
-                                                            </Tooltip>
-                                                        </div>
-                                                        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-                                                            {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30)}
-                                                        </h2>
-                                                    </div>
-                    
-                                                    {/* Imposto mensal */}
-                                                    <div
-                                                        style={{ backgroundColor: setorInfo.cor2 }}
-                                                        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-                                                    >
-                                                        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-                                                            style={{ backgroundColor: setorInfo.cor1 }}>
-                                                            <Tooltip text={"Imposto fixo mensal\nO imposto fixo mensal tem um valor fixo que é cobrado se você detém o edifício até o fim do mês."}
-                                                                className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-                                                            >
-                                                                <img className="h-[20px]" src={imgImpostoFixo} alt="" />
-                    
-                                                            </Tooltip>
-                    
-                    
-                                                        </div>
-                                                        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-                                                            {formatarNumero(dados[setorAtivo].edificios[index].finanças.impostoFixo)}
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                    
-                                                {/* Linha 2 */}
-                                                <div className="flex w-full h-[15%] justify-around">
-                                                    {/* Rentabilidade */}
-                                                    <div
-                                                        style={{ backgroundColor: setorInfo.cor2 }}
-                                                        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-                                                    >
-                                                        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-                                                            style={{ backgroundColor: setorInfo.cor1 }}>
-                                                            <Tooltip text={"Faturamento diário médio\nEsse valor é estimado caso você esteja com a economia do setor estável."}
-                                                                className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-                                                            >
-                                                                <img className="h-[15px]" src={imgFaturamentoDiario} alt="" />
-                                                            </Tooltip>
-                    
-                                                        </div>
-                                                        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-                                                            {formatarNumero((dados[setorAtivo].edificios[index].finanças.faturamentoUnitário))}
-                                                        </h2>
-                                                    </div>
-                    
-                                                    {/* Lucro mensal */}
-                                                    <div
-                                                        style={{ backgroundColor: setorInfo.cor2 }}
-                                                        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-                                                    >
-                                                        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-                                                            style={{ backgroundColor: setorInfo.cor1 }}>
-                                                            <Tooltip text={"valor do imposto sobre o faturamento mensal\nO imposto sobre o faturamento é um percentual cobrado sobre o faturamento mensal."}
-                                                                className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-                                                            >
-                                                                <img className="h-[20px]" src={imgImpostoSFatu} alt="" />
-                    
-                                                            </Tooltip>
-                                                        </div>
-                                                        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-                                                            {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 * dados[setorAtivo].edificios[index].finanças.impostoSobreFatu)}
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                    
-                                                {/* Linha 3 */}
-                                                <div className="flex w-full h-[15%] justify-around">
-                                                    {/* Custos Fixos */}
-                                                    <div
-                                                        style={{ backgroundColor: setorInfo.cor2 }}
-                                                        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-                                                    >
-                                                        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-                                                            style={{ backgroundColor: setorInfo.cor1 }}>
-                    
-                                                            <Tooltip text={"Rentabilidade do edifício\nA rentabilidade é a porcentagem do lucro líquido em relação ao faturamento mensal. esse valor pode variar conforme as condições econômicas do setor."}
-                                                                className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-                                                            >
-                                                                <img className="h-[16px]" src={porcem} alt="" />
-                                                            </Tooltip>
-                    
-                                                        </div>
-                                                        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-                                                            {(rentabilidade).toFixed(0)}%
-                                                        </h2>
-                                                    </div>
-                    
-                                                    {/* Manutenção */}
-                                                    <div
-                                                        style={{ backgroundColor: setorInfo.cor2 }}
-                                                        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-                                                    >
-                                                        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-                                                            style={{ backgroundColor: setorInfo.cor1 }}>
-                                                            <Tooltip text="essa é a porcentagem do imposto sobre o faturamento mensal"
-                                                                className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-                                                            >
-                                                                <img className="h-[20px]" src={imgPercFatu} alt="" />
-                    
-                                                            </Tooltip>
-                                                        </div>
-                                                        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-                                                            {(dados[setorAtivo].edificios[index].finanças.impostoSobreFatu * 100).toFixed(0)}%
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                    
-                                                {/* Linha 4 */}
-                                                <div className="flex w-full h-[15%] justify-around">
-                                                    {/* Receita bruta */}
-                                                    <div
-                                                        style={{ backgroundColor: setorInfo.cor2 }}
-                                                        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-                                                    >
-                                                        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-                                                            style={{ backgroundColor: setorInfo.cor1 }}>
-                                                            <Tooltip text={"O valor do lucro líquido mensal\nO lucro líquido mensal é o valor que sobra após deduzir todos os custos e impostos do faturamento mensal."}
-                                                                className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-                                                            >
-                                                                <img className="h-[20px]" src={imgLucro} alt="" />
-                                                            </Tooltip>
-                                                        </div>
-                                                        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-                                                            {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 - ((dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 * dados[setorAtivo].edificios[index].finanças.impostoSobreFatu) + dados[setorAtivo].edificios[index].finanças.impostoFixo))}
-                                                        </h2>
-                                                    </div>
-                                                    <div
-                                                        style={{ backgroundColor: setorInfo.cor2 }}
-                                                        className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
-                                                    >
-                                                        <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
-                                                            style={{ backgroundColor: setorInfo.cor1 }}>
-                                                            <Tooltip text={"Esse é o valor total de impostos mensais\nO valor total de impostos mensais é a soma do imposto fixo mensal com o imposto sobre o faturamento mensal."}
-                                                                className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
-                                                            >
-                                                                <img className="h-[20px]" src={imgSomaImposto} alt="" />
-                                                            </Tooltip>
-                                                        </div>
-                                                        <h2 className="text-white mr-[8px] text-[15px] fonteBold">
-                                                            {formatarNumero((dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 * dados[setorAtivo].edificios[index].finanças.impostoSobreFatu) + dados[setorAtivo].edificios[index].finanças.impostoFixo)}
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
+                        <div
+                            onClick={() => handleFlip()}
+                            className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center relative z-[20] overflow-visible"
+                            style={{ pointerEvents: 'auto' }}
+                        >
+                            {/* Barra superior */}
+                            <div
+                                style={{ backgroundColor: setorInfo.cor1 }}
+                                className="w-full h-[20%] rounded-[10px] flex justify-between"
+                            >
+                                {/* Ícone */}
+                                <div
+                                    className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center relative group overflow-visible"
+                                    style={{
+                                        background: `linear-gradient(135deg, ${setorInfo.cor3} 0%, ${setorInfo.cor1} 100%)`
+                                    }}
+                                >
+                                    <img className="h-[70%]" src={DolarImg} alt="" />
+                                    <div
+                                        className="absolute group-hover:flex hidden items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap pointer-events-none"
+                                        style={{
+                                            top: '-40px',
+                                            left: '50%',
+                                            transform: 'translateX(-50%)',
+                                            backgroundColor: '#222',
+                                            color: '#fff',
+                                            zIndex: 2147483647
+                                        }}
+                                    >
+
+                                    </div>
+                                </div>
+
+                                {/* Título */}
+                                <div className="flex p-[10px] justify-center items-center relative group overflow-visible">
+                                    <h1 className="text-white fonteBold text-[12px]">Finanças do edifício</h1>
+                                    <div
+                                        className="absolute group-hover:flex hidden items-center justify-center px-3 py-1 text-sm rounded-md whitespace-nowrap pointer-events-none"
+                                        style={{
+                                            top: '-34px',
+                                            left: '50%',
+                                            transform: 'translateX(-50%)',
+                                            backgroundColor: '#222',
+                                            color: '#fff',
+                                            zIndex: 2147483647
+                                        }}
+                                    >
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Linha 1 */}
+                            <div className="flex w-full h-[15%] justify-around">
+                                {/* Faturamento mensal */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text={"Faturamento mensal estimado\n caso você detenha o edifício por um mês inteiro."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[20px]" src={imgFatuMensal} alt="" />
+
+                                        </Tooltip>
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30)}
+                                    </h2>
+                                </div>
+
+                                {/* Imposto mensal */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text={"Imposto fixo mensal\nO imposto fixo mensal tem um valor fixo que é cobrado se você detém o edifício até o fim do mês."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[20px]" src={imgImpostoFixo} alt="" />
+
+                                        </Tooltip>
+
+
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {formatarNumero(dados[setorAtivo].edificios[index].finanças.impostoFixo)}
+                                    </h2>
+                                </div>
+                            </div>
+
+                            {/* Linha 2 */}
+                            <div className="flex w-full h-[15%] justify-around">
+                                {/* Rentabilidade */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text={"Faturamento diário médio\nEsse valor é estimado caso você esteja com a economia do setor estável."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[15px]" src={imgFaturamentoDiario} alt="" />
+                                        </Tooltip>
+
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {formatarNumero((dados[setorAtivo].edificios[index].finanças.faturamentoUnitário))}
+                                    </h2>
+                                </div>
+
+                                {/* Lucro mensal */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text={"valor do imposto sobre o faturamento mensal\nO imposto sobre o faturamento é um percentual cobrado sobre o faturamento mensal."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[20px]" src={imgImpostoSFatu} alt="" />
+
+                                        </Tooltip>
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 * dados[setorAtivo].edificios[index].finanças.impostoSobreFatu)}
+                                    </h2>
+                                </div>
+                            </div>
+
+                            {/* Linha 3 */}
+                            <div className="flex w-full h-[15%] justify-around">
+                                {/* Custos Fixos */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+
+                                        <Tooltip text={"Rentabilidade do edifício\nA rentabilidade é a porcentagem do lucro líquido em relação ao faturamento mensal. esse valor pode variar conforme as condições econômicas do setor."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[16px]" src={porcem} alt="" />
+                                        </Tooltip>
+
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {(rentabilidade).toFixed(0)}%
+                                    </h2>
+                                </div>
+
+                                {/* Manutenção */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text="essa é a porcentagem do imposto sobre o faturamento mensal"
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[20px]" src={imgPercFatu} alt="" />
+
+                                        </Tooltip>
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {(dados[setorAtivo].edificios[index].finanças.impostoSobreFatu * 100).toFixed(0)}%
+                                    </h2>
+                                </div>
+                            </div>
+
+                            {/* Linha 4 */}
+                            <div className="flex w-full h-[15%] justify-around">
+                                {/* Receita bruta */}
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text={"O valor do lucro líquido mensal\nO lucro líquido mensal é o valor que sobra após deduzir todos os custos e impostos do faturamento mensal."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[20px]" src={imgLucro} alt="" />
+                                        </Tooltip>
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {formatarNumero(dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 - ((dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 * dados[setorAtivo].edificios[index].finanças.impostoSobreFatu) + dados[setorAtivo].edificios[index].finanças.impostoFixo))}
+                                    </h2>
+                                </div>
+                                <div
+                                    style={{ backgroundColor: setorInfo.cor2 }}
+                                    className="flex justify-between rounded-[10px] items-center h-full w-[45%]"
+                                >
+                                    <div className="h-full flex items-center justify-center aspect-square rounded-[10px] relative group overflow-visible"
+                                        style={{ backgroundColor: setorInfo.cor1 }}>
+                                        <Tooltip text={"Esse é o valor total de impostos mensais\nO valor total de impostos mensais é a soma do imposto fixo mensal com o imposto sobre o faturamento mensal."}
+                                            className=" items-center justify-center px-2 py-1 text-xs rounded-md whitespace-nowrap pointer-events-none"
+                                        >
+                                            <img className="h-[20px]" src={imgSomaImposto} alt="" />
+                                        </Tooltip>
+                                    </div>
+                                    <h2 className="text-white mr-[8px] text-[15px] fonteBold">
+                                        {formatarNumero((dados[setorAtivo].edificios[index].finanças.faturamentoUnitário * 30 * dados[setorAtivo].edificios[index].finanças.impostoSobreFatu) + dados[setorAtivo].edificios[index].finanças.impostoFixo)}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
 
