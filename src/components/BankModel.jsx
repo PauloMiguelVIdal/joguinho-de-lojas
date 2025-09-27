@@ -1648,7 +1648,8 @@ if (banksModal === true) {
   const bancoSelecionado = bancos.find(b => b.id === selectedBank);
 
   return (
-    <div className="h-full bg-slate-900 text-white w-full flex flex-col justify-between rounded-[20px]">
+    
+    <div  className="h-full  bg-gradient-to-br from-[#6A00FF] via-[#350973] via-[#C79FFF] to-[#7317F3] text-white w-full flex flex-col justify-between rounded-[20px]">
       {/* Header */}
       <div className="h-[50px] w-full flex gap-[10px] pt-6 pl-6 items-center">
         <div>
