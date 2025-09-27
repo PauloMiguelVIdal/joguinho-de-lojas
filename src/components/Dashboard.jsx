@@ -44,7 +44,7 @@ import computador from "../../public/outrasImagens/computer-screen.png"
 import CreditCard from "./CreditCard";
 import bank from "../../public/outrasImagens/bank.png"
 import BankDetailsInterface from "./BankModel";
-import BankInterface from "./BankInterface";
+import BankInterface from "./BankInterface.jsx";
 
 import {
   Chart as ChartJS,
