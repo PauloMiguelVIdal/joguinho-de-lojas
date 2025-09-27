@@ -502,10 +502,11 @@ const BankSelection = () => {
   const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
 const [selectedBank, setSelectedBank] = useState(null);
 
-  const vision = dados.vision.visionAtual
+ 
 
   const [banksModal, setBanksModal] = useState(false)
   const [selectedCard, setSelectedCard] = useState(null);
+
   const setVision = (newVision) => {
     atualizarDados("vision", {
       ...dados.vision, visionAtual: newVision
@@ -1703,9 +1704,10 @@ if (banksModal === true) {
               </button>
               <button
                 onClick={() => {
-                  alert(
-                    `Prosseguindo com ${bancoSelecionado?.cartoes.find(c => c.id === selectedCard)?.nome}`
-                  );
+                  // alert(
+                  //   `Prosseguindo com ${bancoSelecionado?.cartoes.find(c => c.id === selectedCard)?.nome}`
+                  // );
+                  setVision("bankInterface")
                   setSelectedCard(null);
                 }}
                 className="flex-1 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl font-bold transition-all"
