@@ -500,7 +500,7 @@ import maps from "../../public/outrasImagens/maps.png"
 import { motion, useAnimation } from "framer-motion";
 const BankSelection = () => {
   const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
-  const [selectedBank, setSelectedBank] = useState(null);
+const [selectedBank, setSelectedBank] = useState(null);
 
   const vision = dados.vision.visionAtual
 
@@ -1643,78 +1643,82 @@ const bancos = [
   //   }
   // ];
 
-  if (banksModal === true) {
-    return (
-      <div className="h-full bg-slate-900 text-white w-full flex flex-col justify-between rounded-[20px]">      <div className="h-[50px] w-full flex gap-[10px] pt-6 pl-6 items-center">
+if (banksModal === true) {
+  // Banco selecionado
+  const bancoSelecionado = bancos.find(b => b.id === selectedBank);
+
+  return (
+    <div className="h-full bg-slate-900 text-white w-full flex flex-col justify-between rounded-[20px]">
+      {/* Header */}
+      <div className="h-[50px] w-full flex gap-[10px] pt-6 pl-6 items-center">
         <div>
           <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
           <button
-            onClick={() => (setVision("mapa"))}
+            onClick={() => setBanksModal(false)}
             data-tooltip-id="tooltip-faturado"
-            data-tooltip-html="Ir para o mapa"
-            // style={{ backgroundColor: setorAtivo.cor3 }}
-
+            data-tooltip-html="Fechar ofertas"
             className="h-full bg-gradient-to-br from-[#6A00FF] via-[#9D00CC] to-[#E60000] w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
           >
             <img className="w-[70%]" src={maps} />
           </button>
-        </div >
+        </div>
         <div className="w-[calc(100%-50px)]">
-          <h1 className="text-4xl font-bold text-center ">Ofertas Disponíveis</h1>
+          <h1 className="text-4xl font-bold text-center">Ofertas Disponíveis</h1>
+  
         </div>
       </div>
 
-        <div className="flex-1 overflow-y-auto px-6 max-h-[73vh] scrollbar-custom">
-          <div className="w-full grid pt-[10px] gap-6 pb-6">
-
-  {bancos.map((banco) =>
-  banco.cartoes.map((cartao) => (
-    <ModalBank
-      key={cartao.id}
-      banco={banco}         // <- agora passa o banco
-      cartao={cartao}
-      selectedCard={selectedCard}
-      setSelectedCard={setSelectedCard}
-    />
-  ))
-)}
-          </div>
-
+      {/* Container de cartões */}
+      <div className="flex-1 overflow-y-auto px-6 max-h-[73vh] scrollbar-custom">
+        <div className="w-full grid pt-[10px] gap-6 pb-6">
+          {bancoSelecionado?.cartoes.map((cartao) => (
+            <ModalBank
+              key={cartao.id}
+              banco={bancoSelecionado} // passa o banco selecionado
+              cartao={cartao}
+              selectedCard={selectedCard}
+              setSelectedCard={setSelectedCard}
+            />
+          ))}
         </div>
+      </div>
 
-        {selectedCard && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-slate-800 rounded-2xl p-8 max-w-md w-full mx-4">
-              <h3 className="text-2xl font-bold text-white mb-4">Confirmar Seleção</h3>
-              <p className="text-slate-300 mb-6">
-                Você selecionou o cartão {bancos.find(c => c.id === selectedCard)?.nome}.
-                Deseja prosseguir para ver os produtos disponíveis?
-              </p>
-              <div className="flex gap-4">
-                <button
-                  onClick={() => setSelectedCard(null)}
-                  className="flex-1 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-bold transition-colors"
-                >
-                  Cancelar
-                </button>
-                <button
-                  onClick={() => {
-                    alert(`Prosseguindo com ${bancos.find(c => c.id === selectedCard)?.nome}`);
-                    setSelectedCard(null);
-                  }}
-                  className="flex-1 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl font-bold transition-all"
-                >
-                  Prosseguir
-                </button>
-              </div>
+      {/* Modal de confirmação */}
+      {selectedCard && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-slate-800 rounded-2xl p-8 max-w-md w-full mx-4">
+            <h3 className="text-2xl font-bold text-white mb-4">Confirmar Seleção</h3>
+            <p className="text-slate-300 mb-6">
+              Você selecionou o cartão{" "}
+              {bancoSelecionado?.cartoes.find(c => c.id === selectedCard)?.nome}.
+              Deseja prosseguir para ver os produtos disponíveis?
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setSelectedCard(null)}
+                className="flex-1 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-bold transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => {
+                  alert(
+                    `Prosseguindo com ${bancoSelecionado?.cartoes.find(c => c.id === selectedCard)?.nome}`
+                  );
+                  setSelectedCard(null);
+                }}
+                className="flex-1 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl font-bold transition-all"
+              >
+                Prosseguir
+              </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
-
-    );
-  }
 
 
 
@@ -1748,7 +1752,10 @@ const bancos = [
               key={banco.id}
                style={{ background: banco.cor }}
               className={`rounded-2xl p-6 border border-slate-700 hover:border-slate-500 transition-all duration-300 hover:scale-105 cursor-pointer`}
-              onClick={() => setBanksModal(true)}
+              onClick={() => {setBanksModal(true);  setSelectedBank(banco.id);
+              }
+                }
+            
             >
               {/* Header do banco */}
               <div className="flex items-center gap-4 mb-4">
