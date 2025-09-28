@@ -464,6 +464,7 @@ useEffect(() => {
   <p>Clique aqui para pagar as despesas mensais.</p>
   <p style="margin-top:4px;">Detalhes dos impostos:</p>
   <p><p/>
+  <p style="margin-left:10px;">Imposto Fixo Mensal: R$ ${economiaSetores.valorImpostoAnual?.toFixed(2) || 0}</p>
   <p style="margin-left:10px;">Imposto Fixo Mensal: R$ ${economiaSetores.imposto.impostoFixoMensal?.toFixed(2) || 0}</p>
   <p style="margin-left:10px;">Imposto sobre Faturamento: R$ ${economiaSetores.imposto.impostoFaturamentoMensal?.toFixed(2) || 0}</p>
   <p style="margin-left:10px;">Total Mensal: R$ ${economiaSetores.imposto.impostoMensal?.toFixed(2) || 0}</p>
