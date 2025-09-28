@@ -15,7 +15,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
 
-    dia: 167673223411,
+    dia: 1600,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -32,7 +32,7 @@ const CentraldeDadosProvider = ({ children }) => {
       content: ""
     },
     vision: {
-      visionAtual: "mapa",
+      visionAtual: "dashboard",
     },
     modalObjetivos: {
       estadoModal: false,

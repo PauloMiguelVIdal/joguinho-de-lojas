@@ -46,6 +46,7 @@ import bank from "../../public/outrasImagens/bank.png"
 import BankDetailsInterface from "./BankModel";
 import BankInterface from "./BankInterface.jsx";
 import MicroModel from "./MicroModel.jsx"
+import CorporateFinanceInterface from "./FinançasDashboard.jsx"
 
 import {
   Chart as ChartJS,
@@ -77,14 +78,14 @@ export default function Dashboard() {
   const [modalSell, setModalSell] = useState(false)
   // const economiaSetor = dados[ativo].economiaSetor.estadoAtual
   // console.log(economiaSetor)
-  const vision = dados.vision.visionAtual 
+  const vision = dados.vision.visionAtual
 
 
-const setVision = (newVision) => {
-  atualizarDados("vision",{
-...dados.vision,visionAtual:newVision
-});
-}
+  const setVision = (newVision) => {
+    atualizarDados("vision", {
+      ...dados.vision, visionAtual: newVision
+    });
+  }
   const abrirMapa = () => setVision("mapa")
   // const abrirDashboard = () => setVision("dashboard")
   const abrirBanco = () => setVision("bank")
@@ -529,7 +530,7 @@ const setVision = (newVision) => {
               {ativo === "grafico" && (
                 // <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
                 // <Map/>
-                <MicroModel/>
+                <MicroModel />
                 // <Office />
                 // <CreditCard />
                 // <div className="w-full flex-1 p-4 flex flex-col">
@@ -909,6 +910,23 @@ const setVision = (newVision) => {
                 </button>
 
               </div>
+              <div className="absolute top-4 right-4 z-[10] flex flex-col gap-2">
+
+                {/* Botão do Computador */}
+                <button
+                  onClick={() =>{ setVision("financas"); setBusinessLicenceModal(true)}}
+                  data-tooltip-id="saldo-tip"
+                  data-tooltip-content="Abrir Licenças Empresariais"
+                  className="w-[100px] h-[100px] bg-laranja rounded-[15px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] transition-transform"
+                >
+                  <img
+                    className="w-[70px] h-[70px]"
+                    src={computador}
+                    alt="Abrir dashboard"
+                  />
+                </button>
+
+              </div>
               <div className="absolute bottom-4 left-4 z-[10] flex flex-col gap-2">
 
                 {/* Botão do Computador */}
@@ -951,19 +969,33 @@ const setVision = (newVision) => {
       </div>
     )
   }
-    if (vision === "bank") {
-      return (
-        <div className="w-full h-full border-[#350973] rounded-[20px] flex">
-          {/* <CreditCard /> */}
-<BankDetailsInterface/>
-        </div>)
-    }
-    if (vision === "bankInterface") {
-      return (
-        <div className="w-full h-full border-[#350973] rounded-[20px] flex">
-<BankInterface/>
+  if (vision === "bank") {
+    return (
+      <div className="w-full h-full border-[#350973] rounded-[20px] flex">
+        {/* <CreditCard /> */}
+        <BankDetailsInterface />
+      </div>)
+  }
+  if (vision === "bankInterface") {
+    return (
+      <div className="w-full h-full border-[#350973] rounded-[20px] flex">
+        <BankInterface />
 
-        </div>)
-    }
-  
+      </div>)
+  }
+  if (vision === "licençaEmpre") {
+    return (
+      <div className="w-full h-full border-[#350973] rounded-[20px] flex">
+        <BusinessLicence/>
+
+      </div>)
+  }
+    if (vision === "financas") {
+    return (
+      <div className="w-full h-full border-[#350973] rounded-[20px] flex">
+        <CorporateFinanceInterface/>
+
+      </div>)
+  }
+
 }

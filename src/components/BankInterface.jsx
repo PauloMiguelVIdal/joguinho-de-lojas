@@ -60,9 +60,8 @@ const BankInterface = () => {
   const TabButton = ({ id, label, icon: Icon, active, onClick }) => (
     <button
       onClick={() => onClick(id)}
-      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
-        active ? 'text-white shadow-lg' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-      }`}
+      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${active ? 'text-white shadow-lg' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+        }`}
       style={active ? { backgroundColor: '#003816' } : {}}
     >
       <Icon size={18} />
@@ -71,9 +70,9 @@ const BankInterface = () => {
   );
 
   return (
-    <div  style={{
-                  background: `linear-gradient(135deg, #0C9123  0%, #1a5e2ac5 50%, #0C9123 100%)`
-                }} className="h-full w-full rounded-[20px]  p-6">
+    <div style={{
+      background: `linear-gradient(135deg, #0C9123  0%, #1a5e2ac5 50%, #0C9123 100%)`
+    }} className="h-full w-full rounded-[20px]  p-6">
       <div className="w-full">
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">AGRO BANK</h1>
@@ -92,7 +91,7 @@ const BankInterface = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Credit Card */}
             <div className="lg:col-span-2">
-              <div 
+              <div
                 className="w-full h-[220px] rounded-3xl p-6 text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer"
                 style={{
                   background: `linear-gradient(135deg, #003816 0%, #1A5E2A 50%, #0C9123 100%)`
@@ -182,9 +181,9 @@ const BankInterface = () => {
               <h3 className="font-semibold text-gray-700 mb-4">Utilização do Limite</h3>
               <div className="relative">
                 <div className="w-full bg-gray-200 rounded-full h-4">
-                  <div 
+                  <div
                     className="h-4 rounded-full transition-all duration-1000"
-                    style={{ 
+                    style={{
                       width: `${(cardData.used / cardData.limit) * 100}%`,
                       background: `linear-gradient(to right, #0C9123, #4CAF50)`
                     }}
@@ -216,7 +215,7 @@ const BankInterface = () => {
                   <p className="text-gray-600 text-sm">Taxa especial para você</p>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="p-4 rounded-lg" style={{ backgroundColor: '#4CAF50' }}>
                   <p className="text-3xl font-bold text-white">
@@ -224,7 +223,7 @@ const BankInterface = () => {
                   </p>
                   <p className="text-sm text-white opacity-90">Valor disponível</p>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-3 bg-gray-50 rounded-lg">
                     <p className="text-lg font-bold text-gray-800">{loanData.interestRate}%</p>
@@ -235,7 +234,7 @@ const BankInterface = () => {
                     <p className="text-sm text-gray-600">Até</p>
                   </div>
                 </div>
-                
+
                 <button className="w-full text-white py-3 rounded-lg font-semibold transition-colors" style={{ backgroundColor: '#0C9123' }}>
                   Solicitar Empréstimo
                 </button>
@@ -249,7 +248,7 @@ const BankInterface = () => {
                 </div>
                 <h3 className="font-bold text-gray-800">Simulador de Parcelas</h3>
               </div>
-              
+
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -260,11 +259,10 @@ const BankInterface = () => {
                       <button
                         key={option.percentage}
                         onClick={() => setSelectedLoanPercentage(option.percentage)}
-                        className={`p-3 rounded-lg border-2 transition-colors font-semibold ${
-                          selectedLoanPercentage === option.percentage 
-                            ? 'text-white border-transparent' 
+                        className={`p-3 rounded-lg border-2 transition-colors font-semibold ${selectedLoanPercentage === option.percentage
+                            ? 'text-white border-transparent'
                             : 'text-gray-700 border-gray-300 hover:border-gray-400'
-                        }`}
+                          }`}
                         style={selectedLoanPercentage === option.percentage ? { backgroundColor: '#0C9123' } : {}}
                       >
                         {option.label}
@@ -275,7 +273,7 @@ const BankInterface = () => {
                     Valor: R$ {getLoanAmount().toLocaleString('pt-BR')}
                   </p>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Número de Parcelas
@@ -290,7 +288,7 @@ const BankInterface = () => {
                     ))}
                   </select>
                 </div>
-                
+
                 <div className="p-4 rounded-lg" style={{ backgroundColor: '#f8f9fa', borderLeft: '4px solid #0C9123' }}>
                   <p className="text-sm text-gray-600">Valor da parcela</p>
                   <p className="text-2xl font-bold" style={{ color: '#0C9123' }}>
@@ -329,7 +327,7 @@ const BankInterface = () => {
                   Investir Mais
                 </button>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-6 mb-6">
                 <div className="text-center p-4 rounded-lg" style={{ backgroundColor: '#f1f8e9' }}>
                   <p className="text-sm text-gray-600">Total Investido</p>
@@ -344,7 +342,7 @@ const BankInterface = () => {
                   </p>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-gray-50 rounded-lg">
                   <p className="text-sm text-gray-600">Rentabilidade Mensal</p>
@@ -396,7 +394,7 @@ const BankInterface = () => {
                   <p className="text-gray-600 text-sm">Seus benefícios</p>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="text-center p-4 rounded-lg" style={{ background: 'linear-gradient(135deg, #4CAF50, #0C9123)' }}>
                   <p className="text-sm text-white opacity-90">Este Mês</p>
@@ -407,7 +405,7 @@ const BankInterface = () => {
                     })}
                   </p>
                 </div>
-                
+
                 <div className="text-center p-4 bg-gray-50 rounded-lg">
                   <p className="text-sm text-gray-600">Total Acumulado</p>
                   <p className="text-2xl font-bold text-gray-800">
@@ -417,7 +415,7 @@ const BankInterface = () => {
                     })}
                   </p>
                 </div>
-                
+
                 <button className="w-full text-white py-3 rounded-lg font-semibold transition-colors" style={{ backgroundColor: '#0C9123' }}>
                   Resgatar Cashback
                 </button>
@@ -426,7 +424,7 @@ const BankInterface = () => {
 
             <div className="bg-white rounded-xl p-6 shadow-lg">
               <h3 className="font-bold text-gray-800 mb-4">Próximo Resgate</h3>
-              
+
               <div className="p-4 rounded-lg mb-4" style={{ backgroundColor: '#f1f8e9', borderLeft: '4px solid #0C9123' }}>
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-semibold text-gray-700">Disponível em:</span>
@@ -434,7 +432,7 @@ const BankInterface = () => {
                 </div>
                 <p className="text-sm text-gray-600">Todo mês você pode resgatar seu cashback acumulado</p>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="text-center p-3 bg-gray-50 rounded-lg">
@@ -446,7 +444,7 @@ const BankInterface = () => {
                     <p className="font-bold text-gray-800">R$ 156</p>
                   </div>
                 </div>
-                
+
                 <div className="p-3 rounded-lg" style={{ backgroundColor: '#e8f5e8' }}>
                   <p className="text-sm font-semibold text-gray-700">Dica:</p>
                   <p className="text-sm text-gray-600">Use mais o cartão para aumentar seu cashback mensal!</p>
