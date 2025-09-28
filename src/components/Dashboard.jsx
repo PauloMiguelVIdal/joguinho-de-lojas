@@ -45,6 +45,7 @@ import CreditCard from "./CreditCard";
 import bank from "../../public/outrasImagens/bank.png"
 import BankDetailsInterface from "./BankModel";
 import BankInterface from "./BankInterface.jsx";
+import MicroModel from "./MicroModel.jsx"
 
 import {
   Chart as ChartJS,
@@ -77,7 +78,7 @@ export default function Dashboard() {
   // const economiaSetor = dados[ativo].economiaSetor.estadoAtual
   // console.log(economiaSetor)
   const vision = dados.vision.visionAtual 
-  console.log(vision)
+
 
 const setVision = (newVision) => {
   atualizarDados("vision",{
@@ -528,8 +529,9 @@ const setVision = (newVision) => {
               {ativo === "grafico" && (
                 // <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
                 // <Map/>
+                <MicroModel/>
                 // <Office />
-                <CreditCard />
+                // <CreditCard />
                 // <div className="w-full flex-1 p-4 flex flex-col">
                 //   <div className="flex-1 w-full rounded-[20px] flex flex-col">
                 //     <motion.div
@@ -960,6 +962,7 @@ const setVision = (newVision) => {
       return (
         <div className="w-full h-full border-[#350973] rounded-[20px] flex">
 <BankInterface/>
+
         </div>)
     }
   

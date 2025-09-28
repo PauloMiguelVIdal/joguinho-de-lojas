@@ -7,7 +7,7 @@ const DadosEconomyGlobalContext = createContext();
 const DadosEconomyGlobalProvider = ({ children }) => {
 
   const [economiaSetores, setEconomiaSetores] = useState({
-    saldo: 900000000,
+    saldo: 550000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
@@ -271,12 +271,12 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       let ref = novosDados;
 
       for (let i = 0; i < caminho.length - 1; i++) {
-        console.log(`Ref antes do passo ${i}:`, ref);
-        console.log(`Acessando chave:`, caminho[i]);
+        // console.log(`Ref antes do passo ${i}:`, ref);
+        // console.log(`Acessando chave:`, caminho[i]);
 
         if (ref === undefined || ref === null) {
-          console.warn(`❌ ERRO: ref é undefined na etapa ${i}, chave: ${caminho[i]}`);
-          console.warn(`CAMINHO COMPLETO:`, caminho);
+          // console.warn(`❌ ERRO: ref é undefined na etapa ${i}, chave: ${caminho[i]}`);
+          // console.warn(`CAMINHO COMPLETO:`, caminho);
           return prevState; // não altera nada
         }
 
@@ -284,7 +284,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       }
 
       const ultimaChave = caminho[caminho.length - 1];
-      console.log(`🔧 Atualizando chave final '${ultimaChave}' com valor:`, novoValor);
+      // console.log(`🔧 Atualizando chave final '${ultimaChave}' com valor:`, novoValor);
       ref[ultimaChave] = novoValor;
 
       return novosDados;

@@ -241,16 +241,16 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
     const arrayConstNece = dados[setorAtivo]?.edificios[index]?.construçõesNecessárias
 
 
-    console.log("Setor Ativo:", setorAtivo);
-    console.log("Edifícios:", dados[setorAtivo]?.edificios);
+    // console.log("Setor Ativo:", setorAtivo);
+    // console.log("Edifícios:", dados[setorAtivo]?.edificios);
 
     // Verificar o índice
-    console.log("Índice:", index);
-    console.log("Edifício:", dados[setorAtivo]?.edificios[index]);
+    // console.log("Índice:", index);
+    // console.log("Edifício:", dados[setorAtivo]?.edificios[index]);
 
     // Verificar o nome
 
-    console.log("Nome do Edifício Ativo:", nomeAtivo);
+    // console.log("Nome do Edifício Ativo:", nomeAtivo);
     const quantidadeAtivo = dados[setorAtivo].edificios[index].quantidade;
     const quantidadeMinimaPowerUpNv2 = dados[setorAtivo].edificios[index].powerUp.nível2.quantidadeMínima;
     const quantidadeMinimaPowerUpNv3 = dados[setorAtivo].edificios[index].powerUp.nível3.quantidadeMínima;
@@ -400,10 +400,10 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
     const [acumuladorPowerUpAumFatuFornece, setAcumuladorPowerUpAumFatuFornece] = useState(0);
     const [acumuladorPowerUpRedCustoRecebe, setAcumuladorPowerUpRedCustoRecebe] = useState(0);
     const [acumuladorPowerUpAumFatuRecebe, setAcumuladorPowerUpAumFatuRecebe] = useState(0);
-    console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
-    console.log("acumuladorPowerUpAumFatuRecebe", acumuladorPowerUpAumFatuRecebe)
-    console.log("acumuladorPowerUpRedCustoFornece", acumuladorPowerUpRedCustoFornece)
-    console.log("acumuladorPowerUpAumFatuFornece", acumuladorPowerUpAumFatuFornece)
+    // console.log("acumuladorPowerUpRedCustoRecebe", acumuladorPowerUpRedCustoRecebe)
+    // console.log("acumuladorPowerUpAumFatuRecebe", acumuladorPowerUpAumFatuRecebe)
+    // console.log("acumuladorPowerUpRedCustoFornece", acumuladorPowerUpRedCustoFornece)
+    // console.log("acumuladorPowerUpAumFatuFornece", acumuladorPowerUpAumFatuFornece)
     // Aqui sim, fazemos o cálculo num useEffect:
     useEffect(() => {
         let novoAcumuladorRedCusto = 0;
@@ -530,23 +530,23 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
 
     // Função recursiva para calcular custo total de um recurso
     function calcularCustoRecurso(nomeRecurso, nivel = 1) {
-        console.log("🔍".repeat(nivel), `Verificando recurso: ${nomeRecurso}`);
+        // console.log("🔍".repeat(nivel), `Verificando recurso: ${nomeRecurso}`);
 
         for (const setor of setoresArr) {
             const edificioEncontrado = dados[setor]?.edificios?.find(e => e.nome === nomeRecurso);
 
             if (edificioEncontrado) {
-                console.log("✅".repeat(nivel), `Edifício encontrado: ${edificioEncontrado.nome}, no setor: ${setor}`);
+                // console.log("✅".repeat(nivel), `Edifício encontrado: ${edificioEncontrado.nome}, no setor: ${setor}`);
 
                 const custoConstrucaoRecurso = edificioEncontrado.custoConstrucao || 0;
-                console.log("🏗️".repeat(nivel), `Custo da construção: ${custoConstrucaoRecurso}`);
+                // console.log("🏗️".repeat(nivel), `Custo da construção: ${custoConstrucaoRecurso}`);
 
                 const quantidadeTerrenosNec = edificioEncontrado.lojasNecessarias.terrenos || 0;
                 const quantidadeLojasPNec = edificioEncontrado.lojasNecessarias.lojasP || 0;
                 const quantidadeLojasMNec = edificioEncontrado.lojasNecessarias.lojasM || 0;
                 const quantidadeLojasGNec = edificioEncontrado.lojasNecessarias.lojasG || 0;
 
-                console.log("📦".repeat(nivel), `Lojas necessárias → Terrenos: ${quantidadeTerrenosNec}, P: ${quantidadeLojasPNec}, M: ${quantidadeLojasMNec}, G: ${quantidadeLojasGNec}`);
+                // console.log("📦".repeat(nivel), `Lojas necessárias → Terrenos: ${quantidadeTerrenosNec}, P: ${quantidadeLojasPNec}, M: ${quantidadeLojasMNec}, G: ${quantidadeLojasGNec}`);
 
                 const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução;
 
@@ -565,25 +565,25 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                     (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
                 );
 
-                console.log("💰".repeat(nivel), `Custo total → Terrenos: ${custoTotalTerrenos}, LojasP: ${custoTotalLojasP}, LojasM: ${custoTotalLojasM}, LojasG: ${custoTotalLojasG}`);
+                // console.log("💰".repeat(nivel), `Custo total → Terrenos: ${custoTotalTerrenos}, LojasP: ${custoTotalLojasP}, LojasM: ${custoTotalLojasM}, LojasG: ${custoTotalLojasG}`);
 
                 // Soma do próprio custo de construção + lojas
                 let custoTotalRecurso = custoConstrucaoRecurso + custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG;
 
                 // Recursão para os recursos de construção desse edifício
                 if (Array.isArray(edificioEncontrado.recursoDeConstrução) && edificioEncontrado.recursoDeConstrução.length > 0) {
-                    console.log("🔁".repeat(nivel), `Iniciando cálculo de recursos de construção para: ${edificioEncontrado.nome}`);
+                    // console.log("🔁".repeat(nivel), `Iniciando cálculo de recursos de construção para: ${edificioEncontrado.nome}`);
 
                     edificioEncontrado.recursoDeConstrução.forEach(subRecurso => {
                         const custoSub = calcularCustoRecurso(subRecurso, nivel + 1);
-                        console.log("➕".repeat(nivel), `Adicionando custo do sub-recurso ${subRecurso}: ${custoSub}`);
+                        // console.log("➕".repeat(nivel), `Adicionando custo do sub-recurso ${subRecurso}: ${custoSub}`);
                         custoTotalRecurso += custoSub;
                     });
                 } else {
-                    console.log("✅".repeat(nivel), `${edificioEncontrado.nome} não possui recursos adicionais.`);
+                    // console.log("✅".repeat(nivel), `${edificioEncontrado.nome} não possui recursos adicionais.`);
                 }
 
-                console.log("📊".repeat(nivel), `Custo total calculado de ${nomeRecurso} = ${custoTotalRecurso}`);
+                // console.log("📊".repeat(nivel), `Custo total calculado de ${nomeRecurso} = ${custoTotalRecurso}`);
 
                 return custoTotalRecurso; // retorna o total desse recurso
             }
@@ -596,11 +596,11 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
     // Início do cálculo principal com a lista original
     arrayConstResources?.forEach(nomeRecurso => {
         const custo = calcularCustoRecurso(nomeRecurso);
-        console.log("💼 Custo acumulado do recurso", nomeRecurso, "=", custo);
+        // console.log("💼 Custo acumulado do recurso", nomeRecurso, "=", custo);
         custoRecursos += custo;
     });
 
-    console.log("🔚 Custo total acumulado de todos os recursos:", custoRecursos);
+    // console.log("🔚 Custo total acumulado de todos os recursos:", custoRecursos);
 
 
     let fatuMensal = valorFatuFinal * 30 * fatorEconomico
@@ -719,8 +719,8 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                                                         edMelhorado.aumFatu.nível3;
 
                                                 // atualizarDadosProf2([setorAtivo, "edificios", index, "powerUp","aumFatuAtual"],ResultFinalAcumuladorRedCusto)
-                                                console.log(index)
-                                                console.log(setorAtivo)
+                                                // console.log(index)
+                                                // console.log(setorAtivo)
 
                                             }
 
@@ -752,7 +752,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
 
 
                                             quantidadeAtivo(edMelhorado.nome)
-                                            console.log(quantidadeAtivo(edMelhorado.nome))
+                                            // console.log(quantidadeAtivo(edMelhorado.nome))
                                             return (
                                                 <tbody key={i} className="rounded-[2px]">
                                                     <tr style={{ backgroundColor: setorInfo.cor4, borderColor: setorInfo.cor2 }} className="mt-[20px] border-[1px] rounded-[2px] ">
@@ -890,7 +890,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
 
 
                                             quantidadeAtivo(edMelhorado.nome)
-                                            console.log(quantidadeAtivo(edMelhorado.nome))
+                                            // console.log(quantidadeAtivo(edMelhorado.nome))
                                             return (
                                                 <tbody key={i} className="rounded-[2px]">
                                                     <tr style={{ backgroundColor: setorInfo.cor4, borderColor: setorInfo.cor2 }} className="mt-[20px] border-[1px] rounded-[2px] ">

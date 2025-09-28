@@ -106,7 +106,7 @@ export default function Taxes() {
       >
         <h1 className="fonteBold text-white">Lucro</h1>
         <h1 className="fonteBold text-white text-[20px]">
-          {formatarNumero(dados.faturamento.faturamentoMensal - dados.imposto.impostoMensal)}
+          {formatarNumero(dados.faturamento.faturamentoMensal - economiaSetores.imposto.impostoMensal)}
         </h1>
       </div>
       {dados.dia > 270 && (
