@@ -16,6 +16,8 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       impostoAnualPago: false,
       proximoPagamento: ""
     },
+        contratosBancos:[
+    ],
     centralEdificios: {
       classificacaoPorteEmpresa: "Micro Empresa",
       quantidadeUnicoMax: 3,
@@ -153,7 +155,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
 
 
 
-    
+
     modalImpostoAnual: {
       estadoModal: false,
       head: "",
@@ -460,13 +462,15 @@ const liberaProximoNivel = () => {
   });
 };
 
-
+  const salvarContrato = (novoContrato) => {
+    setContratos(prev => [...prev, novoContrato]);
+  };
 
 
 
 
   return (
-    <DadosEconomyGlobalContext.Provider value={{ economiaSetores, atualizarEco, setEconomiaSetores, atualizarDadosEconomy, atualizarEcoProf, atualizarEcoProfSeguro,verificarLimites,liberaProximoNivel }}>
+    <DadosEconomyGlobalContext.Provider value={{ economiaSetores, atualizarEco, setEconomiaSetores, atualizarDadosEconomy, atualizarEcoProf, atualizarEcoProfSeguro,verificarLimites,liberaProximoNivel,salvarContrato }}>
       {children}
     </DadosEconomyGlobalContext.Provider>
   );

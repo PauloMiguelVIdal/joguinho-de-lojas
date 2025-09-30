@@ -498,6 +498,8 @@ import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { ModalBank } from "../components/ModalBank.jsx"
 import maps from "../../public/outrasImagens/maps.png"
 import { motion, useAnimation } from "framer-motion";
+import { ListaContratos } from "./ListContratos.jsx";
+
 const BankSelection = () => {
   const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
   const [selectedBank, setSelectedBank] = useState(null);
@@ -556,47 +558,47 @@ const BankSelection = () => {
     );
   }
 
-const config = {
-  cashback: {
-    nenhum: { valor: 0 },
-    todos: { valor: 2 },
-    especifico: { valor: 5 }
-  },
-  juros: {
-    baixo: 2,       // % a.m
-    medio: 3,
-    alto: 4
-  },
-  emprestimos: {
-    baixo: { mult: 1 },
-    medio: { mult: 2 },
-    alto: { mult: 3 }
-  },
-  investimentos: {
-    pos: {
-      baixa: 1, // % a.m
-      media: 3,
-      alta: 5
+  const config = {
+    cashback: {
+      nenhum: { valor: 0 },
+      todos: { valor: 2 },
+      especifico: { valor: 5 }
     },
-    pre: {
-      baixa: [
-        { prazo: 90, valor: 0.5 },
-        { prazo: 180, valor: 0.7 },
-        { prazo: 360, valor: 1.0 }
-      ],
-      media: [
-        { prazo: 90, valor: 0.7 },
-        { prazo: 180, valor: 1.0 },
-        { prazo: 360, valor: 1.5 }
-      ],
-      alta: [
-        { prazo: 90, valor: 1.5 },
-        { prazo: 180, valor: 2.0 },
-        { prazo: 360, valor: 2.5 }
-      ]
+    juros: {
+      baixo: 2,       // % a.m
+      medio: 3,
+      alto: 4
+    },
+    emprestimos: {
+      baixo: { mult: 1 },
+      medio: { mult: 2 },
+      alto: { mult: 3 }
+    },
+    investimentos: {
+      pos: {
+        baixa: 1, // % a.m
+        media: 3,
+        alta: 5
+      },
+      pre: {
+        baixa: [
+          { prazo: 90, valor: 0.5 },
+          { prazo: 180, valor: 0.7 },
+          { prazo: 360, valor: 1.0 }
+        ],
+        media: [
+          { prazo: 90, valor: 0.7 },
+          { prazo: 180, valor: 1.0 },
+          { prazo: 360, valor: 1.5 }
+        ],
+        alta: [
+          { prazo: 90, valor: 1.5 },
+          { prazo: 180, valor: 2.0 },
+          { prazo: 360, valor: 2.5 }
+        ]
+      }
     }
-  }
-};
+  };
 
   // const bancos = [
   //   // 1. Agro Bank
@@ -1609,88 +1611,313 @@ const config = {
   //   }
   // ];
 
-const bancos = [
-  {
-    id: 1,
-    nome: "Agro Bank",
-    cor: "linear-gradient(90deg, #003816, #4CAF50)",
-    icone: "🌱",
-    descricao: "Especialista no setor agrícola, libera crédito extra para fazendas.",
-    cartoes: [
+  const bancos = [
+    {
+      id: 1,
+      nome: "Agro Bank",
+      cor: "linear-gradient(90deg, #003816, #4CAF50)",
+      icone: "🌱",
+      descricao: "Especialista no setor agrícola, libera crédito extra para fazendas.",
+      cartoes: [
+        {
+          id: 1,
+          nome: "Agro Classic",
+          design: "card-classico",
+          cor1: "#003816",
+          cor2: "#1A5E2A",
+          cor3: "#0C9123",
+          cor4: "#4CAF50",
+          numeroCard: "5757 **** **** 6868",
+          cashback: "especifico",
+          setorCashback: "agricultura",
+          juros: "alto",
+          emprestimo: "medio",
+          investimento: "media"
+        },
+        {
+          id: 2,
+          nome: "Agro Top",
+          design: "geometric-chaos",
+          cor1: "#004d1a",
+          cor2: "#1a7030",
+          cor3: "#0c9123",
+          cor4: "#66bb66",
+          numeroCard: "4341 **** **** 6128",
+          cashback: "todos",
+          juros: "medio",
+          emprestimo: "alto",
+          investimento: "alta"
+        },
+        {
+          id: 3,
+          nome: "Agro Ultra",
+          design: "wave-patterns",
+          cor1: "#005622",
+          cor2: "#2a8a4a",
+          cor3: "#14a231",
+          cor4: "#81c784",
+          numeroCard: "1421 **** **** 1211",
+          cashback: "nenhum",
+          juros: "baixo",
+          emprestimo: "baixo",
+          investimento: "baixa"
+        }
+      ]
+    },
+    {
+      id: 2,
+      nome: "Mega Credit",
+      cor: "linear-gradient(90deg, #003366, #99ccff)",
+      icone: "🏛️",
+      descricao: "Oferece muito crédito, mas cobra juros altíssimos.",
+      cartoes: [
+        {
+          id: 1,
+          nome: "Mega Basic",
+          design: "card-classico",
+          cor1: "#003366",
+          cor2: "#336699",
+          cor3: "#6699cc",
+          cor4: "#99ccff",
+          numeroCard: "2431 **** **** 6112",
+          cashback: "nenhum",
+          juros: "alto",
+          emprestimo: "alto",
+          investimento: "baixa"
+        },
+        {
+          id: 2,
+          nome: "Mega Gold",
+          design: "geometric-chaos",
+          cor1: "#001a66",
+          cor2: "#0044cc",
+          cor3: "#0066ff",
+          cor4: "#3399ff",
+
+          cashback: "especifico",
+          setorCashback: "crédito",
+          juros: "alto",
+          emprestimo: "alto",
+          investimento: "media"
+        },
+        {
+          id: 3,
+          nome: "Mega Platinum",
+          design: "wave-patterns",
+          cor1: "#002244",
+          cor2: "#0055aa",
+          cor3: "#3388cc",
+          cor4: "#66bbff",
+          numeroCard: "5464 **** **** 3452",
+          cashback: "todos",
+          juros: "alto",
+          emprestimo: "alto",
+          investimento: "alta"
+        }
+      ]
+    },
+    {
+      id: 3,
+      nome: "Tech Bank",
+      cor: "linear-gradient(90deg, #ff9900, #ffe0b3)",
+      icone: "💻",
+      descricao: "Banco digital focado em tecnologia e inovação.",
+      cartoes: [
+        {
+          id: 1,
+          nome: "Tech Standard",
+          design: "wave-patterns",
+          cor1: "#ff9900",
+          cor2: "#ffb84d",
+          cor3: "#ffcc66",
+          cor4: "#ffe0b3",
+          numeroCard: "5321 **** **** 4338",
+          cashback: "especifico",
+          setorCashback: "tecnologia",
+          juros: "médio",
+          emprestimo: "baixo",
+          investimento: "alta"
+        },
+        {
+          id: 2,
+          nome: "Tech Premium",
+          design: "card-moderno",
+          cor1: "#cc6600",
+          cor2: "#ff8000",
+          cor3: "#ff9933",
+          cor4: "#ffc266",
+
+          cashback: "todos",
+          juros: "baixo",
+          emprestimo: "medio",
+          investimento: "alta"
+        },
+        {
+          id: 3,
+          nome: "Tech Ultra",
+          design: "geometric-chaos",
+          cor1: "#ff6600",
+          cor2: "#ff9933",
+          cor3: "#ffb366",
+          cor4: "#ffe0b3",
+          numeroCard: "5223 **** **** 6241",
+          cashback: "especifico",
+          setorCashback: "startups",
+          juros: "baixo",
+          emprestimo: "baixo",
+          investimento: "alta"
+        }
+      ]
+    },
       {
-        id: 1,
-        nome: "Agro Classic",
-        design: "card-classico",
-        cor1: "#003816",
-        cor2: "#1A5E2A",
-        cor3: "#0C9123",
-        cor4: "#4CAF50",
-        tipo: "básico",
-        cashback: "especifico",
-        setorCashback: "agricultura",
-        juros: "alto",
-        emprestimo: "medio",
-        investimento: "media"
-      },
+      id: 3,
+      nome: "Tech Bank",
+      cor: "linear-gradient(90deg, #ff9900, #ffe0b3)",
+      icone: "💻",
+      descricao: "Banco digital focado em tecnologia e inovação.",
+      cartoes: [
+        {
+          id: 1,
+          nome: "Tech Standard",
+          design: "wave-patterns",
+          cor1: "#ff9900",
+          cor2: "#ffb84d",
+          cor3: "#ffcc66",
+          cor4: "#ffe0b3",
+          numeroCard: "5321 **** **** 4338",
+          cashback: "especifico",
+          setorCashback: "tecnologia",
+          juros: "médio",
+          emprestimo: "baixo",
+          investimento: "alta"
+        },
+        {
+          id: 2,
+          nome: "Tech Premium",
+          design: "card-moderno",
+          cor1: "#cc6600",
+          cor2: "#ff8000",
+          cor3: "#ff9933",
+          cor4: "#ffc266",
+
+          cashback: "todos",
+          juros: "baixo",
+          emprestimo: "medio",
+          investimento: "alta"
+        },
+        {
+          id: 3,
+          nome: "Tech Ultra",
+          design: "geometric-chaos",
+          cor1: "#ff6600",
+          cor2: "#ff9933",
+          cor3: "#ffb366",
+          cor4: "#ffe0b3",
+          numeroCard: "5223 **** **** 6241",
+          cashback: "especifico",
+          setorCashback: "startups",
+          juros: "baixo",
+          emprestimo: "baixo",
+          investimento: "alta"
+        }
+      ]
+    },
       {
-        id: 2,
-        nome: "Agro Top",
-        design: "geometric-chaos",
-        cor1: "#004d1a",
-        cor2: "#1a7030",
-        cor3: "#0c9123",
-        cor4: "#66bb66",
-        tipo: "premium",
-        cashback: "todos",
-        juros: "medio",
-        emprestimo: "alto",
-        investimento: "alta"
-      },
-      {
-        id: 3,
-        nome: "Agro Ultra",
-        design: "wave-patterns",
-        cor1: "#005622",
-        cor2: "#2a8a4a",
-        cor3: "#14a231",
-        cor4: "#81c784",
-        tipo: "básico",
-        cashback: "nenhum",
-        juros: "baixo",
-        emprestimo: "baixo",
-        investimento: "baixa"
-      }
-    ]
+      id: 3,
+      nome: "Tech Bank",
+      cor: "linear-gradient(90deg, #ff9900, #ffe0b3)",
+      icone: "💻",
+      descricao: "Banco digital focado em tecnologia e inovação.",
+      cartoes: [
+        {
+          id: 1,
+          nome: "Tech Standard",
+          design: "wave-patterns",
+          cor1: "#ff9900",
+          cor2: "#ffb84d",
+          cor3: "#ffcc66",
+          cor4: "#ffe0b3",
+          numeroCard: "5321 **** **** 4338",
+          cashback: "especifico",
+          setorCashback: "tecnologia",
+          juros: "médio",
+          emprestimo: "baixo",
+          investimento: "alta"
+        },
+        {
+          id: 2,
+          nome: "Tech Premium",
+          design: "card-moderno",
+          cor1: "#cc6600",
+          cor2: "#ff8000",
+          cor3: "#ff9933",
+          cor4: "#ffc266",
+
+          cashback: "todos",
+          juros: "baixo",
+          emprestimo: "medio",
+          investimento: "alta"
+        },
+        {
+          id: 3,
+          nome: "Tech Ultra",
+          design: "geometric-chaos",
+          cor1: "#ff6600",
+          cor2: "#ff9933",
+          cor3: "#ffb366",
+          cor4: "#ffe0b3",
+          numeroCard: "5223 **** **** 6241",
+          cashback: "especifico",
+          setorCashback: "startups",
+          juros: "baixo",
+          emprestimo: "baixo",
+          investimento: "alta"
+        }
+      ]
+    }
+  ];
+
+  function processarBanco(banco, config) {
+    if (!banco || !banco.cartoes) return banco;
+
+    const range = (chave, tabela) => {
+      const valores = banco.cartoes.map(c => tabela[c[chave]]);
+      return [Math.min(...valores), Math.max(...valores)];
+    };
+
+    return {
+      ...banco,
+      cashbackValor: range("cashback", Object.fromEntries(
+        Object.entries(config.cashback).map(([k, v]) => [k, v.valor])
+      )),
+      jurosValor: range("juros", config.juros),
+      emprestimoMult: range("emprestimo", Object.fromEntries(
+        Object.entries(config.emprestimos).map(([k, v]) => [k, v.mult])
+      )),
+      investimentoPos: range("investimento", config.investimentos.pos),
+      investimentoPre: [
+        Math.min(...banco.cartoes.map(c => {
+          const arr = config.investimentos.pre[c.investimento];
+          if (!arr) {
+            console.warn("Investimento não encontrado:", c.investimento, "no banco:", banco.nome);
+            return Infinity; // evita quebrar o Math.min
+          }
+          return arr[0]?.valor ?? Infinity;
+        })),
+        Math.max(...banco.cartoes.map(c => {
+          const arr = config.investimentos.pre[c.investimento];
+          if (!arr) {
+            console.warn("Investimento não encontrado:", c.investimento, "no banco:", banco.nome);
+            return -Infinity; // evita quebrar o Math.max
+          }
+          return arr[2]?.valor ?? -Infinity;
+        }))
+      ]
+    };
   }
-];
 
-function processarBanco(banco, config) {
-  if (!banco || !banco.cartoes) return banco;
-
-  const range = (chave, tabela) => {
-    const valores = banco.cartoes.map(c => tabela[c[chave]]);
-    return [Math.min(...valores), Math.max(...valores)];
-  };
-
-  return {
-    ...banco,
-    cashbackValor: range("cashback", Object.fromEntries(
-      Object.entries(config.cashback).map(([k,v]) => [k,v.valor])
-    )),
-    jurosValor: range("juros", config.juros),
-    emprestimoMult: range("emprestimo", Object.fromEntries(
-      Object.entries(config.emprestimos).map(([k,v]) => [k,v.mult])
-    )),
-    investimentoPos: range("investimento", config.investimentos.pos),
-    investimentoPre: [
-      Math.min(...banco.cartoes.map(c => config.investimentos.pre[c.investimento][0].valor)),
-      Math.max(...banco.cartoes.map(c => config.investimentos.pre[c.investimento][2].valor))
-    ]
-  };
-}
-
-const bancoSelecionadoRaw = bancos.find(b => b.id === selectedBank);
-const bancoSelecionado = bancoSelecionadoRaw ? processarBanco(bancoSelecionadoRaw, config) : null;
+  const bancoSelecionadoRaw = bancos.find(b => b.id === selectedBank);
+  const bancoSelecionado = bancoSelecionadoRaw ? processarBanco(bancoSelecionadoRaw, config) : null;
 
   const tooltipStyle = {
     backgroundColor: "#FFFFFF",
@@ -1703,29 +1930,29 @@ const bancoSelecionado = bancoSelecionadoRaw ? processarBanco(bancoSelecionadoRa
   };
 
   function calcularRangeBanco(banco, config) {
-  const range = (chave, tabela) => {
-    const valores = banco.cartoes.map(c => tabela[c[chave]]);
-    return [Math.min(...valores), Math.max(...valores)];
-  };
+    const range = (chave, tabela) => {
+      const valores = banco.cartoes.map(c => tabela[c[chave]]);
+      return [Math.min(...valores), Math.max(...valores)];
+    };
 
-  return {
-    cashback: range("cashback", Object.fromEntries(
-      Object.entries(config.cashback).map(([k,v]) => [k,v.valor])
-    )),
-    juros: range("juros", config.juros),
-    emprestimos: range("emprestimo", Object.fromEntries(
-      Object.entries(config.emprestimos).map(([k,v]) => [k,v.mult])
-    )),
-    investimentosPos: range("investimento", config.investimentos.pos),
-    // Pré-fixado: aqui dá pra mostrar o range do menor até o maior conjunto
-    investimentosPre: [
-      config.investimentos.pre[banco.cartoes[0].investimento][0].valor,
-      config.investimentos.pre[
-        banco.cartoes[banco.cartoes.length-1].investimento
-      ][2].valor
-    ]
-  };
-}
+    return {
+      cashback: range("cashback", Object.fromEntries(
+        Object.entries(config.cashback).map(([k, v]) => [k, v.valor])
+      )),
+      juros: range("juros", config.juros),
+      emprestimos: range("emprestimo", Object.fromEntries(
+        Object.entries(config.emprestimos).map(([k, v]) => [k, v.mult])
+      )),
+      investimentosPos: range("investimento", config.investimentos.pos),
+      // Pré-fixado: aqui dá pra mostrar o range do menor até o maior conjunto
+      investimentosPre: [
+        config.investimentos.pre[banco.cartoes[0].investimento][0].valor,
+        config.investimentos.pre[
+          banco.cartoes[banco.cartoes.length - 1].investimento
+        ][2].valor
+      ]
+    };
+  }
 
   // const cartoes = [
   //   {
@@ -1812,8 +2039,8 @@ const bancoSelecionado = bancoSelecionadoRaw ? processarBanco(bancoSelecionadoRa
           </div>
           <div className="w-[calc(100%-50px)]">
             <h1 className="text-4xl font-bold text-center">Ofertas Disponíveis</h1>
-
           </div>
+
         </div>
 
         {/* Container de cartões */}
@@ -1832,7 +2059,7 @@ const bancoSelecionado = bancoSelecionadoRaw ? processarBanco(bancoSelecionadoRa
         </div>
 
         {/* Modal de confirmação */}
-        {selectedCard && (
+        {/* {selectedCard && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-slate-800 rounded-2xl p-8 max-w-md w-full mx-4">
               <h3 className="text-2xl font-bold text-white mb-4">Confirmar Seleção</h3>
@@ -1854,7 +2081,8 @@ const bancoSelecionado = bancoSelecionadoRaw ? processarBanco(bancoSelecionadoRa
                     //   `Prosseguindo com ${bancoSelecionado?.cartoes.find(c => c.id === selectedCard)?.nome}`
                     // );
                     setVision("bankInterface")
-                    setSelectedCard(null);
+                    setSelectedCard(selectedCard);
+
                   }}
                   className="flex-1 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl font-bold transition-all"
                 >
@@ -1863,7 +2091,7 @@ const bancoSelecionado = bancoSelecionadoRaw ? processarBanco(bancoSelecionadoRa
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     );
   }
@@ -1871,91 +2099,78 @@ const bancoSelecionado = bancoSelecionadoRaw ? processarBanco(bancoSelecionadoRa
 
 
 
- return (
-  <div className="h-full bg-gradient-to-br from-[#6A00FF] via-[#350973] via-[#C79FFF] to-[#7317F3] text-white flex flex-col justify-between rounded-[20px]">
-    {/* Título fixo */}
-    <div className="h-[50px] w-full flex gap-[10px] pt-6 pl-6 items-center">
-      <div>
-        <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
-        <button
-          onClick={() => setVision("mapa")}
-          data-tooltip-id="tooltip-faturado"
-          data-tooltip-html="Ir para o mapa"
-          className="h-full bg-gradient-to-br from-[#6A00FF] via-[#9D00CC] to-[#E60000] w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
-        >
-          <img className="w-[70%]" src={maps} />
-        </button>
-      </div>
-      <div className="w-[calc(100%-50px)]">
-        <h1 className="text-4xl font-bold text-center ">Bancos Disponíveis</h1>
-      </div>
-    </div>
+  return (
+    <div className="h-full bg-gradient-to-br from-[#6A00FF] via-[#350973] via-[#C79FFF] to-[#7317F3] text-white flex flex-col justify-between rounded-[20px]">
+      {/* Título fixo */}
+      <ListaContratos />
 
-    {/* Container com scroll interno */}
-    <div className="flex-1 overflow-y-auto px-6 max-h-[70vh] scrollbar-custom">
-      <div className="max-w-6xl mx-auto grid pt-[10px] gap-6 md:grid-cols-2 lg:grid-cols-3  pb-6">
-        {bancos.map((bancoRaw) => {
-          const banco = processarBanco(bancoRaw, config);
+      {/* Container com scroll interno */}
+      <h2 className="text-xl font-bold ml-6 mt-4 mb-4">Bancos Disponíveis</h2>
+      <div className="flex-1 overflow-y-auto px-6 max-h-[60vh] scrollbar-custom">
+        <div className="max-w-6xl mx-auto grid pt-[10px] gap-6 md:grid-cols-2 lg:grid-cols-3  pb-6">
+         
+          {bancos.map((bancoRaw) => {
+            const banco = processarBanco(bancoRaw, config);
 
-          return (
-            <div
-              key={banco.id}
-              style={{ background: banco.cor }}
-              className="rounded-2xl p-6 border border-slate-700 hover:border-slate-500 transition-all duration-300 hover:scale-105 cursor-pointer"
-              onClick={() => { setBanksModal(true); setSelectedBank(banco.id); }}
-            >
-              {/* Header */}
-              <div className="flex items-center gap-4 mb-4">
-                <div className="text-4xl">{banco.icone}</div>
-                <div>
-                  <h2 className="text-2xl font-bold text-white">{banco.nome}</h2>
-                  <p className="text-slate-200 text-sm">{banco.descricao}</p>
+            return (
+              <div
+                key={banco.id}
+                style={{ background: banco.cor }}
+                className="rounded-2xl p-6 border border-slate-700 hover:border-slate-500 transition-all duration-300 hover:scale-105 cursor-pointer"
+                onClick={() => { setBanksModal(true); setSelectedBank(banco.id); }}
+              >
+                {/* Header */}
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="text-4xl">{banco.icone}</div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-white">{banco.nome}</h2>
+                    <p className="text-slate-200 text-sm">{banco.descricao}</p>
+                  </div>
                 </div>
-              </div>
 
-              {/* Infos rápidas */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
+                {/* Infos rápidas */}
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <p className="text-xs text-slate-300">Cashback</p>
+                    <p className="text-lg font-bold text-green-300">
+                      {banco.cashbackValor[0]}% - {banco.cashbackValor[1]}% {banco.cartoes.some(c => c.cashback === "especifico") && `(específico)`}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-slate-300">Juros</p>
+                    <p className="text-lg font-bold text-red-300">
+                      {banco.jurosValor[0]}% - {banco.jurosValor[1]}% a.m
+                    </p>
+                  </div>
+                </div>
+
+                {/* Crédito */}
                 <div>
-                  <p className="text-xs text-slate-300">Cashback</p>
-                  <p className="text-lg font-bold text-green-300">
-                    {banco.cashbackValor[0]}% - {banco.cashbackValor[1]}% {banco.cartoes.some(c => c.cashback === "especifico") && `(específico)`} 
+                  <p className="text-xs text-slate-300">Limite de Crédito</p>
+                  <p className="text-lg font-bold text-blue-300">
+                    x{banco.emprestimoMult[0]} - x{banco.emprestimoMult[1]} patrimônio
                   </p>
                 </div>
-                <div>
-                  <p className="text-xs text-slate-300">Juros</p>
-                  <p className="text-lg font-bold text-red-300">
-                    {banco.jurosValor[0]}% - {banco.jurosValor[1]}% a.m
+
+                {/* Investimentos */}
+                <div className="mt-4">
+                  <p className="text-xs text-slate-300 mb-1">Investimento Pós-fixado</p>
+                  <p className="text-sm">
+                    Rentabilidade: {banco.investimentoPos[0]}% - {banco.investimentoPos[1]}% a.m
+                  </p>
+
+                  <p className="text-xs text-slate-300 mt-2 mb-1">Investimento Pré-fixado</p>
+                  <p className="text-sm">
+                    {banco.investimentoPre[0]}% - {banco.investimentoPre[1]}% a.m
                   </p>
                 </div>
               </div>
-
-              {/* Crédito */}
-              <div>
-                <p className="text-xs text-slate-300">Limite de Crédito</p>
-                <p className="text-lg font-bold text-blue-300">
-                  x{banco.emprestimoMult[0]} - x{banco.emprestimoMult[1]} patrimônio
-                </p>
-              </div>
-
-              {/* Investimentos */}
-              <div className="mt-4">
-                <p className="text-xs text-slate-300 mb-1">Investimento Pós-fixado</p>
-                <p className="text-sm">
-                  Rentabilidade: {banco.investimentoPos[0]}% - {banco.investimentoPos[1]}% a.m
-                </p>
-
-                <p className="text-xs text-slate-300 mt-2 mb-1">Investimento Pré-fixado</p>
-                <p className="text-sm">
-                  {banco.investimentoPre[0]}% - {banco.investimentoPre[1]}% a.m
-                </p>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 
 };
 
