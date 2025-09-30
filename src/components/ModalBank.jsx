@@ -17,7 +17,7 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 
 
-export const ModalBank = ({ cartao, setor, selectedCard, setSelectedCard }) => {
+export const ModalBank = ({ banco,cartao, setor, selectedCard, setSelectedCard }) => {
     const { dados, atualizarDados, atualizarDadosProf } = useContext(CentraldeDadosContext);
     const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
@@ -500,134 +500,222 @@ export const ModalBank = ({ cartao, setor, selectedCard, setSelectedCard }) => {
         }
     };
 
+const config = {
+  cashback: {
+    nenhum: { valor: 0 },
+    todos: { valor: 2 },
+    especifico: { valor: 5 }
+  },
+  juros: {
+    baixo: 2,       // % a.m
+    medio: 3,
+    alto: 4
+  },
+  emprestimos: {
+    baixo: { mult: 1 },
+    medio: { mult: 2 },
+    alto: { mult: 3 }
+  },
+  investimentos: {
+    pos: {
+      baixa: 1, // % a.m
+      media: 3,
+      alta: 5
+    },
+    pre: {
+      baixa: [
+        { prazo: 90, valor: 0.5 },
+        { prazo: 180, valor: 0.7 },
+        { prazo: 360, valor: 1.0 }
+      ],
+      media: [
+        { prazo: 90, valor: 0.7 },
+        { prazo: 180, valor: 1.0 },
+        { prazo: 360, valor: 1.5 }
+      ],
+      alta: [
+        { prazo: 90, valor: 1.5 },
+        { prazo: 180, valor: 2.0 },
+        { prazo: 360, valor: 2.5 }
+      ]
+    }
+  }
+};
+
     return (
-        <div      style={{
-                                background: `linear-gradient(135deg, ${cartao.cor4} 0%, #6A00FF 50%, ${cartao.cor3} 100%)`
-                            }} className="h-full w-full rounded-[10px] bg-gradient-to-br from-[#6A00FF] via-[#350973] via-[#C79FFF] to-[#7317F3] flex flex-col">
-            {/* Container com scroll interno */}
-            <div className="flex-1 overflow-hidden">
-                <div className="h-full w-full p-6">
-                    {/* Scroll só nos cartões */}
-                    <div className="flex flex-col space-y-8 h-full w-full overflow-y-auto pr-2">
+   <div 
+        style={{
+            background: `linear-gradient(135deg, ${cartao.cor4} 0%, #6A00FF 50%, ${cartao.cor3} 100%)`
+        }} 
+        className="h-full w-full rounded-[10px] bg-gradient-to-br from-[#6A00FF] via-[#350973] via-[#C79FFF] to-[#7317F3] flex flex-col"
+    >
+        {/* Container com scroll interno */}
+        <div className="flex-1 overflow-hidden">
+            <div className="h-full w-full p-6">
+                {/* Scroll só nos cartões */}
+                <div className="flex flex-col space-y-8 h-full w-full overflow-y-auto pr-2">
 
-                        <div
-                            key={cartao.id}
-                            className="rounded-3xl p-6 w-full"
-                            style={{
-                                background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 50%, ${cartao.cor3} 100%)`
-                            }}
-                        >
-                            {/* Coluna esquerda */}
-                            <div className="flex gap-6 w-full">
-                                <div className="flex-shrink-0 space-y-4">
-                                    {renderCard(cartao)}
+                    <div
+                        key={cartao.id}
+                        className="rounded-3xl p-6 w-full"
+                        style={{
+                            background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 50%, ${cartao.cor3} 100%)`
+                        }}
+                    >
+                        {/* Coluna esquerda */}
+                        <div className="flex gap-6 w-full">
+                            <div className="flex-shrink-0 space-y-4">
+                                {renderCard(cartao)}
 
-                                    <div className="space-y-3 w-[350px]">
-                                        <div className="grid grid-cols-2 gap-3">
-                                            <div className="rounded-lg p-3 text-center bg-white/10 backdrop-blur-sm border border-white/20">
-                                                <div className="text-xs text-gray-300 mb-1">Limite Empréstimo</div>
-                                                <div className="text-sm font-bold text-white">R$ {cartao.limiteEmprestimo}</div>
-                                            </div>
-
-                                            <div className="rounded-lg p-3 text-center bg-white/10 backdrop-blur-sm border border-white/20">
-                                                <div className="text-xs text-gray-300 mb-1">Limite Investimento</div>
-                                                <div className="text-sm font-bold text-white">R$ {cartao.limiteInvestimento}</div>
-                                            </div>
+                                <div className="space-y-3 w-[350px]">
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div className="rounded-lg p-3 text-center bg-white/10 backdrop-blur-sm border border-white/20">
+                                            <div className="text-xs text-gray-300 mb-1">Empréstimo</div>
+                                            <div className="text-sm font-bold text-white">{config.emprestimos[cartao.emprestimo].mult}x patrimônio</div>
                                         </div>
 
-                                        <div className="rounded-lg p-3 bg-white/10 backdrop-blur-sm border border-white/20">
-                                            <div className="text-xs text-gray-300 mb-2">Setores atingidos pelo cashback:</div>
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-lg">🌱</span>
-                                                <span className="text-sm text-white">Agricultura</span>
-                                            </div>
+                                        <div className="rounded-lg p-3 text-center bg-white/10 backdrop-blur-sm border border-white/20">
+                                            <div className="text-xs text-gray-300 mb-1">Juros Crédito</div>
+                                            <div className="text-sm font-bold text-white">{config.juros[cartao.juros]}% a.m</div>
                                         </div>
                                     </div>
-                                </div>
 
-                                {/* Coluna direita */}
-                                <div className="flex-1 w-full">
-                                    <div className="rounded-2xl p-6 h-full w-full bg-white/10 backdrop-blur-sm border border-white/20">
-
-                                        <div className="mb-6">
-                                            <h3 className="text-2xl font-bold text-white">
-                                                {cartao.nome} - {cartao.nome.toUpperCase()}
-                                            </h3>
+                                    <div className="rounded-lg p-3 bg-white/10 backdrop-blur-sm border border-white/20">
+                                        <div className="text-xs text-gray-300 mb-2">Cashback:</div>
+                                        <div className="flex items-center gap-2">
+                                            {cartao.cashback === 'especifico' && (
+                                                <>
+                                                    <span className="text-lg">🌱</span>
+                                                    <span className="text-sm text-white">{config.cashback[cartao.cashback].valor}% em {cartao.setorCashback}</span>
+                                                </>
+                                            )}
+                                            {cartao.cashback === 'todos' && (
+                                                <>
+                                                    <span className="text-lg">💳</span>
+                                                    <span className="text-sm text-white">{config.cashback[cartao.cashback].valor}% em todas compras</span>
+                                                </>
+                                            )}
+                                            {cartao.cashback === 'nenhum' && (
+                                                <>
+                                                    <span className="text-lg">❌</span>
+                                                    <span className="text-sm text-white">Sem cashback</span>
+                                                </>
+                                            )}
                                         </div>
+                                    </div>
 
-                                        <div className="grid grid-cols-2 gap-4 mb-6">
-                                            <div className="space-y-4">
-                                                <div className="rounded-lg p-4 bg-white/10 backdrop-blur-sm border border-white/20">
-                                                    <div className="text-xs text-gray-300 mb-1">Crédito Agricultura</div>
-                                                    <div className="text-base font-semibold text-white">{cartao.credito}x patrimônio</div>
-                                                </div>
+                                    <div className="rounded-lg p-3 bg-white/10 backdrop-blur-sm border border-white/20">
+                                        <div className="text-xs text-gray-300 mb-1">Tipo do Cartão</div>
+                                        <div className="text-sm font-bold text-white capitalize">{cartao.tipo}</div>
+                                    </div>
 
-                                                <div className="rounded-lg p-4 bg-white/10 backdrop-blur-sm border border-white/20">
-                                                    <div className="text-xs text-gray-300 mb-1">Cashback</div>
-                                                    <div className="text-base font-semibold text-green-400">{cartao.cashback}</div>
-                                                </div>
-                                            </div>
-
-                                            <div className="space-y-4">
-                                                <div className="rounded-lg p-4 bg-white/10 backdrop-blur-sm border border-white/20">
-                                                    <div className="text-xs text-gray-300 mb-1">Juros Empréstimo</div>
-                                                    <div className="text-base font-semibold text-yellow-400">{cartao.taxaJurosEmprestimo} a.a</div>
-                                                </div>
-
-                                                <div className="rounded-lg p-4 bg-white/10 backdrop-blur-sm border border-white/20">
-                                                    <div className="text-xs text-gray-300 mb-1">Rentabilidade Investimento</div>
-                                                    <div className="text-base font-semibold text-blue-400">{cartao.rentabilidadeInvestimento} a.a</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <button
-                                            style={{
-                                                background: `linear-gradient(45deg, ${cartao.cor3} 0%, ${cartao.cor2} 25%, ${cartao.cor1} 50%, ${cartao.cor2} 75%, ${cartao.cor3} 100%)`
-                                            }}
-                                            className={`w-full py-3 rounded-lg font-bold text-white transition-all duration-300 hover:scale-105 
-            `}
-                                            onClick={() => setSelectedCard(cartao.id)}
-                                        >
-                                            Selecionar {cartao.banco} {cartao.nome.split(' ')[1]}
-                                        </button>
+                                    <div className="rounded-lg p-3 bg-white/10 backdrop-blur-sm border border-white/20">
+                                        <div className="text-xs text-gray-300 mb-1">Design</div>
+                                        <div className="text-sm font-bold text-white">{cartao.design.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</div>
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Coluna direita */}
+                            <div className="flex-1 w-full">
+                                <div className="rounded-2xl p-6 h-full w-full bg-white/10 backdrop-blur-sm border border-white/20">
+
+                                    <div className="mb-6">
+                                        <h3 className="text-2xl font-bold text-white mb-2">
+                                            {banco.nome} - {cartao.nome}
+                                        </h3>
+                                        <p className="text-sm text-gray-300">{banco.descricao}</p>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4 mb-6">
+                                        <div className="space-y-4">
+                                            <div className="rounded-lg p-4 bg-white/10 backdrop-blur-sm border border-white/20">
+                                                <div className="text-xs text-gray-300 mb-1">Juros do Crédito</div>
+                                                <div className="text-base font-semibold text-white">{config.juros[cartao.juros]}% a.m</div>
+                                            </div>
+
+                                            <div className="rounded-lg p-4 bg-white/10 backdrop-blur-sm border border-white/20">
+                                                <div className="text-xs text-gray-300 mb-1">Limite Empréstimo</div>
+                                                <div className="text-base font-semibold text-purple-400">{config.emprestimos[cartao.emprestimo].mult}x patrimônio</div>
+                                            </div>
+
+                                            <div className="rounded-lg p-4 bg-white/10 backdrop-blur-sm border border-white/20">
+                                                <div className="text-xs text-gray-300 mb-1">Cashback</div>
+                                                <div className="text-base font-semibold text-green-400">
+                                                    {config.cashback[cartao.cashback].valor}%
+                                                    {cartao.cashback === 'especifico' && ` (${cartao.setorCashback})`}
+                                                    {cartao.cashback === 'todos' && ' (todas compras)'}
+                                                    {cartao.cashback === 'nenhum' && ' (sem cashback)'}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            <div className="rounded-lg p-4 bg-white/10 backdrop-blur-sm border border-white/20">
+                                                <div className="text-xs text-gray-300 mb-1">Investimento Pós-Fixado</div>
+                                                <div className="text-base font-semibold text-blue-400">{config.investimentos.pos[cartao.investimento]}% a.m</div>
+                                            </div>
+
+                                            <div className="rounded-lg p-4 bg-white/10 backdrop-blur-sm border border-white/20">
+                                                <div className="text-xs text-gray-300 mb-2">Investimento Pré-Fixado</div>
+                                                <div className="space-y-1">
+                                                    {config.investimentos.pre[cartao.investimento].map((item, idx) => (
+                                                        <div key={idx} className="flex justify-between text-xs">
+                                                            <span className="text-gray-300">{item.prazo} dias:</span>
+                                                            <span className="text-blue-400 font-semibold">{item.valor}% a.m</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            <div className="rounded-lg p-4 bg-white/10 backdrop-blur-sm border border-white/20">
+                                                <div className="text-xs text-gray-300 mb-1">Tipo de Cartão</div>
+                                                <div className="text-base font-semibold text-yellow-400 capitalize">{cartao.tipo}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        style={{
+                                            background: `linear-gradient(45deg, ${cartao.cor3} 0%, ${cartao.cor2} 25%, ${cartao.cor1} 50%, ${cartao.cor2} 75%, ${cartao.cor3} 100%)`
+                                        }}
+                                        className="w-full py-3 rounded-lg font-bold text-white transition-all duration-300 hover:scale-105"
+                                        onClick={() => setSelectedCard(cartao.id)}
+                                    >
+                                        Selecionar {banco.nome} {cartao.nome}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                    </div>
 
+                </div>
+            </div>
+        </div>
 
-
+        {/* Modal de seleção */}
+        {selectedCard && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-slate-800 rounded-2xl p-8 max-w-md w-full mx-4">
+                    <h3 className="text-2xl font-bold text-white mb-4">Confirmar Seleção</h3>
+                    <p className="text-slate-300 mb-4">Tem certeza que deseja escolher este cartão?</p>
+                    <div className="flex justify-end gap-3">
+                        <button
+                            className="px-4 py-2 rounded bg-gray-600 text-white hover:bg-gray-700"
+                            onClick={() => setSelectedCard(null)}
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700"
+                            onClick={() => handleConfirmarSelecao(selectedCard)}
+                        >
+                            Confirmar
+                        </button>
                     </div>
                 </div>
             </div>
-
-            {/* Modal de seleção */}
-            {selectedCard && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-slate-800 rounded-2xl p-8 max-w-md w-full mx-4">
-                        <h3 className="text-2xl font-bold text-white mb-4">Confirmar Seleção</h3>
-                        <p className="text-slate-300 mb-4">Tem certeza que deseja escolher este cartão?</p>
-                        <div className="flex justify-end gap-3">
-                            <button
-                                className="px-4 py-2 rounded bg-gray-600 text-white hover:bg-gray-700"
-                                onClick={() => setSelectedCard(null)}
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700"
-                                onClick={() => handleConfirmarSelecao(selectedCard)}
-                            >
-                                Confirmar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
+        )}
+    </div>
     );
-
-
-
 }

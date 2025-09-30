@@ -500,9 +500,9 @@ import maps from "../../public/outrasImagens/maps.png"
 import { motion, useAnimation } from "framer-motion";
 const BankSelection = () => {
   const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
-const [selectedBank, setSelectedBank] = useState(null);
+  const [selectedBank, setSelectedBank] = useState(null);
 
- 
+
 
   const [banksModal, setBanksModal] = useState(false)
   const [selectedCard, setSelectedCard] = useState(null);
@@ -556,17 +556,1066 @@ const [selectedBank, setSelectedBank] = useState(null);
     );
   }
 
+const config = {
+  cashback: {
+    nenhum: { valor: 0 },
+    todos: { valor: 2 },
+    especifico: { valor: 5 }
+  },
+  juros: {
+    baixo: 2,       // % a.m
+    medio: 3,
+    alto: 4
+  },
+  emprestimos: {
+    baixo: { mult: 1 },
+    medio: { mult: 2 },
+    alto: { mult: 3 }
+  },
+  investimentos: {
+    pos: {
+      baixa: 1, // % a.m
+      media: 3,
+      alta: 5
+    },
+    pre: {
+      baixa: [
+        { prazo: 90, valor: 0.5 },
+        { prazo: 180, valor: 0.7 },
+        { prazo: 360, valor: 1.0 }
+      ],
+      media: [
+        { prazo: 90, valor: 0.7 },
+        { prazo: 180, valor: 1.0 },
+        { prazo: 360, valor: 1.5 }
+      ],
+      alta: [
+        { prazo: 90, valor: 1.5 },
+        { prazo: 180, valor: 2.0 },
+        { prazo: 360, valor: 2.5 }
+      ]
+    }
+  }
+};
 
+  // const bancos = [
+  //   // 1. Agro Bank
+  //   {
+  //       id: 1,
+  //     nome: "Agro Bank",
+  //     cor: "linear-gradient(90deg, #003816, #4CAF50)",
+  //     icone: "🌱",
+  //     descricao: "Especialista no setor agrícola, libera crédito extra para fazendas.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Agro Classic",
+  //         design: "card-classico",
+  //         cor1: "#003816",
+  //         cor2: "#1A5E2A",
+  //         cor3: "#0C9123",
+  //         cor4: "#4CAF50",
+  //         tipo: "Básico",
+  //         numeroCard: "2341 **** **** 8943",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 50.000",
+  //         taxaJurosEmprestimo: "6%",
+  //         cashback: "6%",
+  //         credito: "0,3",
+  //         limiteEmprestimo: "120000",
+  //         limiteInvestimento: "100000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Agro Top",
+  //         design: "geometric-chaos",
+  //         cor1: "#004d1a",
+  //         cor2: "#1a7030",
+  //         cor3: "#0c9123",
+  //         cor4: "#66bb66",
+  //         tipo: "Premium",
+  //         numeroCard: "5678 **** **** 1234",
+  //         validade: "130",
+  //         rentabilidadeInvestimento: "15%",
+  //         valorMaxEmprestimo: "R$ 80.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "8%",
+  //         credito: "0,5",
+  //         limiteEmprestimo: "150000",
+  //         limiteInvestimento: "120000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Agro Ultra",
+  //         design: "wave-patterns",
+  //         cor1: "#005622",
+  //         cor2: "#2a8a4a",
+  //         cor3: "#14a231",
+  //         cor4: "#81c784",
+  //         tipo: "Básico",
+  //         numeroCard: "9876 **** **** 5432",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "14%",
+  //         valorMaxEmprestimo: "R$ 70.000",
+  //         taxaJurosEmprestimo: "6%",
+  //         cashback: "5%",
+  //         credito: "0,4",
+  //         limiteEmprestimo: "130000",
+  //         limiteInvestimento: "110000"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: 2,
+  //     nome: "Mega Credit",
+  //     cor: "linear-gradient(90deg, #003366, #99ccff)",
+  //     icone: "🏛️",
+  //     descricao: "Oferece muito crédito, mas cobra juros altíssimos.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Mega Basic",
+  //         design: "card-classico",
+  //         cor1: "#003366",
+  //         cor2: "#336699",
+  //         cor3: "#6699cc",
+  //         cor4: "#99ccff",
+  //         tipo: "Básico",
+  //         numeroCard: "1111 **** **** 2222",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "8%",
+  //         valorMaxEmprestimo: "R$ 60.000",
+  //         taxaJurosEmprestimo: "12%",
+  //         cashback: "0%",
+  //         credito: "0,5",
+  //         limiteEmprestimo: "60000",
+  //         limiteInvestimento: "40000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Mega Gold",
+  //         design: "geometric-chaos",
+  //         cor1: "#001a66",
+  //         cor2: "#0044cc",
+  //         cor3: "#0066ff",
+  //         cor4: "#3399ff",
+  //         tipo: "Premium",
+  //         numeroCard: "3333 **** **** 4444",
+  //         validade: "130",
+  //         rentabilidadeInvestimento: "10%",
+  //         valorMaxEmprestimo: "R$ 120.000",
+  //         taxaJurosEmprestimo: "11%",
+  //         cashback: "2%",
+  //         credito: "0,6",
+  //         limiteEmprestimo: "120000",
+  //         limiteInvestimento: "90000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Mega Platinum",
+  //         design: "wave-patterns",
+  //         cor1: "#002244",
+  //         cor2: "#0055aa",
+  //         cor3: "#3388cc",
+  //         cor4: "#66bbff",
+  //         tipo: "Premium",
+  //         numeroCard: "5555 **** **** 6666",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 150.000",
+  //         taxaJurosEmprestimo: "10%",
+  //         cashback: "3%",
+  //         credito: "0,7",
+  //         limiteEmprestimo: "150000",
+  //         limiteInvestimento: "120000"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: 3,
+  //     nome: "Tech Bank",
+  //     cor: "linear-gradient(90deg, #ff9900, #ffe0b3)",
+  //     icone: "💻",
+  //     descricao: "Banco digital focado em tecnologia e inovação.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Tech Standard",
+  //         design: "wave-patterns",
+  //         cor1: "#ff9900",
+  //         cor2: "#ffb84d",
+  //         cor3: "#ffcc66",
+  //         cor4: "#ffe0b3",
+  //         tipo: "Básico",
+  //         numeroCard: "5555 **** **** 6666",
+  //         validade: "125",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 25.000",
+  //         taxaJurosEmprestimo: "8%",
+  //         cashback: "4%",
+  //         credito: "0,35",
+  //         limiteEmprestimo: "25000",
+  //         limiteInvestimento: "35000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Tech Premium",
+  //         design: "card-moderno",
+  //         cor1: "#cc6600",
+  //         cor2: "#ff8000",
+  //         cor3: "#ff9933",
+  //         cor4: "#ffc266",
+  //         tipo: "Premium",
+  //         numeroCard: "7777 **** **** 8888",
+  //         validade: "135",
+  //         rentabilidadeInvestimento: "15%",
+  //         valorMaxEmprestimo: "R$ 50.000",
+  //         taxaJurosEmprestimo: "7%",
+  //         cashback: "6%",
+  //         credito: "0,5",
+  //         limiteEmprestimo: "50000",
+  //         limiteInvestimento: "45000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Tech Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#ff6600",
+  //         cor2: "#ff9933",
+  //         cor3: "#ffb366",
+  //         cor4: "#ffe0b3",
+  //         tipo: "Básico",
+  //         numeroCard: "9999 **** **** 0000",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "14%",
+  //         valorMaxEmprestimo: "R$ 60.000",
+  //         taxaJurosEmprestimo: "6%",
+  //         cashback: "5%",
+  //         credito: "0,4",
+  //         limiteEmprestimo: "60000",
+  //         limiteInvestimento: "50000"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: 4,
+  //     nome: "Steel Bank",
+  //     cor: "linear-gradient(90deg, #333333, #cccccc)",
+  //     icone: "⚙️",
+  //     descricao: "Especializado em financiar o setor industrial.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Steel Classic",
+  //         design: "card-classico",
+  //         cor1: "#333333",
+  //         cor2: "#666666",
+  //         cor3: "#999999",
+  //         cor4: "#cccccc",
+  //         tipo: "Básico",
+  //         numeroCard: "1212 **** **** 3434",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "10%",
+  //         valorMaxEmprestimo: "R$ 45.000",
+  //         taxaJurosEmprestimo: "7%",
+  //         cashback: "5%",
+  //         credito: "0,4",
+  //         limiteEmprestimo: "45000",
+  //         limiteInvestimento: "55000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Steel Premium",
+  //         design: "wave-patterns",
+  //         cor1: "#2a2a2a",
+  //         cor2: "#555555",
+  //         cor3: "#888888",
+  //         cor4: "#bbbbbb",
+  //         tipo: "Premium",
+  //         numeroCard: "5656 **** **** 7878",
+  //         validade: "150",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 70.000",
+  //         taxaJurosEmprestimo: "6%",
+  //         cashback: "6%",
+  //         credito: "0,5",
+  //         limiteEmprestimo: "70000",
+  //         limiteInvestimento: "60000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Steel Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#1a1a1a",
+  //         cor2: "#444444",
+  //         cor3: "#777777",
+  //         cor4: "#aaaaaa",
+  //         tipo: "Básico",
+  //         numeroCard: "9898 **** **** 1212",
+  //         validade: "160",
+  //         rentabilidadeInvestimento: "14%",
+  //         valorMaxEmprestimo: "R$ 90.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "7%",
+  //         credito: "0,55",
+  //         limiteEmprestimo: "90000",
+  //         limiteInvestimento: "80000"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: 5,
+  //     nome: "Energy Plus",
+  //     cor: "linear-gradient(90deg, #FFD700, #FFFF99)",
+  //     icone: "⚡",
+  //     descricao: "Banco sustentável com foco em energia renovável.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Energy Basic",
+  //         design: "wave-patterns",
+  //         cor1: "#FFD700",
+  //         cor2: "#FFEB3B",
+  //         cor3: "#FFF59D",
+  //         cor4: "#FFFF99",
+  //         tipo: "Básico",
+  //         numeroCard: "1010 **** **** 2020",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 30.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "4%",
+  //         credito: "0,25",
+  //         limiteEmprestimo: "30000",
+  //         limiteInvestimento: "45000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Energy Premium",
+  //         design: "card-moderno",
+  //         cor1: "#FFC107",
+  //         cor2: "#FFD54F",
+  //         cor3: "#FFECB3",
+  //         cor4: "#FFFF99",
+  //         tipo: "Premium",
+  //         numeroCard: "3030 **** **** 4040",
+  //         validade: "135",
+  //         rentabilidadeInvestimento: "14%",
+  //         valorMaxEmprestimo: "R$ 50.000",
+  //         taxaJurosEmprestimo: "4%",
+  //         cashback: "6%",
+  //         credito: "0,35",
+  //         limiteEmprestimo: "50000",
+  //         limiteInvestimento: "55000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Energy Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#FFD600",
+  //         cor2: "#FFEA00",
+  //         cor3: "#FFF176",
+  //         cor4: "#FFFF99",
+  //         tipo: "Básico",
+  //         numeroCard: "5050 **** **** 6060",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "16%",
+  //         valorMaxEmprestimo: "R$ 60.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "5%",
+  //         credito: "0,4",
+  //         limiteEmprestimo: "60000",
+  //         limiteInvestimento: "60000"
+  //       }
+  //     ]
+  //   },
+
+  //   // 7 a 15: Bônus bancos
+  //    {
+  //     id: 6,
+  //     nome: "Prime Capital",
+  //     cor: "linear-gradient(90deg, #800080, #D8BFD8)",
+  //     icone: "💎",
+  //     descricao: "Banco premium com serviços exclusivos para grandes investidores.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Prime Basic",
+  //         design: "card-classico",
+  //         cor1: "#800080",
+  //         cor2: "#993399",
+  //         cor3: "#B266B2",
+  //         cor4: "#D8BFD8",
+  //         tipo: "Básico",
+  //         numeroCard: "1111 **** **** 2222",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "10%",
+  //         valorMaxEmprestimo: "R$ 100.000",
+  //         taxaJurosEmprestimo: "15%",
+  //         cashback: "3%",
+  //         credito: "0,8",
+  //         limiteEmprestimo: "100000",
+  //         limiteInvestimento: "80000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Prime Gold",
+  //         design: "wave-patterns",
+  //         cor1: "#660066",
+  //         cor2: "#993399",
+  //         cor3: "#B266B2",
+  //         cor4: "#D8BFD8",
+  //         tipo: "Premium",
+  //         numeroCard: "3333 **** **** 4444",
+  //         validade: "130",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 150.000",
+  //         taxaJurosEmprestimo: "14%",
+  //         cashback: "5%",
+  //         credito: "0,85",
+  //         limiteEmprestimo: "150000",
+  //         limiteInvestimento: "100000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Prime Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#4B004B",
+  //         cor2: "#800080",
+  //         cor3: "#993399",
+  //         cor4: "#D8BFD8",
+  //         tipo: "Premium",
+  //         numeroCard: "5555 **** **** 6666",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "15%",
+  //         valorMaxEmprestimo: "R$ 200.000",
+  //         taxaJurosEmprestimo: "13%",
+  //         cashback: "6%",
+  //         credito: "0,9",
+  //         limiteEmprestimo: "200000",
+  //         limiteInvestimento: "150000"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: 7,
+  //     nome: "Imob Bank",
+  //     cor: "linear-gradient(90deg, #0000CC, #9999FF)",
+  //     icone: "🏠",
+  //     descricao: "Especialista em financiamento imobiliário e terrenos.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Imob Classic",
+  //         design: "card-classico",
+  //         cor1: "#0000CC",
+  //         cor2: "#3333FF",
+  //         cor3: "#6666FF",
+  //         cor4: "#9999FF",
+  //         tipo: "Básico",
+  //         numeroCard: "1212 **** **** 3434",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "8%",
+  //         valorMaxEmprestimo: "R$ 50.000",
+  //         taxaJurosEmprestimo: "6%",
+  //         cashback: "2%",
+  //         credito: "0,3",
+  //         limiteEmprestimo: "50000",
+  //         limiteInvestimento: "40000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Imob Premium",
+  //         design: "wave-patterns",
+  //         cor1: "#000099",
+  //         cor2: "#3333CC",
+  //         cor3: "#6666FF",
+  //         cor4: "#9999FF",
+  //         tipo: "Premium",
+  //         numeroCard: "5656 **** **** 7878",
+  //         validade: "135",
+  //         rentabilidadeInvestimento: "10%",
+  //         valorMaxEmprestimo: "R$ 80.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "4%",
+  //         credito: "0,4",
+  //         limiteEmprestimo: "80000",
+  //         limiteInvestimento: "70000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Imob Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#000066",
+  //         cor2: "#333399",
+  //         cor3: "#6666CC",
+  //         cor4: "#9999FF",
+  //         tipo: "Premium",
+  //         numeroCard: "9898 **** **** 1212",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 120.000",
+  //         taxaJurosEmprestimo: "4%",
+  //         cashback: "5%",
+  //         credito: "0,5",
+  //         limiteEmprestimo: "120000",
+  //         limiteInvestimento: "100000"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: 8,
+  //     nome: "Green Energy",
+  //     cor: "linear-gradient(90deg, #00CC00, #99FF99)",
+  //     icone: "🌿",
+  //     descricao: "Foco em investimentos sustentáveis e energia verde.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Green Basic",
+  //         design: "wave-patterns",
+  //         cor1: "#00CC00",
+  //         cor2: "#33CC33",
+  //         cor3: "#66CC66",
+  //         cor4: "#99FF99",
+  //         tipo: "Básico",
+  //         numeroCard: "1010 **** **** 2020",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "10%",
+  //         valorMaxEmprestimo: "R$ 40.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "4%",
+  //         credito: "0,25",
+  //         limiteEmprestimo: "40000",
+  //         limiteInvestimento: "50000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Green Premium",
+  //         design: "card-moderno",
+  //         cor1: "#009900",
+  //         cor2: "#33CC33",
+  //         cor3: "#66CC66",
+  //         cor4: "#99FF99",
+  //         tipo: "Premium",
+  //         numeroCard: "3030 **** **** 4040",
+  //         validade: "130",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 70.000",
+  //         taxaJurosEmprestimo: "4%",
+  //         cashback: "6%",
+  //         credito: "0,35",
+  //         limiteEmprestimo: "70000",
+  //         limiteInvestimento: "65000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Green Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#006600",
+  //         cor2: "#33AA33",
+  //         cor3: "#66CC66",
+  //         cor4: "#99FF99",
+  //         tipo: "Premium",
+  //         numeroCard: "5050 **** **** 6060",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "15%",
+  //         valorMaxEmprestimo: "R$ 100.000",
+  //         taxaJurosEmprestimo: "3%",
+  //         cashback: "7%",
+  //         credito: "0,45",
+  //         limiteEmprestimo: "100000",
+  //         limiteInvestimento: "90000"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: 9,
+  //     nome: "Solar Bank",
+  //     cor: "linear-gradient(90deg, #FFCC00, #FFF9E6)",
+  //     icone: "☀️",
+  //     descricao: "Banco sustentável com foco em energia solar e limpa.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Solar Bright",
+  //         design: "wave-patterns",
+  //         cor1: "#FFCC00",
+  //         cor2: "#FFE066",
+  //         cor3: "#FFF2B3",
+  //         cor4: "#FFF9E6",
+  //         tipo: "Básico",
+  //         numeroCard: "2020 **** **** 3131",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 35.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "4%",
+  //         credito: "0,3",
+  //         limiteEmprestimo: "35000",
+  //         limiteInvestimento: "40000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Solar Premium",
+  //         design: "card-moderno",
+  //         cor1: "#FFB300",
+  //         cor2: "#FFD633",
+  //         cor3: "#FFE066",
+  //         cor4: "#FFF9E6",
+  //         tipo: "Premium",
+  //         numeroCard: "4141 **** **** 5252",
+  //         validade: "135",
+  //         rentabilidadeInvestimento: "14%",
+  //         valorMaxEmprestimo: "R$ 60.000",
+  //         taxaJurosEmprestimo: "4%",
+  //         cashback: "6%",
+  //         credito: "0,35",
+  //         limiteEmprestimo: "60000",
+  //         limiteInvestimento: "55000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Solar Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#FF9900",
+  //         cor2: "#FFCC33",
+  //         cor3: "#FFE066",
+  //         cor4: "#FFF9E6",
+  //         tipo: "Premium",
+  //         numeroCard: "6363 **** **** 7474",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "16%",
+  //         valorMaxEmprestimo: "R$ 80.000",
+  //         taxaJurosEmprestimo: "3%",
+  //         cashback: "7%",
+  //         credito: "0,4",
+  //         limiteEmprestimo: "80000",
+  //         limiteInvestimento: "70000"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: 10,
+  //     nome: "Future Tech",
+  //     cor: "linear-gradient(90deg, #FF6600, #FFD699)",
+  //     icone: "🤖",
+  //     descricao: "Banco digital futurista focado em inovações tecnológicas.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Future Basic",
+  //         design: "card-classico",
+  //         cor1: "#FF6600",
+  //         cor2: "#FF8533",
+  //         cor3: "#FF9966",
+  //         cor4: "#FFD699",
+  //         tipo: "Básico",
+  //         numeroCard: "1717 **** **** 2828",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "10%",
+  //         valorMaxEmprestimo: "R$ 45.000",
+  //         taxaJurosEmprestimo: "6%",
+  //         cashback: "3%",
+  //         credito: "0,35",
+  //         limiteEmprestimo: "45000",
+  //         limiteInvestimento: "50000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Future Premium",
+  //         design: "wave-patterns",
+  //         cor1: "#FF5500",
+  //         cor2: "#FF7733",
+  //         cor3: "#FF9966",
+  //         cor4: "#FFD699",
+  //         tipo: "Premium",
+  //         numeroCard: "3939 **** **** 4949",
+  //         validade: "135",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 70.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "5%",
+  //         credito: "0,45",
+  //         limiteEmprestimo: "70000",
+  //         limiteInvestimento: "65000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Future Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#FF4400",
+  //         cor2: "#FF7733",
+  //         cor3: "#FF9966",
+  //         cor4: "#FFD699",
+  //         tipo: "Premium",
+  //         numeroCard: "5959 **** **** 6060",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "14%",
+  //         valorMaxEmprestimo: "R$ 100.000",
+  //         taxaJurosEmprestimo: "4%",
+  //         cashback: "6%",
+  //         credito: "0,5",
+  //         limiteEmprestimo: "100000",
+  //         limiteInvestimento: "90000"
+  //       }
+  //     ]
+  //   },
+  //     {
+  //     id: 11,
+  //     nome: "Ocean Bank",
+  //     cor: "linear-gradient(90deg, #0066CC, #99CCFF)",
+  //     icone: "🌊",
+  //     descricao: "Banco com foco em sustentabilidade marítima e investimentos em oceanos.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Ocean Basic",
+  //         design: "card-classico",
+  //         cor1: "#0066CC",
+  //         cor2: "#3399CC",
+  //         cor3: "#66CCCC",
+  //         cor4: "#99CCFF",
+  //         tipo: "Básico",
+  //         numeroCard: "1010 **** **** 2020",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "9%",
+  //         valorMaxEmprestimo: "R$ 40.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "3%",
+  //         credito: "0,3",
+  //         limiteEmprestimo: "40000",
+  //         limiteInvestimento: "50000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Ocean Premium",
+  //         design: "wave-patterns",
+  //         cor1: "#0055AA",
+  //         cor2: "#3399CC",
+  //         cor3: "#66CCCC",
+  //         cor4: "#99CCFF",
+  //         tipo: "Premium",
+  //         numeroCard: "3030 **** **** 4040",
+  //         validade: "130",
+  //         rentabilidadeInvestimento: "11%",
+  //         valorMaxEmprestimo: "R$ 70.000",
+  //         taxaJurosEmprestimo: "4%",
+  //         cashback: "5%",
+  //         credito: "0,4",
+  //         limiteEmprestimo: "70000",
+  //         limiteInvestimento: "65000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Ocean Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#004488",
+  //         cor2: "#3399CC",
+  //         cor3: "#66CCCC",
+  //         cor4: "#99CCFF",
+  //         tipo: "Premium",
+  //         numeroCard: "5050 **** **** 6060",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "13%",
+  //         valorMaxEmprestimo: "R$ 100.000",
+  //         taxaJurosEmprestimo: "3%",
+  //         cashback: "6%",
+  //         credito: "0,5",
+  //         limiteEmprestimo: "100000",
+  //         limiteInvestimento: "90000"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: 12,
+  //     nome: "Solar Bank",
+  //     cor: "linear-gradient(90deg, #FFCC00, #FFF9E6)",
+  //     icone: "☀️",
+  //     descricao: "Banco sustentável com foco em energia solar e limpa.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Solar Bright",
+  //         design: "wave-patterns",
+  //         cor1: "#FFCC00",
+  //         cor2: "#FFE066",
+  //         cor3: "#FFF2B3",
+  //         cor4: "#FFF9E6",
+  //         tipo: "Básico",
+  //         numeroCard: "2020 **** **** 3131",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 35.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "4%",
+  //         credito: "0,3",
+  //         limiteEmprestimo: "35000",
+  //         limiteInvestimento: "40000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Solar Premium",
+  //         design: "card-moderno",
+  //         cor1: "#FFB300",
+  //         cor2: "#FFD633",
+  //         cor3: "#FFE066",
+  //         cor4: "#FFF9E6",
+  //         tipo: "Premium",
+  //         numeroCard: "4141 **** **** 5252",
+  //         validade: "135",
+  //         rentabilidadeInvestimento: "14%",
+  //         valorMaxEmprestimo: "R$ 60.000",
+  //         taxaJurosEmprestimo: "4%",
+  //         cashback: "6%",
+  //         credito: "0,35",
+  //         limiteEmprestimo: "60000",
+  //         limiteInvestimento: "55000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Solar Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#FF9900",
+  //         cor2: "#FFCC33",
+  //         cor3: "#FFE066",
+  //         cor4: "#FFF9E6",
+  //         tipo: "Premium",
+  //         numeroCard: "6363 **** **** 7474",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "16%",
+  //         valorMaxEmprestimo: "R$ 80.000",
+  //         taxaJurosEmprestimo: "3%",
+  //         cashback: "7%",
+  //         credito: "0,4",
+  //         limiteEmprestimo: "80000",
+  //         limiteInvestimento: "70000"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: 13,
+  //     nome: "Crypto Bank",
+  //     cor: "linear-gradient(90deg, #FF00FF, #FF99FF)",
+  //     icone: "🪙",
+  //     descricao: "Focado em criptoativos e investimentos digitais.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Crypto Basic",
+  //         design: "card-classico",
+  //         cor1: "#FF00FF",
+  //         cor2: "#CC00CC",
+  //         cor3: "#FF66FF",
+  //         cor4: "#FF99FF",
+  //         tipo: "Básico",
+  //         numeroCard: "1111 **** **** 2222",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "15%",
+  //         valorMaxEmprestimo: "R$ 30.000",
+  //         taxaJurosEmprestimo: "6%",
+  //         cashback: "5%",
+  //         credito: "0,3",
+  //         limiteEmprestimo: "30000",
+  //         limiteInvestimento: "40000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Crypto Premium",
+  //         design: "wave-patterns",
+  //         cor1: "#CC00CC",
+  //         cor2: "#FF33FF",
+  //         cor3: "#FF66FF",
+  //         cor4: "#FF99FF",
+  //         tipo: "Premium",
+  //         numeroCard: "3333 **** **** 4444",
+  //         validade: "135",
+  //         rentabilidadeInvestimento: "18%",
+  //         valorMaxEmprestimo: "R$ 60.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "7%",
+  //         credito: "0,35",
+  //         limiteEmprestimo: "60000",
+  //         limiteInvestimento: "55000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Crypto Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#990099",
+  //         cor2: "#CC00CC",
+  //         cor3: "#FF66FF",
+  //         cor4: "#FF99FF",
+  //         tipo: "Premium",
+  //         numeroCard: "5555 **** **** 6666",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "20%",
+  //         valorMaxEmprestimo: "R$ 100.000",
+  //         taxaJurosEmprestimo: "4%",
+  //         cashback: "9%",
+  //         credito: "0,4",
+  //         limiteEmprestimo: "100000",
+  //         limiteInvestimento: "90000"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: 14,
+  //     nome: "Agro Bank Plus",
+  //     cor: "linear-gradient(90deg, #003816, #4CAF50)",
+  //     icone: "🌱",
+  //     descricao: "Versão avançada do Agro Bank, com mais crédito e benefícios.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Agro Plus Basic",
+  //         design: "card-classico",
+  //         cor1: "#003816",
+  //         cor2: "#1A5E2A",
+  //         cor3: "#0C9123",
+  //         cor4: "#4CAF50",
+  //         tipo: "Básico",
+  //         numeroCard: "7777 **** **** 8888",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 50.000",
+  //         taxaJurosEmprestimo: "6%",
+  //         cashback: "6%",
+  //         credito: "0,3",
+  //         limiteEmprestimo: "120000",
+  //         limiteInvestimento: "100000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Agro Plus Premium",
+  //         design: "wave-patterns",
+  //         cor1: "#002C10",
+  //         cor2: "#1A5E2A",
+  //         cor3: "#0C9123",
+  //         cor4: "#4CAF50",
+  //         tipo: "Premium",
+  //         numeroCard: "9999 **** **** 0000",
+  //         validade: "135",
+  //         rentabilidadeInvestimento: "14%",
+  //         valorMaxEmprestimo: "R$ 75.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "7%",
+  //         credito: "0,35",
+  //         limiteEmprestimo: "150000",
+  //         limiteInvestimento: "120000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Agro Plus Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#001A0C",
+  //         cor2: "#1A5E2A",
+  //         cor3: "#0C9123",
+  //         cor4: "#4CAF50",
+  //         tipo: "Premium",
+  //         numeroCard: "1212 **** **** 3434",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "16%",
+  //         valorMaxEmprestimo: "R$ 100.000",
+  //         taxaJurosEmprestimo: "4%",
+  //         cashback: "8%",
+  //         credito: "0,4",
+  //         limiteEmprestimo: "200000",
+  //         limiteInvestimento: "150000"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: 15,
+  //     nome: "Tech Future",
+  //     cor: "linear-gradient(90deg, #FF6F00, #FF8C42)",
+  //     icone: "💻",
+  //     descricao: "Banco digital focado em tecnologia e inovação futura.",
+  //     nucartoes: 3,
+  //     cartoes: [
+  //       {
+  //         id: 1,
+  //         nome: "Tech Basic",
+  //         design: "card-moderno",
+  //         cor1: "#FF6F00",
+  //         cor2: "#FF7F33",
+  //         cor3: "#FF914D",
+  //         cor4: "#FF8C42",
+  //         tipo: "Básico",
+  //         numeroCard: "1313 **** **** 2424",
+  //         validade: "120",
+  //         rentabilidadeInvestimento: "12%",
+  //         valorMaxEmprestimo: "R$ 30.000",
+  //         taxaJurosEmprestimo: "6%",
+  //         cashback: "4%",
+  //         credito: "0,35",
+  //         limiteEmprestimo: "30000",
+  //         limiteInvestimento: "40000"
+  //       },
+  //       {
+  //         id: 2,
+  //         nome: "Tech Premium",
+  //         design: "wave-patterns",
+  //         cor1: "#FF5A00",
+  //         cor2: "#FF7F33",
+  //         cor3: "#FF914D",
+  //         cor4: "#FF8C42",
+  //         tipo: "Premium",
+  //         numeroCard: "3535 **** **** 4646",
+  //         validade: "135",
+  //         rentabilidadeInvestimento: "14%",
+  //         valorMaxEmprestimo: "R$ 60.000",
+  //         taxaJurosEmprestimo: "5%",
+  //         cashback: "6%",
+  //         credito: "0,4",
+  //         limiteEmprestimo: "60000",
+  //         limiteInvestimento: "55000"
+  //       },
+  //       {
+  //         id: 3,
+  //         nome: "Tech Ultra",
+  //         design: "geometric-chaos",
+  //         cor1: "#FF4400",
+  //         cor2: "#FF7F33",
+  //         cor3: "#FF914D",
+  //         cor4: "#FF8C42",
+  //         tipo: "Premium",
+  //         numeroCard: "5757 **** **** 6868",
+  //         validade: "140",
+  //         rentabilidadeInvestimento: "16%",
+  //         valorMaxEmprestimo: "R$ 90.000",
+  //         taxaJurosEmprestimo: "4%",
+  //         cashback: "7%",
+  //         credito: "0,45",
+  //         limiteEmprestimo: "90000",
+  //         limiteInvestimento: "80000"
+  //       }
+  //     ]
+  //   }
+  // ];
 
 const bancos = [
-  // 1. Agro Bank
   {
-      id: 1,
+    id: 1,
     nome: "Agro Bank",
     cor: "linear-gradient(90deg, #003816, #4CAF50)",
     icone: "🌱",
     descricao: "Especialista no setor agrícola, libera crédito extra para fazendas.",
-    nucartoes: 3,
     cartoes: [
       {
         id: 1,
@@ -576,16 +1625,12 @@ const bancos = [
         cor2: "#1A5E2A",
         cor3: "#0C9123",
         cor4: "#4CAF50",
-        tipo: "Básico",
-        numeroCard: "2341 **** **** 8943",
-        validade: "120",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 50.000",
-        taxaJurosEmprestimo: "6%",
-        cashback: "6%",
-        credito: "0,3",
-        limiteEmprestimo: "120000",
-        limiteInvestimento: "100000"
+        tipo: "básico",
+        cashback: "especifico",
+        setorCashback: "agricultura",
+        juros: "alto",
+        emprestimo: "medio",
+        investimento: "media"
       },
       {
         id: 2,
@@ -595,16 +1640,11 @@ const bancos = [
         cor2: "#1a7030",
         cor3: "#0c9123",
         cor4: "#66bb66",
-        tipo: "Premium",
-        numeroCard: "5678 **** **** 1234",
-        validade: "130",
-        rentabilidadeInvestimento: "15%",
-        valorMaxEmprestimo: "R$ 80.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "8%",
-        credito: "0,5",
-        limiteEmprestimo: "150000",
-        limiteInvestimento: "120000"
+        tipo: "premium",
+        cashback: "todos",
+        juros: "medio",
+        emprestimo: "alto",
+        investimento: "alta"
       },
       {
         id: 3,
@@ -614,962 +1654,43 @@ const bancos = [
         cor2: "#2a8a4a",
         cor3: "#14a231",
         cor4: "#81c784",
-        tipo: "Básico",
-        numeroCard: "9876 **** **** 5432",
-        validade: "140",
-        rentabilidadeInvestimento: "14%",
-        valorMaxEmprestimo: "R$ 70.000",
-        taxaJurosEmprestimo: "6%",
-        cashback: "5%",
-        credito: "0,4",
-        limiteEmprestimo: "130000",
-        limiteInvestimento: "110000"
-      }
-    ]
-  },
-  {
-    id: 2,
-    nome: "Mega Credit",
-    cor: "linear-gradient(90deg, #003366, #99ccff)",
-    icone: "🏛️",
-    descricao: "Oferece muito crédito, mas cobra juros altíssimos.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Mega Basic",
-        design: "card-classico",
-        cor1: "#003366",
-        cor2: "#336699",
-        cor3: "#6699cc",
-        cor4: "#99ccff",
-        tipo: "Básico",
-        numeroCard: "1111 **** **** 2222",
-        validade: "120",
-        rentabilidadeInvestimento: "8%",
-        valorMaxEmprestimo: "R$ 60.000",
-        taxaJurosEmprestimo: "12%",
-        cashback: "0%",
-        credito: "0,5",
-        limiteEmprestimo: "60000",
-        limiteInvestimento: "40000"
-      },
-      {
-        id: 2,
-        nome: "Mega Gold",
-        design: "geometric-chaos",
-        cor1: "#001a66",
-        cor2: "#0044cc",
-        cor3: "#0066ff",
-        cor4: "#3399ff",
-        tipo: "Premium",
-        numeroCard: "3333 **** **** 4444",
-        validade: "130",
-        rentabilidadeInvestimento: "10%",
-        valorMaxEmprestimo: "R$ 120.000",
-        taxaJurosEmprestimo: "11%",
-        cashback: "2%",
-        credito: "0,6",
-        limiteEmprestimo: "120000",
-        limiteInvestimento: "90000"
-      },
-      {
-        id: 3,
-        nome: "Mega Platinum",
-        design: "wave-patterns",
-        cor1: "#002244",
-        cor2: "#0055aa",
-        cor3: "#3388cc",
-        cor4: "#66bbff",
-        tipo: "Premium",
-        numeroCard: "5555 **** **** 6666",
-        validade: "140",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 150.000",
-        taxaJurosEmprestimo: "10%",
-        cashback: "3%",
-        credito: "0,7",
-        limiteEmprestimo: "150000",
-        limiteInvestimento: "120000"
-      }
-    ]
-  },
-  {
-    id: 3,
-    nome: "Tech Bank",
-    cor: "linear-gradient(90deg, #ff9900, #ffe0b3)",
-    icone: "💻",
-    descricao: "Banco digital focado em tecnologia e inovação.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Tech Standard",
-        design: "wave-patterns",
-        cor1: "#ff9900",
-        cor2: "#ffb84d",
-        cor3: "#ffcc66",
-        cor4: "#ffe0b3",
-        tipo: "Básico",
-        numeroCard: "5555 **** **** 6666",
-        validade: "125",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 25.000",
-        taxaJurosEmprestimo: "8%",
-        cashback: "4%",
-        credito: "0,35",
-        limiteEmprestimo: "25000",
-        limiteInvestimento: "35000"
-      },
-      {
-        id: 2,
-        nome: "Tech Premium",
-        design: "card-moderno",
-        cor1: "#cc6600",
-        cor2: "#ff8000",
-        cor3: "#ff9933",
-        cor4: "#ffc266",
-        tipo: "Premium",
-        numeroCard: "7777 **** **** 8888",
-        validade: "135",
-        rentabilidadeInvestimento: "15%",
-        valorMaxEmprestimo: "R$ 50.000",
-        taxaJurosEmprestimo: "7%",
-        cashback: "6%",
-        credito: "0,5",
-        limiteEmprestimo: "50000",
-        limiteInvestimento: "45000"
-      },
-      {
-        id: 3,
-        nome: "Tech Ultra",
-        design: "geometric-chaos",
-        cor1: "#ff6600",
-        cor2: "#ff9933",
-        cor3: "#ffb366",
-        cor4: "#ffe0b3",
-        tipo: "Básico",
-        numeroCard: "9999 **** **** 0000",
-        validade: "140",
-        rentabilidadeInvestimento: "14%",
-        valorMaxEmprestimo: "R$ 60.000",
-        taxaJurosEmprestimo: "6%",
-        cashback: "5%",
-        credito: "0,4",
-        limiteEmprestimo: "60000",
-        limiteInvestimento: "50000"
-      }
-    ]
-  },
-  {
-    id: 4,
-    nome: "Steel Bank",
-    cor: "linear-gradient(90deg, #333333, #cccccc)",
-    icone: "⚙️",
-    descricao: "Especializado em financiar o setor industrial.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Steel Classic",
-        design: "card-classico",
-        cor1: "#333333",
-        cor2: "#666666",
-        cor3: "#999999",
-        cor4: "#cccccc",
-        tipo: "Básico",
-        numeroCard: "1212 **** **** 3434",
-        validade: "140",
-        rentabilidadeInvestimento: "10%",
-        valorMaxEmprestimo: "R$ 45.000",
-        taxaJurosEmprestimo: "7%",
-        cashback: "5%",
-        credito: "0,4",
-        limiteEmprestimo: "45000",
-        limiteInvestimento: "55000"
-      },
-      {
-        id: 2,
-        nome: "Steel Premium",
-        design: "wave-patterns",
-        cor1: "#2a2a2a",
-        cor2: "#555555",
-        cor3: "#888888",
-        cor4: "#bbbbbb",
-        tipo: "Premium",
-        numeroCard: "5656 **** **** 7878",
-        validade: "150",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 70.000",
-        taxaJurosEmprestimo: "6%",
-        cashback: "6%",
-        credito: "0,5",
-        limiteEmprestimo: "70000",
-        limiteInvestimento: "60000"
-      },
-      {
-        id: 3,
-        nome: "Steel Ultra",
-        design: "geometric-chaos",
-        cor1: "#1a1a1a",
-        cor2: "#444444",
-        cor3: "#777777",
-        cor4: "#aaaaaa",
-        tipo: "Básico",
-        numeroCard: "9898 **** **** 1212",
-        validade: "160",
-        rentabilidadeInvestimento: "14%",
-        valorMaxEmprestimo: "R$ 90.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "7%",
-        credito: "0,55",
-        limiteEmprestimo: "90000",
-        limiteInvestimento: "80000"
-      }
-    ]
-  },
-  {
-    id: 5,
-    nome: "Energy Plus",
-    cor: "linear-gradient(90deg, #FFD700, #FFFF99)",
-    icone: "⚡",
-    descricao: "Banco sustentável com foco em energia renovável.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Energy Basic",
-        design: "wave-patterns",
-        cor1: "#FFD700",
-        cor2: "#FFEB3B",
-        cor3: "#FFF59D",
-        cor4: "#FFFF99",
-        tipo: "Básico",
-        numeroCard: "1010 **** **** 2020",
-        validade: "120",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 30.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "4%",
-        credito: "0,25",
-        limiteEmprestimo: "30000",
-        limiteInvestimento: "45000"
-      },
-      {
-        id: 2,
-        nome: "Energy Premium",
-        design: "card-moderno",
-        cor1: "#FFC107",
-        cor2: "#FFD54F",
-        cor3: "#FFECB3",
-        cor4: "#FFFF99",
-        tipo: "Premium",
-        numeroCard: "3030 **** **** 4040",
-        validade: "135",
-        rentabilidadeInvestimento: "14%",
-        valorMaxEmprestimo: "R$ 50.000",
-        taxaJurosEmprestimo: "4%",
-        cashback: "6%",
-        credito: "0,35",
-        limiteEmprestimo: "50000",
-        limiteInvestimento: "55000"
-      },
-      {
-        id: 3,
-        nome: "Energy Ultra",
-        design: "geometric-chaos",
-        cor1: "#FFD600",
-        cor2: "#FFEA00",
-        cor3: "#FFF176",
-        cor4: "#FFFF99",
-        tipo: "Básico",
-        numeroCard: "5050 **** **** 6060",
-        validade: "140",
-        rentabilidadeInvestimento: "16%",
-        valorMaxEmprestimo: "R$ 60.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "5%",
-        credito: "0,4",
-        limiteEmprestimo: "60000",
-        limiteInvestimento: "60000"
-      }
-    ]
-  },
-
-  // 7 a 15: Bônus bancos
-   {
-    id: 6,
-    nome: "Prime Capital",
-    cor: "linear-gradient(90deg, #800080, #D8BFD8)",
-    icone: "💎",
-    descricao: "Banco premium com serviços exclusivos para grandes investidores.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Prime Basic",
-        design: "card-classico",
-        cor1: "#800080",
-        cor2: "#993399",
-        cor3: "#B266B2",
-        cor4: "#D8BFD8",
-        tipo: "Básico",
-        numeroCard: "1111 **** **** 2222",
-        validade: "120",
-        rentabilidadeInvestimento: "10%",
-        valorMaxEmprestimo: "R$ 100.000",
-        taxaJurosEmprestimo: "15%",
-        cashback: "3%",
-        credito: "0,8",
-        limiteEmprestimo: "100000",
-        limiteInvestimento: "80000"
-      },
-      {
-        id: 2,
-        nome: "Prime Gold",
-        design: "wave-patterns",
-        cor1: "#660066",
-        cor2: "#993399",
-        cor3: "#B266B2",
-        cor4: "#D8BFD8",
-        tipo: "Premium",
-        numeroCard: "3333 **** **** 4444",
-        validade: "130",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 150.000",
-        taxaJurosEmprestimo: "14%",
-        cashback: "5%",
-        credito: "0,85",
-        limiteEmprestimo: "150000",
-        limiteInvestimento: "100000"
-      },
-      {
-        id: 3,
-        nome: "Prime Ultra",
-        design: "geometric-chaos",
-        cor1: "#4B004B",
-        cor2: "#800080",
-        cor3: "#993399",
-        cor4: "#D8BFD8",
-        tipo: "Premium",
-        numeroCard: "5555 **** **** 6666",
-        validade: "140",
-        rentabilidadeInvestimento: "15%",
-        valorMaxEmprestimo: "R$ 200.000",
-        taxaJurosEmprestimo: "13%",
-        cashback: "6%",
-        credito: "0,9",
-        limiteEmprestimo: "200000",
-        limiteInvestimento: "150000"
-      }
-    ]
-  },
-  {
-    id: 7,
-    nome: "Imob Bank",
-    cor: "linear-gradient(90deg, #0000CC, #9999FF)",
-    icone: "🏠",
-    descricao: "Especialista em financiamento imobiliário e terrenos.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Imob Classic",
-        design: "card-classico",
-        cor1: "#0000CC",
-        cor2: "#3333FF",
-        cor3: "#6666FF",
-        cor4: "#9999FF",
-        tipo: "Básico",
-        numeroCard: "1212 **** **** 3434",
-        validade: "120",
-        rentabilidadeInvestimento: "8%",
-        valorMaxEmprestimo: "R$ 50.000",
-        taxaJurosEmprestimo: "6%",
-        cashback: "2%",
-        credito: "0,3",
-        limiteEmprestimo: "50000",
-        limiteInvestimento: "40000"
-      },
-      {
-        id: 2,
-        nome: "Imob Premium",
-        design: "wave-patterns",
-        cor1: "#000099",
-        cor2: "#3333CC",
-        cor3: "#6666FF",
-        cor4: "#9999FF",
-        tipo: "Premium",
-        numeroCard: "5656 **** **** 7878",
-        validade: "135",
-        rentabilidadeInvestimento: "10%",
-        valorMaxEmprestimo: "R$ 80.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "4%",
-        credito: "0,4",
-        limiteEmprestimo: "80000",
-        limiteInvestimento: "70000"
-      },
-      {
-        id: 3,
-        nome: "Imob Ultra",
-        design: "geometric-chaos",
-        cor1: "#000066",
-        cor2: "#333399",
-        cor3: "#6666CC",
-        cor4: "#9999FF",
-        tipo: "Premium",
-        numeroCard: "9898 **** **** 1212",
-        validade: "140",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 120.000",
-        taxaJurosEmprestimo: "4%",
-        cashback: "5%",
-        credito: "0,5",
-        limiteEmprestimo: "120000",
-        limiteInvestimento: "100000"
-      }
-    ]
-  },
-  {
-    id: 8,
-    nome: "Green Energy",
-    cor: "linear-gradient(90deg, #00CC00, #99FF99)",
-    icone: "🌿",
-    descricao: "Foco em investimentos sustentáveis e energia verde.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Green Basic",
-        design: "wave-patterns",
-        cor1: "#00CC00",
-        cor2: "#33CC33",
-        cor3: "#66CC66",
-        cor4: "#99FF99",
-        tipo: "Básico",
-        numeroCard: "1010 **** **** 2020",
-        validade: "120",
-        rentabilidadeInvestimento: "10%",
-        valorMaxEmprestimo: "R$ 40.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "4%",
-        credito: "0,25",
-        limiteEmprestimo: "40000",
-        limiteInvestimento: "50000"
-      },
-      {
-        id: 2,
-        nome: "Green Premium",
-        design: "card-moderno",
-        cor1: "#009900",
-        cor2: "#33CC33",
-        cor3: "#66CC66",
-        cor4: "#99FF99",
-        tipo: "Premium",
-        numeroCard: "3030 **** **** 4040",
-        validade: "130",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 70.000",
-        taxaJurosEmprestimo: "4%",
-        cashback: "6%",
-        credito: "0,35",
-        limiteEmprestimo: "70000",
-        limiteInvestimento: "65000"
-      },
-      {
-        id: 3,
-        nome: "Green Ultra",
-        design: "geometric-chaos",
-        cor1: "#006600",
-        cor2: "#33AA33",
-        cor3: "#66CC66",
-        cor4: "#99FF99",
-        tipo: "Premium",
-        numeroCard: "5050 **** **** 6060",
-        validade: "140",
-        rentabilidadeInvestimento: "15%",
-        valorMaxEmprestimo: "R$ 100.000",
-        taxaJurosEmprestimo: "3%",
-        cashback: "7%",
-        credito: "0,45",
-        limiteEmprestimo: "100000",
-        limiteInvestimento: "90000"
-      }
-    ]
-  },
-  {
-    id: 9,
-    nome: "Solar Bank",
-    cor: "linear-gradient(90deg, #FFCC00, #FFF9E6)",
-    icone: "☀️",
-    descricao: "Banco sustentável com foco em energia solar e limpa.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Solar Bright",
-        design: "wave-patterns",
-        cor1: "#FFCC00",
-        cor2: "#FFE066",
-        cor3: "#FFF2B3",
-        cor4: "#FFF9E6",
-        tipo: "Básico",
-        numeroCard: "2020 **** **** 3131",
-        validade: "120",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 35.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "4%",
-        credito: "0,3",
-        limiteEmprestimo: "35000",
-        limiteInvestimento: "40000"
-      },
-      {
-        id: 2,
-        nome: "Solar Premium",
-        design: "card-moderno",
-        cor1: "#FFB300",
-        cor2: "#FFD633",
-        cor3: "#FFE066",
-        cor4: "#FFF9E6",
-        tipo: "Premium",
-        numeroCard: "4141 **** **** 5252",
-        validade: "135",
-        rentabilidadeInvestimento: "14%",
-        valorMaxEmprestimo: "R$ 60.000",
-        taxaJurosEmprestimo: "4%",
-        cashback: "6%",
-        credito: "0,35",
-        limiteEmprestimo: "60000",
-        limiteInvestimento: "55000"
-      },
-      {
-        id: 3,
-        nome: "Solar Ultra",
-        design: "geometric-chaos",
-        cor1: "#FF9900",
-        cor2: "#FFCC33",
-        cor3: "#FFE066",
-        cor4: "#FFF9E6",
-        tipo: "Premium",
-        numeroCard: "6363 **** **** 7474",
-        validade: "140",
-        rentabilidadeInvestimento: "16%",
-        valorMaxEmprestimo: "R$ 80.000",
-        taxaJurosEmprestimo: "3%",
-        cashback: "7%",
-        credito: "0,4",
-        limiteEmprestimo: "80000",
-        limiteInvestimento: "70000"
-      }
-    ]
-  },
-  {
-    id: 10,
-    nome: "Future Tech",
-    cor: "linear-gradient(90deg, #FF6600, #FFD699)",
-    icone: "🤖",
-    descricao: "Banco digital futurista focado em inovações tecnológicas.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Future Basic",
-        design: "card-classico",
-        cor1: "#FF6600",
-        cor2: "#FF8533",
-        cor3: "#FF9966",
-        cor4: "#FFD699",
-        tipo: "Básico",
-        numeroCard: "1717 **** **** 2828",
-        validade: "120",
-        rentabilidadeInvestimento: "10%",
-        valorMaxEmprestimo: "R$ 45.000",
-        taxaJurosEmprestimo: "6%",
-        cashback: "3%",
-        credito: "0,35",
-        limiteEmprestimo: "45000",
-        limiteInvestimento: "50000"
-      },
-      {
-        id: 2,
-        nome: "Future Premium",
-        design: "wave-patterns",
-        cor1: "#FF5500",
-        cor2: "#FF7733",
-        cor3: "#FF9966",
-        cor4: "#FFD699",
-        tipo: "Premium",
-        numeroCard: "3939 **** **** 4949",
-        validade: "135",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 70.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "5%",
-        credito: "0,45",
-        limiteEmprestimo: "70000",
-        limiteInvestimento: "65000"
-      },
-      {
-        id: 3,
-        nome: "Future Ultra",
-        design: "geometric-chaos",
-        cor1: "#FF4400",
-        cor2: "#FF7733",
-        cor3: "#FF9966",
-        cor4: "#FFD699",
-        tipo: "Premium",
-        numeroCard: "5959 **** **** 6060",
-        validade: "140",
-        rentabilidadeInvestimento: "14%",
-        valorMaxEmprestimo: "R$ 100.000",
-        taxaJurosEmprestimo: "4%",
-        cashback: "6%",
-        credito: "0,5",
-        limiteEmprestimo: "100000",
-        limiteInvestimento: "90000"
-      }
-    ]
-  },
-    {
-    id: 11,
-    nome: "Ocean Bank",
-    cor: "linear-gradient(90deg, #0066CC, #99CCFF)",
-    icone: "🌊",
-    descricao: "Banco com foco em sustentabilidade marítima e investimentos em oceanos.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Ocean Basic",
-        design: "card-classico",
-        cor1: "#0066CC",
-        cor2: "#3399CC",
-        cor3: "#66CCCC",
-        cor4: "#99CCFF",
-        tipo: "Básico",
-        numeroCard: "1010 **** **** 2020",
-        validade: "120",
-        rentabilidadeInvestimento: "9%",
-        valorMaxEmprestimo: "R$ 40.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "3%",
-        credito: "0,3",
-        limiteEmprestimo: "40000",
-        limiteInvestimento: "50000"
-      },
-      {
-        id: 2,
-        nome: "Ocean Premium",
-        design: "wave-patterns",
-        cor1: "#0055AA",
-        cor2: "#3399CC",
-        cor3: "#66CCCC",
-        cor4: "#99CCFF",
-        tipo: "Premium",
-        numeroCard: "3030 **** **** 4040",
-        validade: "130",
-        rentabilidadeInvestimento: "11%",
-        valorMaxEmprestimo: "R$ 70.000",
-        taxaJurosEmprestimo: "4%",
-        cashback: "5%",
-        credito: "0,4",
-        limiteEmprestimo: "70000",
-        limiteInvestimento: "65000"
-      },
-      {
-        id: 3,
-        nome: "Ocean Ultra",
-        design: "geometric-chaos",
-        cor1: "#004488",
-        cor2: "#3399CC",
-        cor3: "#66CCCC",
-        cor4: "#99CCFF",
-        tipo: "Premium",
-        numeroCard: "5050 **** **** 6060",
-        validade: "140",
-        rentabilidadeInvestimento: "13%",
-        valorMaxEmprestimo: "R$ 100.000",
-        taxaJurosEmprestimo: "3%",
-        cashback: "6%",
-        credito: "0,5",
-        limiteEmprestimo: "100000",
-        limiteInvestimento: "90000"
-      }
-    ]
-  },
-  {
-    id: 12,
-    nome: "Solar Bank",
-    cor: "linear-gradient(90deg, #FFCC00, #FFF9E6)",
-    icone: "☀️",
-    descricao: "Banco sustentável com foco em energia solar e limpa.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Solar Bright",
-        design: "wave-patterns",
-        cor1: "#FFCC00",
-        cor2: "#FFE066",
-        cor3: "#FFF2B3",
-        cor4: "#FFF9E6",
-        tipo: "Básico",
-        numeroCard: "2020 **** **** 3131",
-        validade: "120",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 35.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "4%",
-        credito: "0,3",
-        limiteEmprestimo: "35000",
-        limiteInvestimento: "40000"
-      },
-      {
-        id: 2,
-        nome: "Solar Premium",
-        design: "card-moderno",
-        cor1: "#FFB300",
-        cor2: "#FFD633",
-        cor3: "#FFE066",
-        cor4: "#FFF9E6",
-        tipo: "Premium",
-        numeroCard: "4141 **** **** 5252",
-        validade: "135",
-        rentabilidadeInvestimento: "14%",
-        valorMaxEmprestimo: "R$ 60.000",
-        taxaJurosEmprestimo: "4%",
-        cashback: "6%",
-        credito: "0,35",
-        limiteEmprestimo: "60000",
-        limiteInvestimento: "55000"
-      },
-      {
-        id: 3,
-        nome: "Solar Ultra",
-        design: "geometric-chaos",
-        cor1: "#FF9900",
-        cor2: "#FFCC33",
-        cor3: "#FFE066",
-        cor4: "#FFF9E6",
-        tipo: "Premium",
-        numeroCard: "6363 **** **** 7474",
-        validade: "140",
-        rentabilidadeInvestimento: "16%",
-        valorMaxEmprestimo: "R$ 80.000",
-        taxaJurosEmprestimo: "3%",
-        cashback: "7%",
-        credito: "0,4",
-        limiteEmprestimo: "80000",
-        limiteInvestimento: "70000"
-      }
-    ]
-  },
-  {
-    id: 13,
-    nome: "Crypto Bank",
-    cor: "linear-gradient(90deg, #FF00FF, #FF99FF)",
-    icone: "🪙",
-    descricao: "Focado em criptoativos e investimentos digitais.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Crypto Basic",
-        design: "card-classico",
-        cor1: "#FF00FF",
-        cor2: "#CC00CC",
-        cor3: "#FF66FF",
-        cor4: "#FF99FF",
-        tipo: "Básico",
-        numeroCard: "1111 **** **** 2222",
-        validade: "120",
-        rentabilidadeInvestimento: "15%",
-        valorMaxEmprestimo: "R$ 30.000",
-        taxaJurosEmprestimo: "6%",
-        cashback: "5%",
-        credito: "0,3",
-        limiteEmprestimo: "30000",
-        limiteInvestimento: "40000"
-      },
-      {
-        id: 2,
-        nome: "Crypto Premium",
-        design: "wave-patterns",
-        cor1: "#CC00CC",
-        cor2: "#FF33FF",
-        cor3: "#FF66FF",
-        cor4: "#FF99FF",
-        tipo: "Premium",
-        numeroCard: "3333 **** **** 4444",
-        validade: "135",
-        rentabilidadeInvestimento: "18%",
-        valorMaxEmprestimo: "R$ 60.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "7%",
-        credito: "0,35",
-        limiteEmprestimo: "60000",
-        limiteInvestimento: "55000"
-      },
-      {
-        id: 3,
-        nome: "Crypto Ultra",
-        design: "geometric-chaos",
-        cor1: "#990099",
-        cor2: "#CC00CC",
-        cor3: "#FF66FF",
-        cor4: "#FF99FF",
-        tipo: "Premium",
-        numeroCard: "5555 **** **** 6666",
-        validade: "140",
-        rentabilidadeInvestimento: "20%",
-        valorMaxEmprestimo: "R$ 100.000",
-        taxaJurosEmprestimo: "4%",
-        cashback: "9%",
-        credito: "0,4",
-        limiteEmprestimo: "100000",
-        limiteInvestimento: "90000"
-      }
-    ]
-  },
-  {
-    id: 14,
-    nome: "Agro Bank Plus",
-    cor: "linear-gradient(90deg, #003816, #4CAF50)",
-    icone: "🌱",
-    descricao: "Versão avançada do Agro Bank, com mais crédito e benefícios.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Agro Plus Basic",
-        design: "card-classico",
-        cor1: "#003816",
-        cor2: "#1A5E2A",
-        cor3: "#0C9123",
-        cor4: "#4CAF50",
-        tipo: "Básico",
-        numeroCard: "7777 **** **** 8888",
-        validade: "120",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 50.000",
-        taxaJurosEmprestimo: "6%",
-        cashback: "6%",
-        credito: "0,3",
-        limiteEmprestimo: "120000",
-        limiteInvestimento: "100000"
-      },
-      {
-        id: 2,
-        nome: "Agro Plus Premium",
-        design: "wave-patterns",
-        cor1: "#002C10",
-        cor2: "#1A5E2A",
-        cor3: "#0C9123",
-        cor4: "#4CAF50",
-        tipo: "Premium",
-        numeroCard: "9999 **** **** 0000",
-        validade: "135",
-        rentabilidadeInvestimento: "14%",
-        valorMaxEmprestimo: "R$ 75.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "7%",
-        credito: "0,35",
-        limiteEmprestimo: "150000",
-        limiteInvestimento: "120000"
-      },
-      {
-        id: 3,
-        nome: "Agro Plus Ultra",
-        design: "geometric-chaos",
-        cor1: "#001A0C",
-        cor2: "#1A5E2A",
-        cor3: "#0C9123",
-        cor4: "#4CAF50",
-        tipo: "Premium",
-        numeroCard: "1212 **** **** 3434",
-        validade: "140",
-        rentabilidadeInvestimento: "16%",
-        valorMaxEmprestimo: "R$ 100.000",
-        taxaJurosEmprestimo: "4%",
-        cashback: "8%",
-        credito: "0,4",
-        limiteEmprestimo: "200000",
-        limiteInvestimento: "150000"
-      }
-    ]
-  },
-  {
-    id: 15,
-    nome: "Tech Future",
-    cor: "linear-gradient(90deg, #FF6F00, #FF8C42)",
-    icone: "💻",
-    descricao: "Banco digital focado em tecnologia e inovação futura.",
-    nucartoes: 3,
-    cartoes: [
-      {
-        id: 1,
-        nome: "Tech Basic",
-        design: "card-moderno",
-        cor1: "#FF6F00",
-        cor2: "#FF7F33",
-        cor3: "#FF914D",
-        cor4: "#FF8C42",
-        tipo: "Básico",
-        numeroCard: "1313 **** **** 2424",
-        validade: "120",
-        rentabilidadeInvestimento: "12%",
-        valorMaxEmprestimo: "R$ 30.000",
-        taxaJurosEmprestimo: "6%",
-        cashback: "4%",
-        credito: "0,35",
-        limiteEmprestimo: "30000",
-        limiteInvestimento: "40000"
-      },
-      {
-        id: 2,
-        nome: "Tech Premium",
-        design: "wave-patterns",
-        cor1: "#FF5A00",
-        cor2: "#FF7F33",
-        cor3: "#FF914D",
-        cor4: "#FF8C42",
-        tipo: "Premium",
-        numeroCard: "3535 **** **** 4646",
-        validade: "135",
-        rentabilidadeInvestimento: "14%",
-        valorMaxEmprestimo: "R$ 60.000",
-        taxaJurosEmprestimo: "5%",
-        cashback: "6%",
-        credito: "0,4",
-        limiteEmprestimo: "60000",
-        limiteInvestimento: "55000"
-      },
-      {
-        id: 3,
-        nome: "Tech Ultra",
-        design: "geometric-chaos",
-        cor1: "#FF4400",
-        cor2: "#FF7F33",
-        cor3: "#FF914D",
-        cor4: "#FF8C42",
-        tipo: "Premium",
-        numeroCard: "5757 **** **** 6868",
-        validade: "140",
-        rentabilidadeInvestimento: "16%",
-        valorMaxEmprestimo: "R$ 90.000",
-        taxaJurosEmprestimo: "4%",
-        cashback: "7%",
-        credito: "0,45",
-        limiteEmprestimo: "90000",
-        limiteInvestimento: "80000"
+        tipo: "básico",
+        cashback: "nenhum",
+        juros: "baixo",
+        emprestimo: "baixo",
+        investimento: "baixa"
       }
     ]
   }
 ];
 
+function processarBanco(banco, config) {
+  if (!banco || !banco.cartoes) return banco;
 
+  const range = (chave, tabela) => {
+    const valores = banco.cartoes.map(c => tabela[c[chave]]);
+    return [Math.min(...valores), Math.max(...valores)];
+  };
+
+  return {
+    ...banco,
+    cashbackValor: range("cashback", Object.fromEntries(
+      Object.entries(config.cashback).map(([k,v]) => [k,v.valor])
+    )),
+    jurosValor: range("juros", config.juros),
+    emprestimoMult: range("emprestimo", Object.fromEntries(
+      Object.entries(config.emprestimos).map(([k,v]) => [k,v.mult])
+    )),
+    investimentoPos: range("investimento", config.investimentos.pos),
+    investimentoPre: [
+      Math.min(...banco.cartoes.map(c => config.investimentos.pre[c.investimento][0].valor)),
+      Math.max(...banco.cartoes.map(c => config.investimentos.pre[c.investimento][2].valor))
+    ]
+  };
+}
+
+const bancoSelecionadoRaw = bancos.find(b => b.id === selectedBank);
+const bancoSelecionado = bancoSelecionadoRaw ? processarBanco(bancoSelecionadoRaw, config) : null;
 
   const tooltipStyle = {
     backgroundColor: "#FFFFFF",
@@ -1580,6 +1701,31 @@ const bancos = [
     fontWeight: "600",
     fontSize: "14px",
   };
+
+  function calcularRangeBanco(banco, config) {
+  const range = (chave, tabela) => {
+    const valores = banco.cartoes.map(c => tabela[c[chave]]);
+    return [Math.min(...valores), Math.max(...valores)];
+  };
+
+  return {
+    cashback: range("cashback", Object.fromEntries(
+      Object.entries(config.cashback).map(([k,v]) => [k,v.valor])
+    )),
+    juros: range("juros", config.juros),
+    emprestimos: range("emprestimo", Object.fromEntries(
+      Object.entries(config.emprestimos).map(([k,v]) => [k,v.mult])
+    )),
+    investimentosPos: range("investimento", config.investimentos.pos),
+    // Pré-fixado: aqui dá pra mostrar o range do menor até o maior conjunto
+    investimentosPre: [
+      config.investimentos.pre[banco.cartoes[0].investimento][0].valor,
+      config.investimentos.pre[
+        banco.cartoes[banco.cartoes.length-1].investimento
+      ][2].valor
+    ]
+  };
+}
 
   // const cartoes = [
   //   {
@@ -1644,123 +1790,121 @@ const bancos = [
   //   }
   // ];
 
-if (banksModal === true) {
-  // Banco selecionado
-  const bancoSelecionado = bancos.find(b => b.id === selectedBank);
+  if (banksModal === true) {
+    // Banco selecionado
+    const bancoSelecionado = bancos.find(b => b.id === selectedBank);
 
-  return (
-    
-    <div  className="h-full  bg-gradient-to-br from-[#6A00FF] via-[#350973] via-[#C79FFF] to-[#7317F3] text-white w-full flex flex-col justify-between rounded-[20px]">
-      {/* Header */}
-      <div className="h-[50px] w-full flex gap-[10px] pt-6 pl-6 items-center">
-        <div>
-          <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
-          <button
-            onClick={() => setBanksModal(false)}
-            data-tooltip-id="tooltip-faturado"
-            data-tooltip-html="Fechar ofertas"
-            className="h-full bg-gradient-to-br from-[#6A00FF] via-[#9D00CC] to-[#E60000] w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
-          >
-            <img className="w-[70%]" src={maps} />
-          </button>
-        </div>
-        <div className="w-[calc(100%-50px)]">
-          <h1 className="text-4xl font-bold text-center">Ofertas Disponíveis</h1>
-  
-        </div>
-      </div>
+    return (
 
-      {/* Container de cartões */}
-      <div className="flex-1 overflow-y-auto px-6 max-h-[73vh] scrollbar-custom">
-        <div className="w-full grid pt-[10px] gap-6 pb-6">
-          {bancoSelecionado?.cartoes.map((cartao) => (
-            <ModalBank
-              key={cartao.id}
-              banco={bancoSelecionado} // passa o banco selecionado
-              cartao={cartao}
-              selectedCard={selectedCard}
-              setSelectedCard={setSelectedCard}
-            />
-          ))}
-        </div>
-      </div>
+      <div className="h-full  bg-gradient-to-br from-[#6A00FF] via-[#350973] via-[#C79FFF] to-[#7317F3] text-white w-full flex flex-col justify-between rounded-[20px]">
+        {/* Header */}
+        <div className="h-[50px] w-full flex gap-[10px] pt-6 pl-6 items-center">
+          <div>
+            <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
+            <button
+              onClick={() => setBanksModal(false)}
+              data-tooltip-id="tooltip-faturado"
+              data-tooltip-html="Fechar ofertas"
+              className="h-full bg-gradient-to-br from-[#6A00FF] via-[#9D00CC] to-[#E60000] w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+            >
+              <img className="w-[70%]" src={maps} />
+            </button>
+          </div>
+          <div className="w-[calc(100%-50px)]">
+            <h1 className="text-4xl font-bold text-center">Ofertas Disponíveis</h1>
 
-      {/* Modal de confirmação */}
-      {selectedCard && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-slate-800 rounded-2xl p-8 max-w-md w-full mx-4">
-            <h3 className="text-2xl font-bold text-white mb-4">Confirmar Seleção</h3>
-            <p className="text-slate-300 mb-6">
-              Você selecionou o cartão{" "}
-              {bancoSelecionado?.cartoes.find(c => c.id === selectedCard)?.nome}.
-              Deseja prosseguir para ver os produtos disponíveis?
-            </p>
-            <div className="flex gap-4">
-              <button
-                onClick={() => setSelectedCard(null)}
-                className="flex-1 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-bold transition-colors"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={() => {
-                  // alert(
-                  //   `Prosseguindo com ${bancoSelecionado?.cartoes.find(c => c.id === selectedCard)?.nome}`
-                  // );
-                  setVision("bankInterface")
-                  setSelectedCard(null);
-                }}
-                className="flex-1 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl font-bold transition-all"
-              >
-                Prosseguir
-              </button>
-            </div>
           </div>
         </div>
-      )}
-    </div>
-  );
-}
 
-
-
-
-  return (
-    <div className="h-full bg-gradient-to-br from-[#6A00FF] via-[#350973] via-[#C79FFF] to-[#7317F3] text-white flex flex-col justify-between rounded-[20px]">
-      {/* Título fixo */}
-      <div className="h-[50px] w-full flex gap-[10px] pt-6 pl-6 items-center">
-        <div>
-          <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
-          <button
-            onClick={() => (setVision("mapa"))}
-            data-tooltip-id="tooltip-faturado"
-            data-tooltip-html="Ir para o mapa"
-            // style={{ backgroundColor: setorAtivo.cor3 }}
-
-            className="h-full bg-gradient-to-br from-[#6A00FF] via-[#9D00CC] to-[#E60000] w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
-          >
-            <img className="w-[70%]" src={maps} />
-          </button>
-        </div >
-        <div className="w-[calc(100%-50px)]">
-          <h1 className="text-4xl font-bold text-center ">Bancos Disponíveis</h1>
+        {/* Container de cartões */}
+        <div className="flex-1 overflow-y-auto px-6 max-h-[73vh] scrollbar-custom">
+          <div className="w-full grid pt-[10px] gap-6 pb-6">
+            {bancoSelecionado?.cartoes.map((cartao) => (
+              <ModalBank
+                key={cartao.id}
+                banco={bancoSelecionado} // passa o banco selecionado
+                cartao={cartao}
+                selectedCard={selectedCard}
+                setSelectedCard={setSelectedCard}
+              />
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Container com scroll interno */}
-      <div className="flex-1 overflow-y-auto px-6 max-h-[70vh] scrollbar-custom">
-        <div className="max-w-6xl mx-auto grid pt-[10px] gap-6 md:grid-cols-2 lg:grid-cols-3  pb-6">
-          {bancos.map((banco) => (
+        {/* Modal de confirmação */}
+        {selectedCard && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-slate-800 rounded-2xl p-8 max-w-md w-full mx-4">
+              <h3 className="text-2xl font-bold text-white mb-4">Confirmar Seleção</h3>
+              <p className="text-slate-300 mb-6">
+                Você selecionou o cartão{" "}
+                {bancoSelecionado?.cartoes.find(c => c.id === selectedCard)?.nome}.
+                Deseja prosseguir para ver os produtos disponíveis?
+              </p>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setSelectedCard(null)}
+                  className="flex-1 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-bold transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={() => {
+                    // alert(
+                    //   `Prosseguindo com ${bancoSelecionado?.cartoes.find(c => c.id === selectedCard)?.nome}`
+                    // );
+                    setVision("bankInterface")
+                    setSelectedCard(null);
+                  }}
+                  className="flex-1 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl font-bold transition-all"
+                >
+                  Prosseguir
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+
+
+
+ return (
+  <div className="h-full bg-gradient-to-br from-[#6A00FF] via-[#350973] via-[#C79FFF] to-[#7317F3] text-white flex flex-col justify-between rounded-[20px]">
+    {/* Título fixo */}
+    <div className="h-[50px] w-full flex gap-[10px] pt-6 pl-6 items-center">
+      <div>
+        <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
+        <button
+          onClick={() => setVision("mapa")}
+          data-tooltip-id="tooltip-faturado"
+          data-tooltip-html="Ir para o mapa"
+          className="h-full bg-gradient-to-br from-[#6A00FF] via-[#9D00CC] to-[#E60000] w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+        >
+          <img className="w-[70%]" src={maps} />
+        </button>
+      </div>
+      <div className="w-[calc(100%-50px)]">
+        <h1 className="text-4xl font-bold text-center ">Bancos Disponíveis</h1>
+      </div>
+    </div>
+
+    {/* Container com scroll interno */}
+    <div className="flex-1 overflow-y-auto px-6 max-h-[70vh] scrollbar-custom">
+      <div className="max-w-6xl mx-auto grid pt-[10px] gap-6 md:grid-cols-2 lg:grid-cols-3  pb-6">
+        {bancos.map((bancoRaw) => {
+          const banco = processarBanco(bancoRaw, config);
+
+          return (
             <div
               key={banco.id}
-               style={{ background: banco.cor }}
-              className={`rounded-2xl p-6 border border-slate-700 hover:border-slate-500 transition-all duration-300 hover:scale-105 cursor-pointer`}
-              onClick={() => {setBanksModal(true);  setSelectedBank(banco.id);
-              }
-                }
-            
+              style={{ background: banco.cor }}
+              className="rounded-2xl p-6 border border-slate-700 hover:border-slate-500 transition-all duration-300 hover:scale-105 cursor-pointer"
+              onClick={() => { setBanksModal(true); setSelectedBank(banco.id); }}
             >
-              {/* Header do banco */}
+              {/* Header */}
               <div className="flex items-center gap-4 mb-4">
                 <div className="text-4xl">{banco.icone}</div>
                 <div>
@@ -1769,94 +1913,50 @@ if (banksModal === true) {
                 </div>
               </div>
 
-              {/* Estatísticas principais */}
-              <div className="grid grid-cols-4 gap-4 mb-6">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-4 bg-white/20 rounded-sm flex items-center justify-center">
-                    <span className="text-xs">💳</span>
-                  </div>
-                  <span className="text-sm">x{banco.nucartoes}</span>
-                </div>
-
-                {banco.cashback && (
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-4 bg-green-500/30 rounded-sm flex items-center justify-center">
-                      <span className="text-xs">📈</span>
-                    </div>
-                    <span className="text-xs text-green-300">Cashback</span>
-                  </div>
-                )}
-
-                <div className="text-right">
-                  <span className="text-sm">Juros: </span>
-                  <span
-                    className={`font-bold ${banco.juros > 10
-                      ? "text-red-300"
-                      : banco.juros < 7
-                        ? "text-green-300"
-                        : "text-yellow-300"
-                      }`}
-                  >
-                    {banco.juros}%
-                  </span>
-                </div>
-
-                <div className="text-right">
-                  <span className="text-sm">Crédito: </span>
-                  <span className="font-bold text-blue-300">
-                    x{banco.credito}
-                  </span>
-                </div>
-              </div>
-
-              {/* Valores */}
-              <div className="grid grid-cols-2 gap-4">
+              {/* Infos rápidas */}
+              <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <p className="text-xs text-slate-300 mb-1">
-                    Valor mínimo de empréstimo
-                  </p>
-                  <p className="text-lg font-bold text-white">
-                    R$ {banco.emprestimo}
+                  <p className="text-xs text-slate-300">Cashback</p>
+                  <p className="text-lg font-bold text-green-300">
+                    {banco.cashbackValor[0]}% - {banco.cashbackValor[1]}% {banco.cartoes.some(c => c.cashback === "especifico") && `(específico)`} 
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-300 mb-1">
-                    Valor mínimo de investimento
-                  </p>
-                  <p className="text-lg font-bold text-white">
-                    R$ {banco.investimento}
+                  <p className="text-xs text-slate-300">Juros</p>
+                  <p className="text-lg font-bold text-red-300">
+                    {banco.jurosValor[0]}% - {banco.jurosValor[1]}% a.m
                   </p>
                 </div>
               </div>
 
-              {/* Cashback específico */}
-              {banco.cashback && (
-                <div className="mt-4 p-3 bg-green-500/20 rounded-lg border border-green-500/30">
-                  <div className="flex items-center gap-2">
-                    <span className="text-green-300 text-sm">🎯</span>
-                    <span className="text-sm text-green-300">
-                      Cashback em construções de{" "}
-                      <strong>{banco.cashbackTipo}</strong>
-                    </span>
-                  </div>
-                </div>
-              )}
+              {/* Crédito */}
+              <div>
+                <p className="text-xs text-slate-300">Limite de Crédito</p>
+                <p className="text-lg font-bold text-blue-300">
+                  x{banco.emprestimoMult[0]} - x{banco.emprestimoMult[1]} patrimônio
+                </p>
+              </div>
 
-              {/* Indicador de seleção */}
-              {selectedBank === banco.id && (
-                <div className="mt-4 p-2 bg-white/20 rounded-lg border border-white/40">
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="text-lg">✓</span>
-                    <span className="text-sm font-medium">Banco Selecionado</span>
-                  </div>
-                </div>
-              )}
+              {/* Investimentos */}
+              <div className="mt-4">
+                <p className="text-xs text-slate-300 mb-1">Investimento Pós-fixado</p>
+                <p className="text-sm">
+                  Rentabilidade: {banco.investimentoPos[0]}% - {banco.investimentoPos[1]}% a.m
+                </p>
+
+                <p className="text-xs text-slate-300 mt-2 mb-1">Investimento Pré-fixado</p>
+                <p className="text-sm">
+                  {banco.investimentoPre[0]}% - {banco.investimentoPre[1]}% a.m
+                </p>
+              </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default BankSelection;

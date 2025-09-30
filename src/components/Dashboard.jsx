@@ -99,31 +99,30 @@ export default function Dashboard() {
   };
 
 
-  const [dia, setDia] = useState(0);
+const controls = useAnimation();
 
-  const controls = useAnimation();
+const gradientes = [
+  "linear-gradient(to top, #ff9966, #ff5e62, #2c3e50)", // pôr do sol
+  "linear-gradient(to top, #141e30, #243b55, #0f2027)", // noite
+  "linear-gradient(to top, #0f2027, #203a43, #2c5364)", // madrugada
+  "linear-gradient(to top, #2c5364, #203a43, #fbb034)", // nascer do sol
+  "linear-gradient(to top, #fbb034, #ffdd00, #ffeeee)", // meio-dia
+];
 
-  const gradientes = [
+const animarCicloDia = async () => {
+  await controls.start({
+    background: gradientes,
+    transition: {
+      duration: 1,
+      ease: "linear",
+    },
+  });
+};
 
-    "linear-gradient(to top, #ff9966, #ff5e62, #2c3e50)", // pôr do sol
-    "linear-gradient(to top, #141e30, #243b55, #0f2027)", // noite
-    "linear-gradient(to top, #0f2027, #203a43, #2c5364)", // volta p/ madrugada
-    "linear-gradient(to top, #0f2027, #203a43, #2c5364)", // madrugada
-    "linear-gradient(to top, #2c5364, #203a43, #fbb034)", // nascer do sol
-    "linear-gradient(to top, #fbb034, #ffdd00, #ffeeee)", // meio-dia
-  ];
-
-  useEffect(() => {
-
-    controls.start({
-      background: gradientes, // percorre todos
-      transition: {
-        duration: 1, // duração total (segundos)
-        ease: "linear", // pode ser easeInOut se quiser mais suave
-      },
-    });
-
-  }), [dados.dia]
+// disponibiliza no contexto para o botão usar
+useEffect(() => {
+  atualizarDados("animarCicloDia", animarCicloDia);
+}, [dados.dia]);
 
 
   const tooltipStyle = {
@@ -241,7 +240,7 @@ export default function Dashboard() {
   // Pegando o setor ativo
   const setorAtivo = setores.find((setor) => setor.id === ativo);
   const setorInfo = setores.find(setor => setor.id === setorAtivo);
-
+  const setorCarteira = setores.find((setor) => setor.id === "carteira");
 
   if (ativo) {
     const atualizarSetor = (novoSetor) =>
@@ -427,7 +426,7 @@ export default function Dashboard() {
   if (businessLicenceModal === true) {
     return (
       <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90 ">
-        <motion.div style={{ backgroundColor: setorAtivo.cor4 }}
+        <motion.div style={{ backgroundColor: setorCarteira.cor4 }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
@@ -440,8 +439,8 @@ export default function Dashboard() {
           >
             <img src={fechar} alt="Fechar" className="w-[60%]" />
           </button>
-          <div style={{ backgroundColor: setorAtivo.cor1 }} className="flex shadow-xl justify-center items-center w-[100%] h-[15%]  rounded-[20px] self-center ">
-            <h1 className="text-center text-white text-[40px] fonteBold">Licenças - {ativo}</h1>
+          <div style={{ backgroundColor: setorCarteira.cor1 }} className="flex shadow-xl justify-center items-center w-[100%] h-[15%]  rounded-[20px] self-center ">
+            <h1 className="text-center text-white text-[40px] fonteBold">Licenças empresariais</h1>
           </div >
           <div className="overflow-y-visible overflow-x-hidden w-full scrollbar-custom ">
             {economiaSetores.porteEmpresa.map((e, index) =>
@@ -468,54 +467,72 @@ export default function Dashboard() {
         {/* Sidebar */}
 
 
-        {dados.dia >= 270 && (
-          <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col items-center justify-between">
-            <div
-              className={`
-        w-[80px] h-[80%] pt-[20px] flex flex-col items-center justify-between shadow-md transition-opacity duration-500
+{dados.dia >= 270 && (
+  <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col">
+    <div
+      className={`
+        w-[80px] h-full pb-[20px] pt-[20px] flex flex-col justify-between items-center shadow-md transition-opacity duration-500
         ${dados.dia >= 270 ? "opacity-100" : "opacity-0 pointer-events-none"}
       `}
-            >
-              <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
+    >
+      <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
 
-              {setores.map((setor) => (
-                <div key={setor.id}>
-                  {/* Tooltip para cada setor */}
-
-                  <button
-                    onClick={() => setAtivo(setor.id)}
-                    data-tooltip-id={`tooltip-faturado`}
-                    data-tooltip-html={setor.id}  // <-- aqui mostra o nome do setor
-                    className={`
-              w-[60px] h-[60px] rounded-[20px] flex items-center justify-center shadow-md
-              hover:bg-[${setor.cor3}] active:scale-95 hover:scale-[1.05]
-              ${ativo === setor.id ? "ring-1 ring-white scale-[1.1]" : ""} transition
-            `}
-                    style={{ backgroundColor: setor.cor3 }}
-                  >
-                    <img src={setor.img} alt={setor.id} className="h-[60%] aspect-square" />
-                  </button>
-                </div>
-              ))}
-              <div>
-                {/* Tooltip para cada setor */}
-
-                <button
-                  onClick={abrirMapa}
-                  data-tooltip-id={`tooltip-faturado`}
-                  data-tooltip-html="mapa"  // <-- aqui mostra o nome do setor
-                  className={`
-              w-[60px] h-[60px] rounded-[20px] flex items-center justify-center shadow-md
-              hover:bg-[] active:scale-95 hover:scale-[1.05] bg-gradient-to-br from-[#6A00FF] via-[#9D00CC] to-[#E60000]
-            `}
-
-                >
-                  <img src={maps} alt={maps} className="h-[60%] aspect-square" />
-                </button>
-              </div>
+      {/* Parte de cima -> setores normais */}
+      <div className="flex flex-col h-full gap-3">
+        {setores
+          .filter((setor) => setor.id !== "carteira" && setor.id !== "grafico")
+          .map((setor) => (
+            <div key={setor.id}>
+              <button
+                onClick={() => setAtivo(setor.id)}
+                data-tooltip-id={`tooltip-faturado`}
+                data-tooltip-html={setor.id}
+                className={`
+                  w-[60px] h-[60px] rounded-[20px] flex items-center justify-center shadow-md
+                  hover:bg-[${setor.cor3}] active:scale-95 hover:scale-[1.05]
+                  ${ativo === setor.id ? "ring-1 ring-white scale-[1.1]" : ""} transition
+                `}
+                style={{ backgroundColor: setor.cor3 }}
+              >
+                <img
+                  src={setor.img}
+                  alt={setor.id}
+                  className="h-[60%] aspect-square"
+                />
+              </button>
             </div>
-          </div>
-        )}
+          ))}
+      </div>
+
+      {/* Parte de baixo -> carteira e gráfico */}
+      <div className="flex flex-col gap-3">
+        {setores
+          .filter((setor) => setor.id === "carteira" || setor.id === "grafico")
+          .map((setor) => (
+            <div key={setor.id}>
+              <button
+                onClick={() => setAtivo(setor.id)}
+                data-tooltip-id={`tooltip-faturado`}
+                data-tooltip-html={setor.id}
+                className={`
+                  w-[60px] h-[60px] rounded-[20px] flex items-center justify-center shadow-md
+                  hover:bg-[${setor.cor3}] active:scale-95 hover:scale-[1.05]
+                  ${ativo === setor.id ? "ring-1 ring-white scale-[1.1]" : ""} transition
+                `}
+                style={{ backgroundColor: setor.cor3 }}
+              >
+                <img
+                  src={setor.img}
+                  alt={setor.id}
+                  className="h-[60%] aspect-square"
+                />
+              </button>
+            </div>
+          ))}
+      </div>
+    </div>
+  </div>
+)}
 
 
         {/* Dashboard */}
@@ -866,7 +883,7 @@ export default function Dashboard() {
           <div className="flex-1 w-full rounded-[20px] flex flex-col">
             <motion.div
               animate={controls}
-              initial={{ background: "linear-gradient(to top, #ff9966, #ff5e62, #2c3e50)" }}
+              initial={{ background: "linear-gradient(to top, #fbb034, #ffdd00, #ffeeee)"}}
               className="gradiente w-full flex-1 rounded-[20px] flex justify-center items-center relative overflow-hidden"
             >
               {/* Terreno */}
@@ -914,7 +931,7 @@ export default function Dashboard() {
 
                 {/* Botão do Computador */}
                 <button
-                  onClick={() =>{ setVision("financas"); setBusinessLicenceModal(true)}}
+                  onClick={() => {  setBusinessLicenceModal(true) }}
                   data-tooltip-id="saldo-tip"
                   data-tooltip-content="Abrir Licenças Empresariais"
                   className="w-[100px] h-[100px] bg-laranja rounded-[15px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] transition-transform"
@@ -986,14 +1003,14 @@ export default function Dashboard() {
   if (vision === "licençaEmpre") {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">
-        <BusinessLicence/>
+        <BusinessLicence setor={("carteira")} />
 
       </div>)
   }
-    if (vision === "financas") {
+  if (vision === "financas") {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">
-        <CorporateFinanceInterface/>
+        <CorporateFinanceInterface />
 
       </div>)
   }

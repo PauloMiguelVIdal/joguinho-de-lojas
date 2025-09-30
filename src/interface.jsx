@@ -22,10 +22,20 @@ import Economys from "./components/Economys.jsx";
 import RaffledBuildings from "./components/RaffledBuildings.jsx";
 import { CardSpecials } from "./components/cardsSpecials.jsx"
 import { TaxesYear } from "./components/TaxesYear.jsx";
-
+import PortfolioInterface from "./components/PortifólioInterface.jsx";
+import ToggleButton from "./components/ToggleButton.jsx";
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
+
+    const vision = dados.vision.visionAtual
+
+
+    const setVision = (newVision) => {
+        atualizarDados("vision", {
+            ...dados.vision, visionAtual: newVision
+        });
+    }
 
 
     return (
@@ -56,28 +66,43 @@ function Interface() {
                         <Informations className="grid col-start-1 col-end-8" />
                     </div>
                     <div className="flex w-full items-center justify-center  col-start-8 col-end-9 gap-[10px]">
-                       
+
                         <Day />
                         <TaxesYear />
                         <EconomyGlobal />
                         <RaffledBuildings />
                     </div>
                 </div>
+
                 <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">
 
                 </div>
                 <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">
                     <Buttons />
                 </div>
-                <div className="grid col-start-9 col-end-11 row-start-3 row-end-5 ">
-                    <Economys />
-                </div>
-                <div className="grid col-start-9 col-end-11 row-start-5 row-end-7">
-                    <Taxes />
-                </div>
-                <div className="grid col-start-9 col-end-11 row-start-7 row-end-11">
-                    <ActiveEvents />
-                </div>
+{vision === "financas" && (
+  <div className="grid col-start-9 col-end-11 row-start-3 row-end-11 flex justify-center items-center">
+      <PortfolioInterface />
+  </div>
+)}
+
+{vision !== "financas" && (
+  <div className="col-start-9 col-end-11 row-start-3 row-end-11 grid grid-rows-[auto_auto_1fr] gap-4 p-2 overflow-y-auto">
+    
+    <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3">
+      <Economys />
+    </div>
+
+    <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3">
+      <Taxes />
+    </div>
+
+    <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3 min-h-0 overflow-y-auto">
+      <ActiveEvents />
+    </div>
+
+  </div>
+)}
             </div>
         </div>
     )

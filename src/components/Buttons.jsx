@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import {NextDay}from "./nextDay";
+import { NextDay } from "./nextDay";
 import PayTexes from "./PayTexes";
 import Business from "./business";
-
+import ToggleButton from "./ToggleButton";
+import ButtonFinanace from "./ButtonFinance"
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 
@@ -16,10 +17,15 @@ export default function Buttons() {
                 <NextDay />
                 <div className="flex flex-col gap-[10px]">
 
-                <PayTexes />
-                <Business />
+                    <PayTexes />
+                    {/* <Business /> */}
+                    <div className="w-full flex justify-around">
+
+                        <ToggleButton />
+                        <ButtonFinanace />
+                    </div>
                 </div>
-  
+
             </div>
         </div>
     )

@@ -26,6 +26,8 @@ export function NextDay() {
         }
 
         // alert("saçdfjasçkldfj")
+
+           dados.animarCicloDia();
         const novoDia = dados.dia + 1;
         atualizarDados("dia", novoDia);
         // console.log(dados.dia);

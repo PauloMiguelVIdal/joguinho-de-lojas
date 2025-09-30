@@ -14,8 +14,8 @@ const CentraldeDadosProvider = ({ children }) => {
     setorAtivo: "agricultura",
     fimGame: false,
     nomeEmpresa: "",
-
-    dia: 1600,
+    animarCicloDia: null,
+    dia: 1000,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -1028,9 +1028,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -1152,9 +1152,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -1281,9 +1281,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -1417,9 +1417,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -1516,9 +1516,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -1604,9 +1604,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -1761,9 +1761,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -1909,9 +1909,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -2074,9 +2074,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -2201,9 +2201,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -2284,9 +2284,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -2366,9 +2366,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -2449,9 +2449,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -2575,9 +2575,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -2706,9 +2706,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
       ],
@@ -3026,9 +3026,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -3212,9 +3212,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -3356,9 +3356,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -3459,9 +3459,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Empresa De Telecomunicações",
@@ -3535,9 +3535,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Plataforma De Redes Sociais",
@@ -3622,9 +3622,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Marketplace Online",
@@ -3779,9 +3779,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Plataforma De Streaming",
@@ -3860,9 +3860,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Instituto De Tecnologia Alimentar",
@@ -4042,9 +4042,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Centro De Pesquisa Agrícola",
@@ -4174,9 +4174,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Instituto De Biotecnologia",
@@ -4301,9 +4301,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Laboratório De Design De Produtos",
@@ -4453,9 +4453,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -4706,9 +4706,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -4814,9 +4814,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Fábrica De Smartphones",
@@ -4966,9 +4966,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Fábrica De Computadores",
@@ -5108,9 +5108,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Fábrica De Consoles De Jogos",
@@ -5240,9 +5240,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -5383,9 +5383,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -5686,9 +5686,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         }
         ,
@@ -5805,9 +5805,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -5928,9 +5928,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -6077,9 +6077,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -6396,9 +6396,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -6640,9 +6640,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }
         ,
@@ -6830,9 +6830,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }
         ,
@@ -7055,9 +7055,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         }
 
@@ -7246,9 +7246,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -7360,9 +7360,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -7479,9 +7479,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -7633,9 +7633,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -7747,9 +7747,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -7851,9 +7851,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -7960,9 +7960,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Fábrica De Calçados",
@@ -8068,9 +8068,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Fábrica De Roupas",
@@ -8181,9 +8181,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -8311,9 +8311,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -8436,9 +8436,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -8515,9 +8515,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -8619,9 +8619,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -8772,9 +8772,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -8911,9 +8911,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -9130,9 +9130,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -9279,9 +9279,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -9449,9 +9449,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -9613,9 +9613,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -9792,9 +9792,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -9991,9 +9991,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -10175,9 +10175,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -10359,9 +10359,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -10522,9 +10522,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -10676,9 +10676,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -10810,9 +10810,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -10988,9 +10988,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -11181,9 +11181,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -11378,9 +11378,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -11545,9 +11545,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -11702,9 +11702,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -11866,9 +11866,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -12091,9 +12091,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -12280,9 +12280,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
           }
         }
         , {
@@ -12609,9 +12609,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -12778,9 +12778,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -12967,9 +12967,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -13166,9 +13166,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -13340,9 +13340,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
       ],
@@ -13366,7 +13366,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Comércio Local",
         desc: "Autoriza operações de comércio varejista de alimentos e produtos básicos para suprir necessidades diárias da população.",
         valor: 18000,
-        edifíciosLiberados: [ "Padaria", "Açougue"],
+        edifíciosLiberados: ["Padaria", "Açougue"],
         status: false
       },
       {
@@ -13380,7 +13380,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença Global De Comércio",
         desc: "Permite a abertura de estabelecimentos comerciais básicos, formando a rede inicial de comércio e serviços essenciais.",
         valor: 66000,
-        edifíciosLiberados: ["Livraria","Mercado", "Adega",],
+        edifíciosLiberados: ["Livraria", "Mercado", "Adega",],
         status: false
       },
 
@@ -13389,7 +13389,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Varejo",
         desc: "Habilita estabelecimentos de conveniência e postos de combustível, importantes para o abastecimento local e mobilidade urbana.",
         valor: 139000,
-        edifíciosLiberados: ["Loja De Conveniência", "Posto De Combustíveis","Redes De Fast-food"],
+        edifíciosLiberados: ["Loja De Conveniência", "Posto De Combustíveis", "Redes De Fast-food"],
         status: false
       },
       {
@@ -13407,7 +13407,7 @@ const CentraldeDadosProvider = ({ children }) => {
         status: false
       },
 
-      
+
       {
         nome: "Licença De Logística E Transporte",
         desc: "Autoriza a operação de centros de distribuição e transporte de mercadorias, essencial para a cadeia de suprimentos da cidade.",
@@ -13421,7 +13421,7 @@ const CentraldeDadosProvider = ({ children }) => {
         nome: "Licença De Comércio Urbano",
         desc: "Permite a operação de lojas especializadas e serviços urbanos de médio porte, elevando o nível comercial da cidade.",
         valor: 325000,
-        edifíciosLiberados: [ "Loja De Eletrônicos", "Joalheria", "Concessionária De Veículos"],
+        edifíciosLiberados: ["Loja De Eletrônicos", "Joalheria", "Concessionária De Veículos"],
         status: false
       },
       {
@@ -13518,9 +13518,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -13596,9 +13596,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -13704,9 +13704,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -13777,9 +13777,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -13891,9 +13891,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -13964,9 +13964,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -14037,9 +14037,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -14126,9 +14126,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -14194,9 +14194,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -14278,9 +14278,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -14372,9 +14372,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -14441,9 +14441,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -14519,9 +14519,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -14613,9 +14613,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -14686,9 +14686,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -14759,9 +14759,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -14832,9 +14832,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -14910,9 +14910,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -14988,9 +14988,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -15066,9 +15066,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -15144,9 +15144,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -15243,9 +15243,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -15316,9 +15316,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -15394,9 +15394,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -15493,9 +15493,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -15602,9 +15602,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -15806,9 +15806,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -15925,9 +15925,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -16244,9 +16244,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -16373,9 +16373,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
       ],
@@ -16534,9 +16534,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -16673,9 +16673,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -17097,9 +17097,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -17311,9 +17311,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Escritório De Arquitetura",
@@ -17443,9 +17443,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Consultoria Em Engenharia Civil",
@@ -17651,9 +17651,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Construtora",
@@ -17934,9 +17934,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -18002,9 +18002,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -18070,9 +18070,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -18299,9 +18299,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -18458,9 +18458,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -18612,9 +18612,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -18751,9 +18751,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -18885,9 +18885,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -19019,9 +19019,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -19173,9 +19173,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -19256,9 +19256,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -19375,9 +19375,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -19459,9 +19459,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -19603,9 +19603,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -19774,9 +19774,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -19853,9 +19853,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -20207,9 +20207,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         }, {
           nome: "Fábrica De Turbinas Eólicas",
@@ -20355,9 +20355,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
 
           }
         },
@@ -20511,9 +20511,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -20676,9 +20676,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -20825,9 +20825,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -21049,9 +21049,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -21133,9 +21133,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 100, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 20, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 100, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -21238,9 +21238,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -21422,9 +21422,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -21501,9 +21501,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
 
@@ -21868,9 +21868,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -22227,9 +22227,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -22616,9 +22616,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -22970,9 +22970,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 60, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 60, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -23324,9 +23324,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 30, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 8, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 30, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -23713,9 +23713,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto:0, aumFatu:0},
-            nível2: { status: true, quantidadeMínima: 2, redCusto:0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 3, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 2, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
           }
         },
         {
@@ -24112,9 +24112,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto:0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 2, redCusto:0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 3, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 2, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
           }
         }
       ],
@@ -24162,9 +24162,9 @@ const CentraldeDadosProvider = ({ children }) => {
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, redCusto:0, aumFatu:0 },
-            nível2: { status: true, quantidadeMínima: 10, redCusto:0, aumFatu:0 },
-            nível3: { status: true, quantidadeMínima: 50, redCusto:0, aumFatu:0 },
+            nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+            nível2: { status: true, quantidadeMínima: 10, redCusto: 0, aumFatu: 0 },
+            nível3: { status: true, quantidadeMínima: 50, redCusto: 0, aumFatu: 0 },
           }
         }
       }
