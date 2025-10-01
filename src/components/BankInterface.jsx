@@ -1,34 +1,527 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { CreditCard, DollarSign, TrendingUp, Gift, PiggyBank, BarChart3, Calculator, Clock, Star, Shield } from 'lucide-react';
+import { CentraldeDadosContext } from "../centralDeDadosContext";
 
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 const BankInterface = () => {
+
+
   const [selectedInstallments, setSelectedInstallments] = useState(6);
   const [selectedLoanPercentage, setSelectedLoanPercentage] = useState(100);
   const [currentTab, setCurrentTab] = useState('overview');
   const [loanAmount, setLoanAmount] = useState(0); // Valor do empréstimo solicitado
   const [remainingDebt, setRemainingDebt] = useState(0); // Saldo devedor
   const [currentInstallment, setCurrentInstallment] = useState(1);
-  
-    const loanData = {
+  const { dados, atualizarDados, atualizarDadosProf } = useContext(CentraldeDadosContext);
+  const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  //    const limite = parseInt(cartao.limiteEmprestimo);
+  //         const usado = parseInt(cartao.limiteUsado);
+  const limite = parseInt(40000);
+  const usado = parseInt(6000);
+  const percentualUsado = Math.round((usado / limite) * 100);
+  const patrimonio = 10000;
+  const contrato1 = economiaSetores.contratosBancos[0]
+
+  const limiteEmprestimoAtual = contrato1.limiteEmprestimo
+
+  const GeometricChaosCard = ({ cartao }) => (
+    <div
+      className="w-[350px] h-[200px] rounded-3xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 cursor-pointer hover:animate-rainbow-shift"
+      style={{
+        background: `linear-gradient(45deg, ${cartao.cor1} 0%, ${cartao.cor2} 25%, ${cartao.cor3} 50%, ${cartao.cor4} 75%, ${cartao.cor1} 100%)`
+      }}
+      onClick={() => setSelectedCard(cartao.id)}
+    >
+      {/* Losangos e retângulos com pulse */}
+      <div className="absolute inset-0">
+        <div
+          className="absolute top-4 left-4 w-8 h-8 transform rotate-45 hover:animate-geometric-pulse"
+          style={{ backgroundColor: cartao.cor4, opacity: 0.2 }}
+        ></div>
+        <div
+          className="absolute bottom-4 right-4 w-8 h-16 transform -rotate-12 hover:animate-geometric-pulse"
+          style={{ backgroundColor: cartao.cor2, opacity: 0.3 }}
+        ></div>
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 rotate-45 border-4 hover:animate-geometric-pulse"
+          style={{ borderColor: cartao.cor4, opacity: 0.2 }}
+        ></div>
+      </div>
+
+      <div className="p-6 relative z-10">
+        <div
+          className="absolute top-4 right-4 px-3 py-2 rounded-full text-xs font-black"
+          style={{
+            backgroundColor: 'rgba(255,255,255,0.9)',
+            color: cartao.cor1
+          }}
+        >
+          {cartao.cartaoNome}
+        </div>
+
+        <div className="w-12 h-8 bg-gradient-to-br from-white to-gray-200 rounded-lg mt-4 mb-6 relative shadow-lg">
+          <div className="absolute inset-1 bg-gradient-to-br from-yellow-400 to-orange-500 rounded opacity-80 hover:animate-geometric-pulse"></div>
+          <div className="absolute inset-2 bg-gray-800 rounded"></div>
+        </div>
+
+        <div className="text-xl font-mono tracking-widest mb-6 text-shadow-lg">
+          {cartao.numeroCard}
+        </div>
+
+        <div className="flex justify-between items-end">
+          <div>
+            <div className="text-xs opacity-90 mb-1">EMPRESA</div>
+            <div className="text-sm font-bold">{dados.inicioGame.nomeEmpresa}</div>
+          </div>
+          <div className="text-right">
+            <div className="text-xs opacity-75 mb-1">VÁLIDO</div>
+            <div className="text-sm font-medium">{cartao.validade}</div>
+          </div>
+        </div>
+      </div>
+
+
+      <style >{`
+      @keyframes rainbow-shift {
+        0% { filter: hue-rotate(0deg); }
+        25% { filter: hue-rotate(90deg); }
+        50% { filter: hue-rotate(180deg); }
+        75% { filter: hue-rotate(270deg); }
+        100% { filter: hue-rotate(360deg); }
+      }
+      
+      .animate-rainbow-shift {
+        animation: rainbow-shift 2s infinite;
+      }
+
+      @keyframes geometric-pulse {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(5deg); }
+      }
+
+      .animate-geometric-pulse {
+        animation: geometric-pulse 1.5s ease-in-out infinite;
+      }
+    `}</style>
+    </div>
+  );
+
+  const TriangularFusionCard = ({ cartao }) => (
+    <div
+      className="w-[350px] h-[200px] rounded-3xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 cursor-pointer hover:animate-rainbow-shift"
+      style={{
+        background: `conic-gradient(from 0deg, ${cartao.cor1}, ${cartao.cor2}, ${cartao.cor3}, ${cartao.cor4}, ${cartao.cor1})`
+      }}
+      onClick={() => setSelectedCard(cartao.id)}
+    >
+      {/* Triângulos geométricos animados apenas no hover */}
+      <div className="absolute inset-0">
+        <div
+          className="absolute top-4 left-4 w-0 h-0 border-l-[20px] border-r-[20px] border-b-[35px] border-transparent hover:animate-geometric-pulse"
+          style={{ borderBottomColor: cartao.cor4, opacity: 0.3 }}
+        ></div>
+        <div
+          className="absolute bottom-4 right-4 w-0 h-0 border-l-[25px] border-r-[25px] border-t-[43px] border-transparent rotate-180 hover:animate-geometric-pulse"
+          style={{ borderTopColor: cartao.cor1, opacity: 0.4 }}
+        ></div>
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 rotate-45 border-4 hover:animate-geometric-pulse"
+          style={{ borderColor: cartao.cor4, opacity: 0.2 }}
+        ></div>
+      </div>
+
+      <div className="p-6 relative z-10">
+        <div
+          className="absolute top-4 right-4 px-3 py-2 rounded-full text-xs font-black"
+          style={{
+            backgroundColor: 'rgba(255,255,255,0.9)',
+            color: cartao.cor1
+          }}
+        >
+          {cartao.cartaoNome}
+        </div>
+
+        <div className="w-12 h-8 bg-gradient-to-br from-white to-gray-200 rounded-lg mt-4 mb-6 relative shadow-lg hover:animate-geometric-pulse">
+          <div className="absolute inset-1 bg-gradient-to-br from-yellow-400 to-orange-500 rounded opacity-80"></div>
+          <div className="absolute inset-2 bg-gray-800 rounded"></div>
+        </div>
+
+        <div className="text-xl font-mono tracking-widest mb-6 text-shadow-lg">
+          {cartao.numeroCard}
+        </div>
+
+        <div className="flex justify-between items-end">
+          <div>
+            <div className="text-xs opacity-90 mb-1">EMPRESA</div>
+            <div className="text-sm font-bold">{dados.inicioGame.nomeEmpresa}</div>
+          </div>
+          <div className="text-right">
+            <div className="text-xs opacity-75 mb-1">VÁLIDO</div>
+            <div className="text-sm font-medium">{cartao.validade}</div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <style >{`
+      @keyframes rainbow-shift {
+        0% { filter: hue-rotate(0deg); }
+        25% { filter: hue-rotate(90deg); }
+        50% { filter: hue-rotate(180deg); }
+        75% { filter: hue-rotate(270deg); }
+        100% { filter: hue-rotate(360deg); }
+      }
+      .animate-rainbow-shift {
+        animation: rainbow-shift 2s infinite;
+      }
+
+      @keyframes geometric-pulse {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(5deg); }
+      }
+      .animate-geometric-pulse {
+        animation: geometric-pulse 1.5s ease-in-out infinite;
+      }
+    `}</style>
+    </div>
+  );
+
+  const CardClassico = ({ cartao }) => (
+    <div
+      className="w-[350px] h-[200px] rounded-3xl p-6 text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer hover:animate-rainbow-shift"
+      style={{
+        background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 50%, ${cartao.cor3} 100%)`
+      }}
+    >
+      {/* Formas geométricas animadas apenas no hover */}
+      <div className="absolute inset-0">
+        <div
+          className="absolute -top-10 -right-10 w-32 h-32 rotate-45 hover:animate-geometric-pulse"
+          style={{ backgroundColor: cartao.cor4, opacity: 0.1 }}
+        ></div>
+        <div
+          className="absolute top-16 -left-8 w-20 h-20 rounded-full hover:animate-geometric-pulse"
+          style={{ backgroundColor: cartao.cor3, opacity: 0.15 }}
+        ></div>
+      </div>
+
+      {/* Logo do banco */}
+      <div
+        className="absolute top-4 right-4 px-3 py-1 rounded-lg text-xs font-bold"
+        style={{
+          backgroundColor: cartao.cor4,
+          color: cartao.cor1,
+          opacity: 0.9
+        }}
+      >
+        {cartao.cartaoNome}
+      </div>
+
+      {/* Chip */}
+      <div className="w-12 h-8 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-lg mt-4 mb-6 relative shadow-lg">
+        <div className="absolute inset-2 bg-black bg-opacity-20 rounded"></div>
+      </div>
+
+      {/* Número do cartão */}
+      <div className="text-xl font-mono tracking-widest mb-6">
+        {cartao.numeroCard}
+      </div>
+
+      {/* Info */}
+      <div className="flex justify-between items-end">
+        <div>
+          <div className="text-xs opacity-75 mb-1">EMPRESA</div>
+          <div className="text-sm font-medium">{dados.inicioGame.nomeEmpresa}</div>
+        </div>
+        <div className="text-right">
+          <div className="text-xs opacity-75 mb-1">VÁLIDO</div>
+          <div className="text-sm font-medium">{cartao.validade}</div>
+        </div>
+      </div>
+
+      <style >{`
+      @keyframes rainbow-shift {
+        0% { filter: hue-rotate(0deg); }
+        25% { filter: hue-rotate(90deg); }
+        50% { filter: hue-rotate(180deg); }
+        75% { filter: hue-rotate(270deg); }
+        100% { filter: hue-rotate(360deg); }
+      }
+      .animate-rainbow-shift { animation: rainbow-shift 2s infinite; }
+
+      @keyframes geometric-pulse {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(5deg); }
+      }
+      .hover\\:animate-geometric-pulse:hover { animation: geometric-pulse 1.5s ease-in-out infinite; }
+    `}</style>
+    </div>
+  );
+
+  const CardModerno = ({ cartao }) => (
+    <div
+      className="w-[350px] h-[200px] rounded-xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer hover:animate-rainbow-shift"
+      style={{
+        background: `radial-gradient(circle at top right, ${cartao.cor3} 0%, ${cartao.cor2} 50%, ${cartao.cor1} 100%)`
+      }}
+    >
+      {/* Hexágonos animados apenas no hover */}
+      <div className="absolute inset-0">
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute border opacity-20 hover:animate-geometric-pulse"
+            style={{
+              borderColor: cartao.cor4,
+              width: '30px',
+              height: '30px',
+              clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)',
+              left: `${20 + i * 15}%`,
+              top: `${10 + (i % 2) * 20}%`,
+              transform: `rotate(${i * 30}deg)`
+            }}
+          ></div>
+        ))}
+      </div>
+
+      <div className="p-6 relative z-10">
+        {/* Logo com efeito glass */}
+        <div
+          className="absolute top-4 right-4 px-3 py-2 rounded-lg text-xs font-bold backdrop-blur-sm"
+          style={{
+            backgroundColor: `${cartao.cor4}20`,
+            border: `1px solid ${cartao.cor4}40`,
+            color: cartao.cor4
+          }}
+        >
+          {cartao.cartaoNome}
+        </div>
+
+        {/* Chip com borda */}
+        <div
+          className="w-12 h-9 rounded-lg mt-4 mb-6 relative border-2"
+          style={{
+            backgroundColor: cartao.cor3,
+            borderColor: cartao.cor4
+          }}
+        >
+          <div className="absolute inset-2 rounded" style={{ backgroundColor: cartao.cor4, opacity: 0.8 }}></div>
+        </div>
+
+        {/* Número estilizado */}
+        <div
+          className="text-xl font-semibold tracking-wide mb-6"
+          style={{ textShadow: `2px 2px 4px ${cartao.cor1}` }}
+        >
+          {cartao.numeroCard}
+        </div>
+
+        {/* Footer com divisor */}
+        <div className="border-t pt-3" style={{ borderColor: cartao.cor4, opacity: 0.3 }}>
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-xs opacity-70">EMPRESA</div>
+              <div className="text-sm font-medium">{dados.inicioGame.nomeEmpresa}</div>
+            </div>
+            <div className="text-right">
+              <div className="text-xs opacity-75 mb-1">VÁLIDO</div>
+              <div className="text-sm font-medium">{cartao.validade}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style >{`
+      @keyframes rainbow-shift {
+        0% { filter: hue-rotate(0deg); }
+        25% { filter: hue-rotate(90deg); }
+        50% { filter: hue-rotate(180deg); }
+        75% { filter: hue-rotate(270deg); }
+        100% { filter: hue-rotate(360deg); }
+      }
+      .animate-rainbow-shift { animation: rainbow-shift 2s infinite; }
+
+      @keyframes geometric-pulse {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.05) rotate(3deg); }
+      }
+      .hover\\:animate-geometric-pulse:hover { animation: geometric-pulse 1.5s ease-in-out infinite; }
+    `}</style>
+    </div>
+  );
+
+  const WavePatternsCard = ({ cartao }) => (
+    <div
+      className="w-[350px] h-[200px] rounded-3xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 cursor-pointer hover:animate-rainbow-shift"
+      style={{
+        background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 33%, ${cartao.cor3} 66%, ${cartao.cor4} 100%)`
+      }}
+      onClick={() => setSelectedCard(cartao.id)}
+    >
+      {/* Pattern de ondas geométricas animadas apenas no hover */}
+      <div className="absolute inset-0 hover:animate-geometric-pulse">
+        <svg className="w-full h-full opacity-20" viewBox="0 0 350 200">
+          <path d="M0,100 Q87.5,60 175,100 T350,100 L350,200 L0,200 Z" fill={cartao.cor4} opacity="0.3" />
+          <path d="M0,120 Q87.5,80 175,120 T350,120 L350,200 L0,200 Z" fill={cartao.cor3} opacity="0.2" />
+          <path d="M0,140 Q87.5,100 175,140 T350,140 L350,200 L0,200 Z" fill={cartao.cor2} opacity="0.1" />
+        </svg>
+
+        <div
+          className="absolute top-6 right-6 w-20 h-20 rounded-full border-4 opacity-30 hover:animate-geometric-pulse"
+          style={{ borderColor: cartao.cor4 }}
+        ></div>
+        <div
+          className="absolute bottom-8 left-8 w-12 h-12 opacity-25 hover:animate-geometric-pulse"
+          style={{
+            backgroundColor: cartao.cor4,
+            clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+          }}
+        ></div>
+      </div>
+
+      <div className="p-6 relative z-10">
+        <div
+          className="absolute top-4 right-4 px-3 py-2 rounded-full text-xs font-black"
+          style={{
+            backgroundColor: 'rgba(255,255,255,0.9)',
+            color: cartao.cor1
+          }}
+        >
+          {cartao.cartaoNome}
+        </div>
+
+        <div className="w-12 h-8 bg-gradient-to-br from-white to-gray-200 rounded-lg mt-4 mb-6 relative shadow-lg hover:animate-geometric-pulse">
+          <div className="absolute inset-1 bg-gradient-to-br from-yellow-400 to-orange-500 rounded opacity-80"></div>
+          <div className="absolute inset-2 bg-gray-800 rounded"></div>
+        </div>
+
+        <div className="text-xl font-mono tracking-widest mb-6 text-shadow-lg">
+          {cartao.numeroCard}
+        </div>
+
+        <div className="flex justify-between items-end">
+          <div>
+            <div className="text-xs opacity-90 mb-1">EMPRESA</div>
+            <div className="text-sm font-bold">{dados.inicioGame.nomeEmpresa}</div>
+          </div>
+          <div className="text-right">
+            <div className="text-xs opacity-75 mb-1">VÁLIDO</div>
+            <div className="text-sm font-medium">{cartao.validade}</div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <style >{`
+      @keyframes rainbow-shift {
+        0% { filter: hue-rotate(0deg); }
+        25% { filter: hue-rotate(90deg); }
+        50% { filter: hue-rotate(180deg); }
+        75% { filter: hue-rotate(270deg); }
+        100% { filter: hue-rotate(360deg); }
+      }
+      .animate-rainbow-shift {
+        animation: rainbow-shift 2s infinite;
+      }
+
+      @keyframes geometric-pulse {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(5deg); }
+      }
+      .animate-geometric-pulse {
+        animation: geometric-pulse 1.5s ease-in-out infinite;
+      }
+    `}</style>
+    </div>
+  );
+
+  const renderCartao = (cartao) => {
+    switch (cartao.design) {
+      case "geometric-chaos":
+        return <GeometricChaosCard cartao={cartao} />;
+      case "triangular-fusion":
+        return <TriangularFusionCard cartao={cartao} />;
+      case "classico":
+        return <CardClassico cartao={cartao} />;
+      case "moderno":
+        return <CardModerno cartao={cartao} />;
+      case "wave-patterns":
+        return <WavePatternsCard cartao={cartao} />;
+      default:
+        return <CardClassico cartao={cartao} />; // fallback
+    }
+  };
+
+
+
+  const config = {
+    cashback: {
+      nenhum: { valor: 0 },
+      todos: { valor: 2 },
+      especifico: { valor: 5 }
+    },
+    juros: {
+      baixo: 2,       // % a.m
+      medio: 3,
+      alto: 4
+    },
+    emprestimos: {
+      baixo: { mult: 1 },
+      medio: { mult: 2 },
+      alto: { mult: 3 }
+    },
+    investimentos: {
+      pos: {
+        baixa: 1, // % a.m
+        media: 3,
+        alta: 5
+      },
+      pre: {
+        baixa: [
+          { prazo: 90, valor: 0.5 },
+          { prazo: 180, valor: 0.7 },
+          { prazo: 360, valor: 1.0 }
+        ],
+        media: [
+          { prazo: 90, valor: 0.7 },
+          { prazo: 180, valor: 1.0 },
+          { prazo: 360, valor: 1.5 }
+        ],
+        alta: [
+          { prazo: 90, valor: 1.5 },
+          { prazo: 180, valor: 2.0 },
+          { prazo: 360, valor: 2.5 }
+        ]
+      }
+    }
+  };
+
+
+
+
+
+  const loanData = {
     preApproved: 45000,
     interestRate: 2.99,
     maxInstallments: 60
   };
 
-  const [availableLoan, setAvailableLoan] = useState(loanData.preApproved);
+  const [availableLoan, setAvailableLoan] = useState(limiteEmprestimoAtual);
 
 
   // Dados mockados
   const cardData = {
-    number: '**** **** **** 1234',
-    holder: 'João Silva Santos',
-    expiry: '12/27',
-    cvv: '***',
-    limit: 15000,
+    number: contrato1.numeroCard,
+    holder: dados.inicioGame.nomeEmpresa,
+    expiry: contrato1.dataFim,
+    limit: 18000,
     available: 12350,
-    used: 2650,
-    dueDate: '15/10/2025',
-    minimumPayment: 265
+    used: 17050,
   };
 
 
@@ -67,21 +560,21 @@ const BankInterface = () => {
   };
 
 
-  const handleRequestLoan = () => {
-    if (remainingDebt > 0 || loanAmount <= 0) return; // bloqueia se já houver empréstimo ou valor inválido
+const handleRequestLoan = () => {
+  if (remainingDebt > 0 || loanAmount <= 0) return;
 
-    const jurosPercent = selectedInstallments === 3 ? 0.02 : selectedInstallments === 6 ? 0.03 : 0.04;
-    const totalDebt = loanAmount * (1 + jurosPercent);
+  // pega o percentual correto
+  const jurosPercent = calcularJuros([(config.juros[contrato1.juros])], selectedInstallments, [(config.juros[contrato1.emprestimo])]);
+  const totalDebt = loanAmount * (1 + jurosPercent);
 
-
-    setRemainingDebt(totalDebt);
-    setCurrentInstallment(1); // começa na parcela 1
-    setAvailableLoan(prev => prev - loanAmount);
-    setLoanAmount(0); // reseta o input
-  };
+  setRemainingDebt(totalDebt);
+  setCurrentInstallment(1);
+  setAvailableLoan(prev => prev - loanAmount);
+  setLoanAmount(0);
+};
 
   const calculateInstallment = (amount, installments) => {
-    const monthlyRate = loanData.interestRate / 100;
+    const monthlyRate = [(config.juros[contrato1.emprestimo])] / 100;
     const payment = (amount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -installments));
     return payment;
   };
@@ -90,99 +583,172 @@ const BankInterface = () => {
     return (loanData.preApproved * selectedLoanPercentage) / 100;
   };
 
+  console.log([config[contrato1.emprestimo.mult]]);
+  console.log(config.juros[contrato1.emprestimo]);
+
   const TabButton = ({ id, label, icon: Icon, active, onClick }) => (
     <button
       onClick={() => onClick(id)}
       className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${active ? 'text-white shadow-lg' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
         }`}
-      style={active ? { backgroundColor: '#003816' } : {}}
+      style={active ? { backgroundColor: `${contrato1.cor1}` } : {}}
     >
       <Icon size={18} />
       {label}
     </button>
   );
-
-
-// Estados para investimentos
-const [investmentType, setInvestmentType] = useState('pos'); // 'pos' ou 'pre'
-const [investmentAmount, setInvestmentAmount] = useState(0);
-const [investmentDays, setInvestmentDays] = useState(90);
-const [activeInvestments, setActiveInvestments] = useState([]);
-const [totalBalance, setTotalBalance] = useState(50000); // Saldo disponível
-
-// Função para calcular retorno pré-fixado
-const getPreFixedReturn = (amount, days) => {
-  const rates = { 90: 0.015, 180: 0.035, 360: 0.08 }; // 1.5%, 3.5%, 8%
-  return amount * rates[days];
+const calcularJuros = (nivel, parcelas, baseJuros) => {
+  switch (nivel) {
+    case "baixo":
+      switch (parcelas) {
+        case 3: return baseJuros * 1;
+        case 6: return baseJuros * 1.2;
+        case 12: return baseJuros * 1.5;
+        default: return baseJuros;
+      }
+    case "medio":
+      switch (parcelas) {
+        case 3: return baseJuros * 1.2;
+        case 6: return baseJuros * 1.5;
+        case 12: return baseJuros * 1.7;
+        default: return baseJuros;
+      }
+    case "alto":
+      switch (parcelas) {
+        case 3: return baseJuros * 1.5;
+        case 6: return baseJuros * 1.7;
+        case 12: return baseJuros * 2;
+        default: return baseJuros;
+      }
+    default:
+      return baseJuros;
+  }
 };
+  // Estados para investimentos
+  const [investmentType, setInvestmentType] = useState('pos'); // 'pos' ou 'pre'
+  const [investmentAmount, setInvestmentAmount] = useState(0);
+  const [investmentDays, setInvestmentDays] = useState(90);
+  const [activeInvestments, setActiveInvestments] = useState([]);
+  const [totalBalance, setTotalBalance] = useState(50000); // Saldo disponível
 
-// Função para investir
-const handleInvest = () => {
-  if (investmentAmount <= 0 || investmentAmount > totalBalance) return;
-
-  const newInvestment = {
-    id: Date.now(),
-    type: investmentType,
-    amount: investmentAmount,
-    days: investmentType === 'pre' ? investmentDays : null,
-    startDate: Date.now(),
-    maturityDate: investmentType === 'pre' ? Date.now() + (investmentDays * 24 * 60 * 60 * 1000) : null
+  // Função para calcular retorno pré-fixado
+  const getPreFixedReturn = (amount, days) => {
+    const rates = { 90: 0.015, 180: 0.035, 360: 0.08 }; // 1.5%, 3.5%, 8%
+    return amount * rates[days];
   };
 
-  setActiveInvestments([...activeInvestments, newInvestment]);
-  setTotalBalance(totalBalance - investmentAmount);
-  setInvestmentAmount(0);
-};
+  const calcularLimiteEmprestimo = (contrato, patrimonio) => {
+    if (!contrato) return 0;
+    const multiplicador = config.emprestimos[contrato.emprestimo]?.mult || 1;
+    console.log((config.emprestimos[contrato.emprestimo].mult * patrimonio));
+    return patrimonio * multiplicador;
+  };
 
-// Função para resgatar investimento
-const handleWithdraw = (investmentId) => {
-  const investment = activeInvestments.find(inv => inv.id === investmentId);
-  if (!investment) return;
+  const obterTaxaJuros = (contrato) => {
+    if (!contrato) return 2;
+    return config.juros[contrato.juros] || 2;
+  };
 
-  let returnAmount = investment.amount;
+  const calcularCashback = (valor, contrato) => {
+    if (!contrato || !contrato.cashback) return 0;
+    const percentual = config.cashback[contrato.cashback.tipo]?.valor || 0;
+    return (valor * percentual) / 100;
+  };
 
-  if (investment.type === 'pos') {
-    // Pós-fixado: retorna com rendimento proporcional
-    const monthsPassed = Math.floor((Date.now() - investment.startDate) / (1000 * 60 * 60 * 24 * 30));
-    returnAmount = investment.amount * (1 + (0.005 * monthsPassed));
-  } else {
-    // Pré-fixado
-    const isMatured = Date.now() >= investment.maturityDate;
-    
-    if (isMatured) {
-      // Se venceu, recebe valor + rendimento
-      returnAmount = investment.amount + getPreFixedReturn(investment.amount, investment.days);
-    } else {
-      // Se retirar antes, perde 10%
-      returnAmount = investment.amount * 0.9;
+  const obterTaxaInvestimento = (contrato, tipo = 'pos') => {
+    if (!contrato) return 1;
+    if (tipo === 'pos') {
+      return config.investimentos.pos[contrato.investimento] || 1;
     }
-  }
+    return config.investimentos.pre[contrato.investimento] || [];
+  };
 
-  setTotalBalance(totalBalance + returnAmount);
-  setActiveInvestments(activeInvestments.filter(inv => inv.id !== investmentId));
-};
+  // Função para investir
+  const handleInvest = () => {
+    if (investmentAmount <= 0 || investmentAmount > totalBalance) return;
 
-// Função para adicionar fundos (só pós-fixado)
-const handleAddFunds = (investmentId) => {
-  const investment = activeInvestments.find(inv => inv.id === investmentId);
-  if (!investment || investment.type !== 'pos') return;
+    const newInvestment = {
+      id: Date.now(),
+      type: investmentType,
+      amount: investmentAmount,
+      days: investmentType === 'pre' ? investmentDays : null,
+      startDate: Date.now(),
+      maturityDate: investmentType === 'pre' ? Date.now() + (investmentDays * 24 * 60 * 60 * 1000) : null
+    };
 
-  const additionalAmount = parseFloat(prompt('Quanto deseja adicionar?', '0'));
-  if (isNaN(additionalAmount) || additionalAmount <= 0 || additionalAmount > totalBalance) return;
+    setActiveInvestments([...activeInvestments, newInvestment]);
+    setTotalBalance(totalBalance - investmentAmount);
+    setInvestmentAmount(0);
+  };
 
-  setActiveInvestments(activeInvestments.map(inv => 
-    inv.id === investmentId ? { ...inv, amount: inv.amount + additionalAmount } : inv
-  ));
-  setTotalBalance(totalBalance - additionalAmount);
-};
+  // Função para resgatar investimento
+  const handleWithdraw = (investmentId) => {
+    const investment = activeInvestments.find(inv => inv.id === investmentId);
+    if (!investment) return;
+
+    let returnAmount = investment.amount;
+
+    if (investment.type === 'pos') {
+      // Pós-fixado: retorna com rendimento proporcional
+      const monthsPassed = Math.floor((Date.now() - investment.startDate) / (1000 * 60 * 60 * 24 * 30));
+      returnAmount = investment.amount * (1 + (0.005 * monthsPassed));
+    } else {
+      // Pré-fixado
+      const isMatured = Date.now() >= investment.maturityDate;
+
+      if (isMatured) {
+        // Se venceu, recebe valor + rendimento
+        returnAmount = investment.amount + getPreFixedReturn(investment.amount, investment.days);
+      } else {
+        // Se retirar antes, perde 10%
+        returnAmount = investment.amount * 0.9;
+      }
+    }
+
+    setTotalBalance(totalBalance + returnAmount);
+    setActiveInvestments(activeInvestments.filter(inv => inv.id !== investmentId));
+  };
+console.log((loanAmount * calcularJuros([(config.juros[contrato1.juros])], selectedInstallments, [(config.juros[contrato1.emprestimo])])))
+console.log(loanAmount )
+console.log(calcularJuros([(config.juros[contrato1.juros])], selectedInstallments, [(config.juros[contrato1.emprestimo])]))
+console.log([(config.juros[contrato1.juros])])
+console.log(selectedInstallments)
+console.log([(config.juros[contrato1.emprestimo])])
+
+  // Função para adicionar fundos (só pós-fixado)
+  const handleAddFunds = (investmentId) => {
+    const investment = activeInvestments.find(inv => inv.id === investmentId);
+    if (!investment || investment.type !== 'pos') return;
+
+    const additionalAmount = parseFloat(prompt('Quanto deseja adicionar?', '0'));
+    if (isNaN(additionalAmount) || additionalAmount <= 0 || additionalAmount > totalBalance) return;
+
+    setActiveInvestments(activeInvestments.map(inv =>
+      inv.id === investmentId ? { ...inv, amount: inv.amount + additionalAmount } : inv
+    ));
+    setTotalBalance(totalBalance - additionalAmount);
+  };
+  const contratoParaCartao = (contrato, dados) => ({
+    id: contrato.cartaoId,
+    banco: contrato.bancoNome,
+    design: contrato.design,
+    cor1: contrato.cor1,
+    cor2: contrato.cor2,
+    cor3: contrato.cor3,
+    cor4: contrato.cor4,
+    numeroCard: contrato.numeroCard, // ou gere um número fictício se quiser
+    cartaoNome: contrato.cartaoNome,
+    validade: contrato.dataFim ? `até ${contrato.dataFim}` : "-",
+    empresa: dados?.inicioGame?.nomeEmpresa ?? "Minha Empresa",
+  });
 
   return (
     <div style={{
-      background: `linear-gradient(135deg, #0C9123  0%, #1a5e2ac5 50%, #0C9123 100%)`
+      background: `linear-gradient(135deg, ${contrato1.cor4} 0%, ${contrato1.cor1} 50%, ${contrato1.cor4} 100%)`
     }} className="h-full w-full rounded-[20px]  p-6">
       <div className="w-full">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">AGRO BANK</h1>
+          <h1 style={{ color: `${contrato1.cor1}` }} className="text-3xl font-bold text-white mb-2">{contrato1.bancoNome}</h1>
         </header>
 
         {/* Navigation Tabs */}
@@ -196,65 +762,9 @@ const handleAddFunds = (investmentId) => {
         {/* Overview Tab */}
         {currentTab === 'overview' && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Esquerda: Cartão + Limite */}
             <div className="flex flex-col items-start space-y-4">
-              {/* Cartão */}
-              <div
-                className="w-[350px] h-[200px] rounded-3xl p-6 text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer"
-                style={{
-                  background: `linear-gradient(135deg, #003816 0%, #1A5E2A 50%, #0C9123 100%)`
-                }}
-              >
-                {/* Formas geométricas */}
-                <div className="absolute inset-0">
-                  <div
-                    className="absolute -top-10 -right-10 w-32 h-32 rotate-45 transition-all duration-1000 hover:animate-pulse"
-                    style={{ backgroundColor: '#4CAF50', opacity: 0.1 }}
-                  ></div>
-                  <div
-                    className="absolute top-16 -left-8 w-20 h-20 rounded-full transition-all duration-1000 hover:animate-pulse"
-                    style={{ backgroundColor: '#0C9123', opacity: 0.15 }}
-                  ></div>
-                </div>
+              {contrato1 && renderCartao(contratoParaCartao(contrato1, dados))}
 
-                {/* Logo do banco */}
-                <div
-                  className="absolute top-4 right-4 px-3 py-1 rounded-lg text-xs font-bold"
-                  style={{
-                    backgroundColor: '#4CAF50',
-                    color: '#003816',
-                    opacity: 0.9
-                  }}
-                >
-                  AGRO BANK
-                </div>
-
-                {/* Chip */}
-                <div className="w-12 h-8 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-lg mt-4 mb-6 relative shadow-lg">
-                  <div className="absolute inset-2 bg-black bg-opacity-20 rounded"></div>
-                </div>
-
-                {/* Número do cartão */}
-                <div className="text-xl font-mono tracking-widest mb-6">
-                  {cardData.number}
-                </div>
-
-                {/* Info */}
-                <div className="flex justify-between items-end">
-                  <div>
-                    <div className="text-xs opacity-75 mb-1">PORTADOR</div>
-                    <div className="text-sm font-medium">
-                      {cardData.holder.toUpperCase()}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xs opacity-75 mb-1">VÁLIDO ATÉ</div>
-                    <div className="text-sm font-medium">{cardData.expiry}</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Limite Total */}
               <div className="bg-white rounded-xl p-4 shadow-lg w-[350px]">
                 <div className="relative">
                   <div className="w-full bg-gray-200 rounded-full h-4">
@@ -262,44 +772,32 @@ const handleAddFunds = (investmentId) => {
                       className="h-4 rounded-full transition-all duration-1000"
                       style={{
                         width: `${(cardData.used / cardData.limit) * 100}%`,
-                        background: `linear-gradient(to right, #0C9123, #4CAF50)`
+                        background: `linear-gradient(to right, ${contrato1.cor3}, ${contrato1.cor4})`
                       }}
                     ></div>
                   </div>
                   <div className="flex justify-between mt-2 text-sm">
-                    <span className="text-gray-600">
-                      Usado: R$ {cardData.used.toLocaleString('pt-BR')}
-                    </span>
-                    <span className="text-gray-600">
-                      {((cardData.used / cardData.limit) * 100).toFixed(1)}%
-                    </span>
+                    <span className="text-gray-600">Usado: R$ {cardData.used.toLocaleString('pt-BR')}</span>
+                    <span className="text-gray-600">{((cardData.used / cardData.limit) * 100).toFixed(1)}%</span>
                   </div>
                 </div>
               </div>
 
-              {/* Limite Disponível */}
               <div className="bg-white rounded-xl p-4 shadow-lg w-[350px]">
-                <div className="flex items-center gap-3 ">
+                <div className="flex items-center gap-3">
                   <h3 className="font-semibold text-gray-700">Limite Disponível</h3>
                 </div>
-                <p className="text-2xl font-bold" style={{ color: '#0C9123' }}>
+                <p className="text-2xl font-bold" style={{ color: `${contrato1.cor3}` }}>
                   R$ {cardData.available.toLocaleString('pt-BR')}
                 </p>
-                <p className="text-sm text-gray-500">
-                  de R$ {cardData.limit.toLocaleString('pt-BR')}
-                </p>
+                <p className="text-sm text-gray-500">de R$ {cardData.limit.toLocaleString('pt-BR')}</p>
               </div>
             </div>
 
-            {/* Meio: Empréstimos + Investimentos */}
             <div className="space-y-4">
-              {/* Empréstimo */}
-              <div
-                className="p-4 rounded-lg shadow-lg"
-                style={{ backgroundColor: '#f8f9fa', borderLeft: '4px solid #0C9123' }}
-              >
+              <div className="p-4 rounded-lg shadow-lg" style={{ backgroundColor: '#f8f9fa', borderLeft: `4px solid ${contrato1.cor3}` }}>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-3 rounded-lg" style={{ backgroundColor: '#1A5E2A' }}>
+                  <div className="p-3 rounded-lg" style={{ backgroundColor: `${contrato1.cor2}` }}>
                     <DollarSign className="text-white" size={24} />
                   </div>
                   <div>
@@ -307,60 +805,80 @@ const handleAddFunds = (investmentId) => {
                     <p className="text-gray-600 text-sm">Valor da parcela</p>
                   </div>
                 </div>
-                <p className="text-2xl font-bold" style={{ color: '#0C9123' }}>
-                  R${' '}
-                  {calculateInstallment(getLoanAmount(), selectedInstallments).toLocaleString(
-                    'pt-BR',
-                    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-                  )}
+                <p className="text-2xl font-bold" style={{ color: `${contrato1.cor3}` }}>
+                  R$ {calculateInstallment(getLoanAmount(), selectedInstallments).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
                 <p className="text-sm text-gray-600 mt-1">
-                  Total: R${' '}
-                  {(
-                    calculateInstallment(getLoanAmount(), selectedInstallments) *
-                    selectedInstallments
-                  ).toLocaleString('pt-BR', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                  })}
+                  Total: R$ {(calculateInstallment(getLoanAmount(), selectedInstallments) * selectedInstallments).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
+                <div className="mt-3 pt-3 border-t border-gray-200">
+                  <div className="flex justify-between text-xs text-gray-600">
+                    <span>Taxa de juros:</span>
+                    <span className="font-semibold">{obterTaxaJuros(contrato1)}% a.m.</span>
+                  </div>
+                  <div className="flex justify-between text-xs text-gray-600 mt-1">
+                    <span>Limite disponível:</span>
+                    <span className="font-semibold">R$ {calcularLimiteEmprestimo(contrato1, patrimonio).toLocaleString('pt-BR')}</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Investimentos */}
               <div className="bg-white rounded-xl p-6 shadow-lg">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-3 rounded-lg" style={{ backgroundColor: '#4CAF50' }}>
+                  <div className="p-3 rounded-lg" style={{ backgroundColor: `${contrato1.cor2}` }}>
                     <TrendingUp className="text-white" size={20} />
                   </div>
                   <h3 className="font-bold text-gray-800">Investimentos</h3>
                 </div>
                 <p className="text-sm text-gray-600 mb-2">Total Investido</p>
-                <p className="text-xl font-bold text-gray-800">
-                  R$ {investmentData.totalInvested.toLocaleString('pt-BR')}
+                <p className="text-xl font-bold text-gray-800">R$ {investmentData.totalInvested.toLocaleString('pt-BR')}</p>
+                <p className="text-sm text-gray-600 mt-3">Rentabilidade (Pós-fixado)</p>
+                <p className="text-lg font-bold" style={{ color: `${contrato1.cor3}` }}>
+                  {obterTaxaInvestimento(contrato1, 'pos')}% a.m.
                 </p>
-                <p className="text-sm text-gray-600 mt-3">Rentabilidade Anual</p>
-                <p className="text-lg font-bold" style={{ color: '#0C9123' }}>
-                  +{investmentData.yearlyReturn}%
-                </p>
+                <div className="mt-3 pt-3 border-t border-gray-200">
+                  <p className="text-xs text-gray-600 mb-1">Taxas Pré-fixadas:</p>
+                  {contrato1 && obterTaxaInvestimento(contrato1, 'pre').map((taxa, idx) => (
+                    <div key={idx} className="flex justify-between text-xs text-gray-600">
+                      <span>{taxa.prazo} dias:</span>
+                      <span className="font-semibold">{taxa.valor}%</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Direita: Cashback */}
-            <div className="bg-white h-48 rounded-xl p-6 shadow-lg ">
-              <div className="text-center p-2 bg-gray-50 rounded-lg">
-                <h3 className="font-bold text-green-800">Cashback Acumulado</h3>
+            <div className="bg-white rounded-xl p-6 shadow-lg">
+              <div className="text-center p-2 bg-gray-50 rounded-lg mb-3">
+                <h3 style={{ color: `${contrato1.cor3}` }} className="font-bold text-green-800">Cashback Acumulado</h3>
                 <p className="text-2xl font-bold text-gray-800">
-                  R${' '}
-                  {cashbackData.accumulated.toLocaleString('pt-BR', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                  })}
+                  R$ {cashbackData.accumulated.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
               </div>
 
+              <div className="space-y-2 mb-4 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Tipo:</span>
+                  <span className="font-semibold text-gray-800 capitalize">
+                    {cashbackData.tipo === 'nenhum' ? 'Sem cashback' : cashbackData.tipo === 'todos' ? 'Todas compras' : `Setor: ${cashbackData.setor}`}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Percentual:</span>
+                  <span className="font-semibold" style={{ color: '#0C9123' }}>{cashbackData.percentual}%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Este mês:</span>
+                  <span className="font-semibold text-gray-800">
+                    R$ {cashbackData.currentMonth.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
+                </div>
+              </div>
+
               <button
-                className="w-full text-white py-2 rounded-lg font-semibold transition-colors mt-3"
-                style={{ backgroundColor: '#0C9123' }}
+                className="w-full text-white py-2 rounded-lg font-semibold hover:scale-105 transition-all duration-500"
+                style={{ backgroundColor: `${contrato1.cor3}` }}
+                disabled={cashbackData.accumulated === 0}
               >
                 Resgatar Cashback
               </button>
@@ -368,14 +886,13 @@ const handleAddFunds = (investmentId) => {
           </div>
         )}
 
-
         {currentTab === 'loan' && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
             {/* Coluna esquerda: Empréstimo + input + solicitar */}
             <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 rounded-lg" style={{ backgroundColor: '#1A5E2A' }}>
+                <div className="p-3 rounded-lg" style={{ backgroundColor: `${contrato1.cor2}` }}>
                   <DollarSign className="text-white" size={24} />
                 </div>
                 <div>
@@ -384,9 +901,9 @@ const handleAddFunds = (investmentId) => {
                 </div>
               </div>
 
-              <div className="p-4 rounded-lg" style={{ backgroundColor: '#4CAF50' }}>
+              <div className="p-4 rounded-lg" style={{ backgroundColor: `${contrato1.cor4}` }}>
                 <p className="text-3xl font-bold text-white">
-                  R$ {(loanData.preApproved - loanAmount).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  R$ {(availableLoan).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
                 <p className="text-sm text-white opacity-90">Valor disponível</p>
               </div>
@@ -399,8 +916,9 @@ const handleAddFunds = (investmentId) => {
                   min="0"
                   max={availableLoan} // usa valor disponível atualizado
                   value={loanAmount}
+
                   onChange={(e) => setLoanAmount(Math.min(Number(e.target.value), availableLoan))}
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
                   placeholder={`Máx: R$ ${availableLoan.toLocaleString('pt-BR')}`}
                 />
               </div>
@@ -417,7 +935,7 @@ const handleAddFunds = (investmentId) => {
                         ? "text-white border-transparent"
                         : "text-gray-700 border-gray-300 hover:border-gray-400"
                         }`}
-                      style={selectedInstallments === option ? { backgroundColor: "#0C9123" } : {}}
+                      style={selectedInstallments === option ? { backgroundColor: `${contrato1.cor3}` } : {}}
                     >
                       {option}x
                     </button>
@@ -430,7 +948,7 @@ const handleAddFunds = (investmentId) => {
                 onClick={handleRequestLoan}
                 className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${remainingDebt > 0 || loanAmount <= 0 ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
-                style={{ backgroundColor: "#0C9123" }}
+                style={{ backgroundColor: `${contrato1.cor2}` }}
                 disabled={remainingDebt > 0 || loanAmount <= 0} // desabilita se houver dívida ou valor 0
               >
                 Solicitar Empréstimo
@@ -440,16 +958,16 @@ const handleAddFunds = (investmentId) => {
             {/* Coluna direita: simulador + resultado + saldo devedor */}
             <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
               {/* Resultado da parcela */}
-              <div className="p-4 rounded-lg" style={{ backgroundColor: "#f8f9fa", borderLeft: "4px solid #0C9123" }}>
+              <div className="p-4 rounded-lg" style={{ backgroundColor: "#f8f9fa", borderLeft: `4px solid ${contrato1.cor3}` }}>
                 <p className="text-sm text-gray-600">Valor da parcela</p>
-                <p className="text-2xl font-bold" style={{ color: "#0C9123" }}>
+                <p className="text-2xl font-bold" style={{ color: `${contrato1.cor3}` }}>
                   R$ {calculateInstallment(loanAmount, selectedInstallments).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
                 <p className="text-sm text-gray-600 mt-1">
                   Total: R$ {(calculateInstallment(loanAmount, selectedInstallments) * selectedInstallments).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
                 <p className="text-sm text-gray-600 mt-1">
-                  Juros por parcela: R$ {(loanAmount * (selectedInstallments === 3 ? 0.02 : selectedInstallments === 6 ? 0.03 : 0.04)).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  Juros por parcela: R$ {(loanAmount * calcularJuros([(config.juros[contrato1.juros])], selectedInstallments, [(config.juros[contrato1.emprestimo])])).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
               </div>
 
@@ -466,7 +984,7 @@ const handleAddFunds = (investmentId) => {
                   <button
                     onClick={handlePayEarly}
                     className="mt-2 w-full text-white py-2 rounded-lg font-semibold transition-colors"
-                    style={{ backgroundColor: "#1A5E2A" }}
+                    style={{ backgroundColor: `${contrato1.cor2}` }}
                   >
                     Pagar Antecipado
                   </button>
@@ -481,247 +999,243 @@ const handleAddFunds = (investmentId) => {
 
 
         {/* Investments Tab */}
-     {currentTab === 'investments' && (
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 scrollbar-custom border border-white/20 rounded-xl p-6 max-h-[65vh]  overflow-y-auto">
-    {/* Coluna esquerda: Fazer investimento */}
-    <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="p-3 rounded-lg" style={{ backgroundColor: '#1A5E2A' }}>
-          <TrendingUp className="text-white" size={24} />
-        </div>
-        <div>
-          <h3 className="font-bold text-gray-800">Novo Investimento</h3>
-          <p className="text-gray-600 text-sm">Escolha a melhor opção</p>
-        </div>
-      </div>
-
-      {/* Saldo disponível */}
-      <div className="p-4 rounded-lg" style={{ backgroundColor: '#4CAF50' }}>
-        <p className="text-3xl font-bold text-white">
-          R$ {totalBalance.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-        </p>
-        <p className="text-sm text-white opacity-90">Saldo disponível para investir</p>
-      </div>
-
-      {/* Tipo de investimento */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Investimento</label>
-        <div className="grid grid-cols-2 gap-3">
-          <button
-            onClick={() => setInvestmentType('pos')}
-            className={`p-4 rounded-lg border-2 transition-all ${
-              investmentType === 'pos'
-                ? 'text-white border-transparent'
-                : 'text-gray-700 border-gray-300 hover:border-gray-400'
-            }`}
-            style={investmentType === 'pos' ? { backgroundColor: '#0C9123' } : {}}
-          >
-            <div className="font-semibold">Pós-fixado</div>
-            <div className="text-xs mt-1 opacity-90">Liquidez diária</div>
-          </button>
-          <button
-            onClick={() => setInvestmentType('pre')}
-            className={`p-4 rounded-lg border-2 transition-all ${
-              investmentType === 'pre'
-                ? 'text-white border-transparent'
-                : 'text-gray-700 border-gray-300 hover:border-gray-400'
-            }`}
-            style={investmentType === 'pre' ? { backgroundColor: '#0C9123' } : {}}
-          >
-            <div className="font-semibold">Pré-fixado</div>
-            <div className="text-xs mt-1 opacity-90">Maior retorno</div>
-          </button>
-        </div>
-      </div>
-
-      {/* Valor do investimento */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Valor do Investimento</label>
-        <input
-          type="number"
-          min="0"
-          max={totalBalance}
-          value={investmentAmount}
-          onChange={(e) => setInvestmentAmount(Math.min(Number(e.target.value), totalBalance))}
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
-          placeholder={`Máx: R$ ${totalBalance.toLocaleString('pt-BR')}`}
-        />
-      </div>
-
-      {/* Prazo (apenas para pré-fixado) */}
-      {investmentType === 'pre' && (
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Prazo de Resgate</label>
-          <div className="grid grid-cols-3 gap-2">
-            {[90, 180, 360].map(days => (
-              <button
-                key={days}
-                onClick={() => setInvestmentDays(days)}
-                className={`p-3 rounded-lg border-2 transition-colors ${
-                  investmentDays === days
-                    ? 'text-white border-transparent'
-                    : 'text-gray-700 border-gray-300 hover:border-gray-400'
-                }`}
-                style={investmentDays === days ? { backgroundColor: '#0C9123' } : {}}
-              >
-                <div className="font-semibold">{days} dias</div>
-                <div className="text-xs mt-1">
-                  {days === 90 && '+1.5%'}
-                  {days === 180 && '+3.5%'}
-                  {days === 360 && '+8%'}
+        {currentTab === 'investments' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 scrollbar-custom border border-white/20 rounded-xl p-6 max-h-[65vh]  overflow-y-auto">
+            {/* Coluna esquerda: Fazer investimento */}
+            <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-3 rounded-lg" style={{ backgroundColor: `${contrato1.cor2}` }}>
+                  <TrendingUp className="text-white" size={24} />
                 </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Info do investimento */}
-      <div className="p-4 rounded-lg" style={{ backgroundColor: '#f8f9fa', borderLeft: '4px solid #0C9123' }}>
-        <p className="text-sm text-gray-600 mb-2">
-          {investmentType === 'pos' ? 'Rendimento Mensal: 0.5%' : `Rendimento Total: ${investmentDays === 90 ? '1.5%' : investmentDays === 180 ? '3.5%' : '8%'}`}
-        </p>
-        <p className="text-lg font-bold" style={{ color: '#0C9123' }}>
-          Retorno estimado: R${' '}
-          {investmentType === 'pos'
-            ? (investmentAmount * 0.005).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-            : getPreFixedReturn(investmentAmount, investmentDays).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-          }
-        </p>
-        {investmentType === 'pos' && (
-          <p className="text-xs text-gray-500 mt-1">Pode adicionar ou retirar a qualquer momento</p>
-        )}
-        {investmentType === 'pre' && (
-          <p className="text-xs text-gray-500 mt-1">Resgate antecipado: perda de 10% + sem rendimentos</p>
-        )}
-      </div>
-
-      {/* Botão investir */}
-      <button
-        onClick={handleInvest}
-        className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${
-          investmentAmount <= 0 || investmentAmount > totalBalance ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
-        style={{ backgroundColor: '#0C9123' }}
-        disabled={investmentAmount <= 0 || investmentAmount > totalBalance}
-      >
-        Investir Agora
-      </button>
-    </div>
-
-    {/* Coluna direita: Investimentos ativos */}
-    <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
-      <h3 className="font-bold text-gray-800 mb-4">Meus Investimentos</h3>
-      
-      {activeInvestments.length === 0 ? (
-        <div className="text-center py-8 text-gray-500">
-          <PiggyBank size={48} className="mx-auto mb-3 opacity-50" />
-          <p>Você ainda não possui investimentos ativos</p>
-        </div>
-      ) : (
-        <div className="space-y-3 max-h-[500px] overflow-y-auto">
-          {activeInvestments.map(inv => {
-            const isMatured = inv.type === 'pre' && Date.now() >= inv.maturityDate;
-            const monthsPassed = Math.floor((Date.now() - inv.startDate) / (1000 * 60 * 60 * 24 * 30));
-            const currentValue = inv.type === 'pos' 
-              ? inv.amount * (1 + (0.005 * monthsPassed))
-              : isMatured 
-                ? inv.amount + getPreFixedReturn(inv.amount, inv.days)
-                : inv.amount;
-
-            return (
-              <div key={inv.id} className="p-4 border-2 border-gray-200 rounded-lg hover:border-green-300 transition-colors">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <span className="font-semibold text-gray-800">
-                      {inv.type === 'pos' ? 'Pós-fixado' : 'Pré-fixado'}
-                    </span>
-                    {inv.type === 'pre' && (
-                      <span className="ml-2 text-xs px-2 py-1 rounded" style={{ backgroundColor: isMatured ? '#4CAF50' : '#FFA726', color: 'white' }}>
-                        {isMatured ? 'Vencido' : `${inv.days} dias`}
-                      </span>
-                    )}
-                  </div>
+                <div>
+                  <h3 className="font-bold text-gray-800">Novo Investimento</h3>
+                  <p className="text-gray-600 text-sm">Escolha a melhor opção</p>
                 </div>
-                
-                <p className="text-2xl font-bold" style={{ color: '#0C9123' }}>
-                  R$ {inv.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-                
-                <p className="text-sm text-gray-600 mt-1">
-                  Valor atual: R$ {currentValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-                
-                {inv.type === 'pos' && (
-                  <p className="text-xs text-gray-500 mt-1">
-                    Rendimento: +{(((currentValue - inv.amount) / inv.amount) * 100).toFixed(2)}%
-                  </p>
-                )}
-                
-                {inv.type === 'pre' && !isMatured && (
-                  <p className="text-xs text-gray-500 mt-1">
-                    Vencimento: {new Date(inv.maturityDate).toLocaleDateString('pt-BR')}
-                  </p>
-                )}
+              </div>
 
-                <div className="flex gap-2 mt-3">
-                  {inv.type === 'pos' && (
-                    <button
-                      onClick={() => handleAddFunds(inv.id)}
-                      className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 rounded-lg font-medium transition-colors text-sm"
-                    >
-                      + Adicionar
-                    </button>
-                  )}
+              {/* Saldo disponível */}
+              <div className="p-4 rounded-lg" style={{ backgroundColor: `${contrato1.cor3}` }}>
+                <p className="text-3xl font-bold text-white">
+                  R$ {totalBalance.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </p>
+                <p className="text-sm text-white opacity-90">Saldo disponível para investir</p>
+              </div>
+
+              {/* Tipo de investimento */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Investimento</label>
+                <div className="grid grid-cols-2 gap-3">
                   <button
-                    onClick={() => handleWithdraw(inv.id)}
-                    className="flex-1 text-white py-2 rounded-lg font-medium transition-colors text-sm"
-                    style={{ backgroundColor: inv.type === 'pre' && !isMatured ? '#d32f2f' : '#0C9123' }}
+                    onClick={() => setInvestmentType('pos')}
+                    className={`p-4 rounded-lg border-2 transition-all ${investmentType === 'pos'
+                      ? 'text-white border-transparent'
+                      : 'text-gray-700 border-gray-300 hover:border-gray-400'
+                      }`}
+                    style={investmentType === 'pos' ? { backgroundColor: `${contrato1.cor3}` } : {}}
                   >
-                    {inv.type === 'pre' && !isMatured ? 'Resgatar (-10%)' : 'Resgatar'}
+                    <div className="font-semibold">Pós-fixado</div>
+                    <div className="text-xs mt-1 opacity-90">Liquidez diária</div>
+                  </button>
+                  <button
+                    onClick={() => setInvestmentType('pre')}
+                    className={`p-4 rounded-lg border-2 transition-all ${investmentType === 'pre'
+                      ? 'text-white border-transparent'
+                      : 'text-gray-700 border-gray-300 hover:border-gray-400'
+                      }`}
+                    style={investmentType === 'pre' ? { backgroundColor: `${contrato1.cor3}` } : {}}
+                  >
+                    <div className="font-semibold">Pré-fixado</div>
+                    <div className="text-xs mt-1 opacity-90">Maior retorno</div>
                   </button>
                 </div>
               </div>
-            );
-          })}
-        </div>
-      )}
 
-      {/* Resumo total */}
-      {activeInvestments.length > 0 && (
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-          <div className="flex justify-between mb-2">
-            <span className="text-sm text-gray-600">Total Investido:</span>
-            <span className="font-bold text-gray-800">
-              R$ {activeInvestments.reduce((sum, inv) => sum + inv.amount, 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </span>
+              {/* Valor do investimento */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Valor do Investimento</label>
+                <input
+                  type="number"
+                  min="0"
+                  max={totalBalance}
+                  value={investmentAmount}
+                  onChange={(e) => setInvestmentAmount(Math.min(Number(e.target.value), totalBalance))}
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
+                  placeholder={`Máx: R$ ${totalBalance.toLocaleString('pt-BR')}`}
+                />
+              </div>
+
+              {/* Prazo (apenas para pré-fixado) */}
+              {investmentType === 'pre' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Prazo de Resgate</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[90, 180, 360].map(days => (
+                      <button
+                        key={days}
+                        onClick={() => setInvestmentDays(days)}
+                        className={`p-3 rounded-lg border-2 transition-colors ${investmentDays === days
+                          ? 'text-white border-transparent'
+                          : 'text-gray-700 border-gray-300 hover:border-gray-400'
+                          }`}
+                        style={investmentDays === days ? { backgroundColor: `${contrato1.cor3}` } : {}}
+                      >
+                        <div className="font-semibold">{days} dias</div>
+                        <div className="text-xs mt-1">
+                          {days === 90 && '+1.5%'}
+                          {days === 180 && '+3.5%'}
+                          {days === 360 && '+8%'}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Info do investimento */}
+              <div className="p-4 rounded-lg" style={{ backgroundColor: '#f8f9fa', borderLeft: `4px solid ${contrato1.cor3}` }}>
+                <p className="text-sm text-gray-600 mb-2">
+                  {investmentType === 'pos' ? 'Rendimento Mensal: 0.5%' : `Rendimento Total: ${investmentDays === 90 ? '1.5%' : investmentDays === 180 ? '3.5%' : '8%'}`}
+                </p>
+                <p className="text-lg font-bold" style={{ color: `${contrato1.cor3}` }}>
+                  Retorno estimado: R${' '}
+                  {investmentType === 'pos'
+                    ? (investmentAmount * 0.005).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    : getPreFixedReturn(investmentAmount, investmentDays).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                  }
+                </p>
+                {investmentType === 'pos' && (
+                  <p className="text-xs text-gray-500 mt-1">Pode adicionar ou retirar a qualquer momento</p>
+                )}
+                {investmentType === 'pre' && (
+                  <p className="text-xs text-gray-500 mt-1">Resgate antecipado: perda de 10% + sem rendimentos</p>
+                )}
+              </div>
+
+              {/* Botão investir */}
+              <button
+                onClick={handleInvest}
+                className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${investmentAmount <= 0 || investmentAmount > totalBalance ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                style={{ backgroundColor: `${contrato1.cor3}` }}
+                disabled={investmentAmount <= 0 || investmentAmount > totalBalance}
+              >
+                Investir Agora
+              </button>
+            </div>
+
+            {/* Coluna direita: Investimentos ativos */}
+            <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
+              <h3 className="font-bold text-gray-800 mb-4">Meus Investimentos</h3>
+
+              {activeInvestments.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <PiggyBank size={48} className="mx-auto mb-3 opacity-50" />
+                  <p>Você ainda não possui investimentos ativos</p>
+                </div>
+              ) : (
+                <div className="space-y-3 max-h-[500px] overflow-y-auto">
+                  {activeInvestments.map(inv => {
+                    const isMatured = inv.type === 'pre' && Date.now() >= inv.maturityDate;
+                    const monthsPassed = Math.floor((Date.now() - inv.startDate) / (1000 * 60 * 60 * 24 * 30));
+                    const currentValue = inv.type === 'pos'
+                      ? inv.amount * (1 + (0.005 * monthsPassed))
+                      : isMatured
+                        ? inv.amount + getPreFixedReturn(inv.amount, inv.days)
+                        : inv.amount;
+
+                    return (
+                      <div key={inv.id} className="p-4 border-2 border-gray-200 rounded-lg transition-colors">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <span className="font-semibold text-gray-800">
+                              {inv.type === 'pos' ? 'Pós-fixado' : 'Pré-fixado'}
+                            </span>
+                            {inv.type === 'pre' && (
+                              <span className="ml-2 text-xs px-2 py-1 rounded" style={{ backgroundColor: isMatured ? '#4CAF50' : '#FFA726', color: 'white' }}>
+                                {isMatured ? 'Vencido' : `${inv.days} dias`}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <p className="text-2xl font-bold" style={{ color: `${contrato1.cor3}` }}>
+                          R$ {inv.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </p>
+
+                        <p className="text-sm text-gray-600 mt-1">
+                          Valor atual: R$ {currentValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </p>
+
+                        {inv.type === 'pos' && (
+                          <p className="text-xs text-gray-500 mt-1">
+                            Rendimento: +{(((currentValue - inv.amount) / inv.amount) * 100).toFixed(2)}%
+                          </p>
+                        )}
+
+                        {inv.type === 'pre' && !isMatured && (
+                          <p className="text-xs text-gray-500 mt-1">
+                            Vencimento: {new Date(inv.maturityDate).toLocaleDateString('pt-BR')}
+                          </p>
+                        )}
+
+                        <div className="flex gap-2 mt-3">
+                          {inv.type === 'pos' && (
+                            <button
+                              onClick={() => handleAddFunds(inv.id)}
+                              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 rounded-lg font-medium transition-colors text-sm"
+                            >
+                              + Adicionar
+                            </button>
+                          )}
+                          <button
+                            onClick={() => handleWithdraw(inv.id)}
+                            className="flex-1 text-white py-2 rounded-lg font-medium transition-colors text-sm"
+                            style={{ backgroundColor: inv.type === 'pre' && !isMatured ? '#d32f2f' : '#0C9123' }}
+                          >
+                            {inv.type === 'pre' && !isMatured ? 'Resgatar (-10%)' : 'Resgatar'}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Resumo total */}
+              {activeInvestments.length > 0 && (
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                  <div className="flex justify-between mb-2">
+                    <span className="text-sm text-gray-600">Total Investido:</span>
+                    <span className="font-bold text-gray-800">
+                      R$ {activeInvestments.reduce((sum, inv) => sum + inv.amount, 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">Valor Atual:</span>
+                    <span className="font-bold" style={{ color: `${contrato1.cor3}` }}>
+                      R$ {activeInvestments.reduce((sum, inv) => {
+                        const monthsPassed = Math.floor((Date.now() - inv.startDate) / (1000 * 60 * 60 * 24 * 30));
+                        const isMatured = inv.type === 'pre' && Date.now() >= inv.maturityDate;
+                        return sum + (inv.type === 'pos'
+                          ? inv.amount * (1 + (0.005 * monthsPassed))
+                          : isMatured
+                            ? inv.amount + getPreFixedReturn(inv.amount, inv.days)
+                            : inv.amount);
+                      }, 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-          <div className="flex justify-between">
-            <span className="text-sm text-gray-600">Valor Atual:</span>
-            <span className="font-bold" style={{ color: '#0C9123' }}>
-              R$ {activeInvestments.reduce((sum, inv) => {
-                const monthsPassed = Math.floor((Date.now() - inv.startDate) / (1000 * 60 * 60 * 24 * 30));
-                const isMatured = inv.type === 'pre' && Date.now() >= inv.maturityDate;
-                return sum + (inv.type === 'pos' 
-                  ? inv.amount * (1 + (0.005 * monthsPassed))
-                  : isMatured 
-                    ? inv.amount + getPreFixedReturn(inv.amount, inv.days)
-                    : inv.amount);
-              }, 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </span>
-          </div>
-        </div>
-      )}
-    </div>
-  </div>
-)}
+        )}
 
         {/* Cashback Tab */}
         {currentTab === 'cashback' && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl p-6 shadow-lg">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 rounded-lg" style={{ backgroundColor: '#1A5E2A' }}>
+                <div className="p-3 rounded-lg" style={{ backgroundColor: `${contrato1.cor2}` }}>
                   <Gift className="text-white" size={24} />
                 </div>
                 <div>
@@ -731,7 +1245,7 @@ const handleAddFunds = (investmentId) => {
               </div>
 
               <div className="space-y-4">
-                <div className="text-center p-4 rounded-lg" style={{ background: 'linear-gradient(135deg, #4CAF50, #0C9123)' }}>
+                <div className="text-center p-4 rounded-lg" style={{ background: `linear-gradient(135deg, ${contrato1.cor4}, ${contrato1.cor3})` }}>
                   <p className="text-sm text-white opacity-90">Este Mês</p>
                   <p className="text-3xl font-bold text-white">
                     R$ {cashbackData.currentMonth.toLocaleString('pt-BR', {
@@ -751,7 +1265,7 @@ const handleAddFunds = (investmentId) => {
                   </p>
                 </div>
 
-                <button className="w-full text-white py-3 rounded-lg font-semibold transition-colors" style={{ backgroundColor: '#0C9123' }}>
+                <button className="w-full text-white py-3 rounded-lg font-semibold transition-colors" style={{ backgroundColor: `${contrato1.cor3}` }}>
                   Resgatar Cashback
                 </button>
               </div>
@@ -760,15 +1274,15 @@ const handleAddFunds = (investmentId) => {
             <div className="bg-white rounded-xl p-6 shadow-lg">
               <h3 className="font-bold text-gray-800 mb-4">Próximo Resgate</h3>
 
-              <div className="p-4 rounded-lg mb-4" style={{ backgroundColor: '#f1f8e9', borderLeft: '4px solid #0C9123' }}>
+              <div className="p-4 rounded-lg mb-4" style={{ backgroundColor: '#f1f8e9', borderLeft: `4px solid ${contrato1.cor4}` }}>
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-semibold text-gray-700">Disponível em:</span>
-                  <span className="text-2xl font-bold" style={{ color: '#0C9123' }}>{cashbackData.daysUntilWithdrawal} dias</span>
+                  <span className="text-2xl font-bold" style={{ color: `${contrato1.cor3}` }}>{cashbackData.daysUntilWithdrawal} dias</span>
                 </div>
                 <p className="text-sm text-gray-600">Todo mês você pode resgatar seu cashback acumulado</p>
               </div>
 
-             
+
             </div>
           </div>
         )}

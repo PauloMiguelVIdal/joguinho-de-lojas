@@ -1693,7 +1693,7 @@ const BankSelection = () => {
           cor2: "#0044cc",
           cor3: "#0066ff",
           cor4: "#3399ff",
-
+          numeroCard: "3434 **** **** 2222",
           cashback: "especifico",
           setorCashback: "crédito",
           juros: "alto",
@@ -1746,7 +1746,7 @@ const BankSelection = () => {
           cor2: "#ff8000",
           cor3: "#ff9933",
           cor4: "#ffc266",
-
+          numeroCard: "5343 **** **** 3431",
           cashback: "todos",
           juros: "baixo",
           emprestimo: "medio",
@@ -1943,15 +1943,15 @@ const BankSelection = () => {
         {/* Container de cartões */}
         <div className="flex-1 overflow-y-auto px-6 max-h-[73vh] scrollbar-custom">
           <div className="w-full grid pt-[10px] gap-6 pb-6">
-            
-              <ModalBank
-              
-                banco={bancoSelecionado} // passa o banco selecionado
-              
-                selectedCard={selectedCard}
-                setSelectedCard={setSelectedCard}
-              />
-       
+
+            <ModalBank
+
+              banco={bancoSelecionado} // passa o banco selecionado
+
+              selectedCard={selectedCard}
+              setSelectedCard={setSelectedCard}
+            />
+
           </div>
         </div>
 

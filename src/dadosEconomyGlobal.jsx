@@ -11,6 +11,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
+    patrimonio: 500000,
     despesasImpostoAnual: {
       diaPagarImpostoAnual: false,
       impostoAnualPago: false,

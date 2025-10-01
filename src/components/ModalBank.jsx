@@ -58,6 +58,17 @@ export const ModalBank = ({ banco }) => {
         }
     };
 
+const patrimonio = economiaSetores.patrimonio || 0;
+
+  const calcularLimiteEmprestimo = (contrato) => {
+    if (!contrato) return 0;
+    const multiplicador = config.emprestimos[contrato.emprestimo]?.mult || 1;
+    console.log((config.emprestimos[contrato.emprestimo].mult * patrimonio));
+    return patrimonio * multiplicador;
+  };
+
+//   const limiteEmprestimo = config.emprestimos[cartao.emprestimo].mult * patrimonio;
+
     const salvarContrato = (novoContrato) => {
         let contratosAtuais = economiaSetores.contratosBancos;
 
@@ -92,6 +103,7 @@ export const ModalBank = ({ banco }) => {
             juros: cartaoSelecionado.juros,
             emprestimo: cartaoSelecionado.emprestimo,
             investimento: cartaoSelecionado.investimento,
+            limiteEmprestimo: config.emprestimos[cartaoSelecionado.emprestimo].mult * patrimonio,
             cashback: {
                 tipo: cartaoSelecionado.cashback,
                 setor: cartaoSelecionado.setorCashback || null
@@ -640,14 +652,11 @@ export const ModalBank = ({ banco }) => {
                                             </div>
 
                                             <div className="rounded-lg p-4 border border-white/20">
-                                                <div className="text-xs text-gray-300 mb-1">Cashback</div>
+                                                <div className="text-xs text-gray-300 mb-1">Emprestimo aprovado</div>
 
                                                 <div className="flex items-center gap-2">
                                                     <div className="text-base font-semibold text-white">
-                                                        {config.cashback[cartao.cashback].valor}%
-                                                        {cartao.cashback === 'especifico' && ` ${cartao.setorCashback}`}
-                                                        {cartao.cashback === 'todos' && ' todos setores'}
-                                                        {cartao.cashback === 'nenhum' && ' sem cashback'}
+                                                       R$ {(config.emprestimos[cartao.emprestimo].mult * patrimonio).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                                     </div>
                                                 </div>
                                             </div>
@@ -668,6 +677,18 @@ export const ModalBank = ({ banco }) => {
                                                             <span className="text-white font-semibold">{item.valor}% a.m</span>
                                                         </div>
                                                     ))}
+                                                </div>
+                                            </div>
+                                             <div className="rounded-lg p-4 border border-white/20">
+                                                <div className="text-xs text-gray-300 mb-1">Cashback</div>
+
+                                                <div className="flex items-center gap-2">
+                                                    <div className="text-base font-semibold text-white">
+                                                        {config.cashback[cartao.cashback].valor}%
+                                                        {cartao.cashback === 'especifico' && ` ${cartao.setorCashback}`}
+                                                        {cartao.cashback === 'todos' && ' todos setores'}
+                                                        {cartao.cashback === 'nenhum' && ' sem cashback'}
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -726,7 +747,7 @@ export const ModalBank = ({ banco }) => {
                             <button
                                 onClick={() => {
                                     handleConfirmarSelecao();
-                                    setSelectedCard(cartao.id);
+                                    setSelectedCard(selectedCard);
                                     setShowConfirmModal(true);
                                 }}
                                 className="flex-1 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl font-bold transition-all"
