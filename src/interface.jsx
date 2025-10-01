@@ -22,7 +22,8 @@ import Economys from "./components/Economys.jsx";
 import RaffledBuildings from "./components/RaffledBuildings.jsx";
 import { CardSpecials } from "./components/cardsSpecials.jsx"
 import { TaxesYear } from "./components/TaxesYear.jsx";
-import PortfolioInterface from "./components/PortifólioInterface.jsx";
+import PortfolioInterface from "./components/PortfolioInterface.jsx";
+
 
 import ToggleButton from "./components/ToggleButton.jsx";
 function Interface() {
