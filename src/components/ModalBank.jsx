@@ -1,72 +1,114 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-import agricultura from "./setores/agricultura.png"
-import tecnologia from "./setores/tecnologia.png"
-import comercio from "./setores/comercio.png"
-import industria from "./setores/industria.png"
-import imobiliario from "./setores/Imobiliário.png"
-import energia from "./setores/torre-eletrica.png"
-import { CardModal } from "./cardsModal";
-import { CardLocalization } from "./cardLocalization";
-import circularEconomia from "../../public/outrasImagens/circular-economy.png"
-import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png"
-import licença from "../../public/outrasImagens/licença.png"
-import { Localizador } from "./localizador";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
 
+export const ModalBank = ({ banco }) => {
+    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+    const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
-export const ModalBank = ({ banco, cartao, setor, selectedCard, setSelectedCard }) => {
-    const { dados, atualizarDados, atualizarDadosProf } = useContext(CentraldeDadosContext);
-    const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+    const [selectedCard, setSelectedCard] = useState(null);
+    const [relationshipDays, setRelationshipDays] = useState(90);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     const setVision = (newVision) => {
-    atualizarDados("vision", {
-      ...dados.vision, visionAtual: newVision
-    });
-  }
-    const tooltipStyle = {
-        backgroundColor: "#FFFFFF",
-        color: "#350973",
-        border: "1px solid #350973",
-        borderRadius: "6px",
-        padding: "6px 10px",
-        fontWeight: "600",
-        fontSize: "14px",
+        atualizarDados("vision", {
+            ...dados.vision, visionAtual: newVision
+        });
     };
 
-    const setorAtivo = setor
-
-    const formatarNumero = (num) => {
-        if (num >= 1e12) return (num / 1e12).toFixed(1).replace('.0', '') + 'T'; // Trilhões
-        if (num >= 1e9) return (num / 1e9).toFixed(1).replace('.0', '') + 'B';   // Bilhões
-        if (num >= 1e6) return (num / 1e6).toFixed(1).replace('.0', '') + 'M';   // Milhões
-        if (num >= 1e3) return (num / 1e3).toFixed(1).replace('.0', '') + 'K';   // Milhares
-        return num.toString();
+    const config = {
+        cashback: {
+            nenhum: { valor: 0 },
+            todos: { valor: 2 },
+            especifico: { valor: 5 }
+        },
+        juros: {
+            baixo: 2,
+            medio: 3,
+            alto: 4
+        },
+        emprestimos: {
+            baixo: { mult: 1 },
+            medio: { mult: 2 },
+            alto: { mult: 3 }
+        },
+        investimentos: {
+            pos: {
+                baixa: 1,
+                media: 3,
+                alta: 5
+            },
+            pre: {
+                baixa: [
+                    { prazo: 90, valor: 0.5 },
+                    { prazo: 180, valor: 0.7 },
+                    { prazo: 360, valor: 1.0 }
+                ],
+                media: [
+                    { prazo: 90, valor: 0.7 },
+                    { prazo: 180, valor: 1.0 },
+                    { prazo: 360, valor: 1.5 }
+                ],
+                alta: [
+                    { prazo: 90, valor: 1.5 },
+                    { prazo: 180, valor: 2.0 },
+                    { prazo: 360, valor: 2.5 }
+                ]
+            }
+        }
     };
 
+    const salvarContrato = (novoContrato) => {
+        let contratosAtuais = economiaSetores.contratosBancos;
 
-    const setores = [
-        { id: "agricultura", cor3: "#0C9123", corClasse: "bg-[#4CAF50]", img: agricultura, descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50", },
-        { id: "tecnologia", cor3: "#FF6F00 ", corClasse: "bg-[#FF8C42]", img: tecnologia, descLicença: "Com a Licença Global de Tecnologia, você desbloqueia inovações que podem transformar sua infraestrutura, otimizar processos e maximizar os lucros. Invista no futuro agora!", cor1: "#A64B00 ", cor2: "#D45A00 ", cor3: "#FF6F00 ", cor4: "#FF8C42 ", },
-        { id: "industria", cor3: "#808080  ", corClasse: "bg-[#B3B3B3]", img: industria, descLicença: "Com a Licença Global de Indústria, você acessa fábricas avançadas e processos de produção que aceleram sua evolução e aumentam a eficiência. Não fique para trás!", cor1: "#1A1A1A ", cor2: "#4D4D4D  ", cor3: "#808080  ", cor4: "#B3B3B3  ", },
-        { id: "comercio", cor3: "#E60000  ", corClasse: "bg-[#FF4D4D]", img: comercio, descLicença: "Com a Licença Global de Comércio, você tem acesso a novos mercados, estratégias de vendas e expansão que podem levar seus negócios a um novo nível. Não perca essa oportunidade!", cor1: "#660000  ", cor2: "#A31919  ", cor3: "#E60000  ", cor4: "#FF4D4D  ", },
-        { id: "imobiliario", cor3: "#3333CC  ", corClasse: "bg-[#6666FF]", img: imobiliario, descLicença: "Com a Licença Global Imobiliária, você pode investir em novos terrenos, expandir suas construções e maximizar os retornos do mercado imobiliário. Abra as portas para grandes lucros!", cor1: "#000066  ", cor2: "#1A1A8C  ", cor3: "#3333CC  ", cor4: "#6666FF  " },
-        { id: "energia", cor3: "#E6B800", corClasse: "bg-[#FFD966]", img: energia, descLicença: "Com a Licença Global de Energia, você ativa fontes de energia sustentáveis e de alta performance, garantindo uma operação eficiente e lucrativa. Potencialize seu setor energético agora!", cor1: "#665200   ", cor2: "#A37F19   ", cor3: "#E6B800", cor4: "#FFD966" },
+        if (contratosAtuais && contratosAtuais.contratosBancos) {
+            contratosAtuais = contratosAtuais.contratosBancos;
+        }
 
-    ];
+        if (!Array.isArray(contratosAtuais)) {
+            contratosAtuais = [];
+        }
 
+        const novosContratos = [...contratosAtuais, novoContrato];
+        atualizarEco("contratosBancos", novosContratos);
+    };
 
-    const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
+    const handleConfirmarSelecao = () => {
+        const cartaoSelecionado = banco.cartoes.find(c => c.id === selectedCard);
 
+        const contrato = {
+            bancoId: banco.id,
+            bancoNome: banco.nome,
+            bancoCor: banco.cor,
+            design: cartaoSelecionado.design,
+            cor1: cartaoSelecionado.cor1,
+            cor2: cartaoSelecionado.cor2,
+            cor3: cartaoSelecionado.cor3,
+            cor4: cartaoSelecionado.cor4,
+            cartaoId: cartaoSelecionado.id,
+            cartaoNome: cartaoSelecionado.nome,
+            numeroCard: cartaoSelecionado.numeroCard,
+            relacionamento: relationshipDays,
+            juros: cartaoSelecionado.juros,
+            emprestimo: cartaoSelecionado.emprestimo,
+            investimento: cartaoSelecionado.investimento,
+            cashback: {
+                tipo: cartaoSelecionado.cashback,
+                setor: cartaoSelecionado.setorCashback || null
+            },
+            dataInicio: dados.dia,
+            dataFim: dados.dia + relationshipDays
+        };
 
-    const [relationshipDays, setRelationshipDays] = useState(90);
+        console.log("Contrato criado:", contrato);
+        console.log("Design selecionado:", cartaoSelecionado.design);
 
+        salvarContrato(contrato);
+        setVision("bankInterface");
+    };
 
-
-
-    const GeometricChaosCard = ({ cartao }) => (
+    // Componentes visuais dos cartões (mantidos do seu código original)
+ const GeometricChaosCard = ({ cartao }) => (
         <div
             className="w-[350px] h-[200px] rounded-3xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 cursor-pointer hover:animate-rainbow-shift"
             style={{
@@ -126,7 +168,7 @@ export const ModalBank = ({ banco, cartao, setor, selectedCard, setSelectedCard 
                 <div className="absolute inset-0 border-4 border-white rounded-3xl animate-pulse"></div>
             )}
 
-            <style jsx>{`
+            <style >{`
       @keyframes rainbow-shift {
         0% { filter: hue-rotate(0deg); }
         25% { filter: hue-rotate(90deg); }
@@ -211,7 +253,7 @@ export const ModalBank = ({ banco, cartao, setor, selectedCard, setSelectedCard 
                 <div className="absolute inset-0 border-4 border-white rounded-3xl animate-pulse"></div>
             )}
 
-            <style jsx>{`
+            <style >{`
       @keyframes rainbow-shift {
         0% { filter: hue-rotate(0deg); }
         25% { filter: hue-rotate(90deg); }
@@ -287,7 +329,7 @@ export const ModalBank = ({ banco, cartao, setor, selectedCard, setSelectedCard 
                 </div>
             </div>
 
-            <style jsx>{`
+            <style >{`
       @keyframes rainbow-shift {
         0% { filter: hue-rotate(0deg); }
         25% { filter: hue-rotate(90deg); }
@@ -379,7 +421,7 @@ export const ModalBank = ({ banco, cartao, setor, selectedCard, setSelectedCard 
                 </div>
             </div>
 
-            <style jsx>{`
+            <style >{`
       @keyframes rainbow-shift {
         0% { filter: hue-rotate(0deg); }
         25% { filter: hue-rotate(90deg); }
@@ -463,7 +505,7 @@ export const ModalBank = ({ banco, cartao, setor, selectedCard, setSelectedCard 
                 <div className="absolute inset-0 border-4 border-white rounded-3xl animate-pulse"></div>
             )}
 
-            <style jsx>{`
+            <style >{`
       @keyframes rainbow-shift {
         0% { filter: hue-rotate(0deg); }
         25% { filter: hue-rotate(90deg); }
@@ -485,9 +527,6 @@ export const ModalBank = ({ banco, cartao, setor, selectedCard, setSelectedCard 
     `}</style>
         </div>
     );
-
-
-
     const renderCard = (cartao) => {
         switch (cartao.design) {
             case 'geometric-chaos':
@@ -496,290 +535,208 @@ export const ModalBank = ({ banco, cartao, setor, selectedCard, setSelectedCard 
                 return <TriangularFusionCard cartao={cartao} />;
             case 'wave-patterns':
                 return <WavePatternsCard cartao={cartao} />;
-            case 'card-moderno':
-                return <CardModerno cartao={cartao} />;
+            // case 'card-Moderno':
+            //     return <CardModerno cartao={cartao} />;
             case 'card-classico':
                 return <CardClassico cartao={cartao} />;
             default:
-                return <GeometricChaosCard cartao={cartao} />;
+                return <CardClassico cartao={cartao} />;
         }
     };
 
-    const config = {
-        cashback: {
-            nenhum: { valor: 0 },
-            todos: { valor: 2 },
-            especifico: { valor: 5 }
-        },
-        juros: {
-            baixo: 2,       // % a.m
-            medio: 3,
-            alto: 4
-        },
-        emprestimos: {
-            baixo: { mult: 1 },
-            medio: { mult: 2 },
-            alto: { mult: 3 }
-        },
-        investimentos: {
-            pos: {
-                baixa: 1, // % a.m
-                media: 3,
-                alta: 5
-            },
-            pre: {
-                baixa: [
-                    { prazo: 90, valor: 0.5 },
-                    { prazo: 180, valor: 0.7 },
-                    { prazo: 360, valor: 1.0 }
-                ],
-                media: [
-                    { prazo: 90, valor: 0.7 },
-                    { prazo: 180, valor: 1.0 },
-                    { prazo: 360, valor: 1.5 }
-                ],
-                alta: [
-                    { prazo: 90, valor: 1.5 },
-                    { prazo: 180, valor: 2.0 },
-                    { prazo: 360, valor: 2.5 }
-                ]
-            }
-        }
-    };
-
-    
-       
-const salvarContrato = (novoContrato) => {
-  // Pega o array correto - pode estar dentro de um objeto
-  let contratosAtuais = economiaSetores.contratosBancos;
-  
-  // Se veio como objeto com a propriedade contratosBancos, extrai o array
-  if (contratosAtuais && contratosAtuais.contratosBancos) {
-    contratosAtuais = contratosAtuais.contratosBancos;
-  }
-  
-  // Se não for array, cria um vazio
-  if (!Array.isArray(contratosAtuais)) {
-    contratosAtuais = [];
-  }
-  
-  const novosContratos = [...contratosAtuais, novoContrato];
-  
-  // Passa apenas o array, não envolve em objeto
-  atualizarEco("contratosBancos", novosContratos);
-};
-
-        const handleConfirmarSelecao = (cartaoId) => {
-            const contrato = {
-                bancoId: banco.id,
-                bancoNome: banco.nome,
-                bancoCor: banco.cor,
-                cor1: cartao.cor1,
-                cor2: cartao.cor2,
-                cor3: cartao.cor3,
-                cor4: cartao.cor4,
-                cartaoId: cartao.id,
-                cartaoNome: cartao.nome,
-                relacionamento: relationshipDays,
-                juros: cartao.juros,
-                emprestimo: cartao.emprestimo,
-                investimento: cartao.investimento,
-                cashback: {
-                    tipo: cartao.cashback,
-                    setor: cartao.setorCashback || null
-                },
-                dataInicio: dados.dia,
-                dataFim: dados.dia + relationshipDays
-            };
-
-            salvarContrato(contrato); // joga pro contexto
-            setSelectedCard(null);    // fecha modal
-        };
-
-        return (
-            <div
-                style={{
-                    background: `linear-gradient(135deg, ${cartao.cor4} 0%, #6A00FF 50%, ${cartao.cor3} 100%)`
-                }}
-                className="h-full w-full rounded-[10px] bg-gradient-to-br from-[#6A00FF] via-[#350973] via-[#C79FFF] to-[#7317F3] flex flex-col"
-            >
-                {/* Container com scroll interno */}
-                <div className="flex-1 overflow-hidden">
-                    <div className="h-full w-full p-6">
-                        {/* Scroll só nos cartões */}
-                        <div className="flex flex-col space-y-8 h-full w-full overflow-y-auto pr-2">
-
-                            <div
-                                key={cartao.id}
-                                className="rounded-3xl p-6 w-full"
-                                style={{
-                                    background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 50%, ${cartao.cor3} 100%)`
-                                }}
-                            >
-                                {/* Coluna esquerda */}
-                                <div className="flex gap-6 w-full">
-                                    <div className="flex-shrink-0 space-y-4">
-                                        {renderCard(cartao)}
-
-                                        <div className="space-y-3 w-[350px]">
+    // SEMPRE mostra todos os cartões do banco
+    return (
+        <div className="w-full space-y-6">
 
 
-                                            <div className="rounded-lg p-4 bg-white/10 backdrop-blur-sm border border-white/20">
-                                                <p className="text-sm text-gray-300 mb-3">
-                                                    Selecione o tempo de contrato com o banco:
-                                                </p>
+            {/* GRID com todos os cartões */}
+            <div className="grid gap-6">
+                {banco.cartoes.map((cartao) => (
+                    <div
+                        key={cartao.id}
+                        className="bg-white/5 p-6 rounded-xl cursor-pointer hover:bg-white/10 transition-all border border-white/10 hover:border-white/30"
+                        style={{
+                            background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 50%, ${cartao.cor3} 100%)`
+                        }}
+                        onClick={() => {
+                            setSelectedCard(cartao.id);
+                            setShowConfirmModal(true);
+                        }}
+                    >
+                        <div className="flex gap-6">
+                            {/* Preview do cartão */}
+                            <div className="flex-shrink-0 space-y-4">
+                                {renderCard(cartao)}
 
-                                                {/* container dos botões em linha */}
-                                                <div className="flex gap-3">
-                                                    {[90, 180, 360].map(days => (
-                                                        <div key={days} className="flex-1">
-                                                            <button
-                                                                onClick={() => setRelationshipDays(days)}
-                                                                className={`w-full p-3 rounded-lg border-2 transition-colors ${relationshipDays === days
-                                                                    ? 'text-white border-transparent'
-                                                                    : 'text-white border-gray-300 hover:border-gray-400'
-                                                                    }`}
-                                                                style={relationshipDays === days ? { backgroundColor: '#0C9123' } : {}}
-                                                            >
-                                                                <div className="font-semibold">{days} dias</div>
-                                                            </button>
-                                                        </div>
-                                                    ))}
+                                <div className="space-y-3 w-[350px]">
+
+
+                                    <div className="rounded-lg p-4 bg-white/10 backdrop-blur-sm border border-white/20">
+                                        <p className="text-sm text-gray-300 mb-3">
+                                            Selecione o tempo de contrato com o banco:
+                                        </p>
+
+                                        {/* container dos botões em linha */}
+                                        <div className="flex gap-3">
+                                            {[90, 180, 360].map(days => (
+                                                <div key={days} className="flex-1">
+                                                    <button
+                                                        onClick={() => setRelationshipDays(days)}
+                                                        className={`w-full p-3 rounded-lg border-2 transition-colors ${relationshipDays === days
+                                                            ? 'text-white border-transparent'
+                                                            : 'text-white border-gray-300 hover:border-gray-400'
+                                                            }`}
+                                                        style={relationshipDays === days ? { backgroundColor: '#0C9123' } : {}}
+                                                    >
+                                                        <div className="font-semibold">{days} dias</div>
+                                                    </button>
                                                 </div>
-
-                                                {/* relacionamento escolhido */}
-                                                <div className="mt-4 p-3 rounded-md bg-white/5 border border-white/10">
-                                                    <p className="text-sm text-white">
-                                                        {relationshipDays === 90 && 'Relacionamento: 50%'}
-                                                        {relationshipDays === 180 && 'Relacionamento: 70%'}
-                                                        {relationshipDays === 360 && 'Relacionamento: 100%'}
-                                                    </p>
-                                                </div>
-
-                                                {/* explicação */}
-                                                <p className="text-xs text-gray-300 mt-3">
-                                                    Quanto maior o relacionamento com o banco, maior será o aumento do limite de crédito e outros benefícios.
-                                                </p>
-                                            </div>
-
-
-
-
-
+                                            ))}
                                         </div>
+
+                                        {/* relacionamento escolhido */}
+                                        <div className="mt-4 p-3 rounded-md bg-white/5 border border-white/10">
+                                            <p className="text-sm text-white">
+                                                {relationshipDays === 90 && 'Relacionamento: 50%'}
+                                                {relationshipDays === 180 && 'Relacionamento: 70%'}
+                                                {relationshipDays === 360 && 'Relacionamento: 100%'}
+                                            </p>
+                                        </div>
+
+                                        {/* explicação */}
+                                        <p className="text-xs text-gray-300 mt-3">
+                                            Quanto maior o relacionamento com o banco, maior será o aumento do limite de crédito e outros benefícios.
+                                        </p>
                                     </div>
 
-                                    {/* Coluna direita */}
-                                    <div className="flex-1 w-full">
-                                        <div className="rounded-2xl p-6 h-full w-full bg-white/10 backdrop-blur-sm border border-white/20">
 
-                                            <div className="mb-6">
-                                                <h3 className="text-2xl font-bold text-white mb-2">
-                                                    {banco.nome} - {cartao.nome}
-                                                </h3>
-                                                <p className="text-sm text-gray-300">{banco.descricao}</p>
-                                            </div>
 
-                                            <div className="grid grid-cols-2 gap-4 mb-6">
-                                                <div className="space-y-4">
-                                                    <div className="rounded-lg p-4 border border-white/20">
-                                                        <div className="text-xs text-gray-300 mb-1">Juros do Crédito</div>
-                                                        <div className="text-base font-semibold text-white">{config.juros[cartao.juros]}% a.m</div>
-                                                    </div>
 
-                                                    <div className="rounded-lg p-4 border border-white/20">
-                                                        <div className="text-xs text-gray-300 mb-1">Limite Empréstimo</div>
-                                                        <div className="text-base font-semibold text-white">{config.emprestimos[cartao.emprestimo].mult}x patrimônio</div>
-                                                    </div>
 
-                                                    <div className="rounded-lg p-4 border border-white/20">
-                                                        <div className="text-xs text-gray-300 mb-1">Cashback</div>
-
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="text-base font-semibold text-white">
-                                                                {config.cashback[cartao.cashback].valor}%
-                                                                {cartao.cashback === 'especifico' && ` ${cartao.setorCashback}`}
-                                                                {cartao.cashback === 'todos' && ' todos setores'}
-                                                                {cartao.cashback === 'nenhum' && ' sem cashback'}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className="space-y-4">
-                                                    <div className="rounded-lg p-4 border border-white/20">
-                                                        <div className="text-xs text-gray-300 mb-1">Investimento Pós-Fixado</div>
-                                                        <div className="text-base font-semibold text-white">{config.investimentos.pos[cartao.investimento]}% a.m</div>
-                                                    </div>
-
-                                                    <div className="rounded-lg p-4 border border-white/20">
-                                                        <div className="text-xs text-gray-300 mb-2">Investimento Pré-Fixado</div>
-                                                        <div className="space-y-1">
-                                                            {config.investimentos.pre[cartao.investimento].map((item, idx) => (
-                                                                <div key={idx} className="flex justify-between text-xs">
-                                                                    <span className="text-gray-300">{item.prazo} dias:</span>
-                                                                    <span className="text-white font-semibold">{item.valor}% a.m</span>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                            <button
-                                                style={{
-                                                    background: `linear-gradient(45deg, ${cartao.cor3} 0%, ${cartao.cor2} 25%, ${cartao.cor1} 50%, ${cartao.cor2} 75%, ${cartao.cor3} 100%)`
-                                                }}
-                                                className="w-full py-3 rounded-lg font-bold text-white transition-all duration-300 hover:scale-105"
-                                                onClick={() => setSelectedCard(cartao.id)}
-                                            >
-                                                Selecionar {banco.nome} {cartao.nome}
-                                            </button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
+                            {/* Informações */}
+                            <div className="flex-1 w-full">
+                                <div className="rounded-2xl p-6 h-full w-full bg-white/10 backdrop-blur-sm border border-white/20">
+
+                                    <div className="mb-6">
+                                        <h3 className="text-2xl font-bold text-white mb-2">
+                                            {banco.nome} - {cartao.nome}
+                                        </h3>
+                                        <p className="text-sm text-gray-300">{banco.descricao}</p>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4 mb-6">
+                                        <div className="space-y-4">
+                                            <div className="rounded-lg p-4 border border-white/20">
+                                                <div className="text-xs text-gray-300 mb-1">Juros do Crédito</div>
+                                                <div className="text-base font-semibold text-white">{config.juros[cartao.juros]}% a.m</div>
+                                            </div>
+
+                                            <div className="rounded-lg p-4 border border-white/20">
+                                                <div className="text-xs text-gray-300 mb-1">Limite Empréstimo</div>
+                                                <div className="text-base font-semibold text-white">{config.emprestimos[cartao.emprestimo].mult}x patrimônio</div>
+                                            </div>
+
+                                            <div className="rounded-lg p-4 border border-white/20">
+                                                <div className="text-xs text-gray-300 mb-1">Cashback</div>
+
+                                                <div className="flex items-center gap-2">
+                                                    <div className="text-base font-semibold text-white">
+                                                        {config.cashback[cartao.cashback].valor}%
+                                                        {cartao.cashback === 'especifico' && ` ${cartao.setorCashback}`}
+                                                        {cartao.cashback === 'todos' && ' todos setores'}
+                                                        {cartao.cashback === 'nenhum' && ' sem cashback'}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            <div className="rounded-lg p-4 border border-white/20">
+                                                <div className="text-xs text-gray-300 mb-1">Investimento Pós-Fixado</div>
+                                                <div className="text-base font-semibold text-white">{config.investimentos.pos[cartao.investimento]}% a.m</div>
+                                            </div>
+
+                                            <div className="rounded-lg p-4 border border-white/20">
+                                                <div className="text-xs text-gray-300 mb-2">Investimento Pré-Fixado</div>
+                                                <div className="space-y-1">
+                                                    {config.investimentos.pre[cartao.investimento].map((item, idx) => (
+                                                        <div key={idx} className="flex justify-between text-xs">
+                                                            <span className="text-gray-300">{item.prazo} dias:</span>
+                                                            <span className="text-white font-semibold">{item.valor}% a.m</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        style={{
+                                            background: `linear-gradient(45deg, ${cartao.cor3} 0%, ${cartao.cor2} 25%, ${cartao.cor1} 50%, ${cartao.cor2} 75%, ${cartao.cor3} 100%)`
+                                        }}
+                                        className="w-full py-3 rounded-lg font-bold text-white transition-all duration-300 hover:scale-105"
+                                        onClick={() => setSelectedCard(cartao.id)}
+                                    >
+                                        Selecionar {banco.nome} {cartao.nome}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Modal de confirmação */}
+            {showConfirmModal && selectedCard && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-slate-800 rounded-2xl p-8 max-w-md w-full mx-4">
+                        <h3 className="text-2xl font-bold text-white mb-4">Confirmar Seleção</h3>
+                        <p className="text-slate-300 mb-4">
+                            Cartão: <strong>{banco.cartoes.find(c => c.id === selectedCard)?.nome}</strong>
+                            <br />
+
+                        </p>
+
+                        {/* Seleção de prazo */}
+                        <div className="mb-6">
+                            <p className="text-sm text-gray-300 mb-3">Tempo de contrato:</p>
+                            <div className="flex gap-3">
+
+                                <h3>você tem certeza que deseja selecionar o contrato de <strong>{relationshipDays} dias?</strong></h3>
+                            </div>
+                            <p className="text-xs text-gray-300 mt-3">
+                                Lembre-se, quanto maior o relacionamento com o banco, maior será o aumento do limite de crédito e outros benefícios.
+                            </p>
+                        </div>
+
+                        <div className="flex gap-4">
+                            <button
+                                onClick={() => {
+                                    setShowConfirmModal(false);
+                                    setSelectedCard(null);
+                                }}
+                                className="flex-1 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-bold transition-colors"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                onClick={() => {
+                                    handleConfirmarSelecao();
+                                    setSelectedCard(cartao.id);
+                                    setShowConfirmModal(true);
+                                }}
+                                className="flex-1 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl font-bold transition-all"
+                            >
+                                Confirmar
+                            </button>
                         </div>
                     </div>
                 </div>
-
-                {/* Modal de seleção */}
-                       {selectedCard && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-slate-800 rounded-2xl p-8 max-w-md w-full mx-4">
-              <h3 className="text-2xl font-bold text-white mb-4">Confirmar Seleção</h3>
-              <p className="text-slate-300 mb-6">
-                Você selecionou o cartão{" "}
-                {banco?.cartoes.find(c => c.id === selectedCard)?.nome}.
-                Deseja prosseguir para ver os produtos disponíveis?
-              </p>
-              <div className="flex gap-4">
-                <button
-                  onClick={() => setSelectedCard(null)}
-                  className="flex-1 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-xl font-bold transition-colors"
-                >
-                  Cancelar
-                </button>
-                <button
-                  onClick={() => {
-                    // alert(
-                    //   `Prosseguindo com ${bancoSelecionado?.cartoes.find(c => c.id === selectedCard)?.nome}`
-                    // );
-                    setVision("bankInterface")
-                    setSelectedCard(cartao.id);
-                     handleConfirmarSelecao(cartao.id)
-
-                  }}
-                  className="flex-1 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl font-bold transition-all"
-                >
-                  Prosseguir
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-            </div>
-        );
-    }
+            )}
+        </div>
+    );
+};

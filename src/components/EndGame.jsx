@@ -27,3 +27,6 @@ const useFimDeJogo = (objetosSelecionados) => {
 };
 
 export default useFimDeJogo;
+
+
+

@@ -1620,7 +1620,7 @@ const BankSelection = () => {
       descricao: "Especialista no setor agrícola, libera crédito extra para fazendas.",
       cartoes: [
         {
-          id: 1,
+          id: 111,
           nome: "Agro Classic",
           design: "card-classico",
           cor1: "#003816",
@@ -1635,9 +1635,9 @@ const BankSelection = () => {
           investimento: "media"
         },
         {
-          id: 2,
+          id: 112,
           nome: "Agro Top",
-          design: "geometric-chaos",
+          design: 'triangular-fusion',
           cor1: "#004d1a",
           cor2: "#1a7030",
           cor3: "#0c9123",
@@ -1649,9 +1649,9 @@ const BankSelection = () => {
           investimento: "alta"
         },
         {
-          id: 3,
+          id: 113,
           nome: "Agro Ultra",
-          design: "wave-patterns",
+          design: 'geometric-chaos',
           cor1: "#005622",
           cor2: "#2a8a4a",
           cor3: "#14a231",
@@ -1672,9 +1672,9 @@ const BankSelection = () => {
       descricao: "Oferece muito crédito, mas cobra juros altíssimos.",
       cartoes: [
         {
-          id: 1,
-          nome: "Mega Basic",
-          design: "card-classico",
+          id: 211,
+          nome: "Basic Mega",
+          design: "triangular-fusion",
           cor1: "#003366",
           cor2: "#336699",
           cor3: "#6699cc",
@@ -1686,7 +1686,7 @@ const BankSelection = () => {
           investimento: "baixa"
         },
         {
-          id: 2,
+          id: 212,
           nome: "Mega Gold",
           design: "geometric-chaos",
           cor1: "#001a66",
@@ -1701,9 +1701,9 @@ const BankSelection = () => {
           investimento: "media"
         },
         {
-          id: 3,
+          id: 213,
           nome: "Mega Platinum",
-          design: "wave-patterns",
+          design: 'wave-patterns',
           cor1: "#002244",
           cor2: "#0055aa",
           cor3: "#3388cc",
@@ -1724,9 +1724,9 @@ const BankSelection = () => {
       descricao: "Banco digital focado em tecnologia e inovação.",
       cartoes: [
         {
-          id: 1,
+          id: 311,
           nome: "Tech Standard",
-          design: "wave-patterns",
+          design: "card-Moderno",
           cor1: "#ff9900",
           cor2: "#ffb84d",
           cor3: "#ffcc66",
@@ -1734,14 +1734,14 @@ const BankSelection = () => {
           numeroCard: "5321 **** **** 4338",
           cashback: "especifico",
           setorCashback: "tecnologia",
-          juros: "médio",
+          juros: "medio",
           emprestimo: "baixo",
           investimento: "alta"
         },
         {
-          id: 2,
+          id: 312,
           nome: "Tech Premium",
-          design: "card-moderno",
+          design: 'wave-patterns',
           cor1: "#cc6600",
           cor2: "#ff8000",
           cor3: "#ff9933",
@@ -1753,7 +1753,7 @@ const BankSelection = () => {
           investimento: "alta"
         },
         {
-          id: 3,
+          id: 313,
           nome: "Tech Ultra",
           design: "geometric-chaos",
           cor1: "#ff6600",
@@ -1768,112 +1768,9 @@ const BankSelection = () => {
           investimento: "alta"
         }
       ]
-    },
-      {
-      id: 3,
-      nome: "Tech Bank",
-      cor: "linear-gradient(90deg, #ff9900, #ffe0b3)",
-      icone: "💻",
-      descricao: "Banco digital focado em tecnologia e inovação.",
-      cartoes: [
-        {
-          id: 1,
-          nome: "Tech Standard",
-          design: "wave-patterns",
-          cor1: "#ff9900",
-          cor2: "#ffb84d",
-          cor3: "#ffcc66",
-          cor4: "#ffe0b3",
-          numeroCard: "5321 **** **** 4338",
-          cashback: "especifico",
-          setorCashback: "tecnologia",
-          juros: "médio",
-          emprestimo: "baixo",
-          investimento: "alta"
-        },
-        {
-          id: 2,
-          nome: "Tech Premium",
-          design: "card-moderno",
-          cor1: "#cc6600",
-          cor2: "#ff8000",
-          cor3: "#ff9933",
-          cor4: "#ffc266",
 
-          cashback: "todos",
-          juros: "baixo",
-          emprestimo: "medio",
-          investimento: "alta"
-        },
-        {
-          id: 3,
-          nome: "Tech Ultra",
-          design: "geometric-chaos",
-          cor1: "#ff6600",
-          cor2: "#ff9933",
-          cor3: "#ffb366",
-          cor4: "#ffe0b3",
-          numeroCard: "5223 **** **** 6241",
-          cashback: "especifico",
-          setorCashback: "startups",
-          juros: "baixo",
-          emprestimo: "baixo",
-          investimento: "alta"
-        }
-      ]
-    },
-      {
-      id: 3,
-      nome: "Tech Bank",
-      cor: "linear-gradient(90deg, #ff9900, #ffe0b3)",
-      icone: "💻",
-      descricao: "Banco digital focado em tecnologia e inovação.",
-      cartoes: [
-        {
-          id: 1,
-          nome: "Tech Standard",
-          design: "wave-patterns",
-          cor1: "#ff9900",
-          cor2: "#ffb84d",
-          cor3: "#ffcc66",
-          cor4: "#ffe0b3",
-          numeroCard: "5321 **** **** 4338",
-          cashback: "especifico",
-          setorCashback: "tecnologia",
-          juros: "médio",
-          emprestimo: "baixo",
-          investimento: "alta"
-        },
-        {
-          id: 2,
-          nome: "Tech Premium",
-          design: "card-moderno",
-          cor1: "#cc6600",
-          cor2: "#ff8000",
-          cor3: "#ff9933",
-          cor4: "#ffc266",
 
-          cashback: "todos",
-          juros: "baixo",
-          emprestimo: "medio",
-          investimento: "alta"
-        },
-        {
-          id: 3,
-          nome: "Tech Ultra",
-          design: "geometric-chaos",
-          cor1: "#ff6600",
-          cor2: "#ff9933",
-          cor3: "#ffb366",
-          cor4: "#ffe0b3",
-          numeroCard: "5223 **** **** 6241",
-          cashback: "especifico",
-          setorCashback: "startups",
-          juros: "baixo",
-          emprestimo: "baixo",
-          investimento: "alta"
-        }
-      ]
+
     }
   ];
 
@@ -2046,15 +1943,15 @@ const BankSelection = () => {
         {/* Container de cartões */}
         <div className="flex-1 overflow-y-auto px-6 max-h-[73vh] scrollbar-custom">
           <div className="w-full grid pt-[10px] gap-6 pb-6">
-            {bancoSelecionado?.cartoes.map((cartao) => (
+            
               <ModalBank
-                key={cartao.id}
+              
                 banco={bancoSelecionado} // passa o banco selecionado
-                cartao={cartao}
+              
                 selectedCard={selectedCard}
                 setSelectedCard={setSelectedCard}
               />
-            ))}
+       
           </div>
         </div>
 
@@ -2108,7 +2005,7 @@ const BankSelection = () => {
       <h2 className="text-xl font-bold ml-6 mt-4 mb-4">Bancos Disponíveis</h2>
       <div className="flex-1 overflow-y-auto px-6 max-h-[60vh] scrollbar-custom">
         <div className="max-w-6xl mx-auto grid pt-[10px] gap-6 md:grid-cols-2 lg:grid-cols-3  pb-6">
-         
+
           {bancos.map((bancoRaw) => {
             const banco = processarBanco(bancoRaw, config);
 
