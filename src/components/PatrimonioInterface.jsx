@@ -6,7 +6,7 @@ import industria from "./setores/industria.png";
 import imobiliario from "./setores/Imobiliário.png";
 import energia from "./setores/torre-eletrica.png";
 
-const PortfolioInterface = () => {
+const PatrimonioInterface = () => {
   const investmentData = [
     { id: 1, value: "2 345 012,00", bgColor: "bg-gradient-to-r from-green-500 to-green-600", icon: agricultura },
     { id: 2, value: "2 345 012,00", bgColor: "bg-gradient-to-r from-orange-500 to-orange-600", icon: tecnologia },
@@ -52,4 +52,4 @@ const PortfolioInterface = () => {
   );
 };
 
-export default PortfolioInterface;
+export default PatrimonioInterface;
