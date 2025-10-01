@@ -22,7 +22,7 @@ import Economys from "./components/Economys.jsx";
 import RaffledBuildings from "./components/RaffledBuildings.jsx";
 import { CardSpecials } from "./components/cardsSpecials.jsx"
 import { TaxesYear } from "./components/TaxesYear.jsx";
-import PortifolioInterface from "./components/PortifolioInterface.jsx";
+import PortfolioInterface from "./components/PortifólioInterface.jsx";
 
 import ToggleButton from "./components/ToggleButton.jsx";
 function Interface() {
@@ -83,7 +83,7 @@ function Interface() {
                 </div>
 {vision === "financas" && (
   <div className="grid col-start-9 col-end-11 row-start-3 row-end-11 flex justify-center items-center">
-      <PortifolioInterface />
+      <PortfolioInterface />
   </div>
 )}
 
