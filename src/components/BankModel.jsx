@@ -497,7 +497,7 @@ import React, { useState, useRef, useContext } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { ModalBank } from "../components/ModalBank.jsx"
 import maps from "../../public/outrasImagens/maps.png"
-import { motion, useAnimation } from "framer-motion";
+
 import { ListaContratos } from "./ListContratos.jsx";
 
 const BankSelection = () => {
