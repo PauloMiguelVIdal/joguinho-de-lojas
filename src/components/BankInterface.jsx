@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { CreditCard, DollarSign, TrendingUp, Gift, PiggyBank, BarChart3, Calculator, Clock, Star, Shield } from 'lucide-react';
+import { CreditCard, DollarSign, TrendingUp, Gift, PiggyBank, BarChart3, Calculator, Clock, Star, Shield, Calendar } from 'lucide-react';
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 const BankInterface = () => {
 
 
-  const [selectedInstallments, setSelectedInstallments] = useState(6);
+  const [selectedInstallments, setSelectedInstallments] = useState(3);
   const [selectedLoanPercentage, setSelectedLoanPercentage] = useState(100);
   const [currentTab, setCurrentTab] = useState('overview');
   const [loanAmount, setLoanAmount] = useState(0); // Valor do empréstimo solicitado
   const [remainingDebt, setRemainingDebt] = useState(0); // Saldo devedor
-  const [currentInstallment, setCurrentInstallment] = useState(1);
+  const [currentInstallment, setCurrentInstallment] = useState(0);
   const { dados, atualizarDados, atualizarDadosProf } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
@@ -24,8 +24,174 @@ const BankInterface = () => {
   const percentualUsado = Math.round((usado / limite) * 100);
   const patrimonio = 10000;
   const contrato1 = economiaSetores.contratosBancos[0]
-
+  const diaAtualJogo = 1050;
+  const [activeLoan, setActiveLoan] = useState(null)
   const limiteEmprestimoAtual = contrato1.limiteEmprestimo
+  const config = {
+    cashback: {
+      nenhum: { valor: 0 },
+      todos: { valor: 2 },
+      especifico: { valor: 5 }
+    },
+    juros: {
+      baixo: 2,       // % a.m
+      medio: 3,
+      alto: 4
+    },
+    emprestimos: {
+      baixo: { mult: 1 },
+      medio: { mult: 2 },
+      alto: { mult: 3 }
+    },
+    investimentos: {
+      pos: {
+        baixa: 1, // % a.m
+        media: 3,
+        alta: 5
+      },
+      pre: {
+        baixa: [
+          { prazo: 90, valor: 0.5 },
+          { prazo: 180, valor: 0.7 },
+          { prazo: 360, valor: 1.0 }
+        ],
+        media: [
+          { prazo: 90, valor: 0.7 },
+          { prazo: 180, valor: 1.0 },
+          { prazo: 360, valor: 1.5 }
+        ],
+        alta: [
+          { prazo: 90, valor: 1.5 },
+          { prazo: 180, valor: 2.0 },
+          { prazo: 360, valor: 2.5 }
+        ]
+      }
+    }
+  };
+
+  // Configurações
+
+
+  // Dados do contrato (simulando o contrato1)
+
+
+  // Estados
+
+
+
+
+
+  // Função para calcular multiplicador de juros baseado no nível e parcelas
+  const calcularMultiplicadorJuros = (nivelJuros, parcelas) => {
+    const multiplicadores = {
+      baixo: { 3: 1.5, 6: 1.2, 12: 1.0 },
+      medio: { 3: 1.7, 6: 1.5, 12: 1.2 },
+      alto: { 3: 2.0, 6: 1.7, 12: 1.5 }
+    };
+    return multiplicadores[nivelJuros]?.[parcelas] || 1.0;
+  };
+
+
+
+  // Função para calcular juros total do empréstimo
+  const calcularJurosTotal = (valor, nivelEmprestimo, nivelJuros, parcelas) => {
+    // Taxa base do tipo de empréstimo (média)
+    const taxaBase = config.juros[nivelEmprestimo] / 100; // ex: 3% = 0.03
+
+    // Multiplicador baseado no nível de juros do contrato e parcelas
+    const multiplicador = calcularMultiplicadorJuros(nivelJuros, parcelas);
+
+    // Taxa final mensal
+    const taxaMensal = taxaBase * multiplicador;
+
+    // Juros compostos
+    const montante = valor * Math.pow(1 + taxaMensal, parcelas);
+    const jurosTotal = montante - valor;
+
+    return { jurosTotal, taxaMensal, montante };
+  };
+
+  // Calcular valores do empréstimo atual
+  const dadosEmprestimo = calcularJurosTotal(
+    loanAmount,
+    contrato1.emprestimo,
+    contrato1.juros,
+    selectedInstallments
+  );
+
+
+  const dadosSimulacao = calcularJurosTotal(
+    loanAmount,
+    contrato1.emprestimo,
+    contrato1.juros,
+    selectedInstallments
+  );
+  const valorParcelaSimulacao = loanAmount > 0 ? dadosSimulacao.montante / selectedInstallments : 0;
+  // Função para solicitar empréstimo
+  const handleRequestLoan = () => {
+    if (activeLoan || loanAmount <= 0 || loanAmount > availableLoan) return;
+
+    const { montante, jurosTotal, taxaMensal } = calcularJurosTotal(
+      loanAmount,
+      contrato1.emprestimo,
+      contrato1.juros,
+      selectedInstallments
+    );
+
+    const valorParcela = montante / selectedInstallments;
+
+    // Criar estrutura do empréstimo ativo
+    const novoEmprestimo = {
+      valorOriginal: loanAmount,
+      totalComJuros: montante,
+      jurosTotal: jurosTotal,
+      parcelas: selectedInstallments,
+      valorParcela: valorParcela,
+      parcelaAtual: 1,
+      saldoDevedor: montante,
+      taxaMensal: taxaMensal,
+      diaInicio: diaAtualJogo,
+      proximoVencimento: diaAtualJogo + 30,
+      dataFinal: diaAtualJogo + (30 * selectedInstallments)
+    };
+
+    setActiveLoan(novoEmprestimo);
+    setRemainingDebt(montante);
+    setCurrentInstallment(1);
+    setAvailableLoan(prev => prev - loanAmount);
+    setLoanAmount(0);
+  };
+  // Função para pagar antecipadamente
+  const handlePayEarly = () => {
+    if (!activeLoan) return;
+    setAvailableLoan(prev => prev + activeLoan.valorOriginal);
+    setActiveLoan(null);
+    setRemainingDebt(0);
+    setCurrentInstallment(0);
+    // Não devolve o limite usado
+  };
+
+  const formatarDiaJogo = (dia) => {
+    // Considerando que dia 0 = 01/01/2024
+    const dataBase = new Date(2024, 0, 1);
+    const dataCalculada = new Date(dataBase.getTime() + (dia * 24 * 60 * 60 * 1000));
+    return dataCalculada.toLocaleDateString('pt-BR');
+  };
+  // Calcular juros para cada opção de parcelamento
+  const opcoesParcelamento = [3, 6, 12].map(parcelas => {
+    const { jurosTotal, taxaMensal } = calcularJurosTotal(
+      loanAmount || 1000, // Valor de exemplo se não houver valor
+      contrato1.emprestimo,
+      contrato1.juros,
+      parcelas
+    );
+    return {
+      parcelas,
+      taxaMensal: (taxaMensal * 100).toFixed(2),
+      jurosTotal: jurosTotal.toFixed(2)
+    };
+  });
+
 
   const GeometricChaosCard = ({ cartao }) => (
     <div
@@ -459,47 +625,7 @@ const BankInterface = () => {
 
 
 
-  const config = {
-    cashback: {
-      nenhum: { valor: 0 },
-      todos: { valor: 2 },
-      especifico: { valor: 5 }
-    },
-    juros: {
-      baixo: 2,       // % a.m
-      medio: 3,
-      alto: 4
-    },
-    emprestimos: {
-      baixo: { mult: 1 },
-      medio: { mult: 2 },
-      alto: { mult: 3 }
-    },
-    investimentos: {
-      pos: {
-        baixa: 1, // % a.m
-        media: 3,
-        alta: 5
-      },
-      pre: {
-        baixa: [
-          { prazo: 90, valor: 0.5 },
-          { prazo: 180, valor: 0.7 },
-          { prazo: 360, valor: 1.0 }
-        ],
-        media: [
-          { prazo: 90, valor: 0.7 },
-          { prazo: 180, valor: 1.0 },
-          { prazo: 360, valor: 1.5 }
-        ],
-        alta: [
-          { prazo: 90, valor: 1.5 },
-          { prazo: 180, valor: 2.0 },
-          { prazo: 360, valor: 2.5 }
-        ]
-      }
-    }
-  };
+
 
 
 
@@ -549,29 +675,8 @@ const BankInterface = () => {
   ];
 
 
-  const handlePayEarly = () => {
-    if (remainingDebt <= 0) return;
-    // Pagamento total antecipado
-    setRemainingDebt(0);
-    setLoanAmount(0);
-    setSelectedLoanPercentage(0);
-    setSelectedInstallments(3);
-    setCurrentInstallment(0);
-  };
 
 
-const handleRequestLoan = () => {
-  if (remainingDebt > 0 || loanAmount <= 0) return;
-
-  // pega o percentual correto
-  const jurosPercent = calcularJuros([(config.juros[contrato1.juros])], selectedInstallments, [(config.juros[contrato1.emprestimo])]);
-  const totalDebt = loanAmount * (1 + jurosPercent);
-
-  setRemainingDebt(totalDebt);
-  setCurrentInstallment(1);
-  setAvailableLoan(prev => prev - loanAmount);
-  setLoanAmount(0);
-};
 
   const calculateInstallment = (amount, installments) => {
     const monthlyRate = [(config.juros[contrato1.emprestimo])] / 100;
@@ -597,33 +702,33 @@ const handleRequestLoan = () => {
       {label}
     </button>
   );
-const calcularJuros = (nivel, parcelas, baseJuros) => {
-  switch (nivel) {
-    case "baixo":
-      switch (parcelas) {
-        case 3: return baseJuros * 1;
-        case 6: return baseJuros * 1.2;
-        case 12: return baseJuros * 1.5;
-        default: return baseJuros;
-      }
-    case "medio":
-      switch (parcelas) {
-        case 3: return baseJuros * 1.2;
-        case 6: return baseJuros * 1.5;
-        case 12: return baseJuros * 1.7;
-        default: return baseJuros;
-      }
-    case "alto":
-      switch (parcelas) {
-        case 3: return baseJuros * 1.5;
-        case 6: return baseJuros * 1.7;
-        case 12: return baseJuros * 2;
-        default: return baseJuros;
-      }
-    default:
-      return baseJuros;
-  }
-};
+  const calcularJuros = (nivel, parcelas, baseJuros) => {
+    switch (nivel) {
+      case "baixo":
+        switch (parcelas) {
+          case 3: return baseJuros * 1;
+          case 6: return baseJuros * 1.2;
+          case 12: return baseJuros * 1.5;
+          default: return baseJuros;
+        }
+      case "medio":
+        switch (parcelas) {
+          case 3: return baseJuros * 1.2;
+          case 6: return baseJuros * 1.5;
+          case 12: return baseJuros * 1.7;
+          default: return baseJuros;
+        }
+      case "alto":
+        switch (parcelas) {
+          case 3: return baseJuros * 1.5;
+          case 6: return baseJuros * 1.7;
+          case 12: return baseJuros * 2;
+          default: return baseJuros;
+        }
+      default:
+        return baseJuros;
+    }
+  };
   // Estados para investimentos
   const [investmentType, setInvestmentType] = useState('pos'); // 'pos' ou 'pre'
   const [investmentAmount, setInvestmentAmount] = useState(0);
@@ -708,12 +813,12 @@ const calcularJuros = (nivel, parcelas, baseJuros) => {
     setTotalBalance(totalBalance + returnAmount);
     setActiveInvestments(activeInvestments.filter(inv => inv.id !== investmentId));
   };
-console.log((loanAmount * calcularJuros([(config.juros[contrato1.juros])], selectedInstallments, [(config.juros[contrato1.emprestimo])])))
-console.log(loanAmount )
-console.log(calcularJuros([(config.juros[contrato1.juros])], selectedInstallments, [(config.juros[contrato1.emprestimo])]))
-console.log([(config.juros[contrato1.juros])])
-console.log(selectedInstallments)
-console.log([(config.juros[contrato1.emprestimo])])
+  console.log((loanAmount * calcularJuros([(config.juros[contrato1.juros])], selectedInstallments, [(config.juros[contrato1.emprestimo])])))
+  console.log(loanAmount)
+  console.log(calcularJuros([(config.juros[contrato1.juros])], selectedInstallments, [(config.juros[contrato1.emprestimo])]))
+  console.log([(config.juros[contrato1.juros])])
+  console.log(selectedInstallments)
+  console.log([(config.juros[contrato1.emprestimo])])
 
   // Função para adicionar fundos (só pós-fixado)
   const handleAddFunds = (investmentId) => {
@@ -887,120 +992,248 @@ console.log([(config.juros[contrato1.emprestimo])])
         )}
 
         {currentTab === 'loan' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-            {/* Coluna esquerda: Empréstimo + input + solicitar */}
-            <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 rounded-lg" style={{ backgroundColor: `${contrato1.cor2}` }}>
-                  <DollarSign className="text-white" size={24} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl p-6 max-h-[65vh] overflow-y-auto">
+              {/* Coluna Esquerda: Solicitação */}
+              <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-3 rounded-lg" style={{ backgroundColor: contrato1.cor2 }}>
+                    <DollarSign className="text-white" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-800">Empréstimo Pré-aprovado</h3>
+                    <p className="text-gray-600 text-sm">Taxa especial para você</p>
+                  </div>
                 </div>
+
+                <div className="p-4 rounded-lg" style={{ backgroundColor: contrato1.cor4 }}>
+                  <p className="text-3xl font-bold text-white">
+                    R$ {availableLoan.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                  </p>
+                  <p className="text-sm text-white opacity-90">Valor disponível</p>
+                </div>
+
+                {/* Input de valor */}
                 <div>
-                  <h3 className="font-bold text-gray-800">Empréstimo Pré-aprovado</h3>
-                  <p className="text-gray-600 text-sm">Taxa especial para você</p>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Valor do Empréstimo
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max={availableLoan}
+                    value={loanAmount}
+                    onChange={(e) => setLoanAmount(Math.min(Number(e.target.value), availableLoan))}
+                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2"
+                    style={{ focusRingColor: contrato1.cor3 }}
+                    placeholder={`Máx: R$ ${availableLoan.toLocaleString('pt-BR')}`}
+                    disabled={!!activeLoan}
+                  />
                 </div>
+
+                {/* Parcelas */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Número de Parcelas
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[3, 6, 12].map(option => (
+                      <button
+                        key={option}
+                        onClick={() => setSelectedInstallments(option)}
+                        className={`p-3 rounded-lg border-2 transition-colors font-semibold ${selectedInstallments === option
+                          ? "text-white border-transparent"
+                          : "text-gray-700 border-gray-300 hover:border-gray-400"
+                          }`}
+                        style={selectedInstallments === option ? { backgroundColor: contrato1.cor3 } : {}}
+                        disabled={!!activeLoan}
+                      >
+                        {option}x
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Botão solicitar */}
+                <button
+                  onClick={handleRequestLoan}
+                  className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${activeLoan || loanAmount <= 0 ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                  style={{ backgroundColor: contrato1.cor2 }}
+                  disabled={activeLoan || loanAmount <= 0}
+                >
+                  {activeLoan ? 'Já existe empréstimo ativo' : 'Solicitar Empréstimo'}
+                </button>
               </div>
 
-              <div className="p-4 rounded-lg" style={{ backgroundColor: `${contrato1.cor4}` }}>
-                <p className="text-3xl font-bold text-white">
-                  R$ {(availableLoan).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-                <p className="text-sm text-white opacity-90">Valor disponível</p>
-              </div>
+              {/* Coluna Direita: Simulação e Status */}
+              <div className="space-y-4">
+                {/* Resultado da simulação - só mostra se NÃO há empréstimo ativo */}
+                {!activeLoan && (
+                  <div className="bg-white rounded-xl p-6 shadow-lg">
+                    <h3 className="font-bold text-gray-800 mb-4">Simulação do Empréstimo</h3>
 
-              {/* Input de valor */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Valor do Empréstimo</label>
-                <input
-                  type="number"
-                  min="0"
-                  max={availableLoan} // usa valor disponível atualizado
-                  value={loanAmount}
+                    <div className="p-4 rounded-lg mb-4" style={{ backgroundColor: "#f8f9fa", borderLeft: `4px solid ${contrato1.cor3}` }}>
+                      <p className="text-sm text-gray-600">Valor da parcela</p>
+                      <p className="text-2xl font-bold" style={{ color: contrato1.cor3 }}>
+                        R$ {valorParcelaSimulacao.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                      </p>
+                      <p className="text-sm text-gray-600 mt-1">
+                        Total a pagar: R$ {dadosSimulacao.montante.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                      </p>
+                      <p className="text-sm text-gray-600 mt-1">
+                        Juros total: R$ {dadosSimulacao.jurosTotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                      </p>
+                      <p className="text-sm text-gray-600 mt-1">
+                        Taxa mensal: {(dadosSimulacao.taxaMensal * 100).toFixed(2)}%
+                      </p>
+                    </div>
 
-                  onChange={(e) => setLoanAmount(Math.min(Number(e.target.value), availableLoan))}
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
-                  placeholder={`Máx: R$ ${availableLoan.toLocaleString('pt-BR')}`}
-                />
-              </div>
+                    {/* Tabela de taxas por parcelamento */}
+                    <div className="border rounded-lg overflow-hidden">
+                      <div className="bg-gray-50 px-4 py-2 border-b">
+                        <h4 className="font-semibold text-gray-700">Taxas por Parcelamento</h4>
+                      </div>
+                      <div className="divide-y">
+                        {opcoesParcelamento.map(opcao => (
+                          <div key={opcao.parcelas} className="p-3 flex justify-between items-center hover:bg-gray-50">
+                            <div>
+                              <p className="font-medium text-gray-800">{opcao.parcelas}x</p>
+                              <p className="text-xs text-gray-600">{opcao.taxaMensal}% a.m.</p>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-sm text-gray-600">Juros:</p>
+                              <p className="font-semibold" style={{ color: contrato1.cor3 }}>
+                                R$ {parseFloat(opcao.jurosTotal).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
 
-              {/* Parcelas fixas */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Número de Parcelas</label>
-                <div className="grid grid-cols-3 gap-2">
-                  {[3, 6, 12].map(option => (
+                {/* Saldo devedor - só mostra se HÁ empréstimo ativo */}
+                {activeLoan && (
+                  <div className="bg-white rounded-xl p-6 shadow-lg">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Calendar size={20} style={{ color: contrato1.cor3 }} />
+                      <h3 className="font-bold text-gray-800">Empréstimo Ativo</h3>
+                    </div>
+
+                    {/* Saldo Devedor */}
+                    <div className="text-center mb-4">
+                      <p className="text-sm text-gray-600">Saldo devedor atual</p>
+                      <p className="text-3xl font-bold text-gray-800 my-2">
+                        R$ {activeLoan.saldoDevedor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Parcela {activeLoan.parcelaAtual} de {activeLoan.parcelas}
+                      </p>
+                    </div>
+
+                    {/* Próxima Parcela */}
+                    <div className="bg-gray-100 rounded-lg p-4 mb-4">
+                      <p className="text-sm text-gray-600">Próxima parcela</p>
+                      <p className="text-2xl font-bold" style={{ color: contrato1.cor3 }}>
+                        R$ {activeLoan.valorParcela.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                      </p>
+                      <div className="mt-2 pt-2 border-t border-gray-300">
+                        <p className="text-xs text-gray-600">Vencimento</p>
+                        <p className="text-sm font-semibold text-gray-700">
+                          Dia {activeLoan.proximoVencimento} ({formatarDiaJogo(activeLoan.proximoVencimento)})
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Cronograma de Pagamentos */}
+                    <div className="border rounded-lg overflow-hidden mb-4">
+                      <div className="bg-gray-50 px-4 py-2 border-b">
+                        <h4 className="font-semibold text-gray-700">Cronograma de Pagamentos</h4>
+                      </div>
+                      <div className="divide-y max-h-48 overflow-y-auto">
+                        {Array.from({ length: activeLoan.parcelas }, (_, i) => {
+                          const numeroParcela = i + 1;
+                          const diaVencimento = activeLoan.diaInicio + (30 * numeroParcela);
+                          const isPaga = numeroParcela < activeLoan.parcelaAtual;
+                          const isProxima = numeroParcela === activeLoan.parcelaAtual;
+
+                          return (
+                            <div
+                              key={i}
+                              className={`p-3 flex justify-between items-center ${isProxima ? 'bg-yellow-50' : isPaga ? 'bg-green-50' : ''
+                                }`}
+                            >
+                              <div>
+                                <p className={`font-medium ${isPaga ? 'text-green-600' : isProxima ? 'text-yellow-600' : 'text-gray-800'}`}>
+                                  {numeroParcela}ª parcela {isPaga ? '✓' : isProxima ? '→' : ''}
+                                </p>
+                                <p className="text-xs text-gray-600">
+                                  Dia {diaVencimento} ({formatarDiaJogo(diaVencimento)})
+                                </p>
+                              </div>
+                              <div className="text-right">
+                                <p className="font-semibold text-gray-800">
+                                  R$ {activeLoan.valorParcela.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Informações do Empréstimo */}
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 text-sm">
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <p className="text-blue-600 text-xs">Valor Original</p>
+                          <p className="font-semibold text-blue-800">
+                            R$ {activeLoan.valorOriginal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-blue-600 text-xs">Juros Total</p>
+                          <p className="font-semibold text-blue-800">
+                            R$ {activeLoan.jurosTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-blue-600 text-xs">Início</p>
+                          <p className="font-semibold text-blue-800">Dia {activeLoan.diaInicio}</p>
+                        </div>
+                        <div>
+                          <p className="text-blue-600 text-xs">Fim</p>
+                          <p className="font-semibold text-blue-800">Dia {activeLoan.dataFinal}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Botão Pagar Antecipado */}
                     <button
-                      key={option}
-                      onClick={() => setSelectedInstallments(option)}
-                      className={`p-3 rounded-lg border-2 transition-colors font-semibold ${selectedInstallments === option
-                        ? "text-white border-transparent"
-                        : "text-gray-700 border-gray-300 hover:border-gray-400"
-                        }`}
-                      style={selectedInstallments === option ? { backgroundColor: `${contrato1.cor3}` } : {}}
+                      onClick={handlePayEarly}
+                      className="w-full text-white py-3 rounded-lg font-semibold transition-colors"
+                      style={{ backgroundColor: contrato1.cor2 }}
                     >
-                      {option}x
+                      Pagar Antecipado (Liquidar Dívida)
                     </button>
-                  ))}
-                </div>
+                  </div>
+                )}
               </div>
-
-              {/* Botão solicitar */}
-              <button
-                onClick={handleRequestLoan}
-                className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${remainingDebt > 0 || loanAmount <= 0 ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                style={{ backgroundColor: `${contrato1.cor2}` }}
-                disabled={remainingDebt > 0 || loanAmount <= 0} // desabilita se houver dívida ou valor 0
-              >
-                Solicitar Empréstimo
-              </button>
             </div>
 
-            {/* Coluna direita: simulador + resultado + saldo devedor */}
-            <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
-              {/* Resultado da parcela */}
-              <div className="p-4 rounded-lg" style={{ backgroundColor: "#f8f9fa", borderLeft: `4px solid ${contrato1.cor3}` }}>
-                <p className="text-sm text-gray-600">Valor da parcela</p>
-                <p className="text-2xl font-bold" style={{ color: `${contrato1.cor3}` }}>
-                  R$ {calculateInstallment(loanAmount, selectedInstallments).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-                <p className="text-sm text-gray-600 mt-1">
-                  Total: R$ {(calculateInstallment(loanAmount, selectedInstallments) * selectedInstallments).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-                <p className="text-sm text-gray-600 mt-1">
-                  Juros por parcela: R$ {(loanAmount * calcularJuros([(config.juros[contrato1.juros])], selectedInstallments, [(config.juros[contrato1.emprestimo])])).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-              </div>
+         
+  
+       
 
-              {/* Saldo devedor */}
-              {remainingDebt > 0 && (
-                <div className="mt-4 p-4 bg-gray-50 rounded-lg text-center">
-                  <p className="text-sm text-gray-600">Saldo devedor atual</p>
-                  <p className="text-xl font-bold text-gray-800">
-                    R$ {remainingDebt.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </p>
-                  <p className="text-sm text-gray-600 mt-1">
-                    Parcela {currentInstallment} de {selectedInstallments}
-                  </p>
-                  <button
-                    onClick={handlePayEarly}
-                    className="mt-2 w-full text-white py-2 rounded-lg font-semibold transition-colors"
-                    style={{ backgroundColor: `${contrato1.cor2}` }}
-                  >
-                    Pagar Antecipado
-                  </button>
-                </div>
-              )}
 
-            </div>
-
-          </div>
         )}
 
 
 
         {/* Investments Tab */}
         {currentTab === 'investments' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 scrollbar-custom border border-white/20 rounded-xl p-6 max-h-[65vh]  overflow-y-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 scrollbar-custom  rounded-xl p-6 max-h-[65vh]  overflow-y-auto">
             {/* Coluna esquerda: Fazer investimento */}
             <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
               <div className="flex items-center gap-3 mb-4">
