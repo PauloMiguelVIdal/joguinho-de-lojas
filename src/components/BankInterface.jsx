@@ -24,7 +24,7 @@ const BankInterface = () => {
   const percentualUsado = Math.round((usado / limite) * 100);
   const patrimonio = 10000;
   const contrato1 = economiaSetores.contratosBancos[0]
-  const diaAtualJogo = 1050;
+  const diaAtualJogo = dados.dia || 1000;
   const [activeLoan, setActiveLoan] = useState(null)
   const limiteEmprestimoAtual = contrato1.limiteEmprestimo
   const config = {
@@ -77,7 +77,45 @@ const BankInterface = () => {
 
   // Estados
 
+useEffect(() => {
+  if (activeInvestments.length === 0) return;
 
+  const investimentosAtualizados = activeInvestments.map(inv => {
+    // Calcular quantos períodos de 30 dias passaram desde o início
+    const diasDecorridos = diaAtualJogo - inv.diaInicio;
+    const periodosCompletos = Math.floor(diasDecorridos / 30);
+
+    // Atualizar último período processado
+    if (periodosCompletos > (inv.periodosProcessados || 0)) {
+      return { ...inv, periodosProcessados: periodosCompletos };
+    }
+    return inv;
+  });
+
+  // Verificar investimentos vencidos (pré-fixados)
+  const investimentosVencidos = investimentosAtualizados.filter(
+    inv => inv.type === 'pre' && diaAtualJogo >= inv.diaVencimento
+  );
+
+  if (investimentosVencidos.length > 0) {
+    investimentosVencidos.forEach(inv => {
+      const jurosGanhos = getPreFixedReturn(inv.amount, inv.days);
+      const valorTotal = inv.amount + jurosGanhos;
+      
+      // Adicionar ao saldo da economia
+      const novoSaldo = economiaSetores.saldo + valorTotal;
+      atualizarEco('saldo', novoSaldo);
+    });
+
+    // Remover investimentos vencidos
+    const investimentosAtivos = investimentosAtualizados.filter(
+      inv => !investimentosVencidos.includes(inv)
+    );
+    setActiveInvestments(investimentosAtivos);
+  } else {
+    setActiveInvestments(investimentosAtualizados);
+  }
+}, [dados.dia]);
 
 
 
@@ -737,10 +775,30 @@ const BankInterface = () => {
   const [totalBalance, setTotalBalance] = useState(50000); // Saldo disponível
 
   // Função para calcular retorno pré-fixado
-  const getPreFixedReturn = (amount, days) => {
-    const rates = { 90: 0.015, 180: 0.035, 360: 0.08 }; // 1.5%, 3.5%, 8%
-    return amount * rates[days];
-  };
+  // Função para calcular retorno pós-fixado mensal baseado no contrato
+const getPosTaxaMensal = () => {
+  const nivelInvestimento = contrato1.investimento; // 'baixa', 'media', 'alta'
+  return (config.investimentos.pos[nivelInvestimento] || 1) / 100;
+};
+
+// Função para calcular retorno pré-fixado baseado no contrato
+const getPreFixedReturn = (amount, days) => {
+  const nivelInvestimento = contrato1.investimento; // 'baixa', 'media', 'alta'
+  const tabelaTaxas = config.investimentos.pre[nivelInvestimento];
+  
+  if (!tabelaTaxas) return amount * 0.015; // fallback
+  
+  const opcao = tabelaTaxas.find(t => t.prazo === days);
+  const taxaMensal = opcao ? opcao.valor / 100 : 0.015; // taxa mensal em decimal
+  
+  const meses = days / 30; // converte dias em meses
+  const taxaTotal = taxaMensal * meses; // multiplica a taxa mensal pelos meses
+  
+  return amount * taxaTotal;
+};
+
+// Função para resgatar investimento (atualizada)
+
 
   const calcularLimiteEmprestimo = (contrato, patrimonio) => {
     if (!contrato) return 0;
@@ -769,50 +827,61 @@ const BankInterface = () => {
   };
 
   // Função para investir
-  const handleInvest = () => {
-    if (investmentAmount <= 0 || investmentAmount > totalBalance) return;
+const handleInvest = () => {
+  if (investmentAmount <= 0 || investmentAmount > totalBalance) return;
 
-    const newInvestment = {
-      id: Date.now(),
-      type: investmentType,
-      amount: investmentAmount,
-      days: investmentType === 'pre' ? investmentDays : null,
-      startDate: Date.now(),
-      maturityDate: investmentType === 'pre' ? Date.now() + (investmentDays * 24 * 60 * 60 * 1000) : null
-    };
-
-    setActiveInvestments([...activeInvestments, newInvestment]);
-    setTotalBalance(totalBalance - investmentAmount);
-    setInvestmentAmount(0);
+  const newInvestment = {
+    id: Date.now(),
+    type: investmentType,
+    amount: investmentAmount,
+    days: investmentType === 'pre' ? investmentDays : null,
+    diaInicio: diaAtualJogo,
+    diaVencimento: investmentType === 'pre' ? diaAtualJogo + investmentDays : null,
+    periodosProcessados: 0
   };
+
+  setActiveInvestments([...activeInvestments, newInvestment]);
+  setTotalBalance(totalBalance - investmentAmount);
+  setInvestmentAmount(0);
+};
 
   // Função para resgatar investimento
-  const handleWithdraw = (investmentId) => {
-    const investment = activeInvestments.find(inv => inv.id === investmentId);
-    if (!investment) return;
+const handleWithdraw = (investmentId) => {
+  const investment = activeInvestments.find(inv => inv.id === investmentId);
+  if (!investment) return;
 
-    let returnAmount = investment.amount;
+  let valorResgate = 0;
+  const diasDecorridos = diaAtualJogo - investment.diaInicio;
+  const mesesCompletos = Math.floor(diasDecorridos / 30);
 
-    if (investment.type === 'pos') {
-      // Pós-fixado: retorna com rendimento proporcional
-      const monthsPassed = Math.floor((Date.now() - investment.startDate) / (1000 * 60 * 60 * 24 * 30));
-      returnAmount = investment.amount * (1 + (0.005 * monthsPassed));
+  if (investment.type === 'pos') {
+    // Pós-fixado: calcula rendimento pelos meses completos
+    const taxaMensal = getPosTaxaMensal();
+    const jurosGanhos = investment.amount * taxaMensal * mesesCompletos;
+    valorResgate = investment.amount + jurosGanhos;
+  } else {
+    // Pré-fixado
+    const isMatured = diaAtualJogo >= investment.diaVencimento;
+
+    if (isMatured) {
+      // Vencido: recebe valor + rendimento total
+      const jurosGanhos = getPreFixedReturn(investment.amount, investment.days);
+      valorResgate = investment.amount + jurosGanhos;
     } else {
-      // Pré-fixado
-      const isMatured = Date.now() >= investment.maturityDate;
-
-      if (isMatured) {
-        // Se venceu, recebe valor + rendimento
-        returnAmount = investment.amount + getPreFixedReturn(investment.amount, investment.days);
-      } else {
-        // Se retirar antes, perde 10%
-        returnAmount = investment.amount * 0.9;
-      }
+      // Antecipado: perde 10% e não recebe rendimentos
+      valorResgate = investment.amount * 0.9;
     }
+  }
 
-    setTotalBalance(totalBalance + returnAmount);
-    setActiveInvestments(activeInvestments.filter(inv => inv.id !== investmentId));
-  };
+  // Adiciona ao saldo da economia
+  const novoSaldo = economiaSetores.saldo + valorResgate;
+  atualizarEco('saldo', novoSaldo);
+
+  // Remove o investimento
+  setActiveInvestments(activeInvestments.filter(inv => inv.id !== investmentId));
+  setTotalBalance(totalBalance + valorResgate);
+};
+
   console.log((loanAmount * calcularJuros([(config.juros[contrato1.juros])], selectedInstallments, [(config.juros[contrato1.emprestimo])])))
   console.log(loanAmount)
   console.log(calcularJuros([(config.juros[contrato1.juros])], selectedInstallments, [(config.juros[contrato1.emprestimo])]))
@@ -911,19 +980,19 @@ const BankInterface = () => {
                   </div>
                 </div>
                 <p className="text-2xl font-bold" style={{ color: `${contrato1.cor3}` }}>
-                  R$ {calculateInstallment(getLoanAmount(), selectedInstallments).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  R$ {activeLoan?.valorParcela?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                 </p>
                 <p className="text-sm text-gray-600 mt-1">
-                  Total: R$ {(calculateInstallment(getLoanAmount(), selectedInstallments) * selectedInstallments).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  Total:  R$ {(activeLoan?.saldoDevedor ?? 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                 </p>
                 <div className="mt-3 pt-3 border-t border-gray-200">
                   <div className="flex justify-between text-xs text-gray-600">
                     <span>Taxa de juros:</span>
-                    <span className="font-semibold">{obterTaxaJuros(contrato1)}% a.m.</span>
+                    <span className="font-semibold">{(dadosSimulacao.taxaMensal * 100).toFixed(2)}% a.m.</span>
                   </div>
                   <div className="flex justify-between text-xs text-gray-600 mt-1">
                     <span>Limite disponível:</span>
-                    <span className="font-semibold">R$ {calcularLimiteEmprestimo(contrato1, patrimonio).toLocaleString('pt-BR')}</span>
+                    R$ {availableLoan.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </div>
                 </div>
               </div>
@@ -992,239 +1061,238 @@ const BankInterface = () => {
         )}
 
         {currentTab === 'loan' && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl p-6 max-h-[65vh] overflow-y-auto">
-              {/* Coluna Esquerda: Solicitação */}
-              <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-3 rounded-lg" style={{ backgroundColor: contrato1.cor2 }}>
-                    <DollarSign className="text-white" size={24} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-gray-800">Empréstimo Pré-aprovado</h3>
-                    <p className="text-gray-600 text-sm">Taxa especial para você</p>
-                  </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl p-6 max-h-[65vh] overflow-y-auto">
+            {/* Coluna Esquerda: Solicitação */}
+            <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-3 rounded-lg" style={{ backgroundColor: contrato1.cor2 }}>
+                  <DollarSign className="text-white" size={24} />
                 </div>
-
-                <div className="p-4 rounded-lg" style={{ backgroundColor: contrato1.cor4 }}>
-                  <p className="text-3xl font-bold text-white">
-                    R$ {availableLoan.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                  </p>
-                  <p className="text-sm text-white opacity-90">Valor disponível</p>
-                </div>
-
-                {/* Input de valor */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Valor do Empréstimo
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max={availableLoan}
-                    value={loanAmount}
-                    onChange={(e) => setLoanAmount(Math.min(Number(e.target.value), availableLoan))}
-                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2"
-                    style={{ focusRingColor: contrato1.cor3 }}
-                    placeholder={`Máx: R$ ${availableLoan.toLocaleString('pt-BR')}`}
-                    disabled={!!activeLoan}
-                  />
+                  <h3 className="font-bold text-gray-800">Empréstimo Pré-aprovado</h3>
+                  <p className="text-gray-600 text-sm">Taxa especial para você</p>
                 </div>
-
-                {/* Parcelas */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Número de Parcelas
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {[3, 6, 12].map(option => (
-                      <button
-                        key={option}
-                        onClick={() => setSelectedInstallments(option)}
-                        className={`p-3 rounded-lg border-2 transition-colors font-semibold ${selectedInstallments === option
-                          ? "text-white border-transparent"
-                          : "text-gray-700 border-gray-300 hover:border-gray-400"
-                          }`}
-                        style={selectedInstallments === option ? { backgroundColor: contrato1.cor3 } : {}}
-                        disabled={!!activeLoan}
-                      >
-                        {option}x
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Botão solicitar */}
-                <button
-                  onClick={handleRequestLoan}
-                  className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${activeLoan || loanAmount <= 0 ? 'opacity-50 cursor-not-allowed' : ''
-                    }`}
-                  style={{ backgroundColor: contrato1.cor2 }}
-                  disabled={activeLoan || loanAmount <= 0}
-                >
-                  {activeLoan ? 'Já existe empréstimo ativo' : 'Solicitar Empréstimo'}
-                </button>
               </div>
 
-              {/* Coluna Direita: Simulação e Status */}
-              <div className="space-y-4">
-                {/* Resultado da simulação - só mostra se NÃO há empréstimo ativo */}
-                {!activeLoan && (
-                  <div className="bg-white rounded-xl p-6 shadow-lg">
-                    <h3 className="font-bold text-gray-800 mb-4">Simulação do Empréstimo</h3>
+              <div className="p-4 rounded-lg" style={{ backgroundColor: contrato1.cor4 }}>
+                <p className="text-3xl font-bold text-white">
+                  R$ {availableLoan.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                </p>
+                <p className="text-sm text-white opacity-90">Valor disponível</p>
+              </div>
 
-                    <div className="p-4 rounded-lg mb-4" style={{ backgroundColor: "#f8f9fa", borderLeft: `4px solid ${contrato1.cor3}` }}>
-                      <p className="text-sm text-gray-600">Valor da parcela</p>
-                      <p className="text-2xl font-bold" style={{ color: contrato1.cor3 }}>
-                        R$ {valorParcelaSimulacao.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                      </p>
-                      <p className="text-sm text-gray-600 mt-1">
-                        Total a pagar: R$ {dadosSimulacao.montante.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                      </p>
-                      <p className="text-sm text-gray-600 mt-1">
-                        Juros total: R$ {dadosSimulacao.jurosTotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                      </p>
-                      <p className="text-sm text-gray-600 mt-1">
-                        Taxa mensal: {(dadosSimulacao.taxaMensal * 100).toFixed(2)}%
-                      </p>
-                    </div>
+              {/* Input de valor */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Valor do Empréstimo
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  max={availableLoan}
+                  value={loanAmount}
+                  onChange={(e) => setLoanAmount(Math.min(Number(e.target.value), availableLoan))}
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2"
+                  style={{ focusRingColor: contrato1.cor3 }}
+                  placeholder={`Máx: R$ ${availableLoan.toLocaleString('pt-BR')}`}
+                  disabled={!!activeLoan}
+                />
+              </div>
 
-                    {/* Tabela de taxas por parcelamento */}
-                    <div className="border rounded-lg overflow-hidden">
-                      <div className="bg-gray-50 px-4 py-2 border-b">
-                        <h4 className="font-semibold text-gray-700">Taxas por Parcelamento</h4>
-                      </div>
-                      <div className="divide-y">
-                        {opcoesParcelamento.map(opcao => (
-                          <div key={opcao.parcelas} className="p-3 flex justify-between items-center hover:bg-gray-50">
-                            <div>
-                              <p className="font-medium text-gray-800">{opcao.parcelas}x</p>
-                              <p className="text-xs text-gray-600">{opcao.taxaMensal}% a.m.</p>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-sm text-gray-600">Juros:</p>
-                              <p className="font-semibold" style={{ color: contrato1.cor3 }}>
-                                R$ {parseFloat(opcao.jurosTotal).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Saldo devedor - só mostra se HÁ empréstimo ativo */}
-                {activeLoan && (
-                  <div className="bg-white rounded-xl p-6 shadow-lg">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Calendar size={20} style={{ color: contrato1.cor3 }} />
-                      <h3 className="font-bold text-gray-800">Empréstimo Ativo</h3>
-                    </div>
-
-                    {/* Saldo Devedor */}
-                    <div className="text-center mb-4">
-                      <p className="text-sm text-gray-600">Saldo devedor atual</p>
-                      <p className="text-3xl font-bold text-gray-800 my-2">
-                        R$ {activeLoan.saldoDevedor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Parcela {activeLoan.parcelaAtual} de {activeLoan.parcelas}
-                      </p>
-                    </div>
-
-                    {/* Próxima Parcela */}
-                    <div className="bg-gray-100 rounded-lg p-4 mb-4">
-                      <p className="text-sm text-gray-600">Próxima parcela</p>
-                      <p className="text-2xl font-bold" style={{ color: contrato1.cor3 }}>
-                        R$ {activeLoan.valorParcela.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                      </p>
-                      <div className="mt-2 pt-2 border-t border-gray-300">
-                        <p className="text-xs text-gray-600">Vencimento</p>
-                        <p className="text-sm font-semibold text-gray-700">
-                          Dia {activeLoan.proximoVencimento} ({formatarDiaJogo(activeLoan.proximoVencimento)})
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Cronograma de Pagamentos */}
-                    <div className="border rounded-lg overflow-hidden mb-4">
-                      <div className="bg-gray-50 px-4 py-2 border-b">
-                        <h4 className="font-semibold text-gray-700">Cronograma de Pagamentos</h4>
-                      </div>
-                      <div className="divide-y max-h-48 overflow-y-auto">
-                        {Array.from({ length: activeLoan.parcelas }, (_, i) => {
-                          const numeroParcela = i + 1;
-                          const diaVencimento = activeLoan.diaInicio + (30 * numeroParcela);
-                          const isPaga = numeroParcela < activeLoan.parcelaAtual;
-                          const isProxima = numeroParcela === activeLoan.parcelaAtual;
-
-                          return (
-                            <div
-                              key={i}
-                              className={`p-3 flex justify-between items-center ${isProxima ? 'bg-yellow-50' : isPaga ? 'bg-green-50' : ''
-                                }`}
-                            >
-                              <div>
-                                <p className={`font-medium ${isPaga ? 'text-green-600' : isProxima ? 'text-yellow-600' : 'text-gray-800'}`}>
-                                  {numeroParcela}ª parcela {isPaga ? '✓' : isProxima ? '→' : ''}
-                                </p>
-                                <p className="text-xs text-gray-600">
-                                  Dia {diaVencimento} ({formatarDiaJogo(diaVencimento)})
-                                </p>
-                              </div>
-                              <div className="text-right">
-                                <p className="font-semibold text-gray-800">
-                                  R$ {activeLoan.valorParcela.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                                </p>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    {/* Informações do Empréstimo */}
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 text-sm">
-                      <div className="grid grid-cols-2 gap-2">
-                        <div>
-                          <p className="text-blue-600 text-xs">Valor Original</p>
-                          <p className="font-semibold text-blue-800">
-                            R$ {activeLoan.valorOriginal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-blue-600 text-xs">Juros Total</p>
-                          <p className="font-semibold text-blue-800">
-                            R$ {activeLoan.jurosTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-blue-600 text-xs">Início</p>
-                          <p className="font-semibold text-blue-800">Dia {activeLoan.diaInicio}</p>
-                        </div>
-                        <div>
-                          <p className="text-blue-600 text-xs">Fim</p>
-                          <p className="font-semibold text-blue-800">Dia {activeLoan.dataFinal}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Botão Pagar Antecipado */}
+              {/* Parcelas */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Número de Parcelas
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {[3, 6, 12].map(option => (
                     <button
-                      onClick={handlePayEarly}
-                      className="w-full text-white py-3 rounded-lg font-semibold transition-colors"
-                      style={{ backgroundColor: contrato1.cor2 }}
+                      key={option}
+                      onClick={() => setSelectedInstallments(option)}
+                      className={`p-3 rounded-lg border-2 transition-colors font-semibold ${selectedInstallments === option
+                        ? "text-white border-transparent"
+                        : "text-gray-700 border-gray-300 hover:border-gray-400"
+                        }`}
+                      style={selectedInstallments === option ? { backgroundColor: contrato1.cor3 } : {}}
+                      disabled={!!activeLoan}
                     >
-                      Pagar Antecipado (Liquidar Dívida)
+                      {option}x
                     </button>
-                  </div>
-                )}
+                  ))}
+                </div>
               </div>
+
+              {/* Botão solicitar */}
+              <button
+                onClick={handleRequestLoan}
+                className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${activeLoan || loanAmount <= 0 ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                style={{ backgroundColor: contrato1.cor2 }}
+                disabled={activeLoan || loanAmount <= 0}
+              >
+                {activeLoan ? 'Já existe empréstimo ativo' : 'Solicitar Empréstimo'}
+              </button>
             </div>
 
-         
-  
-       
+            {/* Coluna Direita: Simulação e Status */}
+            <div className="space-y-4">
+              {/* Resultado da simulação - só mostra se NÃO há empréstimo ativo */}
+              {!activeLoan && (
+                <div className="bg-white rounded-xl p-6 shadow-lg">
+                  <h3 className="font-bold text-gray-800 mb-4">Simulação do Empréstimo</h3>
+
+                  <div className="p-4 rounded-lg mb-4" style={{ backgroundColor: "#f8f9fa", borderLeft: `4px solid ${contrato1.cor3}` }}>
+                    <p className="text-sm text-gray-600">Valor da parcela</p>
+                    <p className="text-2xl font-bold" style={{ color: contrato1.cor3 }}>
+                      R$ {valorParcelaSimulacao.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Total a pagar: R$ {dadosSimulacao.montante.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Juros total: R$ {dadosSimulacao.jurosTotal.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Taxa mensal: {(dadosSimulacao.taxaMensal * 100).toFixed(2)}%
+                    </p>
+                  </div>
+
+                  {/* Tabela de taxas por parcelamento */}
+                  <div className="border rounded-lg overflow-hidden">
+                    <div className="bg-gray-50 px-4 py-2 border-b">
+                      <h4 className="font-semibold text-gray-700">Taxas por Parcelamento</h4>
+                    </div>
+                    <div className="divide-y">
+                      {opcoesParcelamento.map(opcao => (
+                        <div key={opcao.parcelas} className="p-3 flex justify-between items-center hover:bg-gray-50">
+                          <div>
+                            <p className="font-medium text-gray-800">{opcao.parcelas}x</p>
+                            <p className="text-xs text-gray-600">{opcao.taxaMensal}% a.m.</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm text-gray-600">Juros:</p>
+                            <p className="font-semibold" style={{ color: contrato1.cor3 }}>
+                              R$ {parseFloat(opcao.jurosTotal).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Saldo devedor - só mostra se HÁ empréstimo ativo */}
+              {activeLoan && (
+                <div className="bg-white rounded-xl p-6 shadow-lg">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Calendar size={20} style={{ color: contrato1.cor3 }} />
+                    <h3 className="font-bold text-gray-800">Empréstimo Ativo</h3>
+                  </div>
+
+                  {/* Saldo Devedor */}
+                  <div className="text-center mb-4">
+                    <p className="text-sm text-gray-600">Saldo devedor atual</p>
+                    <p className="text-3xl font-bold text-gray-800 my-2">
+                      R$ {activeLoan.saldoDevedor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Parcela {activeLoan.parcelaAtual} de {activeLoan.parcelas}
+                    </p>
+                  </div>
+
+                  {/* Próxima Parcela */}
+                  <div className="bg-gray-100 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-gray-600">Próxima parcela</p>
+                    <p className="text-2xl font-bold" style={{ color: contrato1.cor3 }}>
+                      R$ {activeLoan.valorParcela.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                    </p>
+                    <div className="mt-2 pt-2 border-t border-gray-300">
+                      <p className="text-xs text-gray-600">Vencimento</p>
+                      <p className="text-sm font-semibold text-gray-700">
+                        Dia {activeLoan.proximoVencimento} ({formatarDiaJogo(activeLoan.proximoVencimento)})
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Cronograma de Pagamentos */}
+                  <div className="border rounded-lg overflow-hidden mb-4">
+                    <div className="bg-gray-50 px-4 py-2 border-b">
+                      <h4 className="font-semibold text-gray-700">Cronograma de Pagamentos</h4>
+                    </div>
+                    <div className="divide-y max-h-48 overflow-y-auto">
+                      {Array.from({ length: activeLoan.parcelas }, (_, i) => {
+                        const numeroParcela = i + 1;
+                        const diaVencimento = activeLoan.diaInicio + (30 * numeroParcela);
+                        const isPaga = numeroParcela < activeLoan.parcelaAtual;
+                        const isProxima = numeroParcela === activeLoan.parcelaAtual;
+
+                        return (
+                          <div
+                            key={i}
+                            className={`p-3 flex justify-between items-center ${isProxima ? 'bg-yellow-50' : isPaga ? 'bg-green-50' : ''
+                              }`}
+                          >
+                            <div>
+                              <p className={`font-medium ${isPaga ? 'text-green-600' : isProxima ? 'text-yellow-600' : 'text-gray-800'}`}>
+                                {numeroParcela}ª parcela {isPaga ? '✓' : isProxima ? '→' : ''}
+                              </p>
+                              <p className="text-xs text-gray-600">
+                                Dia {diaVencimento} ({formatarDiaJogo(diaVencimento)})
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-semibold text-gray-800">
+                                R$ {(activeLoan?.valorParcela ?? 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Informações do Empréstimo */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 text-sm">
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <p className="text-blue-600 text-xs">Valor Original</p>
+                        <p className="font-semibold text-blue-800">
+                          R$ {activeLoan.valorOriginal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-blue-600 text-xs">Juros Total</p>
+                        <p className="font-semibold text-blue-800">
+                          R$ {activeLoan.jurosTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-blue-600 text-xs">Início</p>
+                        <p className="font-semibold text-blue-800">Dia {activeLoan.diaInicio}</p>
+                      </div>
+                      <div>
+                        <p className="text-blue-600 text-xs">Fim</p>
+                        <p className="font-semibold text-blue-800">Dia {activeLoan.dataFinal}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Botão Pagar Antecipado */}
+                  <button
+                    onClick={handlePayEarly}
+                    className="w-full text-white py-3 rounded-lg font-semibold transition-colors"
+                    style={{ backgroundColor: contrato1.cor2 }}
+                  >
+                    Pagar Antecipado (Liquidar Dívida)
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+
+
+
 
 
         )}
@@ -1232,236 +1300,270 @@ const BankInterface = () => {
 
 
         {/* Investments Tab */}
-        {currentTab === 'investments' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 scrollbar-custom  rounded-xl p-6 max-h-[65vh]  overflow-y-auto">
-            {/* Coluna esquerda: Fazer investimento */}
-            <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 rounded-lg" style={{ backgroundColor: `${contrato1.cor2}` }}>
-                  <TrendingUp className="text-white" size={24} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-800">Novo Investimento</h3>
-                  <p className="text-gray-600 text-sm">Escolha a melhor opção</p>
-                </div>
-              </div>
+       {/* Investments Tab */}
+{currentTab === 'investments' && (
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 scrollbar-custom rounded-xl p-6 max-h-[65vh] overflow-y-auto">
+    {/* Coluna esquerda: Fazer investimento */}
+    <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="p-3 rounded-lg" style={{ backgroundColor: `${contrato1.cor2}` }}>
+          <TrendingUp className="text-white" size={24} />
+        </div>
+        <div>
+          <h3 className="font-bold text-gray-800">Novo Investimento</h3>
+          <p className="text-gray-600 text-sm">Escolha a melhor opção</p>
+        </div>
+      </div>
 
-              {/* Saldo disponível */}
-              <div className="p-4 rounded-lg" style={{ backgroundColor: `${contrato1.cor3}` }}>
-                <p className="text-3xl font-bold text-white">
-                  R$ {totalBalance.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </p>
-                <p className="text-sm text-white opacity-90">Saldo disponível para investir</p>
-              </div>
+      {/* Saldo disponível */}
+      <div className="p-4 rounded-lg" style={{ backgroundColor: `${contrato1.cor3}` }}>
+        <p className="text-3xl font-bold text-white">
+          R$ {totalBalance.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        </p>
+        <p className="text-sm text-white opacity-90">Saldo disponível para investir</p>
+      </div>
 
-              {/* Tipo de investimento */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Investimento</label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    onClick={() => setInvestmentType('pos')}
-                    className={`p-4 rounded-lg border-2 transition-all ${investmentType === 'pos'
-                      ? 'text-white border-transparent'
-                      : 'text-gray-700 border-gray-300 hover:border-gray-400'
-                      }`}
-                    style={investmentType === 'pos' ? { backgroundColor: `${contrato1.cor3}` } : {}}
-                  >
-                    <div className="font-semibold">Pós-fixado</div>
-                    <div className="text-xs mt-1 opacity-90">Liquidez diária</div>
-                  </button>
-                  <button
-                    onClick={() => setInvestmentType('pre')}
-                    className={`p-4 rounded-lg border-2 transition-all ${investmentType === 'pre'
-                      ? 'text-white border-transparent'
-                      : 'text-gray-700 border-gray-300 hover:border-gray-400'
-                      }`}
-                    style={investmentType === 'pre' ? { backgroundColor: `${contrato1.cor3}` } : {}}
-                  >
-                    <div className="font-semibold">Pré-fixado</div>
-                    <div className="text-xs mt-1 opacity-90">Maior retorno</div>
-                  </button>
-                </div>
-              </div>
+      {/* Tipo de investimento */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Investimento</label>
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={() => setInvestmentType('pos')}
+            className={`p-4 rounded-lg border-2 transition-all ${investmentType === 'pos'
+              ? 'text-white border-transparent'
+              : 'text-gray-700 border-gray-300 hover:border-gray-400'
+              }`}
+            style={investmentType === 'pos' ? { backgroundColor: `${contrato1.cor3}` } : {}}
+          >
+            <div className="font-semibold">Pós-fixado</div>
+            <div className="text-xs mt-1 opacity-90">Liquidez diária</div>
+          </button>
+          <button
+            onClick={() => setInvestmentType('pre')}
+            className={`p-4 rounded-lg border-2 transition-all ${investmentType === 'pre'
+              ? 'text-white border-transparent'
+              : 'text-gray-700 border-gray-300 hover:border-gray-400'
+              }`}
+            style={investmentType === 'pre' ? { backgroundColor: `${contrato1.cor3}` } : {}}
+          >
+            <div className="font-semibold">Pré-fixado</div>
+            <div className="text-xs mt-1 opacity-90">Maior retorno</div>
+          </button>
+        </div>
+      </div>
 
-              {/* Valor do investimento */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Valor do Investimento</label>
-                <input
-                  type="number"
-                  min="0"
-                  max={totalBalance}
-                  value={investmentAmount}
-                  onChange={(e) => setInvestmentAmount(Math.min(Number(e.target.value), totalBalance))}
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
-                  placeholder={`Máx: R$ ${totalBalance.toLocaleString('pt-BR')}`}
-                />
-              </div>
+      {/* Valor do investimento */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Valor do Investimento</label>
+        <input
+          type="number"
+          min="0"
+          max={totalBalance}
+          value={investmentAmount}
+          onChange={(e) => setInvestmentAmount(Math.min(Number(e.target.value), totalBalance))}
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
+          placeholder={`Máx: R$ ${totalBalance.toLocaleString('pt-BR')}`}
+        />
+      </div>
 
-              {/* Prazo (apenas para pré-fixado) */}
-              {investmentType === 'pre' && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Prazo de Resgate</label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {[90, 180, 360].map(days => (
-                      <button
-                        key={days}
-                        onClick={() => setInvestmentDays(days)}
-                        className={`p-3 rounded-lg border-2 transition-colors ${investmentDays === days
-                          ? 'text-white border-transparent'
-                          : 'text-gray-700 border-gray-300 hover:border-gray-400'
-                          }`}
-                        style={investmentDays === days ? { backgroundColor: `${contrato1.cor3}` } : {}}
-                      >
-                        <div className="font-semibold">{days} dias</div>
-                        <div className="text-xs mt-1">
-                          {days === 90 && '+1.5%'}
-                          {days === 180 && '+3.5%'}
-                          {days === 360 && '+8%'}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+      {/* Prazo (apenas para pré-fixado) */}
+      {investmentType === 'pre' && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Prazo de Resgate</label>
+          <div className="grid grid-cols-3 gap-2">
+            {[90, 180, 360].map(days => {
+              const taxa = ((getPreFixedReturn(1000, days) / 1000) * 100).toFixed(2);
+              return (
+                <button
+                  key={days}
+                  onClick={() => setInvestmentDays(days)}
+                  className={`p-3 rounded-lg border-2 transition-colors ${investmentDays === days
+                    ? 'text-white border-transparent'
+                    : 'text-gray-700 border-gray-300 hover:border-gray-400'
+                    }`}
+                  style={investmentDays === days ? { backgroundColor: `${contrato1.cor3}` } : {}}
+                >
+                  <div className="font-semibold">{days} dias</div>
+                  <div className="text-xs mt-1">+{taxa}%</div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
-              {/* Info do investimento */}
-              <div className="p-4 rounded-lg" style={{ backgroundColor: '#f8f9fa', borderLeft: `4px solid ${contrato1.cor3}` }}>
-                <p className="text-sm text-gray-600 mb-2">
-                  {investmentType === 'pos' ? 'Rendimento Mensal: 0.5%' : `Rendimento Total: ${investmentDays === 90 ? '1.5%' : investmentDays === 180 ? '3.5%' : '8%'}`}
-                </p>
-                <p className="text-lg font-bold" style={{ color: `${contrato1.cor3}` }}>
-                  Retorno estimado: R${' '}
-                  {investmentType === 'pos'
-                    ? (investmentAmount * 0.005).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                    : getPreFixedReturn(investmentAmount, investmentDays).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                  }
-                </p>
-                {investmentType === 'pos' && (
-                  <p className="text-xs text-gray-500 mt-1">Pode adicionar ou retirar a qualquer momento</p>
-                )}
-                {investmentType === 'pre' && (
-                  <p className="text-xs text-gray-500 mt-1">Resgate antecipado: perda de 10% + sem rendimentos</p>
-                )}
-              </div>
+      {/* Info do investimento */}
+      <div className="p-4 rounded-lg" style={{ backgroundColor: '#f8f9fa', borderLeft: `4px solid ${contrato1.cor3}` }}>
+        <p className="text-sm text-gray-600 mb-2">
+          {investmentType === 'pos' 
+            ? `Rendimento Mensal: ${(getPosTaxaMensal() * 100).toFixed(2)}%` 
+            : `Rendimento Total: ${((getPreFixedReturn(1000, investmentDays) / 1000) * 100).toFixed(2)}%`
+          }
+        </p>
+        <p className="text-lg font-bold" style={{ color: `${contrato1.cor3}` }}>
+          Retorno estimado: R${' '}
+          {investmentType === 'pos'
+            ? (investmentAmount * getPosTaxaMensal()).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            : getPreFixedReturn(investmentAmount, investmentDays).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          }
+        </p>
+        {investmentType === 'pos' && (
+          <p className="text-xs text-gray-500 mt-1">Pode adicionar ou retirar a qualquer momento</p>
+        )}
+        {investmentType === 'pre' && (
+          <p className="text-xs text-gray-500 mt-1">Resgate antecipado: perda de 10% + sem rendimentos</p>
+        )}
+      </div>
 
-              {/* Botão investir */}
-              <button
-                onClick={handleInvest}
-                className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${investmentAmount <= 0 || investmentAmount > totalBalance ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                style={{ backgroundColor: `${contrato1.cor3}` }}
-                disabled={investmentAmount <= 0 || investmentAmount > totalBalance}
-              >
-                Investir Agora
-              </button>
-            </div>
+      {/* Botão investir */}
+      <button
+        onClick={handleInvest}
+        className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${investmentAmount <= 0 || investmentAmount > totalBalance ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+        style={{ backgroundColor: `${contrato1.cor3}` }}
+        disabled={investmentAmount <= 0 || investmentAmount > totalBalance}
+      >
+        Investir Agora
+      </button>
+    </div>
 
-            {/* Coluna direita: Investimentos ativos */}
-            <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
-              <h3 className="font-bold text-gray-800 mb-4">Meus Investimentos</h3>
+    {/* Coluna direita: Investimentos ativos */}
+    {/* Coluna direita: Investimentos ativos */}
+<div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
+  <h3 className="font-bold text-gray-800 mb-4">Meus Investimentos</h3>
 
-              {activeInvestments.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
-                  <PiggyBank size={48} className="mx-auto mb-3 opacity-50" />
-                  <p>Você ainda não possui investimentos ativos</p>
-                </div>
-              ) : (
-                <div className="space-y-3 max-h-[500px] overflow-y-auto">
-                  {activeInvestments.map(inv => {
-                    const isMatured = inv.type === 'pre' && Date.now() >= inv.maturityDate;
-                    const monthsPassed = Math.floor((Date.now() - inv.startDate) / (1000 * 60 * 60 * 24 * 30));
-                    const currentValue = inv.type === 'pos'
-                      ? inv.amount * (1 + (0.005 * monthsPassed))
-                      : isMatured
-                        ? inv.amount + getPreFixedReturn(inv.amount, inv.days)
-                        : inv.amount;
+{activeInvestments.map(inv => {
+  const diasDecorridos = diaAtualJogo - inv.diaInicio;
+  const mesesCompletos = Math.floor(diasDecorridos / 30);
+  const isMatured = inv.type === 'pre' && diaAtualJogo >= inv.diaVencimento;
+  const taxaMensalPos = getPosTaxaMensal();
+  
+  // Calcular valor atual e juros ganhos
+  let jurosGanhos, valorTotalResgate, percentualRendimento;
+  
+  if (inv.type === 'pos') {
+    jurosGanhos = inv.amount * taxaMensalPos * mesesCompletos;
+    valorTotalResgate = inv.amount + jurosGanhos;
+    percentualRendimento = (jurosGanhos / inv.amount) * 100;
+  } else {
+    if (isMatured) {
+      jurosGanhos = getPreFixedReturn(inv.amount, inv.days);
+      valorTotalResgate = inv.amount + jurosGanhos;
+      percentualRendimento = (jurosGanhos / inv.amount) * 100;
+    } else {
+      jurosGanhos = 0;
+      valorTotalResgate = inv.amount * 0.9;
+      percentualRendimento = -10;
+    }
+  }
+  
+  // Calcular dias restantes para vencimento
+  const diasRestantes = inv.type === 'pre' && !isMatured 
+    ? inv.diaVencimento - diaAtualJogo
+    : 0;
 
-                    return (
-                      <div key={inv.id} className="p-4 border-2 border-gray-200 rounded-lg transition-colors">
-                        <div className="flex justify-between items-start mb-2">
-                          <div>
-                            <span className="font-semibold text-gray-800">
-                              {inv.type === 'pos' ? 'Pós-fixado' : 'Pré-fixado'}
-                            </span>
-                            {inv.type === 'pre' && (
-                              <span className="ml-2 text-xs px-2 py-1 rounded" style={{ backgroundColor: isMatured ? '#4CAF50' : '#FFA726', color: 'white' }}>
-                                {isMatured ? 'Vencido' : `${inv.days} dias`}
-                              </span>
-                            )}
-                          </div>
-                        </div>
+  return (
+    <div key={inv.id} className="p-4 border-2 border-gray-200 rounded-lg transition-colors">
+      <div className="flex justify-between items-start mb-2">
+        <div>
+          <span className="font-semibold text-gray-800">
+            {inv.type === 'pos' ? 'Pós-fixado' : 'Pré-fixado'}
+          </span>
+          {inv.type === 'pre' && (
+            <span className="ml-2 text-xs px-2 py-1 rounded" style={{ backgroundColor: isMatured ? '#4CAF50' : '#FFA726', color: 'white' }}>
+              {isMatured ? 'Vencido' : `${inv.days} dias`}
+            </span>
+          )}
+        </div>
+      </div>
 
-                        <p className="text-2xl font-bold" style={{ color: `${contrato1.cor3}` }}>
-                          R$ {inv.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </p>
+      {/* Valor Principal */}
+      <p className="text-2xl font-bold" style={{ color: `${contrato1.cor3}` }}>
+        R$ {inv.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+      </p>
+      <p className="text-xs text-gray-500">Valor investido</p>
 
-                        <p className="text-sm text-gray-600 mt-1">
-                          Valor atual: R$ {currentValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </p>
+      {/* Informações detalhadas */}
+      <div className="mt-3 p-3 bg-gray-50 rounded-lg space-y-2">
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-600">Rendimento:</span>
+          <span className={`font-semibold ${percentualRendimento >= 0 ? 'text-blue-600' : 'text-red-600'}`}>
+            {percentualRendimento >= 0 ? '+' : ''}{percentualRendimento.toFixed(2)}%
+          </span>
+        </div>
+        
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-600">Juros ganhos:</span>
+          <span className={`font-semibold ${jurosGanhos >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            {jurosGanhos >= 0 ? '+' : ''} R$ {Math.abs(jurosGanhos).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </span>
+        </div>
+        
+        <div className="flex justify-between text-sm pt-2 border-t border-gray-200">
+          <span className="text-gray-600 font-medium">Valor a receber:</span>
+          <span className="font-bold text-lg" style={{ color: inv.type === 'pre' && !isMatured ? '#d32f2f' : '#0C9123' }}>
+            R$ {valorTotalResgate.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </span>
+        </div>
 
-                        {inv.type === 'pos' && (
-                          <p className="text-xs text-gray-500 mt-1">
-                            Rendimento: +{(((currentValue - inv.amount) / inv.amount) * 100).toFixed(2)}%
-                          </p>
-                        )}
-
-                        {inv.type === 'pre' && !isMatured && (
-                          <p className="text-xs text-gray-500 mt-1">
-                            Vencimento: {new Date(inv.maturityDate).toLocaleDateString('pt-BR')}
-                          </p>
-                        )}
-
-                        <div className="flex gap-2 mt-3">
-                          {inv.type === 'pos' && (
-                            <button
-                              onClick={() => handleAddFunds(inv.id)}
-                              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 rounded-lg font-medium transition-colors text-sm"
-                            >
-                              + Adicionar
-                            </button>
-                          )}
-                          <button
-                            onClick={() => handleWithdraw(inv.id)}
-                            className="flex-1 text-white py-2 rounded-lg font-medium transition-colors text-sm"
-                            style={{ backgroundColor: inv.type === 'pre' && !isMatured ? '#d32f2f' : '#0C9123' }}
-                          >
-                            {inv.type === 'pre' && !isMatured ? 'Resgatar (-10%)' : 'Resgatar'}
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-
-              {/* Resumo total */}
-              {activeInvestments.length > 0 && (
-                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                  <div className="flex justify-between mb-2">
-                    <span className="text-sm text-gray-600">Total Investido:</span>
-                    <span className="font-bold text-gray-800">
-                      R$ {activeInvestments.reduce((sum, inv) => sum + inv.amount, 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-gray-600">Valor Atual:</span>
-                    <span className="font-bold" style={{ color: `${contrato1.cor3}` }}>
-                      R$ {activeInvestments.reduce((sum, inv) => {
-                        const monthsPassed = Math.floor((Date.now() - inv.startDate) / (1000 * 60 * 60 * 24 * 30));
-                        const isMatured = inv.type === 'pre' && Date.now() >= inv.maturityDate;
-                        return sum + (inv.type === 'pos'
-                          ? inv.amount * (1 + (0.005 * monthsPassed))
-                          : isMatured
-                            ? inv.amount + getPreFixedReturn(inv.amount, inv.days)
-                            : inv.amount);
-                      }, 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
+        {inv.type === 'pos' && (
+          <div className="flex justify-between text-sm pt-2 border-t border-gray-200">
+            <span className="text-gray-600">Meses decorridos:</span>
+            <span className="font-semibold text-gray-800">{mesesCompletos} meses</span>
           </div>
         )}
+
+        {inv.type === 'pre' && !isMatured && (
+          <>
+            <div className="flex justify-between text-sm pt-2 border-t border-gray-200">
+              <span className="text-gray-600">Faltam:</span>
+              <span className="font-semibold text-orange-600">
+                {diasRestantes} dias (Dia {inv.diaVencimento})
+              </span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-600">Início:</span>
+              <span className="font-medium text-gray-700">Dia {inv.diaInicio}</span>
+            </div>
+            <div className="text-xs text-red-600 mt-2 p-2 bg-red-50 rounded">
+              ⚠️ Resgate antecipado: perde 10% do valor investido + sem rendimentos
+            </div>
+          </>
+        )}
+
+        {inv.type === 'pre' && isMatured && (
+          <div className="text-center pt-2 border-t border-gray-200">
+            <span className="text-xs text-green-600 font-medium">
+              ✓ Investimento vencido (Dia {inv.diaVencimento}) - Resgate disponível
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Botões de ação */}
+      <div className="flex gap-2 mt-3">
+        {inv.type === 'pos' && (
+          <button
+            onClick={() => handleAddFunds(inv.id)}
+            className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 rounded-lg font-medium transition-colors text-sm"
+          >
+            + Adicionar
+          </button>
+        )}
+        <button
+          onClick={() => handleWithdraw(inv.id)}
+          className="flex-1 text-white py-2 rounded-lg font-medium transition-colors text-sm"
+          style={{ backgroundColor: inv.type === 'pre' && !isMatured ? '#d32f2f' : '#0C9123' }}
+        >
+          {inv.type === 'pre' && !isMatured ? 'Resgatar (-10%)' : 'Resgatar'}
+        </button>
+      </div>
+    </div>
+  );
+})}
+</div>
+  </div>
+)}
 
         {/* Cashback Tab */}
         {currentTab === 'cashback' && (

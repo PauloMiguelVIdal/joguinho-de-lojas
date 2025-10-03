@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import * as Chart from 'chart.js';
 
+
+
 const CorporateFinanceInterface = () => {
     const [currentTab, setCurrentTab] = useState('overview');
     const chartRef = useRef(null);
