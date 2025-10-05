@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { CreditCard, DollarSign, TrendingUp, Gift, Calendar } from 'lucide-react';
+import React, { useState, useEffect, useContext,useRef } from 'react';
+import { CreditCard, DollarSign, TrendingUp, Gift, Calendar, Wallet } from 'lucide-react';
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
@@ -9,19 +9,21 @@ const BankInterface = () => {
   const [loanAmount, setLoanAmount] = useState(0);
   const { dados } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
-  
+
   const contrato1 = economiaSetores.contratosBancos[0];
   const diaAtualJogo = dados.dia || 1000;
   const [activeLoan, setActiveLoan] = useState(null);
   const limiteEmprestimoAtual = contrato1.limiteEmprestimo;
   const [availableLoan, setAvailableLoan] = useState(limiteEmprestimoAtual);
-  
+
   const [investmentType, setInvestmentType] = useState('pos');
   const [investmentAmount, setInvestmentAmount] = useState(0);
   const [investmentDays, setInvestmentDays] = useState(90);
   const [activeInvestments, setActiveInvestments] = useState([]);
-  
+
   const saldoBancario = economiaSetores.saldo;
+
+
 
   const config = {
     cashback: { nenhum: { valor: 0 }, todos: { valor: 2 }, especifico: { valor: 5 } },
@@ -48,29 +50,50 @@ const BankInterface = () => {
 
   const [lastProcessedPayment, setLastProcessedPayment] = useState(0);
 
+    const lastProcessedPaymentRef = useRef(0);
+
   useEffect(() => {
     if (!activeLoan) return;
+
     const diasDecorridos = diaAtualJogo - activeLoan.diaInicio;
     const parcelasPagas = Math.floor(diasDecorridos / 30);
-    
+
     // Verifica se há novas parcelas a pagar
-    if (parcelasPagas > lastProcessedPayment) {
-      const parcelasADescontar = parcelasPagas - lastProcessedPayment;
+    if (parcelasPagas > lastProcessedPaymentRef.current && parcelasPagas <= activeLoan.parcelas) {
+      const parcelasADescontar = parcelasPagas - lastProcessedPaymentRef.current;
       const valorTotalDescontar = parcelasADescontar * activeLoan.valorParcela;
       
-      // Desconta as parcelas do saldo
-      atualizarEco('saldo', saldoBancario - valorTotalDescontar);
-      setLastProcessedPayment(parcelasPagas);
+      console.log('=== PROCESSANDO PAGAMENTO ===');
+      console.log('Dia atual:', diaAtualJogo);
+      console.log('Parcelas pagas:', parcelasPagas);
+      console.log('Último processamento:', lastProcessedPaymentRef.current);
+      console.log('Saldo ANTES:', economiaSetores.saldo);
+      console.log('Valor a descontar:', valorTotalDescontar);
       
+      // Atualiza o saldo
+      atualizarEco('saldo', economiaSetores.saldo - valorTotalDescontar);
+      
+      // Atualiza o ref IMEDIATAMENTE
+      lastProcessedPaymentRef.current = parcelasPagas;
+      setLastProcessedPayment(parcelasPagas);
+
+      console.log('Saldo DEPOIS:', economiaSetores.saldo - valorTotalDescontar);
+      console.log('Ref atualizado para:', lastProcessedPaymentRef.current);
+      console.log('=== FIM PROCESSAMENTO ===');
+
       const novaParcelaAtual = Math.min(parcelasPagas + 1, activeLoan.parcelas);
       const valorPago = parcelasPagas * activeLoan.valorParcela;
       const novoSaldoDevedor = Math.max(0, activeLoan.totalComJuros - valorPago);
-      
-      if (novoSaldoDevedor === 0) {
+
+      // Se terminou de pagar todas as parcelas
+      if (parcelasPagas >= activeLoan.parcelas) {
+        console.log("Empréstimo quitado completamente!");
         setActiveLoan(null);
         setAvailableLoan(prev => prev + activeLoan.valorOriginal);
+        lastProcessedPaymentRef.current = 0;
         setLastProcessedPayment(0);
       } else {
+        // Atualiza o empréstimo com nova parcela
         setActiveLoan({
           ...activeLoan,
           parcelaAtual: novaParcelaAtual,
@@ -79,7 +102,8 @@ const BankInterface = () => {
         });
       }
     }
-  }, [dados.dia, activeLoan, saldoBancario, lastProcessedPayment]);
+  }, [diaAtualJogo, activeLoan]);
+  
 
   useEffect(() => {
     if (activeInvestments.length === 0) return;
@@ -101,6 +125,8 @@ const BankInterface = () => {
     } else {
       setActiveInvestments(investimentosAtualizados);
     }
+
+
   }, [dados.dia]);
 
   const calcularMultiplicadorJuros = (nivelJuros, parcelas) => {
@@ -153,10 +179,10 @@ const BankInterface = () => {
 
   const handlePayEarly = () => {
     if (!activeLoan) return;
-    
+
     // Descontar o saldo devedor do saldo bancário
     atualizarEco('saldo', saldoBancario - activeLoan.saldoDevedor);
-    
+
     setAvailableLoan(prev => prev + activeLoan.valorOriginal);
     setActiveLoan(null);
   };
@@ -227,7 +253,7 @@ const BankInterface = () => {
 
   const handleInvest = () => {
     if (investmentAmount <= 0 || investmentAmount > saldoBancario) return;
-    
+
     const newInvestment = {
       id: Date.now(),
       type: investmentType,
@@ -237,10 +263,10 @@ const BankInterface = () => {
       diaVencimento: investmentType === 'pre' ? diaAtualJogo + investmentDays : null,
       periodosProcessados: 0
     };
-    
+
     // Reduzir o valor investido do saldo bancário
     atualizarEco('saldo', saldoBancario - investmentAmount);
-    
+
     setActiveInvestments([...activeInvestments, newInvestment]);
     setInvestmentAmount(0);
   };
@@ -268,7 +294,7 @@ const BankInterface = () => {
 
     // Adicionar valor resgatado ao saldo bancário
     atualizarEco('saldo', saldoBancario + valorResgate);
-    
+
     setActiveInvestments(activeInvestments.filter(inv => inv.id !== investmentId));
   };
 
@@ -277,10 +303,10 @@ const BankInterface = () => {
     if (!investment || investment.type !== 'pos') return;
     const additionalAmount = parseFloat(prompt('Quanto deseja adicionar?', '0'));
     if (isNaN(additionalAmount) || additionalAmount <= 0 || additionalAmount > saldoBancario) return;
-    
+
     // Reduzir valor adicionado do saldo bancário
     atualizarEco('saldo', saldoBancario - additionalAmount);
-    
+
     setActiveInvestments(activeInvestments.map(inv =>
       inv.id === investmentId ? { ...inv, amount: inv.amount + additionalAmount } : inv
     ));
@@ -311,7 +337,7 @@ const BankInterface = () => {
   };
 
   const patrimonio = 10000;
-  
+
   const calcularProximoLimite = (patrimonioAtual) => {
     if (patrimonioAtual >= 10000000) return { novoLimite: 500000, patrimonioNecessario: 10000000 };
     if (patrimonioAtual >= 5000000) return { novoLimite: 250000, patrimonioNecessario: 10000000 };
@@ -322,6 +348,344 @@ const BankInterface = () => {
   };
 
   const proximoAumentoLimite = calcularProximoLimite(patrimonio);
+
+
+
+
+  const TriangularFusionCard = ({ cartao }) => (
+    <div
+      className="w-[350px] h-[200px] rounded-3xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 cursor-pointer hover:animate-rainbow-shift"
+      style={{
+        background: `conic-gradient(from 0deg, ${cartao.cor1}, ${cartao.cor2}, ${cartao.cor3}, ${cartao.cor4}, ${cartao.cor1})`
+      }}
+    // onClick={() => setSelectedCard(cartao.id)}
+    >
+      {/* Triângulos geométricos animados apenas no hover */}
+      <div className="absolute inset-0">
+        <div
+          className="absolute top-4 left-4 w-0 h-0 border-l-[20px] border-r-[20px] border-b-[35px] border-transparent hover:animate-geometric-pulse"
+          style={{ borderBottomColor: cartao.cor4, opacity: 0.3 }}
+        ></div>
+        <div
+          className="absolute bottom-4 right-4 w-0 h-0 border-l-[25px] border-r-[25px] border-t-[43px] border-transparent rotate-180 hover:animate-geometric-pulse"
+          style={{ borderTopColor: cartao.cor1, opacity: 0.4 }}
+        ></div>
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 rotate-45 border-4 hover:animate-geometric-pulse"
+          style={{ borderColor: cartao.cor4, opacity: 0.2 }}
+        ></div>
+      </div>
+
+      <div className="p-6 relative z-10">
+        <div
+          className="absolute top-4 right-4 px-3 py-2 rounded-full text-xs font-black"
+          style={{
+            backgroundColor: 'rgba(255,255,255,0.9)',
+            color: cartao.cor1
+          }}
+        >
+          {cartao.banco}
+        </div>
+
+        <div className="w-12 h-8 bg-gradient-to-br from-white to-gray-200 rounded-lg mt-4 mb-6 relative shadow-lg hover:animate-geometric-pulse">
+          <div className="absolute inset-1 bg-gradient-to-br from-yellow-400 to-orange-500 rounded opacity-80"></div>
+          <div className="absolute inset-2 bg-gray-800 rounded"></div>
+        </div>
+
+        <div className="text-xl font-mono tracking-widest mb-6 text-shadow-lg">
+          {cartao.numeroCard}
+        </div>
+
+        <div className="flex justify-between items-end">
+          <div>
+            <div className="text-xs opacity-90 mb-1">EMPRESA</div>
+            <div className="text-sm font-bold">{dados.inicioGame.nomeEmpresa}</div>
+          </div>
+          <div className="text-right">
+            <div className="text-xs opacity-75 mb-1">VÁLIDO</div>
+            <div className="text-sm font-medium">{cartao.validade}</div>
+          </div>
+        </div>
+      </div>
+      {/* 
+      {selectedCard === cartao.id && (
+        <div className="absolute inset-0 border-4 border-white rounded-3xl animate-pulse"></div>
+      )} */}
+
+      <style >{`
+      @keyframes rainbow-shift {
+        0% { filter: hue-rotate(0deg); }
+        25% { filter: hue-rotate(90deg); }
+        50% { filter: hue-rotate(180deg); }
+        75% { filter: hue-rotate(270deg); }
+        100% { filter: hue-rotate(360deg); }
+      }
+      .animate-rainbow-shift {
+        animation: rainbow-shift 2s infinite;
+      }
+
+      @keyframes geometric-pulse {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(5deg); }
+      }
+      .animate-geometric-pulse {
+        animation: geometric-pulse 1.5s ease-in-out infinite;
+      }
+    `}</style>
+    </div>
+  );
+
+  const CardClassico = ({ cartao }) => (
+    <div
+      className="w-[350px] h-[200px] rounded-3xl p-6 text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer hover:animate-rainbow-shift"
+      style={{
+        background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 50%, ${cartao.cor3} 100%)`
+      }}
+    >
+      {/* Formas geométricas animadas apenas no hover */}
+      <div className="absolute inset-0">
+        <div
+          className="absolute -top-10 -right-10 w-32 h-32 rotate-45 hover:animate-geometric-pulse"
+          style={{ backgroundColor: cartao.cor4, opacity: 0.1 }}
+        ></div>
+        <div
+          className="absolute top-16 -left-8 w-20 h-20 rounded-full hover:animate-geometric-pulse"
+          style={{ backgroundColor: cartao.cor3, opacity: 0.15 }}
+        ></div>
+      </div>
+
+      {/* Logo do banco */}
+      <div
+        className="absolute top-4 right-4 px-3 py-1 rounded-lg text-xs font-bold"
+        style={{
+          backgroundColor: cartao.cor4,
+          color: cartao.cor1,
+          opacity: 0.9
+        }}
+      >
+        {cartao.banco}
+      </div>
+
+      {/* Chip */}
+      <div className="w-12 h-8 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-lg mt-4 mb-6 relative shadow-lg">
+        <div className="absolute inset-2 bg-black bg-opacity-20 rounded"></div>
+      </div>
+
+      {/* Número do cartão */}
+      <div className="text-xl font-mono tracking-widest mb-6">
+        {cartao.numeroCard}
+      </div>
+
+      {/* Info */}
+      <div className="flex justify-between items-end">
+        <div>
+          <div className="text-xs opacity-75 mb-1">EMPRESA</div>
+          <div className="text-sm font-medium">{dados.inicioGame.nomeEmpresa}</div>
+        </div>
+        <div className="text-right">
+          <div className="text-xs opacity-75 mb-1">VÁLIDO</div>
+          <div className="text-sm font-medium">{cartao.validade}</div>
+        </div>
+      </div>
+
+      <style >{`
+      @keyframes rainbow-shift {
+        0% { filter: hue-rotate(0deg); }
+        25% { filter: hue-rotate(90deg); }
+        50% { filter: hue-rotate(180deg); }
+        75% { filter: hue-rotate(270deg); }
+        100% { filter: hue-rotate(360deg); }
+      }
+      .animate-rainbow-shift { animation: rainbow-shift 2s infinite; }
+
+      @keyframes geometric-pulse {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(5deg); }
+      }
+      .hover\\:animate-geometric-pulse:hover { animation: geometric-pulse 1.5s ease-in-out infinite; }
+    `}</style>
+    </div>
+  );
+
+  const CardModerno = ({ cartao }) => (
+    <div
+      className="w-[350px] h-[200px] rounded-xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer hover:animate-rainbow-shift"
+      style={{
+        background: `radial-gradient(circle at top right, ${cartao.cor3} 0%, ${cartao.cor2} 50%, ${cartao.cor1} 100%)`
+      }}
+    >
+      {/* Hexágonos animados apenas no hover */}
+      <div className="absolute inset-0">
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute border opacity-20 hover:animate-geometric-pulse"
+            style={{
+              borderColor: cartao.cor4,
+              width: '30px',
+              height: '30px',
+              clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)',
+              left: `${20 + i * 15}%`,
+              top: `${10 + (i % 2) * 20}%`,
+              transform: `rotate(${i * 30}deg)`
+            }}
+          ></div>
+        ))}
+      </div>
+
+      <div className="p-6 relative z-10">
+        {/* Logo com efeito glass */}
+        <div
+          className="absolute top-4 right-4 px-3 py-2 rounded-lg text-xs font-bold backdrop-blur-sm"
+          style={{
+            backgroundColor: `${cartao.cor4}20`,
+            border: `1px solid ${cartao.cor4}40`,
+            color: cartao.cor4
+          }}
+        >
+          {cartao.banco}
+        </div>
+
+        {/* Chip com borda */}
+        <div
+          className="w-12 h-9 rounded-lg mt-4 mb-6 relative border-2"
+          style={{
+            backgroundColor: cartao.cor3,
+            borderColor: cartao.cor4
+          }}
+        >
+          <div className="absolute inset-2 rounded" style={{ backgroundColor: cartao.cor4, opacity: 0.8 }}></div>
+        </div>
+
+        {/* Número estilizado */}
+        <div
+          className="text-xl font-semibold tracking-wide mb-6"
+          style={{ textShadow: `2px 2px 4px ${cartao.cor1}` }}
+        >
+          {cartao.numeroCard}
+        </div>
+
+        {/* Footer com divisor */}
+        <div className="border-t pt-3" style={{ borderColor: cartao.cor4, opacity: 0.3 }}>
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-xs opacity-70">EMPRESA</div>
+              <div className="text-sm font-medium">{dados.inicioGame.nomeEmpresa}</div>
+            </div>
+            <div className="text-right">
+              <div className="text-xs opacity-75 mb-1">VÁLIDO</div>
+              <div className="text-sm font-medium">{cartao.validade}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style >{`
+      @keyframes rainbow-shift {
+        0% { filter: hue-rotate(0deg); }
+        25% { filter: hue-rotate(90deg); }
+        50% { filter: hue-rotate(180deg); }
+        75% { filter: hue-rotate(270deg); }
+        100% { filter: hue-rotate(360deg); }
+      }
+      .animate-rainbow-shift { animation: rainbow-shift 2s infinite; }
+
+      @keyframes geometric-pulse {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.05) rotate(3deg); }
+      }
+      .hover\\:animate-geometric-pulse:hover { animation: geometric-pulse 1.5s ease-in-out infinite; }
+    `}</style>
+    </div>
+  );
+
+  const WavePatternsCard = ({ cartao }) => (
+    <div
+      className="w-[350px] h-[200px] rounded-3xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 cursor-pointer hover:animate-rainbow-shift"
+      style={{
+        background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 33%, ${cartao.cor3} 66%, ${cartao.cor4} 100%)`
+      }}
+    // onClick={() => setSelectedCard(cartao.id)}
+    >
+      {/* Pattern de ondas geométricas animadas apenas no hover */}
+      <div className="absolute inset-0 hover:animate-geometric-pulse">
+        <svg className="w-full h-full opacity-20" viewBox="0 0 350 200">
+          <path d="M0,100 Q87.5,60 175,100 T350,100 L350,200 L0,200 Z" fill={cartao.cor4} opacity="0.3" />
+          <path d="M0,120 Q87.5,80 175,120 T350,120 L350,200 L0,200 Z" fill={cartao.cor3} opacity="0.2" />
+          <path d="M0,140 Q87.5,100 175,140 T350,140 L350,200 L0,200 Z" fill={cartao.cor2} opacity="0.1" />
+        </svg>
+
+        <div
+          className="absolute top-6 right-6 w-20 h-20 rounded-full border-4 opacity-30 hover:animate-geometric-pulse"
+          style={{ borderColor: cartao.cor4 }}
+        ></div>
+        <div
+          className="absolute bottom-8 left-8 w-12 h-12 opacity-25 hover:animate-geometric-pulse"
+          style={{
+            backgroundColor: cartao.cor4,
+            clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+          }}
+        ></div>
+      </div>
+
+      <div className="p-6 relative z-10">
+        <div
+          className="absolute top-4 right-4 px-3 py-2 rounded-full text-xs font-black"
+          style={{
+            backgroundColor: 'rgba(255,255,255,0.9)',
+            color: cartao.cor1
+          }}
+        >
+          {cartao.banco}
+        </div>
+
+        <div className="w-12 h-8 bg-gradient-to-br from-white to-gray-200 rounded-lg mt-4 mb-6 relative shadow-lg hover:animate-geometric-pulse">
+          <div className="absolute inset-1 bg-gradient-to-br from-yellow-400 to-orange-500 rounded opacity-80"></div>
+          <div className="absolute inset-2 bg-gray-800 rounded"></div>
+        </div>
+
+        <div className="text-xl font-mono tracking-widest mb-6 text-shadow-lg">
+          {cartao.numeroCard}
+        </div>
+
+        <div className="flex justify-between items-end">
+          <div>
+            <div className="text-xs opacity-90 mb-1">EMPRESA</div>
+            <div className="text-sm font-bold">{dados.inicioGame.nomeEmpresa}</div>
+          </div>
+          <div className="text-right">
+            <div className="text-xs opacity-75 mb-1">VÁLIDO</div>
+            <div className="text-sm font-medium">{cartao.validade}</div>
+          </div>
+        </div>
+      </div>
+      {/* 
+      {selectedCard === cartao.id && (
+        <div className="absolute inset-0 border-4 border-white rounded-3xl animate-pulse"></div>
+      )} */}
+
+      <style >{`
+      @keyframes rainbow-shift {
+        0% { filter: hue-rotate(0deg); }
+        25% { filter: hue-rotate(90deg); }
+        50% { filter: hue-rotate(180deg); }
+        75% { filter: hue-rotate(270deg); }
+        100% { filter: hue-rotate(360deg); }
+      }
+      .animate-rainbow-shift {
+        animation: rainbow-shift 2s infinite;
+      }
+
+      @keyframes geometric-pulse {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(5deg); }
+      }
+      .animate-geometric-pulse {
+        animation: geometric-pulse 1.5s ease-in-out infinite;
+      }
+    `}</style>
+    </div>
+  );
 
   const GeometricChaosCard = ({ cartao }) => (
     <div className="w-[350px] h-[200px] rounded-3xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 cursor-pointer"
@@ -348,7 +712,22 @@ const BankInterface = () => {
     </div>
   );
 
-  const renderCartao = (cartao) => <GeometricChaosCard cartao={cartao} />;
+  const renderCartao = (cartao) => {
+    switch (cartao.design) {
+      case 'geometric-chaos':
+        return <GeometricChaosCard cartao={cartao} />;
+      case 'triangular-fusion':
+        return <TriangularFusionCard cartao={cartao} />;
+      case 'wave-patterns':
+        return <WavePatternsCard cartao={cartao} />;
+      case 'card-Moderno':
+        return <CardModerno cartao={cartao} />;
+      case 'card-classico':
+        return <CardClassico cartao={cartao} />;
+      default:
+        return <CardClassico cartao={cartao} />;
+    }
+  };
 
   const TabButton = ({ id, label, icon: Icon, active, onClick }) => (
     <button onClick={() => onClick(id)}
@@ -368,50 +747,47 @@ const BankInterface = () => {
         </header>
 
         <div className="flex flex-wrap gap-3 mb-8">
-          <TabButton id="overview" label="Visão Geral" icon={CreditCard} active={currentTab === 'overview'} onClick={setCurrentTab} />
+          <TabButton id="overview" label="Visão Geral" icon={Wallet} active={currentTab === 'overview'} onClick={setCurrentTab} />
+          <TabButton id="card" label="Cartão" icon={CreditCard} active={currentTab === 'card'} onClick={setCurrentTab} />
           <TabButton id="loan" label="Empréstimo" icon={DollarSign} active={currentTab === 'loan'} onClick={setCurrentTab} />
           <TabButton id="investments" label="Investimentos" icon={TrendingUp} active={currentTab === 'investments'} onClick={setCurrentTab} />
-          <TabButton id="cashback" label="Cashback" icon={Gift} active={currentTab === 'cashback'} onClick={setCurrentTab} />
         </div>
 
         {currentTab === 'overview' && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex flex-col items-start space-y-4">
-              <div className="bg-white rounded-xl p-4 shadow-lg w-full">
-                <h3 className="font-semibold text-gray-700 mb-3">Limite do Cartão</h3>
-                <p className="text-3xl font-bold" style={{ color: contrato1.cor3 }}>
-                  R$ {cardData.limit.toLocaleString('pt-BR')}
-                </p>
-                <p className="text-sm text-gray-500 mt-1">Limite atual</p>
-              </div>
-
-              <div className="bg-white rounded-xl p-4 shadow-lg w-full">
-                <h3 className="font-semibold text-gray-700 mb-3">Fatura Atual</h3>
-                <p className="text-2xl font-bold text-red-600">
-                  R$ {cardData.faturaAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                </p>
-                <p className="text-sm text-gray-500 mt-1">Vencimento: Todo dia 10</p>
-              </div>
-
-              <div className="bg-white rounded-xl p-4 shadow-lg w-full">
-                <div className="relative">
-                  <div className="w-full bg-gray-200 rounded-full h-4">
+              <div className="flex flex-col items-center justify-center ">
+                {contrato1 && renderCartao(contratoParaCartao(contrato1, dados))}
+                <div style={{
+                  background: `linear-gradient(135deg, ${contrato1.cor3}, ${contrato1.cor2}, ${contrato1.cor4})`
+                }} className="bg-white rounded-xl p-4 shadow-lg w-full mt-6 ">
+                  <div className="flex justify-between mt-2 p-2 bg-white/20 rounded-md mb-2 text-sm">
+                    <span className="text-white">Limite Atual: R${cardData.limit.toLocaleString('pt-BR')}</span>
+                    <span className="text-white"> Limite Disponível: R$ {cardData.available.toLocaleString('pt-BR')}</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-4 ">
                     <div className="h-4 rounded-full transition-all duration-1000"
                       style={{ width: `${(cardData.used / cardData.limit) * 100}%`, background: `linear-gradient(to right, ${contrato1.cor3}, ${contrato1.cor4})` }}></div>
                   </div>
                   <div className="flex justify-between mt-2 text-sm">
-                    <span className="text-gray-600">Usado: R$ {cardData.used.toLocaleString('pt-BR')}</span>
-                    <span className="text-gray-600">{((cardData.used / cardData.limit) * 100).toFixed(1)}%</span>
+                    <span className="text-white">Usado: R$ {cardData.used.toLocaleString('pt-BR')}</span>
+                    <span className="text-white">{((cardData.used / cardData.limit) * 100).toFixed(1)}%</span>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl p-4 shadow-lg w-full">
-                <h3 className="font-semibold text-gray-700">Limite Disponível</h3>
-                <p className="text-2xl font-bold" style={{ color: contrato1.cor3 }}>
-                  R$ {cardData.available.toLocaleString('pt-BR')}
-                </p>
-                <p className="text-sm text-gray-500">de R$ {cardData.limit.toLocaleString('pt-BR')}</p>
+              <div className="bg-white/40 rounded-xl w-full p-6 shadow-lg">
+                <div className="space-y-3">
+                  <div style={{ backgroundColor: contrato1.cor4, borderColor: contrato1.cor4 }} className="flex justify-between items-center p-3 rounded-lg border border-red-200">
+                    <span className="text-gray-600">Fatura Atual:</span>
+                    <span className="font-bold text-lg text-white">
+                      R$ {cardData.faturaAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                  <button style={{ backgroundColor: contrato1.cor2 }} className="flex justify-center hover:scale-105 transition-all duration-500 items-center w-full items-center p-3 rounded-lg ">
+                    <h2 className="text-white text-center">Pagar Fatura</h2>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -533,36 +909,17 @@ const BankInterface = () => {
                   </div>
                 </div>
               </div>
-
-              <div className="bg-white rounded-xl p-6 shadow-lg">
+              <div className="bg-white rounded-xl w-full p-6 shadow-lg">
                 <div className="text-center p-2 bg-gray-50 rounded-lg mb-3">
                   <h3 style={{ color: contrato1.cor3 }} className="font-bold">Cashback Acumulado</h3>
                   <p className="text-2xl font-bold text-gray-800">
                     R$ {cashbackData.accumulated.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </p>
                 </div>
-                <div className="space-y-2 mb-4 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Tipo:</span>
-                    <span className="font-semibold text-gray-800 capitalize">
-                      {cashbackData.tipo === 'nenhum' ? 'Sem cashback' : cashbackData.tipo === 'todos' ? 'Todas compras' : `Setor: ${cashbackData.setor}`}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Percentual:</span>
-                    <span className="font-semibold" style={{ color: '#0C9123' }}>{cashbackData.percentual}%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Este mês:</span>
-                    <span className="font-semibold text-gray-800">
-                      R$ {cashbackData.currentMonth.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                    </span>
-                  </div>
-                </div>
-                <button className="w-full text-white py-2 rounded-lg font-semibold hover:scale-105 transition-all duration-500"
+                {/* <button className="w-full text-white py-2 rounded-lg font-semibold hover:scale-105 transition-all duration-500"
                   style={{ backgroundColor: contrato1.cor3 }} disabled={cashbackData.accumulated === 0}>
                   Resgatar Cashback
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
@@ -754,7 +1111,7 @@ const BankInterface = () => {
         )}
 
         {currentTab === 'investments' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 scrollbar-custom rounded-xl p-6 max-h-[65vh] overflow-y-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl p-6 max-h-[65vh] overflow-y-auto">
             <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 rounded-lg" style={{ backgroundColor: contrato1.cor2 }}>
@@ -820,8 +1177,8 @@ const BankInterface = () => {
 
               <div className="p-4 rounded-lg" style={{ backgroundColor: '#f8f9fa', borderLeft: `4px solid ${contrato1.cor3}` }}>
                 <p className="text-sm text-gray-600 mb-2">
-                  {investmentType === 'pos' 
-                    ? `Rendimento Mensal: ${(getPosTaxaMensal() * 100).toFixed(2)}%` 
+                  {investmentType === 'pos'
+                    ? `Rendimento Mensal: ${(getPosTaxaMensal() * 100).toFixed(2)}%`
                     : `Rendimento Total: ${((getPreFixedReturn(1000, investmentDays) / 1000) * 100).toFixed(2)}%`}
                 </p>
                 <p className="text-lg font-bold" style={{ color: contrato1.cor3 }}>
@@ -852,9 +1209,9 @@ const BankInterface = () => {
                 const mesesCompletos = Math.floor(diasDecorridos / 30);
                 const isMatured = inv.type === 'pre' && diaAtualJogo >= inv.diaVencimento;
                 const taxaMensalPos = getPosTaxaMensal();
-                
+
                 let jurosGanhos, valorTotalResgate, percentualRendimento;
-                
+
                 if (inv.type === 'pos') {
                   jurosGanhos = inv.amount * taxaMensalPos * mesesCompletos;
                   valorTotalResgate = inv.amount + jurosGanhos;
@@ -870,7 +1227,7 @@ const BankInterface = () => {
                     percentualRendimento = -10;
                   }
                 }
-                
+
                 const diasRestantes = inv.type === 'pre' && !isMatured ? inv.diaVencimento - diaAtualJogo : 0;
 
                 return (
@@ -900,14 +1257,14 @@ const BankInterface = () => {
                           {percentualRendimento >= 0 ? '+' : ''}{percentualRendimento.toFixed(2)}%
                         </span>
                       </div>
-                      
+
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Juros ganhos:</span>
                         <span className={`font-semibold ${jurosGanhos >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                           {jurosGanhos >= 0 ? '+' : ''} R$ {Math.abs(jurosGanhos).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </span>
                       </div>
-                      
+
                       <div className="flex justify-between text-sm pt-2 border-t border-gray-200">
                         <span className="text-gray-600 font-medium">Valor a receber:</span>
                         <span className="font-bold text-lg" style={{ color: inv.type === 'pre' && !isMatured ? '#d32f2f' : '#0C9123' }}>
@@ -969,66 +1326,70 @@ const BankInterface = () => {
           </div>
         )}
 
-        {currentTab === 'cashback' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {currentTab === 'card' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl p-6 max-h-[65vh] overflow-y-auto">
             <div className="space-y-4">
-              <div className="bg-white rounded-xl p-6 shadow-lg">
-                <h3 className="font-bold text-gray-800 mb-4">Seu Cartão</h3>
-                <div className="flex justify-center mb-4">
+              <div className="bg-gradient-to-br from-white/20 to-white/40 rounded-xl p-6 shadow-lg ">
+
+                <div className="flex flex-col items-center justify-center ">
                   {contrato1 && renderCartao(contratoParaCartao(contrato1, dados))}
+                  <div style={{
+                    background: `linear-gradient(135deg, ${contrato1.cor3}, ${contrato1.cor2}, ${contrato1.cor4})`
+                  }} className="bg-white rounded-xl p-4 shadow-lg w-full mt-6 ">
+                    <div className="flex justify-between mt-2 p-2 bg-white/20 rounded-md mb-2 text-sm">
+                      <span className="text-white">Limite Atual: R${cardData.limit.toLocaleString('pt-BR')}</span>
+                      <span className="text-white"> Limite Disponível: R$ {cardData.available.toLocaleString('pt-BR')}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-4 ">
+                      <div className="h-4 rounded-full transition-all duration-1000"
+                        style={{ width: `${(cardData.used / cardData.limit) * 100}%`, background: `linear-gradient(to right, ${contrato1.cor3}, ${contrato1.cor4})` }}></div>
+                    </div>
+                    <div className="flex justify-between mt-2 text-sm">
+                      <span className="text-white">Usado: R$ {cardData.used.toLocaleString('pt-BR')}</span>
+                      <span className="text-white">{((cardData.used / cardData.limit) * 100).toFixed(1)}%</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div className="bg-white rounded-xl p-6 shadow-lg">
-                <h3 className="font-bold text-gray-800 mb-4">Informações do Cartão</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">Limite Atual:</span>
-                    <span className="font-bold text-lg" style={{ color: contrato1.cor3 }}>
-                      R$ {cardData.limit.toLocaleString('pt-BR')}
-                    </span>
-                  </div>
-                  
-                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">Limite Disponível:</span>
-                    <span className="font-bold text-lg text-green-600">
-                      R$ {cardData.available.toLocaleString('pt-BR')}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg border border-red-200">
-                    <span className="text-gray-600">Fatura Atual:</span>
-                    <span className="font-bold text-lg text-red-600">
-                      R$ {cardData.faturaAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                    </span>
-                  </div>
-
-                  <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <h4 className="font-semibold text-blue-800 mb-2">Próximo Aumento de Limite</h4>
-                    <p className="text-sm text-blue-700 mb-1">
-                      Quando seu patrimônio atingir <span className="font-bold">R$ {proximoAumentoLimite.patrimonioNecessario.toLocaleString('pt-BR')}</span>
-                    </p>
-                    <p className="text-sm text-blue-700">
-                      Seu novo limite será: <span className="font-bold">R$ {proximoAumentoLimite.novoLimite.toLocaleString('pt-BR')}</span>
-                    </p>
-                    <div className="mt-3 bg-white rounded p-2">
-                      <div className="flex justify-between text-xs text-gray-600 mb-1">
-                        <span>Patrimônio Atual: R$ {patrimonio.toLocaleString('pt-BR')}</span>
-                        <span>{((patrimonio / proximoAumentoLimite.patrimonioNecessario) * 100).toFixed(1)}%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="h-2 rounded-full bg-blue-600 transition-all"
-                          style={{ width: `${Math.min((patrimonio / proximoAumentoLimite.patrimonioNecessario) * 100, 100)}%` }}>
-                        </div>
+                <div style={{ backgroundColor: contrato1.cor4, borderColor: contrato1.cor4 }} className="p-4 mt-2 rounded-lg border ">
+                  <h4 className="font-semibold text-white mb-2">Próximo Aumento de Limite</h4>
+                  <p className="text-sm text-white mb-1">
+                    Quando seu patrimônio atingir <span className="font-bold">R$ {proximoAumentoLimite.patrimonioNecessario.toLocaleString('pt-BR')}</span>
+                  </p>
+                  <p className="text-sm text-white">
+                    Seu novo limite será: <span className="font-bold">R$ {proximoAumentoLimite.novoLimite.toLocaleString('pt-BR')}</span>
+                  </p>
+                  <div className="mt-3 bg-white rounded p-2">
+                    <div className="flex justify-between text-xs text-gray-600 mb-1">
+                      <span>Patrimônio Atual: R$ {patrimonio.toLocaleString('pt-BR')}</span>
+                      <span>{((patrimonio / proximoAumentoLimite.patrimonioNecessario) * 100).toFixed(1)}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="h-2 rounded-full bg-blue-600 transition-all"
+                        style={{ width: `${Math.min((patrimonio / proximoAumentoLimite.patrimonioNecessario) * 100, 100)}%`, backgroundColor: contrato1.cor4, }}>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <div className="bg-white/40 rounded-xl p-6 w-full shadow-lg">
+                <div className="space-y-3">
+                  <div style={{ backgroundColor: contrato1.cor4, borderColor: contrato1.cor4 }} className="flex justify-between items-center p-3 rounded-lg border border-red-200">
+                    <span className="text-gray-600">Fatura Atual:</span>
+                    <span className="font-bold text-lg text-white">
+                      R$ {cardData.faturaAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                  <button style={{ backgroundColor: contrato1.cor2 }} className="flex justify-center hover:scale-105 transition-all duration-500 items-center w-full items-center p-3 rounded-lg ">
+                    <h2 className="text-white text-center">Pagar Fatura</h2>
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div className="space-y-4">
-              <div className="bg-white rounded-xl p-6 shadow-lg">
+              <div className="bg-white/40 rounded-xl p-6 shadow-lg">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-3 rounded-lg" style={{ backgroundColor: contrato1.cor2 }}>
                     <Gift className="text-white" size={24} />
@@ -1077,7 +1438,7 @@ const BankInterface = () => {
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl p-6 shadow-lg">
+              <div className="bg-white/40 rounded-xl p-6 shadow-lg">
                 <h3 className="font-bold text-gray-800 mb-4">Próximo Resgate</h3>
                 <div className="p-4 rounded-lg mb-4" style={{ backgroundColor: '#f1f8e9', borderLeft: `4px solid ${contrato1.cor4}` }}>
                   <div className="flex justify-between items-center mb-2">
