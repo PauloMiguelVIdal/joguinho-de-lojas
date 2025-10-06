@@ -7,7 +7,7 @@ const DadosEconomyGlobalContext = createContext();
 const DadosEconomyGlobalProvider = ({ children }) => {
 
   const [economiaSetores, setEconomiaSetores] = useState({
-    saldo: 500000,
+    saldo: 50000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,

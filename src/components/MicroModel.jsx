@@ -89,7 +89,7 @@
 //   const currentSlots = Math.ceil(currentStock / 50); // Slots ocupados
 
 //   const availableGrains = grains.filter(grain => currentDay <= grain.deadline);
-  
+
 //   const canChooseGrain = (grain) => {
 //     return !activePlanting && currentDay <= grain.deadline && playerMoney >= grain.cost;
 //   };
@@ -110,7 +110,7 @@
 
 //   const handleConfirmPlanting = (grain) => {
 //     if (!canChooseGrain(grain)) return;
-    
+
 //     setPlayerMoney(prev => prev - grain.cost);
 //     setActivePlanting({
 //       ...grain,
@@ -278,7 +278,7 @@
 //               <h3 className="font-semibold text-sm mb-1" style={{ color: colors.primary }}>
 //                 🌱 Temporada de Plantio Ativa
 //               </h3>
-           
+
 //             </div>
 //           )}
 //         </div>
@@ -291,7 +291,7 @@
 //             const isExpired = isGrainExpired(grain);
 //             const canChoose = canChooseGrain(grain);
 //             const daysLeft = getDaysUntilGrainDeadline(grain);
-            
+
 //             return (
 //               <div
 //                 key={grain.id}
@@ -427,7 +427,7 @@
 //               10 dias restantes
 //             </div>
 //           </div>
-          
+
 //           <div className="grid grid-cols-4 gap-4 max-w-6xl mx-auto">
 //             {marketOffers.map((offer, index) => (
 //               <div
@@ -499,7 +499,7 @@
 //         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 //           <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
 //             <h3 className="text-xl font-bold text-gray-800 mb-4">Transferir Produto</h3>
-            
+
 //             {/* Seleção de quantidade */}
 //             <div className="mb-4">
 //               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -527,7 +527,7 @@
 //                   const Icon = dest.icon;
 //                   const availableSpace = dest.capacity - dest.current;
 //                   const canTransfer = availableSpace >= transferAmount;
-                  
+
 //                   return (
 //                     <button
 //                       key={key}
@@ -962,7 +962,7 @@
 //             const isExpired = isProjectExpired(project);
 //             const canBid = canBidOnProject(project);
 //             const daysLeft = getDaysUntilDeadline(project);
-            
+
 //             return (
 //               <div
 //                 key={project.id}
@@ -1242,7 +1242,7 @@
 //             <h3 className="text-xl font-bold text-gray-800 mb-4">
 //               Participar da Licitação
 //             </h3>
-            
+
 //             <div className="mb-4 p-4 bg-gray-50 rounded-lg">
 //               <h4 className="font-bold text-gray-800 mb-2">
 //                 {selectedProject.icon} {selectedProject.name}
@@ -1718,7 +1718,7 @@
 //           {availableProperties.map((property) => {
 //             const canNegotiate = canNegotiateProperty(property);
 //             const priority = getPriorityLevel(property);
-            
+
 //             return (
 //               <div
 //                 key={property.id}
@@ -1791,7 +1791,7 @@
 //                         <span style={{ color: colors.mediumGray }}>No mercado:</span>
 //                         <span className="font-semibold">{property.daysOnMarket} dias</span>
 //                       </div>
-                      
+
 //                       <div className="flex items-center justify-between text-xs">
 //                         <div className="flex items-center gap-1">
 //                           <Eye className="w-3 h-3" style={{ color: colors.accent }} />
@@ -1975,7 +1975,7 @@
 //             <h3 className="text-xl font-bold text-gray-800 mb-4">
 //               Iniciar Negociação
 //             </h3>
-            
+
 //             <div className="mb-4 p-4 bg-gray-50 rounded-lg">
 //               <h4 className="font-bold text-gray-800 mb-2">
 //                 {selectedProperty.icon} {selectedProperty.title}
@@ -2227,9 +2227,9 @@
 
 //   const handlePurchase = (offer) => {
 //     if (!canPurchaseOffer(offer)) return;
-    
+
 //     setFarmBalance(prev => prev - offer.price);
-    
+
 //     if (offer.type === 'adult') {
 //       setCurrentAdultCattle(prev => prev + offer.quantity);
 //     } else if (offer.type === 'calf') {
@@ -2416,7 +2416,7 @@
 //             const canPurchase = canPurchaseOffer(offer);
 //             const capacityIssue = (totalCattle + offer.quantity) > maxCattleCapacity;
 //             const balanceIssue = farmBalance < offer.price;
-            
+
 //             return (
 //               <div
 //                 key={offer.id}
@@ -2540,7 +2540,7 @@
 //         <div className="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
 //           {marketOffers.map((offer) => {
 //             const canSell = canSellOffer(offer);
-            
+
 //             return (
 //               <div
 //                 key={offer.id}
@@ -2619,7 +2619,7 @@
 //               </div>
 //               <div className="text-2xl font-bold mb-2">{currentAdultCattle}</div>
 //               <div className="text-sm opacity-80 mb-4">Bois Adultos</div>
-              
+
 //               <div className="w-full bg-white bg-opacity-20 rounded-full h-3 mb-2">
 //                 <div 
 //                   className="h-3 rounded-full transition-all duration-300"
@@ -2644,7 +2644,7 @@
 //               </div>
 //               <div className="text-2xl font-bold mb-2">{currentCalves}</div>
 //               <div className="text-sm opacity-80 mb-4">Bezerros</div>
-              
+
 //               <div className="w-full bg-white bg-opacity-20 rounded-full h-3 mb-2">
 //                 <div 
 //                   className="h-3 rounded-full transition-all duration-300"
@@ -2720,692 +2720,1523 @@
 
 
 
-import React, { useState } from 'react';
-import { Clock, DollarSign, TrendingUp, Package, Thermometer, ShoppingCart, Truck, Users, AlertTriangle } from 'lucide-react';
 
-const GrainFarmInterface = () => {
-  const [shopBalance, setShopBalance] = useState(120000);
-  const [currentDay, setCurrentDay] = useState(85);
-  const [activeTab, setActiveTab] = useState('compras');
-  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
-  const [selectedSupplier, setSelectedSupplier] = useState(null);
-  const [currentStock, setCurrentStock] = useState({
-    beef: 45,      // kg de carne bovina
-    pork: 20,      // kg de carne suína  
-    chicken: 30,   // kg de frango
-    sausage: 15    // kg de linguiça/embutidos
-  });
+// import React, { useState } from 'react';
+// import { Clock, DollarSign, TrendingUp, Package, Thermometer, ShoppingCart, Truck, Users, AlertTriangle } from 'lucide-react';
 
-  const colors = {
-    primary: '#8B0000',
-    secondary: '#DC143C',
-    accent: '#FF6347',
-    success: '#228B22',
-    white: '#FFFFFF',
-    lightGray: '#F8F9FA',
-    mediumGray: '#6C757D',
-    darkGray: '#343A40',
-    beef: '#8B4513',
-    pork: '#FFB6C1',
-    chicken: '#F5DEB3',
-    sausage: '#CD853F'
-  };
+// const GrainFarmInterface = () => {
+//   const [shopBalance, setShopBalance] = useState(120000);
+//   const [currentDay, setCurrentDay] = useState(85);
+//   const [activeTab, setActiveTab] = useState('compras');
+//   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+//   const [selectedSupplier, setSelectedSupplier] = useState(null);
+//   const [currentStock, setCurrentStock] = useState({
+//     beef: 45,      // kg de carne bovina
+//     pork: 20,      // kg de carne suína  
+//     chicken: 30,   // kg de frango
+//     sausage: 15    // kg de linguiça/embutidos
+//   });
 
-  const maxStorageCapacity = 200; // kg total
-  const currentTotalStock = Object.values(currentStock).reduce((sum, qty) => sum + qty, 0);
+//   const colors = {
+//     primary: '#8B0000',
+//     secondary: '#DC143C',
+//     accent: '#FF6347',
+//     success: '#228B22',
+//     white: '#FFFFFF',
+//     lightGray: '#F8F9FA',
+//     mediumGray: '#6C757D',
+//     darkGray: '#343A40',
+//     beef: '#8B4513',
+//     pork: '#FFB6C1',
+//     chicken: '#F5DEB3',
+//     sausage: '#CD853F'
+//   };
 
-  // Fornecedores de carne (renovados periodicamente)
-  const suppliers = [
-    {
-      id: 1,
-      name: 'Frigorífico Regional',
-      type: 'beef',
-      quantity: 50,
-      price: 1200,
-      pricePerKg: 24,
-      quality: 'Premium',
-      freshness: 7, // dias até vencer
-      description: 'Carne bovina de primeira qualidade',
-      icon: '🥩'
-    },
-    {
-      id: 2,
-      name: 'Fazenda São José',
-      type: 'beef',
-      quantity: 30,
-      price: 600,
-      pricePerKg: 20,
-      quality: 'Padrão',
-      freshness: 5,
-      description: 'Carne bovina tradicional',
-      icon: '🥩'
-    },
-    {
-      id: 3,
-      name: 'Suínos Premium',
-      type: 'pork',
-      quantity: 25,
-      price: 500,
-      pricePerKg: 20,
-      quality: 'Premium',
-      freshness: 4,
-      description: 'Carne suína especial',
-      icon: '🥓'
-    },
-    {
-      id: 4,
-      name: 'Granja Feliz',
-      type: 'chicken',
-      quantity: 40,
-      price: 320,
-      pricePerKg: 8,
-      quality: 'Orgânico',
-      freshness: 3,
-      description: 'Frango orgânico criado livre',
-      icon: '🍗'
-    },
-    {
-      id: 5,
-      name: 'Embutidos Artesanais',
-      type: 'sausage',
-      quantity: 20,
-      price: 400,
-      pricePerKg: 20,
-      quality: 'Artesanal',
-      freshness: 10,
-      description: 'Linguiças e embutidos artesanais',
-      icon: '🌭'
-    },
-    {
-      id: 6,
-      name: 'Atacado Carne & Cia',
-      type: 'beef',
-      quantity: 80,
-      price: 1440,
-      pricePerKg: 18,
-      quality: 'Comercial',
-      freshness: 4,
-      description: 'Lote grande com desconto',
-      icon: '🥩'
+//   const maxStorageCapacity = 200; // kg total
+//   const currentTotalStock = Object.values(currentStock).reduce((sum, qty) => sum + qty, 0);
+//   // Fornecedores de carne (renovados periodicamente)
+//   const suppliers = [
+//     {
+//       id: 1,
+//       name: 'Frigorífico Regional',
+//       type: 'beef',
+//       quantity: 50,
+//       price: 1200,
+//       pricePerKg: 24,
+//       quality: 'Premium',
+//       freshness: 7, // dias até vencer
+//       description: 'Carne bovina de primeira qualidade',
+//       icon: '🥩'
+//     },
+//     {
+//       id: 2,
+//       name: 'Fazenda São José',
+//       type: 'beef',
+//       quantity: 30,
+//       price: 600,
+//       pricePerKg: 20,
+//       quality: 'Padrão',
+//       freshness: 5,
+//       description: 'Carne bovina tradicional',
+//       icon: '🥩'
+//     },
+//     {
+//       id: 3,
+//       name: 'Suínos Premium',
+//       type: 'pork',
+//       quantity: 25,
+//       price: 500,
+//       pricePerKg: 20,
+//       quality: 'Premium',
+//       freshness: 4,
+//       description: 'Carne suína especial',
+//       icon: '🥓'
+//     },
+//     {
+//       id: 4,
+//       name: 'Granja Feliz',
+//       type: 'chicken',
+//       quantity: 40,
+//       price: 320,
+//       pricePerKg: 8,
+//       quality: 'Orgânico',
+//       freshness: 3,
+//       description: 'Frango orgânico criado livre',
+//       icon: '🍗'
+//     },
+//     {
+//       id: 5,
+//       name: 'Embutidos Artesanais',
+//       type: 'sausage',
+//       quantity: 20,
+//       price: 400,
+//       pricePerKg: 20,
+//       quality: 'Artesanal',
+//       freshness: 10,
+//       description: 'Linguiças e embutidos artesanais',
+//       icon: '🌭'
+//     },
+//     {
+//       id: 6,
+//       name: 'Atacado Carne & Cia',
+//       type: 'beef',
+//       quantity: 80,
+//       price: 1440,
+//       pricePerKg: 18,
+//       quality: 'Comercial',
+//       freshness: 4,
+//       description: 'Lote grande com desconto',
+//       icon: '🥩'
+//     }
+//   ];
+
+//   // Ofertas de venda para clientes
+//   const customerOffers = [
+//     {
+//       id: 1,
+//       customer: 'Restaurante Italiano',
+//       products: [
+//         { type: 'beef', quantity: 15, pricePerKg: 35, total: 525 }
+//       ],
+//       deadline: 'Até 3 dias',
+//       repeat: 'Semanal',
+//       description: 'Cliente fixo - restaurante tradicional'
+//     },
+//     {
+//       id: 2,
+//       customer: 'Churrascaria Pampa',
+//       products: [
+//         { type: 'beef', quantity: 25, pricePerKg: 32, total: 800 },
+//         { type: 'sausage', quantity: 10, pricePerKg: 28, total: 280 }
+//       ],
+//       deadline: 'Até 5 dias',
+//       repeat: 'Quinzenal',
+//       description: 'Grande cliente corporativo'
+//     },
+//     {
+//       id: 3,
+//       customer: 'Mercado do Bairro',
+//       products: [
+//         { type: 'chicken', quantity: 20, pricePerKg: 14, total: 280 },
+//         { type: 'pork', quantity: 10, pricePerKg: 28, total: 280 }
+//       ],
+//       deadline: 'Até 2 dias',
+//       repeat: 'Diário',
+//       description: 'Fornecimento para varejo local'
+//     },
+//     {
+//       id: 4,
+//       customer: 'Festa de Casamento',
+//       products: [
+//         { type: 'beef', quantity: 40, pricePerKg: 38, total: 1520 },
+//         { type: 'chicken', quantity: 30, pricePerKg: 16, total: 480 },
+//         { type: 'sausage', quantity: 15, pricePerKg: 30, total: 450 }
+//       ],
+//       deadline: 'Até 10 dias',
+//       repeat: 'Único',
+//       description: 'Evento especial - margem alta'
+//     }
+//   ];
+
+//   const canPurchase = (supplier) => {
+//     return shopBalance >= supplier.price && 
+//            (currentTotalStock + supplier.quantity) <= maxStorageCapacity;
+//   };
+
+//   const canFulfillOrder = (offer) => {
+//     return offer.products.every(product => 
+//       currentStock[product.type] >= product.quantity
+//     );
+//   };
+
+//   const getProductColor = (type) => {
+//     const productColors = {
+//       'beef': colors.beef,
+//       'pork': colors.pork,
+//       'chicken': colors.chicken,
+//       'sausage': colors.sausage
+//     };
+//     return productColors[type] || colors.mediumGray;
+//   };
+
+//   const getProductIcon = (type) => {
+//     const icons = {
+//       'beef': '🥩',
+//       'pork': '🥓',
+//       'chicken': '🍗',
+//       'sausage': '🌭'
+//     };
+//     return icons[type] || '📦';
+//   };
+
+//   const getQualityColor = (quality) => {
+//     const qualityColors = {
+//       'Premium': colors.success,
+//       'Orgânico': colors.success,
+//       'Artesanal': colors.accent,
+//       'Padrão': colors.secondary,
+//       'Comercial': colors.mediumGray
+//     };
+//     return qualityColors[quality] || colors.mediumGray;
+//   };
+
+//   const handlePurchase = (supplier) => {
+//     if (!canPurchase(supplier)) return;
+
+//     setShopBalance(prev => prev - supplier.price);
+//     setCurrentStock(prev => ({
+//       ...prev,
+//       [supplier.type]: prev[supplier.type] + supplier.quantity
+//     }));
+//   };
+
+//   const calculateOrderTotal = (offer) => {
+//     return offer.products.reduce((sum, product) => sum + product.total, 0);
+//   };
+
+//   const formatCurrency = (value) => {
+//     return new Intl.NumberFormat('pt-BR', {
+//       style: 'currency',
+//       currency: 'BRL',
+//       minimumFractionDigits: 0
+//     }).format(value);
+//   };
+
+//   const TabButton = ({ id, label, active, onClick, icon: Icon, info }) => (
+//     <button
+//       onClick={() => onClick(id)}
+//       className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-semibold ${
+//         active 
+//           ? 'text-white shadow-lg' 
+//           : 'text-gray-700 hover:bg-gray-200'
+//       }`}
+//       style={active ? { backgroundColor: colors.primary } : { backgroundColor: colors.white }}
+//     >
+//       <Icon size={16} />
+//       <span>{label}</span>
+//       {info && (
+//         <div className="flex items-center gap-2 ml-2">
+//           <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">
+//             {info}
+//           </span>
+//         </div>
+//       )}
+//     </button>
+//   );
+
+//   return (
+//     <div 
+//       className="w-full h-full rounded-[20px] p-6"
+//       style={{
+//         background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary}, ${colors.accent})`
+//       }}
+//     >
+//       {/* Header */}
+//       <div className="mb-6">
+//         <div className="flex items-center gap-3 mb-4">
+//           <div className="p-2 rounded-lg" style={{ backgroundColor: colors.white }}>
+//             <ShoppingCart className="w-6 h-6" style={{ color: colors.primary }} />
+//           </div>
+//           <h1 className="text-2xl font-bold text-white">Açougue Bom Corte</h1>
+//         </div>
+//       </div>
+
+//       {/* Status Dashboard */}
+//       <div className="grid grid-cols-4 gap-4 mb-6">
+//         <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
+//           <div className="text-2xl font-bold">{formatCurrency(shopBalance)}</div>
+//           <div className="text-xs opacity-80">Saldo Atual</div>
+//         </div>
+//         <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
+//           <div className="text-2xl font-bold">{currentTotalStock}kg</div>
+//           <div className="text-xs opacity-80">Estoque Total</div>
+//         </div>
+//         <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
+//           <div className="text-2xl font-bold">{maxStorageCapacity - currentTotalStock}kg</div>
+//           <div className="text-xs opacity-80">Espaço Livre</div>
+//         </div>
+//         <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
+//           <div className="text-2xl font-bold flex items-center justify-center gap-1">
+//             <Thermometer className="w-5 h-5" />
+//             -2°C
+//           </div>
+//           <div className="text-xs opacity-80">Câmara Fria</div>
+//         </div>
+//       </div>
+
+//       {/* Navigation Tabs */}
+//       <div className="flex gap-2 mb-6">
+//         <TabButton 
+//           id="compras" 
+//           label="Fornecedores" 
+//           icon={Truck}
+//           active={activeTab === 'compras'} 
+//           onClick={setActiveTab} 
+//         />
+//         <TabButton 
+//           id="vendas" 
+//           label="Pedidos" 
+//           icon={Users}
+//           active={activeTab === 'vendas'} 
+//           onClick={setActiveTab} 
+//         />
+//         <TabButton 
+//           id="estoque" 
+//           label="Estoque" 
+//           icon={Package}
+//           active={activeTab === 'estoque'} 
+//           onClick={setActiveTab}
+//           info={`${currentTotalStock}/${maxStorageCapacity}kg`}
+//         />
+//       </div>
+
+//       {/* Status Messages */}
+//       <div className="mb-4">
+//         {activeTab === 'compras' && (
+//           <div 
+//             className="border rounded-lg p-3 text-center"
+//             style={{
+//               backgroundColor: `${colors.accent}20`,
+//               borderColor: colors.accent
+//             }}
+//           >
+//             <h3 className="font-semibold text-sm mb-1 text-white">
+//               🚚 Fornecedores Disponíveis - Entregas Diárias
+//             </h3>
+//             <p className="text-xs text-white opacity-80">
+//               Carne fresca entregue na madrugada • Preços atualizados diariamente
+//             </p>
+//           </div>
+//         )}
+
+//         {activeTab === 'vendas' && (
+//           <div 
+//             className="border rounded-lg p-3 text-center"
+//             style={{
+//               backgroundColor: `${colors.success}20`,
+//               borderColor: colors.success
+//             }}
+//           >
+//             <h3 className="font-semibold text-sm mb-1 text-white">
+//               👥 Pedidos Ativos - Clientes Esperando
+//             </h3>
+//             <p className="text-xs text-white opacity-80">
+//               {customerOffers.filter(offer => canFulfillOrder(offer)).length} pedidos podem ser atendidos
+//             </p>
+//           </div>
+//         )}
+
+//         {activeTab === 'estoque' && (
+//           <div 
+//             className="border rounded-lg p-3 text-center"
+//             style={{
+//               backgroundColor: `${colors.secondary}20`,
+//               borderColor: colors.secondary
+//             }}
+//           >
+//             <h3 className="font-semibold text-sm mb-1 text-white">
+//               📦 Câmara Fria Operando
+//             </h3>
+//             <p className="text-xs text-white opacity-80">
+//               Temperatura controlada • Produtos conservados adequadamente
+//             </p>
+//           </div>
+//         )}
+//       </div>
+
+//       {/* Content based on active tab */}
+//       {activeTab === 'compras' && (
+//         <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
+//           {suppliers.map((supplier) => {
+//             const canPurchaseThis = canPurchase(supplier);
+//             const capacityIssue = (currentTotalStock + supplier.quantity) > maxStorageCapacity;
+//             const balanceIssue = shopBalance < supplier.price;
+
+//             return (
+//               <div
+//                 key={supplier.id}
+//                 className={`rounded-lg shadow-md p-4 transition-all duration-300 ${
+//                   canPurchaseThis
+//                     ? 'hover:shadow-lg hover:transform hover:scale-102'
+//                     : 'opacity-60'
+//                 }`}
+//                 style={{ backgroundColor: colors.white }}
+//               >
+//                 <div className="flex gap-4 mb-4">
+//                   <div className="flex-1">
+//                     <div className="flex items-center gap-2 mb-3">
+//                       <span className="text-2xl">{supplier.icon}</span>
+//                       <div className="flex-1">
+//                         <h3 className="text-sm font-bold" style={{ color: colors.primary }}>
+//                           {supplier.name}
+//                         </h3>
+//                         <div className="flex gap-2 mt-1">
+//                           <div 
+//                             className="text-xs px-2 py-1 rounded text-white"
+//                             style={{ backgroundColor: getProductColor(supplier.type) }}
+//                           >
+//                             {supplier.quantity}kg
+//                           </div>
+//                           <div 
+//                             className="text-xs px-2 py-1 rounded text-white"
+//                             style={{ backgroundColor: getQualityColor(supplier.quality) }}
+//                           >
+//                             {supplier.quality}
+//                           </div>
+//                         </div>
+//                       </div>
+//                     </div>
+
+//                     <div className="space-y-2">
+//                       <div className="flex items-center justify-between">
+//                         <div className="flex items-center gap-1">
+//                           <DollarSign className="w-3 h-3" style={{ color: colors.primary }} />
+//                           <span className="text-xs" style={{ color: colors.mediumGray }}>Total:</span>
+//                         </div>
+//                         <span className="text-xs font-bold" style={{ color: colors.primary }}>
+//                           {formatCurrency(supplier.price)}
+//                         </span>
+//                       </div>
+
+//                       <div className="flex items-center justify-between">
+//                         <div className="flex items-center gap-1">
+//                           <Package className="w-3 h-3" style={{ color: colors.success }} />
+//                           <span className="text-xs" style={{ color: colors.mediumGray }}>Por kg:</span>
+//                         </div>
+//                         <span className="text-xs font-bold" style={{ color: colors.success }}>
+//                           {formatCurrency(supplier.pricePerKg)}
+//                         </span>
+//                       </div>
+
+//                       <div className="flex items-center justify-between">
+//                         <div className="flex items-center gap-1">
+//                           <Clock className="w-3 h-3" style={{ color: colors.accent }} />
+//                           <span className="text-xs" style={{ color: colors.mediumGray }}>Validade:</span>
+//                         </div>
+//                         <span className="text-xs font-semibold" style={{ color: colors.accent }}>
+//                           {supplier.freshness} dias
+//                         </span>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+
+//                 <div className="text-xs mb-3 p-2 bg-gray-50 rounded" style={{ color: colors.mediumGray }}>
+//                   {supplier.description}
+//                 </div>
+
+//                 {!canPurchaseThis && (
+//                   <div className="text-xs mb-3 p-2 bg-red-50 rounded border border-red-200">
+//                     {capacityIssue && (
+//                       <div className="text-red-600 mb-1">
+//                         ⚠️ Capacidade insuficiente ({currentTotalStock + supplier.quantity}/{maxStorageCapacity}kg)
+//                       </div>
+//                     )}
+//                     {balanceIssue && (
+//                       <div className="text-red-600">
+//                         💰 Saldo insuficiente
+//                       </div>
+//                     )}
+//                   </div>
+//                 )}
+
+//                 <button
+//                   className="w-full px-4 py-3 rounded text-sm font-bold transition-all duration-300"
+//                   style={{
+//                     backgroundColor: canPurchaseThis ? colors.primary : colors.mediumGray,
+//                     color: colors.white,
+//                     cursor: canPurchaseThis ? 'pointer' : 'not-allowed',
+//                     boxShadow: canPurchaseThis ? `0 4px 8px ${colors.primary}40` : 'none'
+//                   }}
+//                   onClick={() => handlePurchase(supplier)}
+//                   disabled={!canPurchaseThis}
+//                   onMouseEnter={(e) => {
+//                     if (canPurchaseThis) {
+//                       e.target.style.backgroundColor = colors.secondary;
+//                       e.target.style.transform = 'scale(1.02)';
+//                     }
+//                   }}
+//                   onMouseLeave={(e) => {
+//                     if (canPurchaseThis) {
+//                       e.target.style.backgroundColor = colors.primary;
+//                       e.target.style.transform = 'scale(1)';
+//                     }
+//                   }}
+//                 >
+//                   {canPurchaseThis 
+//                     ? 'Comprar'
+//                     : capacityIssue 
+//                     ? 'Sem Espaço'
+//                     : 'Sem Saldo'
+//                   }
+//                 </button>
+//               </div>
+//             );
+//           })}
+//         </div>
+//       )}
+
+//       {/* Vendas Tab */}
+//       {activeTab === 'vendas' && (
+//         <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
+//           {customerOffers.map((offer) => {
+//             const canFulfill = canFulfillOrder(offer);
+//             const orderTotal = calculateOrderTotal(offer);
+
+//             return (
+//               <div
+//                 key={offer.id}
+//                 className={`rounded-lg shadow-md p-4 transition-all duration-300 ${
+//                   canFulfill
+//                     ? 'hover:shadow-lg hover:transform hover:scale-102'
+//                     : 'opacity-60'
+//                 }`}
+//                 style={{ backgroundColor: colors.white }}
+//               >
+//                 <div className="mb-4">
+//                   <div className="flex items-center justify-between mb-2">
+//                     <h3 className="text-sm font-bold" style={{ color: colors.primary }}>
+//                       {offer.customer}
+//                     </h3>
+//                     <div className="flex gap-2">
+//                       <div 
+//                         className="text-xs px-2 py-1 rounded text-white"
+//                         style={{ backgroundColor: colors.secondary }}
+//                       >
+//                         {offer.repeat}
+//                       </div>
+//                     </div>
+//                   </div>
+
+//                   <div className="text-xs mb-3" style={{ color: colors.mediumGray }}>
+//                     {offer.description}
+//                   </div>
+
+//                   <div className="space-y-2 mb-3">
+//                     {offer.products.map((product, index) => (
+//                       <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+//                         <div className="flex items-center gap-2">
+//                           <span className="text-sm">{getProductIcon(product.type)}</span>
+//                           <span className="text-xs">{product.quantity}kg</span>
+//                           <span className="text-xs" style={{ color: colors.mediumGray }}>
+//                             @ {formatCurrency(product.pricePerKg)}/kg
+//                           </span>
+//                         </div>
+//                         <div className="flex items-center gap-2">
+//                           <span className="text-xs font-bold">
+//                             {formatCurrency(product.total)}
+//                           </span>
+//                           {currentStock[product.type] >= product.quantity ? (
+//                             <span className="text-xs text-green-600">✓</span>
+//                           ) : (
+//                             <span className="text-xs text-red-600">✗</span>
+//                           )}
+//                         </div>
+//                       </div>
+//                     ))}
+//                   </div>
+
+//                   <div className="border-t pt-2 mb-3">
+//                     <div className="flex justify-between items-center">
+//                       <span className="text-sm font-semibold">Total do Pedido:</span>
+//                       <span className="text-sm font-bold" style={{ color: colors.success }}>
+//                         {formatCurrency(orderTotal)}
+//                       </span>
+//                     </div>
+//                     <div className="flex justify-between items-center text-xs" style={{ color: colors.mediumGray }}>
+//                       <span>Prazo:</span>
+//                       <span>{offer.deadline}</span>
+//                     </div>
+//                   </div>
+
+//                   {!canFulfill && (
+//                     <div className="text-xs mb-3 p-2 bg-yellow-50 rounded border border-yellow-200">
+//                       <div className="text-yellow-600 mb-1">
+//                         ⚠️ Estoque insuficiente:
+//                       </div>
+//                       {offer.products.map((product, index) => {
+//                         if (currentStock[product.type] < product.quantity) {
+//                           const needed = product.quantity - currentStock[product.type];
+//                           return (
+//                             <div key={index} className="text-yellow-600 text-xs">
+//                               • Faltam {needed}kg de {getProductIcon(product.type)}
+//                             </div>
+//                           );
+//                         }
+//                         return null;
+//                       })}
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 <button
+//                   className="w-full px-4 py-3 rounded text-sm font-bold transition-all duration-300"
+//                   style={{
+//                     backgroundColor: canFulfill ? colors.success : colors.mediumGray,
+//                     color: colors.white,
+//                     cursor: canFulfill ? 'pointer' : 'not-allowed',
+//                     boxShadow: canFulfill ? `0 4px 8px ${colors.success}40` : 'none'
+//                   }}
+//                   disabled={!canFulfill}
+//                 >
+//                   {canFulfill 
+//                     ? 'Atender Pedido'
+//                     : 'Estoque Insuficiente'
+//                   }
+//                 </button>
+//               </div>
+//             );
+//           })}
+//         </div>
+//       )}
+
+//       {/* Estoque Tab */}
+//       {activeTab === 'estoque' && (
+//         <div className="space-y-6">
+//           {/* Produtos em estoque */}
+//           <div className="grid grid-cols-2 gap-6">
+//             {Object.entries(currentStock).map(([type, quantity]) => (
+//               <div key={type} className="text-center text-white">
+//                 <div className="mb-4">
+//                   <div 
+//                     className="w-20 h-20 mx-auto rounded-lg flex items-center justify-center"
+//                     style={{ backgroundColor: colors.primary }}
+//                   >
+//                     <span className="text-3xl">{getProductIcon(type)}</span>
+//                   </div>
+//                 </div>
+//                 <div className="text-2xl font-bold mb-2">{quantity}kg</div>
+//                 <div className="text-sm opacity-80 mb-4 capitalize">
+//                   {type === 'beef' ? 'Carne Bovina' :
+//                    type === 'pork' ? 'Carne Suína' :
+//                    type === 'chicken' ? 'Frango' :
+//                    'Embutidos'}
+//                 </div>
+
+//                 <div className="w-full bg-white bg-opacity-20 rounded-full h-3 mb-2">
+//                   <div 
+//                     className="h-3 rounded-full transition-all duration-300"
+//                     style={{ 
+//                       width: `${(quantity / 50) * 100}%`,
+//                       backgroundColor: getProductColor(type)
+//                     }}
+//                   />
+//                 </div>
+//                 <div className="text-xs opacity-80">Estoque atual</div>
+//               </div>
+//             ))}
+//           </div>
+
+//           {/* Capacidade da câmara fria */}
+//           <div 
+//             className="max-w-2xl mx-auto p-4 rounded-lg"
+//             style={{ backgroundColor: colors.white, opacity: 0.95 }}
+//           >
+//             <div className="text-center">
+//               <h4 className="font-bold text-gray-800 mb-2 flex items-center justify-center gap-2">
+//                 <Thermometer className="w-5 h-5" />
+//                 Câmara Fria (-2°C)
+//               </h4>
+//               <div className="text-3xl font-bold mb-2" style={{ color: colors.primary }}>
+//                 {currentTotalStock} / {maxStorageCapacity} kg
+//               </div>
+//               <div className="w-full bg-gray-200 rounded-full h-4">
+//                 <div 
+//                   className="h-4 rounded-full transition-all duration-300"
+//                   style={{ 
+//                     width: `${(currentTotalStock / maxStorageCapacity) * 100}%`,
+//                     backgroundColor: currentTotalStock >= maxStorageCapacity * 0.9 ? '#DC3545' : colors.success
+//                   }}
+//                 />
+//               </div>
+//               <div className="text-xs text-gray-600 mt-2">
+//                 Espaço livre: {maxStorageCapacity - currentTotalStock}kg
+//               </div>
+//               {currentTotalStock >= maxStorageCapacity * 0.9 && (
+//                 <div className="text-xs text-red-600 mt-2 flex items-center justify-center gap-1">
+//                   <AlertTriangle className="w-3 h-3" />
+//                   Capacidade quase esgotada!
+//                 </div>
+//               )}
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default GrainFarmInterface;
+
+
+import React, { useState, useContext, createContext } from 'react';
+import { Clock, DollarSign, TrendingUp, Package, Warehouse, Users, Building2 } from 'lucide-react';
+import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+
+// ==================== CONFIGURAÇÃO DE SETORES ====================
+const SETORES_CONFIG = {
+  agricultura: {
+    id: "agricultura",
+    nome: "Agricultura",
+    cores: { primary: '#003816', secondary: '#1A5E2A', accent: '#0C9123', light: '#4CAF50' },
+    icon: '🌾'
+  },
+  comercio: {
+    id: "comercio",
+    nome: "Comércio",
+    cores: { primary: '#660000', secondary: '#A31919', accent: '#E60000', light: '#FF4D4D' },
+    icon: '🏪'
+  },
+  tecnologia: {
+    id: "tecnologia",
+    nome: "Tecnologia",
+    cores: { primary: '#A64B00', secondary: '#D45A00', accent: '#FF6F00', light: '#FF8C42' },
+    icon: '💻'
+  },
+  industria: {
+    id: "industria",
+    nome: "Indústria",
+    cores: { primary: '#1A1A1A', secondary: '#4D4D4D', accent: '#808080', light: '#B3B3B3' },
+    icon: '🏭'
+  },
+  imobiliario: {
+    id: "imobiliario",
+    nome: "Imobiliário",
+    cores: { primary: '#000066', secondary: '#1A1A8C', accent: '#3333CC', light: '#6666FF' },
+    icon: '🏢'
+  },
+  energia: {
+    id: "energia",
+    nome: "Energia",
+    cores: { primary: '#665200', secondary: '#A37F19', accent: '#E6B800', light: '#FFD966' },
+    icon: '⚡'
+  }
+};
+
+class CicloDeOfertas {
+  constructor({ baseData, quantidadeSorteio, duracaoDias }) {
+    this.baseData = baseData;
+    this.quantidadeSorteio = quantidadeSorteio;
+    this.duracaoDias = duracaoDias;
+    this.estado = this._novoCiclo(1);
+  }
+
+  _novoCiclo(diaAtual) {
+    const itens = this._sortearItens();
+    return {
+      itensAtuais: itens,
+      inicioCiclo: diaAtual,
+      fimCiclo: diaAtual + this.duracaoDias,
+      usados: []
+    };
+  }
+
+  _sortearItens() {
+    const copia = [...this.baseData];
+    const sorteados = [];
+    for (let i = 0; i < this.quantidadeSorteio && copia.length > 0; i++) {
+      const idx = Math.floor(Math.random() * copia.length);
+      sorteados.push(copia.splice(idx, 1)[0]);
     }
-  ];
+    return sorteados;
+  }
 
-  // Ofertas de venda para clientes
-  const customerOffers = [
-    {
-      id: 1,
-      customer: 'Restaurante Italiano',
-      products: [
-        { type: 'beef', quantity: 15, pricePerKg: 35, total: 525 }
-      ],
-      deadline: 'Até 3 dias',
-      repeat: 'Semanal',
-      description: 'Cliente fixo - restaurante tradicional'
-    },
-    {
-      id: 2,
-      customer: 'Churrascaria Pampa',
-      products: [
-        { type: 'beef', quantity: 25, pricePerKg: 32, total: 800 },
-        { type: 'sausage', quantity: 10, pricePerKg: 28, total: 280 }
-      ],
-      deadline: 'Até 5 dias',
-      repeat: 'Quinzenal',
-      description: 'Grande cliente corporativo'
-    },
-    {
-      id: 3,
-      customer: 'Mercado do Bairro',
-      products: [
-        { type: 'chicken', quantity: 20, pricePerKg: 14, total: 280 },
-        { type: 'pork', quantity: 10, pricePerKg: 28, total: 280 }
-      ],
-      deadline: 'Até 2 dias',
-      repeat: 'Diário',
-      description: 'Fornecimento para varejo local'
-    },
-    {
-      id: 4,
-      customer: 'Festa de Casamento',
-      products: [
-        { type: 'beef', quantity: 40, pricePerKg: 38, total: 1520 },
-        { type: 'chicken', quantity: 30, pricePerKg: 16, total: 480 },
-        { type: 'sausage', quantity: 15, pricePerKg: 30, total: 450 }
-      ],
-      deadline: 'Até 10 dias',
-      repeat: 'Único',
-      description: 'Evento especial - margem alta'
+  atualizarDia(diaAtual) {
+    if (diaAtual >= this.estado.fimCiclo) {
+      this.estado = this._novoCiclo(diaAtual);
     }
-  ];
+  }
 
-  const canPurchase = (supplier) => {
-    return shopBalance >= supplier.price && 
-           (currentTotalStock + supplier.quantity) <= maxStorageCapacity;
-  };
+  usarItem(id) {
+    this.estado.usados.push(id);
+    this.estado.itensAtuais = this.estado.itensAtuais.filter(item => item.id !== id);
+  }
 
-  const canFulfillOrder = (offer) => {
-    return offer.products.every(product => 
-      currentStock[product.type] >= product.quantity
-    );
-  };
+  getItensDisponiveis() {
+    return this.estado.itensAtuais;
+  }
 
-  const getProductColor = (type) => {
-    const productColors = {
-      'beef': colors.beef,
-      'pork': colors.pork,
-      'chicken': colors.chicken,
-      'sausage': colors.sausage
-    };
-    return productColors[type] || colors.mediumGray;
-  };
+  getFimCiclo() {
+    return this.estado.fimCiclo;
+  }
+}
+// ==================== MODELO BASE DE NEGÓCIO ====================
+class BusinessModel {
+  constructor(config) {
+    this.id = config.id;
+    this.nome = config.nome;
+    this.setor = config.setor;
+    this.cores = SETORES_CONFIG[config.setor].cores;
+    this.saldo = config.saldoInicial || 0;
+    this.estoque = config.estoqueInicial || {};
+    this.capacidadeEstoque = config.capacidadeEstoque || 1000;
+    this.diaAtual = config.diaAtual || 1;
+  }
 
-  const getProductIcon = (type) => {
-    const icons = {
-      'beef': '🥩',
-      'pork': '🥓',
-      'chicken': '🍗',
-      'sausage': '🌭'
-    };
-    return icons[type] || '📦';
-  };
 
-  const getQualityColor = (quality) => {
-    const qualityColors = {
-      'Premium': colors.success,
-      'Orgânico': colors.success,
-      'Artesanal': colors.accent,
-      'Padrão': colors.secondary,
-      'Comercial': colors.mediumGray
-    };
-    return qualityColors[quality] || colors.mediumGray;
-  };
+  getSaldoTotal() {
+    return this.saldo;
+  }
 
-  const handlePurchase = (supplier) => {
-    if (!canPurchase(supplier)) return;
-    
-    setShopBalance(prev => prev - supplier.price);
-    setCurrentStock(prev => ({
-      ...prev,
-      [supplier.type]: prev[supplier.type] + supplier.quantity
-    }));
-  };
+  getEstoqueTotal() {
+    return Object.values(this.estoque).reduce((sum, qty) => sum + qty, 0);
+  }
 
-  const calculateOrderTotal = (offer) => {
-    return offer.products.reduce((sum, product) => sum + product.total, 0);
-  };
+  getEspacoLivre() {
+    return this.capacidadeEstoque - this.getEstoqueTotal();
+  }
 
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-      minimumFractionDigits: 0
-    }).format(value);
-  };
+  podeComprar(custo, quantidade = 0) {
+    return this.saldo >= custo && (this.getEstoqueTotal() + quantidade) <= this.capacidadeEstoque;
+  }
 
-  const TabButton = ({ id, label, active, onClick, icon: Icon, info }) => (
+  adicionarEstoque(produto, quantidade) {
+    if (!this.estoque[produto]) this.estoque[produto] = 0;
+    this.estoque[produto] += quantidade;
+  }
+
+  removerEstoque(produto, quantidade) {
+    if (this.estoque[produto] >= quantidade) {
+      this.estoque[produto] -= quantidade;
+      return true;
+    }
+    return false;
+  }
+
+  adicionarSaldo(valor) {
+    this.saldo += valor;
+  }
+
+  removerSaldo(valor) {
+    if (this.saldo >= valor) {
+      this.saldo -= valor;
+      return true;
+    }
+    return false;
+  }
+}
+
+// ==================== HOOK CUSTOMIZADO ====================
+import { useEffect, useCallback } from "react";
+
+const useNegocio = (config) => {
+  const [negocio] = useState(() => new BusinessModel(config));
+  const [saldo, setSaldo] = useState(negocio.saldo);
+  const [estoque, setEstoque] = useState({ ...negocio.estoque });
+
+  const sync = useCallback(() => {
+    setSaldo(negocio.saldo);
+    setEstoque({ ...negocio.estoque });
+  }, [negocio]);
+
+  const adicionarSaldo = useCallback((valor) => {
+    negocio.adicionarSaldo(valor);
+    sync();
+  }, [negocio, sync]);
+
+  const removerSaldo = useCallback((valor) => {
+    const ok = negocio.removerSaldo(valor);
+    sync();
+    return ok;
+  }, [negocio, sync]);
+
+  const adicionarEstoque = useCallback((item, qtd) => {
+    negocio.adicionarEstoque(item, qtd);
+    sync();
+  }, [negocio, sync]);
+
+  const removerEstoque = useCallback((item, qtd) => {
+    const ok = negocio.removerEstoque(item, qtd);
+    sync();
+    return ok;
+  }, [negocio, sync]);
+
+  const setDiaAtual = useCallback((dia) => {
+    negocio.diaAtual = dia;
+  }, [negocio]);
+
+  useEffect(() => {
+    sync();
+  }, [sync]);
+
+  return { negocio, saldo, estoque, adicionarSaldo, removerSaldo, adicionarEstoque, removerEstoque, setDiaAtual, sync };
+};
+
+// ==================== COMPONENTE BASE ====================
+const BaseBusinessInterface = ({ negocio, tabs, renderTabContent, headerExtra,footerExtra }) => {
+  const [activeTab, setActiveTab] = useState(tabs[0].id);
+  const cores = negocio.cores;
+  const { dados } = useContext(CentraldeDadosContext);
+  const { economiaSetores } = useContext(DadosEconomyGlobalContext);
+
+  const TabButton = ({ id, label, icon: Icon, info }) => (
     <button
-      onClick={() => onClick(id)}
-      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-semibold ${
-        active 
-          ? 'text-white shadow-lg' 
-          : 'text-gray-700 hover:bg-gray-200'
-      }`}
-      style={active ? { backgroundColor: colors.primary } : { backgroundColor: colors.white }}
+      onClick={() => setActiveTab(id)}
+      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-semibold ${activeTab === id
+        ? 'text-white shadow-lg'
+        : 'text-gray-700 hover:bg-gray-200'}`}
+      style={activeTab === id ? { backgroundColor: cores.accent } : { backgroundColor: '#FFFFFF' }}
     >
       <Icon size={16} />
       <span>{label}</span>
-      {info && (
-        <div className="flex items-center gap-2 ml-2">
-          <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">
-            {info}
-          </span>
-        </div>
-      )}
+      {info && <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">{info}</span>}
     </button>
   );
 
+  const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', {
+    style: 'currency', currency: 'BRL', minimumFractionDigits: 0
+  }).format(value);
+
   return (
-    <div 
-      className="w-full h-full rounded-[20px] p-6"
-      style={{
-        background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary}, ${colors.accent})`
-      }}
+    <div
+      className="w-full h-[70vh] rounded-[20px] p-6 overflow-auto"
+      style={{ background: `linear-gradient(135deg, ${cores.primary}, ${cores.secondary}, ${cores.accent})` }}
     >
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded-lg" style={{ backgroundColor: colors.white }}>
-            <ShoppingCart className="w-6 h-6" style={{ color: colors.primary }} />
+          <div className="p-2 rounded-lg bg-white">
+            <Building2 className="w-6 h-6" style={{ color: cores.accent }} />
           </div>
-          <h1 className="text-2xl font-bold text-white">Açougue Bom Corte</h1>
+          <h1 className="text-2xl font-bold text-white">{negocio.nome}</h1>
         </div>
+
+        {/* Dashboard */}
+        {/* <div className="grid grid-cols-4 gap-4">
+          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
+            <div className="text-2xl font-bold">{formatCurrency(economiaSetores.saldo)}</div>
+            <div className="text-xs opacity-80">Saldo Atual</div>
+          </div>
+          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
+            <div className="text-2xl font-bold">{negocio.getEstoqueTotal()}</div>
+            <div className="text-xs opacity-80">Estoque Total</div>
+          </div>
+          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
+            <div className="text-2xl font-bold">{negocio.getEspacoLivre()}</div>
+            <div className="text-xs opacity-80">Espaço Livre</div>
+          </div>
+          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
+            <div className="text-2xl font-bold">Dia {dados.dia}</div>
+            <div className="text-xs opacity-80">Dia Atual</div>
+          </div>
+        </div> */}
+
+        {headerExtra && <div className="mt-4">{headerExtra}</div>}
       </div>
 
-      {/* Status Dashboard */}
-      <div className="grid grid-cols-4 gap-4 mb-6">
-        <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
-          <div className="text-2xl font-bold">{formatCurrency(shopBalance)}</div>
-          <div className="text-xs opacity-80">Saldo Atual</div>
-        </div>
-        <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
-          <div className="text-2xl font-bold">{currentTotalStock}kg</div>
-          <div className="text-xs opacity-80">Estoque Total</div>
-        </div>
-        <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
-          <div className="text-2xl font-bold">{maxStorageCapacity - currentTotalStock}kg</div>
-          <div className="text-xs opacity-80">Espaço Livre</div>
-        </div>
-        <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
-          <div className="text-2xl font-bold flex items-center justify-center gap-1">
-            <Thermometer className="w-5 h-5" />
-            -2°C
-          </div>
-          <div className="text-xs opacity-80">Câmara Fria</div>
-        </div>
+      {/* Tabs */}
+      <div className="flex gap-2 mb-6 flex-wrap">
+        {tabs.map(tab => <TabButton key={tab.id} {...tab} />)}
       </div>
 
-      {/* Navigation Tabs */}
-      <div className="flex gap-2 mb-6">
-        <TabButton 
-          id="compras" 
-          label="Fornecedores" 
-          icon={Truck}
-          active={activeTab === 'compras'} 
-          onClick={setActiveTab} 
-        />
-        <TabButton 
-          id="vendas" 
-          label="Pedidos" 
-          icon={Users}
-          active={activeTab === 'vendas'} 
-          onClick={setActiveTab} 
-        />
-        <TabButton 
-          id="estoque" 
-          label="Estoque" 
-          icon={Package}
-          active={activeTab === 'estoque'} 
-          onClick={setActiveTab}
-          info={`${currentTotalStock}/${maxStorageCapacity}kg`}
-        />
-      </div>
-
-      {/* Status Messages */}
-      <div className="mb-4">
-        {activeTab === 'compras' && (
-          <div 
-            className="border rounded-lg p-3 text-center"
-            style={{
-              backgroundColor: `${colors.accent}20`,
-              borderColor: colors.accent
-            }}
-          >
-            <h3 className="font-semibold text-sm mb-1 text-white">
-              🚚 Fornecedores Disponíveis - Entregas Diárias
-            </h3>
-            <p className="text-xs text-white opacity-80">
-              Carne fresca entregue na madrugada • Preços atualizados diariamente
-            </p>
-          </div>
-        )}
-
-        {activeTab === 'vendas' && (
-          <div 
-            className="border rounded-lg p-3 text-center"
-            style={{
-              backgroundColor: `${colors.success}20`,
-              borderColor: colors.success
-            }}
-          >
-            <h3 className="font-semibold text-sm mb-1 text-white">
-              👥 Pedidos Ativos - Clientes Esperando
-            </h3>
-            <p className="text-xs text-white opacity-80">
-              {customerOffers.filter(offer => canFulfillOrder(offer)).length} pedidos podem ser atendidos
-            </p>
-          </div>
-        )}
-
-        {activeTab === 'estoque' && (
-          <div 
-            className="border rounded-lg p-3 text-center"
-            style={{
-              backgroundColor: `${colors.secondary}20`,
-              borderColor: colors.secondary
-            }}
-          >
-            <h3 className="font-semibold text-sm mb-1 text-white">
-              📦 Câmara Fria Operando
-            </h3>
-            <p className="text-xs text-white opacity-80">
-              Temperatura controlada • Produtos conservados adequadamente
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* Content based on active tab */}
-      {activeTab === 'compras' && (
-        <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
-          {suppliers.map((supplier) => {
-            const canPurchaseThis = canPurchase(supplier);
-            const capacityIssue = (currentTotalStock + supplier.quantity) > maxStorageCapacity;
-            const balanceIssue = shopBalance < supplier.price;
-            
-            return (
-              <div
-                key={supplier.id}
-                className={`rounded-lg shadow-md p-4 transition-all duration-300 ${
-                  canPurchaseThis
-                    ? 'hover:shadow-lg hover:transform hover:scale-102'
-                    : 'opacity-60'
-                }`}
-                style={{ backgroundColor: colors.white }}
-              >
-                <div className="flex gap-4 mb-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="text-2xl">{supplier.icon}</span>
-                      <div className="flex-1">
-                        <h3 className="text-sm font-bold" style={{ color: colors.primary }}>
-                          {supplier.name}
-                        </h3>
-                        <div className="flex gap-2 mt-1">
-                          <div 
-                            className="text-xs px-2 py-1 rounded text-white"
-                            style={{ backgroundColor: getProductColor(supplier.type) }}
-                          >
-                            {supplier.quantity}kg
-                          </div>
-                          <div 
-                            className="text-xs px-2 py-1 rounded text-white"
-                            style={{ backgroundColor: getQualityColor(supplier.quality) }}
-                          >
-                            {supplier.quality}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1">
-                          <DollarSign className="w-3 h-3" style={{ color: colors.primary }} />
-                          <span className="text-xs" style={{ color: colors.mediumGray }}>Total:</span>
-                        </div>
-                        <span className="text-xs font-bold" style={{ color: colors.primary }}>
-                          {formatCurrency(supplier.price)}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1">
-                          <Package className="w-3 h-3" style={{ color: colors.success }} />
-                          <span className="text-xs" style={{ color: colors.mediumGray }}>Por kg:</span>
-                        </div>
-                        <span className="text-xs font-bold" style={{ color: colors.success }}>
-                          {formatCurrency(supplier.pricePerKg)}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" style={{ color: colors.accent }} />
-                          <span className="text-xs" style={{ color: colors.mediumGray }}>Validade:</span>
-                        </div>
-                        <span className="text-xs font-semibold" style={{ color: colors.accent }}>
-                          {supplier.freshness} dias
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="text-xs mb-3 p-2 bg-gray-50 rounded" style={{ color: colors.mediumGray }}>
-                  {supplier.description}
-                </div>
-
-                {!canPurchaseThis && (
-                  <div className="text-xs mb-3 p-2 bg-red-50 rounded border border-red-200">
-                    {capacityIssue && (
-                      <div className="text-red-600 mb-1">
-                        ⚠️ Capacidade insuficiente ({currentTotalStock + supplier.quantity}/{maxStorageCapacity}kg)
-                      </div>
-                    )}
-                    {balanceIssue && (
-                      <div className="text-red-600">
-                        💰 Saldo insuficiente
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                <button
-                  className="w-full px-4 py-3 rounded text-sm font-bold transition-all duration-300"
-                  style={{
-                    backgroundColor: canPurchaseThis ? colors.primary : colors.mediumGray,
-                    color: colors.white,
-                    cursor: canPurchaseThis ? 'pointer' : 'not-allowed',
-                    boxShadow: canPurchaseThis ? `0 4px 8px ${colors.primary}40` : 'none'
-                  }}
-                  onClick={() => handlePurchase(supplier)}
-                  disabled={!canPurchaseThis}
-                  onMouseEnter={(e) => {
-                    if (canPurchaseThis) {
-                      e.target.style.backgroundColor = colors.secondary;
-                      e.target.style.transform = 'scale(1.02)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (canPurchaseThis) {
-                      e.target.style.backgroundColor = colors.primary;
-                      e.target.style.transform = 'scale(1)';
-                    }
-                  }}
-                >
-                  {canPurchaseThis 
-                    ? 'Comprar'
-                    : capacityIssue 
-                    ? 'Sem Espaço'
-                    : 'Sem Saldo'
-                  }
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Vendas Tab */}
-      {activeTab === 'vendas' && (
-        <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
-          {customerOffers.map((offer) => {
-            const canFulfill = canFulfillOrder(offer);
-            const orderTotal = calculateOrderTotal(offer);
-            
-            return (
-              <div
-                key={offer.id}
-                className={`rounded-lg shadow-md p-4 transition-all duration-300 ${
-                  canFulfill
-                    ? 'hover:shadow-lg hover:transform hover:scale-102'
-                    : 'opacity-60'
-                }`}
-                style={{ backgroundColor: colors.white }}
-              >
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-sm font-bold" style={{ color: colors.primary }}>
-                      {offer.customer}
-                    </h3>
-                    <div className="flex gap-2">
-                      <div 
-                        className="text-xs px-2 py-1 rounded text-white"
-                        style={{ backgroundColor: colors.secondary }}
-                      >
-                        {offer.repeat}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="text-xs mb-3" style={{ color: colors.mediumGray }}>
-                    {offer.description}
-                  </div>
-
-                  <div className="space-y-2 mb-3">
-                    {offer.products.map((product, index) => (
-                      <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm">{getProductIcon(product.type)}</span>
-                          <span className="text-xs">{product.quantity}kg</span>
-                          <span className="text-xs" style={{ color: colors.mediumGray }}>
-                            @ {formatCurrency(product.pricePerKg)}/kg
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold">
-                            {formatCurrency(product.total)}
-                          </span>
-                          {currentStock[product.type] >= product.quantity ? (
-                            <span className="text-xs text-green-600">✓</span>
-                          ) : (
-                            <span className="text-xs text-red-600">✗</span>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="border-t pt-2 mb-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm font-semibold">Total do Pedido:</span>
-                      <span className="text-sm font-bold" style={{ color: colors.success }}>
-                        {formatCurrency(orderTotal)}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center text-xs" style={{ color: colors.mediumGray }}>
-                      <span>Prazo:</span>
-                      <span>{offer.deadline}</span>
-                    </div>
-                  </div>
-
-                  {!canFulfill && (
-                    <div className="text-xs mb-3 p-2 bg-yellow-50 rounded border border-yellow-200">
-                      <div className="text-yellow-600 mb-1">
-                        ⚠️ Estoque insuficiente:
-                      </div>
-                      {offer.products.map((product, index) => {
-                        if (currentStock[product.type] < product.quantity) {
-                          const needed = product.quantity - currentStock[product.type];
-                          return (
-                            <div key={index} className="text-yellow-600 text-xs">
-                              • Faltam {needed}kg de {getProductIcon(product.type)}
-                            </div>
-                          );
-                        }
-                        return null;
-                      })}
-                    </div>
-                  )}
-                </div>
-
-                <button
-                  className="w-full px-4 py-3 rounded text-sm font-bold transition-all duration-300"
-                  style={{
-                    backgroundColor: canFulfill ? colors.success : colors.mediumGray,
-                    color: colors.white,
-                    cursor: canFulfill ? 'pointer' : 'not-allowed',
-                    boxShadow: canFulfill ? `0 4px 8px ${colors.success}40` : 'none'
-                  }}
-                  disabled={!canFulfill}
-                >
-                  {canFulfill 
-                    ? 'Atender Pedido'
-                    : 'Estoque Insuficiente'
-                  }
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Estoque Tab */}
-      {activeTab === 'estoque' && (
-        <div className="space-y-6">
-          {/* Produtos em estoque */}
-          <div className="grid grid-cols-2 gap-6">
-            {Object.entries(currentStock).map(([type, quantity]) => (
-              <div key={type} className="text-center text-white">
-                <div className="mb-4">
-                  <div 
-                    className="w-20 h-20 mx-auto rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: colors.primary }}
-                  >
-                    <span className="text-3xl">{getProductIcon(type)}</span>
-                  </div>
-                </div>
-                <div className="text-2xl font-bold mb-2">{quantity}kg</div>
-                <div className="text-sm opacity-80 mb-4 capitalize">
-                  {type === 'beef' ? 'Carne Bovina' :
-                   type === 'pork' ? 'Carne Suína' :
-                   type === 'chicken' ? 'Frango' :
-                   'Embutidos'}
-                </div>
-                
-                <div className="w-full bg-white bg-opacity-20 rounded-full h-3 mb-2">
-                  <div 
-                    className="h-3 rounded-full transition-all duration-300"
-                    style={{ 
-                      width: `${(quantity / 50) * 100}%`,
-                      backgroundColor: getProductColor(type)
-                    }}
-                  />
-                </div>
-                <div className="text-xs opacity-80">Estoque atual</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Capacidade da câmara fria */}
-          <div 
-            className="max-w-2xl mx-auto p-4 rounded-lg"
-            style={{ backgroundColor: colors.white, opacity: 0.95 }}
-          >
-            <div className="text-center">
-              <h4 className="font-bold text-gray-800 mb-2 flex items-center justify-center gap-2">
-                <Thermometer className="w-5 h-5" />
-                Câmara Fria (-2°C)
-              </h4>
-              <div className="text-3xl font-bold mb-2" style={{ color: colors.primary }}>
-                {currentTotalStock} / {maxStorageCapacity} kg
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-4">
-                <div 
-                  className="h-4 rounded-full transition-all duration-300"
-                  style={{ 
-                    width: `${(currentTotalStock / maxStorageCapacity) * 100}%`,
-                    backgroundColor: currentTotalStock >= maxStorageCapacity * 0.9 ? '#DC3545' : colors.success
-                  }}
-                />
-              </div>
-              <div className="text-xs text-gray-600 mt-2">
-                Espaço livre: {maxStorageCapacity - currentTotalStock}kg
-              </div>
-              {currentTotalStock >= maxStorageCapacity * 0.9 && (
-                <div className="text-xs text-red-600 mt-2 flex items-center justify-center gap-1">
-                  <AlertTriangle className="w-3 h-3" />
-                  Capacidade quase esgotada!
-                </div>
-              )}
-            </div>
-          </div>
+      <div className=''>{renderTabContent(activeTab, cores, formatCurrency)}</div>
+      {footerExtra && (
+        <div className="text-center text-white mt-4 text-sm opacity-90 bg-black/20 py-2 rounded-lg">
+          {footerExtra(activeTab)}
         </div>
       )}
     </div>
   );
 };
 
-export default GrainFarmInterface;
+// ==================== PLANTAÇÃO ====================
+const PlantacaoNegocio = () => {
+  const { dados } = useContext(CentraldeDadosContext);
+  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+
+  const { negocio, saldo, estoque: currentStock, adicionarSaldo, removerSaldo, adicionarEstoque, removerEstoque, setDiaAtual } =
+    useNegocio({
+      id: 'plantacao-1',
+      nome: 'Plantação de Grãos',
+      setor: 'agricultura',
+      saldoInicial: 300000,
+      estoqueInicial: { soja: 0, milho: 0, cevada: 0, trigo: 0 },
+      capacidadeEstoque: 500,
+      diaAtual: dados.dia
+    });
+
+  const getProductIcon = (type) => {
+    const icons = {
+      beef: '🥩',
+      pork: '🥓',
+      chicken: '🍗',
+      sausage: '🌭',
+      milho: '🌽',
+      soja: '🫘',
+      trigo: '🌾',
+      cevada: '🌱'
+    };
+    return icons[type] || '📦';
+  };
+
+const graos = [
+  // Originais
+  { id: 1, nome: "Milho", custo: 7000, sacas: 100, valorPorSaca: 100, duracao: 80, icon: "🌽" },
+  { id: 2, nome: "Soja", custo: 5000, sacas: 50, valorPorSaca: 135, duracao: 120, icon: "🫘" },
+  { id: 3, nome: "Trigo", custo: 3000, sacas: 50, valorPorSaca: 80, duracao: 180, icon: "🌾" },
+  { id: 4, nome: "Cevada", custo: 3500, sacas: 50, valorPorSaca: 100, duracao: 90, icon: "🌱" },
+  { id: 5, nome: "Milho", custo: 10500, sacas: 150, valorPorSaca: 100, duracao: 85, icon: "🌽" },
+  { id: 6, nome: "Milho", custo: 14700, sacas: 200, valorPorSaca: 100, duracao: 90, icon: "🌽" },
+  { id: 7, nome: "Soja", custo: 7200, sacas: 75, valorPorSaca: 135, duracao: 130, icon: "🫘" },
+  { id: 8, nome: "Soja", custo: 9600, sacas: 100, valorPorSaca: 135, duracao: 140, icon: "🫘" },
+  { id: 9, nome: "Trigo", custo: 4200, sacas: 75, valorPorSaca: 80, duracao: 190, icon: "🌾" },
+  { id: 10, nome: "Trigo", custo: 5600, sacas: 100, valorPorSaca: 80, duracao: 200, icon: "🌾" },
+  { id: 11, nome: "Cevada", custo: 4950, sacas: 75, valorPorSaca: 100, duracao: 95, icon: "🌱" },
+  { id: 12, nome: "Cevada", custo: 6650, sacas: 100, valorPorSaca: 100, duracao: 100, icon: "🌱" },
+  { id: 13, nome: "Milho", custo: 18900, sacas: 250, valorPorSaca: 100, duracao: 95, icon: "🌽" },
+  { id: 14, nome: "Soja", custo: 11800, sacas: 125, valorPorSaca: 135, duracao: 150, icon: "🫘" },
+  { id: 15, nome: "Trigo", custo: 6900, sacas: 125, valorPorSaca: 80, duracao: 210, icon: "🌾" },
+  { id: 16, nome: "Cevada", custo: 9100, sacas: 125, valorPorSaca: 100, duracao: 105, icon: "🌱" },
+];
+
+const marketOffers = [
+  // === MILHO 🌽 ===
+  // custo base: 7.000 → lucro 50–70% → faixa: 10.500–11.900
+  { id: 1,  name: "milho", sacas: 50,  pricePerSack: 105, totalPrice: 5250 },  // +50%
+  { id: 2,  name: "milho", sacas: 100, pricePerSack: 112, totalPrice: 11200 }, // +60%
+  { id: 3,  name: "milho", sacas: 150, pricePerSack: 118, totalPrice: 17700 }, // +68%
+  { id: 4,  name: "milho", sacas: 200, pricePerSack: 119, totalPrice: 23800 }, // +70%
+
+  // === SOJA 🫘 ===
+  // custo base: 5.000 → lucro 50–70% → faixa: 7.500–8.500
+  { id: 5,  name: "soja", sacas: 50,  pricePerSack: 150, totalPrice: 7500 },   // +50%
+  { id: 6,  name: "soja", sacas: 100, pricePerSack: 160, totalPrice: 16000 },  // +60%
+  { id: 7,  name: "soja", sacas: 150, pricePerSack: 166, totalPrice: 24900 },  // +66%
+  { id: 8,  name: "soja", sacas: 200, pricePerSack: 172, totalPrice: 34400 },  // +70%
+
+  // === TRIGO 🌾 ===
+  // custo base: 3.000 → lucro 50–70% → faixa: 4.500–5.100
+  { id: 9,  name: "trigo", sacas: 50,  pricePerSack: 90, totalPrice: 4500 },   // +50%
+  { id: 10, name: "trigo", sacas: 100, pricePerSack: 96, totalPrice: 9600 },   // +60%
+  { id: 11, name: "trigo", sacas: 150, pricePerSack: 102, totalPrice: 15300 }, // +70%
+  { id: 12, name: "trigo", sacas: 200, pricePerSack: 101, totalPrice: 20200 }, // +68%
+
+  // === CEVADA 🌱 ===
+  // custo base: 3.500 → lucro 50–70% → faixa: 5.250–5.950
+  { id: 13, name: "cevada", sacas: 50,  pricePerSack: 105, totalPrice: 5250 }, // +50%
+  { id: 14, name: "cevada", sacas: 100, pricePerSack: 112, totalPrice: 11200 },// +60%
+  { id: 15, name: "cevada", sacas: 150, pricePerSack: 118, totalPrice: 17700 },// +68%
+  { id: 16, name: "cevada", sacas: 200, pricePerSack: 119, totalPrice: 23800 },// +70%
+];
+
+  // --- Ciclos automáticos ---
+  const [cicloGraos] = useState(() =>
+    new CicloDeOfertas({
+      baseData: graos,
+      quantidadeSorteio: 4,
+      duracaoDias: 30,
+      chaveStorage: "ciclo_graos"
+    })
+  );
+
+  const [cicloMercado] = useState(() =>
+    new CicloDeOfertas({
+      baseData: marketOffers,
+      quantidadeSorteio: 8,
+      duracaoDias: 90,
+      chaveStorage: "ciclo_mercado"
+    })
+  );
+
+  useEffect(() => {
+    cicloGraos.atualizarDia(dados.dia);
+    cicloMercado.atualizarDia(dados.dia);
+  }, [dados.dia]);
+
+  const graosAtuais = cicloGraos.getItensDisponiveis();
+  const ofertasAtuais = cicloMercado.getItensDisponiveis();
+
+  const [activePlanting, setActivePlanting] = useState(null);
+  const plantacaoProntaParaColher = activePlanting && dados.dia >= activePlanting.diaFim;
+
+  const handlePlantar = (grao) => {
+    if (removerSaldo(grao.custo) > economiaSetores.saldo) return;
+    atualizarEco("saldo", economiaSetores.saldo - grao.custo);
+    if (removerSaldo(grao.custo)) {
+      setActivePlanting({
+        ...grao,
+        diaInicio: dados.dia,
+        diaFim: dados.dia + grao.duracao
+      });
+    }
+  };
+
+  const handleColheita = () => {
+    if (activePlanting) {
+      const key = activePlanting.nome.toLowerCase();
+      adicionarEstoque(key, activePlanting.sacas);
+      setActivePlanting(null);
+      setDiaAtual(dados.dia);
+    }
+  };
+
+  // 🔹 Guardar IDs das ofertas já vendidas
+  const [vendasRealizadas, setVendasRealizadas] = useState([]);
+
+  const handleVender = (offer) => {
+    const estoqueAtual = currentStock[offer.name] || 0;
+    if (offer.sacas > estoqueAtual) return alert("Você não tem sacas suficientes!");
+
+    removerEstoque(offer.name, offer.sacas);
+    adicionarSaldo(offer.totalPrice);
+    atualizarEco("saldo", economiaSetores.saldo + offer.totalPrice);
+
+    // marca esta oferta como vendida
+    setVendasRealizadas((prev) => [...prev, offer.id]);
+  };
+
+  const renderTabContent = (tab, cores, formatCurrency) => {
+    if (tab === 'produzir') {
+      return (
+        <div className="grid grid-cols-2 gap-4 max-w-4xl mx-auto">
+          {graosAtuais.map((grao) => {
+            const podeEscolher = !activePlanting && saldo >= grao.custo;
+            return (
+              <div key={grao.id} className="rounded-lg shadow-md p-4 bg-white">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">{grao.icon}</span>
+                  <h3 className="text-base font-bold" style={{ color: cores.primary }}>
+                    {grao.nome}
+                  </h3>
+                </div>
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between text-sm"><span>Custo:</span><span>{formatCurrency(grao.custo)}</span></div>
+                  <div className="flex justify-between text-sm"><span>Sacas:</span><span>{grao.sacas}</span></div>
+                  <div className="flex justify-between text-sm"><span>Custos/Sacas:</span><span>{formatCurrency((grao.custo)/grao.sacas)}</span></div>
+                  <div className="flex justify-between text-sm"><span>Duração:</span><span>{grao.duracao} dias</span></div>
+                </div>
+                <button
+                  onClick={() => handlePlantar(grao)}
+                  disabled={!podeEscolher}
+                  className="w-full py-3 rounded font-bold text-white"
+                  style={{ backgroundColor: podeEscolher ? cores.accent : '#6C757D' }}
+                >
+                  {activePlanting ? 'Plantando...' : 'Plantar'}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    if (tab === 'mercado') {
+      // 🔹 Filtra apenas ofertas ainda não vendidas
+      const ofertasDisponiveis = ofertasAtuais.filter((offer) => !vendasRealizadas.includes(offer.id));
+
+      return (
+        <div className="grid grid-cols-4 gap-4 w-full mx-auto text-center">
+          {ofertasDisponiveis.map((offer) => (
+            <div key={offer.id} className="bg-white rounded-lg p-4 shadow-md">
+              <h3 className="font-bold text-gray-800 mb-2 capitalize">{getProductIcon(offer.name)}</h3>
+              <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
+              <p className="text-sm mb-1">{offer.sacas} sacas</p>
+              <p className="text-xs text-gray-500 mb-3">R$ {offer.pricePerSack}/saca</p>
+              <button
+                onClick={() => handleVender(offer)}
+                className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700"
+              >
+                Vender
+              </button>
+            </div>
+          ))}
+
+          {ofertasDisponiveis.length === 0 && (
+            <p className="col-span-4 text-gray-500 text-sm mt-4">Todos os compradores já foram atendidos.</p>
+          )}
+        </div>
+      );
+    }
+
+    if (tab === 'estoque') {
+      return (
+        <div className="grid grid-cols-2 gap-6">
+          {Object.entries(currentStock).map(([type, qtd]) => (
+            <div key={type} className="text-center text-white bg-white/20 rounded-xl">
+              <h3 className="text-4xl mt-3 mb-3">{getProductIcon(type)}</h3>
+              <h3 className="text-3xl font-bold mb-2">{type}</h3>
+              <div className="text-sm mb-3 opacity-80">{qtd} X sacas</div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  const tabs = [
+    { id: 'produzir', label: 'Produzir', icon: Warehouse, info: null },
+    { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
+    { id: 'estoque', label: 'Estoque', icon: Package, info: `${Object.values(currentStock).reduce((a, b) => a + b, 0)} Sacas` },
+  ];
+
+  return (
+    <BaseBusinessInterface
+      negocio={negocio}
+      tabs={tabs}
+      renderTabContent={renderTabContent}
+      headerExtra={
+        activePlanting && (
+          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-white text-sm">
+            {plantacaoProntaParaColher ? (
+              <div className="flex items-center justify-between">
+                <span>🌾 {activePlanting.nome} pronto para colheita!</span>
+                <button
+                  onClick={handleColheita}
+                  className="px-4 py-2 rounded font-bold bg-green-500 text-white"
+                >
+                  Colher ({activePlanting.sacas})
+                </button>
+              </div>
+            ) : (
+              <div>
+                🌱 Cultivando {activePlanting.nome} — Colheita no dia {activePlanting.diaFim}
+              </div>
+            )}
+          </div>
+        )
+      }
+      footerExtra={(tab) => {
+        if (tab === 'produzir') return `Próximo ciclo de produção em ${cicloGraos.getFimCiclo() - dados.dia} dias`;
+        if (tab === 'mercado') return `Próximo ciclo de mercado em ${cicloMercado.getFimCiclo() - dados.dia} dias`;
+        return null;
+      }}
+    />
+  );
+};
+
+// ==================== EXEMPLO: AÇOUGUE ====================
+const AcougueNegocio = () => {
+  const { dados } = useContext(CentraldeDadosContext);
+  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+
+  const {
+    negocio,
+    saldo,
+    estoque: currentStock,
+    adicionarSaldo,
+    removerSaldo,
+    adicionarEstoque,
+    removerEstoque,
+    setDiaAtual
+  } = useNegocio({
+    id: "acougue-1",
+    nome: "Açougue Bom Corte",
+    setor: "comercio",
+    saldoInicial: 120000,
+    estoqueInicial: { beef: 45, pork: 20, chicken: 30, sausage: 15 },
+    capacidadeEstoque: 200,
+    diaAtual: dados.dia
+  });
+
+const fornecedores = [
+  { id: 1, nome: "Frigorífico Regional", tipo: "beef", quantidade: 80, preco: 2000, precoKg: 25, qualidade: "Premium", icon: "🥩" },
+  { id: 2, nome: "Granja Feliz", tipo: "chicken", quantidade: 100, preco: 800, precoKg: 8, qualidade: "Orgânico", icon: "🍗" },
+  { id: 3, nome: "Fazenda Suína Boa Terra", tipo: "pork", quantidade: 60, preco: 1080, precoKg: 18, qualidade: "Tradicional", icon: "🥓" },
+  { id: 4, nome: "Fábrica de Embutidos SaborSul", tipo: "sausage", quantidade: 40, preco: 1000, precoKg: 25, qualidade: "Artesanal", icon: "🌭" }
+];
+  // Ofertas de venda originais + ofertas especiais
+  const ofertasVenda = [
+    { id: 1, nome: "beef", precoKg: 30, quantidade: 20, icon: "🥩", duracao: 120 },
+    { id: 2, nome: "chicken", precoKg: 12, quantidade: 15, icon: "🍗", duracao: 120 },
+    { id: 3, nome: "pork", precoKg: 18, quantidade: 10, icon: "🥓", duracao: 30 },
+    { id: 4, nome: "sausage", precoKg: 22, quantidade: 8, icon: "🌭", duracao: 10 },
+    { id: 5, nome: "beef", precoKg: 45, quantidade: 15, icon: "🥩", duracao: 60 },
+    { id: 6, nome: "chicken", precoKg: 15, quantidade: 30, icon: "🍗", duracao: 50 },
+    { id: 7, nome: "pork", precoKg: 32, quantidade: 25, icon: "🥓", duracao: 90 },
+    { id: 8, nome: "sausage", precoKg: 48, quantidade: 15, icon: "🌭", duracao: 100 },
+    { id: 9, nome: "beef", precoKg: 50, quantidade: 20, icon: "🥩", duracao: 120 },
+    { id: 10, nome: "chicken", precoKg: 18, quantidade: 40, icon: "🍗", duracao: 110 }
+  ];
+
+  const tabs = [
+    { id: "compras", label: "Fornecedores", icon: Warehouse, info: null },
+    { id: "vendas", label: "Mercado", icon: Users, info: null },
+    { id: "estoque", label: "Estoque", icon: Package, info: `${Object.values(currentStock).reduce((a, b) => a + b, 0)}kg` }
+  ];
+
+ const [vendasRealizadas, setVendasRealizadas] = useState([]);
+ 
+ const [activeSell, setActiveSell] = useState(null);
+  const pedidoProntoParaReceber = activeSell && dados.dia >= activeSell.diaFim;
 
 
+  const [cicloFornecedores] = useState(() =>
+    new CicloDeOfertas({
+      baseData: fornecedores,
+      quantidadeSorteio: 4,
+      duracaoDias: 30,
+      chaveStorage: "ciclo_Fornecedores"
+    })
+  );
+
+  const [cicloVendas] = useState(() =>
+    new CicloDeOfertas({
+      baseData: ofertasVenda,
+      quantidadeSorteio: 8,
+      duracaoDias: 90,
+      chaveStorage: "ciclo_Ofertas"
+    })
+  );
+
+  useEffect(() => {
+    cicloFornecedores.atualizarDia(dados.dia);
+    cicloVendas.atualizarDia(dados.dia);
+  }, [dados.dia]);
+
+    const fornecedoresAtuais = cicloFornecedores.getItensDisponiveis();
+  const ofertasVendaAtuais = cicloVendas.getItensDisponiveis();
+
+  // --- COMPRA ---
+  const handleCompra = (fornecedor) => {
+    const { preco, tipo, quantidade } = fornecedor;
+
+    if (saldo < preco) return alert("💰 Saldo insuficiente!");
+    if (Object.values(currentStock).reduce((a, b) => a + b, 0) + quantidade > negocio.capacidadeEstoque)
+      return alert("📦 Sem espaço no estoque!");
+
+    removerSaldo(preco);
+    atualizarEco("saldo", economiaSetores.saldo - preco);
+    adicionarEstoque(tipo, quantidade);
+  };
+
+  // --- VENDA (apenas 1 por cliente) ---
+  const handleVenda = (oferta) => {
+    if (activeSell) return alert("⚠️ Você já tem uma venda em andamento!");
+
+    setVendasRealizadas((prev) => [...prev, oferta.id]); 
+    const estoqueAtual = currentStock[oferta.nome] || 0;
+    if (oferta.quantidade > estoqueAtual) {
+      alert("⚠️ Estoque insuficiente!");
+      return;
+    }
+    if (removerEstoque(oferta.nome, oferta.quantidade)) {
+      setActiveSell({
+        ...oferta,
+        diaInicio: dados.dia,
+        diaFim: dados.dia + oferta.duracao
+      });
+    }
+  };
+
+  // --- RECEBIMENTO (após prazo) ---
+  const handleReceber = () => {
+    if (!activeSell) return;
+
+    const totalVenda = activeSell.precoKg * activeSell.quantidade;
+    adicionarSaldo(totalVenda);
+    atualizarEco("saldo", economiaSetores.saldo + totalVenda);
+    setActiveSell(null);
+    setDiaAtual(dados.dia);
+  };
+
+  // --- RENDERIZAÇÃO ---
+  const renderTabContent = (tab, cores, formatCurrency) => {
+    if (tab === "compras") {
+      return (
+        <div className="grid grid-cols-2 gap-4 max-w-4xl mx-auto">
+          {fornecedoresAtuais.map((f) => {
+            const podeComprar = saldo >= f.preco;
+            return (
+              <div key={f.id} className="rounded-lg shadow-md p-4 bg-white">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">{f.icon}</span>
+                  <h3 className="text-sm font-bold" style={{ color: cores.primary }}>{f.nome}</h3>
+                </div>
+                <div className="text-sm space-y-1 mb-3">
+                  <div className="flex justify-between"><span>Qtd:</span><span>{f.quantidade}kg</span></div>
+                  <div className="flex justify-between"><span>Preço/kg:</span><span>{formatCurrency(f.precoKg)}</span></div>
+                  <div className="flex justify-between"><span>Total:</span><span>{formatCurrency(f.preco)}</span></div>
+                </div>
+                <button
+                  onClick={() => handleCompra(f)}
+                  disabled={!podeComprar}
+                  className="w-full py-3 rounded font-bold text-white"
+                  style={{ backgroundColor: podeComprar ? cores.primary : "#6C757D" }}
+                >
+                  Comprar
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    if (tab === "vendas") {
+
+            const ofertasDisponiveis = ofertasVendaAtuais.filter((offer) => !vendasRealizadas.includes(offer.id));
+
+      return (
+        <div className="grid grid-cols-2 gap-4 max-w-4xl mx-auto">
+          {ofertasDisponiveis.map((oferta) => {
+            const estoqueAtual = currentStock[oferta.nome] || 0;
+            const podeVender = !activeSell && estoqueAtual >= oferta.quantidade;
+            const total = oferta.precoKg * oferta.quantidade;
+
+            return (
+              <div key={oferta.id} className="rounded-lg shadow-md p-4 bg-white">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">{oferta.icon}</span>
+                  <h3 className="text-sm font-bold" style={{ color: cores.primary }}>
+                    Venda de {oferta.nome.toUpperCase()}
+                  </h3>
+                </div>
+                <div className="space-y-2 mb-4 text-sm">
+                  <div className="flex justify-between"><span>Qtd:</span><span>{oferta.quantidade}kg</span></div>
+                  <div className="flex justify-between"><span>Preço/kg:</span><span>{formatCurrency(oferta.precoKg)}</span></div>
+                  <div className="flex justify-between"><span>Total:</span><span className="text-green-600">{formatCurrency(total)}</span></div>
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span>Tempo para receber:</span><span>{oferta.duracao} dias</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => handleVenda(oferta)}
+                  disabled={!podeVender}
+                  className="w-full py-3 rounded font-bold text-white"
+                  style={{ backgroundColor: podeVender ? cores.accent : "#6C757D" }}
+                >
+                  {activeSell ? "Vendendo..." : "Vender"}
+                </button>
+              </div>
+            );
+          })}
+              {ofertasDisponiveis.length === 0 && (
+            <p className="col-span-4 text-gray-500 text-sm mt-4">Todos os compradores já foram atendidos.</p>
+          )}
+        </div>
+      );
+    }
+
+    if (tab === "estoque") {
+      const produtos = {
+        beef: { nome: "Carne Bovina", icon: "🥩" },
+        pork: { nome: "Carne Suína", icon: "🥓" },
+        chicken: { nome: "Frango", icon: "🍗" },
+        sausage: { nome: "Embutidos", icon: "🌭" }
+      };
+
+      return (
+        <div className="grid grid-cols-2 gap-6">
+          {Object.entries(currentStock).map(([tipo, quantidade]) => (
+            <div key={tipo} className="text-center text-white bg-white/20 rounded-xl">
+              <div className="text-4xl mt-3 mb-3">{produtos[tipo]?.icon || "📦"}</div>
+              <div className="text-3xl font-bold mb-2">{quantidade}kg</div>
+              <div className="text-sm mb-3 opacity-80">{produtos[tipo]?.nome || tipo}</div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <BaseBusinessInterface
+      negocio={negocio}
+      tabs={tabs}
+      renderTabContent={renderTabContent}
+      headerExtra={activeSell && (
+        <div className="bg-white bg-opacity-20 rounded-lg p-3 text-white text-sm">
+          {pedidoProntoParaReceber ? (
+            <div className="flex items-center justify-between">
+              <span>💵 Venda de {activeSell.nome} concluída!</span>
+              <button
+                onClick={handleReceber}
+                className="px-4 py-2 rounded font-bold bg-green-500 text-white"
+              >
+                Receber R$ {activeSell.precoKg * activeSell.quantidade},00
+              </button>
+            </div>
+          ) : (
+            <div>
+              💼 Vendendo {activeSell.nome} — Recebimento no dia {activeSell.diaFim}
+            </div>
+          )}
+        </div>
+      )}
+    />
+  );
+};
+
+// ==================== APP PRINCIPAL ====================
+const App = () => {
+  const [negocioAtivo, setNegocioAtivo] = useState('plantacao');
+
+  return (
+    <div className="w-full flex flex-col justify-between items-center h-[80vh] rounded-xl m-auto p-4">
+      <div className=" mx-auto flex ">
+        <div className="flex gap-2 ">
+          <button
+            onClick={() => setNegocioAtivo('plantacao')}
+            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'plantacao'
+              ? 'bg-green-600 text-white'
+              : 'bg-white text-gray-700'
+              }`}
+          >
+            🌾 Plantação
+          </button>
+          <button
+            onClick={() => setNegocioAtivo('acougue')}
+            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'acougue'
+              ? 'bg-red-700 text-white'
+              : 'bg-white text-gray-700'
+              }`}
+          >
+            🥩 Açougue
+          </button>
+        </div>
+      </div>
+
+      <div className="w-full mx-auto h-[calc(80vh-100px)]">
+        {negocioAtivo === 'plantacao' && <PlantacaoNegocio />}
+        {negocioAtivo === 'acougue' && <AcougueNegocio />}
+      </div>
+    </div>
+  );
+};
+
+export default App;
