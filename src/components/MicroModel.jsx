@@ -3410,7 +3410,8 @@
 
 
 import React, { useState, useContext, createContext } from 'react';
-import { Clock, DollarSign, TrendingUp, Package, Warehouse, Users, Building2 } from 'lucide-react';
+
+import { Clock, DollarSign, Package, Warehouse, Users, Building2,Sun, TrendingUp, Zap,Car, Truck, Smartphone, Cpu,HardHat } from 'lucide-react';
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
@@ -3641,26 +3642,6 @@ const BaseBusinessInterface = ({ negocio, tabs, renderTabContent, headerExtra,fo
           </div>
           <h1 className="text-2xl font-bold text-white">{negocio.nome}</h1>
         </div>
-
-        {/* Dashboard */}
-        {/* <div className="grid grid-cols-4 gap-4">
-          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
-            <div className="text-2xl font-bold">{formatCurrency(economiaSetores.saldo)}</div>
-            <div className="text-xs opacity-80">Saldo Atual</div>
-          </div>
-          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
-            <div className="text-2xl font-bold">{negocio.getEstoqueTotal()}</div>
-            <div className="text-xs opacity-80">Estoque Total</div>
-          </div>
-          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
-            <div className="text-2xl font-bold">{negocio.getEspacoLivre()}</div>
-            <div className="text-xs opacity-80">Espaço Livre</div>
-          </div>
-          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-center text-white">
-            <div className="text-2xl font-bold">Dia {dados.dia}</div>
-            <div className="text-xs opacity-80">Dia Atual</div>
-          </div>
-        </div> */}
 
         {headerExtra && <div className="mt-4">{headerExtra}</div>}
       </div>
@@ -4202,14 +4183,1249 @@ const fornecedores = [
   );
 };
 
+const PainelSolarNegocio = () => {
+  const { dados } = useContext(CentraldeDadosContext);
+  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+
+  const { negocio, saldo, estoque: currentStock, adicionarSaldo, removerSaldo, adicionarEstoque, removerEstoque, setDiaAtual } =
+    useNegocio({
+      id: 'paineis-solares-1',
+      nome: 'Fábrica de Painéis Solares',
+      setor: 'energia',
+      saldoInicial: 500000,
+      estoqueInicial: { 
+        residencial: 0, 
+        comercial: 0, 
+        industrial: 0,
+        premium: 0 
+      },
+      capacidadeEstoque: 200,
+      diaAtual: dados.dia
+    });
+
+  const getProductIcon = (type) => {
+    const icons = {
+      residencial: '🏠',
+      comercial: '🏢',
+      industrial: '🏭',
+      premium: '⚡'
+    };
+    return icons[type] || '☀️';
+  };
+
+  // Dados de produção de painéis
+  const paineis = [
+    // Residencial
+    { id: 1, nome: "Residencial", tipo: "residencial", custo: 15000, unidades: 10, valorPorUnidade: 2000, duracao: 45, icon: "🏠" },
+    { id: 2, nome: "Residencial", tipo: "residencial", custo: 28000, unidades: 20, valorPorUnidade: 2000, duracao: 50, icon: "🏠" },
+    { id: 3, nome: "Residencial", tipo: "residencial", custo: 39000, unidades: 30, valorPorUnidade: 2000, duracao: 55, icon: "🏠" },
+    
+    // Comercial
+    { id: 4, nome: "Comercial", tipo: "comercial", custo: 35000, unidades: 10, valorPorUnidade: 4500, duracao: 60, icon: "🏢" },
+    { id: 5, nome: "Comercial", tipo: "comercial", custo: 66000, unidades: 20, valorPorUnidade: 4500, duracao: 65, icon: "🏢" },
+    { id: 6, nome: "Comercial", tipo: "comercial", custo: 94500, unidades: 30, valorPorUnidade: 4500, duracao: 70, icon: "🏢" },
+    
+    // Industrial
+    { id: 7, nome: "Industrial", tipo: "industrial", custo: 80000, unidades: 10, valorPorUnidade: 10000, duracao: 90, icon: "🏭" },
+    { id: 8, nome: "Industrial", tipo: "industrial", custo: 150000, unidades: 20, valorPorUnidade: 10000, duracao: 95, icon: "🏭" },
+    { id: 9, nome: "Industrial", tipo: "industrial", custo: 210000, unidades: 30, valorPorUnidade: 10000, duracao: 100, icon: "🏭" },
+    
+    // Premium
+    { id: 10, nome: "Premium", tipo: "premium", custo: 50000, unidades: 5, valorPorUnidade: 12000, duracao: 75, icon: "⚡" },
+    { id: 11, nome: "Premium", tipo: "premium", custo: 90000, unidades: 10, valorPorUnidade: 12000, duracao: 80, icon: "⚡" },
+    { id: 12, nome: "Premium", tipo: "premium", custo: 126000, unidades: 15, valorPorUnidade: 12000, duracao: 85, icon: "⚡" },
+  ];
+
+  // Ofertas de mercado com margens de 50-70%
+  const marketOffers = [
+    // RESIDENCIAL 🏠
+    // custo base: 15.000 → lucro 50–70% → faixa: 22.500–25.500
+    { id: 1, name: "residencial", unidades: 5, pricePerUnit: 2250, totalPrice: 11250 },   // +50%
+    { id: 2, name: "residencial", unidades: 10, pricePerUnit: 2400, totalPrice: 24000 },  // +60%
+    { id: 3, name: "residencial", unidades: 15, pricePerUnit: 2550, totalPrice: 38250 },  // +70%
+    { id: 4, name: "residencial", unidades: 20, pricePerUnit: 2500, totalPrice: 50000 },  // +66%
+
+    // COMERCIAL 🏢
+    // custo base: 35.000 → lucro 50–70% → faixa: 52.500–59.500
+    { id: 5, name: "comercial", unidades: 5, pricePerUnit: 5250, totalPrice: 26250 },     // +50%
+    { id: 6, name: "comercial", unidades: 10, pricePerUnit: 5600, totalPrice: 56000 },    // +60%
+    { id: 7, name: "comercial", unidades: 15, pricePerUnit: 5950, totalPrice: 89250 },    // +70%
+    { id: 8, name: "comercial", unidades: 20, pricePerUnit: 5850, totalPrice: 117000 },   // +66%
+
+    // INDUSTRIAL 🏭
+    // custo base: 80.000 → lucro 50–70% → faixa: 120.000–136.000
+    { id: 9, name: "industrial", unidades: 3, pricePerUnit: 12000, totalPrice: 36000 },   // +50%
+    { id: 10, name: "industrial", unidades: 5, pricePerUnit: 12800, totalPrice: 64000 },  // +60%
+    { id: 11, name: "industrial", unidades: 8, pricePerUnit: 13600, totalPrice: 108800 }, // +70%
+    { id: 12, name: "industrial", unidades: 10, pricePerUnit: 13400, totalPrice: 134000 },// +68%
+
+    // PREMIUM ⚡
+    // custo base: 50.000 → lucro 50–70% → faixa: 75.000–85.000
+    { id: 13, name: "premium", unidades: 3, pricePerUnit: 15000, totalPrice: 45000 },     // +50%
+    { id: 14, name: "premium", unidades: 5, pricePerUnit: 16000, totalPrice: 80000 },     // +60%
+    { id: 15, name: "premium", unidades: 8, pricePerUnit: 17000, totalPrice: 136000 },    // +70%
+    { id: 16, name: "premium", unidades: 10, pricePerUnit: 16800, totalPrice: 168000 },   // +68%
+  ];
+
+  // Ciclos automáticos
+  const [cicloPaineis] = useState(() =>
+    new CicloDeOfertas({
+      baseData: paineis,
+      quantidadeSorteio: 4,
+      duracaoDias: 30,
+      chaveStorage: "ciclo_paineis"
+    })
+  );
+
+  const [cicloMercado] = useState(() =>
+    new CicloDeOfertas({
+      baseData: marketOffers,
+      quantidadeSorteio: 8,
+      duracaoDias: 90,
+      chaveStorage: "ciclo_mercado_paineis"
+    })
+  );
+
+  useEffect(() => {
+    cicloPaineis.atualizarDia(dados.dia);
+    cicloMercado.atualizarDia(dados.dia);
+  }, [dados.dia]);
+
+  const paineisAtuais = cicloPaineis.getItensDisponiveis();
+  const ofertasAtuais = cicloMercado.getItensDisponiveis();
+
+
+
+  const [activeProduction, setActiveProduction] = useState(null);
+  const producaoPronta = activeProduction && dados.dia >= activeProduction.diaFim;
+
+  const handleProduzir = (painel) => {
+    if (saldo < painel.custo) return;
+    if (removerSaldo(painel.custo)) {
+      atualizarEco("saldo", economiaSetores.saldo - painel.custo);
+      setActiveProduction({
+        ...painel,
+        diaInicio: dados.dia,
+        diaFim: dados.dia + painel.duracao
+      });
+    }
+  };
+
+  const handleColetar = () => {
+    if (activeProduction) {
+      adicionarEstoque(activeProduction.tipo, activeProduction.unidades);
+      setActiveProduction(null);
+      setDiaAtual(dados.dia);
+    }
+  };
+
+  const [vendasRealizadas, setVendasRealizadas] = useState([]);
+
+  const handleVender = (offer) => {
+    const estoqueAtual = currentStock[offer.name] || 0;
+    if (offer.unidades > estoqueAtual) {
+      return alert("Você não tem unidades suficientes!");
+    }
+
+    removerEstoque(offer.name, offer.unidades);
+    adicionarSaldo(offer.totalPrice);
+    atualizarEco("saldo", economiaSetores.saldo + offer.totalPrice);
+    setVendasRealizadas((prev) => [...prev, offer.id]);
+  };
+
+  const renderTabContent = (tab, cores, formatCurrency) => {
+    if (tab === 'produzir') {
+      return (
+        <div className="grid grid-cols-2 gap-4 max-w-4xl mx-auto">
+          {paineisAtuais.map((painel) => {
+            const podeEscolher = !activeProduction && saldo >= painel.custo;
+            return (
+              <div key={painel.id} className="rounded-lg shadow-md p-4 bg-white">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">{painel.icon}</span>
+                  <h3 className="text-base font-bold" style={{ color: cores.primary }}>
+                    {painel.nome}
+                  </h3>
+                </div>
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between text-sm">
+                    <span>Custo:</span>
+                    <span>{formatCurrency(painel.custo)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Unidades:</span>
+                    <span>{painel.unidades}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Custo/Unidade:</span>
+                    <span>{formatCurrency(painel.custo / painel.unidades)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Duração:</span>
+                    <span>{painel.duracao} dias</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => handleProduzir(painel)}
+                  disabled={!podeEscolher}
+                  className="w-full py-3 rounded font-bold text-white"
+                  style={{ backgroundColor: podeEscolher ? cores.accent : '#6C757D' }}
+                >
+                  {activeProduction ? 'Produzindo...' : 'Produzir'}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    if (tab === 'mercado') {
+      const ofertasDisponiveis = ofertasAtuais.filter((offer) => !vendasRealizadas.includes(offer.id));
+
+      return (
+        <div className="grid grid-cols-4 gap-4 w-full mx-auto text-center">
+          {ofertasDisponiveis.map((offer) => (
+            <div key={offer.id} className="bg-white rounded-lg p-4 shadow-md">
+              <h3 className="font-bold text-gray-800 mb-2 capitalize text-3xl">
+                {getProductIcon(offer.name)}
+              </h3>
+              <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
+              <p className="text-sm mb-1">{offer.unidades} unidades</p>
+              <p className="text-xs text-gray-500 mb-3">
+                R$ {offer.pricePerUnit.toLocaleString()}/un
+              </p>
+              <button
+                onClick={() => handleVender(offer)}
+                className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700"
+              >
+                Vender
+              </button>
+            </div>
+          ))}
+
+          {ofertasDisponiveis.length === 0 && (
+            <p className="col-span-4 text-gray-500 text-sm mt-4">
+              Todos os compradores já foram atendidos.
+            </p>
+          )}
+        </div>
+      );
+    }
+
+    if (tab === 'estoque') {
+      return (
+        <div className="grid grid-cols-2 gap-6">
+          {Object.entries(currentStock).map(([type, qtd]) => (
+            <div key={type} className="text-center text-white bg-white/20 rounded-xl p-6">
+              <h3 className="text-4xl mt-3 mb-3">{getProductIcon(type)}</h3>
+              <h3 className="text-2xl font-bold mb-2 capitalize">{type}</h3>
+              <div className="text-lg mb-3 opacity-80">{qtd} unidades</div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  const tabs = [
+    { id: 'produzir', label: 'Produzir', icon: Sun, info: null },
+    { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
+    { id: 'estoque', label: 'Estoque', icon: Package, info: `${Object.values(currentStock).reduce((a, b) => a + b, 0)} Unidades` },
+  ];
+
+  return (
+    <BaseBusinessInterface
+      negocio={negocio}
+      tabs={tabs}
+      renderTabContent={renderTabContent}
+      headerExtra={
+        activeProduction && (
+          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-white text-sm">
+            {producaoPronta ? (
+              <div className="flex items-center justify-between">
+                <span>☀️ {activeProduction.nome} pronto para coleta!</span>
+                <button
+                  onClick={handleColetar}
+                  className="px-4 py-2 rounded font-bold bg-green-500 text-white"
+                >
+                  Coletar ({activeProduction.unidades} un)
+                </button>
+              </div>
+            ) : (
+              <div>
+                ⚡ Produzindo {activeProduction.nome} — Finaliza no dia {activeProduction.diaFim}
+              </div>
+            )}
+          </div>
+        )
+      }
+      footerExtra={(tab) => {
+        if (tab === 'produzir') return `Próximo ciclo de produção em ${cicloPaineis.getFimCiclo() - dados.dia} dias`;
+        if (tab === 'mercado') return `Próximo ciclo de mercado em ${cicloMercado.getFimCiclo() - dados.dia} dias`;
+        return null;
+      }}
+    />
+  );
+};
+
+
+
+
+const FabricaVeiculosNegocio = () => {
+  const { dados } = useContext(CentraldeDadosContext);
+  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+
+  const { negocio, saldo, estoque: currentStock, adicionarSaldo, removerSaldo, adicionarEstoque, removerEstoque, setDiaAtual } =
+    useNegocio({
+      id: 'fabrica-veiculos-1',
+      nome: 'Fábrica de Veículos',
+      setor: 'industria',
+      saldoInicial: 800000,
+      estoqueInicial: { 
+        popular: 0, 
+        sedan: 0, 
+        suv: 0,
+        luxo: 0,
+        caminhonete: 0,
+        van: 0
+      },
+      capacidadeEstoque: 100,
+      diaAtual: dados.dia
+    });
+
+  const getProductIcon = (type) => {
+    const icons = {
+      popular: '🚗',
+      sedan: '🚙',
+      suv: '🚐',
+      luxo: '🏎️',
+      caminhonete: '🛻',
+      van: '🚚'
+    };
+    return icons[type] || '🚗';
+  };
+
+  // Dados de produção de veículos
+  const veiculos = [
+    // Popular
+    { id: 1, nome: "Popular", tipo: "popular", custo: 45000, unidades: 5, valorPorUnidade: 12000, duracao: 60, icon: "🚗" },
+    { id: 2, nome: "Popular", tipo: "popular", custo: 84000, unidades: 10, valorPorUnidade: 12000, duracao: 65, icon: "🚗" },
+    { id: 3, nome: "Popular", tipo: "popular", custo: 117000, unidades: 15, valorPorUnidade: 12000, duracao: 70, icon: "🚗" },
+    
+    // Sedan
+    { id: 4, nome: "Sedan", tipo: "sedan", custo: 80000, unidades: 5, valorPorUnidade: 20000, duracao: 75, icon: "🚙" },
+    { id: 5, nome: "Sedan", tipo: "sedan", custo: 150000, unidades: 10, valorPorUnidade: 20000, duracao: 80, icon: "🚙" },
+    { id: 6, nome: "Sedan", tipo: "sedan", custo: 210000, unidades: 15, valorPorUnidade: 20000, duracao: 85, icon: "🚙" },
+    
+    // SUV
+    { id: 7, nome: "SUV", tipo: "suv", custo: 120000, unidades: 4, valorPorUnidade: 35000, duracao: 90, icon: "🚐" },
+    { id: 8, nome: "SUV", tipo: "suv", custo: 224000, unidades: 8, valorPorUnidade: 35000, duracao: 95, icon: "🚐" },
+    { id: 9, nome: "SUV", tipo: "suv", custo: 308000, unidades: 12, valorPorUnidade: 35000, duracao: 100, icon: "🚐" },
+    
+    // Luxo
+    { id: 10, nome: "Luxo", tipo: "luxo", custo: 200000, unidades: 3, valorPorUnidade: 80000, duracao: 110, icon: "🏎️" },
+    { id: 11, nome: "Luxo", tipo: "luxo", custo: 360000, unidades: 6, valorPorUnidade: 80000, duracao: 115, icon: "🏎️" },
+    { id: 12, nome: "Luxo", tipo: "luxo", custo: 480000, unidades: 9, valorPorUnidade: 80000, duracao: 120, icon: "🏎️" },
+
+    // Caminhonete
+    { id: 13, nome: "Caminhonete", tipo: "caminhonete", custo: 100000, unidades: 4, valorPorUnidade: 30000, duracao: 85, icon: "🛻" },
+    { id: 14, nome: "Caminhonete", tipo: "caminhonete", custo: 180000, unidades: 8, valorPorUnidade: 30000, duracao: 90, icon: "🛻" },
+    { id: 15, nome: "Caminhonete", tipo: "caminhonete", custo: 252000, unidades: 12, valorPorUnidade: 30000, duracao: 95, icon: "🛻" },
+
+    // Van
+    { id: 16, nome: "Van", tipo: "van", custo: 90000, unidades: 4, valorPorUnidade: 27000, duracao: 80, icon: "🚚" },
+    { id: 17, nome: "Van", tipo: "van", custo: 162000, unidades: 8, valorPorUnidade: 27000, duracao: 85, icon: "🚚" },
+    { id: 18, nome: "Van", tipo: "van", custo: 226800, unidades: 12, valorPorUnidade: 27000, duracao: 90, icon: "🚚" },
+  ];
+
+  // Ofertas de mercado com margens de 50-70%
+  const marketOffers = [
+    // POPULAR 🚗
+    // custo base: 45.000 → lucro 50–70% → faixa: 67.500–76.500
+    { id: 1, name: "popular", unidades: 3, pricePerUnit: 15000, totalPrice: 45000 },   // +50%
+    { id: 2, name: "popular", unidades: 5, pricePerUnit: 16000, totalPrice: 80000 },   // +60%
+    { id: 3, name: "popular", unidades: 8, pricePerUnit: 17000, totalPrice: 136000 },  // +70%
+    { id: 4, name: "popular", unidades: 10, pricePerUnit: 16800, totalPrice: 168000 }, // +68%
+
+    // SEDAN 🚙
+    // custo base: 80.000 → lucro 50–70% → faixa: 120.000–136.000
+    { id: 5, name: "sedan", unidades: 2, pricePerUnit: 24000, totalPrice: 48000 },     // +50%
+    { id: 6, name: "sedan", unidades: 4, pricePerUnit: 25600, totalPrice: 102400 },    // +60%
+    { id: 7, name: "sedan", unidades: 6, pricePerUnit: 27200, totalPrice: 163200 },    // +70%
+    { id: 8, name: "sedan", unidades: 8, pricePerUnit: 26800, totalPrice: 214400 },    // +68%
+
+    // SUV 🚐
+    // custo base: 120.000 → lucro 50–70% → faixa: 180.000–204.000
+    { id: 9, name: "suv", unidades: 2, pricePerUnit: 45000, totalPrice: 90000 },       // +50%
+    { id: 10, name: "suv", unidades: 3, pricePerUnit: 48000, totalPrice: 144000 },     // +60%
+    { id: 11, name: "suv", unidades: 5, pricePerUnit: 51000, totalPrice: 255000 },     // +70%
+    { id: 12, name: "suv", unidades: 6, pricePerUnit: 50400, totalPrice: 302400 },     // +68%
+
+    // LUXO 🏎️
+    // custo base: 200.000 → lucro 50–70% → faixa: 300.000–340.000
+    { id: 13, name: "luxo", unidades: 1, pricePerUnit: 100000, totalPrice: 100000 },   // +50%
+    { id: 14, name: "luxo", unidades: 2, pricePerUnit: 106000, totalPrice: 212000 },   // +60%
+    { id: 15, name: "luxo", unidades: 3, pricePerUnit: 113000, totalPrice: 339000 },   // +70%
+    { id: 16, name: "luxo", unidades: 4, pricePerUnit: 112000, totalPrice: 448000 },   // +68%
+
+    // CAMINHONETE 🛻
+    // custo base: 100.000 → lucro 50–70% → faixa: 150.000–170.000
+    { id: 17, name: "caminhonete", unidades: 2, pricePerUnit: 37500, totalPrice: 75000 },    // +50%
+    { id: 18, name: "caminhonete", unidades: 4, pricePerUnit: 40000, totalPrice: 160000 },   // +60%
+    { id: 19, name: "caminhonete", unidades: 6, pricePerUnit: 42500, totalPrice: 255000 },   // +70%
+    { id: 20, name: "caminhonete", unidades: 8, pricePerUnit: 42000, totalPrice: 336000 },   // +68%
+
+    // VAN 🚚
+    // custo base: 90.000 → lucro 50–70% → faixa: 135.000–153.000
+    { id: 21, name: "van", unidades: 2, pricePerUnit: 33750, totalPrice: 67500 },      // +50%
+    { id: 22, name: "van", unidades: 4, pricePerUnit: 36000, totalPrice: 144000 },     // +60%
+    { id: 23, name: "van", unidades: 6, pricePerUnit: 38250, totalPrice: 229500 },     // +70%
+    { id: 24, name: "van", unidades: 8, pricePerUnit: 37800, totalPrice: 302400 },     // +68%
+  ];
+
+  // Ciclos automáticos
+  const [cicloVeiculos] = useState(() =>
+    new CicloDeOfertas({
+      baseData: veiculos,
+      quantidadeSorteio: 6,
+      duracaoDias: 45,
+      chaveStorage: "ciclo_veiculos"
+    })
+  );
+
+  const [cicloMercado] = useState(() =>
+    new CicloDeOfertas({
+      baseData: marketOffers,
+      quantidadeSorteio: 12,
+      duracaoDias: 90,
+      chaveStorage: "ciclo_mercado_veiculos"
+    })
+  );
+
+  useEffect(() => {
+    cicloVeiculos.atualizarDia(dados.dia);
+    cicloMercado.atualizarDia(dados.dia);
+  }, [dados.dia]);
+
+  const veiculosAtuais = cicloVeiculos.getItensDisponiveis();
+  const ofertasAtuais = cicloMercado.getItensDisponiveis();
+
+  const [activeProduction, setActiveProduction] = useState(null);
+  const producaoPronta = activeProduction && dados.dia >= activeProduction.diaFim;
+
+  const handleProduzir = (veiculo) => {
+    if (saldo < veiculo.custo) return;
+    if (removerSaldo(veiculo.custo)) {
+      atualizarEco("saldo", economiaSetores.saldo - veiculo.custo);
+      setActiveProduction({
+        ...veiculo,
+        diaInicio: dados.dia,
+        diaFim: dados.dia + veiculo.duracao
+      });
+    }
+  };
+
+  const handleColetar = () => {
+    if (activeProduction) {
+      adicionarEstoque(activeProduction.tipo, activeProduction.unidades);
+      setActiveProduction(null);
+      setDiaAtual(dados.dia);
+    }
+  };
+
+  const [vendasRealizadas, setVendasRealizadas] = useState([]);
+
+  const handleVender = (offer) => {
+    const estoqueAtual = currentStock[offer.name] || 0;
+    if (offer.unidades > estoqueAtual) {
+      return alert("Você não tem veículos suficientes!");
+    }
+
+    removerEstoque(offer.name, offer.unidades);
+    adicionarSaldo(offer.totalPrice);
+    atualizarEco("saldo", economiaSetores.saldo + offer.totalPrice);
+    setVendasRealizadas((prev) => [...prev, offer.id]);
+  };
+
+  const renderTabContent = (tab, cores, formatCurrency) => {
+    if (tab === 'produzir') {
+      return (
+        <div className="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
+          {veiculosAtuais.map((veiculo) => {
+            const podeEscolher = !activeProduction && saldo >= veiculo.custo;
+            return (
+              <div key={veiculo.id} className="rounded-lg shadow-md p-4 bg-white">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">{veiculo.icon}</span>
+                  <h3 className="text-base font-bold" style={{ color: cores.primary }}>
+                    {veiculo.nome}
+                  </h3>
+                </div>
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between text-sm">
+                    <span>Custo:</span>
+                    <span>{formatCurrency(veiculo.custo)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Unidades:</span>
+                    <span>{veiculo.unidades}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Custo/Unidade:</span>
+                    <span>{formatCurrency(veiculo.custo / veiculo.unidades)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Duração:</span>
+                    <span>{veiculo.duracao} dias</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => handleProduzir(veiculo)}
+                  disabled={!podeEscolher}
+                  className="w-full py-3 rounded font-bold text-white"
+                  style={{ backgroundColor: podeEscolher ? cores.accent : '#6C757D' }}
+                >
+                  {activeProduction ? 'Produzindo...' : 'Produzir'}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    if (tab === 'mercado') {
+      const ofertasDisponiveis = ofertasAtuais.filter((offer) => !vendasRealizadas.includes(offer.id));
+
+      return (
+        <div className="grid grid-cols-4 gap-4 w-full mx-auto text-center">
+          {ofertasDisponiveis.map((offer) => (
+            <div key={offer.id} className="bg-white rounded-lg p-4 shadow-md">
+              <h3 className="font-bold text-gray-800 mb-2 capitalize text-3xl">
+                {getProductIcon(offer.name)}
+              </h3>
+              <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
+              <p className="text-sm mb-1">{offer.unidades} unidades</p>
+              <p className="text-xs text-gray-500 mb-3">
+                R$ {offer.pricePerUnit.toLocaleString()}/un
+              </p>
+              <button
+                onClick={() => handleVender(offer)}
+                className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700"
+              >
+                Vender
+              </button>
+            </div>
+          ))}
+
+          {ofertasDisponiveis.length === 0 && (
+            <p className="col-span-4 text-gray-500 text-sm mt-4">
+              Todos os compradores já foram atendidos.
+            </p>
+          )}
+        </div>
+      );
+    }
+
+    if (tab === 'estoque') {
+      return (
+        <div className="grid grid-cols-3 gap-6">
+          {Object.entries(currentStock).map(([type, qtd]) => (
+            <div key={type} className="text-center text-white bg-white/20 rounded-xl p-6">
+              <h3 className="text-4xl mt-3 mb-3">{getProductIcon(type)}</h3>
+              <h3 className="text-xl font-bold mb-2 capitalize">{type}</h3>
+              <div className="text-lg mb-3 opacity-80">{qtd} unidades</div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  const tabs = [
+    { id: 'produzir', label: 'Produzir', icon: Car, info: null },
+    { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
+    { id: 'estoque', label: 'Estoque', icon: Package, info: `${Object.values(currentStock).reduce((a, b) => a + b, 0)} Unidades` },
+  ];
+
+  return (
+    <BaseBusinessInterface
+      negocio={negocio}
+      tabs={tabs}
+      renderTabContent={renderTabContent}
+      headerExtra={
+        activeProduction && (
+          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-white text-sm">
+            {producaoPronta ? (
+              <div className="flex items-center justify-between">
+                <span>🚗 {activeProduction.nome} pronto para coleta!</span>
+                <button
+                  onClick={handleColetar}
+                  className="px-4 py-2 rounded font-bold bg-green-500 text-white"
+                >
+                  Coletar ({activeProduction.unidades} un)
+                </button>
+              </div>
+            ) : (
+              <div>
+                🏭 Produzindo {activeProduction.nome} — Finaliza no dia {activeProduction.diaFim}
+              </div>
+            )}
+          </div>
+        )
+      }
+      footerExtra={(tab) => {
+        if (tab === 'produzir') return `Próximo ciclo de produção em ${cicloVeiculos.getFimCiclo() - dados.dia} dias`;
+        if (tab === 'mercado') return `Próximo ciclo de mercado em ${cicloMercado.getFimCiclo() - dados.dia} dias`;
+        return null;
+      }}
+    />
+  );
+};
+const FabricaSmartphonesNegocio = () => {
+  const { dados } = useContext(CentraldeDadosContext);
+  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+
+  const { negocio, saldo, estoque: currentStock, adicionarSaldo, removerSaldo, adicionarEstoque, removerEstoque, setDiaAtual } =
+    useNegocio({
+      id: 'fabrica-smartphones-1',
+      nome: 'Fábrica de Smartphones',
+      setor: 'tecnologia',
+      saldoInicial: 600000,
+      estoqueInicial: { 
+        basico: 0, 
+        intermediario: 0, 
+        premium: 0,
+        flagship: 0,
+        gamer: 0,
+        dobravel: 0
+      },
+      capacidadeEstoque: 150,
+      diaAtual: dados.dia
+    });
+
+  const getProductIcon = (type) => {
+    const icons = {
+      basico: '📱',
+      intermediario: '📲',
+      premium: '📳',
+      flagship: '🔥',
+      gamer: '🎮',
+      dobravel: '📴'
+    };
+    return icons[type] || '📱';
+  };
+
+  // Dados de produção de smartphones
+  const smartphones = [
+    // Básico
+    { id: 1, nome: "Básico", tipo: "basico", custo: 20000, unidades: 20, valorPorUnidade: 1200, duracao: 40, icon: "📱" },
+    { id: 2, nome: "Básico", tipo: "basico", custo: 36000, unidades: 40, valorPorUnidade: 1200, duracao: 45, icon: "📱" },
+    { id: 3, nome: "Básico", tipo: "basico", custo: 50400, unidades: 60, valorPorUnidade: 1200, duracao: 50, icon: "📱" },
+    
+    // Intermediário
+    { id: 4, nome: "Intermediário", tipo: "intermediario", custo: 50000, unidades: 20, valorPorUnidade: 3000, duracao: 55, icon: "📲" },
+    { id: 5, nome: "Intermediário", tipo: "intermediario", custo: 90000, unidades: 40, valorPorUnidade: 3000, duracao: 60, icon: "📲" },
+    { id: 6, nome: "Intermediário", tipo: "intermediario", custo: 126000, unidades: 60, valorPorUnidade: 3000, duracao: 65, icon: "📲" },
+    
+    // Premium
+    { id: 7, nome: "Premium", tipo: "premium", custo: 100000, unidades: 15, valorPorUnidade: 8000, duracao: 70, icon: "📳" },
+    { id: 8, nome: "Premium", tipo: "premium", custo: 180000, unidades: 30, valorPorUnidade: 8000, duracao: 75, icon: "📳" },
+    { id: 9, nome: "Premium", tipo: "premium", custo: 252000, unidades: 45, valorPorUnidade: 8000, duracao: 80, icon: "📳" },
+    
+    // Flagship
+    { id: 10, nome: "Flagship", tipo: "flagship", custo: 150000, unidades: 10, valorPorUnidade: 18000, duracao: 85, icon: "🔥" },
+    { id: 11, nome: "Flagship", tipo: "flagship", custo: 270000, unidades: 20, valorPorUnidade: 18000, duracao: 90, icon: "🔥" },
+    { id: 12, nome: "Flagship", tipo: "flagship", custo: 378000, unidades: 30, valorPorUnidade: 18000, duracao: 95, icon: "🔥" },
+
+    // Gamer
+    { id: 13, nome: "Gamer", tipo: "gamer", custo: 120000, unidades: 12, valorPorUnidade: 12000, duracao: 75, icon: "🎮" },
+    { id: 14, nome: "Gamer", tipo: "gamer", custo: 216000, unidades: 24, valorPorUnidade: 12000, duracao: 80, icon: "🎮" },
+    { id: 15, nome: "Gamer", tipo: "gamer", custo: 302400, unidades: 36, valorPorUnidade: 12000, duracao: 85, icon: "🎮" },
+
+    // Dobrável
+    { id: 16, nome: "Dobrável", tipo: "dobravel", custo: 200000, unidades: 8, valorPorUnidade: 30000, duracao: 100, icon: "📴" },
+    { id: 17, nome: "Dobrável", tipo: "dobravel", custo: 360000, unidades: 16, valorPorUnidade: 30000, duracao: 105, icon: "📴" },
+    { id: 18, nome: "Dobrável", tipo: "dobravel", custo: 504000, unidades: 24, valorPorUnidade: 30000, duracao: 110, icon: "📴" },
+  ];
+
+  // Ofertas de mercado com margens de 50-70%
+  const marketOffers = [
+    // BÁSICO 📱
+    // custo base: 20.000 → lucro 50–70% → faixa: 30.000–34.000
+    { id: 1, name: "basico", unidades: 10, pricePerUnit: 1500, totalPrice: 15000 },    // +50%
+    { id: 2, name: "basico", unidades: 20, pricePerUnit: 1600, totalPrice: 32000 },    // +60%
+    { id: 3, name: "basico", unidades: 30, pricePerUnit: 1700, totalPrice: 51000 },    // +70%
+    { id: 4, name: "basico", unidades: 40, pricePerUnit: 1680, totalPrice: 67200 },    // +68%
+
+    // INTERMEDIÁRIO 📲
+    // custo base: 50.000 → lucro 50–70% → faixa: 75.000–85.000
+    { id: 5, name: "intermediario", unidades: 10, pricePerUnit: 3750, totalPrice: 37500 },   // +50%
+    { id: 6, name: "intermediario", unidades: 15, pricePerUnit: 4000, totalPrice: 60000 },   // +60%
+    { id: 7, name: "intermediario", unidades: 20, pricePerUnit: 4250, totalPrice: 85000 },   // +70%
+    { id: 8, name: "intermediario", unidades: 25, pricePerUnit: 4200, totalPrice: 105000 },  // +68%
+
+    // PREMIUM 📳
+    // custo base: 100.000 → lucro 50–70% → faixa: 150.000–170.000
+    { id: 9, name: "premium", unidades: 8, pricePerUnit: 10000, totalPrice: 80000 },         // +50%
+    { id: 10, name: "premium", unidades: 12, pricePerUnit: 10666, totalPrice: 127992 },      // +60%
+    { id: 11, name: "premium", unidades: 15, pricePerUnit: 11333, totalPrice: 169995 },      // +70%
+    { id: 12, name: "premium", unidades: 20, pricePerUnit: 11200, totalPrice: 224000 },      // +68%
+
+    // FLAGSHIP 🔥
+    // custo base: 150.000 → lucro 50–70% → faixa: 225.000–255.000
+    { id: 13, name: "flagship", unidades: 5, pricePerUnit: 22500, totalPrice: 112500 },      // +50%
+    { id: 14, name: "flagship", unidades: 8, pricePerUnit: 24000, totalPrice: 192000 },      // +60%
+    { id: 15, name: "flagship", unidades: 10, pricePerUnit: 25500, totalPrice: 255000 },     // +70%
+    { id: 16, name: "flagship", unidades: 12, pricePerUnit: 25200, totalPrice: 302400 },     // +68%
+
+    // GAMER 🎮
+    // custo base: 120.000 → lucro 50–70% → faixa: 180.000–204.000
+    { id: 17, name: "gamer", unidades: 6, pricePerUnit: 15000, totalPrice: 90000 },          // +50%
+    { id: 18, name: "gamer", unidades: 10, pricePerUnit: 16000, totalPrice: 160000 },        // +60%
+    { id: 19, name: "gamer", unidades: 12, pricePerUnit: 17000, totalPrice: 204000 },        // +70%
+    { id: 20, name: "gamer", unidades: 15, pricePerUnit: 16800, totalPrice: 252000 },        // +68%
+
+    // DOBRÁVEL 📴
+    // custo base: 200.000 → lucro 50–70% → faixa: 300.000–340.000
+    { id: 21, name: "dobravel", unidades: 4, pricePerUnit: 37500, totalPrice: 150000 },      // +50%
+    { id: 22, name: "dobravel", unidades: 6, pricePerUnit: 40000, totalPrice: 240000 },      // +60%
+    { id: 23, name: "dobravel", unidades: 8, pricePerUnit: 42500, totalPrice: 340000 },      // +70%
+    { id: 24, name: "dobravel", unidades: 10, pricePerUnit: 42000, totalPrice: 420000 },     // +68%
+  ];
+
+  // Ciclos automáticos
+  const [cicloSmartphones] = useState(() =>
+    new CicloDeOfertas({
+      baseData: smartphones,
+      quantidadeSorteio: 6,
+      duracaoDias: 40,
+      chaveStorage: "ciclo_smartphones"
+    })
+  );
+
+  const [cicloMercado] = useState(() =>
+    new CicloDeOfertas({
+      baseData: marketOffers,
+      quantidadeSorteio: 12,
+      duracaoDias: 90,
+      chaveStorage: "ciclo_mercado_smartphones"
+    })
+  );
+
+  useEffect(() => {
+    cicloSmartphones.atualizarDia(dados.dia);
+    cicloMercado.atualizarDia(dados.dia);
+  }, [dados.dia]);
+
+  const smartphonesAtuais = cicloSmartphones.getItensDisponiveis();
+  const ofertasAtuais = cicloMercado.getItensDisponiveis();
+
+  const [activeProduction, setActiveProduction] = useState(null);
+  const producaoPronta = activeProduction && dados.dia >= activeProduction.diaFim;
+
+  const handleProduzir = (smartphone) => {
+    if (saldo < smartphone.custo) return;
+    if (removerSaldo(smartphone.custo)) {
+      atualizarEco("saldo", economiaSetores.saldo - smartphone.custo);
+      setActiveProduction({
+        ...smartphone,
+        diaInicio: dados.dia,
+        diaFim: dados.dia + smartphone.duracao
+      });
+    }
+  };
+
+  const handleColetar = () => {
+    if (activeProduction) {
+      adicionarEstoque(activeProduction.tipo, activeProduction.unidades);
+      setActiveProduction(null);
+      setDiaAtual(dados.dia);
+    }
+  };
+
+  const [vendasRealizadas, setVendasRealizadas] = useState([]);
+
+  const handleVender = (offer) => {
+    const estoqueAtual = currentStock[offer.name] || 0;
+    if (offer.unidades > estoqueAtual) {
+      return alert("Você não tem smartphones suficientes!");
+    }
+
+    removerEstoque(offer.name, offer.unidades);
+    adicionarSaldo(offer.totalPrice);
+    atualizarEco("saldo", economiaSetores.saldo + offer.totalPrice);
+    setVendasRealizadas((prev) => [...prev, offer.id]);
+  };
+
+  const renderTabContent = (tab, cores, formatCurrency) => {
+    if (tab === 'produzir') {
+      return (
+        <div className="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
+          {smartphonesAtuais.map((smartphone) => {
+            const podeEscolher = !activeProduction && saldo >= smartphone.custo;
+            return (
+              <div key={smartphone.id} className="rounded-lg shadow-md p-4 bg-white">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">{smartphone.icon}</span>
+                  <h3 className="text-base font-bold" style={{ color: cores.primary }}>
+                    {smartphone.nome}
+                  </h3>
+                </div>
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between text-sm">
+                    <span>Custo:</span>
+                    <span>{formatCurrency(smartphone.custo)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Unidades:</span>
+                    <span>{smartphone.unidades}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Custo/Unidade:</span>
+                    <span>{formatCurrency(smartphone.custo / smartphone.unidades)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Duração:</span>
+                    <span>{smartphone.duracao} dias</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => handleProduzir(smartphone)}
+                  disabled={!podeEscolher}
+                  className="w-full py-3 rounded font-bold text-white"
+                  style={{ backgroundColor: podeEscolher ? cores.accent : '#6C757D' }}
+                >
+                  {activeProduction ? 'Produzindo...' : 'Produzir'}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    if (tab === 'mercado') {
+      const ofertasDisponiveis = ofertasAtuais.filter((offer) => !vendasRealizadas.includes(offer.id));
+
+      return (
+        <div className="grid grid-cols-4 gap-4 w-full mx-auto text-center">
+          {ofertasDisponiveis.map((offer) => (
+            <div key={offer.id} className="bg-white rounded-lg p-4 shadow-md">
+              <h3 className="font-bold text-gray-800 mb-2 capitalize text-3xl">
+                {getProductIcon(offer.name)}
+              </h3>
+              <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
+              <p className="text-sm mb-1">{offer.unidades} unidades</p>
+              <p className="text-xs text-gray-500 mb-3">
+                R$ {offer.pricePerUnit.toLocaleString()}/un
+              </p>
+              <button
+                onClick={() => handleVender(offer)}
+                className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700"
+              >
+                Vender
+              </button>
+            </div>
+          ))}
+
+          {ofertasDisponiveis.length === 0 && (
+            <p className="col-span-4 text-gray-500 text-sm mt-4">
+              Todos os compradores já foram atendidos.
+            </p>
+          )}
+        </div>
+      );
+    }
+
+    if (tab === 'estoque') {
+      return (
+        <div className="grid grid-cols-3 gap-6">
+          {Object.entries(currentStock).map(([type, qtd]) => (
+            <div key={type} className="text-center text-white bg-white/20 rounded-xl p-6">
+              <h3 className="text-4xl mt-3 mb-3">{getProductIcon(type)}</h3>
+              <h3 className="text-xl font-bold mb-2 capitalize">{type}</h3>
+              <div className="text-lg mb-3 opacity-80">{qtd} unidades</div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  const tabs = [
+    { id: 'produzir', label: 'Produzir', icon: Smartphone, info: null },
+    { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
+    { id: 'estoque', label: 'Estoque', icon: Package, info: `${Object.values(currentStock).reduce((a, b) => a + b, 0)} Unidades` },
+  ];
+
+  return (
+    <BaseBusinessInterface
+      negocio={negocio}
+      tabs={tabs}
+      renderTabContent={renderTabContent}
+      headerExtra={
+        activeProduction && (
+          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-white text-sm">
+            {producaoPronta ? (
+              <div className="flex items-center justify-between">
+                <span>📱 {activeProduction.nome} pronto para coleta!</span>
+                <button
+                  onClick={handleColetar}
+                  className="px-4 py-2 rounded font-bold bg-green-500 text-white"
+                >
+                  Coletar ({activeProduction.unidades} un)
+                </button>
+              </div>
+            ) : (
+              <div>
+                🏭 Produzindo {activeProduction.nome} — Finaliza no dia {activeProduction.diaFim}
+              </div>
+            )}
+          </div>
+        )
+      }
+      footerExtra={(tab) => {
+        if (tab === 'produzir') return `Próximo ciclo de produção em ${cicloSmartphones.getFimCiclo() - dados.dia} dias`;
+        if (tab === 'mercado') return `Próximo ciclo de mercado em ${cicloMercado.getFimCiclo() - dados.dia} dias`;
+        return null;
+      }}
+    />
+  );
+};
+const ConstrutoraInfraestruturaNegocio = () => {
+  const { dados } = useContext(CentraldeDadosContext);
+  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+
+  const { negocio, saldo, estoque: currentStock, adicionarSaldo, removerSaldo, adicionarEstoque, removerEstoque, setDiaAtual } =
+    useNegocio({
+      id: 'construtora-1',
+      nome: 'Construtora de Infraestruturas',
+      setor: 'imobiliario',
+      saldoInicial: 1500000,
+      estoqueInicial: { 
+        ponte: 0, 
+        estrada: 0, 
+        tunel: 0,
+        viaduto: 0,
+        ferroviaria: 0,
+        porto: 0
+      },
+      capacidadeEstoque: 50,
+      diaAtual: dados.dia
+    });
+
+  const getProductIcon = (type) => {
+    const icons = {
+      ponte: '🌉',
+      estrada: '🛣️',
+      tunel: '🚇',
+      viaduto: '🏗️',
+      ferroviaria: '🚄',
+      porto: '⚓'
+    };
+    return icons[type] || '🏗️';
+  };
+
+  // Dados de construção de infraestruturas
+  const infraestruturas = [
+    // Ponte
+    { id: 1, nome: "Ponte Pequena", tipo: "ponte", custo: 500000, unidades: 1, valorPorUnidade: 500000, duracao: 180, icon: "🌉" },
+    { id: 2, nome: "Ponte Média", tipo: "ponte", custo: 900000, unidades: 1, valorPorUnidade: 900000, duracao: 240, icon: "🌉" },
+    { id: 3, nome: "Ponte Grande", tipo: "ponte", custo: 1500000, unidades: 1, valorPorUnidade: 1500000, duracao: 300, icon: "🌉" },
+    
+    // Estrada
+    { id: 4, nome: "Estrada 10km", tipo: "estrada", custo: 300000, unidades: 1, valorPorUnidade: 300000, duracao: 120, icon: "🛣️" },
+    { id: 5, nome: "Estrada 25km", tipo: "estrada", custo: 700000, unidades: 1, valorPorUnidade: 700000, duracao: 180, icon: "🛣️" },
+    { id: 6, nome: "Estrada 50km", tipo: "estrada", custo: 1300000, unidades: 1, valorPorUnidade: 1300000, duracao: 240, icon: "🛣️" },
+    
+    // Túnel
+    { id: 7, nome: "Túnel 2km", tipo: "tunel", custo: 800000, unidades: 1, valorPorUnidade: 800000, duracao: 210, icon: "🚇" },
+    { id: 8, nome: "Túnel 5km", tipo: "tunel", custo: 1800000, unidades: 1, valorPorUnidade: 1800000, duracao: 270, icon: "🚇" },
+    { id: 9, nome: "Túnel 10km", tipo: "tunel", custo: 3200000, unidades: 1, valorPorUnidade: 3200000, duracao: 330, icon: "🚇" },
+    
+    // Viaduto
+    { id: 10, nome: "Viaduto Simples", tipo: "viaduto", custo: 400000, unidades: 1, valorPorUnidade: 400000, duracao: 150, icon: "🏗️" },
+    { id: 11, nome: "Viaduto Duplo", tipo: "viaduto", custo: 750000, unidades: 1, valorPorUnidade: 750000, duracao: 200, icon: "🏗️" },
+    { id: 12, nome: "Viaduto Complexo", tipo: "viaduto", custo: 1200000, unidades: 1, valorPorUnidade: 1200000, duracao: 250, icon: "🏗️" },
+
+    // Ferroviária
+    { id: 13, nome: "Ferrovia 15km", tipo: "ferroviaria", custo: 600000, unidades: 1, valorPorUnidade: 600000, duracao: 190, icon: "🚄" },
+    { id: 14, nome: "Ferrovia 30km", tipo: "ferroviaria", custo: 1100000, unidades: 1, valorPorUnidade: 1100000, duracao: 250, icon: "🚄" },
+    { id: 15, nome: "Ferrovia 60km", tipo: "ferroviaria", custo: 2000000, unidades: 1, valorPorUnidade: 2000000, duracao: 310, icon: "🚄" },
+
+    // Porto
+    { id: 16, nome: "Porto Pequeno", tipo: "porto", custo: 1000000, unidades: 1, valorPorUnidade: 1000000, duracao: 280, icon: "⚓" },
+    { id: 17, nome: "Porto Médio", tipo: "porto", custo: 2200000, unidades: 1, valorPorUnidade: 2200000, duracao: 340, icon: "⚓" },
+    { id: 18, nome: "Porto Grande", tipo: "porto", custo: 4000000, unidades: 1, valorPorUnidade: 4000000, duracao: 400, icon: "⚓" },
+  ];
+
+  // Ofertas de mercado com margens de 50-70%
+  const marketOffers = [
+    // PONTE 🌉
+    // custo base: 500.000 → lucro 50–70% → faixa: 750.000–850.000
+    { id: 1, name: "ponte", unidades: 1, pricePerUnit: 750000, totalPrice: 750000 },     // +50%
+    { id: 2, name: "ponte", unidades: 1, pricePerUnit: 800000, totalPrice: 800000 },     // +60%
+    { id: 3, name: "ponte", unidades: 1, pricePerUnit: 850000, totalPrice: 850000 },     // +70%
+    { id: 4, name: "ponte", unidades: 2, pricePerUnit: 840000, totalPrice: 1680000 },    // +68%
+
+    // ESTRADA 🛣️
+    // custo base: 300.000 → lucro 50–70% → faixa: 450.000–510.000
+    { id: 5, name: "estrada", unidades: 1, pricePerUnit: 450000, totalPrice: 450000 },   // +50%
+    { id: 6, name: "estrada", unidades: 1, pricePerUnit: 480000, totalPrice: 480000 },   // +60%
+    { id: 7, name: "estrada", unidades: 1, pricePerUnit: 510000, totalPrice: 510000 },   // +70%
+    { id: 8, name: "estrada", unidades: 2, pricePerUnit: 504000, totalPrice: 1008000 },  // +68%
+
+    // TÚNEL 🚇
+    // custo base: 800.000 → lucro 50–70% → faixa: 1.200.000–1.360.000
+    { id: 9, name: "tunel", unidades: 1, pricePerUnit: 1200000, totalPrice: 1200000 },   // +50%
+    { id: 10, name: "tunel", unidades: 1, pricePerUnit: 1280000, totalPrice: 1280000 },  // +60%
+    { id: 11, name: "tunel", unidades: 1, pricePerUnit: 1360000, totalPrice: 1360000 },  // +70%
+    { id: 12, name: "tunel", unidades: 2, pricePerUnit: 1344000, totalPrice: 2688000 },  // +68%
+
+    // VIADUTO 🏗️
+    // custo base: 400.000 → lucro 50–70% → faixa: 600.000–680.000
+    { id: 13, name: "viaduto", unidades: 1, pricePerUnit: 600000, totalPrice: 600000 },  // +50%
+    { id: 14, name: "viaduto", unidades: 1, pricePerUnit: 640000, totalPrice: 640000 },  // +60%
+    { id: 15, name: "viaduto", unidades: 1, pricePerUnit: 680000, totalPrice: 680000 },  // +70%
+    { id: 16, name: "viaduto", unidades: 2, pricePerUnit: 672000, totalPrice: 1344000 }, // +68%
+
+    // FERROVIÁRIA 🚄
+    // custo base: 600.000 → lucro 50–70% → faixa: 900.000–1.020.000
+    { id: 17, name: "ferroviaria", unidades: 1, pricePerUnit: 900000, totalPrice: 900000 },    // +50%
+    { id: 18, name: "ferroviaria", unidades: 1, pricePerUnit: 960000, totalPrice: 960000 },    // +60%
+    { id: 19, name: "ferroviaria", unidades: 1, pricePerUnit: 1020000, totalPrice: 1020000 },  // +70%
+    { id: 20, name: "ferroviaria", unidades: 2, pricePerUnit: 1008000, totalPrice: 2016000 },  // +68%
+
+    // PORTO ⚓
+    // custo base: 1.000.000 → lucro 50–70% → faixa: 1.500.000–1.700.000
+    { id: 21, name: "porto", unidades: 1, pricePerUnit: 1500000, totalPrice: 1500000 },  // +50%
+    { id: 22, name: "porto", unidades: 1, pricePerUnit: 1600000, totalPrice: 1600000 },  // +60%
+    { id: 23, name: "porto", unidades: 1, pricePerUnit: 1700000, totalPrice: 1700000 },  // +70%
+    { id: 24, name: "porto", unidades: 2, pricePerUnit: 1680000, totalPrice: 3360000 },  // +68%
+  ];
+
+  // Ciclos automáticos
+  const [cicloInfraestruturas] = useState(() =>
+    new CicloDeOfertas({
+      baseData: infraestruturas,
+      quantidadeSorteio: 6,
+      duracaoDias: 60,
+      chaveStorage: "ciclo_infraestruturas"
+    })
+  );
+
+  const [cicloMercado] = useState(() =>
+    new CicloDeOfertas({
+      baseData: marketOffers,
+      quantidadeSorteio: 12,
+      duracaoDias: 120,
+      chaveStorage: "ciclo_mercado_infraestruturas"
+    })
+  );
+
+  useEffect(() => {
+    cicloInfraestruturas.atualizarDia(dados.dia);
+    cicloMercado.atualizarDia(dados.dia);
+  }, [dados.dia]);
+
+  const infraestruturasAtuais = cicloInfraestruturas.getItensDisponiveis();
+  const ofertasAtuais = cicloMercado.getItensDisponiveis();
+
+  const [activeProduction, setActiveProduction] = useState(null);
+  const producaoPronta = activeProduction && dados.dia >= activeProduction.diaFim;
+
+  const handleConstruir = (infraestrutura) => {
+    if (saldo < infraestrutura.custo) return;
+    if (removerSaldo(infraestrutura.custo)) {
+      atualizarEco("saldo", economiaSetores.saldo - infraestrutura.custo);
+      setActiveProduction({
+        ...infraestrutura,
+        diaInicio: dados.dia,
+        diaFim: dados.dia + infraestrutura.duracao
+      });
+    }
+  };
+
+  const handleColetar = () => {
+    if (activeProduction) {
+      adicionarEstoque(activeProduction.tipo, activeProduction.unidades);
+      setActiveProduction(null);
+      setDiaAtual(dados.dia);
+    }
+  };
+
+  const [vendasRealizadas, setVendasRealizadas] = useState([]);
+
+  const handleVender = (offer) => {
+    const estoqueAtual = currentStock[offer.name] || 0;
+    if (offer.unidades > estoqueAtual) {
+      return alert("Você não tem infraestruturas suficientes!");
+    }
+
+    removerEstoque(offer.name, offer.unidades);
+    adicionarSaldo(offer.totalPrice);
+    atualizarEco("saldo", economiaSetores.saldo + offer.totalPrice);
+    setVendasRealizadas((prev) => [...prev, offer.id]);
+  };
+
+  const renderTabContent = (tab, cores, formatCurrency) => {
+    if (tab === 'construir') {
+      return (
+        <div className="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
+          {infraestruturasAtuais.map((infraestrutura) => {
+            const podeEscolher = !activeProduction && saldo >= infraestrutura.custo;
+            return (
+              <div key={infraestrutura.id} className="rounded-lg shadow-md p-4 bg-white">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">{infraestrutura.icon}</span>
+                  <h3 className="text-base font-bold" style={{ color: cores.primary }}>
+                    {infraestrutura.nome}
+                  </h3>
+                </div>
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between text-sm">
+                    <span>Custo:</span>
+                    <span>{formatCurrency(infraestrutura.custo)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Tipo:</span>
+                    <span className="capitalize">{infraestrutura.tipo}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Duração:</span>
+                    <span>{infraestrutura.duracao} dias</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Status:</span>
+                    <span className="text-xs">Obra complexa</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => handleConstruir(infraestrutura)}
+                  disabled={!podeEscolher}
+                  className="w-full py-3 rounded font-bold text-white"
+                  style={{ backgroundColor: podeEscolher ? cores.accent : '#6C757D' }}
+                >
+                  {activeProduction ? 'Construindo...' : 'Construir'}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    if (tab === 'mercado') {
+      const ofertasDisponiveis = ofertasAtuais.filter((offer) => !vendasRealizadas.includes(offer.id));
+
+      return (
+        <div className="grid grid-cols-4 gap-4 w-full mx-auto text-center">
+          {ofertasDisponiveis.map((offer) => (
+            <div key={offer.id} className="bg-white rounded-lg p-4 shadow-md">
+              <h3 className="font-bold text-gray-800 mb-2 capitalize text-3xl">
+                {getProductIcon(offer.name)}
+              </h3>
+              <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
+              <p className="text-sm mb-1">{offer.unidades} obra(s)</p>
+              <p className="text-xs text-gray-500 mb-3">
+                {formatCurrency(offer.pricePerUnit)}/un
+              </p>
+              <button
+                onClick={() => handleVender(offer)}
+                className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700"
+              >
+                Vender
+              </button>
+            </div>
+          ))}
+
+          {ofertasDisponiveis.length === 0 && (
+            <p className="col-span-4 text-gray-500 text-sm mt-4">
+              Todos os contratos já foram atendidos.
+            </p>
+          )}
+        </div>
+      );
+    }
+
+    if (tab === 'estoque') {
+      return (
+        <div className="grid grid-cols-3 gap-6">
+          {Object.entries(currentStock).map(([type, qtd]) => (
+            <div key={type} className="text-center text-white bg-white/20 rounded-xl p-6">
+              <h3 className="text-4xl mt-3 mb-3">{getProductIcon(type)}</h3>
+              <h3 className="text-xl font-bold mb-2 capitalize">{type}</h3>
+              <div className="text-lg mb-3 opacity-80">{qtd} obra(s)</div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  const tabs = [
+    { id: 'construir', label: 'Construir', icon: Building2, info: null },
+    { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
+    { id: 'estoque', label: 'Estoque', icon: Package, info: `${Object.values(currentStock).reduce((a, b) => a + b, 0)} Obras` },
+  ];
+
+  return (
+    <BaseBusinessInterface
+      negocio={negocio}
+      tabs={tabs}
+      renderTabContent={renderTabContent}
+      headerExtra={
+        activeProduction && (
+          <div className="bg-white bg-opacity-20 rounded-lg p-3 text-white text-sm">
+            {producaoPronta ? (
+              <div className="flex items-center justify-between">
+                <span>🏗️ {activeProduction.nome} concluída!</span>
+                <button
+                  onClick={handleColetar}
+                  className="px-4 py-2 rounded font-bold bg-green-500 text-white"
+                >
+                  Finalizar Obra
+                </button>
+              </div>
+            ) : (
+              <div>
+                ⚙️ Construindo {activeProduction.nome} — Conclusão no dia {activeProduction.diaFim}
+              </div>
+            )}
+          </div>
+        )
+      }
+      footerExtra={(tab) => {
+        if (tab === 'construir') return `Próximo ciclo de projetos em ${cicloInfraestruturas.getFimCiclo() - dados.dia} dias`;
+        if (tab === 'mercado') return `Próximo ciclo de licitações em ${cicloMercado.getFimCiclo() - dados.dia} dias`;
+        return null;
+      }}
+    />
+  );
+};
 // ==================== APP PRINCIPAL ====================
+
+
+
+
 const App = () => {
   const [negocioAtivo, setNegocioAtivo] = useState('plantacao');
-
+  // const dados = useContext(CentraldeDadosContext);
   return (
     <div className="w-full flex flex-col justify-between items-center h-[80vh] rounded-xl m-auto p-4">
       <div className=" mx-auto flex ">
         <div className="flex gap-2 ">
+          {/* {dados.edificios[0].quantidade>0 && */}
           <button
             onClick={() => setNegocioAtivo('plantacao')}
             className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'plantacao'
@@ -4219,6 +5435,7 @@ const App = () => {
           >
             🌾 Plantação
           </button>
+          {/* } */}
           <button
             onClick={() => setNegocioAtivo('acougue')}
             className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'acougue'
@@ -4228,12 +5445,52 @@ const App = () => {
           >
             🥩 Açougue
           </button>
+          <button
+            onClick={() => setNegocioAtivo('painel')}
+            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'painel'
+              ? 'bg-green-600 text-white'
+              : 'bg-white text-gray-700'
+              }`}
+          >
+            ☀️ Painel 
+          </button>
+          <button
+            onClick={() => setNegocioAtivo('automóveis')}
+            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'automóveis'
+              ? 'bg-green-600 text-white'
+              : 'bg-white text-gray-700'
+              }`}
+          >
+            🚗 automóveis
+          </button>
+          <button
+            onClick={() => setNegocioAtivo('smartphone')}
+            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'smartphone'
+              ? 'bg-green-600 text-white'
+              : 'bg-white text-gray-700'
+              }`}
+          >
+            📱 smartphone
+          </button>
+          <button
+            onClick={() => setNegocioAtivo('construtora')}
+            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'construtora'
+              ? 'bg-green-600 text-white'
+              : 'bg-white text-gray-700'
+              }`}
+          >
+            🏗️ construtora
+          </button>
         </div>
       </div>
 
       <div className="w-full mx-auto h-[calc(80vh-100px)]">
         {negocioAtivo === 'plantacao' && <PlantacaoNegocio />}
         {negocioAtivo === 'acougue' && <AcougueNegocio />}
+        {negocioAtivo === 'painel' && <PainelSolarNegocio />}
+        {negocioAtivo === 'automóveis' && <FabricaVeiculosNegocio />}
+        {negocioAtivo === 'smartphone' && <FabricaSmartphonesNegocio />}
+        {negocioAtivo === 'construtora' && <ConstrutoraInfraestruturaNegocio />}
       </div>
     </div>
   );
