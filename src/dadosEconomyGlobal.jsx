@@ -20,11 +20,11 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     idContrato: 0,
     contratosBancos: [
     ],
-    // despesasEmprestimo: {
-    //   diaPagarDespesas: false,
-    //   despesasPagas: true,
-    //   proximoPagamento: "30"
-    // },
+    despesasEmprestimo: {
+      diaPagarDespesas: false,
+      despesasPagas: true,
+      proximoPagamento: "30"
+    },
     centralEdificios: {
       classificacaoPorteEmpresa: "Micro Empresa",
       quantidadeUnicoMax: 3,
