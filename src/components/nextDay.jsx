@@ -24,7 +24,20 @@ export function NextDay() {
         if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
             return;
         }
-
+        if (!economiaSetores.despesasEmprestimo.despesasPagas) {
+            return;
+        }
+        
+//   useEffect(() => {
+//     if (dados.dia % 30 === 0) {
+//       atualizarDados('despesas', {
+//         ...economiaSetores.despesas,
+//         diaPagarDespesas: true,
+//         despesasPagas: false,
+//         proximoPagamento: "30"
+//       });
+//     }
+//   }, [dados.despesas.proximoPagamento]);
         // alert("saçdfjasçkldfj")
 
            dados.animarCicloDia();

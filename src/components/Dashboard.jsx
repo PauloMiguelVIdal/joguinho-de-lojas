@@ -997,7 +997,6 @@ useEffect(() => {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">
         <BankInterface />
-
       </div>)
   }
   if (vision === "licençaEmpre") {
@@ -1011,7 +1010,6 @@ useEffect(() => {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">
         <CorporateFinanceInterface />
-
       </div>)
   }
 

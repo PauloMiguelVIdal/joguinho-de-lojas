@@ -5,12 +5,32 @@ import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import EconomyGlobal from './EconomyGlobal';
+import BankInterface from './BankInterface';
 
 const SidebarCards = ({ banco, cartao, setor, }) => {
     const { dados, atualizarDados, atualizarDadosProf } = useContext(CentraldeDadosContext);
     const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
     const [selectedCard, setSelectedCard] = useState(null);
+
+      const setVision = (newVision) => {
+    atualizarDados("vision", {
+      ...dados.vision, visionAtual: newVision
+    });
+  }
+
+const testeId = (id) => {
+  const indice = economiaSetores.contratosBancos.findIndex(c => c.cartaoId === id);
+  atualizarEco("idContrato",indice)
+  return indice;
+};
+
+
+
+ const abrirInterfaceBanco = () => setVision("bankInterface")
+
+
+
 
 //    const limite = parseInt(cartao.limiteEmprestimo);
 //         const usado = parseInt(cartao.limiteUsado);
@@ -28,7 +48,7 @@ const SidebarCards = ({ banco, cartao, setor, }) => {
     style={{
       background: `linear-gradient(45deg, ${cartao.cor1} 0%, ${cartao.cor2} 25%, ${cartao.cor3} 50%, ${cartao.cor4} 75%, ${cartao.cor1} 100%)`
     }}
-    onClick={() => setSelectedCard(cartao.id)}
+         onClick={() => {setSelectedCard(cartao.id) ,abrirInterfaceBanco("bankInterface"),console.log(cartao.id),  testeId(cartao.id);}} 
   >
     {/* Losangos e retângulos com pulse */}
     <div className="absolute inset-0">
@@ -91,8 +111,7 @@ const TriangularFusionCard = ({ cartao }) => (
     style={{
       background: `conic-gradient(from 0deg, ${cartao.cor1}, ${cartao.cor2}, ${cartao.cor3}, ${cartao.cor4}, ${cartao.cor1})`
     }}
-    onClick={() => setSelectedCard(cartao.id)}
-  >
+ onClick={() => {setSelectedCard(cartao.id) ,abrirInterfaceBanco("bankInterface"),console.log(cartao.id),  testeId(cartao.id);}}   >
     <div className="absolute inset-0">
       <div
         className="absolute top-3 left-3 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-transparent hover:animate-geometric-pulse"
@@ -156,8 +175,7 @@ const CardClassico = ({ cartao }) => (
     style={{
       background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 50%, ${cartao.cor3} 100%)`,
     }}
-    onClick={() => setSelectedCard(cartao.id)}
-  >
+ onClick={() => {setSelectedCard(cartao.id) ,abrirInterfaceBanco("bankInterface"),console.log(cartao.id),  testeId(cartao.id);}}  >
     {/* Formas geométricas */}
     <div className="absolute inset-0">
       <div
@@ -215,8 +233,7 @@ const CardModerno = ({ cartao }) => (
     style={{
       background: `radial-gradient(circle at top right, ${cartao.cor3} 0%, ${cartao.cor2} 50%, ${cartao.cor1} 100%)`,
     }}
-    onClick={() => setSelectedCard(cartao.id)}
-  >
+ onClick={() => {setSelectedCard(cartao.id) ,abrirInterfaceBanco("bankInterface"),console.log(cartao.id)}}  >
     {/* Hexágonos */}
     <div className="absolute inset-0">
       {[...Array(5)].map((_, i) => (
@@ -299,7 +316,7 @@ const WavePatternsCard = ({ cartao }) => (
     style={{
       background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 33%, ${cartao.cor3} 66%, ${cartao.cor4} 100%)`,
     }}
-    onClick={() => setSelectedCard(cartao.id)}
+         onClick={() => {setSelectedCard(cartao.id) ,abrirInterfaceBanco("bankInterface"),console.log(cartao.id),  testeId(cartao.id);}} 
   >
     {/* Ondas */}
     <div className="absolute inset-0 hover:animate-geometric-pulse">

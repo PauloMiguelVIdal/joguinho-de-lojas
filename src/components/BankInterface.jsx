@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext,useRef } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { CreditCard, DollarSign, TrendingUp, Gift, Calendar, Wallet } from 'lucide-react';
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
@@ -8,18 +8,18 @@ const BankInterface = () => {
   const [currentTab, setCurrentTab] = useState('overview');
   const [loanAmount, setLoanAmount] = useState(0);
   const { dados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
-
-  const contrato1 = economiaSetores.contratosBancos[0];
+  const { economiaSetores, atualizarEco, atualizarEcoCallback } = useContext(DadosEconomyGlobalContext);
+  const constratoSelecionado = economiaSetores.idContrato
+  const contrato1 = economiaSetores.contratosBancos[constratoSelecionado || 0];
   const diaAtualJogo = dados.dia || 1000;
-  const [activeLoan, setActiveLoan] = useState(null);
+ const activeLoan = economiaSetores.activeLoan || null;
   const limiteEmprestimoAtual = contrato1.limiteEmprestimo;
-  const [availableLoan, setAvailableLoan] = useState(limiteEmprestimoAtual);
+  const availableLoan = economiaSetores.availableLoan ?? limiteEmprestimoAtual;
 
   const [investmentType, setInvestmentType] = useState('pos');
   const [investmentAmount, setInvestmentAmount] = useState(0);
   const [investmentDays, setInvestmentDays] = useState(90);
-  const [activeInvestments, setActiveInvestments] = useState([]);
+const activeInvestments = economiaSetores.activeInvestments || [];
 
   const saldoBancario = economiaSetores.saldo;
 
@@ -50,60 +50,124 @@ const BankInterface = () => {
 
   const [lastProcessedPayment, setLastProcessedPayment] = useState(0);
 
-    const lastProcessedPaymentRef = useRef(0);
+  const lastProcessedPaymentRef = useRef(0);
+
+  // useEffect(() => {
+  //   if (!activeLoan) {
+  //     lastProcessedPaymentRef.current = 0;
+  //     return;
+  //   }
+
+  //   const diasDecorridos = diaAtualJogo - activeLoan.diaInicio;
+  //   const parcelasPagas = Math.floor(diasDecorridos / 30);
+
+  //   // evita reprocessar parcelas antigas
+  //   if (parcelasPagas <= lastProcessedPaymentRef.current || parcelasPagas > activeLoan.parcelas) {
+  //     return;
+  //   }
+
+  //   const parcelasADescontar = parcelasPagas - lastProcessedPaymentRef.current;
+  //   const valorTotalDescontar = parcelasADescontar * activeLoan.valorParcela;
+
+  //   const saldoAtual = economiaSetores.saldo ?? 0;
+
+  //   console.group("=== PROCESSANDO PAGAMENTO AUTOMÁTICO ===");
+  //   console.log("Dia atual:", diaAtualJogo);
+  //   console.log("Parcelas já pagas:", lastProcessedPaymentRef.current);
+  //   console.log("Parcelas novas:", parcelasADescontar);
+  //   console.log("Saldo antes:", saldoAtual);
+  //   console.log("Valor a descontar:", valorTotalDescontar);
+
+  //   // Se o jogador tiver saldo suficiente
+  //   if (saldoAtual >= valorTotalDescontar) {
+  //     const novoSaldo = saldoAtual - valorTotalDescontar;
+
+  //     // Atualiza primeiro o marcador interno
+  //     lastProcessedPaymentRef.current = parcelasPagas;
+
+  //     // Atualiza saldo global com segurança
+  //     atualizarEco('saldo', novoSaldo);
+
+  //     console.log("Saldo atualizado para:", novoSaldo);
+
+  //     const valorPago = parcelasPagas * activeLoan.valorParcela;
+  //     const novoSaldoDevedor = Math.max(0, activeLoan.totalComJuros - valorPago);
+
+  //     // Atualiza o estado do empréstimo
+  //     if (parcelasPagas >= activeLoan.parcelas) {
+  //       console.log("✅ Empréstimo totalmente quitado!");
+  //       setActiveLoan(null);
+  //       setAvailableLoan(prev => prev + activeLoan.valorOriginal);
+  //       lastProcessedPaymentRef.current = 0;
+  //     } else {
+  //       setActiveLoan(prev => ({
+  //         ...prev,
+  //         parcelaAtual: parcelasPagas + 1,
+  //         saldoDevedor: novoSaldoDevedor,
+  //         proximoVencimento: activeLoan.diaInicio + (30 * (parcelasPagas + 1))
+  //       }));
+  //     }
+  //   } else {
+  //     console.warn("⚠️ SALDO INSUFICIENTE PARA PAGAR PARCELA!");
+  //     console.warn("Saldo:", saldoAtual, " | Necessário:", valorTotalDescontar);
+  //   }
+
+  //   console.groupEnd();
+  // }, [dados.dia, activeLoan, diaAtualJogo]);
+  // if(diaAtualJogo===vencimento){
+    //   economiaSetores.despesasEmprestimo
+    // }
+const vencimento = activeLoan?.proximoVencimento 
+  ?? (activeLoan?.diaInicio ? activeLoan.diaInicio + 30 * (activeLoan.parcelaAtual ?? 1) : null);
+
 
   useEffect(() => {
-    if (!activeLoan) return;
-
-    const diasDecorridos = diaAtualJogo - activeLoan.diaInicio;
-    const parcelasPagas = Math.floor(diasDecorridos / 30);
-
-    // Verifica se há novas parcelas a pagar
-    if (parcelasPagas > lastProcessedPaymentRef.current && parcelasPagas <= activeLoan.parcelas) {
-      const parcelasADescontar = parcelasPagas - lastProcessedPaymentRef.current;
-      const valorTotalDescontar = parcelasADescontar * activeLoan.valorParcela;
-      
-      console.log('=== PROCESSANDO PAGAMENTO ===');
-      console.log('Dia atual:', diaAtualJogo);
-      console.log('Parcelas pagas:', parcelasPagas);
-      console.log('Último processamento:', lastProcessedPaymentRef.current);
-      console.log('Saldo ANTES:', economiaSetores.saldo);
-      console.log('Valor a descontar:', valorTotalDescontar);
-      
-      // Atualiza o saldo
-      atualizarEco('saldo', economiaSetores.saldo - valorTotalDescontar);
-      
-      // Atualiza o ref IMEDIATAMENTE
-      lastProcessedPaymentRef.current = parcelasPagas;
-      setLastProcessedPayment(parcelasPagas);
-
-      console.log('Saldo DEPOIS:', economiaSetores.saldo - valorTotalDescontar);
-      console.log('Ref atualizado para:', lastProcessedPaymentRef.current);
-      console.log('=== FIM PROCESSAMENTO ===');
-
-      const novaParcelaAtual = Math.min(parcelasPagas + 1, activeLoan.parcelas);
-      const valorPago = parcelasPagas * activeLoan.valorParcela;
-      const novoSaldoDevedor = Math.max(0, activeLoan.totalComJuros - valorPago);
-
-      // Se terminou de pagar todas as parcelas
-      if (parcelasPagas >= activeLoan.parcelas) {
-        console.log("Empréstimo quitado completamente!");
-        setActiveLoan(null);
-        setAvailableLoan(prev => prev + activeLoan.valorOriginal);
-        lastProcessedPaymentRef.current = 0;
-        setLastProcessedPayment(0);
-      } else {
-        // Atualiza o empréstimo com nova parcela
-        setActiveLoan({
-          ...activeLoan,
-          parcelaAtual: novaParcelaAtual,
-          saldoDevedor: novoSaldoDevedor,
-          proximoVencimento: activeLoan.diaInicio + (30 * novaParcelaAtual)
-        });
-      }
+    if (diaAtualJogo === vencimento) {
+      atualizarEco('despesasEmprestimo', {
+        ...economiaSetores.despesas,
+        diaPagarDespesas: true,
+        despesasPagas: false,
+        proximoPagamento: "30"
+      });
     }
-  }, [diaAtualJogo, activeLoan]);
+  }, [dados.dia]);
+
+  // Paga a parcela atual quando o jogador aperta o botão (somente se estiver vencida)
+const handlePayInstallment = () => {
+  if (!activeLoan) return;
+
+  const saldoAtual = economiaSetores.saldo ?? 0;
+  const valorParcela = activeLoan.valorParcela ?? 0;
+  const vencimento = activeLoan.proximoVencimento ?? (activeLoan.diaInicio + 30 * activeLoan.parcelaAtual);
   
+  if (diaAtualJogo < vencimento || saldoAtual < valorParcela) return;
+
+  const novoSaldo = saldoAtual - valorParcela;
+  atualizarEco('saldo', novoSaldo);
+  atualizarEco('despesasEmprestimo', {
+    ...dados.despesas,
+    despesasPagas: true
+  });
+
+  const parcelaAntes = activeLoan.parcelaAtual || 1;
+  const novoSaldoDevedor = Math.max(0, (activeLoan.saldoDevedor ?? activeLoan.totalComJuros) - valorParcela);
+
+  // Última parcela - quitar empréstimo
+  if (parcelaAntes >= activeLoan.parcelas) {
+    atualizarEco('activeLoan', null);
+    atualizarEco('availableLoan', availableLoan + activeLoan.valorOriginal);
+  } else {
+    // Atualizar empréstimo
+    atualizarEco('activeLoan', {
+      ...activeLoan,
+      parcelaAtual: parcelaAntes + 1,
+      saldoDevedor: novoSaldoDevedor,
+      proximoVencimento: (activeLoan.proximoVencimento ?? (activeLoan.diaInicio + 30 * parcelaAntes)) + 30
+    });
+  }
+};
+
+
 
   useEffect(() => {
     if (activeInvestments.length === 0) return;
@@ -150,42 +214,44 @@ const BankInterface = () => {
   const dadosSimulacao = calcularJurosTotal(loanAmount, contrato1.emprestimo, contrato1.juros, selectedInstallments);
   const valorParcelaSimulacao = loanAmount > 0 ? dadosSimulacao.montante / selectedInstallments : 0;
 
-  const handleRequestLoan = () => {
-    if (activeLoan || loanAmount <= 0 || loanAmount > availableLoan) return;
-    const { montante, jurosTotal, taxaMensal } = calcularJurosTotal(loanAmount, contrato1.emprestimo, contrato1.juros, selectedInstallments);
-    const valorParcela = montante / selectedInstallments;
-
-    const novoEmprestimo = {
-      valorOriginal: loanAmount,
-      totalComJuros: montante,
-      jurosTotal: jurosTotal,
-      parcelas: selectedInstallments,
-      valorParcela: valorParcela,
-      parcelaAtual: 1,
-      saldoDevedor: montante,
-      taxaMensal: taxaMensal,
-      diaInicio: diaAtualJogo,
-      proximoVencimento: diaAtualJogo + 30,
-      dataFinal: diaAtualJogo + (30 * selectedInstallments)
-    };
-
-    // Adicionar valor do empréstimo ao saldo bancário
-    atualizarEco('saldo', saldoBancario + loanAmount);
-
-    setActiveLoan(novoEmprestimo);
-    setAvailableLoan(prev => prev - loanAmount);
-    setLoanAmount(0);
+ const handleRequestLoan = () => {
+  if (activeLoan || loanAmount <= 0 || loanAmount > availableLoan) return;
+  
+  const { montante, jurosTotal, taxaMensal } = calcularJurosTotal(
+    loanAmount, 
+    contrato1.emprestimo, 
+    contrato1.juros, 
+    selectedInstallments
+  );
+  
+  const novoEmprestimo = {
+    valorOriginal: loanAmount,
+    totalComJuros: montante,
+    jurosTotal: jurosTotal,
+    parcelas: selectedInstallments,
+    valorParcela: montante / selectedInstallments,
+    parcelaAtual: 1,
+    saldoDevedor: montante,
+    taxaMensal: taxaMensal,
+    diaInicio: diaAtualJogo,
+    proximoVencimento: diaAtualJogo + 30,
+    dataFinal: diaAtualJogo + (30 * selectedInstallments)
   };
 
-  const handlePayEarly = () => {
-    if (!activeLoan) return;
+  // Salvar no context
+  atualizarEco('saldo', saldoBancario + loanAmount);
+  atualizarEco('activeLoan', novoEmprestimo);
+  atualizarEco('availableLoan', availableLoan - loanAmount);
+  setLoanAmount(0);
+};
 
-    // Descontar o saldo devedor do saldo bancário
-    atualizarEco('saldo', saldoBancario - activeLoan.saldoDevedor);
+const handlePayEarly = () => {
+  if (!activeLoan) return;
 
-    setAvailableLoan(prev => prev + activeLoan.valorOriginal);
-    setActiveLoan(null);
-  };
+  atualizarEco('saldo', saldoBancario - activeLoan.saldoDevedor);
+  atualizarEco('availableLoan', availableLoan + activeLoan.valorOriginal);
+  atualizarEco('activeLoan', null);
+};
 
   const formatarDiaJogo = (dia) => {
     const dataBase = new Date(2024, 0, 1);
@@ -252,28 +318,26 @@ const BankInterface = () => {
   };
 
   const handleInvest = () => {
-    if (investmentAmount <= 0 || investmentAmount > saldoBancario) return;
+  if (investmentAmount <= 0 || investmentAmount > saldoBancario) return;
 
-    const newInvestment = {
-      id: Date.now(),
-      type: investmentType,
-      amount: investmentAmount,
-      days: investmentType === 'pre' ? investmentDays : null,
-      diaInicio: diaAtualJogo,
-      diaVencimento: investmentType === 'pre' ? diaAtualJogo + investmentDays : null,
-      periodosProcessados: 0
-    };
-
-    // Reduzir o valor investido do saldo bancário
-    atualizarEco('saldo', saldoBancario - investmentAmount);
-
-    setActiveInvestments([...activeInvestments, newInvestment]);
-    setInvestmentAmount(0);
+  const newInvestment = {
+    id: Date.now(),
+    type: investmentType,
+    amount: investmentAmount,
+    days: investmentType === 'pre' ? investmentDays : null,
+    diaInicio: diaAtualJogo,
+    diaVencimento: investmentType === 'pre' ? diaAtualJogo + investmentDays : null,
+    periodosProcessados: 0
   };
 
-  const handleWithdraw = (investmentId) => {
-    const investment = activeInvestments.find(inv => inv.id === investmentId);
-    if (!investment) return;
+  atualizarEco('saldo', saldoBancario - investmentAmount);
+  atualizarEco('activeInvestments', [...activeInvestments, newInvestment]);
+  setInvestmentAmount(0);
+};
+
+const handleWithdraw = (investmentId) => {
+  const investment = activeInvestments.find(inv => inv.id === investmentId);
+  if (!investment) return;
     let valorResgate = 0;
     const diasDecorridos = diaAtualJogo - investment.diaInicio;
     const mesesCompletos = Math.floor(diasDecorridos / 30);
@@ -293,24 +357,22 @@ const BankInterface = () => {
     }
 
     // Adicionar valor resgatado ao saldo bancário
-    atualizarEco('saldo', saldoBancario + valorResgate);
-
-    setActiveInvestments(activeInvestments.filter(inv => inv.id !== investmentId));
+  atualizarEco('saldo', saldoBancario + valorResgate);
+  atualizarEco('activeInvestments', activeInvestments.filter(inv => inv.id !== investmentId));
   };
 
-  const handleAddFunds = (investmentId) => {
-    const investment = activeInvestments.find(inv => inv.id === investmentId);
-    if (!investment || investment.type !== 'pos') return;
-    const additionalAmount = parseFloat(prompt('Quanto deseja adicionar?', '0'));
-    if (isNaN(additionalAmount) || additionalAmount <= 0 || additionalAmount > saldoBancario) return;
+const handleAddFunds = (investmentId) => {
+  const investment = activeInvestments.find(inv => inv.id === investmentId);
+  if (!investment || investment.type !== 'pos') return;
+  
+  const additionalAmount = parseFloat(prompt('Quanto deseja adicionar?', '0'));
+  if (isNaN(additionalAmount) || additionalAmount <= 0 || additionalAmount > saldoBancario) return;
 
-    // Reduzir valor adicionado do saldo bancário
-    atualizarEco('saldo', saldoBancario - additionalAmount);
-
-    setActiveInvestments(activeInvestments.map(inv =>
-      inv.id === investmentId ? { ...inv, amount: inv.amount + additionalAmount } : inv
-    ));
-  };
+  atualizarEco('saldo', saldoBancario - additionalAmount);
+  atualizarEco('activeInvestments', activeInvestments.map(inv =>
+    inv.id === investmentId ? { ...inv, amount: inv.amount + additionalAmount } : inv
+  ));
+};
 
   const contratoParaCartao = (contrato, dados) => ({
     id: contrato.cartaoId,
@@ -971,6 +1033,25 @@ const BankInterface = () => {
                 style={{ backgroundColor: contrato1.cor2 }} disabled={activeLoan || loanAmount <= 0}>
                 {activeLoan ? 'Já existe empréstimo ativo' : 'Solicitar Empréstimo'}
               </button>
+
+              <button
+                onClick={handlePayInstallment}
+                className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${!activeLoan ||
+                    diaAtualJogo < (activeLoan?.proximoVencimento ?? 0) ||
+                    (economiaSetores.saldo ?? 0) < (activeLoan?.valorParcela ?? Infinity)
+                    ? 'opacity-50 cursor-not-allowed'
+                    : ''
+                  }`}
+                style={{ backgroundColor: contrato1.cor2 }}
+                disabled={
+                  !activeLoan ||
+                  diaAtualJogo < (activeLoan?.proximoVencimento ?? 0) ||
+                  (economiaSetores.saldo ?? 0) < (activeLoan?.valorParcela ?? Infinity)
+                }
+              >
+                Pagar parcela (R$ {activeLoan ? Number(activeLoan.valorParcela).toFixed(2) : '0,00'})
+              </button>
+
             </div>
 
             <div className="space-y-4">

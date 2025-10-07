@@ -1950,6 +1950,7 @@ const BankSelection = () => {
 
               selectedCard={selectedCard}
               setSelectedCard={setSelectedCard}
+              
             />
 
           </div>

@@ -99,6 +99,7 @@ export default function Buy() {
   });
 
 
+
   // Comprar Loja P
   const ComprarLojaP = () => {
     if (dados.terrenos.quantidade < (dados.lojasP.quantidadeNecTerreno * quantidadeLojasP)) {
@@ -189,13 +190,11 @@ export default function Buy() {
     return num.toString();
   };
   if (dados.dia > 269) {
-    if (vision === "financas") {
+    if (vision !== "dashboard") {
       return(
-
         <SidebarCard/>
       )
     } else {
-
       return (
         <div className="flex justify-around flex-col w-full">
 

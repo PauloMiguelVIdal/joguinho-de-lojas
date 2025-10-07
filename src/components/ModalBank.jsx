@@ -10,6 +10,9 @@ export const ModalBank = ({ banco }) => {
     const [relationshipDays, setRelationshipDays] = useState(90);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
 
+const qtdContratosAtuais = economiaSetores.contratosBancos.length
+
+
     const setVision = (newVision) => {
         atualizarDados("vision", {
             ...dados.vision, visionAtual: newVision
@@ -85,6 +88,9 @@ const patrimonio = economiaSetores.patrimonio || 0;
     };
 
     const handleConfirmarSelecao = () => {
+        if(qtdContratosAtuais>2){
+            return alert("Limite de contratos atingido!")
+        }  
         const cartaoSelecionado = banco.cartoes.find(c => c.id === selectedCard);
 
         const contrato = {
@@ -117,6 +123,8 @@ const patrimonio = economiaSetores.patrimonio || 0;
 
         salvarContrato(contrato);
         setVision("bankInterface");
+        
+
     };
 
     // Componentes visuais dos cartões (mantidos do seu código original)
