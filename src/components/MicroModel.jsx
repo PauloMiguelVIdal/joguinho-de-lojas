@@ -2,6 +2,13 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Clock, DollarSign, Package, Warehouse, Users, Building2, Sun, TrendingUp, Zap, Car, Truck, Smartphone, Cpu, HardHat, AlertTriangle, MapPin } from 'lucide-react';
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+import plantacao from "../../public/imagens/Plantação De Grãos.png"
+import açougue from "../../public/imagens/Açougue.png"
+import painel from "../../public/imagens/Fábrica De Painéis Solares.png"
+import automovel from "../../public/imagens/Fábrica De Automóveis.png"
+import smartphone from "../../public/imagens/Fábrica De Smartphones.png"
+import construtora from "../../public/imagens/Construtora De Infraestruturas.png"
+import terraplanagem from "../../public/imagens/Terraplanagem E Pavimentação.png"
 
 // ==================== CONFIGURAÇÃO DE SETORES ====================
 const SETORES_CONFIG = {
@@ -169,8 +176,8 @@ const PlantacaoNegocio = () => {
   // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
   useEffect(() => {
     // Garantir que vendasRealizadas existe na estrutura
-    if (economiaSetores.negocios?.PlantacaoNegocio && 
-        !economiaSetores.negocios.PlantacaoNegocio.mercado?.vendasRealizadas) {
+    if (economiaSetores.negocios?.PlantacaoNegocio &&
+      !economiaSetores.negocios.PlantacaoNegocio.mercado?.vendasRealizadas) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
         PlantacaoNegocio: {
@@ -202,7 +209,7 @@ const PlantacaoNegocio = () => {
     // Verificar e atualizar ciclo de produção
     if (dados.dia >= negocio.produzir.proximoCiclo) {
       console.log("🔄 Atualizando ciclo de produção - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.produzir.proximoCiclo);
-      
+
       novoNegocio.produzir = {
         ...negocio.produzir,
         ofertasAtivas: sortearItens(graosBase, 4),
@@ -214,7 +221,7 @@ const PlantacaoNegocio = () => {
     // Verificar e atualizar ciclo de mercado
     if (dados.dia >= negocio.mercado.proximoCiclo) {
       console.log("🔄 Atualizando ciclo de mercado - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.mercado.proximoCiclo);
-      
+
       novoNegocio.mercado = {
         ofertasAtivas: sortearItens(marketOffersBase, 8),
         vendasRealizadas: [],
@@ -253,7 +260,7 @@ const PlantacaoNegocio = () => {
 
     // Atualiza saldo
     atualizarEco("saldo", economiaSetores.saldo - grao.custo);
-    
+
     // Atualiza produção atual
     atualizarEco("negocios", {
       ...economiaSetores.negocios,
@@ -306,7 +313,7 @@ const PlantacaoNegocio = () => {
 
     // Atualiza saldo
     atualizarEco("saldo", economiaSetores.saldo + offer.totalPrice);
-    
+
     // Atualiza estoque e marca venda como realizada
     atualizarEco("negocios", {
       ...economiaSetores.negocios,
@@ -394,23 +401,23 @@ const PlantacaoNegocio = () => {
     if (tab === 'estoque') {
       const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
       const percentualOcupado = ((estoqueTotal / negocio.estoque.capacidadeEstoque) * 100).toFixed(1);
-      
+
       return (
         <div>
           <div className="text-center text-white mb-6 bg-white/20 rounded-lg p-4">
             <p className="text-xl font-bold mb-2">Capacidade do Estoque</p>
             <p className="text-2xl">{estoqueTotal} / {negocio.estoque.capacidadeEstoque} sacas</p>
             <p className="text-sm opacity-80 mt-1">{percentualOcupado}% ocupado</p>
-            
+
             {/* Barra de progresso */}
             <div className="w-full bg-white/30 rounded-full h-3 mt-3">
-              <div 
+              <div
                 className="bg-green-400 h-3 rounded-full transition-all duration-300"
                 style={{ width: `${percentualOcupado}%` }}
               ></div>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-6">
             {Object.entries(negocio.estoque.estoqueAtual).map(([type, qtd]) => (
               <div key={type} className="text-center text-white bg-white/20 rounded-xl p-4 hover:bg-white/30 transition-colors">
@@ -431,14 +438,14 @@ const PlantacaoNegocio = () => {
   };
 
   const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
-  
+
   const tabs = [
     { id: 'produzir', label: 'Produzir', icon: Warehouse, info: null },
     { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
     { id: 'estoque', label: 'Estoque', icon: Package, info: `${estoqueTotal} Sacas` },
   ];
 
-  const plantacaoProntaParaColher = negocio.produzir.producaoAtual && 
+  const plantacaoProntaParaColher = negocio.produzir.producaoAtual &&
     dados.dia >= negocio.produzir.producaoAtual.diaColher;
 
   const negocioConfig = {
@@ -483,13 +490,13 @@ const PlantacaoNegocio = () => {
       }
       footerExtra={(tab) => {
         if (tab === 'produzir') {
-          return diasRestantesProduzir === 0 
-            ? `🔄 Novas ofertas disponíveis!` 
+          return diasRestantesProduzir === 0
+            ? `🔄 Novas ofertas disponíveis!`
             : `Próximo ciclo de produção em ${diasRestantesProduzir} dias`;
         }
         if (tab === 'mercado') {
-          return diasRestantesMercado === 0 
-            ? `🔄 Novos compradores disponíveis!` 
+          return diasRestantesMercado === 0
+            ? `🔄 Novos compradores disponíveis!`
             : `Próximo ciclo de mercado em ${diasRestantesMercado} dias`;
         }
         return null;
@@ -597,7 +604,7 @@ const AcougueNegocio = () => {
     // Verificar e atualizar ciclo de fornecedores
     if (dados.dia >= negocio.compras.proximoCiclo) {
       console.log("🔄 Atualizando ciclo de fornecedores - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.compras.proximoCiclo);
-      
+
       novoNegocio.compras = {
         ...negocio.compras,
         ofertasAtivas: sortearItens(fornecedoresBase, 4),
@@ -609,7 +616,7 @@ const AcougueNegocio = () => {
     // Verificar e atualizar ciclo de mercado (vendas)
     if (dados.dia >= negocio.mercado.proximoCiclo) {
       console.log("🔄 Atualizando ciclo de mercado - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.mercado.proximoCiclo);
-      
+
       novoNegocio.mercado = {
         ofertasAtivas: sortearItens(ofertasVendaBase, 8),
         vendasRealizadas: [],
@@ -650,7 +657,7 @@ const AcougueNegocio = () => {
 
     // Atualiza saldo
     atualizarEco("saldo", economiaSetores.saldo - preco);
-    
+
     // Atualiza estoque
     atualizarEco("negocios", {
       ...economiaSetores.negocios,
@@ -760,7 +767,7 @@ const AcougueNegocio = () => {
                   onClick={() => handleCompra(f)}
                   disabled={!podeComprarCompleto}
                   className="w-full py-3 rounded font-bold text-white transition-colors"
-                  style={{ 
+                  style={{
                     backgroundColor: podeComprarCompleto ? cores.primary : "#6C757D",
                     cursor: podeComprarCompleto ? 'pointer' : 'not-allowed'
                   }}
@@ -814,7 +821,7 @@ const AcougueNegocio = () => {
                   onClick={() => handleVenda(oferta)}
                   disabled={!podeVender}
                   className="w-full py-3 rounded font-bold text-white transition-colors"
-                  style={{ 
+                  style={{
                     backgroundColor: podeVender ? cores.accent : "#6C757D",
                     cursor: podeVender ? 'pointer' : 'not-allowed'
                   }}
@@ -851,10 +858,10 @@ const AcougueNegocio = () => {
             <p className="text-xl font-bold mb-2">Capacidade do Estoque</p>
             <p className="text-2xl">{estoqueTotal}kg / {negocio.estoque.capacidadeEstoque}kg</p>
             <p className="text-sm opacity-80 mt-1">{percentualOcupado}% ocupado</p>
-            
+
             {/* Barra de progresso */}
             <div className="w-full bg-white/30 rounded-full h-3 mt-3">
-              <div 
+              <div
                 className="bg-red-400 h-3 rounded-full transition-all duration-300"
                 style={{ width: `${percentualOcupado}%` }}
               ></div>
@@ -888,7 +895,7 @@ const AcougueNegocio = () => {
     { id: "estoque", label: "Estoque", icon: Package, info: `${estoqueTotal}kg` }
   ];
 
-  const pedidoProntoParaReceber = negocio.mercado.vendaAtual && 
+  const pedidoProntoParaReceber = negocio.mercado.vendaAtual &&
     dados.dia >= negocio.mercado.vendaAtual.diaFim;
 
   const negocioConfig = {
@@ -917,10 +924,10 @@ const AcougueNegocio = () => {
                   onClick={handleReceber}
                   className="px-4 py-2 rounded font-bold bg-green-500 hover:bg-green-600 text-white transition-colors"
                 >
-                  Receber {new Intl.NumberFormat('pt-BR', { 
-                    style: 'currency', 
-                    currency: 'BRL', 
-                    minimumFractionDigits: 0 
+                  Receber {new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                    minimumFractionDigits: 0
                   }).format(negocio.mercado.vendaAtual.precoKg * negocio.mercado.vendaAtual.quantidade)}
                 </button>
               </div>
@@ -937,13 +944,13 @@ const AcougueNegocio = () => {
       }
       footerExtra={(tab) => {
         if (tab === 'compras') {
-          return diasRestantesCompras === 0 
-            ? `🔄 Novos fornecedores disponíveis!` 
+          return diasRestantesCompras === 0
+            ? `🔄 Novos fornecedores disponíveis!`
             : `Próximo ciclo de fornecedores em ${diasRestantesCompras} dias`;
         }
         if (tab === 'vendas') {
-          return diasRestantesMercado === 0 
-            ? `🔄 Novos compradores disponíveis!` 
+          return diasRestantesMercado === 0
+            ? `🔄 Novos compradores disponíveis!`
             : `Próximo ciclo de mercado em ${diasRestantesMercado} dias`;
         }
         return null;
@@ -972,17 +979,17 @@ const PainelSolarNegocio = () => {
     { id: 1, nome: "Residencial", tipo: "residencial", custo: 15000, unidades: 10, valorPorUnidade: 2000, duracao: 45, icon: "🏠" },
     { id: 2, nome: "Residencial", tipo: "residencial", custo: 28000, unidades: 20, valorPorUnidade: 2000, duracao: 50, icon: "🏠" },
     { id: 3, nome: "Residencial", tipo: "residencial", custo: 39000, unidades: 30, valorPorUnidade: 2000, duracao: 55, icon: "🏠" },
-    
+
     // Comercial
     { id: 4, nome: "Comercial", tipo: "comercial", custo: 35000, unidades: 10, valorPorUnidade: 4500, duracao: 60, icon: "🏢" },
     { id: 5, nome: "Comercial", tipo: "comercial", custo: 66000, unidades: 20, valorPorUnidade: 4500, duracao: 65, icon: "🏢" },
     { id: 6, nome: "Comercial", tipo: "comercial", custo: 94500, unidades: 30, valorPorUnidade: 4500, duracao: 70, icon: "🏢" },
-    
+
     // Industrial
     { id: 7, nome: "Industrial", tipo: "industrial", custo: 80000, unidades: 10, valorPorUnidade: 10000, duracao: 90, icon: "🏭" },
     { id: 8, nome: "Industrial", tipo: "industrial", custo: 150000, unidades: 20, valorPorUnidade: 10000, duracao: 95, icon: "🏭" },
     { id: 9, nome: "Industrial", tipo: "industrial", custo: 210000, unidades: 30, valorPorUnidade: 10000, duracao: 100, icon: "🏭" },
-    
+
     // Premium
     { id: 10, nome: "Premium", tipo: "premium", custo: 50000, unidades: 5, valorPorUnidade: 12000, duracao: 75, icon: "⚡" },
     { id: 11, nome: "Premium", tipo: "premium", custo: 90000, unidades: 10, valorPorUnidade: 12000, duracao: 80, icon: "⚡" },
@@ -1019,8 +1026,8 @@ const PainelSolarNegocio = () => {
   // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
   useEffect(() => {
     // Garantir que vendasRealizadas existe na estrutura
-    if (economiaSetores.negocios?.PainelSolarNegocio && 
-        !economiaSetores.negocios.PainelSolarNegocio.mercado?.vendasRealizadas) {
+    if (economiaSetores.negocios?.PainelSolarNegocio &&
+      !economiaSetores.negocios.PainelSolarNegocio.mercado?.vendasRealizadas) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
         PainelSolarNegocio: {
@@ -1052,7 +1059,7 @@ const PainelSolarNegocio = () => {
     // Verificar e atualizar ciclo de produção
     if (dados.dia >= negocio.produzir.proximoCiclo) {
       console.log("🔄 Atualizando ciclo de produção - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.produzir.proximoCiclo);
-      
+
       novoNegocio.produzir = {
         ...negocio.produzir,
         ofertasAtivas: sortearItens(paineisBase, 4),
@@ -1064,7 +1071,7 @@ const PainelSolarNegocio = () => {
     // Verificar e atualizar ciclo de mercado
     if (dados.dia >= negocio.mercado.proximoCiclo) {
       console.log("🔄 Atualizando ciclo de mercado - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.mercado.proximoCiclo);
-      
+
       novoNegocio.mercado = {
         ofertasAtivas: sortearItens(marketOffersBase, 8),
         vendasRealizadas: [],
@@ -1104,7 +1111,7 @@ const PainelSolarNegocio = () => {
 
     // Atualiza saldo
     atualizarEco("saldo", economiaSetores.saldo - painel.custo);
-    
+
     // Atualiza produção atual
     atualizarEco("negocios", {
       ...economiaSetores.negocios,
@@ -1157,7 +1164,7 @@ const PainelSolarNegocio = () => {
 
     // Atualiza saldo
     atualizarEco("saldo", economiaSetores.saldo + offer.totalPrice);
-    
+
     // Atualiza estoque e marca venda como realizada
     atualizarEco("negocios", {
       ...economiaSetores.negocios,
@@ -1212,7 +1219,7 @@ const PainelSolarNegocio = () => {
                   onClick={() => handleProduzir(painel)}
                   disabled={!podeEscolher}
                   className="w-full py-3 rounded font-bold text-white transition-colors"
-                  style={{ 
+                  style={{
                     backgroundColor: podeEscolher ? cores.accent : '#6C757D',
                     cursor: podeEscolher ? 'pointer' : 'not-allowed'
                   }}
@@ -1241,20 +1248,20 @@ const PainelSolarNegocio = () => {
               <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
               <p className="text-sm mb-1">{offer.unidades} unidades</p>
               <p className="text-xs text-gray-500 mb-3">
-                {new Intl.NumberFormat('pt-BR', { 
-                  style: 'currency', 
-                  currency: 'BRL', 
-                  minimumFractionDigits: 0 
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                  minimumFractionDigits: 0
                 }).format(offer.pricePerUnit)}/un
               </p>
               <button
                 onClick={() => handleVender(offer)}
                 className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700 transition-colors"
               >
-                Vender por {new Intl.NumberFormat('pt-BR', { 
-                  style: 'currency', 
-                  currency: 'BRL', 
-                  minimumFractionDigits: 0 
+                Vender por {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                  minimumFractionDigits: 0
                 }).format(offer.totalPrice)}
               </button>
             </div>
@@ -1279,10 +1286,10 @@ const PainelSolarNegocio = () => {
             <p className="text-xl font-bold mb-2">Capacidade do Estoque</p>
             <p className="text-2xl">{estoqueTotal} / {negocio.estoque.capacidadeEstoque} unidades</p>
             <p className="text-sm opacity-80 mt-1">{percentualOcupado}% ocupado</p>
-            
+
             {/* Barra de progresso */}
             <div className="w-full bg-white/30 rounded-full h-3 mt-3">
-              <div 
+              <div
                 className="bg-yellow-400 h-3 rounded-full transition-all duration-300"
                 style={{ width: `${percentualOcupado}%` }}
               ></div>
@@ -1316,7 +1323,7 @@ const PainelSolarNegocio = () => {
     { id: 'estoque', label: 'Estoque', icon: Package, info: `${estoqueTotal} Unidades` },
   ];
 
-  const producaoPronta = negocio.produzir.producaoAtual && 
+  const producaoPronta = negocio.produzir.producaoAtual &&
     dados.dia >= negocio.produzir.producaoAtual.diaFim;
 
   const negocioConfig = {
@@ -1361,13 +1368,13 @@ const PainelSolarNegocio = () => {
       }
       footerExtra={(tab) => {
         if (tab === 'produzir') {
-          return diasRestantesProduzir === 0 
-            ? `🔄 Novas ofertas disponíveis!` 
+          return diasRestantesProduzir === 0
+            ? `🔄 Novas ofertas disponíveis!`
             : `Próximo ciclo de produção em ${diasRestantesProduzir} dias`;
         }
         if (tab === 'mercado') {
-          return diasRestantesMercado === 0 
-            ? `🔄 Novos compradores disponíveis!` 
+          return diasRestantesMercado === 0
+            ? `🔄 Novos compradores disponíveis!`
             : `Próximo ciclo de mercado em ${diasRestantesMercado} dias`;
         }
         return null;
@@ -1398,17 +1405,17 @@ const FabricaVeiculosNegocio = () => {
     { id: 1, nome: "Popular", tipo: "popular", custo: 45000, unidades: 5, valorPorUnidade: 12000, duracao: 60, icon: "🚗" },
     { id: 2, nome: "Popular", tipo: "popular", custo: 84000, unidades: 10, valorPorUnidade: 12000, duracao: 65, icon: "🚗" },
     { id: 3, nome: "Popular", tipo: "popular", custo: 117000, unidades: 15, valorPorUnidade: 12000, duracao: 70, icon: "🚗" },
-    
+
     // Sedan
     { id: 4, nome: "Sedan", tipo: "sedan", custo: 80000, unidades: 5, valorPorUnidade: 20000, duracao: 75, icon: "🚙" },
     { id: 5, nome: "Sedan", tipo: "sedan", custo: 150000, unidades: 10, valorPorUnidade: 20000, duracao: 80, icon: "🚙" },
     { id: 6, nome: "Sedan", tipo: "sedan", custo: 210000, unidades: 15, valorPorUnidade: 20000, duracao: 85, icon: "🚙" },
-    
+
     // SUV
     { id: 7, nome: "SUV", tipo: "suv", custo: 120000, unidades: 4, valorPorUnidade: 35000, duracao: 90, icon: "🚐" },
     { id: 8, nome: "SUV", tipo: "suv", custo: 224000, unidades: 8, valorPorUnidade: 35000, duracao: 95, icon: "🚐" },
     { id: 9, nome: "SUV", tipo: "suv", custo: 308000, unidades: 12, valorPorUnidade: 35000, duracao: 100, icon: "🚐" },
-    
+
     // Luxo
     { id: 10, nome: "Luxo", tipo: "luxo", custo: 200000, unidades: 3, valorPorUnidade: 80000, duracao: 110, icon: "🏎️" },
     { id: 11, nome: "Luxo", tipo: "luxo", custo: 360000, unidades: 6, valorPorUnidade: 80000, duracao: 115, icon: "🏎️" },
@@ -1467,8 +1474,8 @@ const FabricaVeiculosNegocio = () => {
   // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
   useEffect(() => {
     // Garantir que vendasRealizadas existe na estrutura
-    if (economiaSetores.negocios?.FabricaVeiculosNegocio && 
-        !economiaSetores.negocios.FabricaVeiculosNegocio.mercado?.vendasRealizadas) {
+    if (economiaSetores.negocios?.FabricaVeiculosNegocio &&
+      !economiaSetores.negocios.FabricaVeiculosNegocio.mercado?.vendasRealizadas) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
         FabricaVeiculosNegocio: {
@@ -1500,7 +1507,7 @@ const FabricaVeiculosNegocio = () => {
     // Verificar e atualizar ciclo de produção
     if (dados.dia >= negocio.produzir.proximoCiclo) {
       console.log("🔄 Atualizando ciclo de produção - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.produzir.proximoCiclo);
-      
+
       novoNegocio.produzir = {
         ...negocio.produzir,
         ofertasAtivas: sortearItens(veiculosBase, 6),
@@ -1512,7 +1519,7 @@ const FabricaVeiculosNegocio = () => {
     // Verificar e atualizar ciclo de mercado
     if (dados.dia >= negocio.mercado.proximoCiclo) {
       console.log("🔄 Atualizando ciclo de mercado - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.mercado.proximoCiclo);
-      
+
       novoNegocio.mercado = {
         ofertasAtivas: sortearItens(marketOffersBase, 12),
         vendasRealizadas: [],
@@ -1552,7 +1559,7 @@ const FabricaVeiculosNegocio = () => {
 
     // Atualiza saldo
     atualizarEco("saldo", economiaSetores.saldo - veiculo.custo);
-    
+
     // Atualiza produção atual
     atualizarEco("negocios", {
       ...economiaSetores.negocios,
@@ -1605,7 +1612,7 @@ const FabricaVeiculosNegocio = () => {
 
     // Atualiza saldo
     atualizarEco("saldo", economiaSetores.saldo + offer.totalPrice);
-    
+
     // Atualiza estoque e marca venda como realizada
     atualizarEco("negocios", {
       ...economiaSetores.negocios,
@@ -1660,7 +1667,7 @@ const FabricaVeiculosNegocio = () => {
                   onClick={() => handleProduzir(veiculo)}
                   disabled={!podeEscolher}
                   className="w-full py-3 rounded font-bold text-white transition-colors"
-                  style={{ 
+                  style={{
                     backgroundColor: podeEscolher ? cores.accent : '#6C757D',
                     cursor: podeEscolher ? 'pointer' : 'not-allowed'
                   }}
@@ -1689,20 +1696,20 @@ const FabricaVeiculosNegocio = () => {
               <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
               <p className="text-sm mb-1">{offer.unidades} unidades</p>
               <p className="text-xs text-gray-500 mb-3">
-                {new Intl.NumberFormat('pt-BR', { 
-                  style: 'currency', 
-                  currency: 'BRL', 
-                  minimumFractionDigits: 0 
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                  minimumFractionDigits: 0
                 }).format(offer.pricePerUnit)}/un
               </p>
               <button
                 onClick={() => handleVender(offer)}
                 className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700 transition-colors"
               >
-                Vender por {new Intl.NumberFormat('pt-BR', { 
-                  style: 'currency', 
-                  currency: 'BRL', 
-                  minimumFractionDigits: 0 
+                Vender por {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                  minimumFractionDigits: 0
                 }).format(offer.totalPrice)}
               </button>
             </div>
@@ -1727,10 +1734,10 @@ const FabricaVeiculosNegocio = () => {
             <p className="text-xl font-bold mb-2">Capacidade do Estoque</p>
             <p className="text-2xl">{estoqueTotal} / {negocio.estoque.capacidadeEstoque} unidades</p>
             <p className="text-sm opacity-80 mt-1">{percentualOcupado}% ocupado</p>
-            
+
             {/* Barra de progresso */}
             <div className="w-full bg-white/30 rounded-full h-3 mt-3">
-              <div 
+              <div
                 className="bg-gray-400 h-3 rounded-full transition-all duration-300"
                 style={{ width: `${percentualOcupado}%` }}
               ></div>
@@ -1764,7 +1771,7 @@ const FabricaVeiculosNegocio = () => {
     { id: 'estoque', label: 'Estoque', icon: Package, info: `${estoqueTotal} Unidades` },
   ];
 
-  const producaoPronta = negocio.produzir.producaoAtual && 
+  const producaoPronta = negocio.produzir.producaoAtual &&
     dados.dia >= negocio.produzir.producaoAtual.diaFim;
 
   const negocioConfig = {
@@ -1809,13 +1816,13 @@ const FabricaVeiculosNegocio = () => {
       }
       footerExtra={(tab) => {
         if (tab === 'produzir') {
-          return diasRestantesProduzir === 0 
-            ? `🔄 Novas ofertas disponíveis!` 
+          return diasRestantesProduzir === 0
+            ? `🔄 Novas ofertas disponíveis!`
             : `Próximo ciclo de produção em ${diasRestantesProduzir} dias`;
         }
         if (tab === 'mercado') {
-          return diasRestantesMercado === 0 
-            ? `🔄 Novos compradores disponíveis!` 
+          return diasRestantesMercado === 0
+            ? `🔄 Novos compradores disponíveis!`
             : `Próximo ciclo de mercado em ${diasRestantesMercado} dias`;
         }
         return null;
@@ -1827,24 +1834,6 @@ const FabricaVeiculosNegocio = () => {
 const FabricaSmartphonesNegocio = () => {
   const { dados } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
-
-  const { negocio, saldo, estoque: currentStock, adicionarSaldo, removerSaldo, adicionarEstoque, removerEstoque, setDiaAtual } =
-    useNegocio({
-      id: 'fabrica-smartphones-1',
-      nome: 'Fábrica de Smartphones',
-      setor: 'tecnologia',
-      saldoInicial: 600000,
-      estoqueInicial: { 
-        basico: 0, 
-        intermediario: 0, 
-        premium: 0,
-        flagship: 0,
-        gamer: 0,
-        dobravel: 0
-      },
-      capacidadeEstoque: 150,
-      diaAtual: dados.dia
-    });
 
   const getProductIcon = (type) => {
     const icons = {
@@ -1859,22 +1848,22 @@ const FabricaSmartphonesNegocio = () => {
   };
 
   // Dados de produção de smartphones
-  const smartphones = [
+  const smartphonesBase = [
     // Básico
     { id: 1, nome: "Básico", tipo: "basico", custo: 20000, unidades: 20, valorPorUnidade: 1200, duracao: 40, icon: "📱" },
     { id: 2, nome: "Básico", tipo: "basico", custo: 36000, unidades: 40, valorPorUnidade: 1200, duracao: 45, icon: "📱" },
     { id: 3, nome: "Básico", tipo: "basico", custo: 50400, unidades: 60, valorPorUnidade: 1200, duracao: 50, icon: "📱" },
-    
+
     // Intermediário
     { id: 4, nome: "Intermediário", tipo: "intermediario", custo: 50000, unidades: 20, valorPorUnidade: 3000, duracao: 55, icon: "📲" },
     { id: 5, nome: "Intermediário", tipo: "intermediario", custo: 90000, unidades: 40, valorPorUnidade: 3000, duracao: 60, icon: "📲" },
     { id: 6, nome: "Intermediário", tipo: "intermediario", custo: 126000, unidades: 60, valorPorUnidade: 3000, duracao: 65, icon: "📲" },
-    
+
     // Premium
     { id: 7, nome: "Premium", tipo: "premium", custo: 100000, unidades: 15, valorPorUnidade: 8000, duracao: 70, icon: "📳" },
     { id: 8, nome: "Premium", tipo: "premium", custo: 180000, unidades: 30, valorPorUnidade: 8000, duracao: 75, icon: "📳" },
     { id: 9, nome: "Premium", tipo: "premium", custo: 252000, unidades: 45, valorPorUnidade: 8000, duracao: 80, icon: "📳" },
-    
+
     // Flagship
     { id: 10, nome: "Flagship", tipo: "flagship", custo: 150000, unidades: 10, valorPorUnidade: 18000, duracao: 85, icon: "🔥" },
     { id: 11, nome: "Flagship", tipo: "flagship", custo: 270000, unidades: 20, valorPorUnidade: 18000, duracao: 90, icon: "🔥" },
@@ -1892,120 +1881,210 @@ const FabricaSmartphonesNegocio = () => {
   ];
 
   // Ofertas de mercado com margens de 50-70%
-  const marketOffers = [
+  const marketOffersBase = [
     // BÁSICO 📱
-    // custo base: 20.000 → lucro 50–70% → faixa: 30.000–34.000
-    { id: 1, name: "basico", unidades: 10, pricePerUnit: 1500, totalPrice: 15000 },    // +50%
-    { id: 2, name: "basico", unidades: 20, pricePerUnit: 1600, totalPrice: 32000 },    // +60%
-    { id: 3, name: "basico", unidades: 30, pricePerUnit: 1700, totalPrice: 51000 },    // +70%
-    { id: 4, name: "basico", unidades: 40, pricePerUnit: 1680, totalPrice: 67200 },    // +68%
+    { id: 1, name: "basico", unidades: 10, pricePerUnit: 1500, totalPrice: 15000 },
+    { id: 2, name: "basico", unidades: 20, pricePerUnit: 1600, totalPrice: 32000 },
+    { id: 3, name: "basico", unidades: 30, pricePerUnit: 1700, totalPrice: 51000 },
+    { id: 4, name: "basico", unidades: 40, pricePerUnit: 1680, totalPrice: 67200 },
 
     // INTERMEDIÁRIO 📲
-    // custo base: 50.000 → lucro 50–70% → faixa: 75.000–85.000
-    { id: 5, name: "intermediario", unidades: 10, pricePerUnit: 3750, totalPrice: 37500 },   // +50%
-    { id: 6, name: "intermediario", unidades: 15, pricePerUnit: 4000, totalPrice: 60000 },   // +60%
-    { id: 7, name: "intermediario", unidades: 20, pricePerUnit: 4250, totalPrice: 85000 },   // +70%
-    { id: 8, name: "intermediario", unidades: 25, pricePerUnit: 4200, totalPrice: 105000 },  // +68%
+    { id: 5, name: "intermediario", unidades: 10, pricePerUnit: 3750, totalPrice: 37500 },
+    { id: 6, name: "intermediario", unidades: 15, pricePerUnit: 4000, totalPrice: 60000 },
+    { id: 7, name: "intermediario", unidades: 20, pricePerUnit: 4250, totalPrice: 85000 },
+    { id: 8, name: "intermediario", unidades: 25, pricePerUnit: 4200, totalPrice: 105000 },
 
     // PREMIUM 📳
-    // custo base: 100.000 → lucro 50–70% → faixa: 150.000–170.000
-    { id: 9, name: "premium", unidades: 8, pricePerUnit: 10000, totalPrice: 80000 },         // +50%
-    { id: 10, name: "premium", unidades: 12, pricePerUnit: 10666, totalPrice: 127992 },      // +60%
-    { id: 11, name: "premium", unidades: 15, pricePerUnit: 11333, totalPrice: 169995 },      // +70%
-    { id: 12, name: "premium", unidades: 20, pricePerUnit: 11200, totalPrice: 224000 },      // +68%
+    { id: 9, name: "premium", unidades: 8, pricePerUnit: 10000, totalPrice: 80000 },
+    { id: 10, name: "premium", unidades: 12, pricePerUnit: 10666, totalPrice: 127992 },
+    { id: 11, name: "premium", unidades: 15, pricePerUnit: 11333, totalPrice: 169995 },
+    { id: 12, name: "premium", unidades: 20, pricePerUnit: 11200, totalPrice: 224000 },
 
     // FLAGSHIP 🔥
-    // custo base: 150.000 → lucro 50–70% → faixa: 225.000–255.000
-    { id: 13, name: "flagship", unidades: 5, pricePerUnit: 22500, totalPrice: 112500 },      // +50%
-    { id: 14, name: "flagship", unidades: 8, pricePerUnit: 24000, totalPrice: 192000 },      // +60%
-    { id: 15, name: "flagship", unidades: 10, pricePerUnit: 25500, totalPrice: 255000 },     // +70%
-    { id: 16, name: "flagship", unidades: 12, pricePerUnit: 25200, totalPrice: 302400 },     // +68%
+    { id: 13, name: "flagship", unidades: 5, pricePerUnit: 22500, totalPrice: 112500 },
+    { id: 14, name: "flagship", unidades: 8, pricePerUnit: 24000, totalPrice: 192000 },
+    { id: 15, name: "flagship", unidades: 10, pricePerUnit: 25500, totalPrice: 255000 },
+    { id: 16, name: "flagship", unidades: 12, pricePerUnit: 25200, totalPrice: 302400 },
 
     // GAMER 🎮
-    // custo base: 120.000 → lucro 50–70% → faixa: 180.000–204.000
-    { id: 17, name: "gamer", unidades: 6, pricePerUnit: 15000, totalPrice: 90000 },          // +50%
-    { id: 18, name: "gamer", unidades: 10, pricePerUnit: 16000, totalPrice: 160000 },        // +60%
-    { id: 19, name: "gamer", unidades: 12, pricePerUnit: 17000, totalPrice: 204000 },        // +70%
-    { id: 20, name: "gamer", unidades: 15, pricePerUnit: 16800, totalPrice: 252000 },        // +68%
+    { id: 17, name: "gamer", unidades: 6, pricePerUnit: 15000, totalPrice: 90000 },
+    { id: 18, name: "gamer", unidades: 10, pricePerUnit: 16000, totalPrice: 160000 },
+    { id: 19, name: "gamer", unidades: 12, pricePerUnit: 17000, totalPrice: 204000 },
+    { id: 20, name: "gamer", unidades: 15, pricePerUnit: 16800, totalPrice: 252000 },
 
     // DOBRÁVEL 📴
-    // custo base: 200.000 → lucro 50–70% → faixa: 300.000–340.000
-    { id: 21, name: "dobravel", unidades: 4, pricePerUnit: 37500, totalPrice: 150000 },      // +50%
-    { id: 22, name: "dobravel", unidades: 6, pricePerUnit: 40000, totalPrice: 240000 },      // +60%
-    { id: 23, name: "dobravel", unidades: 8, pricePerUnit: 42500, totalPrice: 340000 },      // +70%
-    { id: 24, name: "dobravel", unidades: 10, pricePerUnit: 42000, totalPrice: 420000 },     // +68%
+    { id: 21, name: "dobravel", unidades: 4, pricePerUnit: 37500, totalPrice: 150000 },
+    { id: 22, name: "dobravel", unidades: 6, pricePerUnit: 40000, totalPrice: 240000 },
+    { id: 23, name: "dobravel", unidades: 8, pricePerUnit: 42500, totalPrice: 340000 },
+    { id: 24, name: "dobravel", unidades: 10, pricePerUnit: 42000, totalPrice: 420000 },
   ];
 
-  // Ciclos automáticos
-  const [cicloSmartphones] = useState(() =>
-    new CicloDeOfertas({
-      baseData: smartphones,
-      quantidadeSorteio: 6,
-      duracaoDias: 40,
-      chaveStorage: "ciclo_smartphones"
-    })
-  );
-
-  const [cicloMercado] = useState(() =>
-    new CicloDeOfertas({
-      baseData: marketOffers,
-      quantidadeSorteio: 12,
-      duracaoDias: 90,
-      chaveStorage: "ciclo_mercado_smartphones"
-    })
-  );
-
+  // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
   useEffect(() => {
-    cicloSmartphones.atualizarDia(dados.dia);
-    cicloMercado.atualizarDia(dados.dia);
-  }, [dados.dia]);
-
-  const smartphonesAtuais = cicloSmartphones.getItensDisponiveis();
-  const ofertasAtuais = cicloMercado.getItensDisponiveis();
-
-  const [activeProduction, setActiveProduction] = useState(null);
-  const producaoPronta = activeProduction && dados.dia >= activeProduction.diaFim;
-
-  const handleProduzir = (smartphone) => {
-    if (saldo < smartphone.custo) return;
-    if (removerSaldo(smartphone.custo)) {
-      atualizarEco("saldo", economiaSetores.saldo - smartphone.custo);
-      setActiveProduction({
-        ...smartphone,
-        diaInicio: dados.dia,
-        diaFim: dados.dia + smartphone.duracao
+    // Garantir que vendasRealizadas existe na estrutura
+    if (economiaSetores.negocios?.FabricaSmartphonesNegocio &&
+      !economiaSetores.negocios.FabricaSmartphonesNegocio.mercado?.vendasRealizadas) {
+      atualizarEco("negocios", {
+        ...economiaSetores.negocios,
+        FabricaSmartphonesNegocio: {
+          ...economiaSetores.negocios.FabricaSmartphonesNegocio,
+          mercado: {
+            ...economiaSetores.negocios.FabricaSmartphonesNegocio.mercado,
+            vendasRealizadas: []
+          }
+        }
       });
     }
+  }, []);
+
+  // Atalho para o negócio
+  const negocio = economiaSetores.negocios?.FabricaSmartphonesNegocio;
+
+  // Se ainda não foi inicializado, retorna loading
+  if (!negocio) {
+    return <div className="text-white text-center p-8">Carregando negócio...</div>;
+  }
+
+  // ==================== ATUALIZAÇÃO DE CICLOS ====================
+  useEffect(() => {
+    if (!negocio) return;
+
+    let precisaAtualizar = false;
+    let novoNegocio = { ...negocio };
+
+    // Verificar e atualizar ciclo de produção
+    if (dados.dia >= negocio.produzir.proximoCiclo) {
+      console.log("🔄 Atualizando ciclo de produção - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.produzir.proximoCiclo);
+
+      novoNegocio.produzir = {
+        ...negocio.produzir,
+        ofertasAtivas: sortearItens(smartphonesBase, 6),
+        proximoCiclo: dados.dia + 40
+      };
+      precisaAtualizar = true;
+    }
+
+    // Verificar e atualizar ciclo de mercado
+    if (dados.dia >= negocio.mercado.proximoCiclo) {
+      console.log("🔄 Atualizando ciclo de mercado - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.mercado.proximoCiclo);
+
+      novoNegocio.mercado = {
+        ofertasAtivas: sortearItens(marketOffersBase, 12),
+        vendasRealizadas: [],
+        proximoCiclo: dados.dia + 90
+      };
+      precisaAtualizar = true;
+    }
+
+    // Só atualiza se realmente mudou algo
+    if (precisaAtualizar) {
+      atualizarEco("negocios", {
+        ...economiaSetores.negocios,
+        FabricaSmartphonesNegocio: novoNegocio
+      });
+    }
+  }, [dados.dia, negocio?.produzir?.proximoCiclo, negocio?.mercado?.proximoCiclo]);
+
+  // ==================== HANDLERS ====================
+  const handleProduzir = (smartphone) => {
+    if (economiaSetores.saldo < smartphone.custo) {
+      alert("💰 Saldo insuficiente!");
+      return;
+    }
+    if (negocio.produzir.producaoAtual) {
+      alert("⚠️ Já existe uma produção em andamento!");
+      return;
+    }
+
+    const novaProducao = {
+      nome: smartphone.nome,
+      tipo: smartphone.tipo,
+      unidades: smartphone.unidades,
+      diaInicio: dados.dia,
+      diaFim: dados.dia + smartphone.duracao,
+      icon: smartphone.icon
+    };
+
+    // Atualiza saldo
+    atualizarEco("saldo", economiaSetores.saldo - smartphone.custo);
+
+    // Atualiza produção atual
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      FabricaSmartphonesNegocio: {
+        ...negocio,
+        produzir: {
+          ...negocio.produzir,
+          producaoAtual: novaProducao
+        }
+      }
+    });
   };
 
   const handleColetar = () => {
-    if (activeProduction) {
-      adicionarEstoque(activeProduction.tipo, activeProduction.unidades);
-      setActiveProduction(null);
-      setDiaAtual(dados.dia);
-    }
-  };
+    if (!negocio.produzir.producaoAtual) return;
 
-  const [vendasRealizadas, setVendasRealizadas] = useState([]);
+    const prod = negocio.produzir.producaoAtual;
+    const novoEstoque = {
+      ...negocio.estoque.estoqueAtual,
+      [prod.tipo]: (negocio.estoque.estoqueAtual[prod.tipo] || 0) + prod.unidades
+    };
+
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      FabricaSmartphonesNegocio: {
+        ...negocio,
+        produzir: {
+          ...negocio.produzir,
+          producaoAtual: null
+        },
+        estoque: {
+          ...negocio.estoque,
+          estoqueAtual: novoEstoque
+        }
+      }
+    });
+  };
 
   const handleVender = (offer) => {
-    const estoqueAtual = currentStock[offer.name] || 0;
+    const estoqueAtual = negocio.estoque.estoqueAtual[offer.name] || 0;
     if (offer.unidades > estoqueAtual) {
-      return alert("Você não tem smartphones suficientes!");
+      alert("⚠️ Você não tem smartphones suficientes!");
+      return;
     }
 
-    removerEstoque(offer.name, offer.unidades);
-    adicionarSaldo(offer.totalPrice);
+    const novoEstoque = {
+      ...negocio.estoque.estoqueAtual,
+      [offer.name]: estoqueAtual - offer.unidades
+    };
+
+    // Atualiza saldo
     atualizarEco("saldo", economiaSetores.saldo + offer.totalPrice);
-    setVendasRealizadas((prev) => [...prev, offer.id]);
+
+    // Atualiza estoque e marca venda como realizada
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      FabricaSmartphonesNegocio: {
+        ...negocio,
+        estoque: {
+          ...negocio.estoque,
+          estoqueAtual: novoEstoque
+        },
+        mercado: {
+          ...negocio.mercado,
+          vendasRealizadas: [...(negocio.mercado.vendasRealizadas || []), offer.id]
+        }
+      }
+    });
   };
 
+  // ==================== RENDER TAB CONTENT ====================
   const renderTabContent = (tab, cores, formatCurrency) => {
     if (tab === 'produzir') {
       return (
         <div className="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
-          {smartphonesAtuais.map((smartphone) => {
-            const podeEscolher = !activeProduction && saldo >= smartphone.custo;
+          {negocio.produzir.ofertasAtivas.map((smartphone) => {
+            const podeEscolher = !negocio.produzir.producaoAtual && economiaSetores.saldo >= smartphone.custo;
             return (
               <div key={smartphone.id} className="rounded-lg shadow-md p-4 bg-white">
                 <div className="flex items-center gap-2 mb-3">
@@ -2035,10 +2114,13 @@ const FabricaSmartphonesNegocio = () => {
                 <button
                   onClick={() => handleProduzir(smartphone)}
                   disabled={!podeEscolher}
-                  className="w-full py-3 rounded font-bold text-white"
-                  style={{ backgroundColor: podeEscolher ? cores.accent : '#6C757D' }}
+                  className="w-full py-3 rounded font-bold text-white transition-colors"
+                  style={{
+                    backgroundColor: podeEscolher ? cores.accent : '#6C757D',
+                    cursor: podeEscolher ? 'pointer' : 'not-allowed'
+                  }}
                 >
-                  {activeProduction ? 'Produzindo...' : 'Produzir'}
+                  {negocio.produzir.producaoAtual ? 'Produzindo...' : 'Produzir'}
                 </button>
               </div>
             );
@@ -2048,7 +2130,9 @@ const FabricaSmartphonesNegocio = () => {
     }
 
     if (tab === 'mercado') {
-      const ofertasDisponiveis = ofertasAtuais.filter((offer) => !vendasRealizadas.includes(offer.id));
+      const ofertasDisponiveis = negocio.mercado.ofertasAtivas.filter(
+        (offer) => !(negocio.mercado.vendasRealizadas || []).includes(offer.id)
+      );
 
       return (
         <div className="grid grid-cols-4 gap-4 w-full mx-auto text-center">
@@ -2060,20 +2144,28 @@ const FabricaSmartphonesNegocio = () => {
               <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
               <p className="text-sm mb-1">{offer.unidades} unidades</p>
               <p className="text-xs text-gray-500 mb-3">
-                R$ {offer.pricePerUnit.toLocaleString()}/un
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                  minimumFractionDigits: 0
+                }).format(offer.pricePerUnit)}/un
               </p>
               <button
                 onClick={() => handleVender(offer)}
-                className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700"
+                className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700 transition-colors"
               >
-                Vender
+                Vender por {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                  minimumFractionDigits: 0
+                }).format(offer.totalPrice)}
               </button>
             </div>
           ))}
 
           {ofertasDisponiveis.length === 0 && (
-            <p className="col-span-4 text-gray-500 text-sm mt-4">
-              Todos os compradores já foram atendidos.
+            <p className="col-span-4 text-white text-lg mt-4 bg-white/20 p-4 rounded-lg">
+              ✅ Todos os compradores já foram atendidos neste ciclo!
             </p>
           )}
         </div>
@@ -2081,15 +2173,37 @@ const FabricaSmartphonesNegocio = () => {
     }
 
     if (tab === 'estoque') {
+      const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
+      const percentualOcupado = ((estoqueTotal / negocio.estoque.capacidadeEstoque) * 100).toFixed(1);
+
       return (
-        <div className="grid grid-cols-3 gap-6">
-          {Object.entries(currentStock).map(([type, qtd]) => (
-            <div key={type} className="text-center text-white bg-white/20 rounded-xl p-6">
-              <h3 className="text-4xl mt-3 mb-3">{getProductIcon(type)}</h3>
-              <h3 className="text-xl font-bold mb-2 capitalize">{type}</h3>
-              <div className="text-lg mb-3 opacity-80">{qtd} unidades</div>
+        <div>
+          <div className="text-center text-white mb-6 bg-white/20 rounded-lg p-4">
+            <p className="text-xl font-bold mb-2">Capacidade do Estoque</p>
+            <p className="text-2xl">{estoqueTotal} / {negocio.estoque.capacidadeEstoque} unidades</p>
+            <p className="text-sm opacity-80 mt-1">{percentualOcupado}% ocupado</p>
+
+            {/* Barra de progresso */}
+            <div className="w-full bg-white/30 rounded-full h-3 mt-3">
+              <div
+                className="bg-orange-400 h-3 rounded-full transition-all duration-300"
+                style={{ width: `${percentualOcupado}%` }}
+              ></div>
             </div>
-          ))}
+          </div>
+
+          <div className="grid grid-cols-3 gap-6">
+            {Object.entries(negocio.estoque.estoqueAtual).map(([type, qtd]) => (
+              <div key={type} className="text-center text-white bg-white/20 rounded-xl p-6 hover:bg-white/30 transition-colors">
+                <h3 className="text-4xl mb-3">{getProductIcon(type)}</h3>
+                <h3 className="text-xl font-bold mb-2 capitalize">{type}</h3>
+                <div className="text-lg mb-3 opacity-80">{qtd} unidades</div>
+                {qtd === 0 && (
+                  <p className="text-xs opacity-60">Estoque vazio</p>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       );
     }
@@ -2097,359 +2211,73 @@ const FabricaSmartphonesNegocio = () => {
     return null;
   };
 
+  const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
+
   const tabs = [
     { id: 'produzir', label: 'Produzir', icon: Smartphone, info: null },
     { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
-    { id: 'estoque', label: 'Estoque', icon: Package, info: `${Object.values(currentStock).reduce((a, b) => a + b, 0)} Unidades` },
+    { id: 'estoque', label: 'Estoque', icon: Package, info: `${estoqueTotal} Unidades` },
   ];
+
+  const producaoPronta = negocio.produzir.producaoAtual &&
+    dados.dia >= negocio.produzir.producaoAtual.diaFim;
+
+  const negocioConfig = {
+    nome: 'Fábrica de Smartphones',
+    cores: SETORES_CONFIG.tecnologia.cores
+  };
+
+  // Calcular dias restantes para os ciclos
+  const diasRestantesProduzir = Math.max(0, negocio.produzir.proximoCiclo - dados.dia);
+  const diasRestantesMercado = Math.max(0, negocio.mercado.proximoCiclo - dados.dia);
 
   return (
     <BaseBusinessInterface
-      negocio={negocio}
+      negocio={negocioConfig}
       tabs={tabs}
       renderTabContent={renderTabContent}
       headerExtra={
-        activeProduction && (
+        negocio.produzir.producaoAtual && (
           <div className="bg-white bg-opacity-20 rounded-lg p-3 text-white text-sm">
             {producaoPronta ? (
               <div className="flex items-center justify-between">
-                <span>📱 {activeProduction.nome} pronto para coleta!</span>
+                <span className="text-base">
+                  📱 <strong>{negocio.produzir.producaoAtual.nome}</strong> pronto para coleta!
+                </span>
                 <button
                   onClick={handleColetar}
-                  className="px-4 py-2 rounded font-bold bg-green-500 text-white"
+                  className="px-4 py-2 rounded font-bold bg-green-500 hover:bg-green-600 text-white transition-colors"
                 >
-                  Coletar ({activeProduction.unidades} un)
+                  Coletar ({negocio.produzir.producaoAtual.unidades} un)
                 </button>
               </div>
             ) : (
-              <div>
-                🏭 Produzindo {activeProduction.nome} — Finaliza no dia {activeProduction.diaFim}
+              <div className="text-center">
+                🏭 Produzindo <strong>{negocio.produzir.producaoAtual.nome}</strong> — Finaliza no dia <strong>{negocio.produzir.producaoAtual.diaFim}</strong>
+                <div className="text-xs opacity-80 mt-1">
+                  ({negocio.produzir.producaoAtual.diaFim - dados.dia} dias restantes)
+                </div>
               </div>
             )}
           </div>
         )
       }
       footerExtra={(tab) => {
-        if (tab === 'produzir') return `Próximo ciclo de produção em ${cicloSmartphones.getFimCiclo() - dados.dia} dias`;
-        if (tab === 'mercado') return `Próximo ciclo de mercado em ${cicloMercado.getFimCiclo() - dados.dia} dias`;
+        if (tab === 'produzir') {
+          return diasRestantesProduzir === 0
+            ? `🔄 Novas ofertas disponíveis!`
+            : `Próximo ciclo de produção em ${diasRestantesProduzir} dias`;
+        }
+        if (tab === 'mercado') {
+          return diasRestantesMercado === 0
+            ? `🔄 Novos compradores disponíveis!`
+            : `Próximo ciclo de mercado em ${diasRestantesMercado} dias`;
+        }
         return null;
       }}
     />
   );
 };
-// const ConstrutoraInfraestruturaNegocio = () => {
-//   const { dados } = useContext(CentraldeDadosContext);
-//   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
-
-//   const { negocio, saldo, estoque: currentStock, adicionarSaldo, removerSaldo, adicionarEstoque, removerEstoque, setDiaAtual } =
-//     useNegocio({
-//       id: 'construtora-1',
-//       nome: 'Construtora de Infraestruturas',
-//       setor: 'imobiliario',
-//       saldoInicial: 1500000,
-//       estoqueInicial: { 
-//         ponte: 0, 
-//         estrada: 0, 
-//         tunel: 0,
-//         viaduto: 0,
-//         ferroviaria: 0,
-//         porto: 0
-//       },
-//       capacidadeEstoque: 50,
-//       diaAtual: dados.dia
-//     });
-
-//   const getProductIcon = (type) => {
-//     const icons = {
-//       ponte: '🌉',
-//       estrada: '🛣️',
-//       tunel: '🚇',
-//       viaduto: '🏗️',
-//       ferroviaria: '🚄',
-//       porto: '⚓'
-//     };
-//     return icons[type] || '🏗️';
-//   };
-
-//   // Dados de construção de infraestruturas
-//   const infraestruturas = [
-//     // Ponte
-//     { id: 1, nome: "Ponte Pequena", tipo: "ponte", custo: 500000, unidades: 1, valorPorUnidade: 500000, duracao: 180, icon: "🌉" },
-//     { id: 2, nome: "Ponte Média", tipo: "ponte", custo: 900000, unidades: 1, valorPorUnidade: 900000, duracao: 240, icon: "🌉" },
-//     { id: 3, nome: "Ponte Grande", tipo: "ponte", custo: 1500000, unidades: 1, valorPorUnidade: 1500000, duracao: 300, icon: "🌉" },
-    
-//     // Estrada
-//     { id: 4, nome: "Estrada 10km", tipo: "estrada", custo: 300000, unidades: 1, valorPorUnidade: 300000, duracao: 120, icon: "🛣️" },
-//     { id: 5, nome: "Estrada 25km", tipo: "estrada", custo: 700000, unidades: 1, valorPorUnidade: 700000, duracao: 180, icon: "🛣️" },
-//     { id: 6, nome: "Estrada 50km", tipo: "estrada", custo: 1300000, unidades: 1, valorPorUnidade: 1300000, duracao: 240, icon: "🛣️" },
-    
-//     // Túnel
-//     { id: 7, nome: "Túnel 2km", tipo: "tunel", custo: 800000, unidades: 1, valorPorUnidade: 800000, duracao: 210, icon: "🚇" },
-//     { id: 8, nome: "Túnel 5km", tipo: "tunel", custo: 1800000, unidades: 1, valorPorUnidade: 1800000, duracao: 270, icon: "🚇" },
-//     { id: 9, nome: "Túnel 10km", tipo: "tunel", custo: 3200000, unidades: 1, valorPorUnidade: 3200000, duracao: 330, icon: "🚇" },
-    
-//     // Viaduto
-//     { id: 10, nome: "Viaduto Simples", tipo: "viaduto", custo: 400000, unidades: 1, valorPorUnidade: 400000, duracao: 150, icon: "🏗️" },
-//     { id: 11, nome: "Viaduto Duplo", tipo: "viaduto", custo: 750000, unidades: 1, valorPorUnidade: 750000, duracao: 200, icon: "🏗️" },
-//     { id: 12, nome: "Viaduto Complexo", tipo: "viaduto", custo: 1200000, unidades: 1, valorPorUnidade: 1200000, duracao: 250, icon: "🏗️" },
-
-//     // Ferroviária
-//     { id: 13, nome: "Ferrovia 15km", tipo: "ferroviaria", custo: 600000, unidades: 1, valorPorUnidade: 600000, duracao: 190, icon: "🚄" },
-//     { id: 14, nome: "Ferrovia 30km", tipo: "ferroviaria", custo: 1100000, unidades: 1, valorPorUnidade: 1100000, duracao: 250, icon: "🚄" },
-//     { id: 15, nome: "Ferrovia 60km", tipo: "ferroviaria", custo: 2000000, unidades: 1, valorPorUnidade: 2000000, duracao: 310, icon: "🚄" },
-
-//     // Porto
-//     { id: 16, nome: "Porto Pequeno", tipo: "porto", custo: 1000000, unidades: 1, valorPorUnidade: 1000000, duracao: 280, icon: "⚓" },
-//     { id: 17, nome: "Porto Médio", tipo: "porto", custo: 2200000, unidades: 1, valorPorUnidade: 2200000, duracao: 340, icon: "⚓" },
-//     { id: 18, nome: "Porto Grande", tipo: "porto", custo: 4000000, unidades: 1, valorPorUnidade: 4000000, duracao: 400, icon: "⚓" },
-//   ];
-
-//   // Ofertas de mercado com margens de 50-70%
-//   const marketOffers = [
-//     // PONTE 🌉
-//     // custo base: 500.000 → lucro 50–70% → faixa: 750.000–850.000
-//     { id: 1, name: "ponte", unidades: 1, pricePerUnit: 750000, totalPrice: 750000 },     // +50%
-//     { id: 2, name: "ponte", unidades: 1, pricePerUnit: 800000, totalPrice: 800000 },     // +60%
-//     { id: 3, name: "ponte", unidades: 1, pricePerUnit: 850000, totalPrice: 850000 },     // +70%
-//     { id: 4, name: "ponte", unidades: 2, pricePerUnit: 840000, totalPrice: 1680000 },    // +68%
-
-//     // ESTRADA 🛣️
-//     // custo base: 300.000 → lucro 50–70% → faixa: 450.000–510.000
-//     { id: 5, name: "estrada", unidades: 1, pricePerUnit: 450000, totalPrice: 450000 },   // +50%
-//     { id: 6, name: "estrada", unidades: 1, pricePerUnit: 480000, totalPrice: 480000 },   // +60%
-//     { id: 7, name: "estrada", unidades: 1, pricePerUnit: 510000, totalPrice: 510000 },   // +70%
-//     { id: 8, name: "estrada", unidades: 2, pricePerUnit: 504000, totalPrice: 1008000 },  // +68%
-
-//     // TÚNEL 🚇
-//     // custo base: 800.000 → lucro 50–70% → faixa: 1.200.000–1.360.000
-//     { id: 9, name: "tunel", unidades: 1, pricePerUnit: 1200000, totalPrice: 1200000 },   // +50%
-//     { id: 10, name: "tunel", unidades: 1, pricePerUnit: 1280000, totalPrice: 1280000 },  // +60%
-//     { id: 11, name: "tunel", unidades: 1, pricePerUnit: 1360000, totalPrice: 1360000 },  // +70%
-//     { id: 12, name: "tunel", unidades: 2, pricePerUnit: 1344000, totalPrice: 2688000 },  // +68%
-
-//     // VIADUTO 🏗️
-//     // custo base: 400.000 → lucro 50–70% → faixa: 600.000–680.000
-//     { id: 13, name: "viaduto", unidades: 1, pricePerUnit: 600000, totalPrice: 600000 },  // +50%
-//     { id: 14, name: "viaduto", unidades: 1, pricePerUnit: 640000, totalPrice: 640000 },  // +60%
-//     { id: 15, name: "viaduto", unidades: 1, pricePerUnit: 680000, totalPrice: 680000 },  // +70%
-//     { id: 16, name: "viaduto", unidades: 2, pricePerUnit: 672000, totalPrice: 1344000 }, // +68%
-
-//     // FERROVIÁRIA 🚄
-//     // custo base: 600.000 → lucro 50–70% → faixa: 900.000–1.020.000
-//     { id: 17, name: "ferroviaria", unidades: 1, pricePerUnit: 900000, totalPrice: 900000 },    // +50%
-//     { id: 18, name: "ferroviaria", unidades: 1, pricePerUnit: 960000, totalPrice: 960000 },    // +60%
-//     { id: 19, name: "ferroviaria", unidades: 1, pricePerUnit: 1020000, totalPrice: 1020000 },  // +70%
-//     { id: 20, name: "ferroviaria", unidades: 2, pricePerUnit: 1008000, totalPrice: 2016000 },  // +68%
-
-//     // PORTO ⚓
-//     // custo base: 1.000.000 → lucro 50–70% → faixa: 1.500.000–1.700.000
-//     { id: 21, name: "porto", unidades: 1, pricePerUnit: 1500000, totalPrice: 1500000 },  // +50%
-//     { id: 22, name: "porto", unidades: 1, pricePerUnit: 1600000, totalPrice: 1600000 },  // +60%
-//     { id: 23, name: "porto", unidades: 1, pricePerUnit: 1700000, totalPrice: 1700000 },  // +70%
-//     { id: 24, name: "porto", unidades: 2, pricePerUnit: 1680000, totalPrice: 3360000 },  // +68%
-//   ];
-
-//   // Ciclos automáticos
-//   const [cicloInfraestruturas] = useState(() =>
-//     new CicloDeOfertas({
-//       baseData: infraestruturas,
-//       quantidadeSorteio: 6,
-//       duracaoDias: 60,
-//       chaveStorage: "ciclo_infraestruturas"
-//     })
-//   );
-
-//   const [cicloMercado] = useState(() =>
-//     new CicloDeOfertas({
-//       baseData: marketOffers,
-//       quantidadeSorteio: 12,
-//       duracaoDias: 120,
-//       chaveStorage: "ciclo_mercado_infraestruturas"
-//     })
-//   );
-
-//   useEffect(() => {
-//     cicloInfraestruturas.atualizarDia(dados.dia);
-//     cicloMercado.atualizarDia(dados.dia);
-//   }, [dados.dia]);
-
-//   const infraestruturasAtuais = cicloInfraestruturas.getItensDisponiveis();
-//   const ofertasAtuais = cicloMercado.getItensDisponiveis();
-
-//   const [activeProduction, setActiveProduction] = useState(null);
-//   const producaoPronta = activeProduction && dados.dia >= activeProduction.diaFim;
-
-//   const handleConstruir = (infraestrutura) => {
-//     if (saldo < infraestrutura.custo) return;
-//     if (removerSaldo(infraestrutura.custo)) {
-//       atualizarEco("saldo", economiaSetores.saldo - infraestrutura.custo);
-//       setActiveProduction({
-//         ...infraestrutura,
-//         diaInicio: dados.dia,
-//         diaFim: dados.dia + infraestrutura.duracao
-//       });
-//     }
-//   };
-
-//   const handleColetar = () => {
-//     if (activeProduction) {
-//       adicionarEstoque(activeProduction.tipo, activeProduction.unidades);
-//       setActiveProduction(null);
-//       setDiaAtual(dados.dia);
-//     }
-//   };
-
-//   const [vendasRealizadas, setVendasRealizadas] = useState([]);
-
-//   const handleVender = (offer) => {
-//     const estoqueAtual = currentStock[offer.name] || 0;
-//     if (offer.unidades > estoqueAtual) {
-//       return alert("Você não tem infraestruturas suficientes!");
-//     }
-
-//     removerEstoque(offer.name, offer.unidades);
-//     adicionarSaldo(offer.totalPrice);
-//     atualizarEco("saldo", economiaSetores.saldo + offer.totalPrice);
-//     setVendasRealizadas((prev) => [...prev, offer.id]);
-//   };
-
-//   const renderTabContent = (tab, cores, formatCurrency) => {
-//     if (tab === 'construir') {
-//       return (
-//         <div className="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
-//           {infraestruturasAtuais.map((infraestrutura) => {
-//             const podeEscolher = !activeProduction && saldo >= infraestrutura.custo;
-//             return (
-//               <div key={infraestrutura.id} className="rounded-lg shadow-md p-4 bg-white">
-//                 <div className="flex items-center gap-2 mb-3">
-//                   <span className="text-2xl">{infraestrutura.icon}</span>
-//                   <h3 className="text-base font-bold" style={{ color: cores.primary }}>
-//                     {infraestrutura.nome}
-//                   </h3>
-//                 </div>
-//                 <div className="space-y-2 mb-4">
-//                   <div className="flex justify-between text-sm">
-//                     <span>Custo:</span>
-//                     <span>{formatCurrency(infraestrutura.custo)}</span>
-//                   </div>
-//                   <div className="flex justify-between text-sm">
-//                     <span>Tipo:</span>
-//                     <span className="capitalize">{infraestrutura.tipo}</span>
-//                   </div>
-//                   <div className="flex justify-between text-sm">
-//                     <span>Duração:</span>
-//                     <span>{infraestrutura.duracao} dias</span>
-//                   </div>
-//                   <div className="flex justify-between text-sm">
-//                     <span>Status:</span>
-//                     <span className="text-xs">Obra complexa</span>
-//                   </div>
-//                 </div>
-//                 <button
-//                   onClick={() => handleConstruir(infraestrutura)}
-//                   disabled={!podeEscolher}
-//                   className="w-full py-3 rounded font-bold text-white"
-//                   style={{ backgroundColor: podeEscolher ? cores.accent : '#6C757D' }}
-//                 >
-//                   {activeProduction ? 'Construindo...' : 'Construir'}
-//                 </button>
-//               </div>
-//             );
-//           })}
-//         </div>
-//       );
-//     }
-
-//     if (tab === 'mercado') {
-//       const ofertasDisponiveis = ofertasAtuais.filter((offer) => !vendasRealizadas.includes(offer.id));
-
-//       return (
-//         <div className="grid grid-cols-4 gap-4 w-full mx-auto text-center">
-//           {ofertasDisponiveis.map((offer) => (
-//             <div key={offer.id} className="bg-white rounded-lg p-4 shadow-md">
-//               <h3 className="font-bold text-gray-800 mb-2 capitalize text-3xl">
-//                 {getProductIcon(offer.name)}
-//               </h3>
-//               <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
-//               <p className="text-sm mb-1">{offer.unidades} obra(s)</p>
-//               <p className="text-xs text-gray-500 mb-3">
-//                 {formatCurrency(offer.pricePerUnit)}/un
-//               </p>
-//               <button
-//                 onClick={() => handleVender(offer)}
-//                 className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700"
-//               >
-//                 Vender
-//               </button>
-//             </div>
-//           ))}
-
-//           {ofertasDisponiveis.length === 0 && (
-//             <p className="col-span-4 text-gray-500 text-sm mt-4">
-//               Todos os contratos já foram atendidos.
-//             </p>
-//           )}
-//         </div>
-//       );
-//     }
-
-//     if (tab === 'estoque') {
-//       return (
-//         <div className="grid grid-cols-3 gap-6">
-//           {Object.entries(currentStock).map(([type, qtd]) => (
-//             <div key={type} className="text-center text-white bg-white/20 rounded-xl p-6">
-//               <h3 className="text-4xl mt-3 mb-3">{getProductIcon(type)}</h3>
-//               <h3 className="text-xl font-bold mb-2 capitalize">{type}</h3>
-//               <div className="text-lg mb-3 opacity-80">{qtd} obra(s)</div>
-//             </div>
-//           ))}
-//         </div>
-//       );
-//     }
-
-//     return null;
-//   };
-
-//   const tabs = [
-//     { id: 'construir', label: 'Construir', icon: Building2, info: null },
-//     { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
-//     { id: 'estoque', label: 'Estoque', icon: Package, info: `${Object.values(currentStock).reduce((a, b) => a + b, 0)} Obras` },
-//   ];
-
-//   return (
-//     <BaseBusinessInterface
-//       negocio={negocio}
-//       tabs={tabs}
-//       renderTabContent={renderTabContent}
-//       headerExtra={
-//         activeProduction && (
-//           <div className="bg-white bg-opacity-20 rounded-lg p-3 text-white text-sm">
-//             {producaoPronta ? (
-//               <div className="flex items-center justify-between">
-//                 <span>🏗️ {activeProduction.nome} concluída!</span>
-//                 <button
-//                   onClick={handleColetar}
-//                   className="px-4 py-2 rounded font-bold bg-green-500 text-white"
-//                 >
-//                   Finalizar Obra
-//                 </button>
-//               </div>
-//             ) : (
-//               <div>
-//                 ⚙️ Construindo {activeProduction.nome} — Conclusão no dia {activeProduction.diaFim}
-//               </div>
-//             )}
-//           </div>
-//         )
-//       }
-//       footerExtra={(tab) => {
-//         if (tab === 'construir') return `Próximo ciclo de projetos em ${cicloInfraestruturas.getFimCiclo() - dados.dia} dias`;
-//         if (tab === 'mercado') return `Próximo ciclo de licitações em ${cicloMercado.getFimCiclo() - dados.dia} dias`;
-//         return null;
-//       }}
-//     />
-//   );
-// };
 
 const ConstrutoraInfraestruturaNegocio = () => {
   const { dados } = useContext(CentraldeDadosContext);
@@ -2461,7 +2289,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       nome: 'Construtora de Infraestruturas',
       setor: 'imobiliario',
       saldoInicial: 15000000,
-      estoqueInicial: { 
+      estoqueInicial: {
         escavadeira: 0,
         betoneira: 0,
         guindaste: 0,
@@ -2486,423 +2314,423 @@ const ConstrutoraInfraestruturaNegocio = () => {
   };
 
   // Licitações disponíveis
-const licitacoes = [
-  {
-    id: 1,
-    nome: "Hospital Regional Norte",
-    tipo: "Saúde",
-    localizacao: "São Paulo - SP",
-    custo: 45000000,
-    duracao: 180,
-    requisitos: { escavadeira: 3, betoneira: 4, guindaste: 2, retroescavadeira: 2, rolo: 2, perfuratriz: 2 },
-    icon: "🏥",
-    descricao: "Construção de hospital com 200 leitos, UTI e centro cirúrgico",
-    lucro: 8500000
-  },
-  {
-    id: 2,
-    nome: "Ponte Rodoviária BR-101",
-    tipo: "Infraestrutura",
-    localizacao: "Santos - SP",
-    custo: 32000000,
-    duracao: 120,
-    requisitos: { escavadeira: 2, betoneira: 3, guindaste: 2, retroescavadeira: 1, rolo: 1, perfuratriz: 1 },
-    icon: "🌉",
-    descricao: "Ponte de 800m sobre rio com pistas duplas",
-    lucro: 6200000
-  },
-  {
-    id: 3,
-    nome: "Porto de Contêineres",
-    tipo: "Portuário",
-    localizacao: "Guarujá - SP",
-    custo: 78000000,
-    duracao: 240,
-    requisitos: { escavadeira: 5, betoneira: 4, guindaste: 4, retroescavadeira: 3, rolo: 2, perfuratriz: 2 },
-    icon: "⚓",
-    descricao: "Terminal portuário para 500 mil TEUs/ano",
-    lucro: 14500000
-  },
-  {
-    id: 4,
-    nome: "Escola Técnica Estadual",
-    tipo: "Educação",
-    localizacao: "Campinas - SP",
-    custo: 18000000,
-    duracao: 90,
-    requisitos: { escavadeira: 1, betoneira: 2, guindaste: 1, retroescavadeira: 1, rolo: 1, perfuratriz: 1 },
-    icon: "🏫",
-    descricao: "Complexo educacional para 1200 alunos",
-    lucro: 3200000
-  },
-  {
-    id: 5,
-    nome: "Estádio Municipal",
-    tipo: "Esportivo",
-    localizacao: "Ribeirão Preto - SP",
-    custo: 25000000,
-    duracao: 150,
-    requisitos: { escavadeira: 2, betoneira: 3, guindaste: 2, retroescavadeira: 2, rolo: 2, perfuratriz: 1 },
-    icon: "🏟️",
-    descricao: "Estádio para 35 mil pessoas com cobertura",
-    lucro: 4800000
-  },
-  {
-    id: 6,
-    nome: "Metrô Linha Verde",
-    tipo: "Transporte",
-    localizacao: "São Paulo - SP",
-    custo: 100000000,
-    duracao: 360,
-    requisitos: { escavadeira: 6, betoneira: 5, guindaste: 3, retroescavadeira: 4, rolo: 3, perfuratriz: 4 },
-    icon: "🚇",
-    descricao: "15km de linha subterrânea com 12 estações",
-    lucro: 22000000
-  },
-  {
-    id: 7,
-    nome: "Shopping Center",
-    tipo: "Comercial",
-    localizacao: "Sorocaba - SP",
-    custo: 35000000,
-    duracao: 140,
-    requisitos: { escavadeira: 2, betoneira: 3, guindaste: 2, retroescavadeira: 1, rolo: 2, perfuratriz: 1 },
-    icon: "🏬",
-    descricao: "Centro comercial com 200 lojas e cinema",
-    lucro: 6500000
-  },
-  {
-    id: 8,
-    nome: "Condomínio Residencial",
-    tipo: "Residencial",
-    localizacao: "Jundiaí - SP",
-    custo: 28000000,
-    duracao: 110,
-    requisitos: { escavadeira: 2, betoneira: 2, guindaste: 2, retroescavadeira: 1, rolo: 1, perfuratriz: 1 },
-    icon: "🏘️",
-    descricao: "5 torres com 400 apartamentos",
-    lucro: 5200000
-  },
-  // --- novas 22 licitações ---
-  {
-    id: 9,
-    nome: "Clínica Popular Municipal",
-    tipo: "Saúde",
-    localizacao: "Piracicaba - SP",
-    custo: 8000000,
-    duracao: 60,
-    requisitos: { escavadeira: 1, betoneira: 1, guindaste: 1, retroescavadeira: 1 },
-    icon: "🩺",
-    descricao: "Construção de clínica de atendimento básico e emergencial",
-    lucro: 1500000
-  },
-  {
-    id: 10,
-    nome: "Viaduto Central",
-    tipo: "Infraestrutura",
-    localizacao: "Campinas - SP",
-    custo: 27000000,
-    duracao: 130,
-    requisitos: { escavadeira: 2, betoneira: 3, guindaste: 2, rolo: 1 },
-    icon: "🛣️",
-    descricao: "Viaduto de 600m conectando avenidas principais",
-    lucro: 5000000
-  },
-  {
-    id: 11,
-    nome: "Aeroporto Regional",
-    tipo: "Transporte",
-    localizacao: "Presidente Prudente - SP",
-    custo: 85000000,
-    duracao: 300,
-    requisitos: { escavadeira: 5, betoneira: 4, guindaste: 3, rolo: 3, perfuratriz: 3 },
-    icon: "✈️",
-    descricao: "Pista de pouso e terminal para voos regionais",
-    lucro: 16000000
-  },
-  {
-    id: 12,
-    nome: "Prédio Administrativo Municipal",
-    tipo: "Infraestrutura",
-    localizacao: "Franca - SP",
-    custo: 12000000,
-    duracao: 80,
-    requisitos: { escavadeira: 1, betoneira: 2, guindaste: 1 },
-    icon: "🏢",
-    descricao: "Sede administrativa e de atendimento ao público",
-    lucro: 2200000
-  },
-  {
-    id: 13,
-    nome: "Centro de Convenções",
-    tipo: "Comercial",
-    localizacao: "Santos - SP",
-    custo: 40000000,
-    duracao: 160,
-    requisitos: { escavadeira: 3, betoneira: 3, guindaste: 2, rolo: 2 },
-    icon: "🏛️",
-    descricao: "Espaço multiuso para eventos empresariais e culturais",
-    lucro: 7500000
-  },
-  {
-    id: 14,
-    nome: "Habitação Popular",
-    tipo: "Residencial",
-    localizacao: "Limeira - SP",
-    custo: 15000000,
-    duracao: 100,
-    requisitos: { escavadeira: 2, betoneira: 2, rolo: 1 },
-    icon: "🏠",
-    descricao: "Construção de 300 unidades habitacionais populares",
-    lucro: 2800000
-  },
-  {
-    id: 15,
-    nome: "Rodovia Estadual SP-230",
-    tipo: "Infraestrutura",
-    localizacao: "Bauru - SP",
-    custo: 95000000,
-    duracao: 340,
-    requisitos: { escavadeira: 6, betoneira: 4, guindaste: 3, rolo: 4, perfuratriz: 3 },
-    icon: "🚧",
-    descricao: "Duplicação e pavimentação de 50 km da rodovia",
-    lucro: 18500000
-  },
-  {
-    id: 16,
-    nome: "Terminal de Ônibus Urbano",
-    tipo: "Transporte",
-    localizacao: "São José dos Campos - SP",
-    custo: 12000000,
-    duracao: 90,
-    requisitos: { escavadeira: 2, betoneira: 2, rolo: 1 },
-    icon: "🚍",
-    descricao: "Terminal moderno com 20 plataformas de embarque",
-    lucro: 2500000
-  },
-  {
-    id: 17,
-    nome: "Centro Esportivo Comunitário",
-    tipo: "Esportivo",
-    localizacao: "Marília - SP",
-    custo: 6000000,
-    duracao: 60,
-    requisitos: { escavadeira: 1, betoneira: 1, rolo: 1 },
-    icon: "🤾",
-    descricao: "Quadras, piscina e ginásio poliesportivo comunitário",
-    lucro: 1200000
-  },
-  {
-    id: 18,
-    nome: "Centro Tecnológico de Inovação",
-    tipo: "Educação",
-    localizacao: "Campinas - SP",
-    custo: 48000000,
-    duracao: 200,
-    requisitos: { escavadeira: 3, betoneira: 4, guindaste: 2, perfuratriz: 2 },
-    icon: "💻",
-    descricao: "Laboratórios e escritórios de startups em parceria com universidades",
-    lucro: 9000000
-  },
-  {
-    id: 19,
-    nome: "Parque Municipal Ecológico",
-    tipo: "Infraestrutura",
-    localizacao: "Atibaia - SP",
-    custo: 7000000,
-    duracao: 70,
-    requisitos: { escavadeira: 1, betoneira: 1, rolo: 1 },
-    icon: "🌳",
-    descricao: "Criação de parque urbano com trilhas e áreas verdes",
-    lucro: 1300000
-  },
-  {
-    id: 20,
-    nome: "Expansão do Porto Seco",
-    tipo: "Portuário",
-    localizacao: "Campinas - SP",
-    custo: 55000000,
-    duracao: 210,
-    requisitos: { escavadeira: 4, betoneira: 3, guindaste: 3, retroescavadeira: 2 },
-    icon: "🚢",
-    descricao: "Ampliação da capacidade logística e armazenagem",
-    lucro: 10500000
-  },
-  {
-    id: 21,
-    nome: "Estação de Tratamento de Água",
-    tipo: "Infraestrutura",
-    localizacao: "Mogi das Cruzes - SP",
-    custo: 20000000,
-    duracao: 120,
-    requisitos: { escavadeira: 2, betoneira: 2, rolo: 1, perfuratriz: 2 },
-    icon: "💧",
-    descricao: "Nova estação de tratamento e rede de abastecimento",
-    lucro: 3800000
-  },
-  {
-    id: 22,
-    nome: "Linha de VLT Metropolitano",
-    tipo: "Transporte",
-    localizacao: "Santos - SP",
-    custo: 90000000,
-    duracao: 330,
-    requisitos: { escavadeira: 6, betoneira: 5, guindaste: 4, rolo: 3, perfuratriz: 3 },
-    icon: "🚈",
-    descricao: "Linha de 18km de Veículo Leve sobre Trilhos",
-    lucro: 18000000
-  },
-  {
-    id: 23,
-    nome: "Museu de Arte Moderna",
-    tipo: "Cultural",
-    localizacao: "São Paulo - SP",
-    custo: 25000000,
-    duracao: 150,
-    requisitos: { escavadeira: 2, betoneira: 2, guindaste: 1, perfuratriz: 1 },
-    icon: "🎨",
-    descricao: "Espaço cultural com galerias e auditório",
-    lucro: 4700000
-  },
-  {
-    id: 24,
-    nome: "Centro de Distribuição Logístico",
-    tipo: "Comercial",
-    localizacao: "Guarulhos - SP",
-    custo: 38000000,
-    duracao: 150,
-    requisitos: { escavadeira: 3, betoneira: 3, guindaste: 2, rolo: 2 },
-    icon: "📦",
-    descricao: "Galpão com sistema automatizado de logística e carga",
-    lucro: 7200000
-  },
-  {
-    id: 25,
-    nome: "Complexo Habitacional Verde Vida",
-    tipo: "Residencial",
-    localizacao: "Americana - SP",
-    custo: 22000000,
-    duracao: 120,
-    requisitos: { escavadeira: 2, betoneira: 2, rolo: 1 },
-    icon: "🏡",
-    descricao: "Conjunto habitacional sustentável com energia solar",
-    lucro: 4100000
-  },
-  {
-    id: 26,
-    nome: "Pavilhão de Exposições Agroindustrial",
-    tipo: "Comercial",
-    localizacao: "Ribeirão Preto - SP",
-    custo: 16000000,
-    duracao: 100,
-    requisitos: { escavadeira: 2, betoneira: 2, guindaste: 1 },
-    icon: "🐄",
-    descricao: "Espaço para eventos e feiras agroindustriais",
-    lucro: 3000000
-  },
-  {
-    id: 27,
-    nome: "Centro Integrado de Segurança",
-    tipo: "Infraestrutura",
-    localizacao: "São Bernardo do Campo - SP",
-    custo: 12000000,
-    duracao: 80,
-    requisitos: { escavadeira: 1, betoneira: 2, guindaste: 1 },
-    icon: "🚔",
-    descricao: "Instalação para polícias civil e militar com tecnologia integrada",
-    lucro: 2300000
-  },
-  {
-    id: 28,
-    nome: "Usina de Energia Solar Municipal",
-    tipo: "Energia",
-    localizacao: "Araraquara - SP",
-    custo: 50000000,
-    duracao: 220,
-    requisitos: { escavadeira: 3, betoneira: 3, guindaste: 2, perfuratriz: 2 },
-    icon: "☀️",
-    descricao: "Planta de geração solar fotovoltaica de 50MW",
-    lucro: 9500000
-  },
-  {
-    id: 29,
-    nome: "Centro de Reciclagem Sustentável",
-    tipo: "Infraestrutura",
-    localizacao: "Pirassununga - SP",
-    custo: 9000000,
-    duracao: 70,
-    requisitos: { escavadeira: 1, betoneira: 1, rolo: 1 },
-    icon: "♻️",
-    descricao: "Instalação para triagem e reaproveitamento de resíduos sólidos",
-    lucro: 1600000
-  },
-  {
-    id: 30,
-    nome: "Ampliação do Aeroporto Internacional",
-    tipo: "Transporte",
-    localizacao: "Guarulhos - SP",
-    custo: 95000000,
-    duracao: 350,
-    requisitos: { escavadeira: 6, betoneira: 5, guindaste: 4, retroescavadeira: 3, perfuratriz: 4 },
-    icon: "🛫",
-    descricao: "Expansão do terminal de passageiros e pista adicional",
-    lucro: 19500000
-  }
-];
+  const licitacoes = [
+    {
+      id: 1,
+      nome: "Hospital Regional Norte",
+      tipo: "Saúde",
+      localizacao: "São Paulo - SP",
+      custo: 45000000,
+      duracao: 180,
+      requisitos: { escavadeira: 3, betoneira: 4, guindaste: 2, retroescavadeira: 2, rolo: 2, perfuratriz: 2 },
+      icon: "🏥",
+      descricao: "Construção de hospital com 200 leitos, UTI e centro cirúrgico",
+      lucro: 8500000
+    },
+    {
+      id: 2,
+      nome: "Ponte Rodoviária BR-101",
+      tipo: "Infraestrutura",
+      localizacao: "Santos - SP",
+      custo: 32000000,
+      duracao: 120,
+      requisitos: { escavadeira: 2, betoneira: 3, guindaste: 2, retroescavadeira: 1, rolo: 1, perfuratriz: 1 },
+      icon: "🌉",
+      descricao: "Ponte de 800m sobre rio com pistas duplas",
+      lucro: 6200000
+    },
+    {
+      id: 3,
+      nome: "Porto de Contêineres",
+      tipo: "Portuário",
+      localizacao: "Guarujá - SP",
+      custo: 78000000,
+      duracao: 240,
+      requisitos: { escavadeira: 5, betoneira: 4, guindaste: 4, retroescavadeira: 3, rolo: 2, perfuratriz: 2 },
+      icon: "⚓",
+      descricao: "Terminal portuário para 500 mil TEUs/ano",
+      lucro: 14500000
+    },
+    {
+      id: 4,
+      nome: "Escola Técnica Estadual",
+      tipo: "Educação",
+      localizacao: "Campinas - SP",
+      custo: 18000000,
+      duracao: 90,
+      requisitos: { escavadeira: 1, betoneira: 2, guindaste: 1, retroescavadeira: 1, rolo: 1, perfuratriz: 1 },
+      icon: "🏫",
+      descricao: "Complexo educacional para 1200 alunos",
+      lucro: 3200000
+    },
+    {
+      id: 5,
+      nome: "Estádio Municipal",
+      tipo: "Esportivo",
+      localizacao: "Ribeirão Preto - SP",
+      custo: 25000000,
+      duracao: 150,
+      requisitos: { escavadeira: 2, betoneira: 3, guindaste: 2, retroescavadeira: 2, rolo: 2, perfuratriz: 1 },
+      icon: "🏟️",
+      descricao: "Estádio para 35 mil pessoas com cobertura",
+      lucro: 4800000
+    },
+    {
+      id: 6,
+      nome: "Metrô Linha Verde",
+      tipo: "Transporte",
+      localizacao: "São Paulo - SP",
+      custo: 100000000,
+      duracao: 360,
+      requisitos: { escavadeira: 6, betoneira: 5, guindaste: 3, retroescavadeira: 4, rolo: 3, perfuratriz: 4 },
+      icon: "🚇",
+      descricao: "15km de linha subterrânea com 12 estações",
+      lucro: 22000000
+    },
+    {
+      id: 7,
+      nome: "Shopping Center",
+      tipo: "Comercial",
+      localizacao: "Sorocaba - SP",
+      custo: 35000000,
+      duracao: 140,
+      requisitos: { escavadeira: 2, betoneira: 3, guindaste: 2, retroescavadeira: 1, rolo: 2, perfuratriz: 1 },
+      icon: "🏬",
+      descricao: "Centro comercial com 200 lojas e cinema",
+      lucro: 6500000
+    },
+    {
+      id: 8,
+      nome: "Condomínio Residencial",
+      tipo: "Residencial",
+      localizacao: "Jundiaí - SP",
+      custo: 28000000,
+      duracao: 110,
+      requisitos: { escavadeira: 2, betoneira: 2, guindaste: 2, retroescavadeira: 1, rolo: 1, perfuratriz: 1 },
+      icon: "🏘️",
+      descricao: "5 torres com 400 apartamentos",
+      lucro: 5200000
+    },
+    // --- novas 22 licitações ---
+    {
+      id: 9,
+      nome: "Clínica Popular Municipal",
+      tipo: "Saúde",
+      localizacao: "Piracicaba - SP",
+      custo: 8000000,
+      duracao: 60,
+      requisitos: { escavadeira: 1, betoneira: 1, guindaste: 1, retroescavadeira: 1 },
+      icon: "🩺",
+      descricao: "Construção de clínica de atendimento básico e emergencial",
+      lucro: 1500000
+    },
+    {
+      id: 10,
+      nome: "Viaduto Central",
+      tipo: "Infraestrutura",
+      localizacao: "Campinas - SP",
+      custo: 27000000,
+      duracao: 130,
+      requisitos: { escavadeira: 2, betoneira: 3, guindaste: 2, rolo: 1 },
+      icon: "🛣️",
+      descricao: "Viaduto de 600m conectando avenidas principais",
+      lucro: 5000000
+    },
+    {
+      id: 11,
+      nome: "Aeroporto Regional",
+      tipo: "Transporte",
+      localizacao: "Presidente Prudente - SP",
+      custo: 85000000,
+      duracao: 300,
+      requisitos: { escavadeira: 5, betoneira: 4, guindaste: 3, rolo: 3, perfuratriz: 3 },
+      icon: "✈️",
+      descricao: "Pista de pouso e terminal para voos regionais",
+      lucro: 16000000
+    },
+    {
+      id: 12,
+      nome: "Prédio Administrativo Municipal",
+      tipo: "Infraestrutura",
+      localizacao: "Franca - SP",
+      custo: 12000000,
+      duracao: 80,
+      requisitos: { escavadeira: 1, betoneira: 2, guindaste: 1 },
+      icon: "🏢",
+      descricao: "Sede administrativa e de atendimento ao público",
+      lucro: 2200000
+    },
+    {
+      id: 13,
+      nome: "Centro de Convenções",
+      tipo: "Comercial",
+      localizacao: "Santos - SP",
+      custo: 40000000,
+      duracao: 160,
+      requisitos: { escavadeira: 3, betoneira: 3, guindaste: 2, rolo: 2 },
+      icon: "🏛️",
+      descricao: "Espaço multiuso para eventos empresariais e culturais",
+      lucro: 7500000
+    },
+    {
+      id: 14,
+      nome: "Habitação Popular",
+      tipo: "Residencial",
+      localizacao: "Limeira - SP",
+      custo: 15000000,
+      duracao: 100,
+      requisitos: { escavadeira: 2, betoneira: 2, rolo: 1 },
+      icon: "🏠",
+      descricao: "Construção de 300 unidades habitacionais populares",
+      lucro: 2800000
+    },
+    {
+      id: 15,
+      nome: "Rodovia Estadual SP-230",
+      tipo: "Infraestrutura",
+      localizacao: "Bauru - SP",
+      custo: 95000000,
+      duracao: 340,
+      requisitos: { escavadeira: 6, betoneira: 4, guindaste: 3, rolo: 4, perfuratriz: 3 },
+      icon: "🚧",
+      descricao: "Duplicação e pavimentação de 50 km da rodovia",
+      lucro: 18500000
+    },
+    {
+      id: 16,
+      nome: "Terminal de Ônibus Urbano",
+      tipo: "Transporte",
+      localizacao: "São José dos Campos - SP",
+      custo: 12000000,
+      duracao: 90,
+      requisitos: { escavadeira: 2, betoneira: 2, rolo: 1 },
+      icon: "🚍",
+      descricao: "Terminal moderno com 20 plataformas de embarque",
+      lucro: 2500000
+    },
+    {
+      id: 17,
+      nome: "Centro Esportivo Comunitário",
+      tipo: "Esportivo",
+      localizacao: "Marília - SP",
+      custo: 6000000,
+      duracao: 60,
+      requisitos: { escavadeira: 1, betoneira: 1, rolo: 1 },
+      icon: "🤾",
+      descricao: "Quadras, piscina e ginásio poliesportivo comunitário",
+      lucro: 1200000
+    },
+    {
+      id: 18,
+      nome: "Centro Tecnológico de Inovação",
+      tipo: "Educação",
+      localizacao: "Campinas - SP",
+      custo: 48000000,
+      duracao: 200,
+      requisitos: { escavadeira: 3, betoneira: 4, guindaste: 2, perfuratriz: 2 },
+      icon: "💻",
+      descricao: "Laboratórios e escritórios de startups em parceria com universidades",
+      lucro: 9000000
+    },
+    {
+      id: 19,
+      nome: "Parque Municipal Ecológico",
+      tipo: "Infraestrutura",
+      localizacao: "Atibaia - SP",
+      custo: 7000000,
+      duracao: 70,
+      requisitos: { escavadeira: 1, betoneira: 1, rolo: 1 },
+      icon: "🌳",
+      descricao: "Criação de parque urbano com trilhas e áreas verdes",
+      lucro: 1300000
+    },
+    {
+      id: 20,
+      nome: "Expansão do Porto Seco",
+      tipo: "Portuário",
+      localizacao: "Campinas - SP",
+      custo: 55000000,
+      duracao: 210,
+      requisitos: { escavadeira: 4, betoneira: 3, guindaste: 3, retroescavadeira: 2 },
+      icon: "🚢",
+      descricao: "Ampliação da capacidade logística e armazenagem",
+      lucro: 10500000
+    },
+    {
+      id: 21,
+      nome: "Estação de Tratamento de Água",
+      tipo: "Infraestrutura",
+      localizacao: "Mogi das Cruzes - SP",
+      custo: 20000000,
+      duracao: 120,
+      requisitos: { escavadeira: 2, betoneira: 2, rolo: 1, perfuratriz: 2 },
+      icon: "💧",
+      descricao: "Nova estação de tratamento e rede de abastecimento",
+      lucro: 3800000
+    },
+    {
+      id: 22,
+      nome: "Linha de VLT Metropolitano",
+      tipo: "Transporte",
+      localizacao: "Santos - SP",
+      custo: 90000000,
+      duracao: 330,
+      requisitos: { escavadeira: 6, betoneira: 5, guindaste: 4, rolo: 3, perfuratriz: 3 },
+      icon: "🚈",
+      descricao: "Linha de 18km de Veículo Leve sobre Trilhos",
+      lucro: 18000000
+    },
+    {
+      id: 23,
+      nome: "Museu de Arte Moderna",
+      tipo: "Cultural",
+      localizacao: "São Paulo - SP",
+      custo: 25000000,
+      duracao: 150,
+      requisitos: { escavadeira: 2, betoneira: 2, guindaste: 1, perfuratriz: 1 },
+      icon: "🎨",
+      descricao: "Espaço cultural com galerias e auditório",
+      lucro: 4700000
+    },
+    {
+      id: 24,
+      nome: "Centro de Distribuição Logístico",
+      tipo: "Comercial",
+      localizacao: "Guarulhos - SP",
+      custo: 38000000,
+      duracao: 150,
+      requisitos: { escavadeira: 3, betoneira: 3, guindaste: 2, rolo: 2 },
+      icon: "📦",
+      descricao: "Galpão com sistema automatizado de logística e carga",
+      lucro: 7200000
+    },
+    {
+      id: 25,
+      nome: "Complexo Habitacional Verde Vida",
+      tipo: "Residencial",
+      localizacao: "Americana - SP",
+      custo: 22000000,
+      duracao: 120,
+      requisitos: { escavadeira: 2, betoneira: 2, rolo: 1 },
+      icon: "🏡",
+      descricao: "Conjunto habitacional sustentável com energia solar",
+      lucro: 4100000
+    },
+    {
+      id: 26,
+      nome: "Pavilhão de Exposições Agroindustrial",
+      tipo: "Comercial",
+      localizacao: "Ribeirão Preto - SP",
+      custo: 16000000,
+      duracao: 100,
+      requisitos: { escavadeira: 2, betoneira: 2, guindaste: 1 },
+      icon: "🐄",
+      descricao: "Espaço para eventos e feiras agroindustriais",
+      lucro: 3000000
+    },
+    {
+      id: 27,
+      nome: "Centro Integrado de Segurança",
+      tipo: "Infraestrutura",
+      localizacao: "São Bernardo do Campo - SP",
+      custo: 12000000,
+      duracao: 80,
+      requisitos: { escavadeira: 1, betoneira: 2, guindaste: 1 },
+      icon: "🚔",
+      descricao: "Instalação para polícias civil e militar com tecnologia integrada",
+      lucro: 2300000
+    },
+    {
+      id: 28,
+      nome: "Usina de Energia Solar Municipal",
+      tipo: "Energia",
+      localizacao: "Araraquara - SP",
+      custo: 50000000,
+      duracao: 220,
+      requisitos: { escavadeira: 3, betoneira: 3, guindaste: 2, perfuratriz: 2 },
+      icon: "☀️",
+      descricao: "Planta de geração solar fotovoltaica de 50MW",
+      lucro: 9500000
+    },
+    {
+      id: 29,
+      nome: "Centro de Reciclagem Sustentável",
+      tipo: "Infraestrutura",
+      localizacao: "Pirassununga - SP",
+      custo: 9000000,
+      duracao: 70,
+      requisitos: { escavadeira: 1, betoneira: 1, rolo: 1 },
+      icon: "♻️",
+      descricao: "Instalação para triagem e reaproveitamento de resíduos sólidos",
+      lucro: 1600000
+    },
+    {
+      id: 30,
+      nome: "Ampliação do Aeroporto Internacional",
+      tipo: "Transporte",
+      localizacao: "Guarulhos - SP",
+      custo: 95000000,
+      duracao: 350,
+      requisitos: { escavadeira: 6, betoneira: 5, guindaste: 4, retroescavadeira: 3, perfuratriz: 4 },
+      icon: "🛫",
+      descricao: "Expansão do terminal de passageiros e pista adicional",
+      lucro: 19500000
+    }
+  ];
 
 
-const [cicloLicitacoes] = useState(() =>
-  new CicloDeOfertas({
-    baseData: licitacoes,
-    quantidadeSorteio: 4,
-    duracaoDias: 60,
-    chaveStorage: "ciclo_licitacoes"
-  })
-);
+  const [cicloLicitacoes] = useState(() =>
+    new CicloDeOfertas({
+      baseData: licitacoes,
+      quantidadeSorteio: 4,
+      duracaoDias: 60,
+      chaveStorage: "ciclo_licitacoes"
+    })
+  );
 
-useEffect(() => {
-  cicloLicitacoes.atualizarDia(dados.dia);
-}, [dados.dia]);
+  useEffect(() => {
+    cicloLicitacoes.atualizarDia(dados.dia);
+  }, [dados.dia]);
 
-const licitacoesAtuais = cicloLicitacoes.getItensDisponiveis();
+  const licitacoesAtuais = cicloLicitacoes.getItensDisponiveis();
 
-const [obraAtiva, setObraAtiva] = useState(null);
-const [showBidModal, setShowBidModal] = useState(false);
-const [licitacaoSelecionada, setLicitacaoSelecionada] = useState(null);
+  const [obraAtiva, setObraAtiva] = useState(null);
+  const [showBidModal, setShowBidModal] = useState(false);
+  const [licitacaoSelecionada, setLicitacaoSelecionada] = useState(null);
 
-const obraPronta = obraAtiva && dados.dia >= obraAtiva.diaFim;
+  const obraPronta = obraAtiva && dados.dia >= obraAtiva.diaFim;
 
-const podeParticipar = (licitacao) => {
-  if (obraAtiva) return false;
-  if (saldo < licitacao.custo) return false;
+  const podeParticipar = (licitacao) => {
+    if (obraAtiva) return false;
+    if (saldo < licitacao.custo) return false;
 
-  return Object.entries(licitacao.requisitos).every(([equip, qtd]) => {
-    return (maquinarios[equip] || 0) >= qtd;
-  });
-};
-
-const handleParticiparLicitacao = (licitacao) => {
-  if (removerSaldo(licitacao.custo)) {
-    atualizarEco("saldo", economiaSetores.saldo - licitacao.custo);
-    setObraAtiva({
-      ...licitacao,
-      diaInicio: dados.dia,
-      diaFim: dados.dia + licitacao.duracao
+    return Object.entries(licitacao.requisitos).every(([equip, qtd]) => {
+      return (maquinarios[equip] || 0) >= qtd;
     });
-    setShowBidModal(false);
-    setLicitacaoSelecionada(null);
-  }
-};
+  };
 
-const handleColetarLucro = () => {
-  if (obraAtiva) {
-    const recebimento = obraAtiva.custo + obraAtiva.lucro;
-    adicionarSaldo(recebimento);
-    atualizarEco("saldo", economiaSetores.saldo + recebimento);
-    setObraAtiva(null);
-    setDiaAtual(dados.dia);
-  }
-};
+  const handleParticiparLicitacao = (licitacao) => {
+    if (removerSaldo(licitacao.custo)) {
+      atualizarEco("saldo", economiaSetores.saldo - licitacao.custo);
+      setObraAtiva({
+        ...licitacao,
+        diaInicio: dados.dia,
+        diaFim: dados.dia + licitacao.duracao
+      });
+      setShowBidModal(false);
+      setLicitacaoSelecionada(null);
+    }
+  };
+
+  const handleColetarLucro = () => {
+    if (obraAtiva) {
+      const recebimento = obraAtiva.custo + obraAtiva.lucro;
+      adicionarSaldo(recebimento);
+      atualizarEco("saldo", economiaSetores.saldo + recebimento);
+      setObraAtiva(null);
+      setDiaAtual(dados.dia);
+    }
+  };
 
   const handleComprarEquipamento = (equipamento) => {
     if (saldo >= equipamento.preco) {
@@ -2927,106 +2755,105 @@ const handleColetarLucro = () => {
     return cores[tipo] || '#6c757d';
   };
 
-const renderTabContent = (tab, cores, formatCurrency) => {
-  if (tab === 'licitacoes') {
-    return (
-      <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
-        {licitacoesAtuais.map((licitacao) => {
-          const canBid = podeParticipar(licitacao);
+  const renderTabContent = (tab, cores, formatCurrency) => {
+    if (tab === 'licitacoes') {
+      return (
+        <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
+          {licitacoesAtuais.map((licitacao) => {
+            const canBid = podeParticipar(licitacao);
 
-          return (
-            <div
-              key={licitacao.id}
-              className={`rounded-lg shadow-md p-4 transition-all ${
-                canBid ? 'hover:shadow-lg' : 'opacity-60'
-              }`}
-              style={{ backgroundColor: '#ffffff' }}
-            >
-              <div className="flex gap-4 mb-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-2xl">{licitacao.icon}</span>
-                    <div>
-                      <h3 className="text-sm font-bold" style={{ color: cores.primary }}>
-                        {licitacao.nome}
-                      </h3>
-                      <div 
-                        className="text-xs px-2 py-1 rounded text-white inline-block"
-                        style={{ backgroundColor: getProjectTypeColor(licitacao.tipo) }}
-                      >
-                        {licitacao.tipo}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2 mb-3">
-                    <div className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-gray-500" />
-                      <span className="text-xs text-gray-600">{licitacao.localizacao}</span>
-                    </div>
-                    <div className="flex justify-between text-xs">
-                      <span className="text-gray-600">Investimento:</span>
-                      <span className="font-bold text-red-600">{formatCurrency(licitacao.custo)}</span>
-                    </div>
-                    <div className="flex justify-between text-xs">
-                      <span className="text-gray-600">Lucro:</span>
-                      <span className="font-bold text-green-600">{formatCurrency(licitacao.lucro)}</span>
-                    </div>
-                    <div className="flex justify-between text-xs">
-                      <span className="text-gray-600">Duração:</span>
-                      <span className="font-semibold">{licitacao.duracao} dias</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex-1">
-                  <div className="space-y-1 mb-3">
-                    <div className="text-xs text-gray-600 mb-1">Equipamentos necessários:</div>
-                    {Object.entries(licitacao.requisitos).map(([equip, qtd]) => (
-                      <div key={equip} className="flex justify-between text-xs">
-                        <span className="capitalize">{equip}:</span>
-                        <span className={
-                          (maquinarios[equip] || 0) >= qtd ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'
-                        }>
-                          {maquinarios[equip] || 0}/{qtd}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="text-xs mb-3 p-2 bg-gray-50 rounded text-gray-600">
-                {licitacao.descricao}
-              </div>
-
-              <button
-                onClick={() => {
-                  if (canBid) {
-                    setLicitacaoSelecionada(licitacao);
-                    setShowBidModal(true);
-                  }
-                }}
-                disabled={!canBid}
-                className="w-full py-3 rounded font-bold text-white text-sm"
-                style={{
-                  backgroundColor: canBid ? cores.accent : '#6c757d',
-                  cursor: canBid ? 'pointer' : 'not-allowed'
-                }}
+            return (
+              <div
+                key={licitacao.id}
+                className={`rounded-lg shadow-md p-4 transition-all ${canBid ? 'hover:shadow-lg' : 'opacity-60'
+                  }`}
+                style={{ backgroundColor: '#ffffff' }}
               >
-                {obraAtiva 
-                  ? 'Obra em Andamento'
-                  : !canBid
-                  ? 'Requisitos Insuficientes'
-                  : 'Participar da Licitação'
-                }
-              </button>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
+                <div className="flex gap-4 mb-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-2xl">{licitacao.icon}</span>
+                      <div>
+                        <h3 className="text-sm font-bold" style={{ color: cores.primary }}>
+                          {licitacao.nome}
+                        </h3>
+                        <div
+                          className="text-xs px-2 py-1 rounded text-white inline-block"
+                          style={{ backgroundColor: getProjectTypeColor(licitacao.tipo) }}
+                        >
+                          {licitacao.tipo}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 mb-3">
+                      <div className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3 text-gray-500" />
+                        <span className="text-xs text-gray-600">{licitacao.localizacao}</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-gray-600">Investimento:</span>
+                        <span className="font-bold text-red-600">{formatCurrency(licitacao.custo)}</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-gray-600">Lucro:</span>
+                        <span className="font-bold text-green-600">{formatCurrency(licitacao.lucro)}</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-gray-600">Duração:</span>
+                        <span className="font-semibold">{licitacao.duracao} dias</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex-1">
+                    <div className="space-y-1 mb-3">
+                      <div className="text-xs text-gray-600 mb-1">Equipamentos necessários:</div>
+                      {Object.entries(licitacao.requisitos).map(([equip, qtd]) => (
+                        <div key={equip} className="flex justify-between text-xs">
+                          <span className="capitalize">{equip}:</span>
+                          <span className={
+                            (maquinarios[equip] || 0) >= qtd ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'
+                          }>
+                            {maquinarios[equip] || 0}/{qtd}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-xs mb-3 p-2 bg-gray-50 rounded text-gray-600">
+                  {licitacao.descricao}
+                </div>
+
+                <button
+                  onClick={() => {
+                    if (canBid) {
+                      setLicitacaoSelecionada(licitacao);
+                      setShowBidModal(true);
+                    }
+                  }}
+                  disabled={!canBid}
+                  className="w-full py-3 rounded font-bold text-white text-sm"
+                  style={{
+                    backgroundColor: canBid ? cores.accent : '#6c757d',
+                    cursor: canBid ? 'pointer' : 'not-allowed'
+                  }}
+                >
+                  {obraAtiva
+                    ? 'Obra em Andamento'
+                    : !canBid
+                      ? 'Requisitos Insuficientes'
+                      : 'Participar da Licitação'
+                  }
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
 
 
     if (tab === 'equipamentos') {
@@ -3042,7 +2869,7 @@ const renderTabContent = (tab, cores, formatCurrency) => {
                   Você possui: <span className="font-bold">{maquinarios[equipamento.tipo] || 0}</span>
                 </p>
               </div>
-              <div 
+              <div
                 className="py-2 px-3 rounded font-bold text-white text-sm text-center mb-3"
                 style={{ backgroundColor: cores.primary }}
               >
@@ -3052,7 +2879,7 @@ const renderTabContent = (tab, cores, formatCurrency) => {
                 onClick={() => handleComprarEquipamento(equipamento)}
                 disabled={saldo < equipamento.preco}
                 className="w-full py-2 px-3 rounded text-sm font-bold text-white"
-                style={{ 
+                style={{
                   backgroundColor: saldo >= equipamento.preco ? '#10b981' : '#6c757d',
                   cursor: saldo >= equipamento.preco ? 'pointer' : 'not-allowed'
                 }}
@@ -3070,7 +2897,7 @@ const renderTabContent = (tab, cores, formatCurrency) => {
 
   const tabs = [
     { id: 'licitacoes', label: 'Licitações', icon: Building2, info: null },
-    { id: 'equipamentos', label: 'Equipamentos', icon: Truck, info: `${Object.values(maquinarios).reduce((a,b) => a+b, 0)} total` }
+    { id: 'equipamentos', label: 'Equipamentos', icon: Truck, info: `${Object.values(maquinarios).reduce((a, b) => a + b, 0)} total` }
   ];
 
   const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', {
@@ -3117,7 +2944,7 @@ const renderTabContent = (tab, cores, formatCurrency) => {
             <h3 className="text-xl font-bold text-gray-800 mb-4">
               Confirmar Participação
             </h3>
-            
+
             <div className="mb-4 p-4 bg-gray-50 rounded-lg">
               <h4 className="font-bold text-gray-800 mb-2">
                 {licitacaoSelecionada.icon} {licitacaoSelecionada.nome}
@@ -3145,7 +2972,7 @@ const renderTabContent = (tab, cores, formatCurrency) => {
                 <span className="text-sm font-medium text-yellow-800">Atenção</span>
               </div>
               <p className="text-sm text-yellow-700">
-                O valor de {formatCurrency(licitacaoSelecionada.custo)} será debitado imediatamente. 
+                O valor de {formatCurrency(licitacaoSelecionada.custo)} será debitado imediatamente.
                 Você receberá {formatCurrency(licitacaoSelecionada.custo + licitacaoSelecionada.lucro)} após a conclusão da obra.
               </p>
             </div>
@@ -3184,7 +3011,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       nome: 'Terraplanagem e Pavimentação',
       setor: 'imobiliario',
       saldoInicial: 8000000,
-      estoqueInicial: { 
+      estoqueInicial: {
         motoniveladora: 0,
         compactador: 0,
         caminhao_basculante: 0,
@@ -3662,9 +3489,8 @@ const TerraplagagemPavimentacaoNegocio = () => {
             return (
               <div
                 key={licitacao.id}
-                className={`rounded-lg shadow-md p-4 transition-all ${
-                  canBid ? 'hover:shadow-lg' : 'opacity-60'
-                }`}
+                className={`rounded-lg shadow-md p-4 transition-all ${canBid ? 'hover:shadow-lg' : 'opacity-60'
+                  }`}
                 style={{ backgroundColor: '#ffffff' }}
               >
                 <div className="flex gap-4 mb-4">
@@ -3675,7 +3501,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
                         <h3 className="text-sm font-bold" style={{ color: cores.primary }}>
                           {licitacao.nome}
                         </h3>
-                        <div 
+                        <div
                           className="text-xs px-2 py-1 rounded text-white inline-block"
                           style={{ backgroundColor: getProjectTypeColor(licitacao.tipo) }}
                         >
@@ -3739,11 +3565,11 @@ const TerraplagagemPavimentacaoNegocio = () => {
                     cursor: canBid ? 'pointer' : 'not-allowed'
                   }}
                 >
-                  {obraAtiva 
+                  {obraAtiva
                     ? 'Obra em Andamento'
                     : !canBid
-                    ? 'Requisitos Insuficientes'
-                    : 'Participar da Licitação'
+                      ? 'Requisitos Insuficientes'
+                      : 'Participar da Licitação'
                   }
                 </button>
               </div>
@@ -3766,7 +3592,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
                   Você possui: <span className="font-bold">{equipamentos[equipamento.tipo] || 0}</span>
                 </p>
               </div>
-              <div 
+              <div
                 className="py-2 px-3 rounded font-bold text-white text-sm text-center mb-3"
                 style={{ backgroundColor: cores.primary }}
               >
@@ -3776,7 +3602,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
                 onClick={() => handleComprarEquipamento(equipamento)}
                 disabled={saldo < equipamento.preco}
                 className="w-full py-2 px-3 rounded text-sm font-bold text-white"
-                style={{ 
+                style={{
                   backgroundColor: saldo >= equipamento.preco ? '#10b981' : '#6c757d',
                   cursor: saldo >= equipamento.preco ? 'pointer' : 'not-allowed'
                 }}
@@ -3794,7 +3620,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
 
   const tabs = [
     { id: 'licitacoes', label: 'Licitações', icon: Building2, info: null },
-    { id: 'equipamentos', label: 'Equipamentos', icon: Truck, info: `${Object.values(equipamentos).reduce((a,b) => a+b, 0)} total` }
+    { id: 'equipamentos', label: 'Equipamentos', icon: Truck, info: `${Object.values(equipamentos).reduce((a, b) => a + b, 0)} total` }
   ];
 
   const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', {
@@ -3828,18 +3654,18 @@ const TerraplagagemPavimentacaoNegocio = () => {
             </div>
           )
         }
-               footerExtra={(tab) => {
+        footerExtra={(tab) => {
           if (tab === 'licitacoes') return `Próximo ciclo de licitações em ${cicloLicitacoes.getFimCiclo() - dados.dia} dias`;
           return null;
         }}
       />
-        {showBidModal && licitacaoSelecionada && (
+      {showBidModal && licitacaoSelecionada && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-6 max-w-lg w-full mx-4">
             <h3 className="text-xl font-bold text-gray-800 mb-4">
               Confirmar Participação
             </h3>
-            
+
             <div className="mb-4 p-4 bg-gray-50 rounded-lg">
               <h4 className="font-bold text-gray-800 mb-2">
                 {licitacaoSelecionada.icon} {licitacaoSelecionada.nome}
@@ -3867,7 +3693,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
                 <span className="text-sm font-medium text-yellow-800">Atenção</span>
               </div>
               <p className="text-sm text-yellow-700">
-                O valor de {formatCurrency(licitacaoSelecionada.custo)} será debitado imediatamente. 
+                O valor de {formatCurrency(licitacaoSelecionada.custo)} será debitado imediatamente.
                 Você receberá {formatCurrency(licitacaoSelecionada.custo + licitacaoSelecionada.lucro)} após a conclusão da obra.
               </p>
             </div>
@@ -3897,92 +3723,116 @@ const TerraplagagemPavimentacaoNegocio = () => {
 };
 // ==================== APP PRINCIPAL ====================
 
-
+const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
 
 
 const App = () => {
-  const [negocioAtivo, setNegocioAtivo] = useState('plantacao');
-  // const dados = useContext(CentraldeDadosContext);
+  const [negocioAtivo, setNegocioAtivo] = useState('');
+  const { economiaSetores, setEconomiaSetores, atualizarEco, verificarLimites } = useContext(DadosEconomyGlobalContext);
+  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   return (
-    <div className="w-full flex flex-col justify-between items-center h-[80vh] rounded-xl m-auto p-4">
-      <div className=" mx-auto flex ">
-        <div className="flex gap-2 ">
-          {/* {dados.edificios[0].quantidade>0 && */}
-          <button
-            onClick={() => setNegocioAtivo('plantacao')}
-            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'plantacao'
-              ? 'bg-green-600 text-white'
-              : 'bg-white text-gray-700'
-              }`}
-          >
-            🌾 Plantação
-          </button>
-          {/* } */}
-          <button
-            onClick={() => setNegocioAtivo('acougue')}
-            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'acougue'
-              ? 'bg-red-700 text-white'
-              : 'bg-white text-gray-700'
-              }`}
-          >
-            🥩 Açougue
-          </button>
-          <button
-            onClick={() => setNegocioAtivo('painel')}
-            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'painel'
-              ? 'bg-green-600 text-white'
-              : 'bg-white text-gray-700'
-              }`}
-          >
-            ☀️ Painel 
-          </button>
-          <button
-            onClick={() => setNegocioAtivo('automóveis')}
-            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'automóveis'
-              ? 'bg-green-600 text-white'
-              : 'bg-white text-gray-700'
-              }`}
-          >
-            🚗 automóveis
-          </button>
-          <button
-            onClick={() => setNegocioAtivo('smartphone')}
-            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'smartphone'
-              ? 'bg-green-600 text-white'
-              : 'bg-white text-gray-700'
-              }`}
-          >
-            📱 smartphone
-          </button>
-          <button
-            onClick={() => setNegocioAtivo('construtora')}
-            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'construtora'
-              ? 'bg-green-600 text-white'
-              : 'bg-white text-gray-700'
-              }`}
-          >
-            🏗️ construtora
-          </button>
-          <button
-            onClick={() => setNegocioAtivo('terraplanagem')}
-            className={`px-4 py-2 rounded font-bold ${negocioAtivo === 'terraplanagem'
-              ? 'bg-green-600 text-white'
-              : 'bg-white text-gray-700'
-              }`}
-          >
-            🚜 terraplanagem
-          </button>
-        </div>
-      </div>
+    <div className="flex-1 w-full rounded-[20px] flex flex-col">
 
-      <div className="w-full mx-auto h-[calc(80vh-100px)]">
-        {negocioAtivo === 'plantacao' && <PlantacaoNegocio />}
-        {negocioAtivo === 'acougue' && <AcougueNegocio />}
-        {negocioAtivo === 'painel' && <PainelSolarNegocio />}
-        {negocioAtivo === 'automóveis' && <FabricaVeiculosNegocio />}
-        {negocioAtivo === 'smartphone' && <FabricaSmartphonesNegocio />}
-        {negocioAtivo === 'construtora' && <ConstrutoraInfraestruturaNegocio />}
-        {negocioAtivo === 'terraplanagem' && <TerraplagagemPavimentacaoNegocio />}
+
+      <div className="w-full flex flex-col justify-between items-center h-full rounded-xl m-auto">
+        <div className=" mx-auto flex h-full mb-[10px]">
+          <div className="flex gap-2 h-full">
+
+            {dados.agricultura.edificios[0].quantidade > 0 &&
+              <button
+                onClick={() => setNegocioAtivo('plantacao')}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'plantacao'
+                  ? 'bg-[#4CAF50] text-white border solid'
+                  : 'bg-[#350973] text-gray-700'
+                  }`}
+              >
+                <img src={plantacao} />
+              </button>
+            }
+
+            {dados.comercio.edificios[7].quantidade > 0 && <button
+              onClick={() => setNegocioAtivo('acougue')}
+              className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'acougue'
+                ? 'bg-[#FF4D4D] text-white border solid'
+                : 'bg-[#350973] text-gray-700'
+                }`}
+            >
+              <img src={açougue} />
+            </button>
+            }
+
+            {dados.energia.edificios[4].quantidade > 0 &&
+              <button
+                onClick={() => setNegocioAtivo('painel')}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'painel'
+                  ? 'bg-[#E6B800] text-white border solid'
+                  : 'bg-[#350973] text-gray-700'
+                  }`}
+              >
+                <img src={painel} />
+              </button>
+            }
+            {dados.industria.edificios[25].quantidade > 0 &&
+              <button
+                onClick={() => setNegocioAtivo('automóveis')}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'automóveis'
+                  ? 'bg-[#B3B3B3] text-white border solid '
+                  : 'bg-[#350973] text-gray-700'
+                  }`}
+              >
+                <img src={automovel} />
+              </button>
+            }
+
+            {dados.tecnologia.edificios[15].quantidade > 0 &&
+              <button
+                onClick={() => setNegocioAtivo('smartphone')}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'smartphone'
+                  ? 'bg-[#FF8C42] text-white border solid'
+                  : 'bg-[#350973] text-gray-700'
+                  }`}
+              >
+                <img src={smartphone} />
+              </button>
+            }
+
+            {dados.imobiliario.edificios[9].quantidade > 0 &&
+              <button
+                onClick={() => setNegocioAtivo('construtora')}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'construtora'
+                  ? 'bg-[#6666FF] text-white border solid'
+                  : 'bg-[#350973] text-gray-700'
+                  }`}
+              >
+
+                <img src={construtora} />
+              </button>
+            }
+
+            {dados.imobiliario.edificios[1].quantidade > 0 &&
+              <button
+                onClick={() => setNegocioAtivo('terraplanagem')}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'terraplanagem'
+                  ? 'bg-[#6666FF] text-white border solid'
+                  : 'bg-[#350973] text-gray-700'
+                  }`}
+              >
+                <img src={terraplanagem} />
+              </button>
+            }
+          </div>
+        </div>
+
+        <div className="w-full mx-auto h-[calc(80vh-100px)]">
+          {negocioAtivo === '' && <div className='flex items-center justify-center'>adquira algum ativo</div>}
+          {negocioAtivo === 'plantacao' && <PlantacaoNegocio />}
+          {negocioAtivo === 'acougue' && <AcougueNegocio />}
+          {negocioAtivo === 'painel' && <PainelSolarNegocio />}
+          {negocioAtivo === 'automóveis' && <FabricaVeiculosNegocio />}
+          {negocioAtivo === 'smartphone' && <FabricaSmartphonesNegocio />}
+          {negocioAtivo === 'construtora' && <ConstrutoraInfraestruturaNegocio />}
+          {negocioAtivo === 'terraplanagem' && <TerraplagagemPavimentacaoNegocio />}
+        </div>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ const DadosEconomyGlobalContext = createContext();
 const DadosEconomyGlobalProvider = ({ children }) => {
 
   const [economiaSetores, setEconomiaSetores] = useState({
-    saldo: 100000,
+    saldo: 1000000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
@@ -130,6 +130,40 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         estoque: {
           estoqueAtual: { popular: 0, sedan: 0, suv: 0, luxo: 0, caminhonete: 0, van: 0 },
           capacidadeEstoque: 100
+        }
+      },
+      FabricaSmartphonesNegocio: {
+        setor: 'tecnologia',
+        produzir: {
+          ofertasAtivas: [
+            { id: 1, nome: "Básico", tipo: "basico", custo: 20000, unidades: 20, valorPorUnidade: 1200, duracao: 40, icon: "📱" },
+            { id: 16, nome: "Dobrável", tipo: "dobravel", custo: 200000, unidades: 8, valorPorUnidade: 30000, duracao: 100, icon: "📴" },
+            { id: 13, nome: "Gamer", tipo: "gamer", custo: 120000, unidades: 12, valorPorUnidade: 12000, duracao: 75, icon: "🎮" },
+            { id: 7, nome: "Premium", tipo: "premium", custo: 100000, unidades: 15, valorPorUnidade: 8000, duracao: 70, icon: "📳" },
+            { id: 8, nome: "Premium", tipo: "premium", custo: 180000, unidades: 30, valorPorUnidade: 8000, duracao: 75, icon: "📳" },
+            { id: 9, nome: "Premium", tipo: "premium", custo: 252000, unidades: 45, valorPorUnidade: 8000, duracao: 80, icon: "📳" },
+          ],
+          producaoAtual: null, // ou { nome, tipo, unidades, diaInicio, diaFim, icon }
+          proximoCiclo: 1200
+        },
+        mercado: {
+          ofertasAtivas: [
+            { id: 1, name: "basico", unidades: 10, pricePerUnit: 1500, totalPrice: 15000 },
+            { id: 22, name: "dobravel", unidades: 6, pricePerUnit: 40000, totalPrice: 240000 },      // +60%
+            { id: 23, name: "dobravel", unidades: 8, pricePerUnit: 42500, totalPrice: 340000 },      // +70%
+            { id: 24, name: "dobravel", unidades: 10, pricePerUnit: 42000, totalPrice: 420000 },     // +68%
+            { id: 18, name: "gamer", unidades: 10, pricePerUnit: 16000, totalPrice: 160000 },        // +60%
+            { id: 19, name: "gamer", unidades: 12, pricePerUnit: 17000, totalPrice: 204000 },        // +70%
+            { id: 20, name: "gamer", unidades: 15, pricePerUnit: 16800, totalPrice: 252000 },        // +68%
+            { id: 8, name: "intermediario", unidades: 25, pricePerUnit: 4200, totalPrice: 105000 },
+            // ... (12 ofertas sorteadas)
+          ],
+          vendasRealizadas: [],
+          proximoCiclo: 1200
+        },
+        estoque: {
+          estoqueAtual: { basico: 0, intermediario: 0, premium: 0, flagship: 0, gamer: 0, dobravel: 0 },
+          capacidadeEstoque: 150
         }
       }
     },

@@ -40,7 +40,7 @@ export function NextDay() {
 //   }, [dados.despesas.proximoPagamento]);
         // alert("saçdfjasçkldfj")
 
-           dados.animarCicloDia();
+        //    dados.animarCicloDia();
         const novoDia = dados.dia + 1;
         atualizarDados("dia", novoDia);
         // console.log(dados.dia);
