@@ -7,15 +7,131 @@ const DadosEconomyGlobalContext = createContext();
 const DadosEconomyGlobalProvider = ({ children }) => {
 
   const [economiaSetores, setEconomiaSetores] = useState({
-    saldo: 50000000,
+    saldo: 100000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
-    patrimonio: 500000000,
+    patrimonio: 50000,
     despesasImpostoAnual: {
       diaPagarImpostoAnual: false,
       impostoAnualPago: false,
       proximoPagamento: ""
+    },
+    negocios: {
+      PlantacaoNegocio: {
+        setor: 'agricultura',
+        produzir: {
+          ofertasAtivas: [
+            { id: 1, nome: "Milho", custo: 7000, sacas: 100, valorPorSaca: 100, duracao: 80, icon: "🌽" },
+            { id: 2, nome: "Soja", custo: 5000, sacas: 50, valorPorSaca: 135, duracao: 120, icon: "🫘" },
+            { id: 3, nome: "Trigo", custo: 3000, sacas: 50, valorPorSaca: 80, duracao: 180, icon: "🌾" },
+            { id: 4, nome: "Cevada", custo: 3500, sacas: 50, valorPorSaca: 100, duracao: 90, icon: "🌱" }
+          ],
+          producaoAtual: null, // ou { grao: "milho", qtdSacas: 20, diaColher: 1200 }
+          proximoCiclo: 30
+        },
+        mercado: {
+          ofertasAtivas: [
+            { id: 1, name: "milho", sacas: 50, pricePerSack: 105, totalPrice: 5250 },
+            { id: 2, name: "milho", sacas: 100, pricePerSack: 112, totalPrice: 11200 },
+            { id: 3, name: "milho", sacas: 150, pricePerSack: 118, totalPrice: 17700 },
+            { id: 4, name: "milho", sacas: 200, pricePerSack: 119, totalPrice: 23800 }
+          ],
+          vendasRealizadas: [], // ⬅️ ADICIONE ESTA LINHA
+          proximoCiclo: 30
+        },
+        estoque: {
+          estoqueAtual: { soja: 0, milho: 0, cevada: 0, trigo: 0 },
+          capacidadeEstoque: 500
+        }
+      },
+      AcougueNegocio: {
+        setor: 'comercio',
+        compras: {
+          ofertasAtivas: [
+            { id: 1, nome: "Frigorífico Regional", tipo: "beef", quantidade: 80, preco: 2000, precoKg: 25, qualidade: "Premium", icon: "🥩" },
+            { id: 2, nome: "Granja Feliz", tipo: "chicken", quantidade: 100, preco: 800, precoKg: 8, qualidade: "Orgânico", icon: "🍗" },
+            { id: 3, nome: "Fazenda Suína Boa Terra", tipo: "pork", quantidade: 60, preco: 1080, precoKg: 18, qualidade: "Tradicional", icon: "🥓" },
+            { id: 4, nome: "Fábrica de Embutidos SaborSul", tipo: "sausage", quantidade: 40, preco: 1000, precoKg: 25, qualidade: "Artesanal", icon: "🌭" },
+          ],
+          proximoCiclo: 30
+        },
+        mercado: {
+          ofertasAtivas: [
+            { id: 1, nome: "beef", precoKg: 30, quantidade: 20, icon: "🥩", duracao: 120 },
+            { id: 2, nome: "chicken", precoKg: 12, quantidade: 15, icon: "🍗", duracao: 120 },
+            { id: 3, nome: "pork", precoKg: 18, quantidade: 10, icon: "🥓", duracao: 30 },
+            { id: 4, nome: "sausage", precoKg: 22, quantidade: 8, icon: "🌭", duracao: 10 },
+          ],
+          vendasRealizadas: [],
+          vendaAtual: null, // ou { nome, quantidade, precoKg, diaInicio, diaFim }
+          proximoCiclo: 30
+        },
+        estoque: {
+          estoqueAtual: { beef: 45, pork: 20, chicken: 30, sausage: 15 },
+          capacidadeEstoque: 200
+        }
+      },
+      PainelSolarNegocio: {
+        setor: 'energia',
+        produzir: {
+          ofertasAtivas: [
+            { id: 1, nome: "Residencial", tipo: "residencial", custo: 15000, unidades: 10, valorPorUnidade: 2000, duracao: 45, icon: "🏠" },
+            { id: 7, nome: "Industrial", tipo: "industrial", custo: 80000, unidades: 10, valorPorUnidade: 10000, duracao: 90, icon: "🏭" },
+            { id: 8, nome: "Industrial", tipo: "industrial", custo: 150000, unidades: 20, valorPorUnidade: 10000, duracao: 95, icon: "🏭" },
+            { id: 10, nome: "Premium", tipo: "premium", custo: 50000, unidades: 5, valorPorUnidade: 12000, duracao: 75, icon: "⚡" },
+          ],
+          producaoAtual: null, // ou { nome, tipo, unidades, diaInicio, diaFim, icon }
+          proximoCiclo: 30
+        },
+        mercado: {
+          ofertasAtivas: [
+            { id: 1, name: "residencial", unidades: 5, pricePerUnit: 2250, totalPrice: 11250 },
+            { id: 5, name: "comercial", unidades: 5, pricePerUnit: 5250, totalPrice: 26250 },     // +50%
+            { id: 6, name: "comercial", unidades: 10, pricePerUnit: 5600, totalPrice: 56000 },
+            { id: 9, name: "industrial", unidades: 3, pricePerUnit: 12000, totalPrice: 36000 },
+          ],
+          vendasRealizadas: [],
+          proximoCiclo: 30
+        },
+        estoque: {
+          estoqueAtual: { residencial: 0, comercial: 0, industrial: 0, premium: 0 },
+          capacidadeEstoque: 200
+        }
+      },
+      FabricaVeiculosNegocio: {
+        setor: 'industria',
+        produzir: {
+          ofertasAtivas: [
+            { id: 1, nome: "Popular", tipo: "popular", custo: 45000, unidades: 5, valorPorUnidade: 12000, duracao: 60, icon: "🚗" },
+            { id: 2, nome: "Popular", tipo: "popular", custo: 84000, unidades: 10, valorPorUnidade: 12000, duracao: 65, icon: "🚗" },
+            { id: 4, nome: "Sedan", tipo: "sedan", custo: 80000, unidades: 5, valorPorUnidade: 20000, duracao: 75, icon: "🚙" },
+            { id: 9, nome: "SUV", tipo: "suv", custo: 308000, unidades: 12, valorPorUnidade: 35000, duracao: 100, icon: "🚐" },
+            { id: 14, nome: "Caminhonete", tipo: "caminhonete", custo: 180000, unidades: 8, valorPorUnidade: 30000, duracao: 90, icon: "🛻" },
+            { id: 18, nome: "Van", tipo: "van", custo: 226800, unidades: 12, valorPorUnidade: 27000, duracao: 90, icon: "🚚" },
+          ],
+          producaoAtual: null, // ou { nome, tipo, unidades, diaInicio, diaFim, icon }
+          proximoCiclo: 1200
+        },
+        mercado: {
+          ofertasAtivas: [
+            { id: 1, name: "popular", unidades: 3, pricePerUnit: 15000, totalPrice: 45000 },
+            { id: 2, name: "popular", unidades: 5, pricePerUnit: 16000, totalPrice: 80000 },
+            { id: 10, name: "suv", unidades: 3, pricePerUnit: 48000, totalPrice: 144000 },
+            { id: 11, name: "suv", unidades: 5, pricePerUnit: 51000, totalPrice: 255000 },
+            { id: 12, name: "suv", unidades: 6, pricePerUnit: 50400, totalPrice: 302400 },
+            { id: 23, name: "van", unidades: 6, pricePerUnit: 38250, totalPrice: 229500 },
+            { id: 24, name: "van", unidades: 8, pricePerUnit: 37800, totalPrice: 302400 },
+            { id: 18, name: "caminhonete", unidades: 4, pricePerUnit: 40000, totalPrice: 160000 },
+          ],
+          vendasRealizadas: [],
+          proximoCiclo: 1200
+        },
+        estoque: {
+          estoqueAtual: { popular: 0, sedan: 0, suv: 0, luxo: 0, caminhonete: 0, van: 0 },
+          capacidadeEstoque: 100
+        }
+      }
     },
     idContrato: 0,
     contratosBancos: [
@@ -158,7 +274,6 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         textoLiberacao: "Não há limites de tipos ou quantidade de edifícios. Você tem liberdade total para expandir sua holding."
       }
     ],
-
 
 
 

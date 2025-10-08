@@ -88,7 +88,7 @@ const patrimonio = economiaSetores.patrimonio || 0;
     };
 
     const handleConfirmarSelecao = () => {
-        if(qtdContratosAtuais>2){
+        if(qtdContratosAtuais>0){
             return alert("Limite de contratos atingido!")
         }  
         const cartaoSelecionado = banco.cartoes.find(c => c.id === selectedCard);

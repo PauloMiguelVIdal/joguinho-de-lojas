@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import agricultura from "./setores/agricultura.png";
 import tecnologia from "./setores/tecnologia.png";
 import comercio from "./setores/comercio.png";
 import industria from "./setores/industria.png";
 import imobiliario from "./setores/Imobiliário.png";
 import energia from "./setores/torre-eletrica.png";
-
+import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 const PatrimonioInterface = () => {
+  const { dados } = useContext(CentraldeDadosContext);
+  const { economiaSetores, atualizarEco, atualizarEcoCallback } = useContext(DadosEconomyGlobalContext);
+
+const patrimonio = economiaSetores.patrimonio
+
   const investmentData = [
     { id: 1, value: "2 345 012,00", bgColor: "bg-gradient-to-r from-green-500 to-green-600", icon: agricultura },
     { id: 2, value: "2 345 012,00", bgColor: "bg-gradient-to-r from-orange-500 to-orange-600", icon: tecnologia },
@@ -23,7 +29,7 @@ const PatrimonioInterface = () => {
         {/* Cabeçalho */}
         <div className="bg-white bg-opacity-95 rounded-2xl p-5 text-center mb-5 shadow-lg w-full">
           <h2 className="text-gray-600 text-base font-medium mb-2">Patrimônio total</h2>
-          <div className="text-gray-800 text-2xl font-bold">240.240.452,00</div>
+          <div className="text-gray-800 text-2xl font-bold">R$ {(patrimonio).toLocaleString('pt-BR')},00</div>
         </div>
 
         {/* Lista de investimentos */}

@@ -398,7 +398,7 @@ const handleAddFunds = (investmentId) => {
     faturaAtual: 2450.75
   };
 
-  const patrimonio = 10000;
+  const patrimonio = economiaSetores.patrimonio;
 
   const calcularProximoLimite = (patrimonioAtual) => {
     if (patrimonioAtual >= 10000000) return { novoLimite: 500000, patrimonioNecessario: 10000000 };

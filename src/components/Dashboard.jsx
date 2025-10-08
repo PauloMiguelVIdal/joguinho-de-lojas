@@ -938,7 +938,7 @@ useEffect(() => {
                 >
                   <img
                     className="w-[70px] h-[70px]"
-                    src={computador}
+                    src={licença}
                     alt="Abrir dashboard"
                   />
                 </button>
