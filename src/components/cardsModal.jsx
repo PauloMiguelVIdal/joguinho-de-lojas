@@ -479,6 +479,70 @@ export const CardModal = ({ index }) => {
     //     setRotateY(0);
     // };
 
+        function calcularCustoRecurso(nomeRecurso, nivel = 1) {
+        //   console.log("🔍".repeat(nivel), `Verificando recurso: ${nomeRecurso}`);
+
+        for (const setor of setoresArr) {
+            const edificioEncontrado = dados[setor]?.edificios?.find(e => e.nome === nomeRecurso);
+
+            if (edificioEncontrado) {
+                //   console.log("✅".repeat(nivel), `Edifício encontrado: ${edificioEncontrado.nome}, no setor: ${setor}`);
+
+                const custoConstrucaoRecurso = edificioEncontrado.custoConstrucao || 0;
+                //   console.log("🏗️".repeat(nivel), `Custo da construção: ${custoConstrucaoRecurso}`);
+
+                const quantidadeTerrenosNec = edificioEncontrado.lojasNecessarias.terrenos || 0;
+                const quantidadeLojasPNec = edificioEncontrado.lojasNecessarias.lojasP || 0;
+                const quantidadeLojasMNec = edificioEncontrado.lojasNecessarias.lojasM || 0;
+                const quantidadeLojasGNec = edificioEncontrado.lojasNecessarias.lojasG || 0;
+
+                //   console.log("📦".repeat(nivel), `Lojas necessárias → Terrenos: ${quantidadeTerrenosNec}, P: ${quantidadeLojasPNec}, M: ${quantidadeLojasMNec}, G: ${quantidadeLojasGNec}`);
+
+                const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução;
+
+                const custoTotalLojasP = quantidadeLojasPNec * (
+                    dados.lojasP.preçoConstrução +
+                    (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+                );
+
+                const custoTotalLojasM = quantidadeLojasMNec * (
+                    dados.lojasM.preçoConstrução +
+                    (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+                );
+
+                const custoTotalLojasG = quantidadeLojasGNec * (
+                    dados.lojasG.preçoConstrução +
+                    (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+                );
+
+                //   console.log("💰".repeat(nivel), `Custo total → Terrenos: ${custoTotalTerrenos}, LojasP: ${custoTotalLojasP}, LojasM: ${custoTotalLojasM}, LojasG: ${custoTotalLojasG}`);
+
+                // Soma do próprio custo de construção + lojas
+                let custoTotalRecurso = custoConstrucaoRecurso + custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG;
+
+                // Recursão para os recursos de construção desse edifício
+                if (Array.isArray(edificioEncontrado.recursoDeConstrução) && edificioEncontrado.recursoDeConstrução.length > 0) {
+                    // console.log("🔁".repeat(nivel), `Iniciando cálculo de recursos de construção para: ${edificioEncontrado.nome}`);
+
+                    edificioEncontrado.recursoDeConstrução.forEach(subRecurso => {
+                        const custoSub = calcularCustoRecurso(subRecurso, nivel + 1);
+                        //   console.log("➕".repeat(nivel), `Adicionando custo do sub-recurso ${subRecurso}: ${custoSub}`);
+                        custoTotalRecurso += custoSub;
+                    });
+                } else {
+                    // console.log("✅".repeat(nivel), `${edificioEncontrado.nome} não possui recursos adicionais.`);
+                }
+
+                //   console.log("📊".repeat(nivel), `Custo total calculado de ${nomeRecurso} = ${custoTotalRecurso}`);
+
+                return custoTotalRecurso; // retorna o total desse recurso
+            }
+        }
+
+        //   console.warn("⚠️".repeat(nivel), `Recurso não encontrado: ${nomeRecurso}`);
+        return 0; // Caso não encontrado
+    }
+
     const [flipped, setFlipped] = useState(false);
 
     const handleFlip = () => {
@@ -676,6 +740,11 @@ export const CardModal = ({ index }) => {
         atualizarEco("carteira", { ...economiaSetores.carteira, carteiraAtual: novaCarteira });
 
         console.log("Carteira atualizada:", novaCarteira);
+
+       const patrimonioEdif = calcularCustoRecurso(edif)
+       console.log(patrimonioEdif)
+    atualizarEco("patrimonio", economiaSetores.patrimonio + patrimonioEdif);
+
 
         // 🔹 6) Atualiza centralEdificios
         const atualizarCentralEdificios = () => {
