@@ -2283,24 +2283,6 @@ const ConstrutoraInfraestruturaNegocio = () => {
   const { dados } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
-  const { negocio, saldo, estoque: maquinarios, adicionarSaldo, removerSaldo, adicionarEstoque, removerEstoque, setDiaAtual } =
-    useNegocio({
-      id: 'construtora-1',
-      nome: 'Construtora de Infraestruturas',
-      setor: 'imobiliario',
-      saldoInicial: 15000000,
-      estoqueInicial: {
-        escavadeira: 0,
-        betoneira: 0,
-        guindaste: 0,
-        retroescavadeira: 0,
-        rolo: 0,
-        perfuratriz: 0
-      },
-      capacidadeEstoque: 30,
-      diaAtual: dados.dia
-    });
-
   const getEquipmentIcon = (type) => {
     const icons = {
       escavadeira: '🚜',
@@ -2313,8 +2295,18 @@ const ConstrutoraInfraestruturaNegocio = () => {
     return icons[type] || '🚜';
   };
 
-  // Licitações disponíveis
-  const licitacoes = [
+  // Equipamentos disponíveis para compra
+  const equipamentosDisponiveis = [
+    { nome: "Escavadeira Hidráulica", tipo: "escavadeira", categoria: "Escavação", preco: 800000 },
+    { nome: "Betoneira Industrial", tipo: "betoneira", categoria: "Concreto", preco: 150000 },
+    { nome: "Guindaste de Torre", tipo: "guindaste", categoria: "Elevação", preco: 1200000 },
+    { nome: "Retroescavadeira", tipo: "retroescavadeira", categoria: "Escavação", preco: 600000 },
+    { nome: "Rolo Compactador", tipo: "rolo", categoria: "Pavimentação", preco: 350000 },
+    { nome: "Perfuratriz de Solo", tipo: "perfuratriz", categoria: "Fundação", preco: 450000 }
+  ];
+
+  // Licitações disponíveis (base completa com 30 projetos)
+  const licitacoesBase = [
     {
       id: 1,
       nome: "Hospital Regional Norte",
@@ -2327,6 +2319,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       descricao: "Construção de hospital com 200 leitos, UTI e centro cirúrgico",
       lucro: 8500000
     },
+    // ... adicione aqui as outras 29 licitações do seu código original ...
     {
       id: 2,
       nome: "Ponte Rodoviária BR-101",
@@ -2411,7 +2404,6 @@ const ConstrutoraInfraestruturaNegocio = () => {
       descricao: "5 torres com 400 apartamentos",
       lucro: 5200000
     },
-    // --- novas 22 licitações ---
     {
       id: 9,
       nome: "Clínica Popular Municipal",
@@ -2678,67 +2670,138 @@ const ConstrutoraInfraestruturaNegocio = () => {
     }
   ];
 
-
-  const [cicloLicitacoes] = useState(() =>
-    new CicloDeOfertas({
-      baseData: licitacoes,
-      quantidadeSorteio: 4,
-      duracaoDias: 60,
-      chaveStorage: "ciclo_licitacoes"
-    })
-  );
-
-  useEffect(() => {
-    cicloLicitacoes.atualizarDia(dados.dia);
-  }, [dados.dia]);
-
-  const licitacoesAtuais = cicloLicitacoes.getItensDisponiveis();
-
-  const [obraAtiva, setObraAtiva] = useState(null);
+  // ==================== ESTADOS PARA MODAL ====================
   const [showBidModal, setShowBidModal] = useState(false);
   const [licitacaoSelecionada, setLicitacaoSelecionada] = useState(null);
 
-  const obraPronta = obraAtiva && dados.dia >= obraAtiva.diaFim;
+  // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
+  useEffect(() => {
+    // Garantir que a estrutura existe
+    if (economiaSetores.negocios?.ConstrutoraInfraestruturaNegocio && 
+        !economiaSetores.negocios.ConstrutoraInfraestruturaNegocio.licitacoes?.obraAtual) {
+      atualizarEco("negocios", {
+        ...economiaSetores.negocios,
+        ConstrutoraInfraestruturaNegocio: {
+          ...economiaSetores.negocios.ConstrutoraInfraestruturaNegocio,
+          licitacoes: {
+            ...economiaSetores.negocios.ConstrutoraInfraestruturaNegocio.licitacoes,
+            obraAtual: null
+          }
+        }
+      });
+    }
+  }, []);
 
+  // Atalho para o negócio
+  const negocio = economiaSetores.negocios?.ConstrutoraInfraestruturaNegocio;
+
+  // Se ainda não foi inicializado, retorna loading
+  if (!negocio) {
+    return <div className="text-white text-center p-8">Carregando negócio...</div>;
+  }
+
+  // ==================== ATUALIZAÇÃO DE CICLOS ====================
+  useEffect(() => {
+    if (!negocio) return;
+
+    // Verificar e atualizar ciclo de licitações
+    if (dados.dia >= negocio.licitacoes.proximoCiclo) {
+      console.log("🔄 Atualizando ciclo de licitações - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.licitacoes.proximoCiclo);
+      
+      atualizarEco("negocios", {
+        ...economiaSetores.negocios,
+        ConstrutoraInfraestruturaNegocio: {
+          ...negocio,
+          licitacoes: {
+            ...negocio.licitacoes,
+            ofertasAtivas: sortearItens(licitacoesBase, 4),
+            proximoCiclo: dados.dia + 60
+          }
+        }
+      });
+    }
+  }, [dados.dia, negocio?.licitacoes?.proximoCiclo]);
+
+  // ==================== HANDLERS ====================
   const podeParticipar = (licitacao) => {
-    if (obraAtiva) return false;
-    if (saldo < licitacao.custo) return false;
+    if (negocio.licitacoes.obraAtual) return false;
+    if (economiaSetores.saldo < licitacao.custo) return false;
 
     return Object.entries(licitacao.requisitos).every(([equip, qtd]) => {
-      return (maquinarios[equip] || 0) >= qtd;
+      return (negocio.equipamentos.maquinarios[equip] || 0) >= qtd;
     });
   };
 
   const handleParticiparLicitacao = (licitacao) => {
-    if (removerSaldo(licitacao.custo)) {
-      atualizarEco("saldo", economiaSetores.saldo - licitacao.custo);
-      setObraAtiva({
-        ...licitacao,
-        diaInicio: dados.dia,
-        diaFim: dados.dia + licitacao.duracao
-      });
-      setShowBidModal(false);
-      setLicitacaoSelecionada(null);
-    }
+    const novaObra = {
+      ...licitacao,
+      diaInicio: dados.dia,
+      diaFim: dados.dia + licitacao.duracao
+    };
+
+    // Atualiza saldo
+    atualizarEco("saldo", economiaSetores.saldo - licitacao.custo);
+    
+    // Atualiza obra atual
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      ConstrutoraInfraestruturaNegocio: {
+        ...negocio,
+        licitacoes: {
+          ...negocio.licitacoes,
+          obraAtual: novaObra
+        }
+      }
+    });
+
+    setShowBidModal(false);
+    setLicitacaoSelecionada(null);
   };
 
   const handleColetarLucro = () => {
-    if (obraAtiva) {
-      const recebimento = obraAtiva.custo + obraAtiva.lucro;
-      adicionarSaldo(recebimento);
-      atualizarEco("saldo", economiaSetores.saldo + recebimento);
-      setObraAtiva(null);
-      setDiaAtual(dados.dia);
-    }
+    if (!negocio.licitacoes.obraAtual) return;
+
+    const recebimento = negocio.licitacoes.obraAtual.custo + negocio.licitacoes.obraAtual.lucro;
+
+    // Atualiza saldo e limpa obra atual
+    atualizarEco("saldo", economiaSetores.saldo + recebimento);
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      ConstrutoraInfraestruturaNegocio: {
+        ...negocio,
+        licitacoes: {
+          ...negocio.licitacoes,
+          obraAtual: null
+        }
+      }
+    });
   };
 
   const handleComprarEquipamento = (equipamento) => {
-    if (saldo >= equipamento.preco) {
-      if (removerSaldo(equipamento.preco)) {
-        atualizarEco("saldo", economiaSetores.saldo - equipamento.preco);
-        adicionarEstoque(equipamento.tipo, 1);
-      }
+    if (economiaSetores.saldo < equipamento.preco) {
+      alert("💰 Saldo insuficiente!");
+      return;
     }
+
+    const novosMaquinarios = {
+      ...negocio.equipamentos.maquinarios,
+      [equipamento.tipo]: (negocio.equipamentos.maquinarios[equipamento.tipo] || 0) + 1
+    };
+
+    // Atualiza saldo
+    atualizarEco("saldo", economiaSetores.saldo - equipamento.preco);
+    
+    // Atualiza equipamentos
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      ConstrutoraInfraestruturaNegocio: {
+        ...negocio,
+        equipamentos: {
+          ...negocio.equipamentos,
+          maquinarios: novosMaquinarios
+        }
+      }
+    });
   };
 
   const getProjectTypeColor = (tipo) => {
@@ -2750,16 +2813,19 @@ const ConstrutoraInfraestruturaNegocio = () => {
       'Esportivo': '#f59e0b',
       'Transporte': '#8b5cf6',
       'Comercial': '#ec4899',
-      'Residencial': '#06b6d4'
+      'Residencial': '#06b6d4',
+      'Cultural': '#a855f7',
+      'Energia': '#eab308'
     };
     return cores[tipo] || '#6c757d';
   };
 
+  // ==================== RENDER TAB CONTENT ====================
   const renderTabContent = (tab, cores, formatCurrency) => {
     if (tab === 'licitacoes') {
       return (
         <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
-          {licitacoesAtuais.map((licitacao) => {
+          {negocio.licitacoes.ofertasAtivas.map((licitacao) => {
             const canBid = podeParticipar(licitacao);
 
             return (
@@ -2813,9 +2879,11 @@ const ConstrutoraInfraestruturaNegocio = () => {
                         <div key={equip} className="flex justify-between text-xs">
                           <span className="capitalize">{equip}:</span>
                           <span className={
-                            (maquinarios[equip] || 0) >= qtd ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'
+                            (negocio.equipamentos.maquinarios[equip] || 0) >= qtd 
+                              ? 'text-green-600 font-semibold' 
+                              : 'text-red-600 font-semibold'
                           }>
-                            {maquinarios[equip] || 0}/{qtd}
+                            {negocio.equipamentos.maquinarios[equip] || 0}/{qtd}
                           </span>
                         </div>
                       ))}
@@ -2835,13 +2903,13 @@ const ConstrutoraInfraestruturaNegocio = () => {
                     }
                   }}
                   disabled={!canBid}
-                  className="w-full py-3 rounded font-bold text-white text-sm"
+                  className="w-full py-3 rounded font-bold text-white text-sm transition-colors"
                   style={{
                     backgroundColor: canBid ? cores.accent : '#6c757d',
                     cursor: canBid ? 'pointer' : 'not-allowed'
                   }}
                 >
-                  {obraAtiva
+                  {negocio.licitacoes.obraAtual
                     ? 'Obra em Andamento'
                     : !canBid
                       ? 'Requisitos Insuficientes'
@@ -2855,7 +2923,6 @@ const ConstrutoraInfraestruturaNegocio = () => {
       );
     }
 
-
     if (tab === 'equipamentos') {
       return (
         <div className="grid grid-cols-3 gap-4 max-w-5xl mx-auto">
@@ -2866,7 +2933,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
                 <h3 className="font-bold text-gray-800 text-sm">{equipamento.nome}</h3>
                 <p className="text-xs text-gray-500 mb-1">{equipamento.categoria}</p>
                 <p className="text-xs text-gray-600 mt-2">
-                  Você possui: <span className="font-bold">{maquinarios[equipamento.tipo] || 0}</span>
+                  Você possui: <span className="font-bold">{negocio.equipamentos.maquinarios[equipamento.tipo] || 0}</span>
                 </p>
               </div>
               <div
@@ -2877,11 +2944,11 @@ const ConstrutoraInfraestruturaNegocio = () => {
               </div>
               <button
                 onClick={() => handleComprarEquipamento(equipamento)}
-                disabled={saldo < equipamento.preco}
-                className="w-full py-2 px-3 rounded text-sm font-bold text-white"
+                disabled={economiaSetores.saldo < equipamento.preco}
+                className="w-full py-2 px-3 rounded text-sm font-bold text-white transition-colors"
                 style={{
-                  backgroundColor: saldo >= equipamento.preco ? '#10b981' : '#6c757d',
-                  cursor: saldo >= equipamento.preco ? 'pointer' : 'not-allowed'
+                  backgroundColor: economiaSetores.saldo >= equipamento.preco ? '#10b981' : '#6c757d',
+                  cursor: economiaSetores.saldo >= equipamento.preco ? 'pointer' : 'not-allowed'
                 }}
               >
                 Comprar
@@ -2895,10 +2962,23 @@ const ConstrutoraInfraestruturaNegocio = () => {
     return null;
   };
 
+  const totalEquipamentos = Object.values(negocio.equipamentos.maquinarios).reduce((a, b) => a + b, 0);
+
   const tabs = [
     { id: 'licitacoes', label: 'Licitações', icon: Building2, info: null },
-    { id: 'equipamentos', label: 'Equipamentos', icon: Truck, info: `${Object.values(maquinarios).reduce((a, b) => a + b, 0)} total` }
+    { id: 'equipamentos', label: 'Equipamentos', icon: Truck, info: `${totalEquipamentos} total` }
   ];
+
+  const obraPronta = negocio.licitacoes.obraAtual && 
+    dados.dia >= negocio.licitacoes.obraAtual.diaFim;
+
+  const negocioConfig = {
+    nome: 'Construtora de Infraestruturas',
+    cores: SETORES_CONFIG.imobiliario.cores
+  };
+
+  // Calcular dias restantes para o ciclo
+  const diasRestantesLicitacoes = Math.max(0, negocio.licitacoes.proximoCiclo - dados.dia);
 
   const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', {
     style: 'currency', currency: 'BRL', minimumFractionDigits: 0
@@ -2907,32 +2987,41 @@ const ConstrutoraInfraestruturaNegocio = () => {
   return (
     <>
       <BaseBusinessInterface
-        negocio={negocio}
+        negocio={negocioConfig}
         tabs={tabs}
         renderTabContent={renderTabContent}
         headerExtra={
-          obraAtiva && (
+          negocio.licitacoes.obraAtual && (
             <div className="bg-white bg-opacity-20 rounded-lg p-3 text-white text-sm">
               {obraPronta ? (
                 <div className="flex items-center justify-between">
-                  <span>✅ {obraAtiva.nome} concluída!</span>
+                  <span className="text-base">
+                    ✅ <strong>{negocio.licitacoes.obraAtual.nome}</strong> concluída!
+                  </span>
                   <button
                     onClick={handleColetarLucro}
-                    className="px-4 py-2 rounded font-bold bg-green-500 text-white hover:bg-green-600"
+                    className="px-4 py-2 rounded font-bold bg-green-500 hover:bg-green-600 text-white transition-colors"
                   >
-                    Coletar {formatCurrency(obraAtiva.custo + obraAtiva.lucro)}
+                    Coletar {formatCurrency(negocio.licitacoes.obraAtual.custo + negocio.licitacoes.obraAtual.lucro)}
                   </button>
                 </div>
               ) : (
-                <div>
-                  🏗️ Construindo {obraAtiva.nome} — Conclusão no dia {obraAtiva.diaFim}
+                <div className="text-center">
+                  🏗️ Construindo <strong>{negocio.licitacoes.obraAtual.nome}</strong> — Conclusão no dia <strong>{negocio.licitacoes.obraAtual.diaFim}</strong>
+                  <div className="text-xs opacity-80 mt-1">
+                    ({negocio.licitacoes.obraAtual.diaFim - dados.dia} dias restantes)
+                  </div>
                 </div>
               )}
             </div>
           )
         }
         footerExtra={(tab) => {
-          if (tab === 'licitacoes') return `Próximo ciclo de licitações em ${cicloLicitacoes.getFimCiclo() - dados.dia} dias`;
+          if (tab === 'licitacoes') {
+            return diasRestantesLicitacoes === 0 
+              ? `🔄 Novas licitações disponíveis!` 
+              : `Próximo ciclo de licitações em ${diasRestantesLicitacoes} dias`;
+          }
           return null;
         }}
       />
@@ -2983,13 +3072,13 @@ const ConstrutoraInfraestruturaNegocio = () => {
                   setShowBidModal(false);
                   setLicitacaoSelecionada(null);
                 }}
-                className="flex-1 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-xl font-bold"
+                className="flex-1 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-xl font-bold transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={() => handleParticiparLicitacao(licitacaoSelecionada)}
-                className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold"
+                className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors"
               >
                 Confirmar
               </button>
@@ -3004,24 +3093,6 @@ const ConstrutoraInfraestruturaNegocio = () => {
 const TerraplagagemPavimentacaoNegocio = () => {
   const { dados } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
-
-  const { negocio, saldo, estoque: equipamentos, adicionarSaldo, removerSaldo, adicionarEstoque, removerEstoque, setDiaAtual } =
-    useNegocio({
-      id: 'terraplanagem-1',
-      nome: 'Terraplanagem e Pavimentação',
-      setor: 'imobiliario',
-      saldoInicial: 8000000,
-      estoqueInicial: {
-        motoniveladora: 0,
-        compactador: 0,
-        caminhao_basculante: 0,
-        fresadora: 0,
-        vibroacabadora: 0,
-        rolo_compressor: 0
-      },
-      capacidadeEstoque: 25,
-      diaAtual: dados.dia
-    });
 
   const getEquipmentIcon = (type) => {
     const icons = {
@@ -3045,7 +3116,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
     { nome: 'Rolo Compressor', tipo: 'rolo_compressor', categoria: 'Compactação', preco: 520000 }
   ];
 
-  // Licitações disponíveis
+  // Licitações disponíveis (base completa com 30 projetos)
   const licitacoes = [
     {
       id: 1,
@@ -3409,66 +3480,138 @@ const TerraplagagemPavimentacaoNegocio = () => {
     }
   ];
 
-  const [cicloLicitacoes] = useState(() =>
-    new CicloDeOfertas({
-      baseData: licitacoes,
-      quantidadeSorteio: 4,
-      duracaoDias: 60,
-      chaveStorage: "ciclo_licitacoes_terraplanagem"
-    })
-  );
-
-  useEffect(() => {
-    cicloLicitacoes.atualizarDia(dados.dia);
-  }, [dados.dia]);
-
-  const licitacoesAtuais = cicloLicitacoes.getItensDisponiveis();
-
-  const [obraAtiva, setObraAtiva] = useState(null);
+  // ==================== ESTADOS PARA MODAL ====================
   const [showBidModal, setShowBidModal] = useState(false);
   const [licitacaoSelecionada, setLicitacaoSelecionada] = useState(null);
 
-  const obraPronta = obraAtiva && dados.dia >= obraAtiva.diaFim;
+  // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
+  useEffect(() => {
+    // Garantir que a estrutura existe
+    if (economiaSetores.negocios?.TerraplagagemPavimentacaoNegocio && 
+        !economiaSetores.negocios.TerraplagagemPavimentacaoNegocio.licitacoes?.obraAtual) {
+      atualizarEco("negocios", {
+        ...economiaSetores.negocios,
+        TerraplagagemPavimentacaoNegocio: {
+          ...economiaSetores.negocios.TerraplagagemPavimentacaoNegocio,
+          licitacoes: {
+            ...economiaSetores.negocios.TerraplagagemPavimentacaoNegocio.licitacoes,
+            obraAtual: null
+          }
+        }
+      });
+    }
+  }, []);
 
+  // Atalho para o negócio
+  const negocio = economiaSetores.negocios?.TerraplagagemPavimentacaoNegocio;
+
+  // Se ainda não foi inicializado, retorna loading
+  if (!negocio) {
+    return <div className="text-white text-center p-8">Carregando negócio...</div>;
+  }
+
+  // ==================== ATUALIZAÇÃO DE CICLOS ====================
+  useEffect(() => {
+    if (!negocio) return;
+
+    // Verificar e atualizar ciclo de licitações
+    if (dados.dia >= negocio.licitacoes.proximoCiclo) {
+      console.log("🔄 Atualizando ciclo de licitações - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.licitacoes.proximoCiclo);
+      
+      atualizarEco("negocios", {
+        ...economiaSetores.negocios,
+        TerraplagagemPavimentacaoNegocio: {
+          ...negocio,
+          licitacoes: {
+            ...negocio.licitacoes,
+            ofertasAtivas: sortearItens(licitacoesBase, 4),
+            proximoCiclo: dados.dia + 60
+          }
+        }
+      });
+    }
+  }, [dados.dia, negocio?.licitacoes?.proximoCiclo]);
+
+  // ==================== HANDLERS ====================
   const podeParticipar = (licitacao) => {
-    if (obraAtiva) return false;
-    if (saldo < licitacao.custo) return false;
+    if (negocio.licitacoes.obraAtual) return false;
+    if (economiaSetores.saldo < licitacao.custo) return false;
 
     return Object.entries(licitacao.requisitos).every(([equip, qtd]) => {
-      return (equipamentos[equip] || 0) >= qtd;
+      return (negocio.equipamentos.maquinarios[equip] || 0) >= qtd;
     });
   };
 
   const handleParticiparLicitacao = (licitacao) => {
-    if (removerSaldo(licitacao.custo)) {
-      atualizarEco("saldo", economiaSetores.saldo - licitacao.custo);
-      setObraAtiva({
-        ...licitacao,
-        diaInicio: dados.dia,
-        diaFim: dados.dia + licitacao.duracao
-      });
-      setShowBidModal(false);
-      setLicitacaoSelecionada(null);
-    }
+    const novaObra = {
+      ...licitacao,
+      diaInicio: dados.dia,
+      diaFim: dados.dia + licitacao.duracao
+    };
+
+    // Atualiza saldo
+    atualizarEco("saldo", economiaSetores.saldo - licitacao.custo);
+    
+    // Atualiza obra atual
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      TerraplagagemPavimentacaoNegocio: {
+        ...negocio,
+        licitacoes: {
+          ...negocio.licitacoes,
+          obraAtual: novaObra
+        }
+      }
+    });
+
+    setShowBidModal(false);
+    setLicitacaoSelecionada(null);
   };
 
   const handleColetarLucro = () => {
-    if (obraAtiva) {
-      const recebimento = obraAtiva.custo + obraAtiva.lucro;
-      adicionarSaldo(recebimento);
-      atualizarEco("saldo", economiaSetores.saldo + recebimento);
-      setObraAtiva(null);
-      setDiaAtual(dados.dia);
-    }
+    if (!negocio.licitacoes.obraAtual) return;
+
+    const recebimento = negocio.licitacoes.obraAtual.custo + negocio.licitacoes.obraAtual.lucro;
+
+    // Atualiza saldo e limpa obra atual
+    atualizarEco("saldo", economiaSetores.saldo + recebimento);
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      TerraplagagemPavimentacaoNegocio: {
+        ...negocio,
+        licitacoes: {
+          ...negocio.licitacoes,
+          obraAtual: null
+        }
+      }
+    });
   };
 
   const handleComprarEquipamento = (equipamento) => {
-    if (saldo >= equipamento.preco) {
-      if (removerSaldo(equipamento.preco)) {
-        atualizarEco("saldo", economiaSetores.saldo - equipamento.preco);
-        adicionarEstoque(equipamento.tipo, 1);
-      }
+    if (economiaSetores.saldo < equipamento.preco) {
+      alert("💰 Saldo insuficiente!");
+      return;
     }
+
+    const novosMaquinarios = {
+      ...negocio.equipamentos.maquinarios,
+      [equipamento.tipo]: (negocio.equipamentos.maquinarios[equipamento.tipo] || 0) + 1
+    };
+
+    // Atualiza saldo
+    atualizarEco("saldo", economiaSetores.saldo - equipamento.preco);
+    
+    // Atualiza equipamentos
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      TerraplagagemPavimentacaoNegocio: {
+        ...negocio,
+        equipamentos: {
+          ...negocio.equipamentos,
+          maquinarios: novosMaquinarios
+        }
+      }
+    });
   };
 
   const getProjectTypeColor = (tipo) => {
@@ -3479,11 +3622,12 @@ const TerraplagagemPavimentacaoNegocio = () => {
     return cores[tipo] || '#6c757d';
   };
 
+  // ==================== RENDER TAB CONTENT ====================
   const renderTabContent = (tab, cores, formatCurrency) => {
     if (tab === 'licitacoes') {
       return (
         <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
-          {licitacoesAtuais.map((licitacao) => {
+          {negocio.licitacoes.ofertasAtivas.map((licitacao) => {
             const canBid = podeParticipar(licitacao);
 
             return (
@@ -3537,9 +3681,11 @@ const TerraplagagemPavimentacaoNegocio = () => {
                         <div key={equip} className="flex justify-between text-xs">
                           <span className="capitalize">{equip.replace(/_/g, ' ')}:</span>
                           <span className={
-                            (equipamentos[equip] || 0) >= qtd ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'
+                            (negocio.equipamentos.maquinarios[equip] || 0) >= qtd 
+                              ? 'text-green-600 font-semibold' 
+                              : 'text-red-600 font-semibold'
                           }>
-                            {equipamentos[equip] || 0}/{qtd}
+                            {negocio.equipamentos.maquinarios[equip] || 0}/{qtd}
                           </span>
                         </div>
                       ))}
@@ -3559,13 +3705,13 @@ const TerraplagagemPavimentacaoNegocio = () => {
                     }
                   }}
                   disabled={!canBid}
-                  className="w-full py-3 rounded font-bold text-white text-sm"
+                  className="w-full py-3 rounded font-bold text-white text-sm transition-colors"
                   style={{
                     backgroundColor: canBid ? cores.accent : '#6c757d',
                     cursor: canBid ? 'pointer' : 'not-allowed'
                   }}
                 >
-                  {obraAtiva
+                  {negocio.licitacoes.obraAtual
                     ? 'Obra em Andamento'
                     : !canBid
                       ? 'Requisitos Insuficientes'
@@ -3589,7 +3735,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
                 <h3 className="font-bold text-gray-800 text-sm">{equipamento.nome}</h3>
                 <p className="text-xs text-gray-500 mb-1">{equipamento.categoria}</p>
                 <p className="text-xs text-gray-600 mt-2">
-                  Você possui: <span className="font-bold">{equipamentos[equipamento.tipo] || 0}</span>
+                  Você possui: <span className="font-bold">{negocio.equipamentos.maquinarios[equipamento.tipo] || 0}</span>
                 </p>
               </div>
               <div
@@ -3600,11 +3746,11 @@ const TerraplagagemPavimentacaoNegocio = () => {
               </div>
               <button
                 onClick={() => handleComprarEquipamento(equipamento)}
-                disabled={saldo < equipamento.preco}
-                className="w-full py-2 px-3 rounded text-sm font-bold text-white"
+                disabled={economiaSetores.saldo < equipamento.preco}
+                className="w-full py-2 px-3 rounded text-sm font-bold text-white transition-colors"
                 style={{
-                  backgroundColor: saldo >= equipamento.preco ? '#10b981' : '#6c757d',
-                  cursor: saldo >= equipamento.preco ? 'pointer' : 'not-allowed'
+                  backgroundColor: economiaSetores.saldo >= equipamento.preco ? '#10b981' : '#6c757d',
+                  cursor: economiaSetores.saldo >= equipamento.preco ? 'pointer' : 'not-allowed'
                 }}
               >
                 Comprar
@@ -3618,10 +3764,23 @@ const TerraplagagemPavimentacaoNegocio = () => {
     return null;
   };
 
+  const totalEquipamentos = Object.values(negocio.equipamentos.maquinarios).reduce((a, b) => a + b, 0);
+
   const tabs = [
     { id: 'licitacoes', label: 'Licitações', icon: Building2, info: null },
-    { id: 'equipamentos', label: 'Equipamentos', icon: Truck, info: `${Object.values(equipamentos).reduce((a, b) => a + b, 0)} total` }
+    { id: 'equipamentos', label: 'Equipamentos', icon: Truck, info: `${totalEquipamentos} total` }
   ];
+
+  const obraPronta = negocio.licitacoes.obraAtual && 
+    dados.dia >= negocio.licitacoes.obraAtual.diaFim;
+
+  const negocioConfig = {
+    nome: 'Terraplanagem e Pavimentação',
+    cores: SETORES_CONFIG.imobiliario.cores
+  };
+
+  // Calcular dias restantes para o ciclo
+  const diasRestantesLicitacoes = Math.max(0, negocio.licitacoes.proximoCiclo - dados.dia);
 
   const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', {
     style: 'currency', currency: 'BRL', minimumFractionDigits: 0
@@ -3630,35 +3789,46 @@ const TerraplagagemPavimentacaoNegocio = () => {
   return (
     <>
       <BaseBusinessInterface
-        negocio={negocio}
+        negocio={negocioConfig}
         tabs={tabs}
         renderTabContent={renderTabContent}
         headerExtra={
-          obraAtiva && (
+          negocio.licitacoes.obraAtual && (
             <div className="bg-white bg-opacity-20 rounded-lg p-3 text-white text-sm">
               {obraPronta ? (
                 <div className="flex items-center justify-between">
-                  <span>✅ {obraAtiva.nome} concluída!</span>
+                  <span className="text-base">
+                    ✅ <strong>{negocio.licitacoes.obraAtual.nome}</strong> concluída!
+                  </span>
                   <button
                     onClick={handleColetarLucro}
-                    className="px-4 py-2 rounded font-bold bg-green-500 text-white hover:bg-green-600"
+                    className="px-4 py-2 rounded font-bold bg-green-500 hover:bg-green-600 text-white transition-colors"
                   >
-                    Coletar {formatCurrency(obraAtiva.custo + obraAtiva.lucro)}
+                    Coletar {formatCurrency(negocio.licitacoes.obraAtual.custo + negocio.licitacoes.obraAtual.lucro)}
                   </button>
                 </div>
               ) : (
-                <div>
-                  🚧 Executando {obraAtiva.nome} — Conclusão no dia {obraAtiva.diaFim}
+                <div className="text-center">
+                  🚧 Executando <strong>{negocio.licitacoes.obraAtual.nome}</strong> — Conclusão no dia <strong>{negocio.licitacoes.obraAtual.diaFim}</strong>
+                  <div className="text-xs opacity-80 mt-1">
+                    ({negocio.licitacoes.obraAtual.diaFim - dados.dia} dias restantes)
+                  </div>
                 </div>
               )}
             </div>
           )
         }
         footerExtra={(tab) => {
-          if (tab === 'licitacoes') return `Próximo ciclo de licitações em ${cicloLicitacoes.getFimCiclo() - dados.dia} dias`;
+          if (tab === 'licitacoes') {
+            return diasRestantesLicitacoes === 0 
+              ? `🔄 Novas licitações disponíveis!` 
+              : `Próximo ciclo de licitações em ${diasRestantesLicitacoes} dias`;
+          }
           return null;
         }}
       />
+
+      {/* Modal de Confirmação */}
       {showBidModal && licitacaoSelecionada && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-6 max-w-lg w-full mx-4">
@@ -3704,13 +3874,13 @@ const TerraplagagemPavimentacaoNegocio = () => {
                   setShowBidModal(false);
                   setLicitacaoSelecionada(null);
                 }}
-                className="flex-1 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-xl font-bold"
+                className="flex-1 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-xl font-bold transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={() => handleParticiparLicitacao(licitacaoSelecionada)}
-                className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold"
+                className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors"
               >
                 Confirmar
               </button>
