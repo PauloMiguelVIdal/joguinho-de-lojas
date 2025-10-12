@@ -325,6 +325,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     },
     agricultura: {
       economiaSetor: {
+        patrimonio:0,
         estadoAtual: "estável",
         percImpostoAnualAtual: 20,
         ArrayFatu: [],
@@ -336,6 +337,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     },
     tecnologia: {
       economiaSetor: {
+        patrimonio:0,
         estadoAtual: "estável",
         percImpostoAnualAtual: 24,
         ArrayFatu: [],
@@ -346,6 +348,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     },
     comercio: {
       economiaSetor: {
+        patrimonio:0,
         estadoAtual: "estável",
         percImpostoAnualAtual: 22,
         ArrayFatu: [],
@@ -356,6 +359,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     },
     industria: {
       economiaSetor: {
+        patrimonio:0,
         estadoAtual: "estável",
         percImpostoAnualAtual: 22,
         ArrayFatu: [],
@@ -366,6 +370,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     },
     imobiliario: {
       economiaSetor: {
+        patrimonio:0,
         estadoAtual: "estável",
         percImpostoAnualAtual: 20,
         ArrayFatu: [],
@@ -376,6 +381,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     },
     energia: {
       economiaSetor: {
+        patrimonio:0,
         estadoAtual: "estável",
         percImpostoAnualAtual: 24,
         ArrayFatu: [],

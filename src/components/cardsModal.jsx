@@ -479,7 +479,7 @@ export const CardModal = ({ index }) => {
     //     setRotateY(0);
     // };
 
-        function calcularCustoRecurso(nomeRecurso, nivel = 1) {
+    function calcularCustoRecurso(nomeRecurso, nivel = 1) {
         //   console.log("🔍".repeat(nivel), `Verificando recurso: ${nomeRecurso}`);
 
         for (const setor of setoresArr) {
@@ -714,7 +714,7 @@ export const CardModal = ({ index }) => {
         // 🔹 1) Deduz saldo
         atualizarEco("saldo", economiaSetores.saldo - custo);
 
-        // 🔹 2) Incrementa quantidade do edifício
+        // 🔹 2) Incrementa quantidade do edifício   
         const novaQuantidade = (edif.quantidade || 0) + 1;
         atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], novaQuantidade);
 
@@ -724,11 +724,11 @@ export const CardModal = ({ index }) => {
         atualizarDadosProf2(["lojasM", "quantidade"], qMAtual - qM);
         atualizarDadosProf2(["lojasG", "quantidade"], qGAtual - qG);
 
-const custosEdBase = 
-((qTerrenos * dados.terrenos.preçoConstrução) +
-(qP * (dados.lojasP.preçoConstrução + (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução))) +
-(qM * (dados.lojasM.preçoConstrução + (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução))) +
-(qG * (dados.lojasG.preçoConstrução + (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução))))
+        const custosEdBase =
+            ((qTerrenos * dados.terrenos.preçoConstrução) +
+                (qP * (dados.lojasP.preçoConstrução + (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução))) +
+                (qM * (dados.lojasM.preçoConstrução + (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução))) +
+                (qG * (dados.lojasG.preçoConstrução + (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução))))
 
         // 🔹 4) Deduz recursos de construção
         if (edif.recursoDeConstrução?.length) {
@@ -747,7 +747,8 @@ const custosEdBase =
 
         console.log("Carteira atualizada:", novaCarteira);
 
-    atualizarEco("patrimonio", economiaSetores.patrimonio + custosEdBase + custo);
+        atualizarEco("patrimonio", economiaSetores.patrimonio + custosEdBase + custo);
+        // atualizarEco("patrimonio", economiaSetores.agricultura.economiaSetor.patrimonio + custosEdBase + custo);
 
 
         // 🔹 6) Atualiza centralEdificios
