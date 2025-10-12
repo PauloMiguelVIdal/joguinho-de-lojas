@@ -14,12 +14,12 @@ const PatrimonioInterface = () => {
 const patrimonio = economiaSetores.patrimonio
 
   const investmentData = [
-    { id: 1, value: "2 345 012,00", bgColor: "bg-gradient-to-r from-green-500 to-green-600", icon: agricultura },
-    { id: 2, value: "2 345 012,00", bgColor: "bg-gradient-to-r from-orange-500 to-orange-600", icon: tecnologia },
-    { id: 3, value: "2 345 012,00", bgColor: "bg-gradient-to-r from-gray-500 to-gray-600", icon: industria },
-    { id: 4, value: "2 345 012,00", bgColor: "bg-gradient-to-r from-red-500 to-red-600", icon: comercio },
-    { id: 5, value: "2 345 012,00", bgColor: "bg-gradient-to-r from-blue-500 to-blue-600", icon: imobiliario },
-    { id: 6, value: "2 345 012,00", bgColor: "bg-gradient-to-r from-yellow-500 to-yellow-600", icon: energia },
+    { id: 1, value: 3000000, bgColor: "bg-gradient-to-r from-green-500 to-green-600", icon: agricultura },
+    { id: 2, value: 200000, bgColor: "bg-gradient-to-r from-orange-500 to-orange-600", icon: tecnologia },
+    { id: 3, value: 100000, bgColor: "bg-gradient-to-r from-gray-500 to-gray-600", icon: industria },
+    { id: 4, value: 120000, bgColor: "bg-gradient-to-r from-red-500 to-red-600", icon: comercio },
+    { id: 5, value: 320000, bgColor: "bg-gradient-to-r from-blue-500 to-blue-600", icon: imobiliario },
+    { id: 6, value: 300000, bgColor: "bg-gradient-to-r from-yellow-500 to-yellow-600", icon: energia },
   ];
 
   return (
