@@ -724,6 +724,12 @@ export const CardModal = ({ index }) => {
         atualizarDadosProf2(["lojasM", "quantidade"], qMAtual - qM);
         atualizarDadosProf2(["lojasG", "quantidade"], qGAtual - qG);
 
+const custosEdBase = 
+((qTerrenos * dados.terrenos.preçoConstrução) +
+(qP * (dados.lojasP.preçoConstrução + (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução))) +
+(qM * (dados.lojasM.preçoConstrução + (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução))) +
+(qG * (dados.lojasG.preçoConstrução + (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução))))
+
         // 🔹 4) Deduz recursos de construção
         if (edif.recursoDeConstrução?.length) {
             for (const nome of edif.recursoDeConstrução) {
@@ -741,9 +747,7 @@ export const CardModal = ({ index }) => {
 
         console.log("Carteira atualizada:", novaCarteira);
 
-       const patrimonioEdif = calcularCustoRecurso(edif)
-       console.log(patrimonioEdif)
-    atualizarEco("patrimonio", economiaSetores.patrimonio + patrimonioEdif);
+    atualizarEco("patrimonio", economiaSetores.patrimonio + custosEdBase + custo);
 
 
         // 🔹 6) Atualiza centralEdificios

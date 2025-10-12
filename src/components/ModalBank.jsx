@@ -31,9 +31,9 @@ const qtdContratosAtuais = economiaSetores.contratosBancos.length
             alto: 4
         },
         emprestimos: {
-            baixo: { mult: 1 },
-            medio: { mult: 2 },
-            alto: { mult: 3 }
+            baixo: { mult: 0.1 },
+            medio: { mult: 0.2 },
+            alto: { mult: 0.3 }
         },
         investimentos: {
             pos: {
