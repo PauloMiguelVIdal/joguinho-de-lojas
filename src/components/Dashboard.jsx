@@ -944,9 +944,8 @@ useEffect(() => {
                 </button>
 
               </div>
-              <div className="absolute bottom-4 left-4 z-[10] flex flex-col gap-2">
+              {/* <div className="absolute bottom-4 left-4 z-[10] flex flex-col gap-2">
 
-                {/* Botão do Computador */}
                 <button
                   onClick={() => setVision("dashboard")}
                   data-tooltip-id="saldo-tip"
@@ -960,13 +959,9 @@ useEffect(() => {
                   />
                 </button>
 
-              </div>
-              <div className="absolute opacity-[90] bottom-4 right-4 z-[10] flex flex-col gap-2">
+              </div> */}
+              {/* <div className="absolute opacity-[90] bottom-4 right-4 z-[10] flex flex-col gap-2">
 
-                {/* Botão do Computador */}
-
-
-                {/* Botão do Chefe */}
                 <button
                   onClick={() => setAtivo("grafico")} // Corrigido: setAtivo em vez de setorAtivo
                   data-tooltip-id="saldo-tip"
@@ -979,7 +974,7 @@ useEffect(() => {
                     alt="Abrir gráficos"
                   />
                 </button>
-              </div>
+              </div> */}
             </motion.div>
           </div>
         </div>

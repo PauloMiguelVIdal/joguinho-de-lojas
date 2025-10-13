@@ -23,6 +23,7 @@ const activeInvestments = economiaSetores.activeInvestments || [];
 
   const saldoBancario = economiaSetores.saldo;
 
+if(!activeLoan){ }//atualizar o limite
 
 
   const config = {
@@ -810,7 +811,7 @@ const handleAddFunds = (investmentId) => {
 
         <div className="flex flex-wrap gap-3 mb-8">
           <TabButton id="overview" label="Visão Geral" icon={Wallet} active={currentTab === 'overview'} onClick={setCurrentTab} />
-          <TabButton id="card" label="Cartão" icon={CreditCard} active={currentTab === 'card'} onClick={setCurrentTab} />
+          {/* <TabButton id="card" label="Cartão" icon={CreditCard} active={currentTab === 'card'} onClick={setCurrentTab} /> */}
           <TabButton id="loan" label="Empréstimo" icon={DollarSign} active={currentTab === 'loan'} onClick={setCurrentTab} />
           <TabButton id="investments" label="Investimentos" icon={TrendingUp} active={currentTab === 'investments'} onClick={setCurrentTab} />
         </div>
@@ -820,7 +821,7 @@ const handleAddFunds = (investmentId) => {
             <div className="flex flex-col items-start space-y-4">
               <div className="flex flex-col items-center justify-center ">
                 {contrato1 && renderCartao(contratoParaCartao(contrato1, dados))}
-                <div style={{
+                {/* <div style={{
                   background: `linear-gradient(135deg, ${contrato1.cor3}, ${contrato1.cor2}, ${contrato1.cor4})`
                 }} className="bg-white rounded-xl p-4 shadow-lg w-full mt-6 ">
                   <div className="flex justify-between mt-2 p-2 bg-white/20 rounded-md mb-2 text-sm">
@@ -835,26 +836,9 @@ const handleAddFunds = (investmentId) => {
                     <span className="text-white">Usado: R$ {cardData.used.toLocaleString('pt-BR')}</span>
                     <span className="text-white">{((cardData.used / cardData.limit) * 100).toFixed(1)}%</span>
                   </div>
-                </div>
+                </div> */}
               </div>
-
-              <div className="bg-white/40 rounded-xl w-full p-6 shadow-lg">
-                <div className="space-y-3">
-                  <div style={{ backgroundColor: contrato1.cor4, borderColor: contrato1.cor4 }} className="flex justify-between items-center p-3 rounded-lg border border-red-200">
-                    <span className="text-gray-600">Fatura Atual:</span>
-                    <span className="font-bold text-lg text-white">
-                      R$ {cardData.faturaAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                    </span>
-                  </div>
-                  <button style={{ backgroundColor: contrato1.cor2 }} className="flex justify-center hover:scale-105 transition-all duration-500 items-center w-full items-center p-3 rounded-lg ">
-                    <h2 className="text-white text-center">Pagar Fatura</h2>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="p-4 rounded-lg shadow-lg" style={{ backgroundColor: '#f8f9fa', borderLeft: `4px solid ${contrato1.cor3}` }}>
+      <div className="p-4 rounded-lg shadow-lg w-full" style={{ backgroundColor: '#f8f9fa', borderLeft: `4px solid ${contrato1.cor3}` }}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-3 rounded-lg" style={{ backgroundColor: contrato1.cor2 }}>
                     <DollarSign className="text-white" size={24} />
@@ -898,6 +882,23 @@ const handleAddFunds = (investmentId) => {
                   </>
                 )}
               </div>
+              {/* <div className="bg-white/40 rounded-xl w-full p-6 shadow-lg">
+                <div className="space-y-3">
+                  <div style={{ backgroundColor: contrato1.cor4, borderColor: contrato1.cor4 }} className="flex justify-between items-center p-3 rounded-lg border border-red-200">
+                    <span className="text-gray-600">Fatura Atual:</span>
+                    <span className="font-bold text-lg text-white">
+                      R$ {cardData.faturaAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                  <button style={{ backgroundColor: contrato1.cor2 }} className="flex justify-center hover:scale-105 transition-all duration-500 items-center w-full items-center p-3 rounded-lg ">
+                    <h2 className="text-white text-center">Pagar Fatura</h2>
+                  </button>
+                </div>
+              </div> */}
+            </div>
+
+            <div className="space-y-4">
+        
 
               <div className="bg-white rounded-xl p-6 shadow-lg">
                 <div className="flex items-center gap-3 mb-4">
@@ -971,18 +972,18 @@ const handleAddFunds = (investmentId) => {
                   </div>
                 </div>
               </div>
-              <div className="bg-white rounded-xl w-full p-6 shadow-lg">
+              {/* <div className="bg-white rounded-xl w-full p-6 shadow-lg">
                 <div className="text-center p-2 bg-gray-50 rounded-lg mb-3">
                   <h3 style={{ color: contrato1.cor3 }} className="font-bold">Cashback Acumulado</h3>
                   <p className="text-2xl font-bold text-gray-800">
                     R$ {cashbackData.accumulated.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </p>
                 </div>
-                {/* <button className="w-full text-white py-2 rounded-lg font-semibold hover:scale-105 transition-all duration-500"
+                <button className="w-full text-white py-2 rounded-lg font-semibold hover:scale-105 transition-all duration-500"
                   style={{ backgroundColor: contrato1.cor3 }} disabled={cashbackData.accumulated === 0}>
                   Resgatar Cashback
-                </button> */}
-              </div>
+                </button>
+              </div> */}
             </div>
           </div>
         )}
@@ -1051,7 +1052,26 @@ const handleAddFunds = (investmentId) => {
               >
                 Pagar parcela (R$ {activeLoan ? Number(activeLoan.valorParcela).toFixed(2) : '0,00'})
               </button>
-
+                        {/* <div style={{ backgroundColor: contrato1.cor4, borderColor: contrato1.cor4 }} className="p-4 mt-2 rounded-lg border ">
+                  <h4 className="font-semibold text-white mb-2">Próximo Aumento de Limite</h4>
+                  <p className="text-sm text-white mb-1">
+                    Quando seu patrimônio atingir <span className="font-bold">R$ {proximoAumentoLimite.patrimonioNecessario.toLocaleString('pt-BR')}</span>
+                  </p>
+                  <p className="text-sm text-white">
+                    Seu novo limite será: <span className="font-bold">R$ {proximoAumentoLimite.novoLimite.toLocaleString('pt-BR')}</span>
+                  </p>
+                  <div className="mt-3 bg-white rounded p-2">
+                    <div className="flex justify-between text-xs text-gray-600 mb-1">
+                      <span>Patrimônio Atual: R$ {patrimonio.toLocaleString('pt-BR')}</span>
+                      <span>{((patrimonio / proximoAumentoLimite.patrimonioNecessario) * 100).toFixed(1)}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="h-2 rounded-full bg-blue-600 transition-all"
+                        style={{ width: `${Math.min((patrimonio / proximoAumentoLimite.patrimonioNecessario) * 100, 100)}%`, backgroundColor: contrato1.cor4, }}>
+                      </div>
+                    </div>
+                  </div>
+                </div> */}
             </div>
 
             <div className="space-y-4">
@@ -1467,6 +1487,7 @@ const handleAddFunds = (investmentId) => {
                   </button>
                 </div>
               </div>
+
             </div>
 
             <div className="space-y-4">
