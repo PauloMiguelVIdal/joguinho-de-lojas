@@ -15,7 +15,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
     animarCicloDia: null,
-    dia: 1000,
+    dia: 10000,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -498,7 +498,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": {
                 "nível1": 0,
                 "nível2": 0,
@@ -749,7 +749,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 2, "nível2": 5, "nível3": 9 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 3, "nível2": 7, "nível3": 15 }
             },
@@ -904,7 +904,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 2, "nível2": 5, "nível3": 9 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 3, "nível2": 7, "nível3": 15 }
             },
@@ -983,7 +983,7 @@ const CentraldeDadosProvider = ({ children }) => {
               }
             },
             {
-              nome: "Cooperativas agrícolas",
+              nome: "Cooperativa agrícola",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -1102,7 +1102,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 3, "nível2": 7, "nível3": 15 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 30, "nível2": 40, "nível3": 50 }
             },
@@ -1478,7 +1478,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
@@ -1561,7 +1561,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 1, "nível2": 2, "nível3": 3 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
@@ -1873,7 +1873,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 12, "nível2": 14, "nível3": 28 }
             },
@@ -2010,7 +2010,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 12, "nível2": 14, "nível3": 28 }
             },
@@ -2165,7 +2165,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 12, "nível2": 14, "nível3": 28 }
             },
@@ -2263,7 +2263,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 10, "nível2": 13, "nível3": 17 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 20, "nível2": 27, "nível3": 33 }
             },
@@ -2554,7 +2554,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 3, "nível2": 7, "nível3": 15 }
             },
@@ -2655,7 +2655,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 3, "nível2": 7, "nível3": 15 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 3, "nível2": 8, "nível3": 18 }
             },
@@ -13867,7 +13867,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
               "aumFatu": { "nível1": 8, "nível2": 10, "nível3": 12 }
             },
@@ -19134,7 +19134,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
-              "nome": "Cooperativas Agrícolas",
+              "nome": "Cooperativa Agrícola",
               "redCusto": { "nível1": 1, "nível2": 1, "nível3": 2 },
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
