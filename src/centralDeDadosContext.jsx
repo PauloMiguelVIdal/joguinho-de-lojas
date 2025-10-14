@@ -1972,35 +1972,7 @@ const CentraldeDadosProvider = ({ children }) => {
               "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             }
           ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Fazenda Administrativa",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-            {
-              nome: "Fábrica de Ração",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4
-              }
-            },
-          ],
-
+         
           recursoDeConstrução: []
           ,
           powerUp: {
@@ -9846,7 +9818,7 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               "nome": "Usina Termelétrica Movida a Biocombustíveis",
               "redCusto": { "nível1": 0, "nível2": 1, "nível3": 0 },
-              "a极": { "nível1": 0, "nível2": 0, "nível3": 0 }
+              "aumFatu": { "nível1": 0, "nível2": 0, "nível3": 0 }
             },
             {
               "nome": "Usina De Biomassa",
@@ -9901,7 +9873,7 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               "nome": "Centro De Pesquisa Aeroespacial",
               "redCusto": { "nível1": 0, "nível2": 0, "nível3": 0 },
-              "aumFatu": { "nível1": 8, "nível3": 12, "nível3": 16 }
+              "aumFatu": { "nível1": 8, "nível2": 12, "nível3": 16 }
             },
             {
               "nome": "Centro De Engenharia Avançada",
