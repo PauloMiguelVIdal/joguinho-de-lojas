@@ -678,6 +678,165 @@ const DadosEconomyGlobalProvider = ({ children }) => {
           },
         },
       },
+      MineradoraNegocio: {
+        setor: "industria",
+        exploracao: {
+          jazidasAtivas: [
+            {
+              id: 1,
+              nome: "Mina de Cobre Serra Verde",
+              tipo: "cobre",
+              localizacao: "Carajás - PA",
+              custo: 8500000,
+              duracao: 120,
+              toneladas: 500,
+              requisitos: {
+                escavadeira_mineracao: 3,
+                perfuratriz_mineracao: 2,
+                caminhao_fora_estrada: 3,
+                britador: 2,
+              },
+              icon: "🟠",
+              descricao: "Jazida de cobre de alta pureza em região montanhosa",
+            },
+            {
+              id: 2,
+              nome: "Depósito de Cobre Vale Dourado",
+              tipo: "cobre",
+              localizacao: "Itabira - MG",
+              custo: 6200000,
+              duracao: 90,
+              toneladas: 350,
+              requisitos: {
+                escavadeira_mineracao: 2,
+                perfuratriz_mineracao: 2,
+                caminhao_fora_estrada: 2,
+                britador: 1,
+              },
+              icon: "🟠",
+              descricao: "Depósito superficial de cobre com fácil acesso",
+            },
+            {
+              id: 3,
+              nome: "Jazida de Cobre Rio Azul",
+              tipo: "cobre",
+              localizacao: "Altamira - PA",
+              custo: 12000000,
+              duracao: 150,
+              toneladas: 800,
+              requisitos: {
+                escavadeira_mineracao: 4,
+                perfuratriz_mineracao: 3,
+                caminhao_fora_estrada: 4,
+                britador: 3,
+                carregadeira: 2,
+              },
+              icon: "🟠",
+              descricao: "Grande reserva de cobre em área de floresta",
+            },
+            {
+              id: 4,
+              nome: "Mina de Cobre Planalto",
+              tipo: "cobre",
+              localizacao: "Goiás - GO",
+              custo: 4500000,
+              duracao: 70,
+              toneladas: 250,
+              requisitos: {
+                escavadeira_mineracao: 2,
+                caminhao_fora_estrada: 2,
+                britador: 1,
+              },
+              icon: "🟠",
+              descricao: "Pequena jazida de cobre com alto teor metálico",
+            },
+          ],
+          exploracaoAtual: null, // ou { nome, tipo, localizacao, custo, duracao, toneladas, requisitos, icon, descricao, diaInicio, diaFim }
+          proximoCiclo: 1200,
+        },
+        mercado: {
+          ofertasAtivas: [
+            {
+              id: 6,
+              name: "ferro",
+              toneladas: 200,
+              pricePerTon: 17500,
+              totalPrice: 3500000,
+            }, // +40%
+            {
+              id: 7,
+              name: "ferro",
+              toneladas: 400,
+              pricePerTon: 18750,
+              totalPrice: 7500000,
+            }, // +50%
+            {
+              id: 8,
+              name: "ferro",
+              toneladas: 600,
+              pricePerTon: 20000,
+              totalPrice: 12000000,
+            }, // +60%
+            {
+              id: 9,
+              name: "ferro",
+              toneladas: 350,
+              pricePerTon: 19000,
+              totalPrice: 6650000,
+            }, // +52%
+            {
+              id: 10,
+              name: "ferro",
+              toneladas: 500,
+              pricePerTon: 19500,
+              totalPrice: 9750000,
+            }, // +56%
+
+            // BAUXITA (custo médio: ~11.000/ton → venda: 15.400-17.600)
+            {
+              id: 11,
+              name: "bauxita",
+              toneladas: 150,
+              pricePerTon: 15400,
+              totalPrice: 2310000,
+            }, // +40%
+            {
+              id: 12,
+              name: "bauxita",
+              toneladas: 300,
+              pricePerTon: 16500,
+              totalPrice: 4950000,
+            }, // +50%
+            {
+              id: 13,
+              name: "bauxita",
+              toneladas: 450,
+              pricePerTon: 17600,
+              totalPrice: 7920000,
+            }, // +60%
+          ],
+          vendasRealizadas: [],
+          proximoCiclo: 1200,
+        },
+        equipamentos: {
+          maquinarios: {
+            escavadeira_mineracao: 0,
+            perfuratriz_mineracao: 0,
+            caminhao_fora_estrada: 0,
+            britador: 0,
+            carregadeira: 0,
+            draga: 0,
+          },
+        },
+        estoque: {
+          minerios: {
+            cobre: 0,
+            ferro: 0,
+            bauxita: 0,
+          },
+          capacidade: 5000, // toneladas
+        },
+      },
     },
     idContrato: 0,
     contratosBancos: [],

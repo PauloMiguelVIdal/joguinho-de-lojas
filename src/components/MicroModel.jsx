@@ -9,7 +9,7 @@ import automovel from "../../public/imagens/Fábrica De Automóveis.png"
 import smartphone from "../../public/imagens/Fábrica De Smartphones.png"
 import construtora from "../../public/imagens/Construtora De Infraestruturas.png"
 import terraplanagem from "../../public/imagens/Terraplanagem E Pavimentação.png"
-
+import mineradora from "../../public/imagens/Mineradora.png"
 // ==================== CONFIGURAÇÃO DE SETORES ====================
 const SETORES_CONFIG = {
   agricultura: {
@@ -3117,7 +3117,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
   ];
 
   // Licitações disponíveis (base completa com 30 projetos)
-  const licitacoes = [
+  const licitacoesBase = [
     {
       id: 1,
       nome: "Pavimentação Avenida Principal",
@@ -3891,6 +3891,979 @@ const TerraplagagemPavimentacaoNegocio = () => {
     </>
   );
 };
+const MineradoraNegocio = () => {
+  const { dados } = useContext(CentraldeDadosContext);
+  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+
+  const getMineralIcon = (type) => {
+    const icons = {
+      cobre: '🟠',
+      ferro: '⚙️',
+      bauxita: '🪨'
+    };
+    return icons[type] || '⛏️';
+  };
+
+  const getEquipmentIcon = (type) => {
+    const icons = {
+      escavadeira_mineracao: '⛏️',
+      perfuratriz_mineracao: '🔩',
+      caminhao_fora_estrada: '🚚',
+      britador: '🏗️',
+      carregadeira: '🚜',
+      draga: '⚓'
+    };
+    return icons[type] || '⛏️';
+  };
+
+  // Equipamentos disponíveis para compra
+  const equipamentosDisponiveis = [
+    { nome: 'Escavadeira de Mineração', tipo: 'escavadeira_mineracao', categoria: 'Extração', preco: 2500000 },
+    { nome: 'Perfuratriz de Mina', tipo: 'perfuratriz_mineracao', categoria: 'Perfuração', preco: 1800000 },
+    { nome: 'Caminhão Fora de Estrada', tipo: 'caminhao_fora_estrada', categoria: 'Transporte', preco: 3200000 },
+    { nome: 'Britador Industrial', tipo: 'britador', categoria: 'Processamento', preco: 2100000 },
+    { nome: 'Carregadeira Frontal', tipo: 'carregadeira', categoria: 'Carga', preco: 1500000 },
+    { nome: 'Draga Mineradora', tipo: 'draga', categoria: 'Extração', preco: 4500000 }
+  ];
+
+  // Jazidas disponíveis para exploração (30 opções)
+  const jazidasBase = [
+    // COBRE
+    {
+      id: 1,
+      nome: "Mina de Cobre Serra Verde",
+      tipo: "cobre",
+      localizacao: "Carajás - PA",
+      custo: 8500000,
+      duracao: 120,
+      toneladas: 500,
+      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 2, caminhao_fora_estrada: 3, britador: 2 },
+      icon: "🟠",
+      descricao: "Jazida de cobre de alta pureza em região montanhosa"
+    },
+    {
+      id: 2,
+      nome: "Depósito de Cobre Vale Dourado",
+      tipo: "cobre",
+      localizacao: "Itabira - MG",
+      custo: 6200000,
+      duracao: 90,
+      toneladas: 350,
+      requisitos: { escavadeira_mineracao: 2, perfuratriz_mineracao: 2, caminhao_fora_estrada: 2, britador: 1 },
+      icon: "🟠",
+      descricao: "Depósito superficial de cobre com fácil acesso"
+    },
+    {
+      id: 3,
+      nome: "Jazida de Cobre Rio Azul",
+      tipo: "cobre",
+      localizacao: "Altamira - PA",
+      custo: 12000000,
+      duracao: 150,
+      toneladas: 800,
+      requisitos: { escavadeira_mineracao: 4, perfuratriz_mineracao: 3, caminhao_fora_estrada: 4, britador: 3, carregadeira: 2 },
+      icon: "🟠",
+      descricao: "Grande reserva de cobre em área de floresta"
+    },
+    {
+      id: 4,
+      nome: "Mina de Cobre Planalto",
+      tipo: "cobre",
+      localizacao: "Goiás - GO",
+      custo: 4500000,
+      duracao: 70,
+      toneladas: 250,
+      requisitos: { escavadeira_mineracao: 2, caminhao_fora_estrada: 2, britador: 1 },
+      icon: "🟠",
+      descricao: "Pequena jazida de cobre com alto teor metálico"
+    },
+    {
+      id: 5,
+      nome: "Depósito de Cobre Cerrado",
+      tipo: "cobre",
+      localizacao: "Tocantins - TO",
+      custo: 7800000,
+      duracao: 105,
+      toneladas: 450,
+      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 2, caminhao_fora_estrada: 3, britador: 2, carregadeira: 1 },
+      icon: "🟠",
+      descricao: "Jazida em região de cerrado com infraestrutura"
+    },
+
+    // FERRO
+    {
+      id: 6,
+      nome: "Mina de Ferro Carajás Norte",
+      tipo: "ferro",
+      localizacao: "Parauapebas - PA",
+      custo: 15000000,
+      duracao: 180,
+      toneladas: 1200,
+      requisitos: { escavadeira_mineracao: 5, perfuratriz_mineracao: 4, caminhao_fora_estrada: 5, britador: 3, carregadeira: 3 },
+      icon: "⚙️",
+      descricao: "Maior reserva de minério de ferro de alta qualidade"
+    },
+    {
+      id: 7,
+      nome: "Jazida de Ferro Quadrilátero",
+      tipo: "ferro",
+      localizacao: "Mariana - MG",
+      custo: 9500000,
+      duracao: 130,
+      toneladas: 700,
+      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 3, caminhao_fora_estrada: 4, britador: 2 },
+      icon: "⚙️",
+      descricao: "Região tradicional de extração de ferro"
+    },
+    {
+      id: 8,
+      nome: "Mina de Ferro Vale do Rio Doce",
+      tipo: "ferro",
+      localizacao: "Nova Lima - MG",
+      custo: 11000000,
+      duracao: 145,
+      toneladas: 850,
+      requisitos: { escavadeira_mineracao: 4, perfuratriz_mineracao: 3, caminhao_fora_estrada: 4, britador: 3, carregadeira: 2 },
+      icon: "⚙️",
+      descricao: "Jazida próxima a ferrovias de escoamento"
+    },
+    {
+      id: 9,
+      nome: "Depósito de Ferro Serra Sul",
+      tipo: "ferro",
+      localizacao: "Canaã dos Carajás - PA",
+      custo: 18000000,
+      duracao: 200,
+      toneladas: 1500,
+      requisitos: { escavadeira_mineracao: 6, perfuratriz_mineracao: 5, caminhao_fora_estrada: 6, britador: 4, carregadeira: 3, draga: 1 },
+      icon: "⚙️",
+      descricao: "Megaprojeto de extração de ferro premium"
+    },
+    {
+      id: 10,
+      nome: "Jazida de Ferro Minas Central",
+      tipo: "ferro",
+      localizacao: "Ouro Preto - MG",
+      custo: 7200000,
+      duracao: 100,
+      toneladas: 550,
+      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 2, caminhao_fora_estrada: 3, britador: 2 },
+      icon: "⚙️",
+      descricao: "Mina histórica reativada com tecnologia moderna"
+    },
+
+    // BAUXITA
+    {
+      id: 11,
+      nome: "Mina de Bauxita Trombetas",
+      tipo: "bauxita",
+      localizacao: "Oriximiná - PA",
+      custo: 10000000,
+      duracao: 135,
+      toneladas: 900,
+      requisitos: { escavadeira_mineracao: 4, caminhao_fora_estrada: 4, britador: 2, carregadeira: 2, draga: 1 },
+      icon: "🪨",
+      descricao: "Principal reserva de bauxita da Amazônia"
+    },
+    {
+      id: 12,
+      nome: "Jazida de Bauxita Paragominas",
+      tipo: "bauxita",
+      localizacao: "Paragominas - PA",
+      custo: 8500000,
+      duracao: 115,
+      toneladas: 650,
+      requisitos: { escavadeira_mineracao: 3, caminhao_fora_estrada: 3, britador: 2, carregadeira: 2 },
+      icon: "🪨",
+      descricao: "Depósito de bauxita metalúrgica de qualidade"
+    },
+    {
+      id: 13,
+      nome: "Mina de Bauxita Juruti",
+      tipo: "bauxita",
+      localizacao: "Juruti - PA",
+      custo: 12500000,
+      duracao: 160,
+      toneladas: 1000,
+      requisitos: { escavadeira_mineracao: 4, perfuratriz_mineracao: 2, caminhao_fora_estrada: 5, britador: 3, carregadeira: 2, draga: 2 },
+      icon: "🪨",
+      descricao: "Grande platô com bauxita de alta alumina"
+    },
+    {
+      id: 14,
+      nome: "Depósito de Bauxita Porto Nacional",
+      tipo: "bauxita",
+      localizacao: "Porto Nacional - TO",
+      custo: 6500000,
+      duracao: 95,
+      toneladas: 480,
+      requisitos: { escavadeira_mineracao: 2, caminhao_fora_estrada: 3, britador: 2, carregadeira: 1 },
+      icon: "🪨",
+      descricao: "Jazida em região de fácil logística"
+    },
+    {
+      id: 15,
+      nome: "Jazida de Bauxita Poços de Caldas",
+      tipo: "bauxita",
+      localizacao: "Poços de Caldas - MG",
+      custo: 5200000,
+      duracao: 80,
+      toneladas: 350,
+      requisitos: { escavadeira_mineracao: 2, caminhao_fora_estrada: 2, britador: 1 },
+      icon: "🪨",
+      descricao: "Pequena mina com bauxita refratária"
+    },
+
+    // MISTO (mais opções variadas)
+    {
+      id: 16,
+      nome: "Mina de Cobre Chapada",
+      tipo: "cobre",
+      localizacao: "Alto Horizonte - GO",
+      custo: 9200000,
+      duracao: 125,
+      toneladas: 600,
+      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 3, caminhao_fora_estrada: 3, britador: 2, carregadeira: 2 },
+      icon: "🟠",
+      descricao: "Jazida em operação com expansão planejada"
+    },
+    {
+      id: 17,
+      nome: "Depósito de Ferro Ipanema",
+      tipo: "ferro",
+      localizacao: "Iperó - SP",
+      custo: 5800000,
+      duracao: 85,
+      toneladas: 420,
+      requisitos: { escavadeira_mineracao: 2, caminhao_fora_estrada: 3, britador: 2 },
+      icon: "⚙️",
+      descricao: "Mina histórica paulista reativada"
+    },
+    {
+      id: 18,
+      nome: "Jazida de Bauxita Cataguases",
+      tipo: "bauxita",
+      localizacao: "Cataguases - MG",
+      custo: 7100000,
+      duracao: 100,
+      toneladas: 520,
+      requisitos: { escavadeira_mineracao: 3, caminhao_fora_estrada: 3, britador: 2, carregadeira: 1 },
+      icon: "🪨",
+      descricao: "Depósito com boa concentração de alumínio"
+    },
+    {
+      id: 19,
+      nome: "Mina de Cobre Sossego",
+      tipo: "cobre",
+      localizacao: "Canaã dos Carajás - PA",
+      custo: 14000000,
+      duracao: 170,
+      toneladas: 950,
+      requisitos: { escavadeira_mineracao: 5, perfuratriz_mineracao: 4, caminhao_fora_estrada: 5, britador: 3, carregadeira: 3 },
+      icon: "🟠",
+      descricao: "Projeto de grande porte em região consolidada"
+    },
+    {
+      id: 20,
+      nome: "Depósito de Ferro Germano",
+      tipo: "ferro",
+      localizacao: "Mariana - MG",
+      custo: 6800000,
+      duracao: 95,
+      toneladas: 500,
+      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 2, caminhao_fora_estrada: 3, britador: 2 },
+      icon: "⚙️",
+      descricao: "Área com infraestrutura completa instalada"
+    },
+    {
+      id: 21,
+      nome: "Jazida de Bauxita Barro Alto",
+      tipo: "bauxita",
+      localizacao: "Barro Alto - GO",
+      custo: 8800000,
+      duracao: 120,
+      toneladas: 700,
+      requisitos: { escavadeira_mineracao: 3, caminhao_fora_estrada: 4, britador: 2, carregadeira: 2 },
+      icon: "🪨",
+      descricao: "Reserva próxima a refinarias de alumínio"
+    },
+    {
+      id: 22,
+      nome: "Mina de Cobre Santa Luz",
+      tipo: "cobre",
+      localizacao: "Curaçá - BA",
+      custo: 5500000,
+      duracao: 75,
+      toneladas: 300,
+      requisitos: { escavadeira_mineracao: 2, perfuratriz_mineracao: 2, caminhao_fora_estrada: 2, britador: 1 },
+      icon: "🟠",
+      descricao: "Jazida no sertão com cobre de alto teor"
+    },
+    {
+      id: 23,
+      nome: "Depósito de Ferro Corumbá",
+      tipo: "ferro",
+      localizacao: "Corumbá - MS",
+      custo: 10500000,
+      duracao: 140,
+      toneladas: 800,
+      requisitos: { escavadeira_mineracao: 4, perfuratriz_mineracao: 3, caminhao_fora_estrada: 4, britador: 3, carregadeira: 2 },
+      icon: "⚙️",
+      descricao: "Mina com escoamento para Bolívia e Paraguai"
+    },
+    {
+      id: 24,
+      nome: "Jazida de Bauxita Rondon",
+      tipo: "bauxita",
+      localizacao: "Rondon do Pará - PA",
+      custo: 9500000,
+      duracao: 130,
+      toneladas: 750,
+      requisitos: { escavadeira_mineracao: 4, caminhao_fora_estrada: 4, britador: 2, carregadeira: 2, draga: 1 },
+      icon: "🪨",
+      descricao: "Plateau com bauxita lavrada de qualidade"
+    },
+    {
+      id: 25,
+      nome: "Mina de Cobre Pedra Branca",
+      tipo: "cobre",
+      localizacao: "Pedra Branca - CE",
+      custo: 6900000,
+      duracao: 92,
+      toneladas: 380,
+      requisitos: { escavadeira_mineracao: 2, perfuratriz_mineracao: 2, caminhao_fora_estrada: 3, britador: 2 },
+      icon: "🟠",
+      descricao: "Depósito no nordeste com potencial exploratório"
+    },
+    {
+      id: 26,
+      nome: "Depósito de Ferro Urucum",
+      tipo: "ferro",
+      localizacao: "Corumbá - MS",
+      custo: 13000000,
+      duracao: 165,
+      toneladas: 1100,
+      requisitos: { escavadeira_mineracao: 5, perfuratriz_mineracao: 4, caminhao_fora_estrada: 5, britador: 3, carregadeira: 3 },
+      icon: "⚙️",
+      descricao: "Grande reserva no maciço de Urucum"
+    },
+    {
+      id: 27,
+      nome: "Jazida de Bauxita Miraí",
+      tipo: "bauxita",
+      localizacao: "Miraí - MG",
+      custo: 4800000,
+      duracao: 70,
+      toneladas: 320,
+      requisitos: { escavadeira_mineracao: 2, caminhao_fora_estrada: 2, britador: 1 },
+      icon: "🪨",
+      descricao: "Pequeno depósito em região de fácil acesso"
+    },
+    {
+      id: 28,
+      nome: "Mina de Cobre Vermelhos",
+      tipo: "cobre",
+      localizacao: "Itacambira - MG",
+      custo: 10800000,
+      duracao: 135,
+      toneladas: 720,
+      requisitos: { escavadeira_mineracao: 4, perfuratriz_mineracao: 3, caminhao_fora_estrada: 4, britador: 2, carregadeira: 2 },
+      icon: "🟠",
+      descricao: "Projeto greenfield em fase de implantação"
+    },
+    {
+      id: 29,
+      nome: "Depósito de Ferro Conceição",
+      tipo: "ferro",
+      localizacao: "Itabira - MG",
+      custo: 8200000,
+      duracao: 110,
+      toneladas: 620,
+      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 3, caminhao_fora_estrada: 3, britador: 2 },
+      icon: "⚙️",
+      descricao: "Mina em complexo com beneficiamento próprio"
+    },
+    {
+      id: 30,
+      nome: "Jazida de Bauxita Açailândia",
+      tipo: "bauxita",
+      localizacao: "Açailândia - MA",
+      custo: 11500000,
+      duracao: 150,
+      toneladas: 920,
+      requisitos: { escavadeira_mineracao: 4, caminhao_fora_estrada: 5, britador: 3, carregadeira: 2, draga: 1 },
+      icon: "🪨",
+      descricao: "Grande reserva próxima à ferrovia"
+    }
+  ];
+
+  // Ofertas de mercado (preços por tonelada com margem de 40-60%)
+  const marketOffersBase = [
+    // COBRE (custo médio: ~17.000/ton → venda: 23.800-27.200)
+    { id: 1, name: "cobre", toneladas: 100, pricePerTon: 23800, totalPrice: 2380000 },  // +40%
+    { id: 2, name: "cobre", toneladas: 200, pricePerTon: 25500, totalPrice: 5100000 },  // +50%
+    { id: 3, name: "cobre", toneladas: 300, pricePerTon: 27200, totalPrice: 8160000 },  // +60%
+    { id: 4, name: "cobre", toneladas: 150, pricePerTon: 26000, totalPrice: 3900000 },  // +53%
+    { id: 5, name: "cobre", toneladas: 250, pricePerTon: 26500, totalPrice: 6625000 },  // +56%
+
+    // FERRO (custo médio: ~12.500/ton → venda: 17.500-20.000)
+    { id: 6, name: "ferro", toneladas: 200, pricePerTon: 17500, totalPrice: 3500000 },   // +40%
+    { id: 7, name: "ferro", toneladas: 400, pricePerTon: 18750, totalPrice: 7500000 },   // +50%
+    { id: 8, name: "ferro", toneladas: 600, pricePerTon: 20000, totalPrice: 12000000 },  // +60%
+    { id: 9, name: "ferro", toneladas: 350, pricePerTon: 19000, totalPrice: 6650000 },   // +52%
+    { id: 10, name: "ferro", toneladas: 500, pricePerTon: 19500, totalPrice: 9750000 },  // +56%
+
+    // BAUXITA (custo médio: ~11.000/ton → venda: 15.400-17.600)
+    { id: 11, name: "bauxita", toneladas: 150, pricePerTon: 15400, totalPrice: 2310000 }, // +40%
+    { id: 12, name: "bauxita", toneladas: 300, pricePerTon: 16500, totalPrice: 4950000 }, // +50%
+    { id: 13, name: "bauxita", toneladas: 450, pricePerTon: 17600, totalPrice: 7920000 }, // +60%
+    { id: 14, name: "bauxita", toneladas: 250, pricePerTon: 16800, totalPrice: 4200000 }, // +53%
+    { id: 15, name: "bauxita", toneladas: 400, pricePerTon: 17200, totalPrice: 6880000 }, // +56%
+  ];
+
+  // ==================== ESTADOS PARA MODAL ====================
+  const [showExplorationModal, setShowExplorationModal] = useState(false);
+  const [jazidaSelecionada, setJazidaSelecionada] = useState(null);
+
+  // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
+  useEffect(() => {
+    if (economiaSetores.negocios?.MineradoraNegocio && 
+        !economiaSetores.negocios.MineradoraNegocio.exploracao?.exploracaoAtual) {
+      atualizarEco("negocios", {
+        ...economiaSetores.negocios,
+        MineradoraNegocio: {
+          ...economiaSetores.negocios.MineradoraNegocio,
+          exploracao: {
+            ...economiaSetores.negocios.MineradoraNegocio.exploracao,
+            exploracaoAtual: null
+          },
+          mercado: {
+            ...economiaSetores.negocios.MineradoraNegocio.mercado,
+            vendasRealizadas: []
+          }
+        }
+      });
+    }
+  }, []);
+
+  // Atalho para o negócio
+  const negocio = economiaSetores.negocios?.MineradoraNegocio;
+
+  if (!negocio) {
+    return <div className="text-white text-center p-8">Carregando negócio...</div>;
+  }
+
+  // ==================== ATUALIZAÇÃO DE CICLOS ====================
+  useEffect(() => {
+    if (!negocio) return;
+
+    let precisaAtualizar = false;
+    let novoNegocio = { ...negocio };
+
+    // Ciclo de jazidas
+    if (dados.dia >= negocio.exploracao.proximoCiclo) {
+      console.log("🔄 Atualizando ciclo de jazidas");
+      novoNegocio.exploracao = {
+        ...negocio.exploracao,
+        jazidasAtivas: sortearItens(jazidasBase, 4),
+        proximoCiclo: dados.dia + 60
+      };
+      precisaAtualizar = true;
+    }
+
+    // Ciclo de mercado
+    if (dados.dia >= negocio.mercado.proximoCiclo) {
+      console.log("🔄 Atualizando ciclo de mercado");
+      novoNegocio.mercado = {
+        ofertasAtivas: sortearItens(marketOffersBase, 8),
+        vendasRealizadas: [],
+        proximoCiclo: dados.dia + 90
+      };
+      precisaAtualizar = true;
+    }
+
+    if (precisaAtualizar) {
+      atualizarEco("negocios", {
+        ...economiaSetores.negocios,
+        MineradoraNegocio: novoNegocio
+      });
+    }
+  }, [dados.dia, negocio?.exploracao?.proximoCiclo, negocio?.mercado?.proximoCiclo]);
+
+  // ==================== HANDLERS ====================
+  const podeExplorar = (jazida) => {
+    if (negocio.exploracao.exploracaoAtual) return false;
+    if (economiaSetores.saldo < jazida.custo) return false;
+
+    return Object.entries(jazida.requisitos).every(([equip, qtd]) => {
+      return (negocio.equipamentos.maquinarios[equip] || 0) >= qtd;
+    });
+  };
+
+  const handleIniciarExploracao = (jazida) => {
+    const novaExploracao = {
+      ...jazida,
+      diaInicio: dados.dia,
+      diaFim: dados.dia + jazida.duracao
+    };
+
+    atualizarEco("saldo", economiaSetores.saldo - jazida.custo);
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      MineradoraNegocio: {
+        ...negocio,
+        exploracao: {
+          ...negocio.exploracao,
+          exploracaoAtual: novaExploracao
+        }
+      }
+    });
+
+    setShowExplorationModal(false);
+    setJazidaSelecionada(null);
+  };
+
+  const handleColetarMinerio = () => {
+    if (!negocio.exploracao.exploracaoAtual) return;
+
+    const exp = negocio.exploracao.exploracaoAtual;
+    const novoEstoque = {
+      ...negocio.estoque.minerios,
+      [exp.tipo]: (negocio.estoque.minerios[exp.tipo] || 0) + exp.toneladas
+    };
+
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      MineradoraNegocio: {
+        ...negocio,
+        exploracao: {
+          ...negocio.exploracao,
+          exploracaoAtual: null
+        },
+        estoque: {
+          ...negocio.estoque,
+          minerios: novoEstoque
+        }
+      }
+    });
+  };
+
+  const handleComprarEquipamento = (equipamento) => {
+    if (economiaSetores.saldo < equipamento.preco) {
+      alert("💰 Saldo insuficiente!");
+      return;
+    }
+
+    const novosMaquinarios = {
+      ...negocio.equipamentos.maquinarios,
+      [equipamento.tipo]: (negocio.equipamentos.maquinarios[equipamento.tipo] || 0) + 1
+    };
+
+    atualizarEco("saldo", economiaSetores.saldo - equipamento.preco);
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      MineradoraNegocio: {
+        ...negocio,
+        equipamentos: {
+          ...negocio.equipamentos,
+          maquinarios: novosMaquinarios
+        }
+      }
+    });
+  };
+
+  const handleVender = (offer) => {
+    const estoqueAtual = negocio.estoque.minerios[offer.name] || 0;
+    if (offer.toneladas > estoqueAtual) {
+      alert("⚠️ Você não tem minério suficiente!");
+      return;
+    }
+
+    const novoEstoque = {
+      ...negocio.estoque.minerios,
+      [offer.name]: estoqueAtual - offer.toneladas
+    };
+
+    atualizarEco("saldo", economiaSetores.saldo + offer.totalPrice);
+    atualizarEco("negocios", {
+      ...economiaSetores.negocios,
+      MineradoraNegocio: {
+        ...negocio,
+        estoque: {
+          ...negocio.estoque,
+          minerios: novoEstoque
+        },
+        mercado: {
+          ...negocio.mercado,
+          vendasRealizadas: [...(negocio.mercado.vendasRealizadas || []), offer.id]
+        }
+      }
+    });
+  };
+
+  const getMineralTypeColor = (tipo) => {
+    const cores = {
+      'cobre': '#d97706',
+      'ferro': '#6b7280',
+      'bauxita': '#92400e'
+    };
+    return cores[tipo] || '#6c757d';
+  };
+
+  // ==================== RENDER TAB CONTENT ====================
+  const renderTabContent = (tab, cores, formatCurrency) => {
+    if (tab === 'exploracao') {
+      return (
+        <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
+          {negocio.exploracao.jazidasAtivas.map((jazida) => {
+            const canExplore = podeExplorar(jazida);
+
+            return (
+              <div
+                key={jazida.id}
+                className={`rounded-lg shadow-md p-4 transition-all ${canExplore ? 'hover:shadow-lg' : 'opacity-60'}`}
+                style={{ backgroundColor: '#ffffff' }}
+              >
+                <div className="flex gap-4 mb-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-2xl">{jazida.icon}</span>
+                      <div>
+                        <h3 className="text-sm font-bold" style={{ color: cores.primary }}>
+                          {jazida.nome}
+                        </h3>
+                        <div
+                          className="text-xs px-2 py-1 rounded text-white inline-block capitalize"
+                          style={{ backgroundColor: getMineralTypeColor(jazida.tipo) }}
+                        >
+                          {jazida.tipo}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 mb-3">
+                      <div className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3 text-gray-500" />
+                        <span className="text-xs text-gray-600">{jazida.localizacao}</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-gray-600">Investimento:</span>
+                        <span className="font-bold text-red-600">{formatCurrency(jazida.custo)}</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-gray-600">Produção:</span>
+                        <span className="font-bold text-green-600">{jazida.toneladas} ton</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-gray-600">Duração:</span>
+                        <span className="font-semibold">{jazida.duracao} dias</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex-1">
+                    <div className="space-y-1 mb-3">
+                      <div className="text-xs text-gray-600 mb-1">Equipamentos necessários:</div>
+                      {Object.entries(jazida.requisitos).map(([equip, qtd]) => (
+                        <div key={equip} className="flex justify-between text-xs">
+                          <span className="capitalize">{equip.replace(/_/g, ' ')}:</span>
+                          <span className={
+                            (negocio.equipamentos.maquinarios[equip] || 0) >= qtd 
+                              ? 'text-green-600 font-semibold' 
+                              : 'text-red-600 font-semibold'
+                          }>
+                            {negocio.equipamentos.maquinarios[equip] || 0}/{qtd}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-xs mb-3 p-2 bg-gray-50 rounded text-gray-600">
+                  {jazida.descricao}
+                </div>
+
+                <button
+                  onClick={() => {
+                    if (canExplore) {
+                      setJazidaSelecionada(jazida);
+                      setShowExplorationModal(true);
+                    }
+                  }}
+                  disabled={!canExplore}
+                  className="w-full py-3 rounded font-bold text-white text-sm transition-colors"
+                  style={{
+                    backgroundColor: canExplore ? cores.accent : '#6c757d',
+                    cursor: canExplore ? 'pointer' : 'not-allowed'
+                  }}
+                >
+                  {negocio.exploracao.exploracaoAtual
+                    ? 'Exploração em Andamento'
+                    : !canExplore
+                      ? 'Requisitos Insuficientes'
+                      : 'Iniciar Exploração'
+                  }
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    if (tab === 'mercado') {
+      const ofertasDisponiveis = negocio.mercado.ofertasAtivas.filter(
+        (offer) => !(negocio.mercado.vendasRealizadas || []).includes(offer.id)
+      );
+
+      return (
+        <div className="grid grid-cols-4 gap-4 w-full mx-auto text-center">
+          {ofertasDisponiveis.map((offer) => (
+            <div key={offer.id} className="bg-white rounded-lg p-4 shadow-md">
+              <h3 className="font-bold text-gray-800 mb-2 capitalize text-3xl">
+                {getMineralIcon(offer.name)}
+              </h3>
+              <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
+              <p className="text-sm mb-1">{offer.toneladas} toneladas</p>
+              <p className="text-xs text-gray-500 mb-3">
+                {new Intl.NumberFormat('pt-BR', { 
+                  style: 'currency', 
+                  currency: 'BRL', 
+                  minimumFractionDigits: 0 
+                }).format(offer.pricePerTon)}/ton
+              </p>
+              <button
+                onClick={() => handleVender(offer)}
+                className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700 transition-colors"
+              >
+                Vender por {new Intl.NumberFormat('pt-BR', { 
+                  style: 'currency', 
+                  currency: 'BRL', 
+                  minimumFractionDigits: 0 
+                }).format(offer.totalPrice)}
+              </button>
+            </div>
+          ))}
+
+          {ofertasDisponiveis.length === 0 && (
+            <p className="col-span-4 text-white text-lg mt-4 bg-white/20 p-4 rounded-lg">
+              ✅ Todos os compradores já foram atendidos neste ciclo!
+            </p>
+          )}
+        </div>
+      );
+    }
+
+    if (tab === 'equipamentos') {
+      return (
+        <div className="grid grid-cols-3 gap-4 max-w-5xl mx-auto">
+          {equipamentosDisponiveis.map((equipamento, index) => (
+            <div key={index} className="bg-white rounded-lg p-4 shadow-md">
+              <div className="text-center mb-3">
+                <div className="text-3xl mb-2">{getEquipmentIcon(equipamento.tipo)}</div>
+                <h3 className="font-bold text-gray-800 text-sm">{equipamento.nome}</h3>
+                <p className="text-xs text-gray-500 mb-1">{equipamento.categoria}</p>
+                <p className="text-xs text-gray-600 mt-2">
+                  Você possui: <span className="font-bold">{negocio.equipamentos.maquinarios[equipamento.tipo] || 0}</span>
+                </p>
+              </div>
+              <div
+                className="py-2 px-3 rounded font-bold text-white text-sm text-center mb-3"
+                style={{ backgroundColor: cores.primary }}
+              >
+                {formatCurrency(equipamento.preco)}
+              </div>
+              <button
+                onClick={() => handleComprarEquipamento(equipamento)}
+                disabled={economiaSetores.saldo < equipamento.preco}
+                className="w-full py-2 px-3 rounded text-sm font-bold text-white transition-colors"
+                style={{
+                  backgroundColor: economiaSetores.saldo >= equipamento.preco ? '#10b981' : '#6c757d',
+                  cursor: economiaSetores.saldo >= equipamento.preco ? 'pointer' : 'not-allowed'
+                }}
+              >
+                Comprar
+              </button>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    if (tab === 'estoque') {
+      const estoqueTotal = Object.values(negocio.estoque.minerios).reduce((a, b) => a + b, 0);
+      const percentualOcupado = ((estoqueTotal / negocio.estoque.capacidade) * 100).toFixed(1);
+
+      return (
+        <div>
+          <div className="text-center text-white mb-6 bg-white/20 rounded-lg p-4">
+            <p className="text-xl font-bold mb-2">Capacidade do Estoque</p>
+            <p className="text-2xl">{estoqueTotal} / {negocio.estoque.capacidade} toneladas</p>
+            <p className="text-sm opacity-80 mt-1">{percentualOcupado}% ocupado</p>
+            
+            <div className="w-full bg-white/30 rounded-full h-3 mt-3">
+              <div 
+                className="bg-amber-400 h-3 rounded-full transition-all duration-300"
+                style={{ width: `${percentualOcupado}%` }}
+              ></div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-6">
+            {Object.entries(negocio.estoque.minerios).map(([type, qtd]) => (
+              <div key={type} className="text-center text-white bg-white/20 rounded-xl p-6 hover:bg-white/30 transition-colors">
+                <h3 className="text-4xl mb-3">{getMineralIcon(type)}</h3>
+                <h3 className="text-2xl font-bold mb-2 capitalize">{type}</h3>
+                <div className="text-lg mb-3 opacity-80">{qtd} toneladas</div>
+                {qtd === 0 && (
+                  <p className="text-xs opacity-60">Estoque vazio</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  const totalEquipamentos = Object.values(negocio.equipamentos.maquinarios).reduce((a, b) => a + b, 0);
+  const estoqueTotal = Object.values(negocio.estoque.minerios).reduce((a, b) => a + b, 0);
+
+  const tabs = [
+    { id: 'exploracao', label: 'Exploração', icon: HardHat, info: null },
+    { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
+    { id: 'equipamentos', label: 'Equipamentos', icon: Truck, info: `${totalEquipamentos} total` },
+    { id: 'estoque', label: 'Estoque', icon: Package, info: `${estoqueTotal} ton` }
+  ];
+
+  const exploracaoPronta = negocio.exploracao.exploracaoAtual && 
+    dados.dia >= negocio.exploracao.exploracaoAtual.diaFim;
+
+  const negocioConfig = {
+    nome: 'Mineradora',
+    cores: SETORES_CONFIG.industria.cores
+  };
+
+  const diasRestantesExploracao = Math.max(0, negocio.exploracao.proximoCiclo - dados.dia);
+  const diasRestantesMercado = Math.max(0, negocio.mercado.proximoCiclo - dados.dia);
+
+  const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', {
+    style: 'currency', currency: 'BRL', minimumFractionDigits: 0
+  }).format(value);
+
+  return (
+    <>
+      <BaseBusinessInterface
+        negocio={negocioConfig}
+        tabs={tabs}
+        renderTabContent={renderTabContent}
+        headerExtra={
+          negocio.exploracao.exploracaoAtual && (
+            <div className="bg-white bg-opacity-20 rounded-lg p-3 text-white text-sm">
+              {exploracaoPronta ? (
+                <div className="flex items-center justify-between">
+                  <span className="text-base">
+                    ⛏️ <strong>{negocio.exploracao.exploracaoAtual.nome}</strong> - Extração concluída!
+                  </span>
+                  <button
+                    onClick={handleColetarMinerio}
+                    className="px-4 py-2 rounded font-bold bg-green-500 hover:bg-green-600 text-white transition-colors"
+                  >
+                    Coletar {negocio.exploracao.exploracaoAtual.toneladas} ton
+                  </button>
+                </div>
+              ) : (
+                <div className="text-center">
+                  ⚙️ Explorando <strong>{negocio.exploracao.exploracaoAtual.nome}</strong> — Conclusão no dia <strong>{negocio.exploracao.exploracaoAtual.diaFim}</strong>
+                  <div className="text-xs opacity-80 mt-1">
+                    ({negocio.exploracao.exploracaoAtual.diaFim - dados.dia} dias restantes)
+                  </div>
+                </div>
+              )}
+            </div>
+          )
+        }
+        footerExtra={(tab) => {
+          if (tab === 'exploracao') {
+            return diasRestantesExploracao === 0 
+              ? `🔄 Novas jazidas disponíveis!` 
+              : `Próximo ciclo de jazidas em ${diasRestantesExploracao} dias`;
+          }
+          if (tab === 'mercado') {
+            return diasRestantesMercado === 0 
+              ? `🔄 Novos compradores disponíveis!` 
+              : `Próximo ciclo de mercado em ${diasRestantesMercado} dias`;
+          }
+          return null;
+        }}
+      />
+
+      {/* Modal de Confirmação */}
+      {showExplorationModal && jazidaSelecionada && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-6 max-w-lg w-full mx-4">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">
+              Confirmar Exploração
+            </h3>
+
+            <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+              <h4 className="font-bold text-gray-800 mb-2">
+                {jazidaSelecionada.icon} {jazidaSelecionada.nome}
+              </h4>
+              <p className="text-sm text-gray-600 mb-3">{jazidaSelecionada.descricao}</p>
+              <div className="space-y-1 text-sm">
+                <div className="flex justify-between">
+                  <span>Investimento:</span>
+                  <span className="font-bold text-red-600">{formatCurrency(jazidaSelecionada.custo)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Produção estimada:</span>
+                  <span className="font-bold text-green-600">{jazidaSelecionada.toneladas} toneladas</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Duração:</span>
+                  <span className="font-semibold">{jazidaSelecionada.duracao} dias</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-6 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertTriangle className="w-4 h-4 text-yellow-600" />
+                <span className="text-sm font-medium text-yellow-800">Atenção</span>
+              </div>
+              <p className="text-sm text-yellow-700">
+                O valor de {formatCurrency(jazidaSelecionada.custo)} será debitado imediatamente.
+                Você receberá {jazidaSelecionada.toneladas} toneladas de {jazidaSelecionada.tipo} após a conclusão da extração.
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowExplorationModal(false);
+                  setJazidaSelecionada(null);
+                }}
+                className="flex-1 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-xl font-bold transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => handleIniciarExploracao(jazidaSelecionada)}
+                className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors"
+              >
+                Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 // ==================== APP PRINCIPAL ====================
 
 const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
@@ -3990,6 +4963,17 @@ const App = () => {
                 <img src={terraplanagem} />
               </button>
             }
+            {dados.imobiliario.edificios[12].quantidade > 0 &&
+              <button
+                onClick={() => setNegocioAtivo('mineradora')}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'terraplanagem'
+                  ? 'bg-[#6666FF] text-white border solid'
+                  : 'bg-[#350973] text-gray-700'
+                  }`}
+              >
+                <img src={mineradora} />
+              </button>
+            }
           </div>
         </div>
 
@@ -4002,6 +4986,7 @@ const App = () => {
           {negocioAtivo === 'smartphone' && <FabricaSmartphonesNegocio />}
           {negocioAtivo === 'construtora' && <ConstrutoraInfraestruturaNegocio />}
           {negocioAtivo === 'terraplanagem' && <TerraplagagemPavimentacaoNegocio />}
+          {negocioAtivo === 'mineradora' && <MineradoraNegocio />}
         </div>
       </div>
     </div>

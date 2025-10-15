@@ -11,6 +11,8 @@ export default function Buttons() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
 
+
+ 
     return (
         <div className="flex items-center w-full rounded-[20px] h-full">
             <div className="flex place-content-around items-center h-full gap-[10px] w-[100%]">
