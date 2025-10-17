@@ -31,6 +31,11 @@ const CentraldeDadosProvider = ({ children }) => {
       head: "",
       content: ""
     },
+    modalAlert: {
+      estadoModal: false,
+      head: "",
+      content: ""
+    },
     vision: {
       visionAtual: "dashboard",
     },

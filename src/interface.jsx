@@ -22,7 +22,7 @@ import Economys from "./components/Economys.jsx";
 import RaffledBuildings from "./components/RaffledBuildings.jsx";
 import { CardSpecials } from "./components/cardsSpecials.jsx"
 import { TaxesYear } from "./components/TaxesYear.jsx";
-
+import ModalAlert from "./components/ModalAlert.jsx";
 import PatrimonioInterface from "./components/PatrimonioInterface.jsx";
 
 
@@ -50,6 +50,7 @@ function Interface() {
             <Events />
             <Employees />
             <Notificação />
+            <ModalAlert/>
             <div className="w-[20vw] h-[100vh] flex items-center justify-around">
                 <Buy />
             </div>
