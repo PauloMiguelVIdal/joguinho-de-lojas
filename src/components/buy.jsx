@@ -97,10 +97,30 @@ export default function Buy() {
   };
 
   const GradientBox = styled(Box)({
-    background: "linear-gradient(to left, #6411D9, #F27405)",
+    background: "linear-gradient(to left, #F27405, #F27405)",
     borderRadius: 5,
     padding: 8,
   });
+
+const podeComprarTerreno =
+    dados.terrenos.quantidade >=
+      dados.terrenos.quantidadeNecTerreno * quantidadeTerrenos &&
+    economiaSetores.saldo >= dados.terrenos.preçoConstrução * quantidadeTerrenos;
+
+  const podeComprarLojaP =
+    dados.terrenos.quantidade >=
+      dados.lojasP.quantidadeNecTerreno * quantidadeLojasP &&
+    economiaSetores.saldo >= dados.lojasP.preçoConstrução * quantidadeLojasP;
+
+    const podeComprarLojaM =
+    dados.terrenos.quantidade >=
+      dados.lojasM.quantidadeNecTerreno * quantidadeLojasM &&
+    economiaSetores.saldo >= dados.lojasM.preçoConstrução * quantidadeLojasM;
+
+    const podeComprarLojaG =
+    dados.terrenos.quantidade >=
+      dados.lojasG.quantidadeNecTerreno * quantidadeLojasG &&
+    economiaSetores.saldo >= dados.lojasG.preçoConstrução * quantidadeLojasG;
 
   // Comprar Loja P
   const ComprarLojaP = () => {
@@ -122,12 +142,12 @@ export default function Buy() {
       economiaSetores.saldo <
       dados.lojasP.preçoConstrução * quantidadeLojasP
     ) {
-            atualizarDados("modalAlert", {
+      atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
         head: "Você não tem Saldo suficiente",
         content: "Junte maior quantidade de saldo para realizar essa ação.",
-      });;
+      });
     } else {
       atualizarDados("lojasP", {
         ...dados.lojasP,
@@ -152,7 +172,7 @@ export default function Buy() {
       dados.terrenos.quantidade <
       dados.lojasM.quantidadeNecTerreno * quantidadeLojasM
     ) {
-        atualizarDados("modalAlert", {
+      atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
         head: "Você não tem Terrenos suficiente",
@@ -163,12 +183,12 @@ export default function Buy() {
       economiaSetores.saldo <
       dados.lojasM.preçoConstrução * quantidadeLojasM
     ) {
-                atualizarDados("modalAlert", {
+      atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
         head: "Você não tem Saldo suficiente",
         content: "Junte maior quantidade de saldo para realizar essa ação.",
-      });;
+      });
     } else {
       atualizarDados("lojasM", {
         ...dados.lojasM,
@@ -193,7 +213,7 @@ export default function Buy() {
       dados.terrenos.quantidade <
       dados.lojasG.quantidadeNecTerreno * quantidadeLojasG
     ) {
-         atualizarDados("modalAlert", {
+      atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
         head: "Você não tem Terrenos suficiente",
@@ -204,12 +224,12 @@ export default function Buy() {
       economiaSetores.saldo <
       dados.lojasG.preçoConstrução * quantidadeLojasG
     ) {
-                 atualizarDados("modalAlert", {
+      atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
         head: "Você não tem Saldo suficiente",
         content: "Junte maior quantidade de saldo para realizar essa ação.",
-      });;
+      });
     } else {
       atualizarDados("lojasG", {
         ...dados.lojasG,
@@ -234,12 +254,12 @@ export default function Buy() {
       economiaSetores.saldo <
       dados.terrenos.preçoConstrução * quantidadeTerrenos
     ) {
-                atualizarDados("modalAlert", {
+      atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
         head: "Você não tem Saldo suficiente",
         content: "Junte maior quantidade de saldo para realizar essa ação.",
-      });;
+      });
     } else {
       atualizarDados("terrenos", {
         ...dados.terrenos,
@@ -409,9 +429,12 @@ export default function Buy() {
        
         </div>`}
                 >
-                  <Box
+  <Box
+                    style={getBotaoCompraStyle({
+                      podeComprar: podeComprarTerreno,
+                    })}
                     sx={{
-                      backgroundColor: "#F27405",
+                      // backgroundColor: "#F27405",
                       flexGrow: 1,
                       aspectRatio: "1",
                       borderRadius: "10px",
@@ -422,12 +445,12 @@ export default function Buy() {
                   >
                     <IconButton
                       onClick={ComprarTerreno}
+                      tipo="lojasP"
                       sx={{
                         width: { xs: 60, sm: 80 },
                         height: { xs: 60, sm: 80 },
                         borderRadius: "10px",
                         "&:hover": {
-                          backgroundColor: "#E56100",
                           transform: "scale(1.05)",
                         },
                         "&:active": { transform: "scale(0.95)" },
@@ -765,8 +788,11 @@ export default function Buy() {
         </div>`}
                 >
                   <Box
+                    style={getBotaoCompraStyle({
+                      podeComprar: podeComprarLojaP,
+                    })}
                     sx={{
-                      backgroundColor: "#F27405",
+                      // backgroundColor: "#F27405",
                       flexGrow: 1,
                       aspectRatio: "1",
                       borderRadius: "10px",
@@ -777,12 +803,12 @@ export default function Buy() {
                   >
                     <IconButton
                       onClick={ComprarLojaP}
+                      tipo="lojasP"
                       sx={{
                         width: { xs: 60, sm: 80 },
                         height: { xs: 60, sm: 80 },
                         borderRadius: "10px",
                         "&:hover": {
-                          backgroundColor: "#E56100",
                           transform: "scale(1.05)",
                         },
                         "&:active": { transform: "scale(0.95)" },
@@ -1032,8 +1058,11 @@ export default function Buy() {
         </div>`}
                 >
                   <Box
+                    style={getBotaoCompraStyle({
+                      podeComprar: podeComprarLojaM,
+                    })}
                     sx={{
-                      backgroundColor: "#F27405",
+                      // backgroundColor: "#F27405",
                       flexGrow: 1,
                       aspectRatio: "1",
                       borderRadius: "10px",
@@ -1044,12 +1073,12 @@ export default function Buy() {
                   >
                     <IconButton
                       onClick={ComprarLojaM}
+                      tipo="lojasP"
                       sx={{
                         width: { xs: 60, sm: 80 },
                         height: { xs: 60, sm: 80 },
                         borderRadius: "10px",
                         "&:hover": {
-                          backgroundColor: "#E56100",
                           transform: "scale(1.05)",
                         },
                         "&:active": { transform: "scale(0.95)" },
@@ -1298,9 +1327,12 @@ export default function Buy() {
           <p style="margin-top:4px;">Precisa de 3 imóveis médios para construir.</p>
         </div>`}
                 >
-                  <Box
+                   <Box
+                    style={getBotaoCompraStyle({
+                      podeComprar: podeComprarLojaG,
+                    })}
                     sx={{
-                      backgroundColor: "#F27405",
+                      // backgroundColor: "#F27405",
                       flexGrow: 1,
                       aspectRatio: "1",
                       borderRadius: "10px",
@@ -1311,12 +1343,12 @@ export default function Buy() {
                   >
                     <IconButton
                       onClick={ComprarLojaG}
+                      tipo="lojasP"
                       sx={{
                         width: { xs: 60, sm: 80 },
                         height: { xs: 60, sm: 80 },
                         borderRadius: "10px",
                         "&:hover": {
-                          backgroundColor: "#E56100",
                           transform: "scale(1.05)",
                         },
                         "&:active": { transform: "scale(0.95)" },
@@ -1571,29 +1603,32 @@ export default function Buy() {
       `}
               >
                 <Box
-                  sx={{
-                    backgroundColor: "#F27405",
-                    flexGrow: 1,
-                    aspectRatio: "1",
-                    borderRadius: "10px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <IconButton
-                    onClick={ComprarTerreno}
+                    style={getBotaoCompraStyle({
+                      podeComprar: podeComprarTerreno,
+                    })}
                     sx={{
-                      width: { xs: 60, sm: 80 },
-                      height: { xs: 60, sm: 80 },
+                      // backgroundColor: "#F27405",
+                      flexGrow: 1,
+                      aspectRatio: "1",
                       borderRadius: "10px",
-                      "&:hover": {
-                        backgroundColor: "#E56100",
-                        transform: "scale(1.05)",
-                      },
-                      "&:active": { transform: "scale(0.95)" },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
+                    <IconButton
+                      onClick={ComprarTerreno}
+                      tipo="lojasP"
+                      sx={{
+                        width: { xs: 60, sm: 80 },
+                        height: { xs: 60, sm: 80 },
+                        borderRadius: "10px",
+                        "&:hover": {
+                          transform: "scale(1.05)",
+                        },
+                        "&:active": { transform: "scale(0.95)" },
+                      }}
+                    >
                     <img
                       src={terrenoImg}
                       alt="terreno"
@@ -1876,30 +1911,33 @@ export default function Buy() {
                 data-tooltip-id="tooltip-lojap-comprar"
                 data-tooltip-html="<div><p>Comprar imóvel pequeno</p><p style='margin-top:4px;'>Precisa de um terreno para poder construir em cima dele</p></div>"
               >
-                <Box
-                  sx={{
-                    backgroundColor: "#F27405",
-                    flexGrow: 1,
-                    aspectRatio: "1",
-                    borderRadius: "10px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <IconButton
-                    onClick={ComprarLojaP}
+                 <Box
+                    style={getBotaoCompraStyle({
+                      podeComprar: podeComprarLojaP,
+                    })}
                     sx={{
-                      width: { xs: 60, sm: 80 },
-                      height: { xs: 60, sm: 80 },
+                      // backgroundColor: "#F27405",
+                      flexGrow: 1,
+                      aspectRatio: "1",
                       borderRadius: "10px",
-                      "&:hover": {
-                        backgroundColor: "#E56100",
-                        transform: "scale(1.05)",
-                      },
-                      "&:active": { transform: "scale(0.95)" },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
+                    <IconButton
+                      onClick={ComprarLojaP}
+                      tipo="lojasP"
+                      sx={{
+                        width: { xs: 60, sm: 80 },
+                        height: { xs: 60, sm: 80 },
+                        borderRadius: "10px",
+                        "&:hover": {
+                          transform: "scale(1.05)",
+                        },
+                        "&:active": { transform: "scale(0.95)" },
+                      }}
+                    >
                     <img
                       src={LojaPImg}
                       alt="loja pequena"
@@ -2184,30 +2222,33 @@ export default function Buy() {
                 data-tooltip-id="tooltip-lojam-comprar"
                 data-tooltip-html="<div><p>Comprar imóvel médio</p><p style='margin-top:4px;'>Precisa de dois terrenos ou mais para construir</p></div>"
               >
-                <Box
-                  sx={{
-                    backgroundColor: "#F27405",
-                    flexGrow: 1,
-                    aspectRatio: "1",
-                    borderRadius: "10px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <IconButton
-                    onClick={ComprarLojaM}
+                 <Box
+                    style={getBotaoCompraStyle({
+                      podeComprar: podeComprarLojaM,
+                    })}
                     sx={{
-                      width: { xs: 60, sm: 80 },
-                      height: { xs: 60, sm: 80 },
+                      // backgroundColor: "#F27405",
+                      flexGrow: 1,
+                      aspectRatio: "1",
                       borderRadius: "10px",
-                      "&:hover": {
-                        backgroundColor: "#E56100",
-                        transform: "scale(1.05)",
-                      },
-                      "&:active": { transform: "scale(0.95)" },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
+                    <IconButton
+                      onClick={ComprarLojaM}
+                      tipo="lojasP"
+                      sx={{
+                        width: { xs: 60, sm: 80 },
+                        height: { xs: 60, sm: 80 },
+                        borderRadius: "10px",
+                        "&:hover": {
+                          transform: "scale(1.05)",
+                        },
+                        "&:active": { transform: "scale(0.95)" },
+                      }}
+                    >
                     <img
                       src={LojaMImg}
                       alt="loja média"
@@ -2490,30 +2531,33 @@ export default function Buy() {
                 data-tooltip-id="tooltip-lojag-comprar"
                 data-tooltip-html="<div><p>Comprar imóvel grande</p><p style='margin-top:4px;'>Precisa de três terrenos ou mais para construir</p></div>"
               >
-                <Box
-                  sx={{
-                    backgroundColor: "#F27405",
-                    flexGrow: 1,
-                    aspectRatio: "1",
-                    borderRadius: "10px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <IconButton
-                    onClick={ComprarLojaG}
+                 <Box
+                    style={getBotaoCompraStyle({
+                      podeComprar: podeComprarLojaG,
+                    })}
                     sx={{
-                      width: { xs: 60, sm: 80 },
-                      height: { xs: 60, sm: 80 },
+                      // backgroundColor: "#F27405",
+                      flexGrow: 1,
+                      aspectRatio: "1",
                       borderRadius: "10px",
-                      "&:hover": {
-                        backgroundColor: "#E56100",
-                        transform: "scale(1.05)",
-                      },
-                      "&:active": { transform: "scale(0.95)" },
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
+                    <IconButton
+                      onClick={ComprarLojaG}
+                      tipo="lojasP"
+                      sx={{
+                        width: { xs: 60, sm: 80 },
+                        height: { xs: 60, sm: 80 },
+                        borderRadius: "10px",
+                        "&:hover": {
+                          transform: "scale(1.05)",
+                        },
+                        "&:active": { transform: "scale(0.95)" },
+                      }}
+                    >
                     <img
                       src={LojaGImg}
                       alt="loja grande"
@@ -2671,4 +2715,17 @@ export default function Buy() {
       </div>
     );
   }
+}
+
+export function getBotaoCompraStyle({ podeComprar }) {
+  return {
+    backgroundColor: podeComprar ? "#F27405" : "#ebac75ff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    fontWeight: 600,
+    cursor: podeComprar ? "pointer" : "pointer",
+    transition: "0.2s",
+    opacity: podeComprar ? 1 : 0.7,
+  };
 }
