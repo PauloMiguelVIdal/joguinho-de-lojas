@@ -5,12 +5,19 @@ import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import despesasImg from "../../public/outrasImagens/despesas.png";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
+import useSound from 'use-sound';
+import audioCoin from "../../public/sounds/cash-register-kaching-376867.mp3"
+
 
 export default function PayTexes() {
   const { dados, atualizarDados, } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
   const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
+
+
+  const [audioPay] = useSound(audioCoin)
+const realizarPag = ()=>{PagarDespesas(),audioPay()}
 
   // Cálculo de impostos diário e mensal
   useEffect(() => {
@@ -493,7 +500,8 @@ useEffect(() => {
         data-tooltip-id="tooltip-despesas"
         data-tooltip-html={tooltipText}
         className="w-[50%] min-h-[50px] aspect-square bg-[#F4CCB6] rounded-[10px] flex items-center justify-center"
-        onClick={PagarDespesas}
+
+        onClick={realizarPag}
       >
         <img className="h-[70%] min-w-[20px] aspect-square" src={despesasImg} />
       </button>

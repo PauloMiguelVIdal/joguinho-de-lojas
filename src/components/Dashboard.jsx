@@ -47,6 +47,11 @@ import BankDetailsInterface from "./BankModel";
 import BankInterface from "./BankInterface.jsx";
 import MicroModel from "./MicroModel.jsx"
 import CorporateFinanceInterface from "./FinançasDashboard.jsx"
+import useSound from 'use-sound';
+import changeSectoryAudio from "../../public/sounds/changeSectoryAudio.mp3"
+import closeAudio from "../../public/sounds/closeAudio.mp3"
+ import openAudio from "../../public/sounds/openAudio.mp3"
+ import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3"
 
 import {
   Chart as ChartJS,
@@ -79,7 +84,10 @@ export default function Dashboard() {
   // const economiaSetor = dados[ativo].economiaSetor.estadoAtual
   // console.log(economiaSetor)
   const vision = dados.vision.visionAtual
-
+const [changeAudio] = useSound(changeSectoryAudio)
+const [buttonCloseAudio] = useSound(closeAudio)
+const [buttonOpenAudio] = useSound(openAudio)
+const [buttonWalletOpenAudio] = useSound(walletOpenAudio)
 
   const setVision = (newVision) => {
     atualizarDados("vision", {
@@ -371,7 +379,7 @@ useEffect(() => {
         >
           <button
             className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
-            onClick={() => setLicencaModal(false)}
+            onClick={() =>{ setLicencaModal(false),buttonCloseAudio()}}
           >
             <img src={fechar} alt="Fechar" className="w-[60%]" />
           </button>
@@ -413,7 +421,7 @@ useEffect(() => {
 
           <button
             className="absolute right-[20px] bottom-[20px] text-white bg-laranja px-[25px] py-[15px] rounded-[40px] fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={() => setModalSell(false)}
+            onClick={() => {setModalSell(false), buttonCloseAudio()}}
           >
             entendido
           </button>
@@ -435,7 +443,7 @@ useEffect(() => {
         >
           <button
             className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
-            onClick={() => setBusinessLicenceModal(false)}
+            onClick={() => {setBusinessLicenceModal(false) ,buttonCloseAudio()}}
           >
             <img src={fechar} alt="Fechar" className="w-[60%]" />
           </button>
@@ -484,7 +492,7 @@ useEffect(() => {
           .map((setor) => (
             <div key={setor.id}>
               <button
-                onClick={() => setAtivo(setor.id)}
+                onClick={() => {setAtivo(setor.id), changeAudio()}}
                 data-tooltip-id={`tooltip-faturado`}
                 data-tooltip-html={setor.id}
                 className={`
@@ -511,7 +519,7 @@ useEffect(() => {
           .map((setor) => (
             <div key={setor.id}>
               <button
-                onClick={() => setAtivo(setor.id)}
+                onClick={() => {setAtivo(setor.id),buttonWalletOpenAudio()}}
                 data-tooltip-id={`tooltip-faturado`}
                 data-tooltip-html={setor.id}
                 className={`
@@ -637,7 +645,7 @@ useEffect(() => {
                         data-tooltip-id="tooltip-licenca"
                         data-tooltip-html="Abrir menu de licenças empresariais"
                         style={{ backgroundColor: setorAtivo.cor3 }}
-                        onClick={() => setBusinessLicenceModal(true)}
+                        onClick={() => {setBusinessLicenceModal(true),buttonOpenAudio()}}
                         className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
                       >
                         <img className="w-[70%]" src={licença} />
@@ -814,7 +822,7 @@ useEffect(() => {
                         data-tooltip-id="tooltip-licenca"
                         data-tooltip-html="Abrir menu de licenças do setor"
                         style={{ backgroundColor: setorAtivo.cor3 }}
-                        onClick={() => setLicencaModal(true)}
+                        onClick={() =>{setLicencaModal(true), buttonOpenAudio()}}
                         className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
                       >
                         <img className="w-[70%]" src={licença} />

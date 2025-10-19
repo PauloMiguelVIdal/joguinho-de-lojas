@@ -18,7 +18,10 @@ import { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
-
+import useSound from 'use-sound';
+import constructorAudio from "../../public/sounds/constructAudio.mp3"
+import alertAudio from "../../public/sounds/alertAudio.mp3"
+import payTerrain from "../../public/sounds/payTerrainAudio.mp3"
 export default function Buy() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
@@ -26,6 +29,10 @@ export default function Buy() {
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
     DadosEconomyGlobalContext
   );
+
+const [buttonConstructAudio] = useSound(constructorAudio)
+const [buttonAlertAudio] = useSound(alertAudio)
+const [buttonPayTerrain] = useSound(payTerrain)
 
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -128,6 +135,7 @@ const podeComprarTerreno =
       dados.terrenos.quantidade <
       dados.lojasP.quantidadeNecTerreno * quantidadeLojasP
     ) {
+      alertAudio()
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
@@ -142,6 +150,8 @@ const podeComprarTerreno =
       economiaSetores.saldo <
       dados.lojasP.preçoConstrução * quantidadeLojasP
     ) {
+      alertAudio()
+
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
@@ -149,6 +159,7 @@ const podeComprarTerreno =
         content: "Junte maior quantidade de saldo para realizar essa ação.",
       });
     } else {
+       buttonConstructAudio()
       atualizarDados("lojasP", {
         ...dados.lojasP,
         quantidade: dados.lojasP.quantidade + quantidadeLojasP,
@@ -172,6 +183,8 @@ const podeComprarTerreno =
       dados.terrenos.quantidade <
       dados.lojasM.quantidadeNecTerreno * quantidadeLojasM
     ) {
+     alertAudio()
+
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
@@ -183,6 +196,8 @@ const podeComprarTerreno =
       economiaSetores.saldo <
       dados.lojasM.preçoConstrução * quantidadeLojasM
     ) {
+      alertAudio()
+
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
@@ -190,6 +205,7 @@ const podeComprarTerreno =
         content: "Junte maior quantidade de saldo para realizar essa ação.",
       });
     } else {
+        buttonConstructAudio()
       atualizarDados("lojasM", {
         ...dados.lojasM,
         quantidade: dados.lojasM.quantidade + quantidadeLojasM,
@@ -213,6 +229,8 @@ const podeComprarTerreno =
       dados.terrenos.quantidade <
       dados.lojasG.quantidadeNecTerreno * quantidadeLojasG
     ) {
+      alertAudio()
+
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
@@ -224,6 +242,8 @@ const podeComprarTerreno =
       economiaSetores.saldo <
       dados.lojasG.preçoConstrução * quantidadeLojasG
     ) {
+      alertAudio()
+
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
@@ -231,6 +251,7 @@ const podeComprarTerreno =
         content: "Junte maior quantidade de saldo para realizar essa ação.",
       });
     } else {
+        buttonConstructAudio()
       atualizarDados("lojasG", {
         ...dados.lojasG,
         quantidade: dados.lojasG.quantidade + quantidadeLojasG,
@@ -254,6 +275,7 @@ const podeComprarTerreno =
       economiaSetores.saldo <
       dados.terrenos.preçoConstrução * quantidadeTerrenos
     ) {
+alertAudio()
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
@@ -261,6 +283,7 @@ const podeComprarTerreno =
         content: "Junte maior quantidade de saldo para realizar essa ação.",
       });
     } else {
+      buttonPayTerrain()
       atualizarDados("terrenos", {
         ...dados.terrenos,
         quantidade: dados.terrenos.quantidade + quantidadeTerrenos,
@@ -268,7 +291,7 @@ const podeComprarTerreno =
       atualizarEco(
         "saldo",
         economiaSetores.saldo -
-          dados.terrenos.preçoConstrução * quantidadeTerrenos
+        dados.terrenos.preçoConstrução * quantidadeTerrenos
       );
     }
   };

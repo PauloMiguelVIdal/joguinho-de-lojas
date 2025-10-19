@@ -37,6 +37,8 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import { useRef } from "react";
 import { createPortal } from "react-dom";
+import useSound from "use-sound";
+import purchaseEdifAudio from "../../public/sounds/purchaseEdifAudio.mp3";
 
 export const CardModal = ({ index }) => {
   const {
@@ -59,6 +61,8 @@ export const CardModal = ({ index }) => {
   //     const economiaSetor = dados[setorAtivo].economiaSetor.estadoAtual
   //     // console.log(economiaSetor)
   // }, [dados[setorAtivo].economiaSetor])
+
+  const [buttonPurchaseEdifAudio] = useSound(purchaseEdifAudio);
 
   const setores = [
     {
@@ -877,14 +881,14 @@ export const CardModal = ({ index }) => {
     const edif = dados?.[setorAtivo]?.edificios?.[index];
     if (!edif) {
       console.error("Edifício não encontrado", { setorAtivo, index, dados });
-            atualizarDados("modalAlert", {
+      atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
         head: "Erro",
         content: "Erro: edifício não encontrado.",
       });
-      return 
-    //   alert("Erro: edifício não encontrado.");
+      return;
+      //   alert("Erro: edifício não encontrado.");
     }
     console.log(
       "Tentando comprar:",
@@ -901,23 +905,22 @@ export const CardModal = ({ index }) => {
     const resultado = verificarLimites(edif, setorAtivo, carteira);
     if (resultado !== true) {
       console.warn("Compra bloqueada:", resultado);
-      
+
       return alert(resultado);
     }
     console.log("Verificações de limite ok");
 
     // 🔹 Verificar saldo
     const custo = Number(edif.custoConstrucao ?? 0);
-    if (economiaSetores.saldo < custo){
-
-        atualizarDados("modalAlert", {
-            ...dados.modalAlert,
-            estadoModal: true,
-            head: "Erro na construção",
-            content: "Você não tem dinheiro suficiente para construir.",
-        });
-        return 
-        // alert("Você não tem dinheiro suficiente para construir.");
+    if (economiaSetores.saldo < custo) {
+      atualizarDados("modalAlert", {
+        ...dados.modalAlert,
+        estadoModal: true,
+        head: "Erro na construção",
+        content: "Você não tem dinheiro suficiente para construir.",
+      });
+      return;
+      // alert("Você não tem dinheiro suficiente para construir.");
     }
 
     // 🔹 Verificar lojas/terrenos
@@ -937,14 +940,14 @@ export const CardModal = ({ index }) => {
       qP > qPAtual ||
       qM > qMAtual ||
       qG > qGAtual
-    ){
-              atualizarDados("modalAlert", {
-            ...dados.modalAlert,
-            estadoModal: true,
-            head: "Falta edifícios base de construção",
-            content: "Você não tem lojas/terrenos suficientes.",
-        });
-        return 
+    ) {
+      atualizarDados("modalAlert", {
+        ...dados.modalAlert,
+        estadoModal: true,
+        head: "Falta edifícios base de construção",
+        content: "Você não tem lojas/terrenos suficientes.",
+      });
+      return;
     }
     //   return alert("Você não tem lojas/terrenos suficientes.");
 
@@ -952,24 +955,24 @@ export const CardModal = ({ index }) => {
     if (edif.construçõesNecessárias?.length) {
       for (const nome of edif.construçõesNecessárias) {
         const res = localizador(nome);
-        if (!res){
-                     atualizarDados("modalAlert", {
+        if (!res) {
+          atualizarDados("modalAlert", {
             ...dados.modalAlert,
             estadoModal: true,
             head: `Falta ${nome} para construir`,
             content: `Construção necessária "${nome}" não encontrada.`,
-              });
-              return
+          });
+          return;
         }
         //   return alert(`Construção necessária "${nome}" não encontrada.`);
-        if (res.edificio.quantidade <= 0){
-                     atualizarDados("modalAlert", {
+        if (res.edificio.quantidade <= 0) {
+          atualizarDados("modalAlert", {
             ...dados.modalAlert,
             estadoModal: true,
             head: `Falta ${nome} para construir`,
             content: `Você precisa de pelo menos 1 unidade de "${nome}".`,
-              });
-              return
+          });
+          return;
         }
         //   return alert(`Você precisa de pelo menos 1 unidade de "${nome}".`);
       }
@@ -979,25 +982,25 @@ export const CardModal = ({ index }) => {
     if (edif.recursoDeConstrução?.length) {
       for (const nome of edif.recursoDeConstrução) {
         const res = localizador(nome);
-        if (!res){
-                     atualizarDados("modalAlert", {
+        if (!res) {
+          atualizarDados("modalAlert", {
             ...dados.modalAlert,
             estadoModal: true,
             head: `Erro ao encontrar a construção`,
             content: `Recurso de construção "${nome}" não encontrado.`,
-              });
-              return
+          });
+          return;
         }
-            
+
         //   return alert(`Recurso de construção "${nome}" não encontrado.`);
-        if (res.edificio.quantidade <= 0){
-                     atualizarDados("modalAlert", {
+        if (res.edificio.quantidade <= 0) {
+          atualizarDados("modalAlert", {
             ...dados.modalAlert,
             estadoModal: true,
             head: `Você precisa ter essa construção`,
             content: `Você precisa de pelo menos 1 unidade de "${nome}".`,
-              });
-              return
+          });
+          return;
         }
 
         //   return alert(`Você precisa de pelo menos 1 unidade de "${nome}".`);
@@ -1006,7 +1009,7 @@ export const CardModal = ({ index }) => {
 
     // === Compra aprovada ===
     console.log("Compra aprovada. Aplicando atualizações...");
-
+    buttonPurchaseEdifAudio();
     // 🔹 1) Deduz saldo
     atualizarEco("saldo", economiaSetores.saldo - custo);
 
@@ -1365,7 +1368,7 @@ export const CardModal = ({ index }) => {
     impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100);
   const valorFatuFinal =
     valorFatu + valorFatu * (acumuladorPowerUpAumFatuRecebe / 100);
-    // * valorEconomiaSetor
+  // * valorEconomiaSetor
   const valorImpostoFixoFinal =
     valorImpostoFixo -
     valorImpostoFixo * (acumuladorPowerUpRedCustoRecebe / 100);
@@ -2471,9 +2474,8 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                   backgroundColor: podeComprar ? "#6411D9" : "#B0A7C0",
                   color: "#fff",
                   cursor: podeComprar ? "pointer" : "not-allowed",
-                 
                 }}
-                 className={` rounded-[20px] w-full fonteBold text-white`}
+                className={` rounded-[20px] w-full fonteBold text-white`}
                 title={!podeComprar ? motivo : ""}
               >
                 Comprar

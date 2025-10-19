@@ -3,13 +3,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import mapa from "../../public/outrasImagens/maps.png";
 import computador from "../../public/outrasImagens/computer-screen.png";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-
+import useSound from 'use-sound';
+import visionAudio from "../../public/sounds/visionAudio.mp3"
 export default function ToggleButton({ corClasse }) {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
   const [toggled, setToggled] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-
+  const [buttonVisionAudio] = useSound(visionAudio)
   const setVision = (newVision) => {
     atualizarDados("vision", {
       ...dados.vision,
@@ -34,6 +35,9 @@ useEffect(()=>{
 ),[dados.vision.
       visionAtual]
 
+      const funcMudar = () =>{
+toggleHandler(),buttonVisionAudio()
+      }
 
   const toggleHandler = () => {
     if (!isAnimating) {
@@ -52,7 +56,7 @@ useEffect(()=>{
   return (
     <div
       className="bg-[#290064] h-[50px] aspect-square rounded-[10px] flex items-center justify-center cursor-pointer"
-      onClick={toggleHandler}
+      onClick={funcMudar}
     >
       <AnimatePresence mode="wait">
         {toggled ? (

@@ -15,7 +15,8 @@ import { Localizador } from "./localizador";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
-
+import upInterpriseAudio from "../../public/sounds/upInterpriseAudio.mp3"
+import useSound from 'use-sound';
 
 export const LicenseModal = ({ setor, nomeLicença, index }) => {
   const { dados, atualizarDados, atualizarDadosProf } = useContext(
@@ -37,7 +38,7 @@ export const LicenseModal = ({ setor, nomeLicença, index }) => {
 
   const setorAtivo = setor;
 
-
+const [buttonUpInterpriseAudio] = useSound(upInterpriseAudio)
 
   const formatarNumero = (num) => {
     if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T"; // Trilhões
@@ -127,6 +128,7 @@ export const LicenseModal = ({ setor, nomeLicença, index }) => {
     ) {
       alert("Você não tem dinheiro suficiente para comprar essa licença");
     } else {
+      buttonUpInterpriseAudio()
       atualizarDadosProf(["licençasSetor", index, "status"], true);
       liberarEdificios();
       console.log("Licença comprada e edifícios liberados");

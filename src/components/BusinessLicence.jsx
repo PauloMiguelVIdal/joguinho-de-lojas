@@ -8,12 +8,17 @@ import limitar from "../../public/outrasImagens/limite.png";
 import soma from "../../public/outrasImagens/Soma.png"
 import setoresImg from "../../public/outrasImagens/setores.png"
 import diversidade from "../../public/outrasImagens/diversidade.png"
+import upInterpriseAudio from "../../public/sounds/upInterpriseAudio.mp3"
+import useSound from 'use-sound';
+
+
 
 export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
   const { dados, atualizarDadosProf } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEcoProf } = useContext(DadosEconomyGlobalContext);
 
   const nivelEmpresa = economiaSetores.porteEmpresa[index]; // pega o nível atual do array
+const [buttonUpInterpriseAudio] = useSound(upInterpriseAudio)
 
   const formatarNumero = (num) => {
     if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
@@ -83,7 +88,7 @@ export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
 
     // Libera os edifícios (já desconta o saldo lá dentro)
     liberaProximoNivel();
-
+buttonUpInterpriseAudio()
     console.log("Licença comprada e edifícios liberados");
   };
 
