@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import mapa from "../../public/outrasImagens/maps.png";
 import computador from "../../public/outrasImagens/computer-screen.png";
@@ -16,6 +16,24 @@ export default function ToggleButton({ corClasse }) {
       visionAtual: newVision,
     });
   };
+
+useEffect(()=>{
+  if(dados.vision.
+    visionAtual==="mapa" && toggled==="dashbord"){
+      setToggled("mapa")
+     setIsAnimating(true)
+    }
+    else{
+        if(dados.vision.
+    visionAtual==="dashbord" && toggled==="mapa"){
+      setToggled("dashbord")
+     setIsAnimating(true)
+    }
+    }
+  }
+),[dados.vision.
+      visionAtual]
+
 
   const toggleHandler = () => {
     if (!isAnimating) {

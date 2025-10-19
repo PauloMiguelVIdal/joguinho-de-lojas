@@ -2586,7 +2586,7 @@ const BankSelection = () => {
 
         {/* Container de cartões */}
         <div
-          style={{ maxHeight: ` calc(${valueMaxH}vh - 50px` }}
+          style={{ maxHeight: ` calc(80vh - 50px` }}
         className={`flex-1 overflow-y-auto px-6  scrollbar-custom`}
       >
           <div className="w-full grid pt-[10px] gap-6 pb-6">
@@ -2646,7 +2646,7 @@ const BankSelection = () => {
         <div>
           <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
           <button
-            onClick={() => setBanksModal(false)}
+            onClick={() => setVision("mapa")}
             data-tooltip-id="tooltip-faturado"
             data-tooltip-html="Voltar"
             className="h-full w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
