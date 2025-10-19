@@ -22,6 +22,7 @@ import useSound from 'use-sound';
 import constructorAudio from "../../public/sounds/constructAudio.mp3"
 import alertAudio from "../../public/sounds/alertAudio.mp3"
 import payTerrain from "../../public/sounds/payTerrainAudio.mp3"
+import qtdAudio from "../../public/sounds/qtdAudio.mp3"
 export default function Buy() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
@@ -33,6 +34,7 @@ export default function Buy() {
 const [buttonConstructAudio] = useSound(constructorAudio)
 const [buttonAlertAudio] = useSound(alertAudio)
 const [buttonPayTerrain] = useSound(payTerrain)
+const [buttonQtdAudio] = useSound(qtdAudio)
 
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -62,35 +64,50 @@ const [buttonPayTerrain] = useSound(payTerrain)
   const [quantidadeLojasM, setQuantidadeLojasM] = useState(1);
   const [quantidadeLojasG, setQuantidadeLojasG] = useState(1);
 
-  const AumentarQuantidadeTerrenos = () =>
+  const AumentarQuantidadeTerrenos = () =>{
+
+    buttonQtdAudio()
     setQuantidadeTerrenos(quantidadeTerrenos + 1);
-  const AumentarQuantidadeLojasP = () =>
+  }
+  const AumentarQuantidadeLojasP = () =>{
+  buttonQtdAudio()
     setQuantidadeLojasP(quantidadeLojasP + 1);
-  const AumentarQuantidadeLojasM = () =>
-    setQuantidadeLojasM(quantidadeLojasM + 1);
-  const AumentarQuantidadeLojasG = () =>
+  }
+    const AumentarQuantidadeLojasM = () =>{
+  buttonQtdAudio()
+      setQuantidadeLojasM(quantidadeLojasM + 1);
+    }
+  const AumentarQuantidadeLojasG = () =>{
+  buttonQtdAudio()
     setQuantidadeLojasG(quantidadeLojasG + 1);
+  }
 
   const DiminuirQuantidadeLojasP = () => {
+      
     if (quantidadeLojasP === 1) {
       return;
     } else {
+       buttonQtdAudio()
       setQuantidadeLojasP(quantidadeLojasP - 1);
     }
   };
 
   const DiminuirQuantidadeLojasM = () => {
+    
     if (quantidadeLojasM === 1) {
       return;
     } else {
+        buttonQtdAudio()
       setQuantidadeLojasM(quantidadeLojasM - 1);
     }
   };
 
   const DiminuirQuantidadeLojasG = () => {
+ 
     if (quantidadeLojasG === 1) {
       return;
     } else {
+        buttonQtdAudio()
       setQuantidadeLojasG(quantidadeLojasG - 1);
     }
   };
@@ -99,6 +116,7 @@ const [buttonPayTerrain] = useSound(payTerrain)
     if (quantidadeTerrenos === 1) {
       return;
     } else {
+        buttonQtdAudio()
       setQuantidadeTerrenos(quantidadeTerrenos - 1);
     }
   };

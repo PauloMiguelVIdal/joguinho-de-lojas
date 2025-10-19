@@ -10729,7 +10729,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Refinaria De Biocombustíveis",
           desc: "Transforma biomassa em biocombustíveis.",
           licençaLiberado: {
-            licença: "Licença de Refinaria",
+            licença: "Licença De Refinaria",
             liberado: false,
           },
           custoConstrucao: 750000,
@@ -10906,7 +10906,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Refinaria",
           desc: "Processa petróleo em combustíveis e derivados.",
           licençaLiberado: {
-            licença: "Licença de Refinaria",
+            licença: "Licença De Refinaria",
             liberado: false,
           },
           custoConstrucao: 1100000,
@@ -11099,7 +11099,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Biofábrica",
           desc: "Produz bioprodutos e materiais orgânicos.",
           licençaLiberado: {
-            licença: "Licença de Refinaria",
+            licença: "Licença De Refinaria",
             liberado: false,
           },
           custoConstrucao: 1460000,
