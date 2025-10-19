@@ -80,7 +80,7 @@ export default function Taxes() {
         data-tooltip-html="Faturamento total acumulado no mês atual"
         className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]"
       >
-        <h1 className="fonteBold text-white">Faturado</h1>
+        <h1 className="fonteBold text-white text-[20px]">R$ +</h1>
         <h1 className="fonteBold text-white text-[20px]">
           {formatarNumero(dados.faturamento.faturamentoMensal)}
         </h1>
@@ -92,7 +92,7 @@ export default function Taxes() {
         data-tooltip-html="Despesas mensais referentes a impostos do período"
         className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]"
       >
-        <h1 className="fonteBold text-white">Despesas</h1>
+        <h1 className="fonteBold text-white text-[20px]">R$ -</h1>
         <h1 className="fonteBold text-white text-[20px]">
           {formatarNumero(economiaSetores.imposto.impostoMensal)}
         </h1>
@@ -104,9 +104,9 @@ export default function Taxes() {
         data-tooltip-html="Lucro líquido mensal após pagamento dos impostos"
         className="rounded-[5px] bg-gradient-to-r from-[#350973] to-[#6411D9] w-[90%] flex items-center place-content-between pl-[10px] pr-[15px]"
       >
-        <h1 className="fonteBold text-white">Lucro</h1>
+        <h1 className="fonteBold text-white text-[20px]">R$</h1>
         <h1 className="fonteBold text-white text-[20px]">
-          {formatarNumero(dados.faturamento.faturamentoMensal - economiaSetores.imposto.impostoMensal)}
+          {formatarNumero((dados.faturamento.faturamentoMensal - economiaSetores.imposto.impostoMensal).toFixed(2))}
         </h1>
       </div>
       {dados.dia > 270 && (

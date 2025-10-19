@@ -18,23 +18,24 @@ import { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
-import useSound from 'use-sound';
-import constructorAudio from "../../public/sounds/constructAudio.mp3"
-import alertAudio from "../../public/sounds/alertAudio.mp3"
-import payTerrain from "../../public/sounds/payTerrainAudio.mp3"
-import qtdAudio from "../../public/sounds/qtdAudio.mp3"
+import useSound from "use-sound";
+import constructorAudio from "../../public/sounds/constructAudio.mp3";
+import alertAudio from "../../public/sounds/alertAudio.mp3";
+import payTerrain from "../../public/sounds/payTerrainAudio.mp3";
+import qtdAudio from "../../public/sounds/qtdAudio.mp3";
+import { useHotkeys } from "react-hotkeys-hook";
 export default function Buy() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-
+  const [isNKeyDown, setIsNKeyDown] = useState(false);
   const vision = dados.vision.visionAtual;
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
     DadosEconomyGlobalContext
   );
 
-const [buttonConstructAudio] = useSound(constructorAudio)
-const [buttonAlertAudio] = useSound(alertAudio)
-const [buttonPayTerrain] = useSound(payTerrain)
-const [buttonQtdAudio] = useSound(qtdAudio)
+  const [buttonConstructAudio] = useSound(constructorAudio);
+  const [buttonAlertAudio] = useSound(alertAudio);
+  const [buttonPayTerrain] = useSound(payTerrain);
+  const [buttonQtdAudio] = useSound(qtdAudio);
 
   const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -48,6 +49,147 @@ const [buttonQtdAudio] = useSound(qtdAudio)
       borderRadius: "6px",
     },
   }));
+
+  useHotkeys(
+    "q",
+    () => {
+      if (
+       
+        dados.dia <= 1 ||
+        dados.modal.estadoModal ||
+        dados.modalAlert.estadoModal ||
+        dados.modalDespesas.estadoModal ||
+        dados.modalEconomiaGlobal.estadoModal ||
+        isNKeyDown // 2. Se já estiver pressionada, ignora o auto-repeat
+      )
+        return;
+      setIsNKeyDown(true);
+      ComprarTerreno();
+    },
+    {
+      keydown: true,
+      keyup: false,
+      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    }
+  );
+  useHotkeys(
+    "q",
+    () => {
+      setIsNKeyDown(false);
+    },
+    {
+      keydown: false,
+      keyup: true,
+      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    }
+  );
+
+
+  useHotkeys(
+    "w",
+    () => {
+      if (
+       
+        dados.dia <= 1 ||
+        dados.modal.estadoModal ||
+        dados.modalAlert.estadoModal ||
+        dados.modalDespesas.estadoModal ||
+        dados.modalEconomiaGlobal.estadoModal ||
+        isNKeyDown // 2. Se já estiver pressionada, ignora o auto-repeat
+      )
+        return;
+      setIsNKeyDown(true);
+      ComprarLojaP();
+    },
+    {
+      keydown: true,
+      keyup: false,
+      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    }
+  );
+  useHotkeys(
+    "w",
+    () => {
+      setIsNKeyDown(false);
+    },
+    {
+      keydown: false,
+      keyup: true,
+      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    }
+  );
+
+
+  useHotkeys(
+    "e",
+    () => {
+      if (
+       
+        dados.dia <= 1 ||
+        dados.modal.estadoModal ||
+        dados.modalAlert.estadoModal ||
+        dados.modalDespesas.estadoModal ||
+        dados.modalEconomiaGlobal.estadoModal ||
+        isNKeyDown // 2. Se já estiver pressionada, ignora o auto-repeat
+      )
+        return;
+      setIsNKeyDown(true);
+      ComprarLojaM();
+    },
+    {
+      keydown: true,
+      keyup: false,
+      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    }
+  );
+  useHotkeys(
+    "e",
+    () => {
+      setIsNKeyDown(false);
+    },
+    {
+      keydown: false,
+      keyup: true,
+      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    }
+  );
+
+useHotkeys(
+    "r",
+    () => {
+      if (
+       
+        dados.dia <= 1 ||
+        dados.modal.estadoModal ||
+        dados.modalAlert.estadoModal ||
+        dados.modalDespesas.estadoModal ||
+        dados.modalEconomiaGlobal.estadoModal ||
+        isNKeyDown // 2. Se já estiver pressionada, ignora o auto-repeat
+      )
+        return;
+      setIsNKeyDown(true);
+      ComprarLojaG();
+    },
+    {
+      keydown: true,
+      keyup: false,
+      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    }
+  );
+  useHotkeys(
+    "r",
+    () => {
+      setIsNKeyDown(false);
+    },
+    {
+      keydown: false,
+      keyup: true,
+      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    }
+  );
+
+
+
 
   const teste = dados.terrenos.faturamentoTotal;
   // console.log(teste)
@@ -64,50 +206,46 @@ const [buttonQtdAudio] = useSound(qtdAudio)
   const [quantidadeLojasM, setQuantidadeLojasM] = useState(1);
   const [quantidadeLojasG, setQuantidadeLojasG] = useState(1);
 
-  const AumentarQuantidadeTerrenos = () =>{
-
-    buttonQtdAudio()
+  const AumentarQuantidadeTerrenos = () => {
+    buttonQtdAudio();
     setQuantidadeTerrenos(quantidadeTerrenos + 1);
-  }
-  const AumentarQuantidadeLojasP = () =>{
-  buttonQtdAudio()
+  };
+  const AumentarQuantidadeLojasP = () => {
+    buttonQtdAudio();
     setQuantidadeLojasP(quantidadeLojasP + 1);
-  }
-    const AumentarQuantidadeLojasM = () =>{
-  buttonQtdAudio()
-      setQuantidadeLojasM(quantidadeLojasM + 1);
-    }
-  const AumentarQuantidadeLojasG = () =>{
-  buttonQtdAudio()
+  };
+  const AumentarQuantidadeLojasM = () => {
+    buttonQtdAudio();
+    setQuantidadeLojasM(quantidadeLojasM + 1);
+  };
+  const AumentarQuantidadeLojasG = () => {
+    buttonQtdAudio();
     setQuantidadeLojasG(quantidadeLojasG + 1);
-  }
+  };
 
   const DiminuirQuantidadeLojasP = () => {
-      
     if (quantidadeLojasP === 1) {
       return;
     } else {
-       buttonQtdAudio()
+      buttonQtdAudio();
       setQuantidadeLojasP(quantidadeLojasP - 1);
     }
   };
 
   const DiminuirQuantidadeLojasM = () => {
-    
     if (quantidadeLojasM === 1) {
       return;
     } else {
-        buttonQtdAudio()
+      buttonQtdAudio();
       setQuantidadeLojasM(quantidadeLojasM - 1);
     }
   };
 
   const DiminuirQuantidadeLojasG = () => {
- 
     if (quantidadeLojasG === 1) {
       return;
     } else {
-        buttonQtdAudio()
+      buttonQtdAudio();
       setQuantidadeLojasG(quantidadeLojasG - 1);
     }
   };
@@ -116,7 +254,7 @@ const [buttonQtdAudio] = useSound(qtdAudio)
     if (quantidadeTerrenos === 1) {
       return;
     } else {
-        buttonQtdAudio()
+      buttonQtdAudio();
       setQuantidadeTerrenos(quantidadeTerrenos - 1);
     }
   };
@@ -127,22 +265,23 @@ const [buttonQtdAudio] = useSound(qtdAudio)
     padding: 8,
   });
 
-const podeComprarTerreno =
+  const podeComprarTerreno =
     dados.terrenos.quantidade >=
       dados.terrenos.quantidadeNecTerreno * quantidadeTerrenos &&
-    economiaSetores.saldo >= dados.terrenos.preçoConstrução * quantidadeTerrenos;
+    economiaSetores.saldo >=
+      dados.terrenos.preçoConstrução * quantidadeTerrenos;
 
   const podeComprarLojaP =
     dados.terrenos.quantidade >=
       dados.lojasP.quantidadeNecTerreno * quantidadeLojasP &&
     economiaSetores.saldo >= dados.lojasP.preçoConstrução * quantidadeLojasP;
 
-    const podeComprarLojaM =
+  const podeComprarLojaM =
     dados.terrenos.quantidade >=
       dados.lojasM.quantidadeNecTerreno * quantidadeLojasM &&
     economiaSetores.saldo >= dados.lojasM.preçoConstrução * quantidadeLojasM;
 
-    const podeComprarLojaG =
+  const podeComprarLojaG =
     dados.terrenos.quantidade >=
       dados.lojasG.quantidadeNecTerreno * quantidadeLojasG &&
     economiaSetores.saldo >= dados.lojasG.preçoConstrução * quantidadeLojasG;
@@ -153,7 +292,7 @@ const podeComprarTerreno =
       dados.terrenos.quantidade <
       dados.lojasP.quantidadeNecTerreno * quantidadeLojasP
     ) {
-      alertAudio()
+      alertAudio();
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
@@ -168,7 +307,7 @@ const podeComprarTerreno =
       economiaSetores.saldo <
       dados.lojasP.preçoConstrução * quantidadeLojasP
     ) {
-      alertAudio()
+      alertAudio();
 
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
@@ -176,8 +315,9 @@ const podeComprarTerreno =
         head: "Você não tem Saldo suficiente",
         content: "Junte maior quantidade de saldo para realizar essa ação.",
       });
+      return; // impede o restante da execução
     } else {
-       buttonConstructAudio()
+      buttonConstructAudio();
       atualizarDados("lojasP", {
         ...dados.lojasP,
         quantidade: dados.lojasP.quantidade + quantidadeLojasP,
@@ -201,7 +341,7 @@ const podeComprarTerreno =
       dados.terrenos.quantidade <
       dados.lojasM.quantidadeNecTerreno * quantidadeLojasM
     ) {
-     alertAudio()
+      alertAudio();
 
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
@@ -209,12 +349,13 @@ const podeComprarTerreno =
         head: "Você não tem Terrenos suficiente",
         content: "Compre Terreno, suficiente para construir o que deseja.",
       });
+      return; // encerra a função aqui
     }
     if (
       economiaSetores.saldo <
       dados.lojasM.preçoConstrução * quantidadeLojasM
     ) {
-      alertAudio()
+      alertAudio();
 
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
@@ -222,8 +363,9 @@ const podeComprarTerreno =
         head: "Você não tem Saldo suficiente",
         content: "Junte maior quantidade de saldo para realizar essa ação.",
       });
+      return; // encerra a função aqui
     } else {
-        buttonConstructAudio()
+      buttonConstructAudio();
       atualizarDados("lojasM", {
         ...dados.lojasM,
         quantidade: dados.lojasM.quantidade + quantidadeLojasM,
@@ -247,7 +389,7 @@ const podeComprarTerreno =
       dados.terrenos.quantidade <
       dados.lojasG.quantidadeNecTerreno * quantidadeLojasG
     ) {
-      alertAudio()
+      alertAudio();
 
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
@@ -255,12 +397,13 @@ const podeComprarTerreno =
         head: "Você não tem Terrenos suficiente",
         content: "Compre Terreno, suficiente para construir o que deseja.",
       });
+      return; // encerra a função aqui
     }
     if (
       economiaSetores.saldo <
       dados.lojasG.preçoConstrução * quantidadeLojasG
     ) {
-      alertAudio()
+      alertAudio();
 
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
@@ -268,8 +411,9 @@ const podeComprarTerreno =
         head: "Você não tem Saldo suficiente",
         content: "Junte maior quantidade de saldo para realizar essa ação.",
       });
+      return; // encerra a função aqui
     } else {
-        buttonConstructAudio()
+      buttonConstructAudio();
       atualizarDados("lojasG", {
         ...dados.lojasG,
         quantidade: dados.lojasG.quantidade + quantidadeLojasG,
@@ -293,15 +437,16 @@ const podeComprarTerreno =
       economiaSetores.saldo <
       dados.terrenos.preçoConstrução * quantidadeTerrenos
     ) {
-alertAudio()
+      alertAudio();
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
         estadoModal: true,
         head: "Você não tem Saldo suficiente",
         content: "Junte maior quantidade de saldo para realizar essa ação.",
       });
+      return; // encerra a função aqui
     } else {
-      buttonPayTerrain()
+      buttonPayTerrain();
       atualizarDados("terrenos", {
         ...dados.terrenos,
         quantidade: dados.terrenos.quantidade + quantidadeTerrenos,
@@ -309,7 +454,7 @@ alertAudio()
       atualizarEco(
         "saldo",
         economiaSetores.saldo -
-        dados.terrenos.preçoConstrução * quantidadeTerrenos
+          dados.terrenos.preçoConstrução * quantidadeTerrenos
       );
     }
   };
@@ -470,7 +615,7 @@ alertAudio()
        
         </div>`}
                 >
-  <Box
+                  <Box
                     style={getBotaoCompraStyle({
                       podeComprar: podeComprarTerreno,
                     })}
@@ -1368,7 +1513,7 @@ alertAudio()
           <p style="margin-top:4px;">Precisa de 3 imóveis médios para construir.</p>
         </div>`}
                 >
-                   <Box
+                  <Box
                     style={getBotaoCompraStyle({
                       podeComprar: podeComprarLojaG,
                     })}
@@ -1644,32 +1789,32 @@ alertAudio()
       `}
               >
                 <Box
-                    style={getBotaoCompraStyle({
-                      podeComprar: podeComprarTerreno,
-                    })}
+                  style={getBotaoCompraStyle({
+                    podeComprar: podeComprarTerreno,
+                  })}
+                  sx={{
+                    // backgroundColor: "#F27405",
+                    flexGrow: 1,
+                    aspectRatio: "1",
+                    borderRadius: "10px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton
+                    onClick={ComprarTerreno}
+                    tipo="lojasP"
                     sx={{
-                      // backgroundColor: "#F27405",
-                      flexGrow: 1,
-                      aspectRatio: "1",
+                      width: { xs: 60, sm: 80 },
+                      height: { xs: 60, sm: 80 },
                       borderRadius: "10px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+                      "&:hover": {
+                        transform: "scale(1.05)",
+                      },
+                      "&:active": { transform: "scale(0.95)" },
                     }}
                   >
-                    <IconButton
-                      onClick={ComprarTerreno}
-                      tipo="lojasP"
-                      sx={{
-                        width: { xs: 60, sm: 80 },
-                        height: { xs: 60, sm: 80 },
-                        borderRadius: "10px",
-                        "&:hover": {
-                          transform: "scale(1.05)",
-                        },
-                        "&:active": { transform: "scale(0.95)" },
-                      }}
-                    >
                     <img
                       src={terrenoImg}
                       alt="terreno"
@@ -1952,33 +2097,33 @@ alertAudio()
                 data-tooltip-id="tooltip-lojap-comprar"
                 data-tooltip-html="<div><p>Comprar imóvel pequeno</p><p style='margin-top:4px;'>Precisa de um terreno para poder construir em cima dele</p></div>"
               >
-                 <Box
-                    style={getBotaoCompraStyle({
-                      podeComprar: podeComprarLojaP,
-                    })}
+                <Box
+                  style={getBotaoCompraStyle({
+                    podeComprar: podeComprarLojaP,
+                  })}
+                  sx={{
+                    // backgroundColor: "#F27405",
+                    flexGrow: 1,
+                    aspectRatio: "1",
+                    borderRadius: "10px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton
+                    onClick={ComprarLojaP}
+                    tipo="lojasP"
                     sx={{
-                      // backgroundColor: "#F27405",
-                      flexGrow: 1,
-                      aspectRatio: "1",
+                      width: { xs: 60, sm: 80 },
+                      height: { xs: 60, sm: 80 },
                       borderRadius: "10px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+                      "&:hover": {
+                        transform: "scale(1.05)",
+                      },
+                      "&:active": { transform: "scale(0.95)" },
                     }}
                   >
-                    <IconButton
-                      onClick={ComprarLojaP}
-                      tipo="lojasP"
-                      sx={{
-                        width: { xs: 60, sm: 80 },
-                        height: { xs: 60, sm: 80 },
-                        borderRadius: "10px",
-                        "&:hover": {
-                          transform: "scale(1.05)",
-                        },
-                        "&:active": { transform: "scale(0.95)" },
-                      }}
-                    >
                     <img
                       src={LojaPImg}
                       alt="loja pequena"
@@ -2263,33 +2408,33 @@ alertAudio()
                 data-tooltip-id="tooltip-lojam-comprar"
                 data-tooltip-html="<div><p>Comprar imóvel médio</p><p style='margin-top:4px;'>Precisa de dois terrenos ou mais para construir</p></div>"
               >
-                 <Box
-                    style={getBotaoCompraStyle({
-                      podeComprar: podeComprarLojaM,
-                    })}
+                <Box
+                  style={getBotaoCompraStyle({
+                    podeComprar: podeComprarLojaM,
+                  })}
+                  sx={{
+                    // backgroundColor: "#F27405",
+                    flexGrow: 1,
+                    aspectRatio: "1",
+                    borderRadius: "10px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton
+                    onClick={ComprarLojaM}
+                    tipo="lojasP"
                     sx={{
-                      // backgroundColor: "#F27405",
-                      flexGrow: 1,
-                      aspectRatio: "1",
+                      width: { xs: 60, sm: 80 },
+                      height: { xs: 60, sm: 80 },
                       borderRadius: "10px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+                      "&:hover": {
+                        transform: "scale(1.05)",
+                      },
+                      "&:active": { transform: "scale(0.95)" },
                     }}
                   >
-                    <IconButton
-                      onClick={ComprarLojaM}
-                      tipo="lojasP"
-                      sx={{
-                        width: { xs: 60, sm: 80 },
-                        height: { xs: 60, sm: 80 },
-                        borderRadius: "10px",
-                        "&:hover": {
-                          transform: "scale(1.05)",
-                        },
-                        "&:active": { transform: "scale(0.95)" },
-                      }}
-                    >
                     <img
                       src={LojaMImg}
                       alt="loja média"
@@ -2572,33 +2717,33 @@ alertAudio()
                 data-tooltip-id="tooltip-lojag-comprar"
                 data-tooltip-html="<div><p>Comprar imóvel grande</p><p style='margin-top:4px;'>Precisa de três terrenos ou mais para construir</p></div>"
               >
-                 <Box
-                    style={getBotaoCompraStyle({
-                      podeComprar: podeComprarLojaG,
-                    })}
+                <Box
+                  style={getBotaoCompraStyle({
+                    podeComprar: podeComprarLojaG,
+                  })}
+                  sx={{
+                    // backgroundColor: "#F27405",
+                    flexGrow: 1,
+                    aspectRatio: "1",
+                    borderRadius: "10px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton
+                    onClick={ComprarLojaG}
+                    tipo="lojasP"
                     sx={{
-                      // backgroundColor: "#F27405",
-                      flexGrow: 1,
-                      aspectRatio: "1",
+                      width: { xs: 60, sm: 80 },
+                      height: { xs: 60, sm: 80 },
                       borderRadius: "10px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+                      "&:hover": {
+                        transform: "scale(1.05)",
+                      },
+                      "&:active": { transform: "scale(0.95)" },
                     }}
                   >
-                    <IconButton
-                      onClick={ComprarLojaG}
-                      tipo="lojasP"
-                      sx={{
-                        width: { xs: 60, sm: 80 },
-                        height: { xs: 60, sm: 80 },
-                        borderRadius: "10px",
-                        "&:hover": {
-                          transform: "scale(1.05)",
-                        },
-                        "&:active": { transform: "scale(0.95)" },
-                      }}
-                    >
                     <img
                       src={LojaGImg}
                       alt="loja grande"

@@ -1,11 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CentraldeDadosContext } from "./centralDeDadosContext";
 import { motion } from "framer-motion";
 import { DadosEconomyGlobalContext } from "../src/dadosEconomyGlobal";
 import useSound from "use-sound";
 import closeAudio from "../public/sounds/closeAudio.mp3";
 import eventAudio from "../public/sounds/newEventAudio.mp3";
+import { useHotkeys } from "react-hotkeys-hook";
+
 export default function Notificação() {
+  const [isNKeyDown, setIsNKeyDown] = useState(false);
   //   if (novoEventoSelecionado === "modalDespesas") {
   //     // Lógica para o evento modal de despesas
   // } else if (novoEventoSelecionado === "modalFaturamento") {
@@ -20,6 +23,45 @@ export default function Notificação() {
   //     console.log(novoEvento.periodoSelecionado)
 
   //   const events = ['pagarDespesas', 'faturamento', 'impostosFixos', 'impostosVariáveis'];
+
+  useHotkeys(
+    "f",
+    () => {
+      if (
+        isNKeyDown // 2. Se já estiver pressionada, ignora o auto-repeat
+      )
+        return;
+      setIsNKeyDown(true);
+      if (dados.modalDespesas.estadoModal) {
+        fecharModalDespesas();
+        return;
+      }
+
+      if (dados.modalEconomiaGlobal.estadoModal) {
+        fecharModalEconomiaGlobal();
+        return;
+      }
+      if (dados.modal.estadoModal) {
+        fecharModal();
+      }
+    },
+    {
+      keydown: true,
+      keyup: false,
+      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    }
+  );
+  useHotkeys(
+    "f",
+    () => {
+      setIsNKeyDown(false);
+    },
+    {
+      keydown: false,
+      keyup: true,
+      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    }
+  );
 
   const { economiaSetores, setEconomiaSetores } = useContext(
     DadosEconomyGlobalContext
@@ -95,10 +137,8 @@ export default function Notificação() {
     dados.dia % 30 === 0 &&
     dados.modalDespesas.estadoModal &&
     !dados.despesas.despesasPagas
-   
   ) {
-
-    buttonEventAudio()
+    buttonEventAudio();
     return (
       <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none select-none">
         <motion.div

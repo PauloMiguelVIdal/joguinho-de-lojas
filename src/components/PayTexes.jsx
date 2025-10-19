@@ -7,17 +7,48 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import useSound from 'use-sound';
 import audioCoin from "../../public/sounds/cash-register-kaching-376867.mp3"
-
+import { useHotkeys } from "react-hotkeys-hook";
 
 export default function PayTexes() {
   const { dados, atualizarDados, } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
   const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
-
+const [isNKeyDown, setIsNKeyDown] = useState(false);
 
   const [audioPay] = useSound(audioCoin)
-const realizarPag = ()=>{PagarDespesas(),audioPay()}
+const realizarPag = () => {
+  if(dados.despesas.despesasPagas) return;
+  PagarDespesas();
+  audioPay();
+}
+
+useHotkeys(
+  's',
+  () => {
+if (
+        !dados.despesas.diaPagarDespesas || 
+        dados.dia % 30 !== 0 || 
+        dados.despesasPagas ||
+        dados.modal.estadoModal || 
+        dados.modalAlert.estadoModal || 
+        dados.modalDespesas.estadoModal || 
+        dados.modalEconomiaGlobal.estadoModal ||
+        isNKeyDown // 2. Se já estiver pressionada, ignora o auto-repeat
+      ) return;
+setIsNKeyDown(true);
+      realizarPag();
+  },
+{ keydown: true, keyup: false, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] }
+);
+useHotkeys(
+  's',
+  () => {
+  setIsNKeyDown(false)
+  },
+  { keydown: false, keyup: true, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] }
+);
+
 
   // Cálculo de impostos diário e mensal
   useEffect(() => {
@@ -306,6 +337,8 @@ const realizarPag = ()=>{PagarDespesas(),audioPay()}
 
   // Função que paga as despesas e desconta do saldo
   const PagarDespesas = () => {
+    if (dados.despesas.despesasPagas) return 
+    else
     if (!dados.despesas.despesasPagas) {
       const novoSaldo = economiaSetores.saldo - economiaSetores.imposto.impostoMensal;
       atualizarEco('saldo', novoSaldo);
