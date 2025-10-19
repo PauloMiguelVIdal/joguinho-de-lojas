@@ -9,7 +9,8 @@ export const ListaContratos = () => {
   const contratosArray = economiaSetores?.contratosBancos ?? [];
 
   if (!contratosArray.length) {
-    return <div className="w-full mx-auto  pt-[10px] bg-white/20 rounded-xl pb-6 pl-6 pr-6 max-w-7xl">Não há contratos cadastrados.</div>;
+    return 
+    // <div className="w-full mx-auto  pt-[10px] bg-white/20 rounded-xl pb-6 pl-6 pr-6 max-w-7xl">Não há contratos cadastrados.</div>;
   }
 
   return (

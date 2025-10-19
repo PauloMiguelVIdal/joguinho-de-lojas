@@ -227,23 +227,25 @@ export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
             </div>
 
             {/* Botão de compra */}
-            <button
-              onClick={comprarLicenca}
-              disabled={nivelEmpresa.status}
-              className={`h-[13%] w-[90%] rounded-[20px] font-bold text-white 
-      ${nivelEmpresa.status
-                  ? "bg-gray-500 cursor-not-allowed"
-                  : "bg-gradient-to-br from-purple-700 to-purple-900 hover:scale-110 duration-300"
-                }`}
-              data-tooltip-id="tooltip-nivel-comprar"
-              data-tooltip-html={
-                nivelEmpresa.status
-                  ? "Você já adquiriu esta licença"
-                  : "Clique para comprar o upgrade deste nível"
-              }
-            >
-              {nivelEmpresa.status ? "Comprado" : "Comprar"}
-            </button>
+<button
+  onClick={comprarLicenca}
+  disabled={nivelEmpresa.status || economiaSetores.saldo < nivelEmpresa.custoUpgrade}
+  style={getBotaoCompraLicenStyle({
+    status: nivelEmpresa.status,
+    podeComprar: economiaSetores.saldo >= nivelEmpresa.custoUpgrade
+  })}
+  className={`h-[13%] w-[90%] rounded-[20px] font-bold text-white `}
+  data-tooltip-id="tooltip-nivel-comprar"
+  data-tooltip-html={
+    nivelEmpresa.status
+      ? "Você já adquiriu esta licença"
+      : economiaSetores.saldo < nivelEmpresa.custoUpgrade
+      ? "Você não tem dinheiro suficiente"
+      : "Clique para comprar o upgrade deste nível"
+  }
+>
+  {nivelEmpresa.status ? "Comprado" : "Comprar"}
+</button>
           </div>
 
         </div>
@@ -258,3 +260,31 @@ export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
     </div>
   );
 };
+
+export function getBotaoCompraLicenStyle({ status, podeComprar }) {
+  // status = true se já foi comprada
+  if (status) {
+    return {
+      backgroundColor: "#fff",
+      color: "#6411D9",
+      border: "2px solid #6411D9",
+      borderRadius: "8px",
+      fontWeight: 600,
+      cursor: "default",
+      transition: "0.2s",
+      opacity: 1,
+    };
+  }
+
+  // ainda não comprada
+  return {
+    backgroundColor: "#6411D9",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    fontWeight: 600,
+    cursor: podeComprar ? "pointer" : "not-allowed",
+    transition: "0.2s",
+    opacity: podeComprar ? 1 : 0.4,
+  };
+}

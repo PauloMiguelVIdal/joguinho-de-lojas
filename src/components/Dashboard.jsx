@@ -545,9 +545,9 @@ useEffect(() => {
             // Container com licença comprada
             <div className="w-full h-full p-4 flex flex-col">
               {ativo === "grafico" && (
-                // <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
+                <Line data={data} options={{ ...config.options, maintainAspectRatio: false }} className="w-full h-full" />
                 // <Map/>
-                <MicroModel />
+                // <MicroModel />
                 // <Office />
                 // <CreditCard />
                 // <div className="w-full flex-1 p-4 flex flex-col">

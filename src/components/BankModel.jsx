@@ -493,12 +493,14 @@
 
 import React, { useState, useRef, useContext } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { ModalBank } from "../components/ModalBank.jsx";
 import maps from "../../public/outrasImagens/maps.png";
-
+import backButton from "../../public/outrasImagens/back-button.png";
 import { ListaContratos } from "./ListContratos.jsx";
 
 const BankSelection = () => {
+  const { economiaSetores } = useContext(DadosEconomyGlobalContext);
   const { dados, atualizarDadosProf2, atualizarDados } = useContext(
     CentraldeDadosContext
   );
@@ -506,6 +508,9 @@ const BankSelection = () => {
 
   const [banksModal, setBanksModal] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+
+  const contratosArray = economiaSetores?.contratosBancos ?? [];
+  const valueMaxH = !contratosArray.length ? 80 : 55;
 
   const setVision = (newVision) => {
     atualizarDados("vision", {
@@ -2038,7 +2043,6 @@ const BankSelection = () => {
     },
 
     // 9 Solar Bank
-    
 
     // 10 Future Tech
     {
@@ -2535,27 +2539,56 @@ const BankSelection = () => {
     return (
       <div className="h-full  bg-gradient-to-br from-[#6A00FF] via-[#350973] via-[#C79FFF] to-[#7317F3] text-white w-full flex flex-col justify-between rounded-[20px]">
         {/* Header */}
-        <div className="h-[50px] w-full flex gap-[10px] pt-6 pl-6 items-center">
+        <div className="h-[50px] w-full flex gap-[10px] pt-6 pl-6 items-center justify-center">
           <div>
             <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
             <button
               onClick={() => setBanksModal(false)}
               data-tooltip-id="tooltip-faturado"
-              data-tooltip-html="Fechar ofertas"
-              className="h-full bg-gradient-to-br from-[#6A00FF] via-[#9D00CC] to-[#E60000] w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+              data-tooltip-html="Voltar"
+              className="h-full w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
             >
-              <img className="w-[70%]" src={maps} />
+              <img className="w-[70%]" src={backButton} />
             </button>
           </div>
           <div className="w-[calc(100%-50px)]">
-            <h1 className="text-4xl font-bold text-center">
+            <h2 className="text-3xl font-bold ml-6 mt-4 mb-4">
               Ofertas Disponíveis
-            </h1>
+            </h2>
           </div>
         </div>
 
+      {/* <div className="h-[50px] w-full flex gap-[10px] pt-6 pl-6 items-center justify-center">
+        <div>
+          <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
+          <button
+            onClick={() => setBanksModal(false)}
+            data-tooltip-id="tooltip-faturado"
+            data-tooltip-html="Voltar"
+            className="h-full w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+          >
+            <img className="w-[70%]" src={backButton} />
+          </button>
+        </div>
+        <div className="w-[calc(100%-50px)]">
+          <h2 className="text-3xl font-bold ml-6 mt-4 mb-4">
+            Bancos Disponíveis
+          </h2>
+        </div>
+      </div>
+      <div
+          style={{ maxHeight: ` calc(${valueMaxH}vh - 50px` }}
+        className={`flex-1 overflow-y-auto px-6  scrollbar-custom`}
+      ></div> */}
+
+
+
+
         {/* Container de cartões */}
-        <div className="flex-1 overflow-y-auto px-6 max-h-[73vh] scrollbar-custom">
+        <div
+          style={{ maxHeight: ` calc(${valueMaxH}vh - 50px` }}
+        className={`flex-1 overflow-y-auto px-6  scrollbar-custom`}
+      >
           <div className="w-full grid pt-[10px] gap-6 pb-6">
             <ModalBank
               banco={bancoSelecionado} // passa o banco selecionado
@@ -2609,8 +2642,29 @@ const BankSelection = () => {
       <ListaContratos />
 
       {/* Container com scroll interno */}
-      <h2 className="text-xl font-bold ml-6 mt-4 mb-4">Bancos Disponíveis</h2>
-      <div className="flex-1 overflow-y-auto px-6 max-h-[60vh] scrollbar-custom">
+      <div className="h-[50px] w-full flex gap-[10px] pt-6 pl-6 items-center justify-center">
+        <div>
+          <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
+          <button
+            onClick={() => setBanksModal(false)}
+            data-tooltip-id="tooltip-faturado"
+            data-tooltip-html="Voltar"
+            className="h-full w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+          >
+            <img className="w-[70%]" src={backButton} />
+          </button>
+        </div>
+        <div className="w-[calc(100%-50px)]">
+          <h2 className="text-3xl font-bold ml-6 mt-4 mb-4">
+            Bancos Disponíveis
+          </h2>
+        </div>
+      </div>
+      <div
+          style={{ maxHeight: ` calc(${valueMaxH}vh - 50px` }}
+        className={`flex-1 overflow-y-auto px-6  scrollbar-custom`}
+      >
+        {/* <div className={`flex-1 overflow-y-auto px-6 max-h-[${60}] scrollbar-custom`}> */}
         <div className="max-w-6xl mx-auto grid pt-[10px] gap-6 md:grid-cols-2 lg:grid-cols-3  pb-6">
           {bancos.map((bancoRaw) => {
             const banco = processarBanco(bancoRaw, config);
