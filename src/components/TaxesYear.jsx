@@ -93,7 +93,7 @@ export function TaxesYear() {
       // Atualiza apenas o patrimônio atual (sem mexer no imposto acumulado)
       atualizarEcoProf([setor, "economiaSetor"], {
         ...setorData,
-        patrimonioAtual: patrimonioSetor,
+        patrimonio: patrimonioSetor,
       });
 
       patrimonioGlobal += patrimonioSetor;

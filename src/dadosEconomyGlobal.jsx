@@ -1008,6 +1008,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       impostoDiário: 0,
       impostoMensal: 0,
       impostoSobreFaturamentoDiário: 0,
+            arrayimpostoDiário: [],
     },
     agricultura: {
       economiaSetor: {
@@ -1195,7 +1196,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         ref[ultimaChave] = valorOuFunc;
       }
 
-      console.log("🔧 Atualização segura:", caminho, "->", ref[ultimaChave]);
+      // console.log("🔧 Atualização segura:", caminho, "->", ref[ultimaChave]);
       return novosDados;
     });
   };
@@ -1203,13 +1204,13 @@ const DadosEconomyGlobalProvider = ({ children }) => {
   // dentro do provider do contexto
   // dentro do DadosEconomyGlobalProvider
   const verificarLimites = (edificio, setor, carteiraParam) => {
-    console.log("=== verificarLimites START ===");
-    console.log(
-      "edificio (nome, quantidade):",
-      edificio?.nome,
-      edificio?.quantidade
-    );
-    console.log("setor pedido:", setor);
+    // console.log("=== verificarLimites START ===");
+    // console.log(
+    //   "edificio (nome, quantidade):",
+    //   edificio?.nome,
+    //   edificio?.quantidade
+    // );
+    // console.log("setor pedido:", setor);
 
     const setoresArr = [
       "agricultura",
@@ -1224,7 +1225,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     const carteiraRaw = Array.isArray(carteiraParam)
       ? carteiraParam
       : economiaSetores?.carteira?.carteiraAtual ?? [];
-    console.log("carteira raw (entrada):", carteiraRaw);
+    // console.log("carteira raw (entrada):", carteiraRaw);
 
     // Garantir que carteira tenha uma posição para cada setor (normaliza)
     const carteira = setoresArr.map((_, i) => {
@@ -1234,7 +1235,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       if (typeof v === "object") return [v]; // se vier objeto único
       return [];
     });
-    console.log("carteira normalizada:", carteira);
+    // console.log("carteira normalizada:", carteira);
 
     // leitura tolerante dos limites no centralEdificios
     const ce = economiaSetores?.centralEdificios ?? {};
@@ -1245,30 +1246,30 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     );
     const quantidadeEdificiosMax = Number(ce.quantidadeEdificiosMax ?? 999);
 
-    console.log("limites lidos:", {
-      quantidadeUnicoMax,
-      quantidadeSetoresMax,
-      quantidadeDiversosEdificiosMax,
-      quantidadeEdificiosMax,
-    });
+    // console.log("limites lidos:", {
+    //   quantidadeUnicoMax,
+    //   quantidadeSetoresMax,
+    //   quantidadeDiversosEdificiosMax,
+    //   quantidadeEdificiosMax,
+    // });
 
     // índice do setor
     const setorIndex = setoresArr.indexOf(setor);
     if (setorIndex === -1) {
-      console.warn("setor inválido passado para verificador:", setor);
+      // console.warn("setor inválido passado para verificador:", setor);
       return `Setor inválido: ${setor}`;
     }
 
     // 1) Limite unidades do mesmo edifício
     const quantidadeAtualEdif = Number(edificio?.quantidade ?? 0);
-    console.log(
-      "quantidadeAtualEdif:",
-      quantidadeAtualEdif,
-      "-> max:",
-      quantidadeUnicoMax
-    );
+    // console.log(
+    //   "quantidadeAtualEdif:",
+    //   quantidadeAtualEdif,
+    //   "-> max:",
+    //   quantidadeUnicoMax
+    // );
     if (quantidadeAtualEdif + 1 > quantidadeUnicoMax) {
-      console.log("-> falha: ultrapassa limite único");
+      // console.log("-> falha: ultrapassa limite único");
       return `Você não pode ter mais que ${quantidadeUnicoMax} unidades do mesmo edifício.`;
     }
 
@@ -1280,18 +1281,18 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     const setorJaAtivo =
       Array.isArray(carteira[setorIndex]) && carteira[setorIndex].length > 0;
     const novosSetoresAtivos = setorJaAtivo ? setoresAtivos : setoresAtivos + 1;
-    console.log(
-      "setoresAtivos:",
-      setoresAtivos,
-      "setorJaAtivo:",
-      setorJaAtivo,
-      "novosSetoresAtivos:",
-      novosSetoresAtivos,
-      "max:",
-      quantidadeSetoresMax
-    );
+    // console.log(
+    //   "setoresAtivos:",
+    //   setoresAtivos,
+    //   "setorJaAtivo:",
+    //   setorJaAtivo,
+    //   "novosSetoresAtivos:",
+    //   novosSetoresAtivos,
+    //   "max:",
+    //   quantidadeSetoresMax
+    // );
     if (novosSetoresAtivos > quantidadeSetoresMax) {
-      console.log("-> falha: ultrapassa limite de setores ativos");
+      // console.log("-> falha: ultrapassa limite de setores ativos");
       return `Você não pode ter mais que ${quantidadeSetoresMax} setores ativos.`;
     }
 
@@ -1307,7 +1308,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       });
     });
 
-    console.log("nomes únicos atuais na carteira:", Array.from(nomesSet));
+    // console.log("nomes únicos atuais na carteira:", Array.from(nomesSet));
     const jaExisteTipo = nomesSet.has(String(edificio?.nome));
     const novosTipos = jaExisteTipo ? nomesSet.size : nomesSet.size + 1;
 
@@ -1317,16 +1318,16 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         nomesSet.size;
     }
 
-    console.log(
-      "jaExisteTipo:",
-      jaExisteTipo,
-      "novosTipos:",
-      novosTipos,
-      "max:",
-      quantidadeDiversosEdificiosMax
-    );
+    // console.log(
+    //   "jaExisteTipo:",
+    //   jaExisteTipo,
+    //   "novosTipos:",
+    //   novosTipos,
+    //   "max:",
+    //   quantidadeDiversosEdificiosMax
+    // );
     if (novosTipos > quantidadeDiversosEdificiosMax) {
-      console.log("-> falha: ultrapassa limite de diversidade");
+      // console.log("-> falha: ultrapassa limite de diversidade");
       return `Você não pode ter mais que ${quantidadeDiversosEdificiosMax} tipos diferentes de edifícios.`;
     }
 
@@ -1343,20 +1344,20 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         totalEdificiosAtuais;
     }
 
-    console.log(
-      "totalEdificiosAtuais:",
-      totalEdificiosAtuais,
-      "novosTotalEdificios:",
-      novosTotalEdificios,
-      "max:",
-      quantidadeEdificiosMax
-    );
+    // console.log(
+    //   "totalEdificiosAtuais:",
+    //   totalEdificiosAtuais,
+    //   "novosTotalEdificios:",
+    //   novosTotalEdificios,
+    //   "max:",
+    //   quantidadeEdificiosMax
+    // );
     if (novosTotalEdificios > quantidadeEdificiosMax) {
-      console.log("-> falha: ultrapassa limite total de edifícios");
+      // console.log("-> falha: ultrapassa limite total de edifícios");
       return `Você não pode ter mais que ${quantidadeEdificiosMax} edifícios no total.`;
     }
 
-    console.log("=== verificarLimites OK ===");
+    // console.log("=== verificarLimites OK ===");
     return true;
   };
 
@@ -1393,6 +1394,24 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     });
   };
 
+const atualizarEcoSafely = (chave, patch) => {
+    setEconomiaSetores((prev) => {
+      const prevItem = prev?.[chave] || {};
+      const prevEco = prevItem?.economiaSetor || {};
+
+      // determina o patch real
+      const patchObj =
+        typeof patch === "function" ? patch(prevEco, prevItem, prev) : patch || {};
+
+      // novo economiaSetor = merge do prevEco com patchObj
+      const novoEconomiaSetor = { ...prevEco, ...patchObj };
+
+      return {
+        ...prev,
+        [chave]: { ...prevItem, economiaSetor: novoEconomiaSetor },
+      };
+    })};
+
   const salvarContrato = (novoContrato) => {
     setContratos((prev) => [...prev, novoContrato]);
   };
@@ -1410,6 +1429,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         liberaProximoNivel,
         salvarContrato,
         atualizarEcoCallback,
+        atualizarEcoSafely
       }}
     >
       {children}

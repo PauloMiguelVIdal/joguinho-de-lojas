@@ -1073,28 +1073,43 @@ export const CardModal = ({ index }) => {
       "patrimonio",
       economiaSetores.patrimonio + custosEdBase + custo
     );
-    atualizarEco(
-      "economiaSetor",
-
-        {...economiaSetores[setorAtivo].economiaSetor,patrimonio: + custosEdBase + custo}
-      
-    );
+    // atualizarEco(
+    //   "economiaSetor",
+    //     {...economiaSetores[setorAtivo].economiaSetor,patrimonio: + custosEdBase + custo}
+    // );
 
 
-tualizarEco("economiaSetores", {
-  ...economiaSetores,
-  [setorAtivo]: {
-    ...economiaSetores[setorAtivo],
-    economiaSetor: {
-      ...economiaSetores[setorAtivo].economiaSetor,
-      patrimonio:
-        economiaSetores[setorAtivo].economiaSetor.patrimonio +
+atualizarEco("patrimônio", {
+  ...economiaSetores
+  [setorAtivo].economiaSetor,"patrimonio":
+      economiaSetores[setorAtivo].economiaSetor.
+      patrimonio +
         custosEdBase +
         custo,
     },
-  },
-});
+)
+;
+
+console.log(economiaSetores
+  [setorAtivo].economiaSetor,"patrimonio")
+
+
+// atualizarEco("patrimônio", {
+//   ...economiaSetores,
+//   [setorAtivo]: {
+//     ...economiaSetores[setorAtivo],
+//     economiaSetor: {
+//       ...economiaSetores[setorAtivo].economiaSetor,
+//       patrimonio:
+//         economiaSetores[setorAtivo].economiaSetor.patrimonio +
+//         custosEdBase +
+//         custo,
+//     },
+//   },
+// });
    
+
+
    
     // atualizarEco("patrimonio", economiaSetores.agricultura.economiaSetor.patrimonio + custosEdBase + custo);
 

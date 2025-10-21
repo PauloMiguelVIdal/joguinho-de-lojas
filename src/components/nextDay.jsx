@@ -1,4 +1,4 @@
-import React, { useContext, useEffect,useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import PróximoImg from "../../public/outrasImagens/proximo.png";
 import Sorteio from "./Sorteio";
@@ -7,7 +7,7 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import useSound from "use-sound";
 import nextDayAudio from "../../public/sounds/nextDayAudio.mp3";
-import newStageAudio from "../../public/sounds/newStageAudio.mp3"
+import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 import { useHotkeys } from "react-hotkeys-hook";
 import { use } from "react";
 export function NextDay() {
@@ -17,43 +17,51 @@ export function NextDay() {
   );
 
   const [buttonNextDayAudio] = useSound(nextDayAudio);
-  const [buttonNewStageAudio] = useSound(newStageAudio)
+  const [buttonNewStageAudio] = useSound(newStageAudio);
   const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
-const [isNKeyDown, setIsNKeyDown] = useState(false);
+  const [isNKeyDown, setIsNKeyDown] = useState(false);
 
+  const [executouAudio270, setExecutouAudio270] = useState(false);
 
-const [executouAudio270, setExecutouAudio270] = useState(false);
+  useEffect(() => {
+    if (dados.dia === 270 && !executouAudio270) {
+      buttonNewStageAudio();
+      setExecutouAudio270(true); // marca que já executou
+    }
+  }, [dados.dia, executouAudio270]);
 
-useEffect(() => {
-  if (dados.dia === 270 && !executouAudio270) {
-    buttonNewStageAudio();
-    setExecutouAudio270(true); // marca que já executou
-  }
-}, [dados.dia, executouAudio270]);
-
-useHotkeys(
-  'd',
-  () => {
-if (
-        dados.dia <= 1 || 
-        dados.modal.estadoModal || 
-        dados.modalAlert.estadoModal || 
-        dados.modalDespesas.estadoModal || 
+  useHotkeys(
+    "d",
+    () => {
+      if (
+        dados.dia <= 1 ||
+        dados.modal.estadoModal ||
+        dados.modalAlert.estadoModal ||
+        dados.modalDespesas.estadoModal ||
         dados.modalEconomiaGlobal.estadoModal ||
         isNKeyDown // 2. Se já estiver pressionada, ignora o auto-repeat
-      ) return;
-setIsNKeyDown(true);
+      )
+        return;
+      setIsNKeyDown(true);
       ProximoDia();
-  },
-{ keydown: true, keyup: false, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] }
-);
-useHotkeys(
-  'd',
-  () => {
-  setIsNKeyDown(false)
-  },
-  { keydown: false, keyup: true, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] }
-);
+    },
+    {
+      keydown: true,
+      keyup: false,
+      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    }
+  );
+  useHotkeys(
+    "d",
+    () => {
+      setIsNKeyDown(false);
+    },
+    {
+      keydown: false,
+      keyup: true,
+      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    }
+  );
   // Função para avançar para o próximo dia
   const ProximoDia = () => {
     if (economiaSetores.saldo < 0) {
@@ -147,17 +155,19 @@ useHotkeys(
         : dados.faturamento.faturamentoMensal + faturamentoDiario;
 
     atualizarEco("saldo", economiaSetores.saldo + faturamentoDiario);
+    if (dados.dia <= 270){
 
-    atualizarDados("faturamento", {
-      ...dados.faturamento,
-      faturamentoDiário: faturamentoDiario,
-      faturamentoMensal: novoFaturamentoMensal,
-      arrayFatuDiário: [
-        ...dados.faturamento.arrayFatuDiário,
-        faturamentoDiario,
-      ],
-    });
-
+      atualizarDados("faturamento", {
+        ...dados.faturamento,
+        faturamentoDiário: faturamentoDiario,
+        faturamentoMensal: novoFaturamentoMensal,
+        arrayFatuDiário: [
+          ...dados.faturamento.arrayFatuDiário,
+          faturamentoDiario,
+        ],
+      });
+    } ;
+      
     todasLojas.forEach((loja, index) => {
       atualizarDados(loja, novasLojas[index]);
     });

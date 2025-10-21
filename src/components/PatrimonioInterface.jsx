@@ -46,7 +46,7 @@ const patrimonio = economiaSetores.patrimonio
 
               {/* Valor */}
               <div className="flex-1 bg-white bg-opacity-95 h-full flex items-center px-4 text-gray-800 text-lg font-bold">
-                {item.value}
+                R$ {(item.value).toLocaleString('pt-BR')},00
               </div>
             </div>
           ))}

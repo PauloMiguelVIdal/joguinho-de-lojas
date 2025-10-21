@@ -185,11 +185,11 @@ const handlePayInstallment = () => {
       inv => inv.type === 'pre' && diaAtualJogo >= inv.diaVencimento
     );
 
-    if (investimentosVencidos.length > 0) {
-      setActiveInvestments(investimentosAtualizados.filter(inv => !investimentosVencidos.includes(inv)));
-    } else {
-      setActiveInvestments(investimentosAtualizados);
-    }
+    // if (investimentosVencidos.length > 0) {
+    //   setActiveInvestments(investimentosAtualizados.filter(inv => !investimentosVencidos.includes(inv)));
+    // } else {
+    //   setActiveInvestments(investimentosAtualizados);
+    // }
 
 
   }, [dados.dia]);
@@ -254,11 +254,6 @@ const handlePayEarly = () => {
   atualizarEco('activeLoan', null);
 };
 
-  const formatarDiaJogo = (dia) => {
-    const dataBase = new Date(2024, 0, 1);
-    const dataCalculada = new Date(dataBase.getTime() + (dia * 24 * 60 * 60 * 1000));
-    return dataCalculada.toLocaleDateString('pt-BR');
-  };
 
   const opcoesParcelamento = [3, 6, 12].map(parcelas => {
     const { jurosTotal, taxaMensal } = calcularJurosTotal(loanAmount || 1000, contrato1.emprestimo, contrato1.juros, parcelas);
@@ -863,10 +858,7 @@ const handleAddFunds = (investmentId) => {
                         <span>Próximo vencimento:</span>
                         <span className="font-semibold">Dia {activeLoan.proximoVencimento}</span>
                       </div>
-                      <div className="flex justify-between text-xs text-gray-600">
-                        <span>Data:</span>
-                        <span className="font-semibold">{formatarDiaJogo(activeLoan.proximoVencimento)}</span>
-                      </div>
+                      
                     </div>
                   </>
                 ) : (
@@ -1141,7 +1133,7 @@ const handleAddFunds = (investmentId) => {
                     <div className="mt-2 pt-2 border-t border-gray-300">
                       <p className="text-xs text-gray-600">Vencimento</p>
                       <p className="text-sm font-semibold text-gray-700">
-                        Dia {activeLoan.proximoVencimento} ({formatarDiaJogo(activeLoan.proximoVencimento)})
+                        Dia {activeLoan.proximoVencimento} 
                       </p>
                     </div>
                   </div>
@@ -1163,7 +1155,7 @@ const handleAddFunds = (investmentId) => {
                               <p className={`font-medium ${isPaga ? 'text-green-600' : isProxima ? 'text-yellow-600' : 'text-gray-800'}`}>
                                 {numeroParcela}ª parcela {isPaga ? '✓' : isProxima ? '→' : ''}
                               </p>
-                              <p className="text-xs text-gray-600">Dia {diaVencimento} ({formatarDiaJogo(diaVencimento)})</p>
+                              <p className="text-xs text-gray-600">Dia {diaVencimento}</p>
                             </div>
                             <div className="text-right">
                               <p className="font-semibold text-gray-800">

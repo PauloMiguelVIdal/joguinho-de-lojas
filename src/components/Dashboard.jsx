@@ -367,7 +367,12 @@ export default function Dashboard() {
   const licenciaValor = setorDados.licençaGlobal.valor;
 
   // Dados do gráfico
+  const licençasNecessárias = ["Silo", "Plantação De Legumes"];
+  const arrayLicenseNece = licençasNecessárias;
+
   const dadosDia = dados.terrenos.arrayFatu.map((_, index) => index + 1);
+  const dadosFatu = dados.faturamento.arrayFatuDiário.map((_, index) => index + 1);
+const dadosDiaSetores = economiaSetores.agricultura.economiaSetor.ArrayFatu.map((_, index) => index + 1);
 
   const cores = {
     terrenos: "#FF7F32 ",
@@ -375,9 +380,6 @@ export default function Dashboard() {
     lojasM: "#F27405",
     lojasG: "#3A0E8C ",
   };
-
-  const licençasNecessárias = ["Silo", "Plantação De Legumes"];
-  const arrayLicenseNece = licençasNecessárias;
 
   const datasets = ["terrenos", "lojasP", "lojasM", "lojasG"].map(
     (edificioSelecionado) => ({
@@ -396,6 +398,87 @@ export default function Dashboard() {
   const data = {
     labels: dadosDia,
     datasets: datasets,
+  };
+
+  const coresSetores = {
+    agricultura: "#4CAF50 ",
+    tecnologia: "#D45A00",
+    industria: "#4D4D4D",
+    comercio: "#A31919 ",
+    imobiliário: "#1A1A8C ",
+    energia: "#A37F19 ",
+  };
+
+  const datasetsFinal = ["terrenos", "lojasP", "lojasM", "lojasG"].map(
+    (edificioSelecionado) => ({
+      label: edificioSelecionado,
+      data: dados[edificioSelecionado]?.arrayFatu || [],
+      borderColor: cores[edificioSelecionado]?.replace("0.5", "1") || "#000000",
+      backgroundColor: cores[edificioSelecionado] || "#000000",
+      tension: 0.4,
+      fill: true,
+      pointRadius: 0,
+      pointHoverRadius: 5,
+      pointBorderWidth: 1,
+    })
+  );
+
+  const dataFinal = {
+    labels: dadosDia,
+    datasets: datasetsFinal,
+  };
+
+  const datasetsSetores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliário", "energia"].map(
+    (setorSelecionado) => ({
+      label: setorSelecionado,
+      data: economiaSetores[setorSelecionado]?.economiaSetor.ArrayFatu || [],
+      borderColor: coresSetores[setorSelecionado]?.replace("0.5", "1") || "#000000",
+      backgroundColor: coresSetores[setorSelecionado] || "#000000",
+      tension: 0.4,
+      fill: true,
+      pointRadius: 0,
+      pointHoverRadius: 5,
+      pointBorderWidth: 1,
+    })
+  );
+
+  const dataSetores = {
+    labels: dadosDiaSetores,
+    datasets: datasetsSetores,
+  };
+
+
+
+  const coresDespesasFatu = {
+    despesas: "#FF7F32 ",
+    faturamento: "#6411D9",
+  };
+
+const despesasArrays = economiaSetores.imposto.arrayImpostoDiário || [];
+const faturamentoArrays = dados.faturamento.arrayFatuDiário || [];
+
+const arraysFinanceiros = {
+  despesas: despesasArrays,
+  faturamento: faturamentoArrays,
+};
+
+  const datasetsDespesasFatu = ["despesas", "faturamento"].map(
+    (categoriaFinanceira) => ({
+      label: categoriaFinanceira,
+      data: arraysFinanceiros[categoriaFinanceira] || [],
+      borderColor: coresDespesasFatu[categoriaFinanceira]?.replace("0.5", "1") || "#000000",
+      backgroundColor: coresDespesasFatu[categoriaFinanceira] || "#000000",
+      tension: 0.4,
+      fill: true,
+      pointRadius: 0,
+      pointHoverRadius: 5,
+      pointBorderWidth: 1,
+    })
+  );
+
+  const dataDespesasFatu = {
+    labels: dadosFatu,
+    datasets: datasetsDespesasFatu,
   };
 
   const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
@@ -432,6 +515,78 @@ export default function Dashboard() {
   const config = {
     type: "line",
     data: data,
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          font: { size: 20, weight: "bold", family: "Inter" },
+        },
+        legend: {
+          labels: { color: "white", font: { size: 14 } },
+        },
+      },
+      scales: {
+        x: {
+          display: true,
+          stacked: true,
+          grid: { display: true },
+          beginAtZero: false,
+          ticks: { color: "white" },
+        },
+        y: {
+          display: true,
+          stacked: true,
+          grid: { display: true },
+          beginAtZero: true,
+          ticks: { color: "white" },
+        },
+      },
+      elements: {
+        line: { fill: true },
+      },
+    },
+  };
+
+  const configDespesasFatu = {
+    type: "line",
+    data: dataDespesasFatu,
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          font: { size: 20, weight: "bold", family: "Inter" },
+        },
+        legend: {
+          labels: { color: "white", font: { size: 14 } },
+        },
+      },
+      scales: {
+        x: {
+          display: true,
+          stacked: true,
+          grid: { display: true },
+          beginAtZero: false,
+          ticks: { color: "white" },
+        },
+        y: {
+          display: true,
+          stacked: true,
+          grid: { display: true },
+          beginAtZero: true,
+          ticks: { color: "white" },
+        },
+      },
+      elements: {
+        line: { fill: true },
+      },
+    },
+  };
+
+  const configSetores = {
+    type: "line",
+    data: dataDespesasFatu,
     options: {
       responsive: true,
       plugins: {
@@ -601,7 +756,7 @@ export default function Dashboard() {
               <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
 
               {/* Parte de cima -> setores normais */}
-              <div className="flex flex-col h-full gap-3">
+              <div className="flex flex-col h-full  gap-3">
                 {setores
                   .filter(
                     (setor) =>
@@ -640,11 +795,14 @@ export default function Dashboard() {
               <div className="flex flex-col gap-3">
                 {setores
                   .filter(
-                    (setor) => setor.id === "carteira" || setor.id === "grafico" ||  setor.id === "gerenciamento" 
+                    (setor) =>
+                      setor.id === "carteira" ||
+                      setor.id === "grafico" ||
+                      setor.id === "gerenciamento"
                   )
                   .map((setor) => (
                     <div key={setor.id}>
-                      <button 
+                      <button
                         onClick={() => {
                           setAtivo(setor.id), buttonWalletOpenAudio();
                         }}
@@ -682,45 +840,63 @@ export default function Dashboard() {
           {licençaComprada ? (
             // Container com licença comprada
             <div className="w-full h-full p-4 flex flex-col">
-              {ativo === "grafico" && (
-                <Line
-                  data={data}
-                  options={{ ...config.options, maintainAspectRatio: false }}
-                  className="w-full h-full"
-                />
-                // <Map/>
+              {(ativo === "grafico") &&
+                (dados.dia <=
+                  270) && (
+                    <Line
+                      data={data}
+                      options={{
+                        ...config.options,
+                        maintainAspectRatio: false,
+                      }}
+                      className="w-full h-full"
+                    />
 
-                // <Office />
-                // <CreditCard />
-                // <div className="w-full flex-1 p-4 flex flex-col">
-                //   <div className="flex-1 w-full rounded-[20px] flex flex-col">
-                //     <motion.div
-                //       animate={controls}
-                //       initial={{ background: "linear-gradient(to top, #ff9966, #ff5e62, #2c3e50)" }}
-                //       className="gradiente w-full flex-1 rounded-[20px] flex justify-center items-center relative overflow-hidden"
-                //     >
-                //       {/* Terreno */}
-                //       <img src={solo} alt="Terreno" className="w-[900px] h-[800px] top-[100px] relative z-[10]" />
+                    // <Map/>
 
-                //       {/* Prédio */}
-                //       <div className="absolute bottom-[-150px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[10]">
-                //         <img src={buildBusiness} alt="Prédio" className="w-[500px] h-auto" />
-                //       </div>
+                    // <Office />
+                    // <CreditCard />
+                    // <div className="w-full flex-1 p-4 flex flex-col">
+                    //   <div className="flex-1 w-full rounded-[20px] flex flex-col">
+                    //     <motion.div
+                    //       animate={controls}
+                    //       initial={{ background: "linear-gradient(to top, #ff9966, #ff5e62, #2c3e50)" }}
+                    //       className="gradiente w-full flex-1 rounded-[20px] flex justify-center items-center relative overflow-hidden"
+                    //     >
+                    //       {/* Terreno */}
+                    //       <img src={solo} alt="Terreno" className="w-[900px] h-[800px] top-[100px] relative z-[10]" />
 
-                //       {/* Camada de luz sobre o prédio e terreno */}
-                //       <motion.div
-                //         animate={controls}
-                //         initial={{ background: gradientes[0] }}
-                //         className="absolute inset-0 z-[15] opacity-[30%] pointer-events-none mix-blend-soft-light"
-                //       />
+                    //       {/* Prédio */}
+                    //       <div className="absolute bottom-[-150px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[10]">
+                    //         <img src={buildBusiness} alt="Prédio" className="w-[500px] h-auto" />
+                    //       </div>
 
-                //     </motion.div>
-                //   </div>
-                // </div>
-              )}
+                    //       {/* Camada de luz sobre o prédio e terreno */}
+                    //       <motion.div
+                    //         animate={controls}
+                    //         initial={{ background: gradientes[0] }}
+                    //         className="absolute inset-0 z-[15] opacity-[30%] pointer-events-none mix-blend-soft-light"
+                    //       />
+
+                    //     </motion.div>
+                    //   </div>
+                    // </div>
+                  )}
+              {ativo === "grafico" &&
+                dados.dia >
+                  270 &&(
+                    <Line
+                      data={dataSetores}
+                      options={{
+                        ...configSetores.options,
+                        maintainAspectRatio: false,
+                      }}
+                      className="w-[400px] h-[200px]"
+                    />
+                  )}
               {ativo === "gerenciamento" && (
                 <div className="w-full h-full">
-                   <MicroModel />
+                  <MicroModel />
                 </div>
               )}
               {ativo === "carteira" && (
