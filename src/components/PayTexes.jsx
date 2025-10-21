@@ -11,9 +11,12 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 export default function PayTexes() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, setEconomiaSetores, atualizarEcoSafely,atualizarEco } = useContext(
-    DadosEconomyGlobalContext
-  );
+  const {
+    economiaSetores,
+    setEconomiaSetores,
+    atualizarEcoSafely,
+    atualizarEco,
+  } = useContext(DadosEconomyGlobalContext);
 
   const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
   const [isNKeyDown, setIsNKeyDown] = useState(false);
@@ -465,7 +468,7 @@ export default function PayTexes() {
           const faturamentoDiario =
             valorFatuFinal * quantidade * fatorEconomico;
 
-            faturamentoTotalSetor += faturamentoDiario;
+          faturamentoTotalSetor += faturamentoDiario;
           faturamentoTotalDiario += faturamentoDiario;
 
           // 🔹 Imposto sobre faturamento diário
@@ -513,29 +516,44 @@ export default function PayTexes() {
           };
         });
 
-const economiaAtual = economiaSetores[setor]?.economiaSetor || {};
+        const arrayFatuSetor =
+          economiaSetores[setor]?.economiaSetor?.ArrayFatu || [];
+        const novoArrayFatuSetor = ehPrimeiroDiaDoMes
+          ? [faturamentoTotalSetor]
+          : [...arrayFatuSetor, faturamentoTotalSetor].slice(-360);
 
-  const arrayFatuSetor =
-    economiaSetores[setor]?.economiaSetor?.ArrayFatu || [];
-  const novoArrayFatuSetor = ehPrimeiroDiaDoMes
-    ? [faturamentoTotalSetor]
-    : [...arrayFatuSetor, faturamentoTotalSetor].slice(-360);
 
-  // atualizarEco(setor, {
-  //   ...economiaSetores[setor],
-  //   economiaSetor: {
-  //     ...economiaSetores[setor].economiaSetor,
-  //     ArrayFatu: novoArrayFatuSetor,
-  //   },
-  // });
+const arrayFatuSetorHistory = economiaSetores[setor]?.economiaSetor?.ArrayFatuHistory || [];
+const novoArrayFatuSetorHistory = [...arrayFatuSetorHistory, faturamentoTotalSetor].slice(-360);
 
-atualizarEcoSafely(setor, { ArrayFatu: novoArrayFatuSetor });
+        atualizarEcoSafely(setor, {
+          ArrayFatu: novoArrayFatuSetor,
+          ArrayFatuHistory: novoArrayFatuSetorHistory,
+        });
 
-  // Atualiza os edifícios do setor
-  atualizarDados(setor, {
-    ...dados[setor],
-    edificios: edificiosAtualizados,
-  });
+        // Atualiza mantendo a estrutura completa
+        // atualizarEco(setor, {
+        //   ...economiaSetores[setor],
+        //   economiaSetor: {
+        //     ...economiaSetores[setor].economiaSetor,
+        //     ArrayFatu: novoArrayFatuSetor,
+        //   },
+        // });
+        // atualizarEco(setor, {
+        //   ...economiaSetores[setor],
+        //   economiaSetor: {
+        //     ...economiaSetores[setor].economiaSetor,
+        //     ArrayFatu: novoArrayFatuSetor,
+        //   },
+        // });
+
+        // atualizarEcoSafely(setor, { ArrayFatu: novoArrayFatuSetor });
+
+        // Atualiza os edifícios do setor
+        atualizarDados(setor, {
+          ...dados[setor],
+          edificios: edificiosAtualizados,
+        });
 
         atualizarDados(setor, {
           ...dados[setor],

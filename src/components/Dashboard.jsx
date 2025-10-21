@@ -372,7 +372,7 @@ export default function Dashboard() {
 
   const dadosDia = dados.terrenos.arrayFatu.map((_, index) => index + 1);
   const dadosFatu = dados.faturamento.arrayFatuDiário.map((_, index) => index + 1);
-const dadosDiaSetores = economiaSetores.agricultura.economiaSetor.ArrayFatu.map((_, index) => index + 1);
+const dadosDiaSetores = economiaSetores.agricultura.economiaSetor.ArrayFatuHistory.map((_, index) => index + 1);
 
   const cores = {
     terrenos: "#FF7F32 ",
@@ -405,7 +405,7 @@ const dadosDiaSetores = economiaSetores.agricultura.economiaSetor.ArrayFatu.map(
     tecnologia: "#D45A00",
     industria: "#4D4D4D",
     comercio: "#A31919 ",
-    imobiliário: "#1A1A8C ",
+    imobiliario: "#1A1A8C ",
     energia: "#A37F19 ",
   };
 
@@ -428,10 +428,10 @@ const dadosDiaSetores = economiaSetores.agricultura.economiaSetor.ArrayFatu.map(
     datasets: datasetsFinal,
   };
 
-  const datasetsSetores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliário", "energia"].map(
+  const datasetsSetores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"].map(
     (setorSelecionado) => ({
       label: setorSelecionado,
-      data: economiaSetores[setorSelecionado]?.economiaSetor.ArrayFatu || [],
+      data: economiaSetores[setorSelecionado]?.economiaSetor.ArrayFatuHistory || [],
       borderColor: coresSetores[setorSelecionado]?.replace("0.5", "1") || "#000000",
       backgroundColor: coresSetores[setorSelecionado] || "#000000",
       tension: 0.4,

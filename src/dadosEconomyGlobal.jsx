@@ -1016,6 +1016,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         estadoAtual: "estável",
         percImpostoAnualAtual: 20,
         ArrayFatu: [],
+        ArrayFatuHistory: [],
         arrValorImpostoAnualPorMes: [],
         valorImpostoAnualAtual: 0,
         RelatórioMensalImpostoAnual: {},
@@ -1027,6 +1028,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         estadoAtual: "estável",
         percImpostoAnualAtual: 24,
         ArrayFatu: [],
+        ArrayFatuHistory: [],
         arrValorImpostoAnualPorMes: [],
         valorImpostoAnualAtual: 0,
         RelatórioMensalImpostoAnual: {},
@@ -1038,6 +1040,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         estadoAtual: "estável",
         percImpostoAnualAtual: 22,
         ArrayFatu: [],
+        ArrayFatuHistory: [],
         arrValorImpostoAnualPorMes: [],
         valorImpostoAnualAtual: 0,
         RelatórioMensalImpostoAnual: {},
@@ -1049,6 +1052,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         estadoAtual: "estável",
         percImpostoAnualAtual: 22,
         ArrayFatu: [],
+        ArrayFatuHistory: [],
         arrValorImpostoAnualPorMes: [],
         valorImpostoAnualAtual: 0,
         RelatórioMensalImpostoAnual: {},
@@ -1060,6 +1064,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         estadoAtual: "estável",
         percImpostoAnualAtual: 20,
         ArrayFatu: [],
+        ArrayFatuHistory: [],
         arrValorImpostoAnualPorMes: [],
         valorImpostoAnualAtual: 0,
         RelatórioMensalImpostoAnual: {},
@@ -1070,7 +1075,8 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         patrimonio: 0,
         estadoAtual: "estável",
         percImpostoAnualAtual: 24,
-        ArrayFatu: [],
+        ArrayFatu: [], 
+        ArrayFatuHistory: [], 
         arrValorImpostoAnualPorMes: [],
         valorImpostoAnualAtual: 0,
         RelatórioMensalImpostoAnual: {},
@@ -1395,23 +1401,29 @@ const DadosEconomyGlobalProvider = ({ children }) => {
   };
 
 const atualizarEcoSafely = (chave, patch) => {
-    setEconomiaSetores((prev) => {
-      const prevItem = prev?.[chave] || {};
-      const prevEco = prevItem?.economiaSetor || {};
+  setEconomiaSetores((prev) => {
+    const prevItem = prev?.[chave] || {};
+    const prevEco = prevItem?.economiaSetor || {};
 
-      // determina o patch real
-      const patchObj =
-        typeof patch === "function" ? patch(prevEco, prevItem, prev) : patch || {};
+    // determina o patch real
+    const patchObj =
+      typeof patch === "function" ? patch(prevEco, prevItem, prev) : patch || {};
 
-      // novo economiaSetor = merge do prevEco com patchObj
-      const novoEconomiaSetor = { ...prevEco, ...patchObj };
+    // ✅ CORREÇÃO: Merge profundo do economiaSetor
+    const novoEconomiaSetor = { 
+      ...prevEco, 
+      ...patchObj 
+    };
 
-      return {
-        ...prev,
-        [chave]: { ...prevItem, economiaSetor: novoEconomiaSetor },
-      };
-    })};
-
+    return {
+      ...prev,
+      [chave]: { 
+        ...prevItem, 
+        economiaSetor: novoEconomiaSetor 
+      },
+    };
+  });
+};
   const salvarContrato = (novoContrato) => {
     setContratos((prev) => [...prev, novoContrato]);
   };
