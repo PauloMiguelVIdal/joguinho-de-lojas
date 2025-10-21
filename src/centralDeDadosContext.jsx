@@ -24128,6 +24128,56 @@ const CentraldeDadosProvider = ({ children }) => {
         }
       }
     },
+    gerenciamento: {
+      economiaSetor: {
+        estadoAtual: "estável"
+      },
+      licençaGlobal: {
+        comprado: true,
+        valor: 20000
+      },
+      licençasSetor: {
+
+      },
+      produtos: {
+        plantaçãoDeGrãos: {
+          quantidade: 60,
+          lojasNecessárias: {
+            terrenos: 20,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
+          },
+
+          construçõesNecessárias: [],
+
+          licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
+
+          melhoraEficiencia: [
+            "Fábrica De Ração",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          receitas: [
+            { construção: "depósitoDeResíduosOrgânicos", quantidade: 0 }
+          ],
+
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 }
+          ],
+
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+            nível2: { status: true, quantidadeMínima: 10, impacto: 10 },
+            nível3: { status: true, quantidadeMínima: 50, impacto: 15 },
+          }
+        }
+      }
+    },
 
   });
 
