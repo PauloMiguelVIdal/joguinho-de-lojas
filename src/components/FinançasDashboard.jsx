@@ -348,10 +348,10 @@ const CorporateFinanceInterface = () => {
                 {/* Navigation Tabs */}
                 <div className="flex flex-wrap gap-3 mb-5">
                     <TabButton id="overview" label="Visão Geral" icon={BarChart3} active={currentTab === 'overview'} onClick={setCurrentTab} />
-                    <TabButton id="banking" label="Relações Bancárias" icon={Building2} active={currentTab === 'banking'} onClick={setCurrentTab} />
+                    {/* <TabButton id="banking" label="Relações Bancárias" icon={Building2} active={currentTab === 'banking'} onClick={setCurrentTab} /> */}
                     <TabButton id="loans" label="Empréstimos" icon={DollarSign} active={currentTab === 'loans'} onClick={setCurrentTab} />
                     <TabButton id="investments" label="Investimentos" icon={TrendingUp} active={currentTab === 'investments'} onClick={setCurrentTab} />
-                    <TabButton id="cashback" label="Cashback" icon={Gift} active={currentTab === 'cashback'} onClick={setCurrentTab} />
+                    {/* <TabButton id="cashback" label="Cashback" icon={Gift} active={currentTab === 'cashback'} onClick={setCurrentTab} /> */}
                 </div>
 
                 {/* Overview Tab */}

@@ -7,7 +7,9 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import useSound from "use-sound";
 import nextDayAudio from "../../public/sounds/nextDayAudio.mp3";
+import newStageAudio from "../../public/sounds/newStageAudio.mp3"
 import { useHotkeys } from "react-hotkeys-hook";
+import { use } from "react";
 export function NextDay() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
@@ -15,9 +17,19 @@ export function NextDay() {
   );
 
   const [buttonNextDayAudio] = useSound(nextDayAudio);
-
+  const [buttonNewStageAudio] = useSound(newStageAudio)
   const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
 const [isNKeyDown, setIsNKeyDown] = useState(false);
+
+
+const [executouAudio270, setExecutouAudio270] = useState(false);
+
+useEffect(() => {
+  if (dados.dia === 270 && !executouAudio270) {
+    buttonNewStageAudio();
+    setExecutouAudio270(true); // marca que já executou
+  }
+}, [dados.dia, executouAudio270]);
 
 useHotkeys(
   'd',

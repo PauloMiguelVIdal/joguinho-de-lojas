@@ -7,6 +7,7 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import useSound from 'use-sound';
 import audioCoin from "../../public/sounds/cash-register-kaching-376867.mp3"
+
 import { useHotkeys } from "react-hotkeys-hook";
 
 export default function PayTexes() {
@@ -17,6 +18,7 @@ export default function PayTexes() {
 const [isNKeyDown, setIsNKeyDown] = useState(false);
 
   const [audioPay] = useSound(audioCoin)
+
 const realizarPag = () => {
   if(dados.despesas.despesasPagas) return;
   PagarDespesas();
@@ -275,7 +277,6 @@ useHotkeys(
   }
 
 
-
   // Atualiza relatório diário de faturamento
   // useEffect(() => {
   //   atualizarDados("relatórioFaturamento", {
@@ -312,8 +313,13 @@ useHotkeys(
   //   dados.lojasG.valorImpostoSobreFaturamento
   // ]);
 
+
+
   // Gatilho de pagamento de despesas no dia 30
   // Define o início do novo ciclo de despesas
+  
+  const diaPag = dados.dia%30==0? true: false
+  
   useEffect(() => {
     if (dados.dia % 30 === 0) {
       atualizarDados('despesas', {
@@ -347,7 +353,9 @@ useHotkeys(
         despesasPagas: true
       });
     }
+    
     if (dados.dia === 270) {
+      
       atualizarEco("imposto", {
         impostoMensal: 0,
       });
@@ -533,7 +541,7 @@ useEffect(() => {
         data-tooltip-id="tooltip-despesas"
         data-tooltip-html={tooltipText}
         className="w-[50%] min-h-[50px] aspect-square bg-[#F4CCB6] rounded-[10px] flex items-center justify-center"
-
+style={{backgroundColor: diaPag ? "#F27405" : "#ebac75ff" }}
         onClick={realizarPag}
       >
         <img className="h-[70%] min-w-[20px] aspect-square" src={despesasImg} />
@@ -542,7 +550,7 @@ useEffect(() => {
 
       {/* Badge vermelho ou verde */}
       {dados.dia % 30 === 0 && (
-        <div className="absolute bottom-[-5px] right-[-5px]">
+        <div className="absolute bottom-[-5px] right-[-5px] bg-[#]">
           <span className="relative flex size-3">
             <span
               className={`absolute inline-flex h-full w-full animate-ping rounded-full ${dados.despesas.despesasPagas ? "bg-[#008000] opacity-75" : "bg-[#FF0000] opacity-75"

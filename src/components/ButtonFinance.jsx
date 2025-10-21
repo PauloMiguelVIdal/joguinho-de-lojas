@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext,useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import mapa from "../../public/outrasImagens/maps.png";
 import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png";
@@ -16,19 +16,13 @@ export default function ButtonFinance({ corClasse }) {
     });
   };
 
-  const toggleHandler = () => {
-    if (!isAnimating) {
-      const novoEstado = !toggled;
-      setToggled(novoEstado);
 
-      // alterna visão conforme estado
-      if (novoEstado) {
+
+  const toggleHandler = () => {
         setVision("financas");
-      } else {
-        setVision("mapa");
-      }
-    }
   };
+
+ 
 
   return (
     <div
@@ -45,20 +39,21 @@ export default function ButtonFinance({ corClasse }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="w-[60%] max-w-[58px] aspect-square"
+            className="w-[60%] max-w-[58px] aspect-square hover:scale-[1.1]"
             onAnimationStart={() => setIsAnimating(true)}
             onAnimationComplete={() => setIsAnimating(false)}
           />
         ) : (
           <motion.img
             key="mapa"
-            src={mapa}
+            src={DolarImg}
             alt="Mapa"
+            
             initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0, }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.3 }}
-            className="w-[60%] max-w-[58px] aspect-square"
+            className="w-[60%] max-w-[58px] aspect-square hover:scale-[1.1]"
             onAnimationStart={() => setIsAnimating(true)}
             onAnimationComplete={() => setIsAnimating(false)}
           />

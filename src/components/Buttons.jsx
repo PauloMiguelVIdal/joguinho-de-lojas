@@ -24,7 +24,7 @@ export default function Buttons() {
                     <div className="w-full flex justify-around">
 
                         <ToggleButton />
-                        {/* <ButtonFinanace /> */}
+                        <ButtonFinanace />
                     </div>
                 </div>
 
