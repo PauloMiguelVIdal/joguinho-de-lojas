@@ -1,53 +1,102 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Clock, DollarSign, Package, Warehouse, Users, Building2, Sun, TrendingUp, Zap, Car, Truck, Smartphone, Cpu, HardHat, AlertTriangle, MapPin } from 'lucide-react';
+import React, { useState, useContext, useEffect } from "react";
+import {
+  Clock,
+  DollarSign,
+  Package,
+  Warehouse,
+  Users,
+  Building2,
+  Sun,
+  TrendingUp,
+  Zap,
+  Car,
+  Truck,
+  Smartphone,
+  Cpu,
+  HardHat,
+  AlertTriangle,
+  MapPin,
+} from "lucide-react";
+import { Localizador } from "./localizador";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-import plantacao from "../../public/imagens/Plantação De Grãos.png"
-import açougue from "../../public/imagens/Açougue.png"
-import painel from "../../public/imagens/Fábrica De Painéis Solares.png"
-import automovel from "../../public/imagens/Fábrica De Automóveis.png"
-import smartphone from "../../public/imagens/Fábrica De Smartphones.png"
-import construtora from "../../public/imagens/Construtora De Infraestruturas.png"
-import terraplanagem from "../../public/imagens/Terraplanagem E Pavimentação.png"
-import mineradora from "../../public/imagens/Mineradora.png"
+import plantacao from "../../public/imagens/Plantação De Grãos.png";
+import açougue from "../../public/imagens/Açougue.png";
+import painel from "../../public/imagens/Fábrica De Painéis Solares.png";
+import automovel from "../../public/imagens/Fábrica De Automóveis.png";
+import smartphone from "../../public/imagens/Fábrica De Smartphones.png";
+import construtora from "../../public/imagens/Construtora De Infraestruturas.png";
+import terraplanagem from "../../public/imagens/Terraplanagem E Pavimentação.png";
+import mineradora from "../../public/imagens/Mineradora.png";
+import { InfoIcon } from "lucide-react";
 // ==================== CONFIGURAÇÃO DE SETORES ====================
 const SETORES_CONFIG = {
   agricultura: {
     id: "agricultura",
     nome: "Agricultura",
-    cores: { primary: '#003816', secondary: '#1A5E2A', accent: '#0C9123', light: '#4CAF50' },
-    icon: '🌾'
+    cores: {
+      primary: "#003816",
+      secondary: "#1A5E2A",
+      accent: "#0C9123",
+      light: "#4CAF50",
+    },
+    icon: "🌾",
   },
   comercio: {
     id: "comercio",
     nome: "Comércio",
-    cores: { primary: '#660000', secondary: '#A31919', accent: '#E60000', light: '#FF4D4D' },
-    icon: '🏪'
+    cores: {
+      primary: "#660000",
+      secondary: "#A31919",
+      accent: "#E60000",
+      light: "#FF4D4D",
+    },
+    icon: "🏪",
   },
   tecnologia: {
     id: "tecnologia",
     nome: "Tecnologia",
-    cores: { primary: '#A64B00', secondary: '#D45A00', accent: '#FF6F00', light: '#FF8C42' },
-    icon: '💻'
+    cores: {
+      primary: "#A64B00",
+      secondary: "#D45A00",
+      accent: "#FF6F00",
+      light: "#FF8C42",
+    },
+    icon: "💻",
   },
   industria: {
     id: "industria",
     nome: "Indústria",
-    cores: { primary: '#1A1A1A', secondary: '#4D4D4D', accent: '#808080', light: '#B3B3B3' },
-    icon: '🏭'
+    cores: {
+      primary: "#1A1A1A",
+      secondary: "#4D4D4D",
+      accent: "#808080",
+      light: "#B3B3B3",
+    },
+    icon: "🏭",
   },
   imobiliario: {
     id: "imobiliario",
     nome: "Imobiliário",
-    cores: { primary: '#000066', secondary: '#1A1A8C', accent: '#3333CC', light: '#6666FF' },
-    icon: '🏢'
+    cores: {
+      primary: "#000066",
+      secondary: "#1A1A8C",
+      accent: "#3333CC",
+      light: "#6666FF",
+    },
+    icon: "🏢",
   },
   energia: {
     id: "energia",
     nome: "Energia",
-    cores: { primary: '#665200', secondary: '#A37F19', accent: '#E6B800', light: '#FFD966' },
-    icon: '⚡'
-  }
+    cores: {
+      primary: "#665200",
+      secondary: "#A37F19",
+      accent: "#E6B800",
+      light: "#FFD966",
+    },
+    icon: "⚡",
+  },
 };
 
 // ==================== FUNÇÃO AUXILIAR PARA SORTEAR ITENS ====================
@@ -62,32 +111,53 @@ const sortearItens = (baseData, quantidade) => {
 };
 
 // ==================== COMPONENTE BASE ====================
-const BaseBusinessInterface = ({ negocio, tabs, renderTabContent, headerExtra, footerExtra }) => {
+const BaseBusinessInterface = ({
+  negocio,
+  tabs,
+  renderTabContent,
+  headerExtra,
+  footerExtra,
+}) => {
   const [activeTab, setActiveTab] = useState(tabs[0].id);
   const cores = negocio.cores;
 
   const TabButton = ({ id, label, icon: Icon, info }) => (
     <button
       onClick={() => setActiveTab(id)}
-      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-semibold ${activeTab === id
-        ? 'text-white shadow-lg'
-        : 'text-gray-700 hover:bg-gray-200'}`}
-      style={activeTab === id ? { backgroundColor: cores.accent } : { backgroundColor: '#FFFFFF' }}
+      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-semibold ${
+        activeTab === id
+          ? "text-white shadow-lg"
+          : "text-gray-700 hover:bg-gray-200"
+      }`}
+      style={
+        activeTab === id
+          ? { backgroundColor: cores.accent }
+          : { backgroundColor: "#FFFFFF" }
+      }
     >
       <Icon size={16} />
       <span>{label}</span>
-      {info && <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">{info}</span>}
+      {info && (
+        <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">
+          {info}
+        </span>
+      )}
     </button>
   );
 
-  const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', {
-    style: 'currency', currency: 'BRL', minimumFractionDigits: 0
-  }).format(value);
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 0,
+    }).format(value);
 
   return (
     <div
       className="w-full h-[70vh] rounded-[20px] p-6 overflow-auto"
-      style={{ background: `linear-gradient(135deg, ${cores.primary}, ${cores.secondary}, ${cores.accent})` }}
+      style={{
+        background: `linear-gradient(135deg, ${cores.primary}, ${cores.secondary}, ${cores.accent})`,
+      }}
     >
       {/* Header */}
       <div className="mb-6">
@@ -103,10 +173,14 @@ const BaseBusinessInterface = ({ negocio, tabs, renderTabContent, headerExtra, f
 
       {/* Tabs */}
       <div className="flex gap-2 mb-6 flex-wrap">
-        {tabs.map(tab => <TabButton key={tab.id} {...tab} />)}
+        {tabs.map((tab) => (
+          <TabButton key={tab.id} {...tab} />
+        ))}
       </div>
 
-      <div className=''>{renderTabContent(activeTab, cores, formatCurrency)}</div>
+      <div className="">
+        {renderTabContent(activeTab, cores, formatCurrency)}
+      </div>
       {footerExtra && (
         <div className="text-center text-white mt-4 text-sm opacity-90 bg-black/20 py-2 rounded-lg">
           {footerExtra(activeTab)}
@@ -119,39 +193,169 @@ const BaseBusinessInterface = ({ negocio, tabs, renderTabContent, headerExtra, f
 // ==================== PLANTAÇÃO ====================
 const PlantacaoNegocio = () => {
   const { dados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, atualizarEco } = useContext(
+    DadosEconomyGlobalContext
+  );
 
   const getProductIcon = (type) => {
     const icons = {
-      beef: '🥩',
-      pork: '🥓',
-      chicken: '🍗',
-      sausage: '🌭',
-      milho: '🌽',
-      soja: '🫘',
-      trigo: '🌾',
-      cevada: '🌱'
+      beef: "🥩",
+      pork: "🥓",
+      chicken: "🍗",
+      sausage: "🌭",
+      milho: "🌽",
+      soja: "🫘",
+      trigo: "🌾",
+      cevada: "🌱",
     };
-    return icons[type] || '📦';
+    return icons[type] || "📦";
   };
 
   const graosBase = [
-    { id: 1, nome: "Milho", custo: 7000, sacas: 100, valorPorSaca: 100, duracao: 80, icon: "🌽" },
-    { id: 2, nome: "Soja", custo: 5000, sacas: 50, valorPorSaca: 135, duracao: 120, icon: "🫘" },
-    { id: 3, nome: "Trigo", custo: 3000, sacas: 50, valorPorSaca: 80, duracao: 180, icon: "🌾" },
-    { id: 4, nome: "Cevada", custo: 3500, sacas: 50, valorPorSaca: 100, duracao: 90, icon: "🌱" },
-    { id: 5, nome: "Milho", custo: 10500, sacas: 150, valorPorSaca: 100, duracao: 85, icon: "🌽" },
-    { id: 6, nome: "Milho", custo: 14700, sacas: 200, valorPorSaca: 100, duracao: 90, icon: "🌽" },
-    { id: 7, nome: "Soja", custo: 7200, sacas: 75, valorPorSaca: 135, duracao: 130, icon: "🫘" },
-    { id: 8, nome: "Soja", custo: 9600, sacas: 100, valorPorSaca: 135, duracao: 140, icon: "🫘" },
-    { id: 9, nome: "Trigo", custo: 4200, sacas: 75, valorPorSaca: 80, duracao: 190, icon: "🌾" },
-    { id: 10, nome: "Trigo", custo: 5600, sacas: 100, valorPorSaca: 80, duracao: 200, icon: "🌾" },
-    { id: 11, nome: "Cevada", custo: 4950, sacas: 75, valorPorSaca: 100, duracao: 95, icon: "🌱" },
-    { id: 12, nome: "Cevada", custo: 6650, sacas: 100, valorPorSaca: 100, duracao: 100, icon: "🌱" },
-    { id: 13, nome: "Milho", custo: 18900, sacas: 250, valorPorSaca: 100, duracao: 95, icon: "🌽" },
-    { id: 14, nome: "Soja", custo: 11800, sacas: 125, valorPorSaca: 135, duracao: 150, icon: "🫘" },
-    { id: 15, nome: "Trigo", custo: 6900, sacas: 125, valorPorSaca: 80, duracao: 210, icon: "🌾" },
-    { id: 16, nome: "Cevada", custo: 9100, sacas: 125, valorPorSaca: 100, duracao: 105, icon: "🌱" },
+    {
+      id: 1,
+      nome: "Milho",
+      custo: 7000,
+      sacas: 100,
+      valorPorSaca: 100,
+      duracao: 80,
+      icon: "🌽",
+    },
+    {
+      id: 2,
+      nome: "Soja",
+      custo: 5000,
+      sacas: 50,
+      valorPorSaca: 135,
+      duracao: 120,
+      icon: "🫘",
+    },
+    {
+      id: 3,
+      nome: "Trigo",
+      custo: 3000,
+      sacas: 50,
+      valorPorSaca: 80,
+      duracao: 180,
+      icon: "🌾",
+    },
+    {
+      id: 4,
+      nome: "Cevada",
+      custo: 3500,
+      sacas: 50,
+      valorPorSaca: 100,
+      duracao: 90,
+      icon: "🌱",
+    },
+    {
+      id: 5,
+      nome: "Milho",
+      custo: 10500,
+      sacas: 150,
+      valorPorSaca: 100,
+      duracao: 85,
+      icon: "🌽",
+    },
+    {
+      id: 6,
+      nome: "Milho",
+      custo: 14700,
+      sacas: 200,
+      valorPorSaca: 100,
+      duracao: 90,
+      icon: "🌽",
+    },
+    {
+      id: 7,
+      nome: "Soja",
+      custo: 7200,
+      sacas: 75,
+      valorPorSaca: 135,
+      duracao: 130,
+      icon: "🫘",
+    },
+    {
+      id: 8,
+      nome: "Soja",
+      custo: 9600,
+      sacas: 100,
+      valorPorSaca: 135,
+      duracao: 140,
+      icon: "🫘",
+    },
+    {
+      id: 9,
+      nome: "Trigo",
+      custo: 4200,
+      sacas: 75,
+      valorPorSaca: 80,
+      duracao: 190,
+      icon: "🌾",
+    },
+    {
+      id: 10,
+      nome: "Trigo",
+      custo: 5600,
+      sacas: 100,
+      valorPorSaca: 80,
+      duracao: 200,
+      icon: "🌾",
+    },
+    {
+      id: 11,
+      nome: "Cevada",
+      custo: 4950,
+      sacas: 75,
+      valorPorSaca: 100,
+      duracao: 95,
+      icon: "🌱",
+    },
+    {
+      id: 12,
+      nome: "Cevada",
+      custo: 6650,
+      sacas: 100,
+      valorPorSaca: 100,
+      duracao: 100,
+      icon: "🌱",
+    },
+    {
+      id: 13,
+      nome: "Milho",
+      custo: 18900,
+      sacas: 250,
+      valorPorSaca: 100,
+      duracao: 95,
+      icon: "🌽",
+    },
+    {
+      id: 14,
+      nome: "Soja",
+      custo: 11800,
+      sacas: 125,
+      valorPorSaca: 135,
+      duracao: 150,
+      icon: "🫘",
+    },
+    {
+      id: 15,
+      nome: "Trigo",
+      custo: 6900,
+      sacas: 125,
+      valorPorSaca: 80,
+      duracao: 210,
+      icon: "🌾",
+    },
+    {
+      id: 16,
+      nome: "Cevada",
+      custo: 9100,
+      sacas: 125,
+      valorPorSaca: 100,
+      duracao: 105,
+      icon: "🌱",
+    },
   ];
 
   const marketOffersBase = [
@@ -168,25 +372,45 @@ const PlantacaoNegocio = () => {
     { id: 11, name: "trigo", sacas: 150, pricePerSack: 102, totalPrice: 15300 },
     { id: 12, name: "trigo", sacas: 200, pricePerSack: 101, totalPrice: 20200 },
     { id: 13, name: "cevada", sacas: 50, pricePerSack: 105, totalPrice: 5250 },
-    { id: 14, name: "cevada", sacas: 100, pricePerSack: 112, totalPrice: 11200 },
-    { id: 15, name: "cevada", sacas: 150, pricePerSack: 118, totalPrice: 17700 },
-    { id: 16, name: "cevada", sacas: 200, pricePerSack: 119, totalPrice: 23800 },
+    {
+      id: 14,
+      name: "cevada",
+      sacas: 100,
+      pricePerSack: 112,
+      totalPrice: 11200,
+    },
+    {
+      id: 15,
+      name: "cevada",
+      sacas: 150,
+      pricePerSack: 118,
+      totalPrice: 17700,
+    },
+    {
+      id: 16,
+      name: "cevada",
+      sacas: 200,
+      pricePerSack: 119,
+      totalPrice: 23800,
+    },
   ];
 
   // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
   useEffect(() => {
     // Garantir que vendasRealizadas existe na estrutura
-    if (economiaSetores.negocios?.PlantacaoNegocio &&
-      !economiaSetores.negocios.PlantacaoNegocio.mercado?.vendasRealizadas) {
+    if (
+      economiaSetores.negocios?.PlantacaoNegocio &&
+      !economiaSetores.negocios.PlantacaoNegocio.mercado?.vendasRealizadas
+    ) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
         PlantacaoNegocio: {
           ...economiaSetores.negocios.PlantacaoNegocio,
           mercado: {
             ...economiaSetores.negocios.PlantacaoNegocio.mercado,
-            vendasRealizadas: []
-          }
-        }
+            vendasRealizadas: [],
+          },
+        },
       });
     }
   }, []);
@@ -196,7 +420,9 @@ const PlantacaoNegocio = () => {
 
   // Se ainda não foi inicializado, retorna loading
   if (!negocio) {
-    return <div className="text-white text-center p-8">Carregando negócio...</div>;
+    return (
+      <div className="text-white text-center p-8">Carregando negócio...</div>
+    );
   }
 
   // ==================== ATUALIZAÇÃO DE CICLOS ====================
@@ -208,24 +434,34 @@ const PlantacaoNegocio = () => {
 
     // Verificar e atualizar ciclo de produção
     if (dados.dia >= negocio.produzir.proximoCiclo) {
-      console.log("🔄 Atualizando ciclo de produção - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.produzir.proximoCiclo);
+      console.log(
+        "🔄 Atualizando ciclo de produção - Dia atual:",
+        dados.dia,
+        "Próximo ciclo era:",
+        negocio.produzir.proximoCiclo
+      );
 
       novoNegocio.produzir = {
         ...negocio.produzir,
         ofertasAtivas: sortearItens(graosBase, 4),
-        proximoCiclo: dados.dia + 30
+        proximoCiclo: dados.dia + 30,
       };
       precisaAtualizar = true;
     }
 
     // Verificar e atualizar ciclo de mercado
     if (dados.dia >= negocio.mercado.proximoCiclo) {
-      console.log("🔄 Atualizando ciclo de mercado - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.mercado.proximoCiclo);
+      console.log(
+        "🔄 Atualizando ciclo de mercado - Dia atual:",
+        dados.dia,
+        "Próximo ciclo era:",
+        negocio.mercado.proximoCiclo
+      );
 
       novoNegocio.mercado = {
         ofertasAtivas: sortearItens(marketOffersBase, 8),
         vendasRealizadas: [],
-        proximoCiclo: dados.dia + 90
+        proximoCiclo: dados.dia + 90,
       };
       precisaAtualizar = true;
     }
@@ -234,10 +470,14 @@ const PlantacaoNegocio = () => {
     if (precisaAtualizar) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
-        PlantacaoNegocio: novoNegocio
+        PlantacaoNegocio: novoNegocio,
       });
     }
-  }, [dados.dia, negocio?.produzir?.proximoCiclo, negocio?.mercado?.proximoCiclo]);
+  }, [
+    dados.dia,
+    negocio?.produzir?.proximoCiclo,
+    negocio?.mercado?.proximoCiclo,
+  ]);
 
   // ==================== HANDLERS ====================
   const handlePlantar = (grao) => {
@@ -255,7 +495,7 @@ const PlantacaoNegocio = () => {
       qtdSacas: grao.sacas,
       diaInicio: dados.dia,
       diaColher: dados.dia + grao.duracao,
-      icon: grao.icon
+      icon: grao.icon,
     };
 
     // Atualiza saldo
@@ -268,9 +508,9 @@ const PlantacaoNegocio = () => {
         ...negocio,
         produzir: {
           ...negocio.produzir,
-          producaoAtual: novaProducao
-        }
-      }
+          producaoAtual: novaProducao,
+        },
+      },
     });
   };
 
@@ -280,7 +520,8 @@ const PlantacaoNegocio = () => {
     const prod = negocio.produzir.producaoAtual;
     const novoEstoque = {
       ...negocio.estoque.estoqueAtual,
-      [prod.grao]: (negocio.estoque.estoqueAtual[prod.grao] || 0) + prod.qtdSacas
+      [prod.grao]:
+        (negocio.estoque.estoqueAtual[prod.grao] || 0) + prod.qtdSacas,
     };
 
     atualizarEco("negocios", {
@@ -289,13 +530,13 @@ const PlantacaoNegocio = () => {
         ...negocio,
         produzir: {
           ...negocio.produzir,
-          producaoAtual: null
+          producaoAtual: null,
         },
         estoque: {
           ...negocio.estoque,
-          estoqueAtual: novoEstoque
-        }
-      }
+          estoqueAtual: novoEstoque,
+        },
+      },
     });
   };
 
@@ -308,7 +549,7 @@ const PlantacaoNegocio = () => {
 
     const novoEstoque = {
       ...negocio.estoque.estoqueAtual,
-      [offer.name]: estoqueAtual - offer.sacas
+      [offer.name]: estoqueAtual - offer.sacas,
     };
 
     // Atualiza saldo
@@ -321,44 +562,67 @@ const PlantacaoNegocio = () => {
         ...negocio,
         estoque: {
           ...negocio.estoque,
-          estoqueAtual: novoEstoque
+          estoqueAtual: novoEstoque,
         },
         mercado: {
           ...negocio.mercado,
-          vendasRealizadas: [...(negocio.mercado.vendasRealizadas || []), offer.id]
-        }
-      }
+          vendasRealizadas: [
+            ...(negocio.mercado.vendasRealizadas || []),
+            offer.id,
+          ],
+        },
+      },
     });
   };
 
   // ==================== RENDER TAB CONTENT ====================
   const renderTabContent = (tab, cores, formatCurrency) => {
-    if (tab === 'produzir') {
+    if (tab === "produzir") {
       return (
         <div className="grid grid-cols-2 gap-4 max-w-4xl mx-auto">
           {negocio.produzir.ofertasAtivas.map((grao) => {
-            const podeEscolher = !negocio.produzir.producaoAtual && economiaSetores.saldo >= grao.custo;
+            const podeEscolher =
+              !negocio.produzir.producaoAtual &&
+              economiaSetores.saldo >= grao.custo;
             return (
               <div key={grao.id} className="rounded-lg shadow-md p-4 bg-white">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-2xl">{grao.icon}</span>
-                  <h3 className="text-base font-bold" style={{ color: cores.primary }}>
+                  <h3
+                    className="text-base font-bold"
+                    style={{ color: cores.primary }}
+                  >
                     {grao.nome}
                   </h3>
                 </div>
                 <div className="space-y-2 mb-4">
-                  <div className="flex justify-between text-sm"><span>Custo:</span><span>{formatCurrency(grao.custo)}</span></div>
-                  <div className="flex justify-between text-sm"><span>Sacas:</span><span>{grao.sacas}</span></div>
-                  <div className="flex justify-between text-sm"><span>Custo/Saca:</span><span>{formatCurrency(grao.custo / grao.sacas)}</span></div>
-                  <div className="flex justify-between text-sm"><span>Duração:</span><span>{grao.duracao} dias</span></div>
+                  <div className="flex justify-between text-sm">
+                    <span>Custo:</span>
+                    <span>{formatCurrency(grao.custo)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Sacas:</span>
+                    <span>{grao.sacas}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Custo/Saca:</span>
+                    <span>{formatCurrency(grao.custo / grao.sacas)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Duração:</span>
+                    <span>{grao.duracao} dias</span>
+                  </div>
                 </div>
                 <button
                   onClick={() => handlePlantar(grao)}
                   disabled={!podeEscolher}
                   className="w-full py-3 rounded font-bold text-white transition-colors"
-                  style={{ backgroundColor: podeEscolher ? cores.accent : '#6C757D', cursor: podeEscolher ? 'pointer' : 'not-allowed' }}
+                  style={{
+                    backgroundColor: podeEscolher ? cores.accent : "#6C757D",
+                    cursor: podeEscolher ? "pointer" : "not-allowed",
+                  }}
                 >
-                  {negocio.produzir.producaoAtual ? 'Plantando...' : 'Plantar'}
+                  {negocio.produzir.producaoAtual ? "Plantando..." : "Plantar"}
                 </button>
               </div>
             );
@@ -367,7 +631,7 @@ const PlantacaoNegocio = () => {
       );
     }
 
-    if (tab === 'mercado') {
+    if (tab === "mercado") {
       const ofertasDisponiveis = negocio.mercado.ofertasAtivas.filter(
         (offer) => !(negocio.mercado.vendasRealizadas || []).includes(offer.id)
       );
@@ -376,15 +640,26 @@ const PlantacaoNegocio = () => {
         <div className="grid grid-cols-4 gap-4 w-full mx-auto text-center">
           {ofertasDisponiveis.map((offer) => (
             <div key={offer.id} className="bg-white rounded-lg p-4 shadow-md">
-              <h3 className="font-bold text-gray-800 mb-2 capitalize text-2xl">{getProductIcon(offer.name)}</h3>
-              <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
+              <h3 className="font-bold text-gray-800 mb-2 capitalize text-2xl">
+                {getProductIcon(offer.name)}
+              </h3>
+              <h3 className="font-bold text-gray-800 mb-2 capitalize">
+                {offer.name}
+              </h3>
               <p className="text-sm mb-1">{offer.sacas} sacas</p>
-              <p className="text-xs text-gray-500 mb-3">R$ {offer.pricePerSack}/saca</p>
+              <p className="text-xs text-gray-500 mb-3">
+                R$ {offer.pricePerSack}/saca
+              </p>
               <button
                 onClick={() => handleVender(offer)}
                 className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700 transition-colors"
               >
-                Vender por {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0 }).format(offer.totalPrice)}
+                Vender por{" "}
+                {new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                  minimumFractionDigits: 0,
+                }).format(offer.totalPrice)}
               </button>
             </div>
           ))}
@@ -398,16 +673,26 @@ const PlantacaoNegocio = () => {
       );
     }
 
-    if (tab === 'estoque') {
-      const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
-      const percentualOcupado = ((estoqueTotal / negocio.estoque.capacidadeEstoque) * 100).toFixed(1);
+    if (tab === "estoque") {
+      const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce(
+        (a, b) => a + b,
+        0
+      );
+      const percentualOcupado = (
+        (estoqueTotal / negocio.estoque.capacidadeEstoque) *
+        100
+      ).toFixed(1);
 
       return (
         <div>
           <div className="text-center text-white mb-6 bg-white/20 rounded-lg p-4">
             <p className="text-xl font-bold mb-2">Capacidade do Estoque</p>
-            <p className="text-2xl">{estoqueTotal} / {negocio.estoque.capacidadeEstoque} sacas</p>
-            <p className="text-sm opacity-80 mt-1">{percentualOcupado}% ocupado</p>
+            <p className="text-2xl">
+              {estoqueTotal} / {negocio.estoque.capacidadeEstoque} sacas
+            </p>
+            <p className="text-sm opacity-80 mt-1">
+              {percentualOcupado}% ocupado
+            </p>
 
             {/* Barra de progresso */}
             <div className="w-full bg-white/30 rounded-full h-3 mt-3">
@@ -420,7 +705,10 @@ const PlantacaoNegocio = () => {
 
           <div className="grid grid-cols-2 gap-6">
             {Object.entries(negocio.estoque.estoqueAtual).map(([type, qtd]) => (
-              <div key={type} className="text-center text-white bg-white/20 rounded-xl p-4 hover:bg-white/30 transition-colors">
+              <div
+                key={type}
+                className="text-center text-white bg-white/20 rounded-xl p-4 hover:bg-white/30 transition-colors"
+              >
                 <h3 className="text-4xl mb-3">{getProductIcon(type)}</h3>
                 <h3 className="text-3xl font-bold mb-2 capitalize">{type}</h3>
                 <div className="text-xl mb-3 opacity-80">{qtd} sacas</div>
@@ -437,25 +725,40 @@ const PlantacaoNegocio = () => {
     return null;
   };
 
-  const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
+  const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce(
+    (a, b) => a + b,
+    0
+  );
 
   const tabs = [
-    { id: 'produzir', label: 'Produzir', icon: Warehouse, info: null },
-    { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
-    { id: 'estoque', label: 'Estoque', icon: Package, info: `${estoqueTotal} Sacas` },
+    { id: "produzir", label: "Produzir", icon: Warehouse, info: null },
+    { id: "mercado", label: "Mercado", icon: TrendingUp, info: null },
+    {
+      id: "estoque",
+      label: "Estoque",
+      icon: Package,
+      info: `${estoqueTotal} Sacas`,
+    },
   ];
 
-  const plantacaoProntaParaColher = negocio.produzir.producaoAtual &&
+  const plantacaoProntaParaColher =
+    negocio.produzir.producaoAtual &&
     dados.dia >= negocio.produzir.producaoAtual.diaColher;
 
   const negocioConfig = {
-    nome: 'Plantação de Grãos',
-    cores: SETORES_CONFIG.agricultura.cores
+    nome: "Plantação de Grãos",
+    cores: SETORES_CONFIG.agricultura.cores,
   };
 
   // Calcular dias restantes para os ciclos
-  const diasRestantesProduzir = Math.max(0, negocio.produzir.proximoCiclo - dados.dia);
-  const diasRestantesMercado = Math.max(0, negocio.mercado.proximoCiclo - dados.dia);
+  const diasRestantesProduzir = Math.max(
+    0,
+    negocio.produzir.proximoCiclo - dados.dia
+  );
+  const diasRestantesMercado = Math.max(
+    0,
+    negocio.mercado.proximoCiclo - dados.dia
+  );
 
   return (
     <BaseBusinessInterface
@@ -468,7 +771,11 @@ const PlantacaoNegocio = () => {
             {plantacaoProntaParaColher ? (
               <div className="flex items-center justify-between">
                 <span className="text-base">
-                  {negocio.produzir.producaoAtual.icon} <strong className="capitalize">{negocio.produzir.producaoAtual.grao}</strong> pronto para colheita!
+                  {negocio.produzir.producaoAtual.icon}{" "}
+                  <strong className="capitalize">
+                    {negocio.produzir.producaoAtual.grao}
+                  </strong>{" "}
+                  pronto para colheita!
                 </span>
                 <button
                   onClick={handleColheita}
@@ -479,9 +786,15 @@ const PlantacaoNegocio = () => {
               </div>
             ) : (
               <div className="text-center">
-                🌱 Cultivando <strong className="capitalize">{negocio.produzir.producaoAtual.grao}</strong> — Colheita no dia <strong>{negocio.produzir.producaoAtual.diaColher}</strong>
+                🌱 Cultivando{" "}
+                <strong className="capitalize">
+                  {negocio.produzir.producaoAtual.grao}
+                </strong>{" "}
+                — Colheita no dia{" "}
+                <strong>{negocio.produzir.producaoAtual.diaColher}</strong>
                 <div className="text-xs opacity-80 mt-1">
-                  ({negocio.produzir.producaoAtual.diaColher - dados.dia} dias restantes)
+                  ({negocio.produzir.producaoAtual.diaColher - dados.dia} dias
+                  restantes)
                 </div>
               </div>
             )}
@@ -489,12 +802,12 @@ const PlantacaoNegocio = () => {
         )
       }
       footerExtra={(tab) => {
-        if (tab === 'produzir') {
+        if (tab === "produzir") {
           return diasRestantesProduzir === 0
             ? `🔄 Novas ofertas disponíveis!`
             : `Próximo ciclo de produção em ${diasRestantesProduzir} dias`;
         }
-        if (tab === 'mercado') {
+        if (tab === "mercado") {
           return diasRestantesMercado === 0
             ? `🔄 Novos compradores disponíveis!`
             : `Próximo ciclo de mercado em ${diasRestantesMercado} dias`;
@@ -505,50 +818,235 @@ const PlantacaoNegocio = () => {
   );
 };
 
-
 // ==================== EXEMPLO: AÇOUGUE ====================
 const AcougueNegocio = () => {
   const { dados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, atualizarEco } = useContext(
+    DadosEconomyGlobalContext
+  );
 
   const getProductIcon = (type) => {
     const icons = {
-      beef: '🥩',
-      pork: '🥓',
-      chicken: '🍗',
-      sausage: '🌭'
+      beef: "🥩",
+      pork: "🥓",
+      chicken: "🍗",
+      sausage: "🌭",
     };
-    return icons[type] || '📦';
+    return icons[type] || "📦";
   };
 
   const fornecedoresBase = [
-    { id: 1, nome: "Frigorífico Regional", tipo: "beef", quantidade: 80, preco: 2000, precoKg: 25, qualidade: "Premium", icon: "🥩" },
-    { id: 2, nome: "Granja Feliz", tipo: "chicken", quantidade: 100, preco: 800, precoKg: 8, qualidade: "Orgânico", icon: "🍗" },
-    { id: 3, nome: "Fazenda Suína Boa Terra", tipo: "pork", quantidade: 60, preco: 1080, precoKg: 18, qualidade: "Tradicional", icon: "🥓" },
-    { id: 4, nome: "Fábrica de Embutidos SaborSul", tipo: "sausage", quantidade: 40, preco: 1000, precoKg: 25, qualidade: "Artesanal", icon: "🌭" },
-    { id: 5, nome: "Frigorífico Premium", tipo: "beef", quantidade: 120, preco: 3200, precoKg: 26.67, qualidade: "Premium Plus", icon: "🥩" },
-    { id: 6, nome: "Avícola Campestre", tipo: "chicken", quantidade: 150, preco: 1350, precoKg: 9, qualidade: "Caipira", icon: "🍗" },
-    { id: 7, nome: "Suínos do Vale", tipo: "pork", quantidade: 90, preco: 1710, precoKg: 19, qualidade: "Premium", icon: "🥓" },
-    { id: 8, nome: "Embutidos Casa Grande", tipo: "sausage", quantidade: 60, preco: 1620, precoKg: 27, qualidade: "Gourmet", icon: "🌭" }
+    {
+      id: 1,
+      nome: "Frigorífico Regional",
+      tipo: "beef",
+      quantidade: 80,
+      preco: 2000,
+      precoKg: 25,
+      qualidade: "Premium",
+      icon: "🥩",
+    },
+    {
+      id: 2,
+      nome: "Granja Feliz",
+      tipo: "chicken",
+      quantidade: 100,
+      preco: 800,
+      precoKg: 8,
+      qualidade: "Orgânico",
+      icon: "🍗",
+    },
+    {
+      id: 3,
+      nome: "Fazenda Suína Boa Terra",
+      tipo: "pork",
+      quantidade: 60,
+      preco: 1080,
+      precoKg: 18,
+      qualidade: "Tradicional",
+      icon: "🥓",
+    },
+    {
+      id: 4,
+      nome: "Fábrica de Embutidos SaborSul",
+      tipo: "sausage",
+      quantidade: 40,
+      preco: 1000,
+      precoKg: 25,
+      qualidade: "Artesanal",
+      icon: "🌭",
+    },
+    {
+      id: 5,
+      nome: "Frigorífico Premium",
+      tipo: "beef",
+      quantidade: 120,
+      preco: 3200,
+      precoKg: 26.67,
+      qualidade: "Premium Plus",
+      icon: "🥩",
+    },
+    {
+      id: 6,
+      nome: "Avícola Campestre",
+      tipo: "chicken",
+      quantidade: 150,
+      preco: 1350,
+      precoKg: 9,
+      qualidade: "Caipira",
+      icon: "🍗",
+    },
+    {
+      id: 7,
+      nome: "Suínos do Vale",
+      tipo: "pork",
+      quantidade: 90,
+      preco: 1710,
+      precoKg: 19,
+      qualidade: "Premium",
+      icon: "🥓",
+    },
+    {
+      id: 8,
+      nome: "Embutidos Casa Grande",
+      tipo: "sausage",
+      quantidade: 60,
+      preco: 1620,
+      precoKg: 27,
+      qualidade: "Gourmet",
+      icon: "🌭",
+    },
   ];
 
   const ofertasVendaBase = [
-    { id: 1, nome: "beef", precoKg: 30, quantidade: 20, icon: "🥩", duracao: 120 },
-    { id: 2, nome: "chicken", precoKg: 12, quantidade: 15, icon: "🍗", duracao: 120 },
-    { id: 3, nome: "pork", precoKg: 18, quantidade: 10, icon: "🥓", duracao: 30 },
-    { id: 4, nome: "sausage", precoKg: 22, quantidade: 8, icon: "🌭", duracao: 10 },
-    { id: 5, nome: "beef", precoKg: 45, quantidade: 15, icon: "🥩", duracao: 60 },
-    { id: 6, nome: "chicken", precoKg: 15, quantidade: 30, icon: "🍗", duracao: 50 },
-    { id: 7, nome: "pork", precoKg: 32, quantidade: 25, icon: "🥓", duracao: 90 },
-    { id: 8, nome: "sausage", precoKg: 48, quantidade: 15, icon: "🌭", duracao: 100 },
-    { id: 9, nome: "beef", precoKg: 50, quantidade: 20, icon: "🥩", duracao: 120 },
-    { id: 10, nome: "chicken", precoKg: 18, quantidade: 40, icon: "🍗", duracao: 110 },
-    { id: 11, nome: "pork", precoKg: 35, quantidade: 18, icon: "🥓", duracao: 75 },
-    { id: 12, nome: "sausage", precoKg: 52, quantidade: 12, icon: "🌭", duracao: 85 },
-    { id: 13, nome: "beef", precoKg: 55, quantidade: 25, icon: "🥩", duracao: 130 },
-    { id: 14, nome: "chicken", precoKg: 20, quantidade: 50, icon: "🍗", duracao: 95 },
-    { id: 15, nome: "pork", precoKg: 38, quantidade: 30, icon: "🥓", duracao: 105 },
-    { id: 16, nome: "sausage", precoKg: 55, quantidade: 20, icon: "🌭", duracao: 115 }
+    {
+      id: 1,
+      nome: "beef",
+      precoKg: 30,
+      quantidade: 20,
+      icon: "🥩",
+      duracao: 120,
+    },
+    {
+      id: 2,
+      nome: "chicken",
+      precoKg: 12,
+      quantidade: 15,
+      icon: "🍗",
+      duracao: 120,
+    },
+    {
+      id: 3,
+      nome: "pork",
+      precoKg: 18,
+      quantidade: 10,
+      icon: "🥓",
+      duracao: 30,
+    },
+    {
+      id: 4,
+      nome: "sausage",
+      precoKg: 22,
+      quantidade: 8,
+      icon: "🌭",
+      duracao: 10,
+    },
+    {
+      id: 5,
+      nome: "beef",
+      precoKg: 45,
+      quantidade: 15,
+      icon: "🥩",
+      duracao: 60,
+    },
+    {
+      id: 6,
+      nome: "chicken",
+      precoKg: 15,
+      quantidade: 30,
+      icon: "🍗",
+      duracao: 50,
+    },
+    {
+      id: 7,
+      nome: "pork",
+      precoKg: 32,
+      quantidade: 25,
+      icon: "🥓",
+      duracao: 90,
+    },
+    {
+      id: 8,
+      nome: "sausage",
+      precoKg: 48,
+      quantidade: 15,
+      icon: "🌭",
+      duracao: 100,
+    },
+    {
+      id: 9,
+      nome: "beef",
+      precoKg: 50,
+      quantidade: 20,
+      icon: "🥩",
+      duracao: 120,
+    },
+    {
+      id: 10,
+      nome: "chicken",
+      precoKg: 18,
+      quantidade: 40,
+      icon: "🍗",
+      duracao: 110,
+    },
+    {
+      id: 11,
+      nome: "pork",
+      precoKg: 35,
+      quantidade: 18,
+      icon: "🥓",
+      duracao: 75,
+    },
+    {
+      id: 12,
+      nome: "sausage",
+      precoKg: 52,
+      quantidade: 12,
+      icon: "🌭",
+      duracao: 85,
+    },
+    {
+      id: 13,
+      nome: "beef",
+      precoKg: 55,
+      quantidade: 25,
+      icon: "🥩",
+      duracao: 130,
+    },
+    {
+      id: 14,
+      nome: "chicken",
+      precoKg: 20,
+      quantidade: 50,
+      icon: "🍗",
+      duracao: 95,
+    },
+    {
+      id: 15,
+      nome: "pork",
+      precoKg: 38,
+      quantidade: 30,
+      icon: "🥓",
+      duracao: 105,
+    },
+    {
+      id: 16,
+      nome: "sausage",
+      precoKg: 55,
+      quantidade: 20,
+      icon: "🌭",
+      duracao: 115,
+    },
   ];
 
   // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
@@ -563,7 +1061,7 @@ const AcougueNegocio = () => {
       if (!negocioAtual.mercado?.vendasRealizadas) {
         novoNegocio.mercado = {
           ...negocioAtual.mercado,
-          vendasRealizadas: []
+          vendasRealizadas: [],
         };
         precisaAtualizar = true;
       }
@@ -572,7 +1070,7 @@ const AcougueNegocio = () => {
       if (!negocioAtual.mercado?.vendaAtual) {
         novoNegocio.mercado = {
           ...novoNegocio.mercado,
-          vendaAtual: null
+          vendaAtual: null,
         };
         precisaAtualizar = true;
       }
@@ -580,7 +1078,7 @@ const AcougueNegocio = () => {
       if (precisaAtualizar) {
         atualizarEco("negocios", {
           ...economiaSetores.negocios,
-          AcougueNegocio: novoNegocio
+          AcougueNegocio: novoNegocio,
         });
       }
     }
@@ -591,7 +1089,9 @@ const AcougueNegocio = () => {
 
   // Se ainda não foi inicializado, retorna loading
   if (!negocio) {
-    return <div className="text-white text-center p-8">Carregando negócio...</div>;
+    return (
+      <div className="text-white text-center p-8">Carregando negócio...</div>
+    );
   }
 
   // ==================== ATUALIZAÇÃO DE CICLOS ====================
@@ -603,25 +1103,35 @@ const AcougueNegocio = () => {
 
     // Verificar e atualizar ciclo de fornecedores
     if (dados.dia >= negocio.compras.proximoCiclo) {
-      console.log("🔄 Atualizando ciclo de fornecedores - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.compras.proximoCiclo);
+      console.log(
+        "🔄 Atualizando ciclo de fornecedores - Dia atual:",
+        dados.dia,
+        "Próximo ciclo era:",
+        negocio.compras.proximoCiclo
+      );
 
       novoNegocio.compras = {
         ...negocio.compras,
         ofertasAtivas: sortearItens(fornecedoresBase, 4),
-        proximoCiclo: dados.dia + 30
+        proximoCiclo: dados.dia + 30,
       };
       precisaAtualizar = true;
     }
 
     // Verificar e atualizar ciclo de mercado (vendas)
     if (dados.dia >= negocio.mercado.proximoCiclo) {
-      console.log("🔄 Atualizando ciclo de mercado - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.mercado.proximoCiclo);
+      console.log(
+        "🔄 Atualizando ciclo de mercado - Dia atual:",
+        dados.dia,
+        "Próximo ciclo era:",
+        negocio.mercado.proximoCiclo
+      );
 
       novoNegocio.mercado = {
         ofertasAtivas: sortearItens(ofertasVendaBase, 8),
         vendasRealizadas: [],
         vendaAtual: null,
-        proximoCiclo: dados.dia + 90
+        proximoCiclo: dados.dia + 90,
       };
       precisaAtualizar = true;
     }
@@ -630,10 +1140,14 @@ const AcougueNegocio = () => {
     if (precisaAtualizar) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
-        AcougueNegocio: novoNegocio
+        AcougueNegocio: novoNegocio,
       });
     }
-  }, [dados.dia, negocio?.compras?.proximoCiclo, negocio?.mercado?.proximoCiclo]);
+  }, [
+    dados.dia,
+    negocio?.compras?.proximoCiclo,
+    negocio?.mercado?.proximoCiclo,
+  ]);
 
   // ==================== HANDLERS ====================
   const handleCompra = (fornecedor) => {
@@ -644,7 +1158,10 @@ const AcougueNegocio = () => {
       return;
     }
 
-    const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
+    const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce(
+      (a, b) => a + b,
+      0
+    );
     if (estoqueTotal + quantidade > negocio.estoque.capacidadeEstoque) {
       alert("📦 Sem espaço no estoque!");
       return;
@@ -652,7 +1169,7 @@ const AcougueNegocio = () => {
 
     const novoEstoque = {
       ...negocio.estoque.estoqueAtual,
-      [tipo]: (negocio.estoque.estoqueAtual[tipo] || 0) + quantidade
+      [tipo]: (negocio.estoque.estoqueAtual[tipo] || 0) + quantidade,
     };
 
     // Atualiza saldo
@@ -665,9 +1182,9 @@ const AcougueNegocio = () => {
         ...negocio,
         estoque: {
           ...negocio.estoque,
-          estoqueAtual: novoEstoque
-        }
-      }
+          estoqueAtual: novoEstoque,
+        },
+      },
     });
   };
 
@@ -685,13 +1202,13 @@ const AcougueNegocio = () => {
 
     const novoEstoque = {
       ...negocio.estoque.estoqueAtual,
-      [oferta.nome]: estoqueAtual - oferta.quantidade
+      [oferta.nome]: estoqueAtual - oferta.quantidade,
     };
 
     const novaVenda = {
       ...oferta,
       diaInicio: dados.dia,
-      diaFim: dados.dia + oferta.duracao
+      diaFim: dados.dia + oferta.duracao,
     };
 
     // Atualiza estoque, marca venda como realizada e define venda atual
@@ -701,21 +1218,26 @@ const AcougueNegocio = () => {
         ...negocio,
         estoque: {
           ...negocio.estoque,
-          estoqueAtual: novoEstoque
+          estoqueAtual: novoEstoque,
         },
         mercado: {
           ...negocio.mercado,
           vendaAtual: novaVenda,
-          vendasRealizadas: [...(negocio.mercado.vendasRealizadas || []), oferta.id]
-        }
-      }
+          vendasRealizadas: [
+            ...(negocio.mercado.vendasRealizadas || []),
+            oferta.id,
+          ],
+        },
+      },
     });
   };
 
   const handleReceber = () => {
     if (!negocio.mercado.vendaAtual) return;
 
-    const totalVenda = negocio.mercado.vendaAtual.precoKg * negocio.mercado.vendaAtual.quantidade;
+    const totalVenda =
+      negocio.mercado.vendaAtual.precoKg *
+      negocio.mercado.vendaAtual.quantidade;
 
     // Atualiza saldo e limpa venda atual
     atualizarEco("saldo", economiaSetores.saldo + totalVenda);
@@ -725,9 +1247,9 @@ const AcougueNegocio = () => {
         ...negocio,
         mercado: {
           ...negocio.mercado,
-          vendaAtual: null
-        }
-      }
+          vendaAtual: null,
+        },
+      },
     });
   };
 
@@ -738,38 +1260,60 @@ const AcougueNegocio = () => {
         <div className="grid grid-cols-2 gap-4 max-w-4xl mx-auto">
           {negocio.compras.ofertasAtivas.map((f) => {
             const podeComprar = economiaSetores.saldo >= f.preco;
-            const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
-            const temEspaco = (estoqueTotal + f.quantidade) <= negocio.estoque.capacidadeEstoque;
+            const estoqueTotal = Object.values(
+              negocio.estoque.estoqueAtual
+            ).reduce((a, b) => a + b, 0);
+            const temEspaco =
+              estoqueTotal + f.quantidade <= negocio.estoque.capacidadeEstoque;
             const podeComprarCompleto = podeComprar && temEspaco;
 
             return (
               <div key={f.id} className="rounded-lg shadow-md p-4 bg-white">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-2xl">{f.icon}</span>
-                  <h3 className="text-sm font-bold" style={{ color: cores.primary }}>{f.nome}</h3>
+                  <h3
+                    className="text-sm font-bold"
+                    style={{ color: cores.primary }}
+                  >
+                    {f.nome}
+                  </h3>
                 </div>
                 <div className="text-sm space-y-1 mb-3">
                   <div className="flex justify-between">
                     <span>Qualidade:</span>
-                    <span className="font-semibold text-green-600">{f.qualidade}</span>
+                    <span className="font-semibold text-green-600">
+                      {f.qualidade}
+                    </span>
                   </div>
-                  <div className="flex justify-between"><span>Qtd:</span><span>{f.quantidade}kg</span></div>
-                  <div className="flex justify-between"><span>Preço/kg:</span><span>{formatCurrency(f.precoKg)}</span></div>
+                  <div className="flex justify-between">
+                    <span>Qtd:</span>
+                    <span>{f.quantidade}kg</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Preço/kg:</span>
+                    <span>{formatCurrency(f.precoKg)}</span>
+                  </div>
                   <div className="flex justify-between font-bold">
                     <span>Total:</span>
-                    <span style={{ color: cores.accent }}>{formatCurrency(f.preco)}</span>
+                    <span style={{ color: cores.accent }}>
+                      {formatCurrency(f.preco)}
+                    </span>
                   </div>
                 </div>
                 {!temEspaco && (
-                  <p className="text-xs text-red-500 mb-2">⚠️ Sem espaço no estoque</p>
+                  <p className="text-xs text-red-500 mb-2">
+                    ⚠️ Sem espaço no estoque
+                  </p>
                 )}
                 <button
                   onClick={() => handleCompra(f)}
                   disabled={!podeComprarCompleto}
                   className="w-full py-3 rounded font-bold text-white transition-colors"
                   style={{
-                    backgroundColor: podeComprarCompleto ? cores.primary : "#6C757D",
-                    cursor: podeComprarCompleto ? 'pointer' : 'not-allowed'
+                    backgroundColor: podeComprarCompleto
+                      ? cores.primary
+                      : "#6C757D",
+                    cursor: podeComprarCompleto ? "pointer" : "not-allowed",
                   }}
                 >
                   Comprar
@@ -790,26 +1334,42 @@ const AcougueNegocio = () => {
         <div className="grid grid-cols-2 gap-4 max-w-4xl mx-auto">
           {ofertasDisponiveis.map((oferta) => {
             const estoqueAtual = negocio.estoque.estoqueAtual[oferta.nome] || 0;
-            const podeVender = !negocio.mercado.vendaAtual && estoqueAtual >= oferta.quantidade;
+            const podeVender =
+              !negocio.mercado.vendaAtual && estoqueAtual >= oferta.quantidade;
             const total = oferta.precoKg * oferta.quantidade;
 
             return (
-              <div key={oferta.id} className="rounded-lg shadow-md p-4 bg-white">
+              <div
+                key={oferta.id}
+                className="rounded-lg shadow-md p-4 bg-white"
+              >
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-2xl">{oferta.icon}</span>
-                  <h3 className="text-sm font-bold" style={{ color: cores.primary }}>
+                  <h3
+                    className="text-sm font-bold"
+                    style={{ color: cores.primary }}
+                  >
                     Venda de {oferta.nome.toUpperCase()}
                   </h3>
                 </div>
                 <div className="space-y-2 mb-4 text-sm">
-                  <div className="flex justify-between"><span>Qtd:</span><span>{oferta.quantidade}kg</span></div>
-                  <div className="flex justify-between"><span>Preço/kg:</span><span>{formatCurrency(oferta.precoKg)}</span></div>
+                  <div className="flex justify-between">
+                    <span>Qtd:</span>
+                    <span>{oferta.quantidade}kg</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Preço/kg:</span>
+                    <span>{formatCurrency(oferta.precoKg)}</span>
+                  </div>
                   <div className="flex justify-between font-bold">
                     <span>Total:</span>
-                    <span className="text-green-600">{formatCurrency(total)}</span>
+                    <span className="text-green-600">
+                      {formatCurrency(total)}
+                    </span>
                   </div>
                   <div className="flex justify-between text-xs text-gray-500">
-                    <span>⏱️ Tempo para receber:</span><span>{oferta.duracao} dias</span>
+                    <span>⏱️ Tempo para receber:</span>
+                    <span>{oferta.duracao} dias</span>
                   </div>
                 </div>
                 {estoqueAtual < oferta.quantidade && (
@@ -823,7 +1383,7 @@ const AcougueNegocio = () => {
                   className="w-full py-3 rounded font-bold text-white transition-colors"
                   style={{
                     backgroundColor: podeVender ? cores.accent : "#6C757D",
-                    cursor: podeVender ? 'pointer' : 'not-allowed'
+                    cursor: podeVender ? "pointer" : "not-allowed",
                   }}
                 >
                   {negocio.mercado.vendaAtual ? "Vendendo..." : "Vender"}
@@ -846,18 +1406,28 @@ const AcougueNegocio = () => {
         beef: { nome: "Carne Bovina", icon: "🥩" },
         pork: { nome: "Carne Suína", icon: "🥓" },
         chicken: { nome: "Frango", icon: "🍗" },
-        sausage: { nome: "Embutidos", icon: "🌭" }
+        sausage: { nome: "Embutidos", icon: "🌭" },
       };
 
-      const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
-      const percentualOcupado = ((estoqueTotal / negocio.estoque.capacidadeEstoque) * 100).toFixed(1);
+      const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce(
+        (a, b) => a + b,
+        0
+      );
+      const percentualOcupado = (
+        (estoqueTotal / negocio.estoque.capacidadeEstoque) *
+        100
+      ).toFixed(1);
 
       return (
         <div>
           <div className="text-center text-white mb-6 bg-white/20 rounded-lg p-4">
             <p className="text-xl font-bold mb-2">Capacidade do Estoque</p>
-            <p className="text-2xl">{estoqueTotal}kg / {negocio.estoque.capacidadeEstoque}kg</p>
-            <p className="text-sm opacity-80 mt-1">{percentualOcupado}% ocupado</p>
+            <p className="text-2xl">
+              {estoqueTotal}kg / {negocio.estoque.capacidadeEstoque}kg
+            </p>
+            <p className="text-sm opacity-80 mt-1">
+              {percentualOcupado}% ocupado
+            </p>
 
             {/* Barra de progresso */}
             <div className="w-full bg-white/30 rounded-full h-3 mt-3">
@@ -869,16 +1439,25 @@ const AcougueNegocio = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-6">
-            {Object.entries(negocio.estoque.estoqueAtual).map(([tipo, quantidade]) => (
-              <div key={tipo} className="text-center text-white bg-white/20 rounded-xl p-4 hover:bg-white/30 transition-colors">
-                <div className="text-4xl mb-3">{produtos[tipo]?.icon || "📦"}</div>
-                <div className="text-3xl font-bold mb-2">{quantidade}kg</div>
-                <div className="text-sm mb-3 opacity-80">{produtos[tipo]?.nome || tipo}</div>
-                {quantidade === 0 && (
-                  <p className="text-xs opacity-60">Estoque vazio</p>
-                )}
-              </div>
-            ))}
+            {Object.entries(negocio.estoque.estoqueAtual).map(
+              ([tipo, quantidade]) => (
+                <div
+                  key={tipo}
+                  className="text-center text-white bg-white/20 rounded-xl p-4 hover:bg-white/30 transition-colors"
+                >
+                  <div className="text-4xl mb-3">
+                    {produtos[tipo]?.icon || "📦"}
+                  </div>
+                  <div className="text-3xl font-bold mb-2">{quantidade}kg</div>
+                  <div className="text-sm mb-3 opacity-80">
+                    {produtos[tipo]?.nome || tipo}
+                  </div>
+                  {quantidade === 0 && (
+                    <p className="text-xs opacity-60">Estoque vazio</p>
+                  )}
+                </div>
+              )
+            )}
           </div>
         </div>
       );
@@ -887,25 +1466,40 @@ const AcougueNegocio = () => {
     return null;
   };
 
-  const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
+  const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce(
+    (a, b) => a + b,
+    0
+  );
 
   const tabs = [
     { id: "compras", label: "Fornecedores", icon: Warehouse, info: null },
     { id: "vendas", label: "Mercado", icon: Users, info: null },
-    { id: "estoque", label: "Estoque", icon: Package, info: `${estoqueTotal}kg` }
+    {
+      id: "estoque",
+      label: "Estoque",
+      icon: Package,
+      info: `${estoqueTotal}kg`,
+    },
   ];
 
-  const pedidoProntoParaReceber = negocio.mercado.vendaAtual &&
+  const pedidoProntoParaReceber =
+    negocio.mercado.vendaAtual &&
     dados.dia >= negocio.mercado.vendaAtual.diaFim;
 
   const negocioConfig = {
-    nome: 'Açougue Bom Corte',
-    cores: SETORES_CONFIG.comercio.cores
+    nome: "Açougue Bom Corte",
+    cores: SETORES_CONFIG.comercio.cores,
   };
 
   // Calcular dias restantes para os ciclos
-  const diasRestantesCompras = Math.max(0, negocio.compras.proximoCiclo - dados.dia);
-  const diasRestantesMercado = Math.max(0, negocio.mercado.proximoCiclo - dados.dia);
+  const diasRestantesCompras = Math.max(
+    0,
+    negocio.compras.proximoCiclo - dados.dia
+  );
+  const diasRestantesMercado = Math.max(
+    0,
+    negocio.mercado.proximoCiclo - dados.dia
+  );
 
   return (
     <BaseBusinessInterface
@@ -918,24 +1512,38 @@ const AcougueNegocio = () => {
             {pedidoProntoParaReceber ? (
               <div className="flex items-center justify-between">
                 <span className="text-base">
-                  💵 Venda de <strong className="uppercase">{negocio.mercado.vendaAtual.nome}</strong> concluída!
+                  💵 Venda de{" "}
+                  <strong className="uppercase">
+                    {negocio.mercado.vendaAtual.nome}
+                  </strong>{" "}
+                  concluída!
                 </span>
                 <button
                   onClick={handleReceber}
                   className="px-4 py-2 rounded font-bold bg-green-500 hover:bg-green-600 text-white transition-colors"
                 >
-                  Receber {new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                    minimumFractionDigits: 0
-                  }).format(negocio.mercado.vendaAtual.precoKg * negocio.mercado.vendaAtual.quantidade)}
+                  Receber{" "}
+                  {new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                    minimumFractionDigits: 0,
+                  }).format(
+                    negocio.mercado.vendaAtual.precoKg *
+                      negocio.mercado.vendaAtual.quantidade
+                  )}
                 </button>
               </div>
             ) : (
               <div className="text-center">
-                💼 Vendendo <strong className="uppercase">{negocio.mercado.vendaAtual.nome}</strong> — Recebimento no dia <strong>{negocio.mercado.vendaAtual.diaFim}</strong>
+                💼 Vendendo{" "}
+                <strong className="uppercase">
+                  {negocio.mercado.vendaAtual.nome}
+                </strong>{" "}
+                — Recebimento no dia{" "}
+                <strong>{negocio.mercado.vendaAtual.diaFim}</strong>
                 <div className="text-xs opacity-80 mt-1">
-                  ({negocio.mercado.vendaAtual.diaFim - dados.dia} dias restantes)
+                  ({negocio.mercado.vendaAtual.diaFim - dados.dia} dias
+                  restantes)
                 </div>
               </div>
             )}
@@ -943,12 +1551,12 @@ const AcougueNegocio = () => {
         )
       }
       footerExtra={(tab) => {
-        if (tab === 'compras') {
+        if (tab === "compras") {
           return diasRestantesCompras === 0
             ? `🔄 Novos fornecedores disponíveis!`
             : `Próximo ciclo de fornecedores em ${diasRestantesCompras} dias`;
         }
-        if (tab === 'vendas') {
+        if (tab === "vendas") {
           return diasRestantesMercado === 0
             ? `🔄 Novos compradores disponíveis!`
             : `Próximo ciclo de mercado em ${diasRestantesMercado} dias`;
@@ -961,82 +1569,290 @@ const AcougueNegocio = () => {
 
 const PainelSolarNegocio = () => {
   const { dados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, atualizarEco } = useContext(
+    DadosEconomyGlobalContext
+  );
 
   const getProductIcon = (type) => {
     const icons = {
-      residencial: '🏠',
-      comercial: '🏢',
-      industrial: '🏭',
-      premium: '⚡'
+      residencial: "🏠",
+      comercial: "🏢",
+      industrial: "🏭",
+      premium: "⚡",
     };
-    return icons[type] || '☀️';
+    return icons[type] || "☀️";
   };
 
   // Dados de produção de painéis
   const paineisBase = [
     // Residencial
-    { id: 1, nome: "Residencial", tipo: "residencial", custo: 15000, unidades: 10, valorPorUnidade: 2000, duracao: 45, icon: "🏠" },
-    { id: 2, nome: "Residencial", tipo: "residencial", custo: 28000, unidades: 20, valorPorUnidade: 2000, duracao: 50, icon: "🏠" },
-    { id: 3, nome: "Residencial", tipo: "residencial", custo: 39000, unidades: 30, valorPorUnidade: 2000, duracao: 55, icon: "🏠" },
+    {
+      id: 1,
+      nome: "Residencial",
+      tipo: "residencial",
+      custo: 15000,
+      unidades: 10,
+      valorPorUnidade: 2000,
+      duracao: 45,
+      icon: "🏠",
+    },
+    {
+      id: 2,
+      nome: "Residencial",
+      tipo: "residencial",
+      custo: 28000,
+      unidades: 20,
+      valorPorUnidade: 2000,
+      duracao: 50,
+      icon: "🏠",
+    },
+    {
+      id: 3,
+      nome: "Residencial",
+      tipo: "residencial",
+      custo: 39000,
+      unidades: 30,
+      valorPorUnidade: 2000,
+      duracao: 55,
+      icon: "🏠",
+    },
 
     // Comercial
-    { id: 4, nome: "Comercial", tipo: "comercial", custo: 35000, unidades: 10, valorPorUnidade: 4500, duracao: 60, icon: "🏢" },
-    { id: 5, nome: "Comercial", tipo: "comercial", custo: 66000, unidades: 20, valorPorUnidade: 4500, duracao: 65, icon: "🏢" },
-    { id: 6, nome: "Comercial", tipo: "comercial", custo: 94500, unidades: 30, valorPorUnidade: 4500, duracao: 70, icon: "🏢" },
+    {
+      id: 4,
+      nome: "Comercial",
+      tipo: "comercial",
+      custo: 35000,
+      unidades: 10,
+      valorPorUnidade: 4500,
+      duracao: 60,
+      icon: "🏢",
+    },
+    {
+      id: 5,
+      nome: "Comercial",
+      tipo: "comercial",
+      custo: 66000,
+      unidades: 20,
+      valorPorUnidade: 4500,
+      duracao: 65,
+      icon: "🏢",
+    },
+    {
+      id: 6,
+      nome: "Comercial",
+      tipo: "comercial",
+      custo: 94500,
+      unidades: 30,
+      valorPorUnidade: 4500,
+      duracao: 70,
+      icon: "🏢",
+    },
 
     // Industrial
-    { id: 7, nome: "Industrial", tipo: "industrial", custo: 80000, unidades: 10, valorPorUnidade: 10000, duracao: 90, icon: "🏭" },
-    { id: 8, nome: "Industrial", tipo: "industrial", custo: 150000, unidades: 20, valorPorUnidade: 10000, duracao: 95, icon: "🏭" },
-    { id: 9, nome: "Industrial", tipo: "industrial", custo: 210000, unidades: 30, valorPorUnidade: 10000, duracao: 100, icon: "🏭" },
+    {
+      id: 7,
+      nome: "Industrial",
+      tipo: "industrial",
+      custo: 80000,
+      unidades: 10,
+      valorPorUnidade: 10000,
+      duracao: 90,
+      icon: "🏭",
+    },
+    {
+      id: 8,
+      nome: "Industrial",
+      tipo: "industrial",
+      custo: 150000,
+      unidades: 20,
+      valorPorUnidade: 10000,
+      duracao: 95,
+      icon: "🏭",
+    },
+    {
+      id: 9,
+      nome: "Industrial",
+      tipo: "industrial",
+      custo: 210000,
+      unidades: 30,
+      valorPorUnidade: 10000,
+      duracao: 100,
+      icon: "🏭",
+    },
 
     // Premium
-    { id: 10, nome: "Premium", tipo: "premium", custo: 50000, unidades: 5, valorPorUnidade: 12000, duracao: 75, icon: "⚡" },
-    { id: 11, nome: "Premium", tipo: "premium", custo: 90000, unidades: 10, valorPorUnidade: 12000, duracao: 80, icon: "⚡" },
-    { id: 12, nome: "Premium", tipo: "premium", custo: 126000, unidades: 15, valorPorUnidade: 12000, duracao: 85, icon: "⚡" },
+    {
+      id: 10,
+      nome: "Premium",
+      tipo: "premium",
+      custo: 50000,
+      unidades: 5,
+      valorPorUnidade: 12000,
+      duracao: 75,
+      icon: "⚡",
+    },
+    {
+      id: 11,
+      nome: "Premium",
+      tipo: "premium",
+      custo: 90000,
+      unidades: 10,
+      valorPorUnidade: 12000,
+      duracao: 80,
+      icon: "⚡",
+    },
+    {
+      id: 12,
+      nome: "Premium",
+      tipo: "premium",
+      custo: 126000,
+      unidades: 15,
+      valorPorUnidade: 12000,
+      duracao: 85,
+      icon: "⚡",
+    },
   ];
 
   // Ofertas de mercado com margens de 50-70%
   const marketOffersBase = [
     // RESIDENCIAL 🏠
-    { id: 1, name: "residencial", unidades: 5, pricePerUnit: 2250, totalPrice: 11250 },
-    { id: 2, name: "residencial", unidades: 10, pricePerUnit: 2400, totalPrice: 24000 },
-    { id: 3, name: "residencial", unidades: 15, pricePerUnit: 2550, totalPrice: 38250 },
-    { id: 4, name: "residencial", unidades: 20, pricePerUnit: 2500, totalPrice: 50000 },
+    {
+      id: 1,
+      name: "residencial",
+      unidades: 5,
+      pricePerUnit: 2250,
+      totalPrice: 11250,
+    },
+    {
+      id: 2,
+      name: "residencial",
+      unidades: 10,
+      pricePerUnit: 2400,
+      totalPrice: 24000,
+    },
+    {
+      id: 3,
+      name: "residencial",
+      unidades: 15,
+      pricePerUnit: 2550,
+      totalPrice: 38250,
+    },
+    {
+      id: 4,
+      name: "residencial",
+      unidades: 20,
+      pricePerUnit: 2500,
+      totalPrice: 50000,
+    },
 
     // COMERCIAL 🏢
-    { id: 5, name: "comercial", unidades: 5, pricePerUnit: 5250, totalPrice: 26250 },
-    { id: 6, name: "comercial", unidades: 10, pricePerUnit: 5600, totalPrice: 56000 },
-    { id: 7, name: "comercial", unidades: 15, pricePerUnit: 5950, totalPrice: 89250 },
-    { id: 8, name: "comercial", unidades: 20, pricePerUnit: 5850, totalPrice: 117000 },
+    {
+      id: 5,
+      name: "comercial",
+      unidades: 5,
+      pricePerUnit: 5250,
+      totalPrice: 26250,
+    },
+    {
+      id: 6,
+      name: "comercial",
+      unidades: 10,
+      pricePerUnit: 5600,
+      totalPrice: 56000,
+    },
+    {
+      id: 7,
+      name: "comercial",
+      unidades: 15,
+      pricePerUnit: 5950,
+      totalPrice: 89250,
+    },
+    {
+      id: 8,
+      name: "comercial",
+      unidades: 20,
+      pricePerUnit: 5850,
+      totalPrice: 117000,
+    },
 
     // INDUSTRIAL 🏭
-    { id: 9, name: "industrial", unidades: 3, pricePerUnit: 12000, totalPrice: 36000 },
-    { id: 10, name: "industrial", unidades: 5, pricePerUnit: 12800, totalPrice: 64000 },
-    { id: 11, name: "industrial", unidades: 8, pricePerUnit: 13600, totalPrice: 108800 },
-    { id: 12, name: "industrial", unidades: 10, pricePerUnit: 13400, totalPrice: 134000 },
+    {
+      id: 9,
+      name: "industrial",
+      unidades: 3,
+      pricePerUnit: 12000,
+      totalPrice: 36000,
+    },
+    {
+      id: 10,
+      name: "industrial",
+      unidades: 5,
+      pricePerUnit: 12800,
+      totalPrice: 64000,
+    },
+    {
+      id: 11,
+      name: "industrial",
+      unidades: 8,
+      pricePerUnit: 13600,
+      totalPrice: 108800,
+    },
+    {
+      id: 12,
+      name: "industrial",
+      unidades: 10,
+      pricePerUnit: 13400,
+      totalPrice: 134000,
+    },
 
     // PREMIUM ⚡
-    { id: 13, name: "premium", unidades: 3, pricePerUnit: 15000, totalPrice: 45000 },
-    { id: 14, name: "premium", unidades: 5, pricePerUnit: 16000, totalPrice: 80000 },
-    { id: 15, name: "premium", unidades: 8, pricePerUnit: 17000, totalPrice: 136000 },
-    { id: 16, name: "premium", unidades: 10, pricePerUnit: 16800, totalPrice: 168000 },
+    {
+      id: 13,
+      name: "premium",
+      unidades: 3,
+      pricePerUnit: 15000,
+      totalPrice: 45000,
+    },
+    {
+      id: 14,
+      name: "premium",
+      unidades: 5,
+      pricePerUnit: 16000,
+      totalPrice: 80000,
+    },
+    {
+      id: 15,
+      name: "premium",
+      unidades: 8,
+      pricePerUnit: 17000,
+      totalPrice: 136000,
+    },
+    {
+      id: 16,
+      name: "premium",
+      unidades: 10,
+      pricePerUnit: 16800,
+      totalPrice: 168000,
+    },
   ];
 
   // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
   useEffect(() => {
     // Garantir que vendasRealizadas existe na estrutura
-    if (economiaSetores.negocios?.PainelSolarNegocio &&
-      !economiaSetores.negocios.PainelSolarNegocio.mercado?.vendasRealizadas) {
+    if (
+      economiaSetores.negocios?.PainelSolarNegocio &&
+      !economiaSetores.negocios.PainelSolarNegocio.mercado?.vendasRealizadas
+    ) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
         PainelSolarNegocio: {
           ...economiaSetores.negocios.PainelSolarNegocio,
           mercado: {
             ...economiaSetores.negocios.PainelSolarNegocio.mercado,
-            vendasRealizadas: []
-          }
-        }
+            vendasRealizadas: [],
+          },
+        },
       });
     }
   }, []);
@@ -1046,7 +1862,9 @@ const PainelSolarNegocio = () => {
 
   // Se ainda não foi inicializado, retorna loading
   if (!negocio) {
-    return <div className="text-white text-center p-8">Carregando negócio...</div>;
+    return (
+      <div className="text-white text-center p-8">Carregando negócio...</div>
+    );
   }
 
   // ==================== ATUALIZAÇÃO DE CICLOS ====================
@@ -1058,24 +1876,34 @@ const PainelSolarNegocio = () => {
 
     // Verificar e atualizar ciclo de produção
     if (dados.dia >= negocio.produzir.proximoCiclo) {
-      console.log("🔄 Atualizando ciclo de produção - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.produzir.proximoCiclo);
+      console.log(
+        "🔄 Atualizando ciclo de produção - Dia atual:",
+        dados.dia,
+        "Próximo ciclo era:",
+        negocio.produzir.proximoCiclo
+      );
 
       novoNegocio.produzir = {
         ...negocio.produzir,
         ofertasAtivas: sortearItens(paineisBase, 4),
-        proximoCiclo: dados.dia + 30
+        proximoCiclo: dados.dia + 30,
       };
       precisaAtualizar = true;
     }
 
     // Verificar e atualizar ciclo de mercado
     if (dados.dia >= negocio.mercado.proximoCiclo) {
-      console.log("🔄 Atualizando ciclo de mercado - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.mercado.proximoCiclo);
+      console.log(
+        "🔄 Atualizando ciclo de mercado - Dia atual:",
+        dados.dia,
+        "Próximo ciclo era:",
+        negocio.mercado.proximoCiclo
+      );
 
       novoNegocio.mercado = {
         ofertasAtivas: sortearItens(marketOffersBase, 8),
         vendasRealizadas: [],
-        proximoCiclo: dados.dia + 90
+        proximoCiclo: dados.dia + 90,
       };
       precisaAtualizar = true;
     }
@@ -1084,10 +1912,14 @@ const PainelSolarNegocio = () => {
     if (precisaAtualizar) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
-        PainelSolarNegocio: novoNegocio
+        PainelSolarNegocio: novoNegocio,
       });
     }
-  }, [dados.dia, negocio?.produzir?.proximoCiclo, negocio?.mercado?.proximoCiclo]);
+  }, [
+    dados.dia,
+    negocio?.produzir?.proximoCiclo,
+    negocio?.mercado?.proximoCiclo,
+  ]);
 
   // ==================== HANDLERS ====================
   const handleProduzir = (painel) => {
@@ -1106,7 +1938,7 @@ const PainelSolarNegocio = () => {
       unidades: painel.unidades,
       diaInicio: dados.dia,
       diaFim: dados.dia + painel.duracao,
-      icon: painel.icon
+      icon: painel.icon,
     };
 
     // Atualiza saldo
@@ -1119,9 +1951,9 @@ const PainelSolarNegocio = () => {
         ...negocio,
         produzir: {
           ...negocio.produzir,
-          producaoAtual: novaProducao
-        }
-      }
+          producaoAtual: novaProducao,
+        },
+      },
     });
   };
 
@@ -1131,7 +1963,8 @@ const PainelSolarNegocio = () => {
     const prod = negocio.produzir.producaoAtual;
     const novoEstoque = {
       ...negocio.estoque.estoqueAtual,
-      [prod.tipo]: (negocio.estoque.estoqueAtual[prod.tipo] || 0) + prod.unidades
+      [prod.tipo]:
+        (negocio.estoque.estoqueAtual[prod.tipo] || 0) + prod.unidades,
     };
 
     atualizarEco("negocios", {
@@ -1140,13 +1973,13 @@ const PainelSolarNegocio = () => {
         ...negocio,
         produzir: {
           ...negocio.produzir,
-          producaoAtual: null
+          producaoAtual: null,
         },
         estoque: {
           ...negocio.estoque,
-          estoqueAtual: novoEstoque
-        }
-      }
+          estoqueAtual: novoEstoque,
+        },
+      },
     });
   };
 
@@ -1159,7 +1992,7 @@ const PainelSolarNegocio = () => {
 
     const novoEstoque = {
       ...negocio.estoque.estoqueAtual,
-      [offer.name]: estoqueAtual - offer.unidades
+      [offer.name]: estoqueAtual - offer.unidades,
     };
 
     // Atualiza saldo
@@ -1172,28 +2005,39 @@ const PainelSolarNegocio = () => {
         ...negocio,
         estoque: {
           ...negocio.estoque,
-          estoqueAtual: novoEstoque
+          estoqueAtual: novoEstoque,
         },
         mercado: {
           ...negocio.mercado,
-          vendasRealizadas: [...(negocio.mercado.vendasRealizadas || []), offer.id]
-        }
-      }
+          vendasRealizadas: [
+            ...(negocio.mercado.vendasRealizadas || []),
+            offer.id,
+          ],
+        },
+      },
     });
   };
 
   // ==================== RENDER TAB CONTENT ====================
   const renderTabContent = (tab, cores, formatCurrency) => {
-    if (tab === 'produzir') {
+    if (tab === "produzir") {
       return (
         <div className="grid grid-cols-2 gap-4 max-w-4xl mx-auto">
           {negocio.produzir.ofertasAtivas.map((painel) => {
-            const podeEscolher = !negocio.produzir.producaoAtual && economiaSetores.saldo >= painel.custo;
+            const podeEscolher =
+              !negocio.produzir.producaoAtual &&
+              economiaSetores.saldo >= painel.custo;
             return (
-              <div key={painel.id} className="rounded-lg shadow-md p-4 bg-white">
+              <div
+                key={painel.id}
+                className="rounded-lg shadow-md p-4 bg-white"
+              >
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-2xl">{painel.icon}</span>
-                  <h3 className="text-base font-bold" style={{ color: cores.primary }}>
+                  <h3
+                    className="text-base font-bold"
+                    style={{ color: cores.primary }}
+                  >
                     {painel.nome}
                   </h3>
                 </div>
@@ -1208,7 +2052,9 @@ const PainelSolarNegocio = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Custo/Unidade:</span>
-                    <span>{formatCurrency(painel.custo / painel.unidades)}</span>
+                    <span>
+                      {formatCurrency(painel.custo / painel.unidades)}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Duração:</span>
@@ -1220,11 +2066,13 @@ const PainelSolarNegocio = () => {
                   disabled={!podeEscolher}
                   className="w-full py-3 rounded font-bold text-white transition-colors"
                   style={{
-                    backgroundColor: podeEscolher ? cores.accent : '#6C757D',
-                    cursor: podeEscolher ? 'pointer' : 'not-allowed'
+                    backgroundColor: podeEscolher ? cores.accent : "#6C757D",
+                    cursor: podeEscolher ? "pointer" : "not-allowed",
                   }}
                 >
-                  {negocio.produzir.producaoAtual ? 'Produzindo...' : 'Produzir'}
+                  {negocio.produzir.producaoAtual
+                    ? "Produzindo..."
+                    : "Produzir"}
                 </button>
               </div>
             );
@@ -1233,7 +2081,7 @@ const PainelSolarNegocio = () => {
       );
     }
 
-    if (tab === 'mercado') {
+    if (tab === "mercado") {
       const ofertasDisponiveis = negocio.mercado.ofertasAtivas.filter(
         (offer) => !(negocio.mercado.vendasRealizadas || []).includes(offer.id)
       );
@@ -1245,23 +2093,27 @@ const PainelSolarNegocio = () => {
               <h3 className="font-bold text-gray-800 mb-2 capitalize text-3xl">
                 {getProductIcon(offer.name)}
               </h3>
-              <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
+              <h3 className="font-bold text-gray-800 mb-2 capitalize">
+                {offer.name}
+              </h3>
               <p className="text-sm mb-1">{offer.unidades} unidades</p>
               <p className="text-xs text-gray-500 mb-3">
-                {new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                  minimumFractionDigits: 0
-                }).format(offer.pricePerUnit)}/un
+                {new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                  minimumFractionDigits: 0,
+                }).format(offer.pricePerUnit)}
+                /un
               </p>
               <button
                 onClick={() => handleVender(offer)}
                 className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700 transition-colors"
               >
-                Vender por {new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                  minimumFractionDigits: 0
+                Vender por{" "}
+                {new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                  minimumFractionDigits: 0,
                 }).format(offer.totalPrice)}
               </button>
             </div>
@@ -1276,16 +2128,26 @@ const PainelSolarNegocio = () => {
       );
     }
 
-    if (tab === 'estoque') {
-      const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
-      const percentualOcupado = ((estoqueTotal / negocio.estoque.capacidadeEstoque) * 100).toFixed(1);
+    if (tab === "estoque") {
+      const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce(
+        (a, b) => a + b,
+        0
+      );
+      const percentualOcupado = (
+        (estoqueTotal / negocio.estoque.capacidadeEstoque) *
+        100
+      ).toFixed(1);
 
       return (
         <div>
           <div className="text-center text-white mb-6 bg-white/20 rounded-lg p-4">
             <p className="text-xl font-bold mb-2">Capacidade do Estoque</p>
-            <p className="text-2xl">{estoqueTotal} / {negocio.estoque.capacidadeEstoque} unidades</p>
-            <p className="text-sm opacity-80 mt-1">{percentualOcupado}% ocupado</p>
+            <p className="text-2xl">
+              {estoqueTotal} / {negocio.estoque.capacidadeEstoque} unidades
+            </p>
+            <p className="text-sm opacity-80 mt-1">
+              {percentualOcupado}% ocupado
+            </p>
 
             {/* Barra de progresso */}
             <div className="w-full bg-white/30 rounded-full h-3 mt-3">
@@ -1298,7 +2160,10 @@ const PainelSolarNegocio = () => {
 
           <div className="grid grid-cols-2 gap-6">
             {Object.entries(negocio.estoque.estoqueAtual).map(([type, qtd]) => (
-              <div key={type} className="text-center text-white bg-white/20 rounded-xl p-6 hover:bg-white/30 transition-colors">
+              <div
+                key={type}
+                className="text-center text-white bg-white/20 rounded-xl p-6 hover:bg-white/30 transition-colors"
+              >
                 <h3 className="text-4xl mb-3">{getProductIcon(type)}</h3>
                 <h3 className="text-2xl font-bold mb-2 capitalize">{type}</h3>
                 <div className="text-lg mb-3 opacity-80">{qtd} unidades</div>
@@ -1315,25 +2180,40 @@ const PainelSolarNegocio = () => {
     return null;
   };
 
-  const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
+  const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce(
+    (a, b) => a + b,
+    0
+  );
 
   const tabs = [
-    { id: 'produzir', label: 'Produzir', icon: Sun, info: null },
-    { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
-    { id: 'estoque', label: 'Estoque', icon: Package, info: `${estoqueTotal} Unidades` },
+    { id: "produzir", label: "Produzir", icon: Sun, info: null },
+    { id: "mercado", label: "Mercado", icon: TrendingUp, info: null },
+    {
+      id: "estoque",
+      label: "Estoque",
+      icon: Package,
+      info: `${estoqueTotal} Unidades`,
+    },
   ];
 
-  const producaoPronta = negocio.produzir.producaoAtual &&
+  const producaoPronta =
+    negocio.produzir.producaoAtual &&
     dados.dia >= negocio.produzir.producaoAtual.diaFim;
 
   const negocioConfig = {
-    nome: 'Fábrica de Painéis Solares',
-    cores: SETORES_CONFIG.energia.cores
+    nome: "Fábrica de Painéis Solares",
+    cores: SETORES_CONFIG.energia.cores,
   };
 
   // Calcular dias restantes para os ciclos
-  const diasRestantesProduzir = Math.max(0, negocio.produzir.proximoCiclo - dados.dia);
-  const diasRestantesMercado = Math.max(0, negocio.mercado.proximoCiclo - dados.dia);
+  const diasRestantesProduzir = Math.max(
+    0,
+    negocio.produzir.proximoCiclo - dados.dia
+  );
+  const diasRestantesMercado = Math.max(
+    0,
+    negocio.mercado.proximoCiclo - dados.dia
+  );
 
   return (
     <BaseBusinessInterface
@@ -1346,7 +2226,8 @@ const PainelSolarNegocio = () => {
             {producaoPronta ? (
               <div className="flex items-center justify-between">
                 <span className="text-base">
-                  ☀️ <strong>{negocio.produzir.producaoAtual.nome}</strong> pronto para coleta!
+                  ☀️ <strong>{negocio.produzir.producaoAtual.nome}</strong>{" "}
+                  pronto para coleta!
                 </span>
                 <button
                   onClick={handleColetar}
@@ -1357,9 +2238,13 @@ const PainelSolarNegocio = () => {
               </div>
             ) : (
               <div className="text-center">
-                ⚡ Produzindo <strong>{negocio.produzir.producaoAtual.nome}</strong> — Finaliza no dia <strong>{negocio.produzir.producaoAtual.diaFim}</strong>
+                ⚡ Produzindo{" "}
+                <strong>{negocio.produzir.producaoAtual.nome}</strong> —
+                Finaliza no dia{" "}
+                <strong>{negocio.produzir.producaoAtual.diaFim}</strong>
                 <div className="text-xs opacity-80 mt-1">
-                  ({negocio.produzir.producaoAtual.diaFim - dados.dia} dias restantes)
+                  ({negocio.produzir.producaoAtual.diaFim - dados.dia} dias
+                  restantes)
                 </div>
               </div>
             )}
@@ -1367,12 +2252,12 @@ const PainelSolarNegocio = () => {
         )
       }
       footerExtra={(tab) => {
-        if (tab === 'produzir') {
+        if (tab === "produzir") {
           return diasRestantesProduzir === 0
             ? `🔄 Novas ofertas disponíveis!`
             : `Próximo ciclo de produção em ${diasRestantesProduzir} dias`;
         }
-        if (tab === 'mercado') {
+        if (tab === "mercado") {
           return diasRestantesMercado === 0
             ? `🔄 Novos compradores disponíveis!`
             : `Próximo ciclo de mercado em ${diasRestantesMercado} dias`;
@@ -1385,106 +2270,410 @@ const PainelSolarNegocio = () => {
 
 const FabricaVeiculosNegocio = () => {
   const { dados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, atualizarEco } = useContext(
+    DadosEconomyGlobalContext
+  );
 
   const getProductIcon = (type) => {
     const icons = {
-      popular: '🚗',
-      sedan: '🚙',
-      suv: '🚐',
-      luxo: '🏎️',
-      caminhonete: '🛻',
-      van: '🚚'
+      popular: "🚗",
+      sedan: "🚙",
+      suv: "🚐",
+      luxo: "🏎️",
+      caminhonete: "🛻",
+      van: "🚚",
     };
-    return icons[type] || '🚗';
+    return icons[type] || "🚗";
   };
 
   // Dados de produção de veículos
   const veiculosBase = [
     // Popular
-    { id: 1, nome: "Popular", tipo: "popular", custo: 45000, unidades: 5, valorPorUnidade: 12000, duracao: 60, icon: "🚗" },
-    { id: 2, nome: "Popular", tipo: "popular", custo: 84000, unidades: 10, valorPorUnidade: 12000, duracao: 65, icon: "🚗" },
-    { id: 3, nome: "Popular", tipo: "popular", custo: 117000, unidades: 15, valorPorUnidade: 12000, duracao: 70, icon: "🚗" },
+    {
+      id: 1,
+      nome: "Popular",
+      tipo: "popular",
+      custo: 45000,
+      unidades: 5,
+      valorPorUnidade: 12000,
+      duracao: 60,
+      icon: "🚗",
+    },
+    {
+      id: 2,
+      nome: "Popular",
+      tipo: "popular",
+      custo: 84000,
+      unidades: 10,
+      valorPorUnidade: 12000,
+      duracao: 65,
+      icon: "🚗",
+    },
+    {
+      id: 3,
+      nome: "Popular",
+      tipo: "popular",
+      custo: 117000,
+      unidades: 15,
+      valorPorUnidade: 12000,
+      duracao: 70,
+      icon: "🚗",
+    },
 
     // Sedan
-    { id: 4, nome: "Sedan", tipo: "sedan", custo: 80000, unidades: 5, valorPorUnidade: 20000, duracao: 75, icon: "🚙" },
-    { id: 5, nome: "Sedan", tipo: "sedan", custo: 150000, unidades: 10, valorPorUnidade: 20000, duracao: 80, icon: "🚙" },
-    { id: 6, nome: "Sedan", tipo: "sedan", custo: 210000, unidades: 15, valorPorUnidade: 20000, duracao: 85, icon: "🚙" },
+    {
+      id: 4,
+      nome: "Sedan",
+      tipo: "sedan",
+      custo: 80000,
+      unidades: 5,
+      valorPorUnidade: 20000,
+      duracao: 75,
+      icon: "🚙",
+    },
+    {
+      id: 5,
+      nome: "Sedan",
+      tipo: "sedan",
+      custo: 150000,
+      unidades: 10,
+      valorPorUnidade: 20000,
+      duracao: 80,
+      icon: "🚙",
+    },
+    {
+      id: 6,
+      nome: "Sedan",
+      tipo: "sedan",
+      custo: 210000,
+      unidades: 15,
+      valorPorUnidade: 20000,
+      duracao: 85,
+      icon: "🚙",
+    },
 
     // SUV
-    { id: 7, nome: "SUV", tipo: "suv", custo: 120000, unidades: 4, valorPorUnidade: 35000, duracao: 90, icon: "🚐" },
-    { id: 8, nome: "SUV", tipo: "suv", custo: 224000, unidades: 8, valorPorUnidade: 35000, duracao: 95, icon: "🚐" },
-    { id: 9, nome: "SUV", tipo: "suv", custo: 308000, unidades: 12, valorPorUnidade: 35000, duracao: 100, icon: "🚐" },
+    {
+      id: 7,
+      nome: "SUV",
+      tipo: "suv",
+      custo: 120000,
+      unidades: 4,
+      valorPorUnidade: 35000,
+      duracao: 90,
+      icon: "🚐",
+    },
+    {
+      id: 8,
+      nome: "SUV",
+      tipo: "suv",
+      custo: 224000,
+      unidades: 8,
+      valorPorUnidade: 35000,
+      duracao: 95,
+      icon: "🚐",
+    },
+    {
+      id: 9,
+      nome: "SUV",
+      tipo: "suv",
+      custo: 308000,
+      unidades: 12,
+      valorPorUnidade: 35000,
+      duracao: 100,
+      icon: "🚐",
+    },
 
     // Luxo
-    { id: 10, nome: "Luxo", tipo: "luxo", custo: 200000, unidades: 3, valorPorUnidade: 80000, duracao: 110, icon: "🏎️" },
-    { id: 11, nome: "Luxo", tipo: "luxo", custo: 360000, unidades: 6, valorPorUnidade: 80000, duracao: 115, icon: "🏎️" },
-    { id: 12, nome: "Luxo", tipo: "luxo", custo: 480000, unidades: 9, valorPorUnidade: 80000, duracao: 120, icon: "🏎️" },
+    {
+      id: 10,
+      nome: "Luxo",
+      tipo: "luxo",
+      custo: 200000,
+      unidades: 3,
+      valorPorUnidade: 80000,
+      duracao: 110,
+      icon: "🏎️",
+    },
+    {
+      id: 11,
+      nome: "Luxo",
+      tipo: "luxo",
+      custo: 360000,
+      unidades: 6,
+      valorPorUnidade: 80000,
+      duracao: 115,
+      icon: "🏎️",
+    },
+    {
+      id: 12,
+      nome: "Luxo",
+      tipo: "luxo",
+      custo: 480000,
+      unidades: 9,
+      valorPorUnidade: 80000,
+      duracao: 120,
+      icon: "🏎️",
+    },
 
     // Caminhonete
-    { id: 13, nome: "Caminhonete", tipo: "caminhonete", custo: 100000, unidades: 4, valorPorUnidade: 30000, duracao: 85, icon: "🛻" },
-    { id: 14, nome: "Caminhonete", tipo: "caminhonete", custo: 180000, unidades: 8, valorPorUnidade: 30000, duracao: 90, icon: "🛻" },
-    { id: 15, nome: "Caminhonete", tipo: "caminhonete", custo: 252000, unidades: 12, valorPorUnidade: 30000, duracao: 95, icon: "🛻" },
+    {
+      id: 13,
+      nome: "Caminhonete",
+      tipo: "caminhonete",
+      custo: 100000,
+      unidades: 4,
+      valorPorUnidade: 30000,
+      duracao: 85,
+      icon: "🛻",
+    },
+    {
+      id: 14,
+      nome: "Caminhonete",
+      tipo: "caminhonete",
+      custo: 180000,
+      unidades: 8,
+      valorPorUnidade: 30000,
+      duracao: 90,
+      icon: "🛻",
+    },
+    {
+      id: 15,
+      nome: "Caminhonete",
+      tipo: "caminhonete",
+      custo: 252000,
+      unidades: 12,
+      valorPorUnidade: 30000,
+      duracao: 95,
+      icon: "🛻",
+    },
 
     // Van
-    { id: 16, nome: "Van", tipo: "van", custo: 90000, unidades: 4, valorPorUnidade: 27000, duracao: 80, icon: "🚚" },
-    { id: 17, nome: "Van", tipo: "van", custo: 162000, unidades: 8, valorPorUnidade: 27000, duracao: 85, icon: "🚚" },
-    { id: 18, nome: "Van", tipo: "van", custo: 226800, unidades: 12, valorPorUnidade: 27000, duracao: 90, icon: "🚚" },
+    {
+      id: 16,
+      nome: "Van",
+      tipo: "van",
+      custo: 90000,
+      unidades: 4,
+      valorPorUnidade: 27000,
+      duracao: 80,
+      icon: "🚚",
+    },
+    {
+      id: 17,
+      nome: "Van",
+      tipo: "van",
+      custo: 162000,
+      unidades: 8,
+      valorPorUnidade: 27000,
+      duracao: 85,
+      icon: "🚚",
+    },
+    {
+      id: 18,
+      nome: "Van",
+      tipo: "van",
+      custo: 226800,
+      unidades: 12,
+      valorPorUnidade: 27000,
+      duracao: 90,
+      icon: "🚚",
+    },
   ];
 
   // Ofertas de mercado com margens de 50-70%
   const marketOffersBase = [
     // POPULAR 🚗
-    { id: 1, name: "popular", unidades: 3, pricePerUnit: 15000, totalPrice: 45000 },
-    { id: 2, name: "popular", unidades: 5, pricePerUnit: 16000, totalPrice: 80000 },
-    { id: 3, name: "popular", unidades: 8, pricePerUnit: 17000, totalPrice: 136000 },
-    { id: 4, name: "popular", unidades: 10, pricePerUnit: 16800, totalPrice: 168000 },
+    {
+      id: 1,
+      name: "popular",
+      unidades: 3,
+      pricePerUnit: 15000,
+      totalPrice: 45000,
+    },
+    {
+      id: 2,
+      name: "popular",
+      unidades: 5,
+      pricePerUnit: 16000,
+      totalPrice: 80000,
+    },
+    {
+      id: 3,
+      name: "popular",
+      unidades: 8,
+      pricePerUnit: 17000,
+      totalPrice: 136000,
+    },
+    {
+      id: 4,
+      name: "popular",
+      unidades: 10,
+      pricePerUnit: 16800,
+      totalPrice: 168000,
+    },
 
     // SEDAN 🚙
-    { id: 5, name: "sedan", unidades: 2, pricePerUnit: 24000, totalPrice: 48000 },
-    { id: 6, name: "sedan", unidades: 4, pricePerUnit: 25600, totalPrice: 102400 },
-    { id: 7, name: "sedan", unidades: 6, pricePerUnit: 27200, totalPrice: 163200 },
-    { id: 8, name: "sedan", unidades: 8, pricePerUnit: 26800, totalPrice: 214400 },
+    {
+      id: 5,
+      name: "sedan",
+      unidades: 2,
+      pricePerUnit: 24000,
+      totalPrice: 48000,
+    },
+    {
+      id: 6,
+      name: "sedan",
+      unidades: 4,
+      pricePerUnit: 25600,
+      totalPrice: 102400,
+    },
+    {
+      id: 7,
+      name: "sedan",
+      unidades: 6,
+      pricePerUnit: 27200,
+      totalPrice: 163200,
+    },
+    {
+      id: 8,
+      name: "sedan",
+      unidades: 8,
+      pricePerUnit: 26800,
+      totalPrice: 214400,
+    },
 
     // SUV 🚐
     { id: 9, name: "suv", unidades: 2, pricePerUnit: 45000, totalPrice: 90000 },
-    { id: 10, name: "suv", unidades: 3, pricePerUnit: 48000, totalPrice: 144000 },
-    { id: 11, name: "suv", unidades: 5, pricePerUnit: 51000, totalPrice: 255000 },
-    { id: 12, name: "suv", unidades: 6, pricePerUnit: 50400, totalPrice: 302400 },
+    {
+      id: 10,
+      name: "suv",
+      unidades: 3,
+      pricePerUnit: 48000,
+      totalPrice: 144000,
+    },
+    {
+      id: 11,
+      name: "suv",
+      unidades: 5,
+      pricePerUnit: 51000,
+      totalPrice: 255000,
+    },
+    {
+      id: 12,
+      name: "suv",
+      unidades: 6,
+      pricePerUnit: 50400,
+      totalPrice: 302400,
+    },
 
     // LUXO 🏎️
-    { id: 13, name: "luxo", unidades: 1, pricePerUnit: 100000, totalPrice: 100000 },
-    { id: 14, name: "luxo", unidades: 2, pricePerUnit: 106000, totalPrice: 212000 },
-    { id: 15, name: "luxo", unidades: 3, pricePerUnit: 113000, totalPrice: 339000 },
-    { id: 16, name: "luxo", unidades: 4, pricePerUnit: 112000, totalPrice: 448000 },
+    {
+      id: 13,
+      name: "luxo",
+      unidades: 1,
+      pricePerUnit: 100000,
+      totalPrice: 100000,
+    },
+    {
+      id: 14,
+      name: "luxo",
+      unidades: 2,
+      pricePerUnit: 106000,
+      totalPrice: 212000,
+    },
+    {
+      id: 15,
+      name: "luxo",
+      unidades: 3,
+      pricePerUnit: 113000,
+      totalPrice: 339000,
+    },
+    {
+      id: 16,
+      name: "luxo",
+      unidades: 4,
+      pricePerUnit: 112000,
+      totalPrice: 448000,
+    },
 
     // CAMINHONETE 🛻
-    { id: 17, name: "caminhonete", unidades: 2, pricePerUnit: 37500, totalPrice: 75000 },
-    { id: 18, name: "caminhonete", unidades: 4, pricePerUnit: 40000, totalPrice: 160000 },
-    { id: 19, name: "caminhonete", unidades: 6, pricePerUnit: 42500, totalPrice: 255000 },
-    { id: 20, name: "caminhonete", unidades: 8, pricePerUnit: 42000, totalPrice: 336000 },
+    {
+      id: 17,
+      name: "caminhonete",
+      unidades: 2,
+      pricePerUnit: 37500,
+      totalPrice: 75000,
+    },
+    {
+      id: 18,
+      name: "caminhonete",
+      unidades: 4,
+      pricePerUnit: 40000,
+      totalPrice: 160000,
+    },
+    {
+      id: 19,
+      name: "caminhonete",
+      unidades: 6,
+      pricePerUnit: 42500,
+      totalPrice: 255000,
+    },
+    {
+      id: 20,
+      name: "caminhonete",
+      unidades: 8,
+      pricePerUnit: 42000,
+      totalPrice: 336000,
+    },
 
     // VAN 🚚
-    { id: 21, name: "van", unidades: 2, pricePerUnit: 33750, totalPrice: 67500 },
-    { id: 22, name: "van", unidades: 4, pricePerUnit: 36000, totalPrice: 144000 },
-    { id: 23, name: "van", unidades: 6, pricePerUnit: 38250, totalPrice: 229500 },
-    { id: 24, name: "van", unidades: 8, pricePerUnit: 37800, totalPrice: 302400 },
+    {
+      id: 21,
+      name: "van",
+      unidades: 2,
+      pricePerUnit: 33750,
+      totalPrice: 67500,
+    },
+    {
+      id: 22,
+      name: "van",
+      unidades: 4,
+      pricePerUnit: 36000,
+      totalPrice: 144000,
+    },
+    {
+      id: 23,
+      name: "van",
+      unidades: 6,
+      pricePerUnit: 38250,
+      totalPrice: 229500,
+    },
+    {
+      id: 24,
+      name: "van",
+      unidades: 8,
+      pricePerUnit: 37800,
+      totalPrice: 302400,
+    },
   ];
 
   // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
   useEffect(() => {
     // Garantir que vendasRealizadas existe na estrutura
-    if (economiaSetores.negocios?.FabricaVeiculosNegocio &&
-      !economiaSetores.negocios.FabricaVeiculosNegocio.mercado?.vendasRealizadas) {
+    if (
+      economiaSetores.negocios?.FabricaVeiculosNegocio &&
+      !economiaSetores.negocios.FabricaVeiculosNegocio.mercado?.vendasRealizadas
+    ) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
         FabricaVeiculosNegocio: {
           ...economiaSetores.negocios.FabricaVeiculosNegocio,
           mercado: {
             ...economiaSetores.negocios.FabricaVeiculosNegocio.mercado,
-            vendasRealizadas: []
-          }
-        }
+            vendasRealizadas: [],
+          },
+        },
       });
     }
   }, []);
@@ -1494,7 +2683,9 @@ const FabricaVeiculosNegocio = () => {
 
   // Se ainda não foi inicializado, retorna loading
   if (!negocio) {
-    return <div className="text-white text-center p-8">Carregando negócio...</div>;
+    return (
+      <div className="text-white text-center p-8">Carregando negócio...</div>
+    );
   }
 
   // ==================== ATUALIZAÇÃO DE CICLOS ====================
@@ -1506,24 +2697,34 @@ const FabricaVeiculosNegocio = () => {
 
     // Verificar e atualizar ciclo de produção
     if (dados.dia >= negocio.produzir.proximoCiclo) {
-      console.log("🔄 Atualizando ciclo de produção - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.produzir.proximoCiclo);
+      console.log(
+        "🔄 Atualizando ciclo de produção - Dia atual:",
+        dados.dia,
+        "Próximo ciclo era:",
+        negocio.produzir.proximoCiclo
+      );
 
       novoNegocio.produzir = {
         ...negocio.produzir,
         ofertasAtivas: sortearItens(veiculosBase, 6),
-        proximoCiclo: dados.dia + 45
+        proximoCiclo: dados.dia + 45,
       };
       precisaAtualizar = true;
     }
 
     // Verificar e atualizar ciclo de mercado
     if (dados.dia >= negocio.mercado.proximoCiclo) {
-      console.log("🔄 Atualizando ciclo de mercado - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.mercado.proximoCiclo);
+      console.log(
+        "🔄 Atualizando ciclo de mercado - Dia atual:",
+        dados.dia,
+        "Próximo ciclo era:",
+        negocio.mercado.proximoCiclo
+      );
 
       novoNegocio.mercado = {
         ofertasAtivas: sortearItens(marketOffersBase, 12),
         vendasRealizadas: [],
-        proximoCiclo: dados.dia + 90
+        proximoCiclo: dados.dia + 90,
       };
       precisaAtualizar = true;
     }
@@ -1532,10 +2733,14 @@ const FabricaVeiculosNegocio = () => {
     if (precisaAtualizar) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
-        FabricaVeiculosNegocio: novoNegocio
+        FabricaVeiculosNegocio: novoNegocio,
       });
     }
-  }, [dados.dia, negocio?.produzir?.proximoCiclo, negocio?.mercado?.proximoCiclo]);
+  }, [
+    dados.dia,
+    negocio?.produzir?.proximoCiclo,
+    negocio?.mercado?.proximoCiclo,
+  ]);
 
   // ==================== HANDLERS ====================
   const handleProduzir = (veiculo) => {
@@ -1554,7 +2759,7 @@ const FabricaVeiculosNegocio = () => {
       unidades: veiculo.unidades,
       diaInicio: dados.dia,
       diaFim: dados.dia + veiculo.duracao,
-      icon: veiculo.icon
+      icon: veiculo.icon,
     };
 
     // Atualiza saldo
@@ -1567,9 +2772,9 @@ const FabricaVeiculosNegocio = () => {
         ...negocio,
         produzir: {
           ...negocio.produzir,
-          producaoAtual: novaProducao
-        }
-      }
+          producaoAtual: novaProducao,
+        },
+      },
     });
   };
 
@@ -1579,7 +2784,8 @@ const FabricaVeiculosNegocio = () => {
     const prod = negocio.produzir.producaoAtual;
     const novoEstoque = {
       ...negocio.estoque.estoqueAtual,
-      [prod.tipo]: (negocio.estoque.estoqueAtual[prod.tipo] || 0) + prod.unidades
+      [prod.tipo]:
+        (negocio.estoque.estoqueAtual[prod.tipo] || 0) + prod.unidades,
     };
 
     atualizarEco("negocios", {
@@ -1588,13 +2794,13 @@ const FabricaVeiculosNegocio = () => {
         ...negocio,
         produzir: {
           ...negocio.produzir,
-          producaoAtual: null
+          producaoAtual: null,
         },
         estoque: {
           ...negocio.estoque,
-          estoqueAtual: novoEstoque
-        }
-      }
+          estoqueAtual: novoEstoque,
+        },
+      },
     });
   };
 
@@ -1607,7 +2813,7 @@ const FabricaVeiculosNegocio = () => {
 
     const novoEstoque = {
       ...negocio.estoque.estoqueAtual,
-      [offer.name]: estoqueAtual - offer.unidades
+      [offer.name]: estoqueAtual - offer.unidades,
     };
 
     // Atualiza saldo
@@ -1620,28 +2826,39 @@ const FabricaVeiculosNegocio = () => {
         ...negocio,
         estoque: {
           ...negocio.estoque,
-          estoqueAtual: novoEstoque
+          estoqueAtual: novoEstoque,
         },
         mercado: {
           ...negocio.mercado,
-          vendasRealizadas: [...(negocio.mercado.vendasRealizadas || []), offer.id]
-        }
-      }
+          vendasRealizadas: [
+            ...(negocio.mercado.vendasRealizadas || []),
+            offer.id,
+          ],
+        },
+      },
     });
   };
 
   // ==================== RENDER TAB CONTENT ====================
   const renderTabContent = (tab, cores, formatCurrency) => {
-    if (tab === 'produzir') {
+    if (tab === "produzir") {
       return (
         <div className="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
           {negocio.produzir.ofertasAtivas.map((veiculo) => {
-            const podeEscolher = !negocio.produzir.producaoAtual && economiaSetores.saldo >= veiculo.custo;
+            const podeEscolher =
+              !negocio.produzir.producaoAtual &&
+              economiaSetores.saldo >= veiculo.custo;
             return (
-              <div key={veiculo.id} className="rounded-lg shadow-md p-4 bg-white">
+              <div
+                key={veiculo.id}
+                className="rounded-lg shadow-md p-4 bg-white"
+              >
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-2xl">{veiculo.icon}</span>
-                  <h3 className="text-base font-bold" style={{ color: cores.primary }}>
+                  <h3
+                    className="text-base font-bold"
+                    style={{ color: cores.primary }}
+                  >
                     {veiculo.nome}
                   </h3>
                 </div>
@@ -1656,7 +2873,9 @@ const FabricaVeiculosNegocio = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Custo/Unidade:</span>
-                    <span>{formatCurrency(veiculo.custo / veiculo.unidades)}</span>
+                    <span>
+                      {formatCurrency(veiculo.custo / veiculo.unidades)}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Duração:</span>
@@ -1668,11 +2887,13 @@ const FabricaVeiculosNegocio = () => {
                   disabled={!podeEscolher}
                   className="w-full py-3 rounded font-bold text-white transition-colors"
                   style={{
-                    backgroundColor: podeEscolher ? cores.accent : '#6C757D',
-                    cursor: podeEscolher ? 'pointer' : 'not-allowed'
+                    backgroundColor: podeEscolher ? cores.accent : "#6C757D",
+                    cursor: podeEscolher ? "pointer" : "not-allowed",
                   }}
                 >
-                  {negocio.produzir.producaoAtual ? 'Produzindo...' : 'Produzir'}
+                  {negocio.produzir.producaoAtual
+                    ? "Produzindo..."
+                    : "Produzir"}
                 </button>
               </div>
             );
@@ -1681,7 +2902,7 @@ const FabricaVeiculosNegocio = () => {
       );
     }
 
-    if (tab === 'mercado') {
+    if (tab === "mercado") {
       const ofertasDisponiveis = negocio.mercado.ofertasAtivas.filter(
         (offer) => !(negocio.mercado.vendasRealizadas || []).includes(offer.id)
       );
@@ -1693,23 +2914,27 @@ const FabricaVeiculosNegocio = () => {
               <h3 className="font-bold text-gray-800 mb-2 capitalize text-3xl">
                 {getProductIcon(offer.name)}
               </h3>
-              <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
+              <h3 className="font-bold text-gray-800 mb-2 capitalize">
+                {offer.name}
+              </h3>
               <p className="text-sm mb-1">{offer.unidades} unidades</p>
               <p className="text-xs text-gray-500 mb-3">
-                {new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                  minimumFractionDigits: 0
-                }).format(offer.pricePerUnit)}/un
+                {new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                  minimumFractionDigits: 0,
+                }).format(offer.pricePerUnit)}
+                /un
               </p>
               <button
                 onClick={() => handleVender(offer)}
                 className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700 transition-colors"
               >
-                Vender por {new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                  minimumFractionDigits: 0
+                Vender por{" "}
+                {new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                  minimumFractionDigits: 0,
                 }).format(offer.totalPrice)}
               </button>
             </div>
@@ -1724,16 +2949,26 @@ const FabricaVeiculosNegocio = () => {
       );
     }
 
-    if (tab === 'estoque') {
-      const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
-      const percentualOcupado = ((estoqueTotal / negocio.estoque.capacidadeEstoque) * 100).toFixed(1);
+    if (tab === "estoque") {
+      const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce(
+        (a, b) => a + b,
+        0
+      );
+      const percentualOcupado = (
+        (estoqueTotal / negocio.estoque.capacidadeEstoque) *
+        100
+      ).toFixed(1);
 
       return (
         <div>
           <div className="text-center text-white mb-6 bg-white/20 rounded-lg p-4">
             <p className="text-xl font-bold mb-2">Capacidade do Estoque</p>
-            <p className="text-2xl">{estoqueTotal} / {negocio.estoque.capacidadeEstoque} unidades</p>
-            <p className="text-sm opacity-80 mt-1">{percentualOcupado}% ocupado</p>
+            <p className="text-2xl">
+              {estoqueTotal} / {negocio.estoque.capacidadeEstoque} unidades
+            </p>
+            <p className="text-sm opacity-80 mt-1">
+              {percentualOcupado}% ocupado
+            </p>
 
             {/* Barra de progresso */}
             <div className="w-full bg-white/30 rounded-full h-3 mt-3">
@@ -1746,7 +2981,10 @@ const FabricaVeiculosNegocio = () => {
 
           <div className="grid grid-cols-3 gap-6">
             {Object.entries(negocio.estoque.estoqueAtual).map(([type, qtd]) => (
-              <div key={type} className="text-center text-white bg-white/20 rounded-xl p-6 hover:bg-white/30 transition-colors">
+              <div
+                key={type}
+                className="text-center text-white bg-white/20 rounded-xl p-6 hover:bg-white/30 transition-colors"
+              >
                 <h3 className="text-4xl mb-3">{getProductIcon(type)}</h3>
                 <h3 className="text-xl font-bold mb-2 capitalize">{type}</h3>
                 <div className="text-lg mb-3 opacity-80">{qtd} unidades</div>
@@ -1763,25 +3001,40 @@ const FabricaVeiculosNegocio = () => {
     return null;
   };
 
-  const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
+  const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce(
+    (a, b) => a + b,
+    0
+  );
 
   const tabs = [
-    { id: 'produzir', label: 'Produzir', icon: Car, info: null },
-    { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
-    { id: 'estoque', label: 'Estoque', icon: Package, info: `${estoqueTotal} Unidades` },
+    { id: "produzir", label: "Produzir", icon: Car, info: null },
+    { id: "mercado", label: "Mercado", icon: TrendingUp, info: null },
+    {
+      id: "estoque",
+      label: "Estoque",
+      icon: Package,
+      info: `${estoqueTotal} Unidades`,
+    },
   ];
 
-  const producaoPronta = negocio.produzir.producaoAtual &&
+  const producaoPronta =
+    negocio.produzir.producaoAtual &&
     dados.dia >= negocio.produzir.producaoAtual.diaFim;
 
   const negocioConfig = {
-    nome: 'Fábrica de Veículos',
-    cores: SETORES_CONFIG.industria.cores
+    nome: "Fábrica de Veículos",
+    cores: SETORES_CONFIG.industria.cores,
   };
 
   // Calcular dias restantes para os ciclos
-  const diasRestantesProduzir = Math.max(0, negocio.produzir.proximoCiclo - dados.dia);
-  const diasRestantesMercado = Math.max(0, negocio.mercado.proximoCiclo - dados.dia);
+  const diasRestantesProduzir = Math.max(
+    0,
+    negocio.produzir.proximoCiclo - dados.dia
+  );
+  const diasRestantesMercado = Math.max(
+    0,
+    negocio.mercado.proximoCiclo - dados.dia
+  );
 
   return (
     <BaseBusinessInterface
@@ -1794,7 +3047,8 @@ const FabricaVeiculosNegocio = () => {
             {producaoPronta ? (
               <div className="flex items-center justify-between">
                 <span className="text-base">
-                  🚗 <strong>{negocio.produzir.producaoAtual.nome}</strong> pronto para coleta!
+                  🚗 <strong>{negocio.produzir.producaoAtual.nome}</strong>{" "}
+                  pronto para coleta!
                 </span>
                 <button
                   onClick={handleColetar}
@@ -1805,9 +3059,13 @@ const FabricaVeiculosNegocio = () => {
               </div>
             ) : (
               <div className="text-center">
-                🏭 Produzindo <strong>{negocio.produzir.producaoAtual.nome}</strong> — Finaliza no dia <strong>{negocio.produzir.producaoAtual.diaFim}</strong>
+                🏭 Produzindo{" "}
+                <strong>{negocio.produzir.producaoAtual.nome}</strong> —
+                Finaliza no dia{" "}
+                <strong>{negocio.produzir.producaoAtual.diaFim}</strong>
                 <div className="text-xs opacity-80 mt-1">
-                  ({negocio.produzir.producaoAtual.diaFim - dados.dia} dias restantes)
+                  ({negocio.produzir.producaoAtual.diaFim - dados.dia} dias
+                  restantes)
                 </div>
               </div>
             )}
@@ -1815,12 +3073,12 @@ const FabricaVeiculosNegocio = () => {
         )
       }
       footerExtra={(tab) => {
-        if (tab === 'produzir') {
+        if (tab === "produzir") {
           return diasRestantesProduzir === 0
             ? `🔄 Novas ofertas disponíveis!`
             : `Próximo ciclo de produção em ${diasRestantesProduzir} dias`;
         }
-        if (tab === 'mercado') {
+        if (tab === "mercado") {
           return diasRestantesMercado === 0
             ? `🔄 Novos compradores disponíveis!`
             : `Próximo ciclo de mercado em ${diasRestantesMercado} dias`;
@@ -1833,106 +3091,417 @@ const FabricaVeiculosNegocio = () => {
 
 const FabricaSmartphonesNegocio = () => {
   const { dados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, atualizarEco } = useContext(
+    DadosEconomyGlobalContext
+  );
 
   const getProductIcon = (type) => {
     const icons = {
-      basico: '📱',
-      intermediario: '📲',
-      premium: '📳',
-      flagship: '🔥',
-      gamer: '🎮',
-      dobravel: '📴'
+      basico: "📱",
+      intermediario: "📲",
+      premium: "📳",
+      flagship: "🔥",
+      gamer: "🎮",
+      dobravel: "📴",
     };
-    return icons[type] || '📱';
+    return icons[type] || "📱";
   };
 
   // Dados de produção de smartphones
   const smartphonesBase = [
     // Básico
-    { id: 1, nome: "Básico", tipo: "basico", custo: 20000, unidades: 20, valorPorUnidade: 1200, duracao: 40, icon: "📱" },
-    { id: 2, nome: "Básico", tipo: "basico", custo: 36000, unidades: 40, valorPorUnidade: 1200, duracao: 45, icon: "📱" },
-    { id: 3, nome: "Básico", tipo: "basico", custo: 50400, unidades: 60, valorPorUnidade: 1200, duracao: 50, icon: "📱" },
+    {
+      id: 1,
+      nome: "Básico",
+      tipo: "basico",
+      custo: 20000,
+      unidades: 20,
+      valorPorUnidade: 1200,
+      duracao: 40,
+      icon: "📱",
+    },
+    {
+      id: 2,
+      nome: "Básico",
+      tipo: "basico",
+      custo: 36000,
+      unidades: 40,
+      valorPorUnidade: 1200,
+      duracao: 45,
+      icon: "📱",
+    },
+    {
+      id: 3,
+      nome: "Básico",
+      tipo: "basico",
+      custo: 50400,
+      unidades: 60,
+      valorPorUnidade: 1200,
+      duracao: 50,
+      icon: "📱",
+    },
 
     // Intermediário
-    { id: 4, nome: "Intermediário", tipo: "intermediario", custo: 50000, unidades: 20, valorPorUnidade: 3000, duracao: 55, icon: "📲" },
-    { id: 5, nome: "Intermediário", tipo: "intermediario", custo: 90000, unidades: 40, valorPorUnidade: 3000, duracao: 60, icon: "📲" },
-    { id: 6, nome: "Intermediário", tipo: "intermediario", custo: 126000, unidades: 60, valorPorUnidade: 3000, duracao: 65, icon: "📲" },
+    {
+      id: 4,
+      nome: "Intermediário",
+      tipo: "intermediario",
+      custo: 50000,
+      unidades: 20,
+      valorPorUnidade: 3000,
+      duracao: 55,
+      icon: "📲",
+    },
+    {
+      id: 5,
+      nome: "Intermediário",
+      tipo: "intermediario",
+      custo: 90000,
+      unidades: 40,
+      valorPorUnidade: 3000,
+      duracao: 60,
+      icon: "📲",
+    },
+    {
+      id: 6,
+      nome: "Intermediário",
+      tipo: "intermediario",
+      custo: 126000,
+      unidades: 60,
+      valorPorUnidade: 3000,
+      duracao: 65,
+      icon: "📲",
+    },
 
     // Premium
-    { id: 7, nome: "Premium", tipo: "premium", custo: 100000, unidades: 15, valorPorUnidade: 8000, duracao: 70, icon: "📳" },
-    { id: 8, nome: "Premium", tipo: "premium", custo: 180000, unidades: 30, valorPorUnidade: 8000, duracao: 75, icon: "📳" },
-    { id: 9, nome: "Premium", tipo: "premium", custo: 252000, unidades: 45, valorPorUnidade: 8000, duracao: 80, icon: "📳" },
+    {
+      id: 7,
+      nome: "Premium",
+      tipo: "premium",
+      custo: 100000,
+      unidades: 15,
+      valorPorUnidade: 8000,
+      duracao: 70,
+      icon: "📳",
+    },
+    {
+      id: 8,
+      nome: "Premium",
+      tipo: "premium",
+      custo: 180000,
+      unidades: 30,
+      valorPorUnidade: 8000,
+      duracao: 75,
+      icon: "📳",
+    },
+    {
+      id: 9,
+      nome: "Premium",
+      tipo: "premium",
+      custo: 252000,
+      unidades: 45,
+      valorPorUnidade: 8000,
+      duracao: 80,
+      icon: "📳",
+    },
 
     // Flagship
-    { id: 10, nome: "Flagship", tipo: "flagship", custo: 150000, unidades: 10, valorPorUnidade: 18000, duracao: 85, icon: "🔥" },
-    { id: 11, nome: "Flagship", tipo: "flagship", custo: 270000, unidades: 20, valorPorUnidade: 18000, duracao: 90, icon: "🔥" },
-    { id: 12, nome: "Flagship", tipo: "flagship", custo: 378000, unidades: 30, valorPorUnidade: 18000, duracao: 95, icon: "🔥" },
+    {
+      id: 10,
+      nome: "Flagship",
+      tipo: "flagship",
+      custo: 150000,
+      unidades: 10,
+      valorPorUnidade: 18000,
+      duracao: 85,
+      icon: "🔥",
+    },
+    {
+      id: 11,
+      nome: "Flagship",
+      tipo: "flagship",
+      custo: 270000,
+      unidades: 20,
+      valorPorUnidade: 18000,
+      duracao: 90,
+      icon: "🔥",
+    },
+    {
+      id: 12,
+      nome: "Flagship",
+      tipo: "flagship",
+      custo: 378000,
+      unidades: 30,
+      valorPorUnidade: 18000,
+      duracao: 95,
+      icon: "🔥",
+    },
 
     // Gamer
-    { id: 13, nome: "Gamer", tipo: "gamer", custo: 120000, unidades: 12, valorPorUnidade: 12000, duracao: 75, icon: "🎮" },
-    { id: 14, nome: "Gamer", tipo: "gamer", custo: 216000, unidades: 24, valorPorUnidade: 12000, duracao: 80, icon: "🎮" },
-    { id: 15, nome: "Gamer", tipo: "gamer", custo: 302400, unidades: 36, valorPorUnidade: 12000, duracao: 85, icon: "🎮" },
+    {
+      id: 13,
+      nome: "Gamer",
+      tipo: "gamer",
+      custo: 120000,
+      unidades: 12,
+      valorPorUnidade: 12000,
+      duracao: 75,
+      icon: "🎮",
+    },
+    {
+      id: 14,
+      nome: "Gamer",
+      tipo: "gamer",
+      custo: 216000,
+      unidades: 24,
+      valorPorUnidade: 12000,
+      duracao: 80,
+      icon: "🎮",
+    },
+    {
+      id: 15,
+      nome: "Gamer",
+      tipo: "gamer",
+      custo: 302400,
+      unidades: 36,
+      valorPorUnidade: 12000,
+      duracao: 85,
+      icon: "🎮",
+    },
 
     // Dobrável
-    { id: 16, nome: "Dobrável", tipo: "dobravel", custo: 200000, unidades: 8, valorPorUnidade: 30000, duracao: 100, icon: "📴" },
-    { id: 17, nome: "Dobrável", tipo: "dobravel", custo: 360000, unidades: 16, valorPorUnidade: 30000, duracao: 105, icon: "📴" },
-    { id: 18, nome: "Dobrável", tipo: "dobravel", custo: 504000, unidades: 24, valorPorUnidade: 30000, duracao: 110, icon: "📴" },
+    {
+      id: 16,
+      nome: "Dobrável",
+      tipo: "dobravel",
+      custo: 200000,
+      unidades: 8,
+      valorPorUnidade: 30000,
+      duracao: 100,
+      icon: "📴",
+    },
+    {
+      id: 17,
+      nome: "Dobrável",
+      tipo: "dobravel",
+      custo: 360000,
+      unidades: 16,
+      valorPorUnidade: 30000,
+      duracao: 105,
+      icon: "📴",
+    },
+    {
+      id: 18,
+      nome: "Dobrável",
+      tipo: "dobravel",
+      custo: 504000,
+      unidades: 24,
+      valorPorUnidade: 30000,
+      duracao: 110,
+      icon: "📴",
+    },
   ];
 
   // Ofertas de mercado com margens de 50-70%
   const marketOffersBase = [
     // BÁSICO 📱
-    { id: 1, name: "basico", unidades: 10, pricePerUnit: 1500, totalPrice: 15000 },
-    { id: 2, name: "basico", unidades: 20, pricePerUnit: 1600, totalPrice: 32000 },
-    { id: 3, name: "basico", unidades: 30, pricePerUnit: 1700, totalPrice: 51000 },
-    { id: 4, name: "basico", unidades: 40, pricePerUnit: 1680, totalPrice: 67200 },
+    {
+      id: 1,
+      name: "basico",
+      unidades: 10,
+      pricePerUnit: 1500,
+      totalPrice: 15000,
+    },
+    {
+      id: 2,
+      name: "basico",
+      unidades: 20,
+      pricePerUnit: 1600,
+      totalPrice: 32000,
+    },
+    {
+      id: 3,
+      name: "basico",
+      unidades: 30,
+      pricePerUnit: 1700,
+      totalPrice: 51000,
+    },
+    {
+      id: 4,
+      name: "basico",
+      unidades: 40,
+      pricePerUnit: 1680,
+      totalPrice: 67200,
+    },
 
     // INTERMEDIÁRIO 📲
-    { id: 5, name: "intermediario", unidades: 10, pricePerUnit: 3750, totalPrice: 37500 },
-    { id: 6, name: "intermediario", unidades: 15, pricePerUnit: 4000, totalPrice: 60000 },
-    { id: 7, name: "intermediario", unidades: 20, pricePerUnit: 4250, totalPrice: 85000 },
-    { id: 8, name: "intermediario", unidades: 25, pricePerUnit: 4200, totalPrice: 105000 },
+    {
+      id: 5,
+      name: "intermediario",
+      unidades: 10,
+      pricePerUnit: 3750,
+      totalPrice: 37500,
+    },
+    {
+      id: 6,
+      name: "intermediario",
+      unidades: 15,
+      pricePerUnit: 4000,
+      totalPrice: 60000,
+    },
+    {
+      id: 7,
+      name: "intermediario",
+      unidades: 20,
+      pricePerUnit: 4250,
+      totalPrice: 85000,
+    },
+    {
+      id: 8,
+      name: "intermediario",
+      unidades: 25,
+      pricePerUnit: 4200,
+      totalPrice: 105000,
+    },
 
     // PREMIUM 📳
-    { id: 9, name: "premium", unidades: 8, pricePerUnit: 10000, totalPrice: 80000 },
-    { id: 10, name: "premium", unidades: 12, pricePerUnit: 10666, totalPrice: 127992 },
-    { id: 11, name: "premium", unidades: 15, pricePerUnit: 11333, totalPrice: 169995 },
-    { id: 12, name: "premium", unidades: 20, pricePerUnit: 11200, totalPrice: 224000 },
+    {
+      id: 9,
+      name: "premium",
+      unidades: 8,
+      pricePerUnit: 10000,
+      totalPrice: 80000,
+    },
+    {
+      id: 10,
+      name: "premium",
+      unidades: 12,
+      pricePerUnit: 10666,
+      totalPrice: 127992,
+    },
+    {
+      id: 11,
+      name: "premium",
+      unidades: 15,
+      pricePerUnit: 11333,
+      totalPrice: 169995,
+    },
+    {
+      id: 12,
+      name: "premium",
+      unidades: 20,
+      pricePerUnit: 11200,
+      totalPrice: 224000,
+    },
 
     // FLAGSHIP 🔥
-    { id: 13, name: "flagship", unidades: 5, pricePerUnit: 22500, totalPrice: 112500 },
-    { id: 14, name: "flagship", unidades: 8, pricePerUnit: 24000, totalPrice: 192000 },
-    { id: 15, name: "flagship", unidades: 10, pricePerUnit: 25500, totalPrice: 255000 },
-    { id: 16, name: "flagship", unidades: 12, pricePerUnit: 25200, totalPrice: 302400 },
+    {
+      id: 13,
+      name: "flagship",
+      unidades: 5,
+      pricePerUnit: 22500,
+      totalPrice: 112500,
+    },
+    {
+      id: 14,
+      name: "flagship",
+      unidades: 8,
+      pricePerUnit: 24000,
+      totalPrice: 192000,
+    },
+    {
+      id: 15,
+      name: "flagship",
+      unidades: 10,
+      pricePerUnit: 25500,
+      totalPrice: 255000,
+    },
+    {
+      id: 16,
+      name: "flagship",
+      unidades: 12,
+      pricePerUnit: 25200,
+      totalPrice: 302400,
+    },
 
     // GAMER 🎮
-    { id: 17, name: "gamer", unidades: 6, pricePerUnit: 15000, totalPrice: 90000 },
-    { id: 18, name: "gamer", unidades: 10, pricePerUnit: 16000, totalPrice: 160000 },
-    { id: 19, name: "gamer", unidades: 12, pricePerUnit: 17000, totalPrice: 204000 },
-    { id: 20, name: "gamer", unidades: 15, pricePerUnit: 16800, totalPrice: 252000 },
+    {
+      id: 17,
+      name: "gamer",
+      unidades: 6,
+      pricePerUnit: 15000,
+      totalPrice: 90000,
+    },
+    {
+      id: 18,
+      name: "gamer",
+      unidades: 10,
+      pricePerUnit: 16000,
+      totalPrice: 160000,
+    },
+    {
+      id: 19,
+      name: "gamer",
+      unidades: 12,
+      pricePerUnit: 17000,
+      totalPrice: 204000,
+    },
+    {
+      id: 20,
+      name: "gamer",
+      unidades: 15,
+      pricePerUnit: 16800,
+      totalPrice: 252000,
+    },
 
     // DOBRÁVEL 📴
-    { id: 21, name: "dobravel", unidades: 4, pricePerUnit: 37500, totalPrice: 150000 },
-    { id: 22, name: "dobravel", unidades: 6, pricePerUnit: 40000, totalPrice: 240000 },
-    { id: 23, name: "dobravel", unidades: 8, pricePerUnit: 42500, totalPrice: 340000 },
-    { id: 24, name: "dobravel", unidades: 10, pricePerUnit: 42000, totalPrice: 420000 },
+    {
+      id: 21,
+      name: "dobravel",
+      unidades: 4,
+      pricePerUnit: 37500,
+      totalPrice: 150000,
+    },
+    {
+      id: 22,
+      name: "dobravel",
+      unidades: 6,
+      pricePerUnit: 40000,
+      totalPrice: 240000,
+    },
+    {
+      id: 23,
+      name: "dobravel",
+      unidades: 8,
+      pricePerUnit: 42500,
+      totalPrice: 340000,
+    },
+    {
+      id: 24,
+      name: "dobravel",
+      unidades: 10,
+      pricePerUnit: 42000,
+      totalPrice: 420000,
+    },
   ];
 
   // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
   useEffect(() => {
     // Garantir que vendasRealizadas existe na estrutura
-    if (economiaSetores.negocios?.FabricaSmartphonesNegocio &&
-      !economiaSetores.negocios.FabricaSmartphonesNegocio.mercado?.vendasRealizadas) {
+    if (
+      economiaSetores.negocios?.FabricaSmartphonesNegocio &&
+      !economiaSetores.negocios.FabricaSmartphonesNegocio.mercado
+        ?.vendasRealizadas
+    ) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
         FabricaSmartphonesNegocio: {
           ...economiaSetores.negocios.FabricaSmartphonesNegocio,
           mercado: {
             ...economiaSetores.negocios.FabricaSmartphonesNegocio.mercado,
-            vendasRealizadas: []
-          }
-        }
+            vendasRealizadas: [],
+          },
+        },
       });
     }
   }, []);
@@ -1942,7 +3511,9 @@ const FabricaSmartphonesNegocio = () => {
 
   // Se ainda não foi inicializado, retorna loading
   if (!negocio) {
-    return <div className="text-white text-center p-8">Carregando negócio...</div>;
+    return (
+      <div className="text-white text-center p-8">Carregando negócio...</div>
+    );
   }
 
   // ==================== ATUALIZAÇÃO DE CICLOS ====================
@@ -1954,24 +3525,34 @@ const FabricaSmartphonesNegocio = () => {
 
     // Verificar e atualizar ciclo de produção
     if (dados.dia >= negocio.produzir.proximoCiclo) {
-      console.log("🔄 Atualizando ciclo de produção - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.produzir.proximoCiclo);
+      console.log(
+        "🔄 Atualizando ciclo de produção - Dia atual:",
+        dados.dia,
+        "Próximo ciclo era:",
+        negocio.produzir.proximoCiclo
+      );
 
       novoNegocio.produzir = {
         ...negocio.produzir,
         ofertasAtivas: sortearItens(smartphonesBase, 6),
-        proximoCiclo: dados.dia + 40
+        proximoCiclo: dados.dia + 40,
       };
       precisaAtualizar = true;
     }
 
     // Verificar e atualizar ciclo de mercado
     if (dados.dia >= negocio.mercado.proximoCiclo) {
-      console.log("🔄 Atualizando ciclo de mercado - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.mercado.proximoCiclo);
+      console.log(
+        "🔄 Atualizando ciclo de mercado - Dia atual:",
+        dados.dia,
+        "Próximo ciclo era:",
+        negocio.mercado.proximoCiclo
+      );
 
       novoNegocio.mercado = {
         ofertasAtivas: sortearItens(marketOffersBase, 12),
         vendasRealizadas: [],
-        proximoCiclo: dados.dia + 90
+        proximoCiclo: dados.dia + 90,
       };
       precisaAtualizar = true;
     }
@@ -1980,10 +3561,14 @@ const FabricaSmartphonesNegocio = () => {
     if (precisaAtualizar) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
-        FabricaSmartphonesNegocio: novoNegocio
+        FabricaSmartphonesNegocio: novoNegocio,
       });
     }
-  }, [dados.dia, negocio?.produzir?.proximoCiclo, negocio?.mercado?.proximoCiclo]);
+  }, [
+    dados.dia,
+    negocio?.produzir?.proximoCiclo,
+    negocio?.mercado?.proximoCiclo,
+  ]);
 
   // ==================== HANDLERS ====================
   const handleProduzir = (smartphone) => {
@@ -2002,7 +3587,7 @@ const FabricaSmartphonesNegocio = () => {
       unidades: smartphone.unidades,
       diaInicio: dados.dia,
       diaFim: dados.dia + smartphone.duracao,
-      icon: smartphone.icon
+      icon: smartphone.icon,
     };
 
     // Atualiza saldo
@@ -2015,9 +3600,9 @@ const FabricaSmartphonesNegocio = () => {
         ...negocio,
         produzir: {
           ...negocio.produzir,
-          producaoAtual: novaProducao
-        }
-      }
+          producaoAtual: novaProducao,
+        },
+      },
     });
   };
 
@@ -2027,7 +3612,8 @@ const FabricaSmartphonesNegocio = () => {
     const prod = negocio.produzir.producaoAtual;
     const novoEstoque = {
       ...negocio.estoque.estoqueAtual,
-      [prod.tipo]: (negocio.estoque.estoqueAtual[prod.tipo] || 0) + prod.unidades
+      [prod.tipo]:
+        (negocio.estoque.estoqueAtual[prod.tipo] || 0) + prod.unidades,
     };
 
     atualizarEco("negocios", {
@@ -2036,13 +3622,13 @@ const FabricaSmartphonesNegocio = () => {
         ...negocio,
         produzir: {
           ...negocio.produzir,
-          producaoAtual: null
+          producaoAtual: null,
         },
         estoque: {
           ...negocio.estoque,
-          estoqueAtual: novoEstoque
-        }
-      }
+          estoqueAtual: novoEstoque,
+        },
+      },
     });
   };
 
@@ -2055,7 +3641,7 @@ const FabricaSmartphonesNegocio = () => {
 
     const novoEstoque = {
       ...negocio.estoque.estoqueAtual,
-      [offer.name]: estoqueAtual - offer.unidades
+      [offer.name]: estoqueAtual - offer.unidades,
     };
 
     // Atualiza saldo
@@ -2068,28 +3654,39 @@ const FabricaSmartphonesNegocio = () => {
         ...negocio,
         estoque: {
           ...negocio.estoque,
-          estoqueAtual: novoEstoque
+          estoqueAtual: novoEstoque,
         },
         mercado: {
           ...negocio.mercado,
-          vendasRealizadas: [...(negocio.mercado.vendasRealizadas || []), offer.id]
-        }
-      }
+          vendasRealizadas: [
+            ...(negocio.mercado.vendasRealizadas || []),
+            offer.id,
+          ],
+        },
+      },
     });
   };
 
   // ==================== RENDER TAB CONTENT ====================
   const renderTabContent = (tab, cores, formatCurrency) => {
-    if (tab === 'produzir') {
+    if (tab === "produzir") {
       return (
         <div className="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
           {negocio.produzir.ofertasAtivas.map((smartphone) => {
-            const podeEscolher = !negocio.produzir.producaoAtual && economiaSetores.saldo >= smartphone.custo;
+            const podeEscolher =
+              !negocio.produzir.producaoAtual &&
+              economiaSetores.saldo >= smartphone.custo;
             return (
-              <div key={smartphone.id} className="rounded-lg shadow-md p-4 bg-white">
+              <div
+                key={smartphone.id}
+                className="rounded-lg shadow-md p-4 bg-white"
+              >
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-2xl">{smartphone.icon}</span>
-                  <h3 className="text-base font-bold" style={{ color: cores.primary }}>
+                  <h3
+                    className="text-base font-bold"
+                    style={{ color: cores.primary }}
+                  >
                     {smartphone.nome}
                   </h3>
                 </div>
@@ -2104,7 +3701,9 @@ const FabricaSmartphonesNegocio = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Custo/Unidade:</span>
-                    <span>{formatCurrency(smartphone.custo / smartphone.unidades)}</span>
+                    <span>
+                      {formatCurrency(smartphone.custo / smartphone.unidades)}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Duração:</span>
@@ -2116,11 +3715,13 @@ const FabricaSmartphonesNegocio = () => {
                   disabled={!podeEscolher}
                   className="w-full py-3 rounded font-bold text-white transition-colors"
                   style={{
-                    backgroundColor: podeEscolher ? cores.accent : '#6C757D',
-                    cursor: podeEscolher ? 'pointer' : 'not-allowed'
+                    backgroundColor: podeEscolher ? cores.accent : "#6C757D",
+                    cursor: podeEscolher ? "pointer" : "not-allowed",
                   }}
                 >
-                  {negocio.produzir.producaoAtual ? 'Produzindo...' : 'Produzir'}
+                  {negocio.produzir.producaoAtual
+                    ? "Produzindo..."
+                    : "Produzir"}
                 </button>
               </div>
             );
@@ -2129,7 +3730,7 @@ const FabricaSmartphonesNegocio = () => {
       );
     }
 
-    if (tab === 'mercado') {
+    if (tab === "mercado") {
       const ofertasDisponiveis = negocio.mercado.ofertasAtivas.filter(
         (offer) => !(negocio.mercado.vendasRealizadas || []).includes(offer.id)
       );
@@ -2141,23 +3742,27 @@ const FabricaSmartphonesNegocio = () => {
               <h3 className="font-bold text-gray-800 mb-2 capitalize text-3xl">
                 {getProductIcon(offer.name)}
               </h3>
-              <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
+              <h3 className="font-bold text-gray-800 mb-2 capitalize">
+                {offer.name}
+              </h3>
               <p className="text-sm mb-1">{offer.unidades} unidades</p>
               <p className="text-xs text-gray-500 mb-3">
-                {new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                  minimumFractionDigits: 0
-                }).format(offer.pricePerUnit)}/un
+                {new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                  minimumFractionDigits: 0,
+                }).format(offer.pricePerUnit)}
+                /un
               </p>
               <button
                 onClick={() => handleVender(offer)}
                 className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700 transition-colors"
               >
-                Vender por {new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                  minimumFractionDigits: 0
+                Vender por{" "}
+                {new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                  minimumFractionDigits: 0,
                 }).format(offer.totalPrice)}
               </button>
             </div>
@@ -2172,16 +3777,26 @@ const FabricaSmartphonesNegocio = () => {
       );
     }
 
-    if (tab === 'estoque') {
-      const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
-      const percentualOcupado = ((estoqueTotal / negocio.estoque.capacidadeEstoque) * 100).toFixed(1);
+    if (tab === "estoque") {
+      const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce(
+        (a, b) => a + b,
+        0
+      );
+      const percentualOcupado = (
+        (estoqueTotal / negocio.estoque.capacidadeEstoque) *
+        100
+      ).toFixed(1);
 
       return (
         <div>
           <div className="text-center text-white mb-6 bg-white/20 rounded-lg p-4">
             <p className="text-xl font-bold mb-2">Capacidade do Estoque</p>
-            <p className="text-2xl">{estoqueTotal} / {negocio.estoque.capacidadeEstoque} unidades</p>
-            <p className="text-sm opacity-80 mt-1">{percentualOcupado}% ocupado</p>
+            <p className="text-2xl">
+              {estoqueTotal} / {negocio.estoque.capacidadeEstoque} unidades
+            </p>
+            <p className="text-sm opacity-80 mt-1">
+              {percentualOcupado}% ocupado
+            </p>
 
             {/* Barra de progresso */}
             <div className="w-full bg-white/30 rounded-full h-3 mt-3">
@@ -2194,7 +3809,10 @@ const FabricaSmartphonesNegocio = () => {
 
           <div className="grid grid-cols-3 gap-6">
             {Object.entries(negocio.estoque.estoqueAtual).map(([type, qtd]) => (
-              <div key={type} className="text-center text-white bg-white/20 rounded-xl p-6 hover:bg-white/30 transition-colors">
+              <div
+                key={type}
+                className="text-center text-white bg-white/20 rounded-xl p-6 hover:bg-white/30 transition-colors"
+              >
                 <h3 className="text-4xl mb-3">{getProductIcon(type)}</h3>
                 <h3 className="text-xl font-bold mb-2 capitalize">{type}</h3>
                 <div className="text-lg mb-3 opacity-80">{qtd} unidades</div>
@@ -2211,25 +3829,40 @@ const FabricaSmartphonesNegocio = () => {
     return null;
   };
 
-  const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce((a, b) => a + b, 0);
+  const estoqueTotal = Object.values(negocio.estoque.estoqueAtual).reduce(
+    (a, b) => a + b,
+    0
+  );
 
   const tabs = [
-    { id: 'produzir', label: 'Produzir', icon: Smartphone, info: null },
-    { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
-    { id: 'estoque', label: 'Estoque', icon: Package, info: `${estoqueTotal} Unidades` },
+    { id: "produzir", label: "Produzir", icon: Smartphone, info: null },
+    { id: "mercado", label: "Mercado", icon: TrendingUp, info: null },
+    {
+      id: "estoque",
+      label: "Estoque",
+      icon: Package,
+      info: `${estoqueTotal} Unidades`,
+    },
   ];
 
-  const producaoPronta = negocio.produzir.producaoAtual &&
+  const producaoPronta =
+    negocio.produzir.producaoAtual &&
     dados.dia >= negocio.produzir.producaoAtual.diaFim;
 
   const negocioConfig = {
-    nome: 'Fábrica de Smartphones',
-    cores: SETORES_CONFIG.tecnologia.cores
+    nome: "Fábrica de Smartphones",
+    cores: SETORES_CONFIG.tecnologia.cores,
   };
 
   // Calcular dias restantes para os ciclos
-  const diasRestantesProduzir = Math.max(0, negocio.produzir.proximoCiclo - dados.dia);
-  const diasRestantesMercado = Math.max(0, negocio.mercado.proximoCiclo - dados.dia);
+  const diasRestantesProduzir = Math.max(
+    0,
+    negocio.produzir.proximoCiclo - dados.dia
+  );
+  const diasRestantesMercado = Math.max(
+    0,
+    negocio.mercado.proximoCiclo - dados.dia
+  );
 
   return (
     <BaseBusinessInterface
@@ -2242,7 +3875,8 @@ const FabricaSmartphonesNegocio = () => {
             {producaoPronta ? (
               <div className="flex items-center justify-between">
                 <span className="text-base">
-                  📱 <strong>{negocio.produzir.producaoAtual.nome}</strong> pronto para coleta!
+                  📱 <strong>{negocio.produzir.producaoAtual.nome}</strong>{" "}
+                  pronto para coleta!
                 </span>
                 <button
                   onClick={handleColetar}
@@ -2253,9 +3887,13 @@ const FabricaSmartphonesNegocio = () => {
               </div>
             ) : (
               <div className="text-center">
-                🏭 Produzindo <strong>{negocio.produzir.producaoAtual.nome}</strong> — Finaliza no dia <strong>{negocio.produzir.producaoAtual.diaFim}</strong>
+                🏭 Produzindo{" "}
+                <strong>{negocio.produzir.producaoAtual.nome}</strong> —
+                Finaliza no dia{" "}
+                <strong>{negocio.produzir.producaoAtual.diaFim}</strong>
                 <div className="text-xs opacity-80 mt-1">
-                  ({negocio.produzir.producaoAtual.diaFim - dados.dia} dias restantes)
+                  ({negocio.produzir.producaoAtual.diaFim - dados.dia} dias
+                  restantes)
                 </div>
               </div>
             )}
@@ -2263,12 +3901,12 @@ const FabricaSmartphonesNegocio = () => {
         )
       }
       footerExtra={(tab) => {
-        if (tab === 'produzir') {
+        if (tab === "produzir") {
           return diasRestantesProduzir === 0
             ? `🔄 Novas ofertas disponíveis!`
             : `Próximo ciclo de produção em ${diasRestantesProduzir} dias`;
         }
-        if (tab === 'mercado') {
+        if (tab === "mercado") {
           return diasRestantesMercado === 0
             ? `🔄 Novos compradores disponíveis!`
             : `Próximo ciclo de mercado em ${diasRestantesMercado} dias`;
@@ -2281,28 +3919,60 @@ const FabricaSmartphonesNegocio = () => {
 
 const ConstrutoraInfraestruturaNegocio = () => {
   const { dados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, atualizarEco } = useContext(
+    DadosEconomyGlobalContext
+  );
 
   const getEquipmentIcon = (type) => {
     const icons = {
-      escavadeira: '🚜',
-      betoneira: '🏗️',
-      guindaste: '🏗️',
-      retroescavadeira: '🚜',
-      rolo: '🚧',
-      perfuratriz: '⚙️'
+      escavadeira: "🚜",
+      betoneira: "🏗️",
+      guindaste: "🏗️",
+      retroescavadeira: "🚜",
+      rolo: "🚧",
+      perfuratriz: "⚙️",
     };
-    return icons[type] || '🚜';
+    return icons[type] || "🚜";
   };
 
   // Equipamentos disponíveis para compra
   const equipamentosDisponiveis = [
-    { nome: "Escavadeira Hidráulica", tipo: "escavadeira", categoria: "Escavação", preco: 800000 },
-    { nome: "Betoneira Industrial", tipo: "betoneira", categoria: "Concreto", preco: 150000 },
-    { nome: "Guindaste de Torre", tipo: "guindaste", categoria: "Elevação", preco: 1200000 },
-    { nome: "Retroescavadeira", tipo: "retroescavadeira", categoria: "Escavação", preco: 600000 },
-    { nome: "Rolo Compactador", tipo: "rolo", categoria: "Pavimentação", preco: 350000 },
-    { nome: "Perfuratriz de Solo", tipo: "perfuratriz", categoria: "Fundação", preco: 450000 }
+    {
+      nome: "Escavadeira Hidráulica",
+      tipo: "escavadeira",
+      categoria: "Escavação",
+      preco: 800000,
+    },
+    {
+      nome: "Betoneira Industrial",
+      tipo: "betoneira",
+      categoria: "Concreto",
+      preco: 150000,
+    },
+    {
+      nome: "Guindaste de Torre",
+      tipo: "guindaste",
+      categoria: "Elevação",
+      preco: 1200000,
+    },
+    {
+      nome: "Retroescavadeira",
+      tipo: "retroescavadeira",
+      categoria: "Escavação",
+      preco: 600000,
+    },
+    {
+      nome: "Rolo Compactador",
+      tipo: "rolo",
+      categoria: "Pavimentação",
+      preco: 350000,
+    },
+    {
+      nome: "Perfuratriz de Solo",
+      tipo: "perfuratriz",
+      categoria: "Fundação",
+      preco: 450000,
+    },
   ];
 
   // Licitações disponíveis (base completa com 30 projetos)
@@ -2314,10 +3984,18 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "São Paulo - SP",
       custo: 45000000,
       duracao: 180,
-      requisitos: { escavadeira: 3, betoneira: 4, guindaste: 2, retroescavadeira: 2, rolo: 2, perfuratriz: 2 },
+      requisitos: {
+        escavadeira: 3,
+        betoneira: 4,
+        guindaste: 2,
+        retroescavadeira: 2,
+        rolo: 2,
+        perfuratriz: 2,
+      },
       icon: "🏥",
-      descricao: "Construção de hospital com 200 leitos, UTI e centro cirúrgico",
-      lucro: 8500000
+      descricao:
+        "Construção de hospital com 200 leitos, UTI e centro cirúrgico",
+      lucro: 8500000,
     },
     // ... adicione aqui as outras 29 licitações do seu código original ...
     {
@@ -2327,10 +4005,17 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Santos - SP",
       custo: 32000000,
       duracao: 120,
-      requisitos: { escavadeira: 2, betoneira: 3, guindaste: 2, retroescavadeira: 1, rolo: 1, perfuratriz: 1 },
+      requisitos: {
+        escavadeira: 2,
+        betoneira: 3,
+        guindaste: 2,
+        retroescavadeira: 1,
+        rolo: 1,
+        perfuratriz: 1,
+      },
       icon: "🌉",
       descricao: "Ponte de 800m sobre rio com pistas duplas",
-      lucro: 6200000
+      lucro: 6200000,
     },
     {
       id: 3,
@@ -2339,10 +4024,17 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Guarujá - SP",
       custo: 78000000,
       duracao: 240,
-      requisitos: { escavadeira: 5, betoneira: 4, guindaste: 4, retroescavadeira: 3, rolo: 2, perfuratriz: 2 },
+      requisitos: {
+        escavadeira: 5,
+        betoneira: 4,
+        guindaste: 4,
+        retroescavadeira: 3,
+        rolo: 2,
+        perfuratriz: 2,
+      },
       icon: "⚓",
       descricao: "Terminal portuário para 500 mil TEUs/ano",
-      lucro: 14500000
+      lucro: 14500000,
     },
     {
       id: 4,
@@ -2351,10 +4043,17 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Campinas - SP",
       custo: 18000000,
       duracao: 90,
-      requisitos: { escavadeira: 1, betoneira: 2, guindaste: 1, retroescavadeira: 1, rolo: 1, perfuratriz: 1 },
+      requisitos: {
+        escavadeira: 1,
+        betoneira: 2,
+        guindaste: 1,
+        retroescavadeira: 1,
+        rolo: 1,
+        perfuratriz: 1,
+      },
       icon: "🏫",
       descricao: "Complexo educacional para 1200 alunos",
-      lucro: 3200000
+      lucro: 3200000,
     },
     {
       id: 5,
@@ -2363,10 +4062,17 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Ribeirão Preto - SP",
       custo: 25000000,
       duracao: 150,
-      requisitos: { escavadeira: 2, betoneira: 3, guindaste: 2, retroescavadeira: 2, rolo: 2, perfuratriz: 1 },
+      requisitos: {
+        escavadeira: 2,
+        betoneira: 3,
+        guindaste: 2,
+        retroescavadeira: 2,
+        rolo: 2,
+        perfuratriz: 1,
+      },
       icon: "🏟️",
       descricao: "Estádio para 35 mil pessoas com cobertura",
-      lucro: 4800000
+      lucro: 4800000,
     },
     {
       id: 6,
@@ -2375,10 +4081,17 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "São Paulo - SP",
       custo: 100000000,
       duracao: 360,
-      requisitos: { escavadeira: 6, betoneira: 5, guindaste: 3, retroescavadeira: 4, rolo: 3, perfuratriz: 4 },
+      requisitos: {
+        escavadeira: 6,
+        betoneira: 5,
+        guindaste: 3,
+        retroescavadeira: 4,
+        rolo: 3,
+        perfuratriz: 4,
+      },
       icon: "🚇",
       descricao: "15km de linha subterrânea com 12 estações",
-      lucro: 22000000
+      lucro: 22000000,
     },
     {
       id: 7,
@@ -2387,10 +4100,17 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Sorocaba - SP",
       custo: 35000000,
       duracao: 140,
-      requisitos: { escavadeira: 2, betoneira: 3, guindaste: 2, retroescavadeira: 1, rolo: 2, perfuratriz: 1 },
+      requisitos: {
+        escavadeira: 2,
+        betoneira: 3,
+        guindaste: 2,
+        retroescavadeira: 1,
+        rolo: 2,
+        perfuratriz: 1,
+      },
       icon: "🏬",
       descricao: "Centro comercial com 200 lojas e cinema",
-      lucro: 6500000
+      lucro: 6500000,
     },
     {
       id: 8,
@@ -2399,10 +4119,17 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Jundiaí - SP",
       custo: 28000000,
       duracao: 110,
-      requisitos: { escavadeira: 2, betoneira: 2, guindaste: 2, retroescavadeira: 1, rolo: 1, perfuratriz: 1 },
+      requisitos: {
+        escavadeira: 2,
+        betoneira: 2,
+        guindaste: 2,
+        retroescavadeira: 1,
+        rolo: 1,
+        perfuratriz: 1,
+      },
       icon: "🏘️",
       descricao: "5 torres com 400 apartamentos",
-      lucro: 5200000
+      lucro: 5200000,
     },
     {
       id: 9,
@@ -2411,10 +4138,15 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Piracicaba - SP",
       custo: 8000000,
       duracao: 60,
-      requisitos: { escavadeira: 1, betoneira: 1, guindaste: 1, retroescavadeira: 1 },
+      requisitos: {
+        escavadeira: 1,
+        betoneira: 1,
+        guindaste: 1,
+        retroescavadeira: 1,
+      },
       icon: "🩺",
       descricao: "Construção de clínica de atendimento básico e emergencial",
-      lucro: 1500000
+      lucro: 1500000,
     },
     {
       id: 10,
@@ -2426,7 +4158,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       requisitos: { escavadeira: 2, betoneira: 3, guindaste: 2, rolo: 1 },
       icon: "🛣️",
       descricao: "Viaduto de 600m conectando avenidas principais",
-      lucro: 5000000
+      lucro: 5000000,
     },
     {
       id: 11,
@@ -2435,10 +4167,16 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Presidente Prudente - SP",
       custo: 85000000,
       duracao: 300,
-      requisitos: { escavadeira: 5, betoneira: 4, guindaste: 3, rolo: 3, perfuratriz: 3 },
+      requisitos: {
+        escavadeira: 5,
+        betoneira: 4,
+        guindaste: 3,
+        rolo: 3,
+        perfuratriz: 3,
+      },
       icon: "✈️",
       descricao: "Pista de pouso e terminal para voos regionais",
-      lucro: 16000000
+      lucro: 16000000,
     },
     {
       id: 12,
@@ -2450,7 +4188,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       requisitos: { escavadeira: 1, betoneira: 2, guindaste: 1 },
       icon: "🏢",
       descricao: "Sede administrativa e de atendimento ao público",
-      lucro: 2200000
+      lucro: 2200000,
     },
     {
       id: 13,
@@ -2462,7 +4200,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       requisitos: { escavadeira: 3, betoneira: 3, guindaste: 2, rolo: 2 },
       icon: "🏛️",
       descricao: "Espaço multiuso para eventos empresariais e culturais",
-      lucro: 7500000
+      lucro: 7500000,
     },
     {
       id: 14,
@@ -2474,7 +4212,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       requisitos: { escavadeira: 2, betoneira: 2, rolo: 1 },
       icon: "🏠",
       descricao: "Construção de 300 unidades habitacionais populares",
-      lucro: 2800000
+      lucro: 2800000,
     },
     {
       id: 15,
@@ -2483,10 +4221,16 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Bauru - SP",
       custo: 95000000,
       duracao: 340,
-      requisitos: { escavadeira: 6, betoneira: 4, guindaste: 3, rolo: 4, perfuratriz: 3 },
+      requisitos: {
+        escavadeira: 6,
+        betoneira: 4,
+        guindaste: 3,
+        rolo: 4,
+        perfuratriz: 3,
+      },
       icon: "🚧",
       descricao: "Duplicação e pavimentação de 50 km da rodovia",
-      lucro: 18500000
+      lucro: 18500000,
     },
     {
       id: 16,
@@ -2498,7 +4242,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       requisitos: { escavadeira: 2, betoneira: 2, rolo: 1 },
       icon: "🚍",
       descricao: "Terminal moderno com 20 plataformas de embarque",
-      lucro: 2500000
+      lucro: 2500000,
     },
     {
       id: 17,
@@ -2510,7 +4254,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       requisitos: { escavadeira: 1, betoneira: 1, rolo: 1 },
       icon: "🤾",
       descricao: "Quadras, piscina e ginásio poliesportivo comunitário",
-      lucro: 1200000
+      lucro: 1200000,
     },
     {
       id: 18,
@@ -2519,10 +4263,16 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Campinas - SP",
       custo: 48000000,
       duracao: 200,
-      requisitos: { escavadeira: 3, betoneira: 4, guindaste: 2, perfuratriz: 2 },
+      requisitos: {
+        escavadeira: 3,
+        betoneira: 4,
+        guindaste: 2,
+        perfuratriz: 2,
+      },
       icon: "💻",
-      descricao: "Laboratórios e escritórios de startups em parceria com universidades",
-      lucro: 9000000
+      descricao:
+        "Laboratórios e escritórios de startups em parceria com universidades",
+      lucro: 9000000,
     },
     {
       id: 19,
@@ -2534,7 +4284,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       requisitos: { escavadeira: 1, betoneira: 1, rolo: 1 },
       icon: "🌳",
       descricao: "Criação de parque urbano com trilhas e áreas verdes",
-      lucro: 1300000
+      lucro: 1300000,
     },
     {
       id: 20,
@@ -2543,10 +4293,15 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Campinas - SP",
       custo: 55000000,
       duracao: 210,
-      requisitos: { escavadeira: 4, betoneira: 3, guindaste: 3, retroescavadeira: 2 },
+      requisitos: {
+        escavadeira: 4,
+        betoneira: 3,
+        guindaste: 3,
+        retroescavadeira: 2,
+      },
       icon: "🚢",
       descricao: "Ampliação da capacidade logística e armazenagem",
-      lucro: 10500000
+      lucro: 10500000,
     },
     {
       id: 21,
@@ -2558,7 +4313,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       requisitos: { escavadeira: 2, betoneira: 2, rolo: 1, perfuratriz: 2 },
       icon: "💧",
       descricao: "Nova estação de tratamento e rede de abastecimento",
-      lucro: 3800000
+      lucro: 3800000,
     },
     {
       id: 22,
@@ -2567,10 +4322,16 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Santos - SP",
       custo: 90000000,
       duracao: 330,
-      requisitos: { escavadeira: 6, betoneira: 5, guindaste: 4, rolo: 3, perfuratriz: 3 },
+      requisitos: {
+        escavadeira: 6,
+        betoneira: 5,
+        guindaste: 4,
+        rolo: 3,
+        perfuratriz: 3,
+      },
       icon: "🚈",
       descricao: "Linha de 18km de Veículo Leve sobre Trilhos",
-      lucro: 18000000
+      lucro: 18000000,
     },
     {
       id: 23,
@@ -2579,10 +4340,15 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "São Paulo - SP",
       custo: 25000000,
       duracao: 150,
-      requisitos: { escavadeira: 2, betoneira: 2, guindaste: 1, perfuratriz: 1 },
+      requisitos: {
+        escavadeira: 2,
+        betoneira: 2,
+        guindaste: 1,
+        perfuratriz: 1,
+      },
       icon: "🎨",
       descricao: "Espaço cultural com galerias e auditório",
-      lucro: 4700000
+      lucro: 4700000,
     },
     {
       id: 24,
@@ -2594,7 +4360,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       requisitos: { escavadeira: 3, betoneira: 3, guindaste: 2, rolo: 2 },
       icon: "📦",
       descricao: "Galpão com sistema automatizado de logística e carga",
-      lucro: 7200000
+      lucro: 7200000,
     },
     {
       id: 25,
@@ -2606,7 +4372,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       requisitos: { escavadeira: 2, betoneira: 2, rolo: 1 },
       icon: "🏡",
       descricao: "Conjunto habitacional sustentável com energia solar",
-      lucro: 4100000
+      lucro: 4100000,
     },
     {
       id: 26,
@@ -2618,7 +4384,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
       requisitos: { escavadeira: 2, betoneira: 2, guindaste: 1 },
       icon: "🐄",
       descricao: "Espaço para eventos e feiras agroindustriais",
-      lucro: 3000000
+      lucro: 3000000,
     },
     {
       id: 27,
@@ -2629,8 +4395,9 @@ const ConstrutoraInfraestruturaNegocio = () => {
       duracao: 80,
       requisitos: { escavadeira: 1, betoneira: 2, guindaste: 1 },
       icon: "🚔",
-      descricao: "Instalação para polícias civil e militar com tecnologia integrada",
-      lucro: 2300000
+      descricao:
+        "Instalação para polícias civil e militar com tecnologia integrada",
+      lucro: 2300000,
     },
     {
       id: 28,
@@ -2639,10 +4406,15 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Araraquara - SP",
       custo: 50000000,
       duracao: 220,
-      requisitos: { escavadeira: 3, betoneira: 3, guindaste: 2, perfuratriz: 2 },
+      requisitos: {
+        escavadeira: 3,
+        betoneira: 3,
+        guindaste: 2,
+        perfuratriz: 2,
+      },
       icon: "☀️",
       descricao: "Planta de geração solar fotovoltaica de 50MW",
-      lucro: 9500000
+      lucro: 9500000,
     },
     {
       id: 29,
@@ -2653,8 +4425,9 @@ const ConstrutoraInfraestruturaNegocio = () => {
       duracao: 70,
       requisitos: { escavadeira: 1, betoneira: 1, rolo: 1 },
       icon: "♻️",
-      descricao: "Instalação para triagem e reaproveitamento de resíduos sólidos",
-      lucro: 1600000
+      descricao:
+        "Instalação para triagem e reaproveitamento de resíduos sólidos",
+      lucro: 1600000,
     },
     {
       id: 30,
@@ -2663,11 +4436,17 @@ const ConstrutoraInfraestruturaNegocio = () => {
       localizacao: "Guarulhos - SP",
       custo: 95000000,
       duracao: 350,
-      requisitos: { escavadeira: 6, betoneira: 5, guindaste: 4, retroescavadeira: 3, perfuratriz: 4 },
+      requisitos: {
+        escavadeira: 6,
+        betoneira: 5,
+        guindaste: 4,
+        retroescavadeira: 3,
+        perfuratriz: 4,
+      },
       icon: "🛫",
       descricao: "Expansão do terminal de passageiros e pista adicional",
-      lucro: 19500000
-    }
+      lucro: 19500000,
+    },
   ];
 
   // ==================== ESTADOS PARA MODAL ====================
@@ -2677,17 +4456,21 @@ const ConstrutoraInfraestruturaNegocio = () => {
   // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
   useEffect(() => {
     // Garantir que a estrutura existe
-    if (economiaSetores.negocios?.ConstrutoraInfraestruturaNegocio && 
-        !economiaSetores.negocios.ConstrutoraInfraestruturaNegocio.licitacoes?.obraAtual) {
+    if (
+      economiaSetores.negocios?.ConstrutoraInfraestruturaNegocio &&
+      !economiaSetores.negocios.ConstrutoraInfraestruturaNegocio.licitacoes
+        ?.obraAtual
+    ) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
         ConstrutoraInfraestruturaNegocio: {
           ...economiaSetores.negocios.ConstrutoraInfraestruturaNegocio,
           licitacoes: {
-            ...economiaSetores.negocios.ConstrutoraInfraestruturaNegocio.licitacoes,
-            obraAtual: null
-          }
-        }
+            ...economiaSetores.negocios.ConstrutoraInfraestruturaNegocio
+              .licitacoes,
+            obraAtual: null,
+          },
+        },
       });
     }
   }, []);
@@ -2697,7 +4480,9 @@ const ConstrutoraInfraestruturaNegocio = () => {
 
   // Se ainda não foi inicializado, retorna loading
   if (!negocio) {
-    return <div className="text-white text-center p-8">Carregando negócio...</div>;
+    return (
+      <div className="text-white text-center p-8">Carregando negócio...</div>
+    );
   }
 
   // ==================== ATUALIZAÇÃO DE CICLOS ====================
@@ -2706,8 +4491,13 @@ const ConstrutoraInfraestruturaNegocio = () => {
 
     // Verificar e atualizar ciclo de licitações
     if (dados.dia >= negocio.licitacoes.proximoCiclo) {
-      console.log("🔄 Atualizando ciclo de licitações - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.licitacoes.proximoCiclo);
-      
+      console.log(
+        "🔄 Atualizando ciclo de licitações - Dia atual:",
+        dados.dia,
+        "Próximo ciclo era:",
+        negocio.licitacoes.proximoCiclo
+      );
+
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
         ConstrutoraInfraestruturaNegocio: {
@@ -2715,9 +4505,9 @@ const ConstrutoraInfraestruturaNegocio = () => {
           licitacoes: {
             ...negocio.licitacoes,
             ofertasAtivas: sortearItens(licitacoesBase, 4),
-            proximoCiclo: dados.dia + 60
-          }
-        }
+            proximoCiclo: dados.dia + 60,
+          },
+        },
       });
     }
   }, [dados.dia, negocio?.licitacoes?.proximoCiclo]);
@@ -2736,12 +4526,12 @@ const ConstrutoraInfraestruturaNegocio = () => {
     const novaObra = {
       ...licitacao,
       diaInicio: dados.dia,
-      diaFim: dados.dia + licitacao.duracao
+      diaFim: dados.dia + licitacao.duracao,
     };
 
     // Atualiza saldo
     atualizarEco("saldo", economiaSetores.saldo - licitacao.custo);
-    
+
     // Atualiza obra atual
     atualizarEco("negocios", {
       ...economiaSetores.negocios,
@@ -2749,9 +4539,9 @@ const ConstrutoraInfraestruturaNegocio = () => {
         ...negocio,
         licitacoes: {
           ...negocio.licitacoes,
-          obraAtual: novaObra
-        }
-      }
+          obraAtual: novaObra,
+        },
+      },
     });
 
     setShowBidModal(false);
@@ -2761,7 +4551,8 @@ const ConstrutoraInfraestruturaNegocio = () => {
   const handleColetarLucro = () => {
     if (!negocio.licitacoes.obraAtual) return;
 
-    const recebimento = negocio.licitacoes.obraAtual.custo + negocio.licitacoes.obraAtual.lucro;
+    const recebimento =
+      negocio.licitacoes.obraAtual.custo + negocio.licitacoes.obraAtual.lucro;
 
     // Atualiza saldo e limpa obra atual
     atualizarEco("saldo", economiaSetores.saldo + recebimento);
@@ -2771,9 +4562,9 @@ const ConstrutoraInfraestruturaNegocio = () => {
         ...negocio,
         licitacoes: {
           ...negocio.licitacoes,
-          obraAtual: null
-        }
-      }
+          obraAtual: null,
+        },
+      },
     });
   };
 
@@ -2785,12 +4576,13 @@ const ConstrutoraInfraestruturaNegocio = () => {
 
     const novosMaquinarios = {
       ...negocio.equipamentos.maquinarios,
-      [equipamento.tipo]: (negocio.equipamentos.maquinarios[equipamento.tipo] || 0) + 1
+      [equipamento.tipo]:
+        (negocio.equipamentos.maquinarios[equipamento.tipo] || 0) + 1,
     };
 
     // Atualiza saldo
     atualizarEco("saldo", economiaSetores.saldo - equipamento.preco);
-    
+
     // Atualiza equipamentos
     atualizarEco("negocios", {
       ...economiaSetores.negocios,
@@ -2798,31 +4590,31 @@ const ConstrutoraInfraestruturaNegocio = () => {
         ...negocio,
         equipamentos: {
           ...negocio.equipamentos,
-          maquinarios: novosMaquinarios
-        }
-      }
+          maquinarios: novosMaquinarios,
+        },
+      },
     });
   };
 
   const getProjectTypeColor = (tipo) => {
     const cores = {
-      'Saúde': '#ef4444',
-      'Infraestrutura': '#3b82f6',
-      'Portuário': '#0ea5e9',
-      'Educação': '#10b981',
-      'Esportivo': '#f59e0b',
-      'Transporte': '#8b5cf6',
-      'Comercial': '#ec4899',
-      'Residencial': '#06b6d4',
-      'Cultural': '#a855f7',
-      'Energia': '#eab308'
+      Saúde: "#ef4444",
+      Infraestrutura: "#3b82f6",
+      Portuário: "#0ea5e9",
+      Educação: "#10b981",
+      Esportivo: "#f59e0b",
+      Transporte: "#8b5cf6",
+      Comercial: "#ec4899",
+      Residencial: "#06b6d4",
+      Cultural: "#a855f7",
+      Energia: "#eab308",
     };
-    return cores[tipo] || '#6c757d';
+    return cores[tipo] || "#6c757d";
   };
 
   // ==================== RENDER TAB CONTENT ====================
   const renderTabContent = (tab, cores, formatCurrency) => {
-    if (tab === 'licitacoes') {
+    if (tab === "licitacoes") {
       return (
         <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
           {negocio.licitacoes.ofertasAtivas.map((licitacao) => {
@@ -2831,21 +4623,29 @@ const ConstrutoraInfraestruturaNegocio = () => {
             return (
               <div
                 key={licitacao.id}
-                className={`rounded-lg shadow-md p-4 transition-all ${canBid ? 'hover:shadow-lg' : 'opacity-60'
-                  }`}
-                style={{ backgroundColor: '#ffffff' }}
+                className={`rounded-lg shadow-md p-4 transition-all ${
+                  canBid ? "hover:shadow-lg" : "opacity-60"
+                }`}
+                style={{ backgroundColor: "#ffffff" }}
               >
                 <div className="flex gap-4 mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-2xl">{licitacao.icon}</span>
                       <div>
-                        <h3 className="text-sm font-bold" style={{ color: cores.primary }}>
+                        <h3
+                          className="text-sm font-bold"
+                          style={{ color: cores.primary }}
+                        >
                           {licitacao.nome}
                         </h3>
                         <div
                           className="text-xs px-2 py-1 rounded text-white inline-block"
-                          style={{ backgroundColor: getProjectTypeColor(licitacao.tipo) }}
+                          style={{
+                            backgroundColor: getProjectTypeColor(
+                              licitacao.tipo
+                            ),
+                          }}
                         >
                           {licitacao.tipo}
                         </div>
@@ -2855,38 +4655,57 @@ const ConstrutoraInfraestruturaNegocio = () => {
                     <div className="space-y-2 mb-3">
                       <div className="flex items-center gap-1">
                         <MapPin className="w-3 h-3 text-gray-500" />
-                        <span className="text-xs text-gray-600">{licitacao.localizacao}</span>
+                        <span className="text-xs text-gray-600">
+                          {licitacao.localizacao}
+                        </span>
                       </div>
                       <div className="flex justify-between text-xs">
                         <span className="text-gray-600">Investimento:</span>
-                        <span className="font-bold text-red-600">{formatCurrency(licitacao.custo)}</span>
+                        <span className="font-bold text-red-600">
+                          {formatCurrency(licitacao.custo)}
+                        </span>
                       </div>
                       <div className="flex justify-between text-xs">
                         <span className="text-gray-600">Lucro:</span>
-                        <span className="font-bold text-green-600">{formatCurrency(licitacao.lucro)}</span>
+                        <span className="font-bold text-green-600">
+                          {formatCurrency(licitacao.lucro)}
+                        </span>
                       </div>
                       <div className="flex justify-between text-xs">
                         <span className="text-gray-600">Duração:</span>
-                        <span className="font-semibold">{licitacao.duracao} dias</span>
+                        <span className="font-semibold">
+                          {licitacao.duracao} dias
+                        </span>
                       </div>
                     </div>
                   </div>
 
                   <div className="flex-1">
                     <div className="space-y-1 mb-3">
-                      <div className="text-xs text-gray-600 mb-1">Equipamentos necessários:</div>
-                      {Object.entries(licitacao.requisitos).map(([equip, qtd]) => (
-                        <div key={equip} className="flex justify-between text-xs">
-                          <span className="capitalize">{equip}:</span>
-                          <span className={
-                            (negocio.equipamentos.maquinarios[equip] || 0) >= qtd 
-                              ? 'text-green-600 font-semibold' 
-                              : 'text-red-600 font-semibold'
-                          }>
-                            {negocio.equipamentos.maquinarios[equip] || 0}/{qtd}
-                          </span>
-                        </div>
-                      ))}
+                      <div className="text-xs text-gray-600 mb-1">
+                        Equipamentos necessários:
+                      </div>
+                      {Object.entries(licitacao.requisitos).map(
+                        ([equip, qtd]) => (
+                          <div
+                            key={equip}
+                            className="flex justify-between text-xs"
+                          >
+                            <span className="capitalize">{equip}:</span>
+                            <span
+                              className={
+                                (negocio.equipamentos.maquinarios[equip] ||
+                                  0) >= qtd
+                                  ? "text-green-600 font-semibold"
+                                  : "text-red-600 font-semibold"
+                              }
+                            >
+                              {negocio.equipamentos.maquinarios[equip] || 0}/
+                              {qtd}
+                            </span>
+                          </div>
+                        )
+                      )}
                     </div>
                   </div>
                 </div>
@@ -2905,16 +4724,15 @@ const ConstrutoraInfraestruturaNegocio = () => {
                   disabled={!canBid}
                   className="w-full py-3 rounded font-bold text-white text-sm transition-colors"
                   style={{
-                    backgroundColor: canBid ? cores.accent : '#6c757d',
-                    cursor: canBid ? 'pointer' : 'not-allowed'
+                    backgroundColor: canBid ? cores.accent : "#6c757d",
+                    cursor: canBid ? "pointer" : "not-allowed",
                   }}
                 >
                   {negocio.licitacoes.obraAtual
-                    ? 'Obra em Andamento'
+                    ? "Obra em Andamento"
                     : !canBid
-                      ? 'Requisitos Insuficientes'
-                      : 'Participar da Licitação'
-                  }
+                    ? "Requisitos Insuficientes"
+                    : "Participar da Licitação"}
                 </button>
               </div>
             );
@@ -2923,17 +4741,26 @@ const ConstrutoraInfraestruturaNegocio = () => {
       );
     }
 
-    if (tab === 'equipamentos') {
+    if (tab === "equipamentos") {
       return (
         <div className="grid grid-cols-3 gap-4 max-w-5xl mx-auto">
           {equipamentosDisponiveis.map((equipamento, index) => (
             <div key={index} className="bg-white rounded-lg p-4 shadow-md">
               <div className="text-center mb-3">
-                <div className="text-3xl mb-2">{getEquipmentIcon(equipamento.tipo)}</div>
-                <h3 className="font-bold text-gray-800 text-sm">{equipamento.nome}</h3>
-                <p className="text-xs text-gray-500 mb-1">{equipamento.categoria}</p>
+                <div className="text-3xl mb-2">
+                  {getEquipmentIcon(equipamento.tipo)}
+                </div>
+                <h3 className="font-bold text-gray-800 text-sm">
+                  {equipamento.nome}
+                </h3>
+                <p className="text-xs text-gray-500 mb-1">
+                  {equipamento.categoria}
+                </p>
                 <p className="text-xs text-gray-600 mt-2">
-                  Você possui: <span className="font-bold">{negocio.equipamentos.maquinarios[equipamento.tipo] || 0}</span>
+                  Você possui:{" "}
+                  <span className="font-bold">
+                    {negocio.equipamentos.maquinarios[equipamento.tipo] || 0}
+                  </span>
                 </p>
               </div>
               <div
@@ -2947,8 +4774,14 @@ const ConstrutoraInfraestruturaNegocio = () => {
                 disabled={economiaSetores.saldo < equipamento.preco}
                 className="w-full py-2 px-3 rounded text-sm font-bold text-white transition-colors"
                 style={{
-                  backgroundColor: economiaSetores.saldo >= equipamento.preco ? '#10b981' : '#6c757d',
-                  cursor: economiaSetores.saldo >= equipamento.preco ? 'pointer' : 'not-allowed'
+                  backgroundColor:
+                    economiaSetores.saldo >= equipamento.preco
+                      ? "#10b981"
+                      : "#6c757d",
+                  cursor:
+                    economiaSetores.saldo >= equipamento.preco
+                      ? "pointer"
+                      : "not-allowed",
                 }}
               >
                 Comprar
@@ -2962,27 +4795,41 @@ const ConstrutoraInfraestruturaNegocio = () => {
     return null;
   };
 
-  const totalEquipamentos = Object.values(negocio.equipamentos.maquinarios).reduce((a, b) => a + b, 0);
+  const totalEquipamentos = Object.values(
+    negocio.equipamentos.maquinarios
+  ).reduce((a, b) => a + b, 0);
 
   const tabs = [
-    { id: 'licitacoes', label: 'Licitações', icon: Building2, info: null },
-    { id: 'equipamentos', label: 'Equipamentos', icon: Truck, info: `${totalEquipamentos} total` }
+    { id: "licitacoes", label: "Licitações", icon: Building2, info: null },
+    {
+      id: "equipamentos",
+      label: "Equipamentos",
+      icon: Truck,
+      info: `${totalEquipamentos} total`,
+    },
   ];
 
-  const obraPronta = negocio.licitacoes.obraAtual && 
+  const obraPronta =
+    negocio.licitacoes.obraAtual &&
     dados.dia >= negocio.licitacoes.obraAtual.diaFim;
 
   const negocioConfig = {
-    nome: 'Construtora de Infraestruturas',
-    cores: SETORES_CONFIG.imobiliario.cores
+    nome: "Construtora de Infraestruturas",
+    cores: SETORES_CONFIG.imobiliario.cores,
   };
 
   // Calcular dias restantes para o ciclo
-  const diasRestantesLicitacoes = Math.max(0, negocio.licitacoes.proximoCiclo - dados.dia);
+  const diasRestantesLicitacoes = Math.max(
+    0,
+    negocio.licitacoes.proximoCiclo - dados.dia
+  );
 
-  const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', {
-    style: 'currency', currency: 'BRL', minimumFractionDigits: 0
-  }).format(value);
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 0,
+    }).format(value);
 
   return (
     <>
@@ -2996,20 +4843,29 @@ const ConstrutoraInfraestruturaNegocio = () => {
               {obraPronta ? (
                 <div className="flex items-center justify-between">
                   <span className="text-base">
-                    ✅ <strong>{negocio.licitacoes.obraAtual.nome}</strong> concluída!
+                    ✅ <strong>{negocio.licitacoes.obraAtual.nome}</strong>{" "}
+                    concluída!
                   </span>
                   <button
                     onClick={handleColetarLucro}
                     className="px-4 py-2 rounded font-bold bg-green-500 hover:bg-green-600 text-white transition-colors"
                   >
-                    Coletar {formatCurrency(negocio.licitacoes.obraAtual.custo + negocio.licitacoes.obraAtual.lucro)}
+                    Coletar{" "}
+                    {formatCurrency(
+                      negocio.licitacoes.obraAtual.custo +
+                        negocio.licitacoes.obraAtual.lucro
+                    )}
                   </button>
                 </div>
               ) : (
                 <div className="text-center">
-                  🏗️ Construindo <strong>{negocio.licitacoes.obraAtual.nome}</strong> — Conclusão no dia <strong>{negocio.licitacoes.obraAtual.diaFim}</strong>
+                  🏗️ Construindo{" "}
+                  <strong>{negocio.licitacoes.obraAtual.nome}</strong> —
+                  Conclusão no dia{" "}
+                  <strong>{negocio.licitacoes.obraAtual.diaFim}</strong>
                   <div className="text-xs opacity-80 mt-1">
-                    ({negocio.licitacoes.obraAtual.diaFim - dados.dia} dias restantes)
+                    ({negocio.licitacoes.obraAtual.diaFim - dados.dia} dias
+                    restantes)
                   </div>
                 </div>
               )}
@@ -3017,9 +4873,9 @@ const ConstrutoraInfraestruturaNegocio = () => {
           )
         }
         footerExtra={(tab) => {
-          if (tab === 'licitacoes') {
-            return diasRestantesLicitacoes === 0 
-              ? `🔄 Novas licitações disponíveis!` 
+          if (tab === "licitacoes") {
+            return diasRestantesLicitacoes === 0
+              ? `🔄 Novas licitações disponíveis!`
               : `Próximo ciclo de licitações em ${diasRestantesLicitacoes} dias`;
           }
           return null;
@@ -3038,19 +4894,27 @@ const ConstrutoraInfraestruturaNegocio = () => {
               <h4 className="font-bold text-gray-800 mb-2">
                 {licitacaoSelecionada.icon} {licitacaoSelecionada.nome}
               </h4>
-              <p className="text-sm text-gray-600 mb-3">{licitacaoSelecionada.descricao}</p>
+              <p className="text-sm text-gray-600 mb-3">
+                {licitacaoSelecionada.descricao}
+              </p>
               <div className="space-y-1 text-sm">
                 <div className="flex justify-between">
                   <span>Investimento:</span>
-                  <span className="font-bold text-red-600">{formatCurrency(licitacaoSelecionada.custo)}</span>
+                  <span className="font-bold text-red-600">
+                    {formatCurrency(licitacaoSelecionada.custo)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Lucro estimado:</span>
-                  <span className="font-bold text-green-600">{formatCurrency(licitacaoSelecionada.lucro)}</span>
+                  <span className="font-bold text-green-600">
+                    {formatCurrency(licitacaoSelecionada.lucro)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Duração:</span>
-                  <span className="font-semibold">{licitacaoSelecionada.duracao} dias</span>
+                  <span className="font-semibold">
+                    {licitacaoSelecionada.duracao} dias
+                  </span>
                 </div>
               </div>
             </div>
@@ -3058,11 +4922,17 @@ const ConstrutoraInfraestruturaNegocio = () => {
             <div className="mb-6 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
               <div className="flex items-center gap-2 mb-2">
                 <AlertTriangle className="w-4 h-4 text-yellow-600" />
-                <span className="text-sm font-medium text-yellow-800">Atenção</span>
+                <span className="text-sm font-medium text-yellow-800">
+                  Atenção
+                </span>
               </div>
               <p className="text-sm text-yellow-700">
-                O valor de {formatCurrency(licitacaoSelecionada.custo)} será debitado imediatamente.
-                Você receberá {formatCurrency(licitacaoSelecionada.custo + licitacaoSelecionada.lucro)} após a conclusão da obra.
+                O valor de {formatCurrency(licitacaoSelecionada.custo)} será
+                debitado imediatamente. Você receberá{" "}
+                {formatCurrency(
+                  licitacaoSelecionada.custo + licitacaoSelecionada.lucro
+                )}{" "}
+                após a conclusão da obra.
               </p>
             </div>
 
@@ -3092,28 +4962,60 @@ const ConstrutoraInfraestruturaNegocio = () => {
 
 const TerraplagagemPavimentacaoNegocio = () => {
   const { dados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, atualizarEco } = useContext(
+    DadosEconomyGlobalContext
+  );
 
   const getEquipmentIcon = (type) => {
     const icons = {
-      motoniveladora: '🚜',
-      compactador: '🚧',
-      caminhao_basculante: '🚛',
-      fresadora: '⚙️',
-      vibroacabadora: '🛣️',
-      rolo_compressor: '🚧'
+      motoniveladora: "🚜",
+      compactador: "🚧",
+      caminhao_basculante: "🚛",
+      fresadora: "⚙️",
+      vibroacabadora: "🛣️",
+      rolo_compressor: "🚧",
     };
-    return icons[type] || '🚜';
+    return icons[type] || "🚜";
   };
 
   // Equipamentos disponíveis para compra
   const equipamentosDisponiveis = [
-    { nome: 'Motoniveladora', tipo: 'motoniveladora', categoria: 'Nivelamento', preco: 850000 },
-    { nome: 'Compactador Vibrátorio', tipo: 'compactador', categoria: 'Compactação', preco: 380000 },
-    { nome: 'Caminhão Basculante', tipo: 'caminhao_basculante', categoria: 'Transporte', preco: 420000 },
-    { nome: 'Fresadora de Asfalto', tipo: 'fresadora', categoria: 'Pavimentação', preco: 920000 },
-    { nome: 'Vibroacabadora', tipo: 'vibroacabadora', categoria: 'Pavimentação', preco: 780000 },
-    { nome: 'Rolo Compressor', tipo: 'rolo_compressor', categoria: 'Compactação', preco: 520000 }
+    {
+      nome: "Motoniveladora",
+      tipo: "motoniveladora",
+      categoria: "Nivelamento",
+      preco: 850000,
+    },
+    {
+      nome: "Compactador Vibrátorio",
+      tipo: "compactador",
+      categoria: "Compactação",
+      preco: 380000,
+    },
+    {
+      nome: "Caminhão Basculante",
+      tipo: "caminhao_basculante",
+      categoria: "Transporte",
+      preco: 420000,
+    },
+    {
+      nome: "Fresadora de Asfalto",
+      tipo: "fresadora",
+      categoria: "Pavimentação",
+      preco: 920000,
+    },
+    {
+      nome: "Vibroacabadora",
+      tipo: "vibroacabadora",
+      categoria: "Pavimentação",
+      preco: 780000,
+    },
+    {
+      nome: "Rolo Compressor",
+      tipo: "rolo_compressor",
+      categoria: "Compactação",
+      preco: 520000,
+    },
   ];
 
   // Licitações disponíveis (base completa com 30 projetos)
@@ -3125,10 +5027,15 @@ const TerraplagagemPavimentacaoNegocio = () => {
       localizacao: "São Paulo - SP",
       custo: 5500000,
       duracao: 90,
-      requisitos: { motoniveladora: 2, compactador: 2, vibroacabadora: 2, rolo_compressor: 2 },
+      requisitos: {
+        motoniveladora: 2,
+        compactador: 2,
+        vibroacabadora: 2,
+        rolo_compressor: 2,
+      },
       icon: "🛣️",
       descricao: "Recapeamento asfáltico de 5km em avenida de grande movimento",
-      lucro: 1200000
+      lucro: 1200000,
     },
     {
       id: 2,
@@ -3140,7 +5047,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 2, compactador: 1, caminhao_basculante: 3 },
       icon: "⛰️",
       descricao: "Preparação de terreno para 200 lotes residenciais",
-      lucro: 750000
+      lucro: 750000,
     },
     {
       id: 3,
@@ -3149,10 +5056,16 @@ const TerraplagagemPavimentacaoNegocio = () => {
       localizacao: "Ribeirão Preto - SP",
       custo: 12000000,
       duracao: 150,
-      requisitos: { motoniveladora: 3, compactador: 3, vibroacabadora: 3, rolo_compressor: 3, caminhao_basculante: 2 },
+      requisitos: {
+        motoniveladora: 3,
+        compactador: 3,
+        vibroacabadora: 3,
+        rolo_compressor: 3,
+        caminhao_basculante: 2,
+      },
       icon: "🚧",
       descricao: "Pavimentação de 15km de rodovia vicinal com sinalização",
-      lucro: 2800000
+      lucro: 2800000,
     },
     {
       id: 4,
@@ -3164,7 +5077,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 1, compactador: 2, caminhao_basculante: 2 },
       icon: "🏭",
       descricao: "Terraplanagem e nivelamento de pátio para indústria",
-      lucro: 620000
+      lucro: 620000,
     },
     {
       id: 5,
@@ -3176,7 +5089,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { fresadora: 2, vibroacabadora: 2, rolo_compressor: 2 },
       icon: "🏘️",
       descricao: "Recapeamento de 32 ruas do centro histórico",
-      lucro: 950000
+      lucro: 950000,
     },
     {
       id: 6,
@@ -3185,10 +5098,16 @@ const TerraplagagemPavimentacaoNegocio = () => {
       localizacao: "Guarulhos - SP",
       custo: 18000000,
       duracao: 200,
-      requisitos: { motoniveladora: 4, compactador: 4, vibroacabadora: 3, rolo_compressor: 4, caminhao_basculante: 3 },
+      requisitos: {
+        motoniveladora: 4,
+        compactador: 4,
+        vibroacabadora: 3,
+        rolo_compressor: 4,
+        caminhao_basculante: 3,
+      },
       icon: "✈️",
       descricao: "Construção de pista auxiliar com 2.5km e taxiway",
-      lucro: 4200000
+      lucro: 4200000,
     },
     {
       id: 7,
@@ -3200,7 +5119,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 3, compactador: 2, caminhao_basculante: 4 },
       icon: "📦",
       descricao: "Preparação de terreno de 80 mil m² para galpões",
-      lucro: 1450000
+      lucro: 1450000,
     },
     {
       id: 8,
@@ -3209,10 +5128,16 @@ const TerraplagagemPavimentacaoNegocio = () => {
       localizacao: "Sorocaba - SP",
       custo: 8900000,
       duracao: 120,
-      requisitos: { motoniveladora: 3, compactador: 2, vibroacabadora: 2, rolo_compressor: 3, fresadora: 1 },
+      requisitos: {
+        motoniveladora: 3,
+        compactador: 2,
+        vibroacabadora: 2,
+        rolo_compressor: 3,
+        fresadora: 1,
+      },
       icon: "🛤️",
       descricao: "Duplicação de 8km de via marginal com ciclovia",
-      lucro: 1950000
+      lucro: 1950000,
     },
     {
       id: 9,
@@ -3224,7 +5149,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { compactador: 1, vibroacabadora: 1, rolo_compressor: 1 },
       icon: "🅿️",
       descricao: "Pavimentação de estacionamento para 800 vagas",
-      lucro: 420000
+      lucro: 420000,
     },
     {
       id: 10,
@@ -3236,7 +5161,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 2, compactador: 2, caminhao_basculante: 3 },
       icon: "🏗️",
       descricao: "Preparação de área de 120 mil m² para polo industrial",
-      lucro: 1100000
+      lucro: 1100000,
     },
     {
       id: 11,
@@ -3248,7 +5173,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 1, compactador: 2, vibroacabadora: 2 },
       icon: "🚴",
       descricao: "Construção de 12km de ciclovias interligadas",
-      lucro: 820000
+      lucro: 820000,
     },
     {
       id: 12,
@@ -3257,10 +5182,15 @@ const TerraplagagemPavimentacaoNegocio = () => {
       localizacao: "Atibaia - SP",
       custo: 2400000,
       duracao: 50,
-      requisitos: { motoniveladora: 1, vibroacabadora: 1, rolo_compressor: 1, caminhao_basculante: 1 },
+      requisitos: {
+        motoniveladora: 1,
+        vibroacabadora: 1,
+        rolo_compressor: 1,
+        caminhao_basculante: 1,
+      },
       icon: "🏡",
       descricao: "Pavimentação de 3km de acesso a condomínio fechado",
-      lucro: 560000
+      lucro: 560000,
     },
     {
       id: 13,
@@ -3272,7 +5202,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 4, compactador: 3, caminhao_basculante: 5 },
       icon: "⚓",
       descricao: "Aterro e nivelamento para expansão portuária",
-      lucro: 2150000
+      lucro: 2150000,
     },
     {
       id: 14,
@@ -3284,7 +5214,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { compactador: 2, vibroacabadora: 2, rolo_compressor: 2 },
       icon: "🏘️",
       descricao: "Pavimentação de 18 ruas em bairro popular",
-      lucro: 680000
+      lucro: 680000,
     },
     {
       id: 15,
@@ -3293,10 +5223,16 @@ const TerraplagagemPavimentacaoNegocio = () => {
       localizacao: "Piracicaba - SP",
       custo: 15000000,
       duracao: 180,
-      requisitos: { motoniveladora: 3, fresadora: 3, vibroacabadora: 3, rolo_compressor: 4, compactador: 2 },
+      requisitos: {
+        motoniveladora: 3,
+        fresadora: 3,
+        vibroacabadora: 3,
+        rolo_compressor: 4,
+        compactador: 2,
+      },
       icon: "🛣️",
       descricao: "Restauração completa de 20km de rodovia estadual",
-      lucro: 3500000
+      lucro: 3500000,
     },
     {
       id: 16,
@@ -3308,7 +5244,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 2, compactador: 2, caminhao_basculante: 3 },
       icon: "🏬",
       descricao: "Criação de platô de 45 mil m² para shopping center",
-      lucro: 920000
+      lucro: 920000,
     },
     {
       id: 17,
@@ -3320,7 +5256,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 1, compactador: 2, vibroacabadora: 1 },
       icon: "🌳",
       descricao: "Pavimentação de vias e trilhas em parque de 8km",
-      lucro: 750000
+      lucro: 750000,
     },
     {
       id: 18,
@@ -3329,10 +5265,15 @@ const TerraplagagemPavimentacaoNegocio = () => {
       localizacao: "Taubaté - SP",
       custo: 6800000,
       duracao: 95,
-      requisitos: { motoniveladora: 2, compactador: 2, vibroacabadora: 2, rolo_compressor: 2 },
+      requisitos: {
+        motoniveladora: 2,
+        compactador: 2,
+        vibroacabadora: 2,
+        rolo_compressor: 2,
+      },
       icon: "🚛",
       descricao: "Construção de acostamento pavimentado em 18km",
-      lucro: 1480000
+      lucro: 1480000,
     },
     {
       id: 19,
@@ -3344,7 +5285,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { compactador: 1, vibroacabadora: 2, rolo_compressor: 1 },
       icon: "🎓",
       descricao: "Pavimentação de 5km de vias internas do campus",
-      lucro: 600000
+      lucro: 600000,
     },
     {
       id: 20,
@@ -3356,7 +5297,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 1, compactador: 1, caminhao_basculante: 2 },
       icon: "⚽",
       descricao: "Nivelamento e drenagem para complexo esportivo",
-      lucro: 280000
+      lucro: 280000,
     },
     {
       id: 21,
@@ -3365,10 +5306,15 @@ const TerraplagagemPavimentacaoNegocio = () => {
       localizacao: "Presidente Prudente - SP",
       custo: 4800000,
       duracao: 75,
-      requisitos: { fresadora: 2, vibroacabadora: 2, rolo_compressor: 2, compactador: 1 },
+      requisitos: {
+        fresadora: 2,
+        vibroacabadora: 2,
+        rolo_compressor: 2,
+        compactador: 1,
+      },
       icon: "🚦",
       descricao: "Recapeamento de binário de 6km no centro da cidade",
-      lucro: 1050000
+      lucro: 1050000,
     },
     {
       id: 22,
@@ -3380,7 +5326,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 3, compactador: 3, caminhao_basculante: 4 },
       icon: "🏭",
       descricao: "Preparação de 150 mil m² para distrito industrial",
-      lucro: 1600000
+      lucro: 1600000,
     },
     {
       id: 23,
@@ -3389,10 +5335,15 @@ const TerraplagagemPavimentacaoNegocio = () => {
       localizacao: "São José dos Campos - SP",
       custo: 9500000,
       duracao: 130,
-      requisitos: { motoniveladora: 3, compactador: 3, vibroacabadora: 3, rolo_compressor: 3 },
+      requisitos: {
+        motoniveladora: 3,
+        compactador: 3,
+        vibroacabadora: 3,
+        rolo_compressor: 3,
+      },
       icon: "🚌",
       descricao: "Construção de 10km de corredor exclusivo BRT",
-      lucro: 2100000
+      lucro: 2100000,
     },
     {
       id: 24,
@@ -3404,7 +5355,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 1, vibroacabadora: 2, rolo_compressor: 2 },
       icon: "🏢",
       descricao: "Pavimentação de vias internas e acessos de 4km",
-      lucro: 710000
+      lucro: 710000,
     },
     {
       id: 25,
@@ -3416,7 +5367,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 3, compactador: 2, caminhao_basculante: 4 },
       icon: "♻️",
       descricao: "Terraplanagem e impermeabilização para aterro sanitário",
-      lucro: 1250000
+      lucro: 1250000,
     },
     {
       id: 26,
@@ -3425,10 +5376,15 @@ const TerraplagagemPavimentacaoNegocio = () => {
       localizacao: "Bauru - SP",
       custo: 4500000,
       duracao: 80,
-      requisitos: { compactador: 2, vibroacabadora: 2, rolo_compressor: 2, fresadora: 1 },
+      requisitos: {
+        compactador: 2,
+        vibroacabadora: 2,
+        rolo_compressor: 2,
+        fresadora: 1,
+      },
       icon: "🌉",
       descricao: "Pavimentação de viaduto e alças de acesso totalizando 2.5km",
-      lucro: 980000
+      lucro: 980000,
     },
     {
       id: 27,
@@ -3440,7 +5396,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 2, compactador: 1, caminhao_basculante: 2 },
       icon: "🚜",
       descricao: "Recuperação e nivelamento de 25km de estradas rurais",
-      lucro: 510000
+      lucro: 510000,
     },
     {
       id: 28,
@@ -3449,10 +5405,15 @@ const TerraplagagemPavimentacaoNegocio = () => {
       localizacao: "Campinas - SP",
       custo: 11000000,
       duracao: 145,
-      requisitos: { motoniveladora: 3, compactador: 3, vibroacabadora: 3, rolo_compressor: 4 },
+      requisitos: {
+        motoniveladora: 3,
+        compactador: 3,
+        vibroacabadora: 3,
+        rolo_compressor: 4,
+      },
       icon: "🚆",
       descricao: "Pavimentação de pátios de carga para terminal intermodal",
-      lucro: 2450000
+      lucro: 2450000,
     },
     {
       id: 29,
@@ -3464,7 +5425,7 @@ const TerraplagagemPavimentacaoNegocio = () => {
       requisitos: { motoniveladora: 3, compactador: 3, caminhao_basculante: 4 },
       icon: "🏰",
       descricao: "Terraplanagem completa para 150 lotes de alto padrão",
-      lucro: 1850000
+      lucro: 1850000,
     },
     {
       id: 30,
@@ -3473,11 +5434,18 @@ const TerraplagagemPavimentacaoNegocio = () => {
       localizacao: "São Paulo - SP",
       custo: 22000000,
       duracao: 240,
-      requisitos: { motoniveladora: 4, fresadora: 3, vibroacabadora: 4, rolo_compressor: 5, compactador: 3, caminhao_basculante: 2 },
+      requisitos: {
+        motoniveladora: 4,
+        fresadora: 3,
+        vibroacabadora: 4,
+        rolo_compressor: 5,
+        compactador: 3,
+        caminhao_basculante: 2,
+      },
       icon: "🏙️",
       descricao: "Construção de 12km de via expressa com 4 pistas",
-      lucro: 5200000
-    }
+      lucro: 5200000,
+    },
   ];
 
   // ==================== ESTADOS PARA MODAL ====================
@@ -3487,17 +5455,21 @@ const TerraplagagemPavimentacaoNegocio = () => {
   // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
   useEffect(() => {
     // Garantir que a estrutura existe
-    if (economiaSetores.negocios?.TerraplagagemPavimentacaoNegocio && 
-        !economiaSetores.negocios.TerraplagagemPavimentacaoNegocio.licitacoes?.obraAtual) {
+    if (
+      economiaSetores.negocios?.TerraplagagemPavimentacaoNegocio &&
+      !economiaSetores.negocios.TerraplagagemPavimentacaoNegocio.licitacoes
+        ?.obraAtual
+    ) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
         TerraplagagemPavimentacaoNegocio: {
           ...economiaSetores.negocios.TerraplagagemPavimentacaoNegocio,
           licitacoes: {
-            ...economiaSetores.negocios.TerraplagagemPavimentacaoNegocio.licitacoes,
-            obraAtual: null
-          }
-        }
+            ...economiaSetores.negocios.TerraplagagemPavimentacaoNegocio
+              .licitacoes,
+            obraAtual: null,
+          },
+        },
       });
     }
   }, []);
@@ -3507,7 +5479,9 @@ const TerraplagagemPavimentacaoNegocio = () => {
 
   // Se ainda não foi inicializado, retorna loading
   if (!negocio) {
-    return <div className="text-white text-center p-8">Carregando negócio...</div>;
+    return (
+      <div className="text-white text-center p-8">Carregando negócio...</div>
+    );
   }
 
   // ==================== ATUALIZAÇÃO DE CICLOS ====================
@@ -3516,8 +5490,13 @@ const TerraplagagemPavimentacaoNegocio = () => {
 
     // Verificar e atualizar ciclo de licitações
     if (dados.dia >= negocio.licitacoes.proximoCiclo) {
-      console.log("🔄 Atualizando ciclo de licitações - Dia atual:", dados.dia, "Próximo ciclo era:", negocio.licitacoes.proximoCiclo);
-      
+      console.log(
+        "🔄 Atualizando ciclo de licitações - Dia atual:",
+        dados.dia,
+        "Próximo ciclo era:",
+        negocio.licitacoes.proximoCiclo
+      );
+
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
         TerraplagagemPavimentacaoNegocio: {
@@ -3525,9 +5504,9 @@ const TerraplagagemPavimentacaoNegocio = () => {
           licitacoes: {
             ...negocio.licitacoes,
             ofertasAtivas: sortearItens(licitacoesBase, 4),
-            proximoCiclo: dados.dia + 60
-          }
-        }
+            proximoCiclo: dados.dia + 60,
+          },
+        },
       });
     }
   }, [dados.dia, negocio?.licitacoes?.proximoCiclo]);
@@ -3546,12 +5525,12 @@ const TerraplagagemPavimentacaoNegocio = () => {
     const novaObra = {
       ...licitacao,
       diaInicio: dados.dia,
-      diaFim: dados.dia + licitacao.duracao
+      diaFim: dados.dia + licitacao.duracao,
     };
 
     // Atualiza saldo
     atualizarEco("saldo", economiaSetores.saldo - licitacao.custo);
-    
+
     // Atualiza obra atual
     atualizarEco("negocios", {
       ...economiaSetores.negocios,
@@ -3559,9 +5538,9 @@ const TerraplagagemPavimentacaoNegocio = () => {
         ...negocio,
         licitacoes: {
           ...negocio.licitacoes,
-          obraAtual: novaObra
-        }
-      }
+          obraAtual: novaObra,
+        },
+      },
     });
 
     setShowBidModal(false);
@@ -3571,7 +5550,8 @@ const TerraplagagemPavimentacaoNegocio = () => {
   const handleColetarLucro = () => {
     if (!negocio.licitacoes.obraAtual) return;
 
-    const recebimento = negocio.licitacoes.obraAtual.custo + negocio.licitacoes.obraAtual.lucro;
+    const recebimento =
+      negocio.licitacoes.obraAtual.custo + negocio.licitacoes.obraAtual.lucro;
 
     // Atualiza saldo e limpa obra atual
     atualizarEco("saldo", economiaSetores.saldo + recebimento);
@@ -3581,9 +5561,9 @@ const TerraplagagemPavimentacaoNegocio = () => {
         ...negocio,
         licitacoes: {
           ...negocio.licitacoes,
-          obraAtual: null
-        }
-      }
+          obraAtual: null,
+        },
+      },
     });
   };
 
@@ -3595,12 +5575,13 @@ const TerraplagagemPavimentacaoNegocio = () => {
 
     const novosMaquinarios = {
       ...negocio.equipamentos.maquinarios,
-      [equipamento.tipo]: (negocio.equipamentos.maquinarios[equipamento.tipo] || 0) + 1
+      [equipamento.tipo]:
+        (negocio.equipamentos.maquinarios[equipamento.tipo] || 0) + 1,
     };
 
     // Atualiza saldo
     atualizarEco("saldo", economiaSetores.saldo - equipamento.preco);
-    
+
     // Atualiza equipamentos
     atualizarEco("negocios", {
       ...economiaSetores.negocios,
@@ -3608,23 +5589,23 @@ const TerraplagagemPavimentacaoNegocio = () => {
         ...negocio,
         equipamentos: {
           ...negocio.equipamentos,
-          maquinarios: novosMaquinarios
-        }
-      }
+          maquinarios: novosMaquinarios,
+        },
+      },
     });
   };
 
   const getProjectTypeColor = (tipo) => {
     const cores = {
-      'Pavimentação': '#f59e0b',
-      'Terraplenagem': '#8b4513'
+      Pavimentação: "#f59e0b",
+      Terraplenagem: "#8b4513",
     };
-    return cores[tipo] || '#6c757d';
+    return cores[tipo] || "#6c757d";
   };
 
   // ==================== RENDER TAB CONTENT ====================
   const renderTabContent = (tab, cores, formatCurrency) => {
-    if (tab === 'licitacoes') {
+    if (tab === "licitacoes") {
       return (
         <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
           {negocio.licitacoes.ofertasAtivas.map((licitacao) => {
@@ -3633,21 +5614,29 @@ const TerraplagagemPavimentacaoNegocio = () => {
             return (
               <div
                 key={licitacao.id}
-                className={`rounded-lg shadow-md p-4 transition-all ${canBid ? 'hover:shadow-lg' : 'opacity-60'
-                  }`}
-                style={{ backgroundColor: '#ffffff' }}
+                className={`rounded-lg shadow-md p-4 transition-all ${
+                  canBid ? "hover:shadow-lg" : "opacity-60"
+                }`}
+                style={{ backgroundColor: "#ffffff" }}
               >
                 <div className="flex gap-4 mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-2xl">{licitacao.icon}</span>
                       <div>
-                        <h3 className="text-sm font-bold" style={{ color: cores.primary }}>
+                        <h3
+                          className="text-sm font-bold"
+                          style={{ color: cores.primary }}
+                        >
                           {licitacao.nome}
                         </h3>
                         <div
                           className="text-xs px-2 py-1 rounded text-white inline-block"
-                          style={{ backgroundColor: getProjectTypeColor(licitacao.tipo) }}
+                          style={{
+                            backgroundColor: getProjectTypeColor(
+                              licitacao.tipo
+                            ),
+                          }}
                         >
                           {licitacao.tipo}
                         </div>
@@ -3657,38 +5646,59 @@ const TerraplagagemPavimentacaoNegocio = () => {
                     <div className="space-y-2 mb-3">
                       <div className="flex items-center gap-1">
                         <MapPin className="w-3 h-3 text-gray-500" />
-                        <span className="text-xs text-gray-600">{licitacao.localizacao}</span>
+                        <span className="text-xs text-gray-600">
+                          {licitacao.localizacao}
+                        </span>
                       </div>
                       <div className="flex justify-between text-xs">
                         <span className="text-gray-600">Investimento:</span>
-                        <span className="font-bold text-red-600">{formatCurrency(licitacao.custo)}</span>
+                        <span className="font-bold text-red-600">
+                          {formatCurrency(licitacao.custo)}
+                        </span>
                       </div>
                       <div className="flex justify-between text-xs">
                         <span className="text-gray-600">Lucro:</span>
-                        <span className="font-bold text-green-600">{formatCurrency(licitacao.lucro)}</span>
+                        <span className="font-bold text-green-600">
+                          {formatCurrency(licitacao.lucro)}
+                        </span>
                       </div>
                       <div className="flex justify-between text-xs">
                         <span className="text-gray-600">Duração:</span>
-                        <span className="font-semibold">{licitacao.duracao} dias</span>
+                        <span className="font-semibold">
+                          {licitacao.duracao} dias
+                        </span>
                       </div>
                     </div>
                   </div>
 
                   <div className="flex-1">
                     <div className="space-y-1 mb-3">
-                      <div className="text-xs text-gray-600 mb-1">Equipamentos necessários:</div>
-                      {Object.entries(licitacao.requisitos).map(([equip, qtd]) => (
-                        <div key={equip} className="flex justify-between text-xs">
-                          <span className="capitalize">{equip.replace(/_/g, ' ')}:</span>
-                          <span className={
-                            (negocio.equipamentos.maquinarios[equip] || 0) >= qtd 
-                              ? 'text-green-600 font-semibold' 
-                              : 'text-red-600 font-semibold'
-                          }>
-                            {negocio.equipamentos.maquinarios[equip] || 0}/{qtd}
-                          </span>
-                        </div>
-                      ))}
+                      <div className="text-xs text-gray-600 mb-1">
+                        Equipamentos necessários:
+                      </div>
+                      {Object.entries(licitacao.requisitos).map(
+                        ([equip, qtd]) => (
+                          <div
+                            key={equip}
+                            className="flex justify-between text-xs"
+                          >
+                            <span className="capitalize">
+                              {equip.replace(/_/g, " ")}:
+                            </span>
+                            <span
+                              className={
+                                (negocio.equipamentos.maquinarios[equip] ||
+                                  0) >= qtd
+                                  ? "text-green-600 font-semibold"
+                                  : "text-red-600 font-semibold"
+                              }
+                            >
+                              {negocio.equipamentos.maquinarios[equip] || 0}/
+                              {qtd}
+                            </span>
+                          </div>
+                        )
+                      )}
                     </div>
                   </div>
                 </div>
@@ -3707,16 +5717,15 @@ const TerraplagagemPavimentacaoNegocio = () => {
                   disabled={!canBid}
                   className="w-full py-3 rounded font-bold text-white text-sm transition-colors"
                   style={{
-                    backgroundColor: canBid ? cores.accent : '#6c757d',
-                    cursor: canBid ? 'pointer' : 'not-allowed'
+                    backgroundColor: canBid ? cores.accent : "#6c757d",
+                    cursor: canBid ? "pointer" : "not-allowed",
                   }}
                 >
                   {negocio.licitacoes.obraAtual
-                    ? 'Obra em Andamento'
+                    ? "Obra em Andamento"
                     : !canBid
-                      ? 'Requisitos Insuficientes'
-                      : 'Participar da Licitação'
-                  }
+                    ? "Requisitos Insuficientes"
+                    : "Participar da Licitação"}
                 </button>
               </div>
             );
@@ -3725,17 +5734,26 @@ const TerraplagagemPavimentacaoNegocio = () => {
       );
     }
 
-    if (tab === 'equipamentos') {
+    if (tab === "equipamentos") {
       return (
         <div className="grid grid-cols-3 gap-4 max-w-5xl mx-auto">
           {equipamentosDisponiveis.map((equipamento, index) => (
             <div key={index} className="bg-white rounded-lg p-4 shadow-md">
               <div className="text-center mb-3">
-                <div className="text-3xl mb-2">{getEquipmentIcon(equipamento.tipo)}</div>
-                <h3 className="font-bold text-gray-800 text-sm">{equipamento.nome}</h3>
-                <p className="text-xs text-gray-500 mb-1">{equipamento.categoria}</p>
+                <div className="text-3xl mb-2">
+                  {getEquipmentIcon(equipamento.tipo)}
+                </div>
+                <h3 className="font-bold text-gray-800 text-sm">
+                  {equipamento.nome}
+                </h3>
+                <p className="text-xs text-gray-500 mb-1">
+                  {equipamento.categoria}
+                </p>
                 <p className="text-xs text-gray-600 mt-2">
-                  Você possui: <span className="font-bold">{negocio.equipamentos.maquinarios[equipamento.tipo] || 0}</span>
+                  Você possui:{" "}
+                  <span className="font-bold">
+                    {negocio.equipamentos.maquinarios[equipamento.tipo] || 0}
+                  </span>
                 </p>
               </div>
               <div
@@ -3749,8 +5767,14 @@ const TerraplagagemPavimentacaoNegocio = () => {
                 disabled={economiaSetores.saldo < equipamento.preco}
                 className="w-full py-2 px-3 rounded text-sm font-bold text-white transition-colors"
                 style={{
-                  backgroundColor: economiaSetores.saldo >= equipamento.preco ? '#10b981' : '#6c757d',
-                  cursor: economiaSetores.saldo >= equipamento.preco ? 'pointer' : 'not-allowed'
+                  backgroundColor:
+                    economiaSetores.saldo >= equipamento.preco
+                      ? "#10b981"
+                      : "#6c757d",
+                  cursor:
+                    economiaSetores.saldo >= equipamento.preco
+                      ? "pointer"
+                      : "not-allowed",
                 }}
               >
                 Comprar
@@ -3764,27 +5788,41 @@ const TerraplagagemPavimentacaoNegocio = () => {
     return null;
   };
 
-  const totalEquipamentos = Object.values(negocio.equipamentos.maquinarios).reduce((a, b) => a + b, 0);
+  const totalEquipamentos = Object.values(
+    negocio.equipamentos.maquinarios
+  ).reduce((a, b) => a + b, 0);
 
   const tabs = [
-    { id: 'licitacoes', label: 'Licitações', icon: Building2, info: null },
-    { id: 'equipamentos', label: 'Equipamentos', icon: Truck, info: `${totalEquipamentos} total` }
+    { id: "licitacoes", label: "Licitações", icon: Building2, info: null },
+    {
+      id: "equipamentos",
+      label: "Equipamentos",
+      icon: Truck,
+      info: `${totalEquipamentos} total`,
+    },
   ];
 
-  const obraPronta = negocio.licitacoes.obraAtual && 
+  const obraPronta =
+    negocio.licitacoes.obraAtual &&
     dados.dia >= negocio.licitacoes.obraAtual.diaFim;
 
   const negocioConfig = {
-    nome: 'Terraplanagem e Pavimentação',
-    cores: SETORES_CONFIG.imobiliario.cores
+    nome: "Terraplanagem e Pavimentação",
+    cores: SETORES_CONFIG.imobiliario.cores,
   };
 
   // Calcular dias restantes para o ciclo
-  const diasRestantesLicitacoes = Math.max(0, negocio.licitacoes.proximoCiclo - dados.dia);
+  const diasRestantesLicitacoes = Math.max(
+    0,
+    negocio.licitacoes.proximoCiclo - dados.dia
+  );
 
-  const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', {
-    style: 'currency', currency: 'BRL', minimumFractionDigits: 0
-  }).format(value);
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 0,
+    }).format(value);
 
   return (
     <>
@@ -3798,20 +5836,29 @@ const TerraplagagemPavimentacaoNegocio = () => {
               {obraPronta ? (
                 <div className="flex items-center justify-between">
                   <span className="text-base">
-                    ✅ <strong>{negocio.licitacoes.obraAtual.nome}</strong> concluída!
+                    ✅ <strong>{negocio.licitacoes.obraAtual.nome}</strong>{" "}
+                    concluída!
                   </span>
                   <button
                     onClick={handleColetarLucro}
                     className="px-4 py-2 rounded font-bold bg-green-500 hover:bg-green-600 text-white transition-colors"
                   >
-                    Coletar {formatCurrency(negocio.licitacoes.obraAtual.custo + negocio.licitacoes.obraAtual.lucro)}
+                    Coletar{" "}
+                    {formatCurrency(
+                      negocio.licitacoes.obraAtual.custo +
+                        negocio.licitacoes.obraAtual.lucro
+                    )}
                   </button>
                 </div>
               ) : (
                 <div className="text-center">
-                  🚧 Executando <strong>{negocio.licitacoes.obraAtual.nome}</strong> — Conclusão no dia <strong>{negocio.licitacoes.obraAtual.diaFim}</strong>
+                  🚧 Executando{" "}
+                  <strong>{negocio.licitacoes.obraAtual.nome}</strong> —
+                  Conclusão no dia{" "}
+                  <strong>{negocio.licitacoes.obraAtual.diaFim}</strong>
                   <div className="text-xs opacity-80 mt-1">
-                    ({negocio.licitacoes.obraAtual.diaFim - dados.dia} dias restantes)
+                    ({negocio.licitacoes.obraAtual.diaFim - dados.dia} dias
+                    restantes)
                   </div>
                 </div>
               )}
@@ -3819,9 +5866,9 @@ const TerraplagagemPavimentacaoNegocio = () => {
           )
         }
         footerExtra={(tab) => {
-          if (tab === 'licitacoes') {
-            return diasRestantesLicitacoes === 0 
-              ? `🔄 Novas licitações disponíveis!` 
+          if (tab === "licitacoes") {
+            return diasRestantesLicitacoes === 0
+              ? `🔄 Novas licitações disponíveis!`
               : `Próximo ciclo de licitações em ${diasRestantesLicitacoes} dias`;
           }
           return null;
@@ -3840,19 +5887,27 @@ const TerraplagagemPavimentacaoNegocio = () => {
               <h4 className="font-bold text-gray-800 mb-2">
                 {licitacaoSelecionada.icon} {licitacaoSelecionada.nome}
               </h4>
-              <p className="text-sm text-gray-600 mb-3">{licitacaoSelecionada.descricao}</p>
+              <p className="text-sm text-gray-600 mb-3">
+                {licitacaoSelecionada.descricao}
+              </p>
               <div className="space-y-1 text-sm">
                 <div className="flex justify-between">
                   <span>Investimento:</span>
-                  <span className="font-bold text-red-600">{formatCurrency(licitacaoSelecionada.custo)}</span>
+                  <span className="font-bold text-red-600">
+                    {formatCurrency(licitacaoSelecionada.custo)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Lucro estimado:</span>
-                  <span className="font-bold text-green-600">{formatCurrency(licitacaoSelecionada.lucro)}</span>
+                  <span className="font-bold text-green-600">
+                    {formatCurrency(licitacaoSelecionada.lucro)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Duração:</span>
-                  <span className="font-semibold">{licitacaoSelecionada.duracao} dias</span>
+                  <span className="font-semibold">
+                    {licitacaoSelecionada.duracao} dias
+                  </span>
                 </div>
               </div>
             </div>
@@ -3860,11 +5915,17 @@ const TerraplagagemPavimentacaoNegocio = () => {
             <div className="mb-6 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
               <div className="flex items-center gap-2 mb-2">
                 <AlertTriangle className="w-4 h-4 text-yellow-600" />
-                <span className="text-sm font-medium text-yellow-800">Atenção</span>
+                <span className="text-sm font-medium text-yellow-800">
+                  Atenção
+                </span>
               </div>
               <p className="text-sm text-yellow-700">
-                O valor de {formatCurrency(licitacaoSelecionada.custo)} será debitado imediatamente.
-                Você receberá {formatCurrency(licitacaoSelecionada.custo + licitacaoSelecionada.lucro)} após a conclusão da obra.
+                O valor de {formatCurrency(licitacaoSelecionada.custo)} será
+                debitado imediatamente. Você receberá{" "}
+                {formatCurrency(
+                  licitacaoSelecionada.custo + licitacaoSelecionada.lucro
+                )}{" "}
+                após a conclusão da obra.
               </p>
             </div>
 
@@ -3893,37 +5954,69 @@ const TerraplagagemPavimentacaoNegocio = () => {
 };
 const MineradoraNegocio = () => {
   const { dados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, atualizarEco } = useContext(
+    DadosEconomyGlobalContext
+  );
 
   const getMineralIcon = (type) => {
     const icons = {
-      cobre: '🟠',
-      ferro: '⚙️',
-      bauxita: '🪨'
+      cobre: "🟠",
+      ferro: "⚙️",
+      bauxita: "🪨",
     };
-    return icons[type] || '⛏️';
+    return icons[type] || "⛏️";
   };
 
   const getEquipmentIcon = (type) => {
     const icons = {
-      escavadeira_mineracao: '⛏️',
-      perfuratriz_mineracao: '🔩',
-      caminhao_fora_estrada: '🚚',
-      britador: '🏗️',
-      carregadeira: '🚜',
-      draga: '⚓'
+      escavadeira_mineracao: "⛏️",
+      perfuratriz_mineracao: "🔩",
+      caminhao_fora_estrada: "🚚",
+      britador: "🏗️",
+      carregadeira: "🚜",
+      draga: "⚓",
     };
-    return icons[type] || '⛏️';
+    return icons[type] || "⛏️";
   };
 
   // Equipamentos disponíveis para compra
   const equipamentosDisponiveis = [
-    { nome: 'Escavadeira de Mineração', tipo: 'escavadeira_mineracao', categoria: 'Extração', preco: 2500000 },
-    { nome: 'Perfuratriz de Mina', tipo: 'perfuratriz_mineracao', categoria: 'Perfuração', preco: 1800000 },
-    { nome: 'Caminhão Fora de Estrada', tipo: 'caminhao_fora_estrada', categoria: 'Transporte', preco: 3200000 },
-    { nome: 'Britador Industrial', tipo: 'britador', categoria: 'Processamento', preco: 2100000 },
-    { nome: 'Carregadeira Frontal', tipo: 'carregadeira', categoria: 'Carga', preco: 1500000 },
-    { nome: 'Draga Mineradora', tipo: 'draga', categoria: 'Extração', preco: 4500000 }
+    {
+      nome: "Escavadeira de Mineração",
+      tipo: "escavadeira_mineracao",
+      categoria: "Extração",
+      preco: 2500000,
+    },
+    {
+      nome: "Perfuratriz de Mina",
+      tipo: "perfuratriz_mineracao",
+      categoria: "Perfuração",
+      preco: 1800000,
+    },
+    {
+      nome: "Caminhão Fora de Estrada",
+      tipo: "caminhao_fora_estrada",
+      categoria: "Transporte",
+      preco: 3200000,
+    },
+    {
+      nome: "Britador Industrial",
+      tipo: "britador",
+      categoria: "Processamento",
+      preco: 2100000,
+    },
+    {
+      nome: "Carregadeira Frontal",
+      tipo: "carregadeira",
+      categoria: "Carga",
+      preco: 1500000,
+    },
+    {
+      nome: "Draga Mineradora",
+      tipo: "draga",
+      categoria: "Extração",
+      preco: 4500000,
+    },
   ];
 
   // Jazidas disponíveis para exploração (30 opções)
@@ -3937,9 +6030,14 @@ const MineradoraNegocio = () => {
       custo: 8500000,
       duracao: 120,
       toneladas: 500,
-      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 2, caminhao_fora_estrada: 3, britador: 2 },
+      requisitos: {
+        escavadeira_mineracao: 3,
+        perfuratriz_mineracao: 2,
+        caminhao_fora_estrada: 3,
+        britador: 2,
+      },
       icon: "🟠",
-      descricao: "Jazida de cobre de alta pureza em região montanhosa"
+      descricao: "Jazida de cobre de alta pureza em região montanhosa",
     },
     {
       id: 2,
@@ -3949,9 +6047,14 @@ const MineradoraNegocio = () => {
       custo: 6200000,
       duracao: 90,
       toneladas: 350,
-      requisitos: { escavadeira_mineracao: 2, perfuratriz_mineracao: 2, caminhao_fora_estrada: 2, britador: 1 },
+      requisitos: {
+        escavadeira_mineracao: 2,
+        perfuratriz_mineracao: 2,
+        caminhao_fora_estrada: 2,
+        britador: 1,
+      },
       icon: "🟠",
-      descricao: "Depósito superficial de cobre com fácil acesso"
+      descricao: "Depósito superficial de cobre com fácil acesso",
     },
     {
       id: 3,
@@ -3961,9 +6064,15 @@ const MineradoraNegocio = () => {
       custo: 12000000,
       duracao: 150,
       toneladas: 800,
-      requisitos: { escavadeira_mineracao: 4, perfuratriz_mineracao: 3, caminhao_fora_estrada: 4, britador: 3, carregadeira: 2 },
+      requisitos: {
+        escavadeira_mineracao: 4,
+        perfuratriz_mineracao: 3,
+        caminhao_fora_estrada: 4,
+        britador: 3,
+        carregadeira: 2,
+      },
       icon: "🟠",
-      descricao: "Grande reserva de cobre em área de floresta"
+      descricao: "Grande reserva de cobre em área de floresta",
     },
     {
       id: 4,
@@ -3973,9 +6082,13 @@ const MineradoraNegocio = () => {
       custo: 4500000,
       duracao: 70,
       toneladas: 250,
-      requisitos: { escavadeira_mineracao: 2, caminhao_fora_estrada: 2, britador: 1 },
+      requisitos: {
+        escavadeira_mineracao: 2,
+        caminhao_fora_estrada: 2,
+        britador: 1,
+      },
       icon: "🟠",
-      descricao: "Pequena jazida de cobre com alto teor metálico"
+      descricao: "Pequena jazida de cobre com alto teor metálico",
     },
     {
       id: 5,
@@ -3985,9 +6098,15 @@ const MineradoraNegocio = () => {
       custo: 7800000,
       duracao: 105,
       toneladas: 450,
-      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 2, caminhao_fora_estrada: 3, britador: 2, carregadeira: 1 },
+      requisitos: {
+        escavadeira_mineracao: 3,
+        perfuratriz_mineracao: 2,
+        caminhao_fora_estrada: 3,
+        britador: 2,
+        carregadeira: 1,
+      },
       icon: "🟠",
-      descricao: "Jazida em região de cerrado com infraestrutura"
+      descricao: "Jazida em região de cerrado com infraestrutura",
     },
 
     // FERRO
@@ -3999,9 +6118,15 @@ const MineradoraNegocio = () => {
       custo: 15000000,
       duracao: 180,
       toneladas: 1200,
-      requisitos: { escavadeira_mineracao: 5, perfuratriz_mineracao: 4, caminhao_fora_estrada: 5, britador: 3, carregadeira: 3 },
+      requisitos: {
+        escavadeira_mineracao: 5,
+        perfuratriz_mineracao: 4,
+        caminhao_fora_estrada: 5,
+        britador: 3,
+        carregadeira: 3,
+      },
       icon: "⚙️",
-      descricao: "Maior reserva de minério de ferro de alta qualidade"
+      descricao: "Maior reserva de minério de ferro de alta qualidade",
     },
     {
       id: 7,
@@ -4011,9 +6136,14 @@ const MineradoraNegocio = () => {
       custo: 9500000,
       duracao: 130,
       toneladas: 700,
-      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 3, caminhao_fora_estrada: 4, britador: 2 },
+      requisitos: {
+        escavadeira_mineracao: 3,
+        perfuratriz_mineracao: 3,
+        caminhao_fora_estrada: 4,
+        britador: 2,
+      },
       icon: "⚙️",
-      descricao: "Região tradicional de extração de ferro"
+      descricao: "Região tradicional de extração de ferro",
     },
     {
       id: 8,
@@ -4023,9 +6153,15 @@ const MineradoraNegocio = () => {
       custo: 11000000,
       duracao: 145,
       toneladas: 850,
-      requisitos: { escavadeira_mineracao: 4, perfuratriz_mineracao: 3, caminhao_fora_estrada: 4, britador: 3, carregadeira: 2 },
+      requisitos: {
+        escavadeira_mineracao: 4,
+        perfuratriz_mineracao: 3,
+        caminhao_fora_estrada: 4,
+        britador: 3,
+        carregadeira: 2,
+      },
       icon: "⚙️",
-      descricao: "Jazida próxima a ferrovias de escoamento"
+      descricao: "Jazida próxima a ferrovias de escoamento",
     },
     {
       id: 9,
@@ -4035,9 +6171,16 @@ const MineradoraNegocio = () => {
       custo: 18000000,
       duracao: 200,
       toneladas: 1500,
-      requisitos: { escavadeira_mineracao: 6, perfuratriz_mineracao: 5, caminhao_fora_estrada: 6, britador: 4, carregadeira: 3, draga: 1 },
+      requisitos: {
+        escavadeira_mineracao: 6,
+        perfuratriz_mineracao: 5,
+        caminhao_fora_estrada: 6,
+        britador: 4,
+        carregadeira: 3,
+        draga: 1,
+      },
       icon: "⚙️",
-      descricao: "Megaprojeto de extração de ferro premium"
+      descricao: "Megaprojeto de extração de ferro premium",
     },
     {
       id: 10,
@@ -4047,9 +6190,14 @@ const MineradoraNegocio = () => {
       custo: 7200000,
       duracao: 100,
       toneladas: 550,
-      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 2, caminhao_fora_estrada: 3, britador: 2 },
+      requisitos: {
+        escavadeira_mineracao: 3,
+        perfuratriz_mineracao: 2,
+        caminhao_fora_estrada: 3,
+        britador: 2,
+      },
       icon: "⚙️",
-      descricao: "Mina histórica reativada com tecnologia moderna"
+      descricao: "Mina histórica reativada com tecnologia moderna",
     },
 
     // BAUXITA
@@ -4061,9 +6209,15 @@ const MineradoraNegocio = () => {
       custo: 10000000,
       duracao: 135,
       toneladas: 900,
-      requisitos: { escavadeira_mineracao: 4, caminhao_fora_estrada: 4, britador: 2, carregadeira: 2, draga: 1 },
+      requisitos: {
+        escavadeira_mineracao: 4,
+        caminhao_fora_estrada: 4,
+        britador: 2,
+        carregadeira: 2,
+        draga: 1,
+      },
       icon: "🪨",
-      descricao: "Principal reserva de bauxita da Amazônia"
+      descricao: "Principal reserva de bauxita da Amazônia",
     },
     {
       id: 12,
@@ -4073,9 +6227,14 @@ const MineradoraNegocio = () => {
       custo: 8500000,
       duracao: 115,
       toneladas: 650,
-      requisitos: { escavadeira_mineracao: 3, caminhao_fora_estrada: 3, britador: 2, carregadeira: 2 },
+      requisitos: {
+        escavadeira_mineracao: 3,
+        caminhao_fora_estrada: 3,
+        britador: 2,
+        carregadeira: 2,
+      },
       icon: "🪨",
-      descricao: "Depósito de bauxita metalúrgica de qualidade"
+      descricao: "Depósito de bauxita metalúrgica de qualidade",
     },
     {
       id: 13,
@@ -4085,9 +6244,16 @@ const MineradoraNegocio = () => {
       custo: 12500000,
       duracao: 160,
       toneladas: 1000,
-      requisitos: { escavadeira_mineracao: 4, perfuratriz_mineracao: 2, caminhao_fora_estrada: 5, britador: 3, carregadeira: 2, draga: 2 },
+      requisitos: {
+        escavadeira_mineracao: 4,
+        perfuratriz_mineracao: 2,
+        caminhao_fora_estrada: 5,
+        britador: 3,
+        carregadeira: 2,
+        draga: 2,
+      },
       icon: "🪨",
-      descricao: "Grande platô com bauxita de alta alumina"
+      descricao: "Grande platô com bauxita de alta alumina",
     },
     {
       id: 14,
@@ -4097,9 +6263,14 @@ const MineradoraNegocio = () => {
       custo: 6500000,
       duracao: 95,
       toneladas: 480,
-      requisitos: { escavadeira_mineracao: 2, caminhao_fora_estrada: 3, britador: 2, carregadeira: 1 },
+      requisitos: {
+        escavadeira_mineracao: 2,
+        caminhao_fora_estrada: 3,
+        britador: 2,
+        carregadeira: 1,
+      },
       icon: "🪨",
-      descricao: "Jazida em região de fácil logística"
+      descricao: "Jazida em região de fácil logística",
     },
     {
       id: 15,
@@ -4109,9 +6280,13 @@ const MineradoraNegocio = () => {
       custo: 5200000,
       duracao: 80,
       toneladas: 350,
-      requisitos: { escavadeira_mineracao: 2, caminhao_fora_estrada: 2, britador: 1 },
+      requisitos: {
+        escavadeira_mineracao: 2,
+        caminhao_fora_estrada: 2,
+        britador: 1,
+      },
       icon: "🪨",
-      descricao: "Pequena mina com bauxita refratária"
+      descricao: "Pequena mina com bauxita refratária",
     },
 
     // MISTO (mais opções variadas)
@@ -4123,9 +6298,15 @@ const MineradoraNegocio = () => {
       custo: 9200000,
       duracao: 125,
       toneladas: 600,
-      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 3, caminhao_fora_estrada: 3, britador: 2, carregadeira: 2 },
+      requisitos: {
+        escavadeira_mineracao: 3,
+        perfuratriz_mineracao: 3,
+        caminhao_fora_estrada: 3,
+        britador: 2,
+        carregadeira: 2,
+      },
       icon: "🟠",
-      descricao: "Jazida em operação com expansão planejada"
+      descricao: "Jazida em operação com expansão planejada",
     },
     {
       id: 17,
@@ -4135,9 +6316,13 @@ const MineradoraNegocio = () => {
       custo: 5800000,
       duracao: 85,
       toneladas: 420,
-      requisitos: { escavadeira_mineracao: 2, caminhao_fora_estrada: 3, britador: 2 },
+      requisitos: {
+        escavadeira_mineracao: 2,
+        caminhao_fora_estrada: 3,
+        britador: 2,
+      },
       icon: "⚙️",
-      descricao: "Mina histórica paulista reativada"
+      descricao: "Mina histórica paulista reativada",
     },
     {
       id: 18,
@@ -4147,9 +6332,14 @@ const MineradoraNegocio = () => {
       custo: 7100000,
       duracao: 100,
       toneladas: 520,
-      requisitos: { escavadeira_mineracao: 3, caminhao_fora_estrada: 3, britador: 2, carregadeira: 1 },
+      requisitos: {
+        escavadeira_mineracao: 3,
+        caminhao_fora_estrada: 3,
+        britador: 2,
+        carregadeira: 1,
+      },
       icon: "🪨",
-      descricao: "Depósito com boa concentração de alumínio"
+      descricao: "Depósito com boa concentração de alumínio",
     },
     {
       id: 19,
@@ -4159,9 +6349,15 @@ const MineradoraNegocio = () => {
       custo: 14000000,
       duracao: 170,
       toneladas: 950,
-      requisitos: { escavadeira_mineracao: 5, perfuratriz_mineracao: 4, caminhao_fora_estrada: 5, britador: 3, carregadeira: 3 },
+      requisitos: {
+        escavadeira_mineracao: 5,
+        perfuratriz_mineracao: 4,
+        caminhao_fora_estrada: 5,
+        britador: 3,
+        carregadeira: 3,
+      },
       icon: "🟠",
-      descricao: "Projeto de grande porte em região consolidada"
+      descricao: "Projeto de grande porte em região consolidada",
     },
     {
       id: 20,
@@ -4171,9 +6367,14 @@ const MineradoraNegocio = () => {
       custo: 6800000,
       duracao: 95,
       toneladas: 500,
-      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 2, caminhao_fora_estrada: 3, britador: 2 },
+      requisitos: {
+        escavadeira_mineracao: 3,
+        perfuratriz_mineracao: 2,
+        caminhao_fora_estrada: 3,
+        britador: 2,
+      },
       icon: "⚙️",
-      descricao: "Área com infraestrutura completa instalada"
+      descricao: "Área com infraestrutura completa instalada",
     },
     {
       id: 21,
@@ -4183,9 +6384,14 @@ const MineradoraNegocio = () => {
       custo: 8800000,
       duracao: 120,
       toneladas: 700,
-      requisitos: { escavadeira_mineracao: 3, caminhao_fora_estrada: 4, britador: 2, carregadeira: 2 },
+      requisitos: {
+        escavadeira_mineracao: 3,
+        caminhao_fora_estrada: 4,
+        britador: 2,
+        carregadeira: 2,
+      },
       icon: "🪨",
-      descricao: "Reserva próxima a refinarias de alumínio"
+      descricao: "Reserva próxima a refinarias de alumínio",
     },
     {
       id: 22,
@@ -4195,9 +6401,14 @@ const MineradoraNegocio = () => {
       custo: 5500000,
       duracao: 75,
       toneladas: 300,
-      requisitos: { escavadeira_mineracao: 2, perfuratriz_mineracao: 2, caminhao_fora_estrada: 2, britador: 1 },
+      requisitos: {
+        escavadeira_mineracao: 2,
+        perfuratriz_mineracao: 2,
+        caminhao_fora_estrada: 2,
+        britador: 1,
+      },
       icon: "🟠",
-      descricao: "Jazida no sertão com cobre de alto teor"
+      descricao: "Jazida no sertão com cobre de alto teor",
     },
     {
       id: 23,
@@ -4207,9 +6418,15 @@ const MineradoraNegocio = () => {
       custo: 10500000,
       duracao: 140,
       toneladas: 800,
-      requisitos: { escavadeira_mineracao: 4, perfuratriz_mineracao: 3, caminhao_fora_estrada: 4, britador: 3, carregadeira: 2 },
+      requisitos: {
+        escavadeira_mineracao: 4,
+        perfuratriz_mineracao: 3,
+        caminhao_fora_estrada: 4,
+        britador: 3,
+        carregadeira: 2,
+      },
       icon: "⚙️",
-      descricao: "Mina com escoamento para Bolívia e Paraguai"
+      descricao: "Mina com escoamento para Bolívia e Paraguai",
     },
     {
       id: 24,
@@ -4219,9 +6436,15 @@ const MineradoraNegocio = () => {
       custo: 9500000,
       duracao: 130,
       toneladas: 750,
-      requisitos: { escavadeira_mineracao: 4, caminhao_fora_estrada: 4, britador: 2, carregadeira: 2, draga: 1 },
+      requisitos: {
+        escavadeira_mineracao: 4,
+        caminhao_fora_estrada: 4,
+        britador: 2,
+        carregadeira: 2,
+        draga: 1,
+      },
       icon: "🪨",
-      descricao: "Plateau com bauxita lavrada de qualidade"
+      descricao: "Plateau com bauxita lavrada de qualidade",
     },
     {
       id: 25,
@@ -4231,9 +6454,14 @@ const MineradoraNegocio = () => {
       custo: 6900000,
       duracao: 92,
       toneladas: 380,
-      requisitos: { escavadeira_mineracao: 2, perfuratriz_mineracao: 2, caminhao_fora_estrada: 3, britador: 2 },
+      requisitos: {
+        escavadeira_mineracao: 2,
+        perfuratriz_mineracao: 2,
+        caminhao_fora_estrada: 3,
+        britador: 2,
+      },
       icon: "🟠",
-      descricao: "Depósito no nordeste com potencial exploratório"
+      descricao: "Depósito no nordeste com potencial exploratório",
     },
     {
       id: 26,
@@ -4243,9 +6471,15 @@ const MineradoraNegocio = () => {
       custo: 13000000,
       duracao: 165,
       toneladas: 1100,
-      requisitos: { escavadeira_mineracao: 5, perfuratriz_mineracao: 4, caminhao_fora_estrada: 5, britador: 3, carregadeira: 3 },
+      requisitos: {
+        escavadeira_mineracao: 5,
+        perfuratriz_mineracao: 4,
+        caminhao_fora_estrada: 5,
+        britador: 3,
+        carregadeira: 3,
+      },
       icon: "⚙️",
-      descricao: "Grande reserva no maciço de Urucum"
+      descricao: "Grande reserva no maciço de Urucum",
     },
     {
       id: 27,
@@ -4255,9 +6489,13 @@ const MineradoraNegocio = () => {
       custo: 4800000,
       duracao: 70,
       toneladas: 320,
-      requisitos: { escavadeira_mineracao: 2, caminhao_fora_estrada: 2, britador: 1 },
+      requisitos: {
+        escavadeira_mineracao: 2,
+        caminhao_fora_estrada: 2,
+        britador: 1,
+      },
       icon: "🪨",
-      descricao: "Pequeno depósito em região de fácil acesso"
+      descricao: "Pequeno depósito em região de fácil acesso",
     },
     {
       id: 28,
@@ -4267,9 +6505,15 @@ const MineradoraNegocio = () => {
       custo: 10800000,
       duracao: 135,
       toneladas: 720,
-      requisitos: { escavadeira_mineracao: 4, perfuratriz_mineracao: 3, caminhao_fora_estrada: 4, britador: 2, carregadeira: 2 },
+      requisitos: {
+        escavadeira_mineracao: 4,
+        perfuratriz_mineracao: 3,
+        caminhao_fora_estrada: 4,
+        britador: 2,
+        carregadeira: 2,
+      },
       icon: "🟠",
-      descricao: "Projeto greenfield em fase de implantação"
+      descricao: "Projeto greenfield em fase de implantação",
     },
     {
       id: 29,
@@ -4279,9 +6523,14 @@ const MineradoraNegocio = () => {
       custo: 8200000,
       duracao: 110,
       toneladas: 620,
-      requisitos: { escavadeira_mineracao: 3, perfuratriz_mineracao: 3, caminhao_fora_estrada: 3, britador: 2 },
+      requisitos: {
+        escavadeira_mineracao: 3,
+        perfuratriz_mineracao: 3,
+        caminhao_fora_estrada: 3,
+        britador: 2,
+      },
       icon: "⚙️",
-      descricao: "Mina em complexo com beneficiamento próprio"
+      descricao: "Mina em complexo com beneficiamento próprio",
     },
     {
       id: 30,
@@ -4291,34 +6540,130 @@ const MineradoraNegocio = () => {
       custo: 11500000,
       duracao: 150,
       toneladas: 920,
-      requisitos: { escavadeira_mineracao: 4, caminhao_fora_estrada: 5, britador: 3, carregadeira: 2, draga: 1 },
+      requisitos: {
+        escavadeira_mineracao: 4,
+        caminhao_fora_estrada: 5,
+        britador: 3,
+        carregadeira: 2,
+        draga: 1,
+      },
       icon: "🪨",
-      descricao: "Grande reserva próxima à ferrovia"
-    }
+      descricao: "Grande reserva próxima à ferrovia",
+    },
   ];
 
   // Ofertas de mercado (preços por tonelada com margem de 40-60%)
   const marketOffersBase = [
     // COBRE (custo médio: ~17.000/ton → venda: 23.800-27.200)
-    { id: 1, name: "cobre", toneladas: 100, pricePerTon: 23800, totalPrice: 2380000 },  // +40%
-    { id: 2, name: "cobre", toneladas: 200, pricePerTon: 25500, totalPrice: 5100000 },  // +50%
-    { id: 3, name: "cobre", toneladas: 300, pricePerTon: 27200, totalPrice: 8160000 },  // +60%
-    { id: 4, name: "cobre", toneladas: 150, pricePerTon: 26000, totalPrice: 3900000 },  // +53%
-    { id: 5, name: "cobre", toneladas: 250, pricePerTon: 26500, totalPrice: 6625000 },  // +56%
+    {
+      id: 1,
+      name: "cobre",
+      toneladas: 100,
+      pricePerTon: 23800,
+      totalPrice: 2380000,
+    }, // +40%
+    {
+      id: 2,
+      name: "cobre",
+      toneladas: 200,
+      pricePerTon: 25500,
+      totalPrice: 5100000,
+    }, // +50%
+    {
+      id: 3,
+      name: "cobre",
+      toneladas: 300,
+      pricePerTon: 27200,
+      totalPrice: 8160000,
+    }, // +60%
+    {
+      id: 4,
+      name: "cobre",
+      toneladas: 150,
+      pricePerTon: 26000,
+      totalPrice: 3900000,
+    }, // +53%
+    {
+      id: 5,
+      name: "cobre",
+      toneladas: 250,
+      pricePerTon: 26500,
+      totalPrice: 6625000,
+    }, // +56%
 
     // FERRO (custo médio: ~12.500/ton → venda: 17.500-20.000)
-    { id: 6, name: "ferro", toneladas: 200, pricePerTon: 17500, totalPrice: 3500000 },   // +40%
-    { id: 7, name: "ferro", toneladas: 400, pricePerTon: 18750, totalPrice: 7500000 },   // +50%
-    { id: 8, name: "ferro", toneladas: 600, pricePerTon: 20000, totalPrice: 12000000 },  // +60%
-    { id: 9, name: "ferro", toneladas: 350, pricePerTon: 19000, totalPrice: 6650000 },   // +52%
-    { id: 10, name: "ferro", toneladas: 500, pricePerTon: 19500, totalPrice: 9750000 },  // +56%
+    {
+      id: 6,
+      name: "ferro",
+      toneladas: 200,
+      pricePerTon: 17500,
+      totalPrice: 3500000,
+    }, // +40%
+    {
+      id: 7,
+      name: "ferro",
+      toneladas: 400,
+      pricePerTon: 18750,
+      totalPrice: 7500000,
+    }, // +50%
+    {
+      id: 8,
+      name: "ferro",
+      toneladas: 600,
+      pricePerTon: 20000,
+      totalPrice: 12000000,
+    }, // +60%
+    {
+      id: 9,
+      name: "ferro",
+      toneladas: 350,
+      pricePerTon: 19000,
+      totalPrice: 6650000,
+    }, // +52%
+    {
+      id: 10,
+      name: "ferro",
+      toneladas: 500,
+      pricePerTon: 19500,
+      totalPrice: 9750000,
+    }, // +56%
 
     // BAUXITA (custo médio: ~11.000/ton → venda: 15.400-17.600)
-    { id: 11, name: "bauxita", toneladas: 150, pricePerTon: 15400, totalPrice: 2310000 }, // +40%
-    { id: 12, name: "bauxita", toneladas: 300, pricePerTon: 16500, totalPrice: 4950000 }, // +50%
-    { id: 13, name: "bauxita", toneladas: 450, pricePerTon: 17600, totalPrice: 7920000 }, // +60%
-    { id: 14, name: "bauxita", toneladas: 250, pricePerTon: 16800, totalPrice: 4200000 }, // +53%
-    { id: 15, name: "bauxita", toneladas: 400, pricePerTon: 17200, totalPrice: 6880000 }, // +56%
+    {
+      id: 11,
+      name: "bauxita",
+      toneladas: 150,
+      pricePerTon: 15400,
+      totalPrice: 2310000,
+    }, // +40%
+    {
+      id: 12,
+      name: "bauxita",
+      toneladas: 300,
+      pricePerTon: 16500,
+      totalPrice: 4950000,
+    }, // +50%
+    {
+      id: 13,
+      name: "bauxita",
+      toneladas: 450,
+      pricePerTon: 17600,
+      totalPrice: 7920000,
+    }, // +60%
+    {
+      id: 14,
+      name: "bauxita",
+      toneladas: 250,
+      pricePerTon: 16800,
+      totalPrice: 4200000,
+    }, // +53%
+    {
+      id: 15,
+      name: "bauxita",
+      toneladas: 400,
+      pricePerTon: 17200,
+      totalPrice: 6880000,
+    }, // +56%
   ];
 
   // ==================== ESTADOS PARA MODAL ====================
@@ -4327,21 +6672,23 @@ const MineradoraNegocio = () => {
 
   // ==================== INICIALIZAÇÃO DO NEGÓCIO NO CONTEXT ====================
   useEffect(() => {
-    if (economiaSetores.negocios?.MineradoraNegocio && 
-        !economiaSetores.negocios.MineradoraNegocio.exploracao?.exploracaoAtual) {
+    if (
+      economiaSetores.negocios?.MineradoraNegocio &&
+      !economiaSetores.negocios.MineradoraNegocio.exploracao?.exploracaoAtual
+    ) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
         MineradoraNegocio: {
           ...economiaSetores.negocios.MineradoraNegocio,
           exploracao: {
             ...economiaSetores.negocios.MineradoraNegocio.exploracao,
-            exploracaoAtual: null
+            exploracaoAtual: null,
           },
           mercado: {
             ...economiaSetores.negocios.MineradoraNegocio.mercado,
-            vendasRealizadas: []
-          }
-        }
+            vendasRealizadas: [],
+          },
+        },
       });
     }
   }, []);
@@ -4350,7 +6697,9 @@ const MineradoraNegocio = () => {
   const negocio = economiaSetores.negocios?.MineradoraNegocio;
 
   if (!negocio) {
-    return <div className="text-white text-center p-8">Carregando negócio...</div>;
+    return (
+      <div className="text-white text-center p-8">Carregando negócio...</div>
+    );
   }
 
   // ==================== ATUALIZAÇÃO DE CICLOS ====================
@@ -4366,7 +6715,7 @@ const MineradoraNegocio = () => {
       novoNegocio.exploracao = {
         ...negocio.exploracao,
         jazidasAtivas: sortearItens(jazidasBase, 4),
-        proximoCiclo: dados.dia + 60
+        proximoCiclo: dados.dia + 60,
       };
       precisaAtualizar = true;
     }
@@ -4377,7 +6726,7 @@ const MineradoraNegocio = () => {
       novoNegocio.mercado = {
         ofertasAtivas: sortearItens(marketOffersBase, 8),
         vendasRealizadas: [],
-        proximoCiclo: dados.dia + 90
+        proximoCiclo: dados.dia + 90,
       };
       precisaAtualizar = true;
     }
@@ -4385,10 +6734,14 @@ const MineradoraNegocio = () => {
     if (precisaAtualizar) {
       atualizarEco("negocios", {
         ...economiaSetores.negocios,
-        MineradoraNegocio: novoNegocio
+        MineradoraNegocio: novoNegocio,
       });
     }
-  }, [dados.dia, negocio?.exploracao?.proximoCiclo, negocio?.mercado?.proximoCiclo]);
+  }, [
+    dados.dia,
+    negocio?.exploracao?.proximoCiclo,
+    negocio?.mercado?.proximoCiclo,
+  ]);
 
   // ==================== HANDLERS ====================
   const podeExplorar = (jazida) => {
@@ -4404,7 +6757,7 @@ const MineradoraNegocio = () => {
     const novaExploracao = {
       ...jazida,
       diaInicio: dados.dia,
-      diaFim: dados.dia + jazida.duracao
+      diaFim: dados.dia + jazida.duracao,
     };
 
     atualizarEco("saldo", economiaSetores.saldo - jazida.custo);
@@ -4414,9 +6767,9 @@ const MineradoraNegocio = () => {
         ...negocio,
         exploracao: {
           ...negocio.exploracao,
-          exploracaoAtual: novaExploracao
-        }
-      }
+          exploracaoAtual: novaExploracao,
+        },
+      },
     });
 
     setShowExplorationModal(false);
@@ -4429,7 +6782,7 @@ const MineradoraNegocio = () => {
     const exp = negocio.exploracao.exploracaoAtual;
     const novoEstoque = {
       ...negocio.estoque.minerios,
-      [exp.tipo]: (negocio.estoque.minerios[exp.tipo] || 0) + exp.toneladas
+      [exp.tipo]: (negocio.estoque.minerios[exp.tipo] || 0) + exp.toneladas,
     };
 
     atualizarEco("negocios", {
@@ -4438,13 +6791,13 @@ const MineradoraNegocio = () => {
         ...negocio,
         exploracao: {
           ...negocio.exploracao,
-          exploracaoAtual: null
+          exploracaoAtual: null,
         },
         estoque: {
           ...negocio.estoque,
-          minerios: novoEstoque
-        }
-      }
+          minerios: novoEstoque,
+        },
+      },
     });
   };
 
@@ -4456,7 +6809,8 @@ const MineradoraNegocio = () => {
 
     const novosMaquinarios = {
       ...negocio.equipamentos.maquinarios,
-      [equipamento.tipo]: (negocio.equipamentos.maquinarios[equipamento.tipo] || 0) + 1
+      [equipamento.tipo]:
+        (negocio.equipamentos.maquinarios[equipamento.tipo] || 0) + 1,
     };
 
     atualizarEco("saldo", economiaSetores.saldo - equipamento.preco);
@@ -4466,9 +6820,9 @@ const MineradoraNegocio = () => {
         ...negocio,
         equipamentos: {
           ...negocio.equipamentos,
-          maquinarios: novosMaquinarios
-        }
-      }
+          maquinarios: novosMaquinarios,
+        },
+      },
     });
   };
 
@@ -4481,7 +6835,7 @@ const MineradoraNegocio = () => {
 
     const novoEstoque = {
       ...negocio.estoque.minerios,
-      [offer.name]: estoqueAtual - offer.toneladas
+      [offer.name]: estoqueAtual - offer.toneladas,
     };
 
     atualizarEco("saldo", economiaSetores.saldo + offer.totalPrice);
@@ -4491,28 +6845,31 @@ const MineradoraNegocio = () => {
         ...negocio,
         estoque: {
           ...negocio.estoque,
-          minerios: novoEstoque
+          minerios: novoEstoque,
         },
         mercado: {
           ...negocio.mercado,
-          vendasRealizadas: [...(negocio.mercado.vendasRealizadas || []), offer.id]
-        }
-      }
+          vendasRealizadas: [
+            ...(negocio.mercado.vendasRealizadas || []),
+            offer.id,
+          ],
+        },
+      },
     });
   };
 
   const getMineralTypeColor = (tipo) => {
     const cores = {
-      'cobre': '#d97706',
-      'ferro': '#6b7280',
-      'bauxita': '#92400e'
+      cobre: "#d97706",
+      ferro: "#6b7280",
+      bauxita: "#92400e",
     };
-    return cores[tipo] || '#6c757d';
+    return cores[tipo] || "#6c757d";
   };
 
   // ==================== RENDER TAB CONTENT ====================
   const renderTabContent = (tab, cores, formatCurrency) => {
-    if (tab === 'exploracao') {
+    if (tab === "exploracao") {
       return (
         <div className="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
           {negocio.exploracao.jazidasAtivas.map((jazida) => {
@@ -4521,20 +6878,27 @@ const MineradoraNegocio = () => {
             return (
               <div
                 key={jazida.id}
-                className={`rounded-lg shadow-md p-4 transition-all ${canExplore ? 'hover:shadow-lg' : 'opacity-60'}`}
-                style={{ backgroundColor: '#ffffff' }}
+                className={`rounded-lg shadow-md p-4 transition-all ${
+                  canExplore ? "hover:shadow-lg" : "opacity-60"
+                }`}
+                style={{ backgroundColor: "#ffffff" }}
               >
                 <div className="flex gap-4 mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-2xl">{jazida.icon}</span>
                       <div>
-                        <h3 className="text-sm font-bold" style={{ color: cores.primary }}>
+                        <h3
+                          className="text-sm font-bold"
+                          style={{ color: cores.primary }}
+                        >
                           {jazida.nome}
                         </h3>
                         <div
                           className="text-xs px-2 py-1 rounded text-white inline-block capitalize"
-                          style={{ backgroundColor: getMineralTypeColor(jazida.tipo) }}
+                          style={{
+                            backgroundColor: getMineralTypeColor(jazida.tipo),
+                          }}
                         >
                           {jazida.tipo}
                         </div>
@@ -4544,34 +6908,52 @@ const MineradoraNegocio = () => {
                     <div className="space-y-2 mb-3">
                       <div className="flex items-center gap-1">
                         <MapPin className="w-3 h-3 text-gray-500" />
-                        <span className="text-xs text-gray-600">{jazida.localizacao}</span>
+                        <span className="text-xs text-gray-600">
+                          {jazida.localizacao}
+                        </span>
                       </div>
                       <div className="flex justify-between text-xs">
                         <span className="text-gray-600">Investimento:</span>
-                        <span className="font-bold text-red-600">{formatCurrency(jazida.custo)}</span>
+                        <span className="font-bold text-red-600">
+                          {formatCurrency(jazida.custo)}
+                        </span>
                       </div>
                       <div className="flex justify-between text-xs">
                         <span className="text-gray-600">Produção:</span>
-                        <span className="font-bold text-green-600">{jazida.toneladas} ton</span>
+                        <span className="font-bold text-green-600">
+                          {jazida.toneladas} ton
+                        </span>
                       </div>
                       <div className="flex justify-between text-xs">
                         <span className="text-gray-600">Duração:</span>
-                        <span className="font-semibold">{jazida.duracao} dias</span>
+                        <span className="font-semibold">
+                          {jazida.duracao} dias
+                        </span>
                       </div>
                     </div>
                   </div>
 
                   <div className="flex-1">
                     <div className="space-y-1 mb-3">
-                      <div className="text-xs text-gray-600 mb-1">Equipamentos necessários:</div>
+                      <div className="text-xs text-gray-600 mb-1">
+                        Equipamentos necessários:
+                      </div>
                       {Object.entries(jazida.requisitos).map(([equip, qtd]) => (
-                        <div key={equip} className="flex justify-between text-xs">
-                          <span className="capitalize">{equip.replace(/_/g, ' ')}:</span>
-                          <span className={
-                            (negocio.equipamentos.maquinarios[equip] || 0) >= qtd 
-                              ? 'text-green-600 font-semibold' 
-                              : 'text-red-600 font-semibold'
-                          }>
+                        <div
+                          key={equip}
+                          className="flex justify-between text-xs"
+                        >
+                          <span className="capitalize">
+                            {equip.replace(/_/g, " ")}:
+                          </span>
+                          <span
+                            className={
+                              (negocio.equipamentos.maquinarios[equip] || 0) >=
+                              qtd
+                                ? "text-green-600 font-semibold"
+                                : "text-red-600 font-semibold"
+                            }
+                          >
                             {negocio.equipamentos.maquinarios[equip] || 0}/{qtd}
                           </span>
                         </div>
@@ -4594,16 +6976,15 @@ const MineradoraNegocio = () => {
                   disabled={!canExplore}
                   className="w-full py-3 rounded font-bold text-white text-sm transition-colors"
                   style={{
-                    backgroundColor: canExplore ? cores.accent : '#6c757d',
-                    cursor: canExplore ? 'pointer' : 'not-allowed'
+                    backgroundColor: canExplore ? cores.accent : "#6c757d",
+                    cursor: canExplore ? "pointer" : "not-allowed",
                   }}
                 >
                   {negocio.exploracao.exploracaoAtual
-                    ? 'Exploração em Andamento'
+                    ? "Exploração em Andamento"
                     : !canExplore
-                      ? 'Requisitos Insuficientes'
-                      : 'Iniciar Exploração'
-                  }
+                    ? "Requisitos Insuficientes"
+                    : "Iniciar Exploração"}
                 </button>
               </div>
             );
@@ -4612,7 +6993,7 @@ const MineradoraNegocio = () => {
       );
     }
 
-    if (tab === 'mercado') {
+    if (tab === "mercado") {
       const ofertasDisponiveis = negocio.mercado.ofertasAtivas.filter(
         (offer) => !(negocio.mercado.vendasRealizadas || []).includes(offer.id)
       );
@@ -4624,23 +7005,27 @@ const MineradoraNegocio = () => {
               <h3 className="font-bold text-gray-800 mb-2 capitalize text-3xl">
                 {getMineralIcon(offer.name)}
               </h3>
-              <h3 className="font-bold text-gray-800 mb-2 capitalize">{offer.name}</h3>
+              <h3 className="font-bold text-gray-800 mb-2 capitalize">
+                {offer.name}
+              </h3>
               <p className="text-sm mb-1">{offer.toneladas} toneladas</p>
               <p className="text-xs text-gray-500 mb-3">
-                {new Intl.NumberFormat('pt-BR', { 
-                  style: 'currency', 
-                  currency: 'BRL', 
-                  minimumFractionDigits: 0 
-                }).format(offer.pricePerTon)}/ton
+                {new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                  minimumFractionDigits: 0,
+                }).format(offer.pricePerTon)}
+                /ton
               </p>
               <button
                 onClick={() => handleVender(offer)}
                 className="py-2 px-4 rounded font-bold text-white text-sm bg-green-600 hover:bg-green-700 transition-colors"
               >
-                Vender por {new Intl.NumberFormat('pt-BR', { 
-                  style: 'currency', 
-                  currency: 'BRL', 
-                  minimumFractionDigits: 0 
+                Vender por{" "}
+                {new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                  minimumFractionDigits: 0,
                 }).format(offer.totalPrice)}
               </button>
             </div>
@@ -4655,17 +7040,26 @@ const MineradoraNegocio = () => {
       );
     }
 
-    if (tab === 'equipamentos') {
+    if (tab === "equipamentos") {
       return (
         <div className="grid grid-cols-3 gap-4 max-w-5xl mx-auto">
           {equipamentosDisponiveis.map((equipamento, index) => (
             <div key={index} className="bg-white rounded-lg p-4 shadow-md">
               <div className="text-center mb-3">
-                <div className="text-3xl mb-2">{getEquipmentIcon(equipamento.tipo)}</div>
-                <h3 className="font-bold text-gray-800 text-sm">{equipamento.nome}</h3>
-                <p className="text-xs text-gray-500 mb-1">{equipamento.categoria}</p>
+                <div className="text-3xl mb-2">
+                  {getEquipmentIcon(equipamento.tipo)}
+                </div>
+                <h3 className="font-bold text-gray-800 text-sm">
+                  {equipamento.nome}
+                </h3>
+                <p className="text-xs text-gray-500 mb-1">
+                  {equipamento.categoria}
+                </p>
                 <p className="text-xs text-gray-600 mt-2">
-                  Você possui: <span className="font-bold">{negocio.equipamentos.maquinarios[equipamento.tipo] || 0}</span>
+                  Você possui:{" "}
+                  <span className="font-bold">
+                    {negocio.equipamentos.maquinarios[equipamento.tipo] || 0}
+                  </span>
                 </p>
               </div>
               <div
@@ -4679,8 +7073,14 @@ const MineradoraNegocio = () => {
                 disabled={economiaSetores.saldo < equipamento.preco}
                 className="w-full py-2 px-3 rounded text-sm font-bold text-white transition-colors"
                 style={{
-                  backgroundColor: economiaSetores.saldo >= equipamento.preco ? '#10b981' : '#6c757d',
-                  cursor: economiaSetores.saldo >= equipamento.preco ? 'pointer' : 'not-allowed'
+                  backgroundColor:
+                    economiaSetores.saldo >= equipamento.preco
+                      ? "#10b981"
+                      : "#6c757d",
+                  cursor:
+                    economiaSetores.saldo >= equipamento.preco
+                      ? "pointer"
+                      : "not-allowed",
                 }}
               >
                 Comprar
@@ -4691,19 +7091,29 @@ const MineradoraNegocio = () => {
       );
     }
 
-    if (tab === 'estoque') {
-      const estoqueTotal = Object.values(negocio.estoque.minerios).reduce((a, b) => a + b, 0);
-      const percentualOcupado = ((estoqueTotal / negocio.estoque.capacidade) * 100).toFixed(1);
+    if (tab === "estoque") {
+      const estoqueTotal = Object.values(negocio.estoque.minerios).reduce(
+        (a, b) => a + b,
+        0
+      );
+      const percentualOcupado = (
+        (estoqueTotal / negocio.estoque.capacidade) *
+        100
+      ).toFixed(1);
 
       return (
         <div>
           <div className="text-center text-white mb-6 bg-white/20 rounded-lg p-4">
             <p className="text-xl font-bold mb-2">Capacidade do Estoque</p>
-            <p className="text-2xl">{estoqueTotal} / {negocio.estoque.capacidade} toneladas</p>
-            <p className="text-sm opacity-80 mt-1">{percentualOcupado}% ocupado</p>
-            
+            <p className="text-2xl">
+              {estoqueTotal} / {negocio.estoque.capacidade} toneladas
+            </p>
+            <p className="text-sm opacity-80 mt-1">
+              {percentualOcupado}% ocupado
+            </p>
+
             <div className="w-full bg-white/30 rounded-full h-3 mt-3">
-              <div 
+              <div
                 className="bg-amber-400 h-3 rounded-full transition-all duration-300"
                 style={{ width: `${percentualOcupado}%` }}
               ></div>
@@ -4712,7 +7122,10 @@ const MineradoraNegocio = () => {
 
           <div className="grid grid-cols-3 gap-6">
             {Object.entries(negocio.estoque.minerios).map(([type, qtd]) => (
-              <div key={type} className="text-center text-white bg-white/20 rounded-xl p-6 hover:bg-white/30 transition-colors">
+              <div
+                key={type}
+                className="text-center text-white bg-white/20 rounded-xl p-6 hover:bg-white/30 transition-colors"
+              >
                 <h3 className="text-4xl mb-3">{getMineralIcon(type)}</h3>
                 <h3 className="text-2xl font-bold mb-2 capitalize">{type}</h3>
                 <div className="text-lg mb-3 opacity-80">{qtd} toneladas</div>
@@ -4729,30 +7142,55 @@ const MineradoraNegocio = () => {
     return null;
   };
 
-  const totalEquipamentos = Object.values(negocio.equipamentos.maquinarios).reduce((a, b) => a + b, 0);
-  const estoqueTotal = Object.values(negocio.estoque.minerios).reduce((a, b) => a + b, 0);
+  const totalEquipamentos = Object.values(
+    negocio.equipamentos.maquinarios
+  ).reduce((a, b) => a + b, 0);
+  const estoqueTotal = Object.values(negocio.estoque.minerios).reduce(
+    (a, b) => a + b,
+    0
+  );
 
   const tabs = [
-    { id: 'exploracao', label: 'Exploração', icon: HardHat, info: null },
-    { id: 'mercado', label: 'Mercado', icon: TrendingUp, info: null },
-    { id: 'equipamentos', label: 'Equipamentos', icon: Truck, info: `${totalEquipamentos} total` },
-    { id: 'estoque', label: 'Estoque', icon: Package, info: `${estoqueTotal} ton` }
+    { id: "exploracao", label: "Exploração", icon: HardHat, info: null },
+    { id: "mercado", label: "Mercado", icon: TrendingUp, info: null },
+    {
+      id: "equipamentos",
+      label: "Equipamentos",
+      icon: Truck,
+      info: `${totalEquipamentos} total`,
+    },
+    {
+      id: "estoque",
+      label: "Estoque",
+      icon: Package,
+      info: `${estoqueTotal} ton`,
+    },
   ];
 
-  const exploracaoPronta = negocio.exploracao.exploracaoAtual && 
+  const exploracaoPronta =
+    negocio.exploracao.exploracaoAtual &&
     dados.dia >= negocio.exploracao.exploracaoAtual.diaFim;
 
   const negocioConfig = {
-    nome: 'Mineradora',
-    cores: SETORES_CONFIG.industria.cores
+    nome: "Mineradora",
+    cores: SETORES_CONFIG.industria.cores,
   };
 
-  const diasRestantesExploracao = Math.max(0, negocio.exploracao.proximoCiclo - dados.dia);
-  const diasRestantesMercado = Math.max(0, negocio.mercado.proximoCiclo - dados.dia);
+  const diasRestantesExploracao = Math.max(
+    0,
+    negocio.exploracao.proximoCiclo - dados.dia
+  );
+  const diasRestantesMercado = Math.max(
+    0,
+    negocio.mercado.proximoCiclo - dados.dia
+  );
 
-  const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', {
-    style: 'currency', currency: 'BRL', minimumFractionDigits: 0
-  }).format(value);
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 0,
+    }).format(value);
 
   return (
     <>
@@ -4766,7 +7204,9 @@ const MineradoraNegocio = () => {
               {exploracaoPronta ? (
                 <div className="flex items-center justify-between">
                   <span className="text-base">
-                    ⛏️ <strong>{negocio.exploracao.exploracaoAtual.nome}</strong> - Extração concluída!
+                    ⛏️{" "}
+                    <strong>{negocio.exploracao.exploracaoAtual.nome}</strong> -
+                    Extração concluída!
                   </span>
                   <button
                     onClick={handleColetarMinerio}
@@ -4777,9 +7217,13 @@ const MineradoraNegocio = () => {
                 </div>
               ) : (
                 <div className="text-center">
-                  ⚙️ Explorando <strong>{negocio.exploracao.exploracaoAtual.nome}</strong> — Conclusão no dia <strong>{negocio.exploracao.exploracaoAtual.diaFim}</strong>
+                  ⚙️ Explorando{" "}
+                  <strong>{negocio.exploracao.exploracaoAtual.nome}</strong> —
+                  Conclusão no dia{" "}
+                  <strong>{negocio.exploracao.exploracaoAtual.diaFim}</strong>
                   <div className="text-xs opacity-80 mt-1">
-                    ({negocio.exploracao.exploracaoAtual.diaFim - dados.dia} dias restantes)
+                    ({negocio.exploracao.exploracaoAtual.diaFim - dados.dia}{" "}
+                    dias restantes)
                   </div>
                 </div>
               )}
@@ -4787,14 +7231,14 @@ const MineradoraNegocio = () => {
           )
         }
         footerExtra={(tab) => {
-          if (tab === 'exploracao') {
-            return diasRestantesExploracao === 0 
-              ? `🔄 Novas jazidas disponíveis!` 
+          if (tab === "exploracao") {
+            return diasRestantesExploracao === 0
+              ? `🔄 Novas jazidas disponíveis!`
               : `Próximo ciclo de jazidas em ${diasRestantesExploracao} dias`;
           }
-          if (tab === 'mercado') {
-            return diasRestantesMercado === 0 
-              ? `🔄 Novos compradores disponíveis!` 
+          if (tab === "mercado") {
+            return diasRestantesMercado === 0
+              ? `🔄 Novos compradores disponíveis!`
               : `Próximo ciclo de mercado em ${diasRestantesMercado} dias`;
           }
           return null;
@@ -4813,19 +7257,27 @@ const MineradoraNegocio = () => {
               <h4 className="font-bold text-gray-800 mb-2">
                 {jazidaSelecionada.icon} {jazidaSelecionada.nome}
               </h4>
-              <p className="text-sm text-gray-600 mb-3">{jazidaSelecionada.descricao}</p>
+              <p className="text-sm text-gray-600 mb-3">
+                {jazidaSelecionada.descricao}
+              </p>
               <div className="space-y-1 text-sm">
                 <div className="flex justify-between">
                   <span>Investimento:</span>
-                  <span className="font-bold text-red-600">{formatCurrency(jazidaSelecionada.custo)}</span>
+                  <span className="font-bold text-red-600">
+                    {formatCurrency(jazidaSelecionada.custo)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Produção estimada:</span>
-                  <span className="font-bold text-green-600">{jazidaSelecionada.toneladas} toneladas</span>
+                  <span className="font-bold text-green-600">
+                    {jazidaSelecionada.toneladas} toneladas
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Duração:</span>
-                  <span className="font-semibold">{jazidaSelecionada.duracao} dias</span>
+                  <span className="font-semibold">
+                    {jazidaSelecionada.duracao} dias
+                  </span>
                 </div>
               </div>
             </div>
@@ -4833,11 +7285,15 @@ const MineradoraNegocio = () => {
             <div className="mb-6 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
               <div className="flex items-center gap-2 mb-2">
                 <AlertTriangle className="w-4 h-4 text-yellow-600" />
-                <span className="text-sm font-medium text-yellow-800">Atenção</span>
+                <span className="text-sm font-medium text-yellow-800">
+                  Atenção
+                </span>
               </div>
               <p className="text-sm text-yellow-700">
-                O valor de {formatCurrency(jazidaSelecionada.custo)} será debitado imediatamente.
-                Você receberá {jazidaSelecionada.toneladas} toneladas de {jazidaSelecionada.tipo} após a conclusão da extração.
+                O valor de {formatCurrency(jazidaSelecionada.custo)} será
+                debitado imediatamente. Você receberá{" "}
+                {jazidaSelecionada.toneladas} toneladas de{" "}
+                {jazidaSelecionada.tipo} após a conclusão da extração.
               </p>
             </div>
 
@@ -4867,126 +7323,179 @@ const MineradoraNegocio = () => {
 // ==================== APP PRINCIPAL ====================
 
 const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
+const arrNameEdificios = ["Mineradora","Açougue","Fábrica De Painel Solar","Terraplanagem E Pavimentação","Construtora","Fábrica De Smarthphone","Concessionária","Fábrica De Automóveis","Plantação De Grãos"]
+
+export const PaginaInfo = () => {
+  return (
+    <div className="w-full h-full flex flex-col bg-[#6411D9] rounded-3xl shadow-md p-4">
+          <div className="flex items-center gap-3 mb-4">
+          <div className="p-2 rounded-lg bg-white">
+            <Building2 className="w-6 h-6" style={{ color: "" }} />
+          </div>
+          <h1 className="text-2xl font-bold text-white">Aqui é a Central De Gerenciamento</h1>
+        </div>
+
+      {/* <p className="text-xl font-bold text-white">onde os edifícios que podem ser gerenciáveis ficam disponíveis</p> */}
+         <h1 className="text-xl font-bold text-white">Os Seguintes Edifícios Podem Ser Gerenciáveis:</h1>
+         
+         {arrNameEdificios.map((nome)=>(
+          // <Localizador edificioProcurado={nome}/>
+         <div className="w-full  rounded-lg bg-[#ffffff]/20 mt-3 mb-1">
+          <h2 className="ml-2 text-xl font-bold text-white m-1">
+
+          {nome}
+          </h2>
+          </div>
+         ))}
+    </div>
+  );
+};
 
 
 const App = () => {
-  const [negocioAtivo, setNegocioAtivo] = useState('');
-  const { economiaSetores, setEconomiaSetores, atualizarEco, verificarLimites } = useContext(DadosEconomyGlobalContext);
+  const [negocioAtivo, setNegocioAtivo] = useState("PáginaInfo");
+  const {
+    economiaSetores,
+    setEconomiaSetores,
+    atualizarEco,
+    verificarLimites,
+  } = useContext(DadosEconomyGlobalContext);
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   return (
     <div className="flex-1 w-full rounded-[20px] flex flex-col">
-
-
       <div className="w-full flex flex-col justify-between items-center h-full rounded-xl m-auto">
         <div className=" mx-auto flex h-full mb-[10px]">
           <div className="flex gap-2 h-full">
-
-            {dados.agricultura.edificios[0].quantidade > 0 &&
+            {dados.agricultura.edificios[0].quantidade > 0 && (
               <button
-                onClick={() => setNegocioAtivo('plantacao')}
-                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'plantacao'
-                  ? 'bg-[#4CAF50] text-white border solid'
-                  : 'bg-[#350973] text-gray-700'
-                  }`}
+                onClick={() => setNegocioAtivo("plantacao")}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${
+                  negocioAtivo === "plantacao"
+                    ? "bg-[#4CAF50] text-white border solid"
+                    : "bg-[#350973] text-gray-700"
+                }`}
               >
                 <img src={plantacao} />
               </button>
-            }
+            )}
 
-            {dados.comercio.edificios[7].quantidade > 0 && <button
-              onClick={() => setNegocioAtivo('acougue')}
-              className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'acougue'
-                ? 'bg-[#FF4D4D] text-white border solid'
-                : 'bg-[#350973] text-gray-700'
-                }`}
-            >
-              <img src={açougue} />
-            </button>
-            }
-
-            {dados.energia.edificios[4].quantidade > 0 &&
+            {dados.comercio.edificios[7].quantidade > 0 && (
               <button
-                onClick={() => setNegocioAtivo('painel')}
-                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'painel'
-                  ? 'bg-[#E6B800] text-white border solid'
-                  : 'bg-[#350973] text-gray-700'
-                  }`}
+                onClick={() => setNegocioAtivo("acougue")}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${
+                  negocioAtivo === "acougue"
+                    ? "bg-[#FF4D4D] text-white border solid"
+                    : "bg-[#350973] text-gray-700"
+                }`}
+              >
+                <img src={açougue} />
+              </button>
+            )}
+
+            {dados.energia.edificios[4].quantidade > 0 && (
+              <button
+                onClick={() => setNegocioAtivo("painel")}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${
+                  negocioAtivo === "painel"
+                    ? "bg-[#E6B800] text-white border solid"
+                    : "bg-[#350973] text-gray-700"
+                }`}
               >
                 <img src={painel} />
               </button>
-            }
-            {dados.industria.edificios[25].quantidade > 0 &&
+            )}
+            {dados.industria.edificios[25].quantidade > 0 && (
               <button
-                onClick={() => setNegocioAtivo('automóveis')}
-                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'automóveis'
-                  ? 'bg-[#B3B3B3] text-white border solid '
-                  : 'bg-[#350973] text-gray-700'
-                  }`}
+                onClick={() => setNegocioAtivo("automóveis")}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${
+                  negocioAtivo === "automóveis"
+                    ? "bg-[#B3B3B3] text-white border solid "
+                    : "bg-[#350973] text-gray-700"
+                }`}
               >
                 <img src={automovel} />
               </button>
-            }
+            )}
 
-            {dados.tecnologia.edificios[15].quantidade > 0 &&
+            {dados.tecnologia.edificios[15].quantidade > 0 && (
               <button
-                onClick={() => setNegocioAtivo('smartphone')}
-                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'smartphone'
-                  ? 'bg-[#FF8C42] text-white border solid'
-                  : 'bg-[#350973] text-gray-700'
-                  }`}
+                onClick={() => setNegocioAtivo("smartphone")}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${
+                  negocioAtivo === "smartphone"
+                    ? "bg-[#FF8C42] text-white border solid"
+                    : "bg-[#350973] text-gray-700"
+                }`}
               >
                 <img src={smartphone} />
               </button>
-            }
+            )}
 
-            {dados.imobiliario.edificios[9].quantidade > 0 &&
+            {dados.imobiliario.edificios[9].quantidade > 0 && (
               <button
-                onClick={() => setNegocioAtivo('construtora')}
-                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'construtora'
-                  ? 'bg-[#6666FF] text-white border solid'
-                  : 'bg-[#350973] text-gray-700'
-                  }`}
+                onClick={() => setNegocioAtivo("construtora")}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${
+                  negocioAtivo === "construtora"
+                    ? "bg-[#6666FF] text-white border solid"
+                    : "bg-[#350973] text-gray-700"
+                }`}
               >
-
                 <img src={construtora} />
               </button>
-            }
+            )}
 
-            {dados.imobiliario.edificios[1].quantidade > 0 &&
+            {dados.imobiliario.edificios[1].quantidade > 0 && (
               <button
-                onClick={() => setNegocioAtivo('terraplanagem')}
-                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'terraplanagem'
-                  ? 'bg-[#6666FF] text-white border solid'
-                  : 'bg-[#350973] text-gray-700'
-                  }`}
+                onClick={() => setNegocioAtivo("terraplanagem")}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${
+                  negocioAtivo === "terraplanagem"
+                    ? "bg-[#6666FF] text-white border solid"
+                    : "bg-[#350973] text-gray-700"
+                }`}
               >
                 <img src={terraplanagem} />
               </button>
-            }
-            {dados.imobiliario.edificios[12].quantidade > 0 &&
+            )}
+            {dados.imobiliario.edificios[12].quantidade > 0 && (
               <button
-                onClick={() => setNegocioAtivo('mineradora')}
-                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${negocioAtivo === 'terraplanagem'
-                  ? 'bg-[#6666FF] text-white border solid'
-                  : 'bg-[#350973] text-gray-700'
-                  }`}
+                onClick={() => setNegocioAtivo("mineradora")}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold ${
+                  negocioAtivo === "terraplanagem"
+                    ? "bg-[#6666FF] text-white border solid"
+                    : "bg-[#350973] text-gray-700"
+                }`}
               >
                 <img src={mineradora} />
               </button>
-            }
+            )}
+           
+              <button
+                onClick={() => setNegocioAtivo("PáginaInfo")}
+                className={`p-2 rounded-xl w-[70px] h-[70px] font-bold flex items-center justify-center ${
+                  negocioAtivo === "PáginaInfo"
+                    ? "bg-[#6411D9] text-white border solid"
+                    : "bg-[#AE74FF] text-gray-700"
+                }`}
+              >
+                <InfoIcon size={50}/> 
+              </button>
+            
           </div>
         </div>
 
         <div className="w-full mx-auto h-[calc(80vh-100px)]">
-          {negocioAtivo === '' && <div className='flex items-center justify-center'>adquira algum ativo</div>}
-          {negocioAtivo === 'plantacao' && <PlantacaoNegocio />}
-          {negocioAtivo === 'acougue' && <AcougueNegocio />}
-          {negocioAtivo === 'painel' && <PainelSolarNegocio />}
-          {negocioAtivo === 'automóveis' && <FabricaVeiculosNegocio />}
-          {negocioAtivo === 'smartphone' && <FabricaSmartphonesNegocio />}
-          {negocioAtivo === 'construtora' && <ConstrutoraInfraestruturaNegocio />}
-          {negocioAtivo === 'terraplanagem' && <TerraplagagemPavimentacaoNegocio />}
-          {negocioAtivo === 'mineradora' && <MineradoraNegocio />}
+          {negocioAtivo === "PáginaInfo" && <PaginaInfo />}
+          {negocioAtivo === "plantacao" && <PlantacaoNegocio />}
+          {negocioAtivo === "acougue" && <AcougueNegocio />}
+          {negocioAtivo === "painel" && <PainelSolarNegocio />}
+          {negocioAtivo === "automóveis" && <FabricaVeiculosNegocio />}
+          {negocioAtivo === "smartphone" && <FabricaSmartphonesNegocio />}
+          {negocioAtivo === "construtora" && (
+            <ConstrutoraInfraestruturaNegocio />
+          )}
+          {negocioAtivo === "terraplanagem" && (
+            <TerraplagagemPavimentacaoNegocio />
+          )}
+          {negocioAtivo === "mineradora" && <MineradoraNegocio />}
         </div>
       </div>
     </div>
