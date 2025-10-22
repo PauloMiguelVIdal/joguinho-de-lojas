@@ -15,7 +15,30 @@ import {
     Calendar,
     ArrowUpRight
 } from "lucide-react";
-import * as Chart from 'chart.js';
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Filler,
+  Legend,
+  LineController,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+LineController,
+ Tooltip,
+  Filler,
+  Legend
+);
 
 
 

@@ -63,6 +63,7 @@ import {
   Title,
   Filler,
   Legend,
+  LineController,
 } from "chart.js";
 
 ChartJS.register(
@@ -71,7 +72,8 @@ ChartJS.register(
   PointElement,
   LineElement,
   Title,
-
+LineController,
+ Tooltip,
   Filler,
   Legend
 );
