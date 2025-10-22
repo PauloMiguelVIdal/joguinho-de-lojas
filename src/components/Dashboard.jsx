@@ -73,7 +73,7 @@ ChartJS.register(
   LineElement,
   Title,
 LineController,
- Tooltip,
+
   Filler,
   Legend
 );
