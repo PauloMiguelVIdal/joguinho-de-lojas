@@ -341,6 +341,192 @@ export default function Dashboard() {
     }
   };
 
+
+const coresEdificiosGradiente = {
+  terrenos: {
+    start: '#FF7F32',
+    middle: '#FF9955',
+    end: '#FFB377',
+    glow: 'rgba(255, 127, 50, 0.3)'
+  },
+  lojasP: {
+    start: '#6411D9',
+    middle: '#7B33E8',
+    end: '#9355F7',
+    glow: 'rgba(100, 17, 217, 0.3)'
+  },
+  lojasM: {
+    start: '#F27405',
+    middle: '#FF8C1A',
+    end: '#FFA64D',
+    glow: 'rgba(242, 116, 5, 0.3)'
+  },
+  lojasG: {
+    start: '#3A0E8C',
+    middle: '#5020B0',
+    end: '#6833D4',
+    glow: 'rgba(58, 14, 140, 0.3)'
+  }
+};
+
+const createGradientEdificios = (ctx, edificio) => {
+  const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+  const cores = coresEdificiosGradiente[edificio];
+  gradient.addColorStop(0, cores.start);
+  gradient.addColorStop(0.5, cores.middle);
+  gradient.addColorStop(1, cores.end);
+  return gradient;
+};
+
+const chartRefEdificios = useRef(null);
+
+useEffect(() => {
+  if (ativo === "grafico" && dados.dia <= 270 && chartRefEdificios.current) {
+    const ctx = chartRefEdificios.current.getContext('2d');
+    
+    const datasetsEdificios = ["terrenos", "lojasP", "lojasM", "lojasG"].map(
+      (edificioSelecionado) => {
+        const gradient = createGradientEdificios(ctx, edificioSelecionado);
+        const cores = coresEdificiosGradiente[edificioSelecionado];
+        
+        return {
+          label: edificioSelecionado.toUpperCase(),
+          data: dados[edificioSelecionado]?.arrayFatu || [],
+          borderColor: cores.end,
+          backgroundColor: gradient,
+          tension: 0.4,
+          fill: true,
+          pointRadius: 0,
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: cores.end,
+          pointHoverBorderColor: '#FFFFFF',
+          pointHoverBorderWidth: 3,
+          borderWidth: 3,
+          shadowOffsetX: 0,
+          shadowOffsetY: 0,
+          shadowBlur: 20,
+          shadowColor: cores.glow,
+        };
+      }
+    );
+
+    const configEdificios = {
+      type: 'line',
+      data: {
+        labels: dadosDia,
+        datasets: datasetsEdificios,
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: '#FFFFFF',
+              font: { 
+                size: 12, 
+                weight: 'bold',
+                family: 'Inter, system-ui, sans-serif'
+              },
+              padding: 15,
+              usePointStyle: true,
+              pointStyle: 'circle',
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            backdropFilter: 'blur(10px)',
+            titleColor: '#FFFFFF',
+            bodyColor: '#C79FFF',
+            borderColor: 'rgba(255, 255, 255, 0.2)',
+            borderWidth: 1,
+            padding: 12,
+            displayColors: true,
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += 'R$ ' + context.parsed.y.toLocaleString('pt-BR', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                });
+                return label;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            display: true,
+            stacked: true,
+            grid: {
+              display: true,
+              color: 'rgba(255, 255, 255, 0.1)',
+              lineWidth: 1,
+            },
+            ticks: {
+              color: '#C79FFF',
+              font: { 
+                size: 11,
+                weight: '500'
+              }
+            },
+            border: {
+              display: false
+            }
+          },
+          y: {
+            display: true,
+            stacked: true,
+            position: 'right',
+            grid: {
+              display: true,
+              color: 'rgba(255, 255, 255, 0.1)',
+              lineWidth: 1,
+            },
+            ticks: {
+              color: '#C79FFF',
+              font: { 
+                size: 11,
+                weight: '500'
+              },
+              callback: function(value) {
+                return 'R$ ' + formatarNumero(value);
+              }
+            },
+            border: {
+              display: false
+            }
+          }
+        },
+        elements: {
+          line: {
+            borderJoinStyle: 'round',
+          }
+        }
+      }
+    };
+
+    if (window.chartInstanceEdificios) {
+      window.chartInstanceEdificios.destroy();
+    }
+    window.chartInstanceEdificios = new ChartJS(ctx, configEdificios);
+  }
+
+  return () => {
+    if (window.chartInstanceEdificios) {
+      window.chartInstanceEdificios.destroy();
+    }
+  };
+}, [ativo, dados.dia, dados.terrenos, dados.lojasP, dados.lojasM, dados.lojasG]);
+
   const alterarEconomiaSetor = () => {
     atualizarDadosProf2([ativo, "economiaSetor", "estadoAtual"], "recessão");
   };
@@ -372,7 +558,162 @@ export default function Dashboard() {
 
   const dadosDia = dados.terrenos.arrayFatu.map((_, index) => index + 1);
   const dadosFatu = dados.faturamento.arrayFatuDiário.map((_, index) => index + 1);
-const dadosDiaSetores = economiaSetores.agricultura.economiaSetor.ArrayFatuHistory.map((_, index) => index + 1);
+const dadosDiaSetores = economiaSetores.agricultura.economiaSetor.ArrayFatuHistory.map((_, index) => index + 270);
+
+
+
+const chartRefSetores = useRef(null);
+
+
+useEffect(() => {
+  if (ativo === "grafico" && dados.dia > 270 && chartRefSetores.current) {
+    const ctx = chartRefSetores.current.getContext('2d');
+    
+    const datasetsSetores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"].map(
+      (setorSelecionado) => {
+        const gradient = createGradient(ctx, setorSelecionado);
+        const cores = coresSetoresGradiente[setorSelecionado];
+        
+        return {
+          label: setorSelecionado.toUpperCase(),
+          data: economiaSetores[setorSelecionado]?.economiaSetor?.ArrayFatuHistory || [],
+          borderColor: cores.end,
+          backgroundColor: gradient,
+          tension: 0.4,
+          fill: true, // ✅ Mantém true para empilhar
+          pointRadius: 0,
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: cores.end,
+          pointHoverBorderColor: '#FFFFFF',
+          pointHoverBorderWidth: 3,
+          borderWidth: 3,
+          shadowOffsetX: 0,
+          shadowOffsetY: 0,
+          shadowBlur: 20,
+          shadowColor: cores.glow,
+        };
+      }
+    );
+
+    // Configuração do gráfico futurista
+   const configSetores = {
+      type: 'line',
+      data: {
+        labels: dadosDiaSetores,
+        datasets: datasetsSetores,
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: '#FFFFFF',
+              font: { 
+                size: 12, 
+                weight: 'bold',
+                family: 'Inter, system-ui, sans-serif'
+              },
+              padding: 15,
+              usePointStyle: true,
+              pointStyle: 'circle',
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            backdropFilter: 'blur(10px)',
+            titleColor: '#FFFFFF',
+            bodyColor: '#C79FFF',
+            borderColor: 'rgba(255, 255, 255, 0.2)',
+            borderWidth: 1,
+            padding: 12,
+            displayColors: true,
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += 'R$ ' + context.parsed.y.toLocaleString('pt-BR', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                });
+                return label;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            display: true,
+            stacked: true, // ✅ ATIVAR EMPILHAMENTO NO EIXO X
+            grid: {
+              display: true,
+              color: 'rgba(255, 255, 255, 0.1)',
+              lineWidth: 1,
+            },
+            ticks: {
+              color: '#C79FFF',
+              font: { 
+                size: 11,
+                weight: '500'
+              }
+            },
+            border: {
+              display: false
+            }
+          },
+          y: {
+            display: true,
+            stacked: true, // ✅ ATIVAR EMPILHAMENTO NO EIXO Y
+            position: 'right',
+            grid: {
+              display: true,
+              color: 'rgba(255, 255, 255, 0.1)',
+              lineWidth: 1,
+            },
+            ticks: {
+              color: '#C79FFF',
+              font: { 
+                size: 11,
+                weight: '500'
+              },
+              callback: function(value) {
+                return 'R$ ' + formatarNumero(value);
+              }
+            },
+            border: {
+              display: false
+            }
+          }
+        },
+        elements: {
+          line: {
+            borderJoinStyle: 'round',
+          }
+        }
+      }
+    };
+
+    // Criar o gráfico
+       if (window.chartInstanceSetores) {
+      window.chartInstanceSetores.destroy();
+    }
+    window.chartInstanceSetores = new ChartJS(ctx, configSetores);
+  }
+
+  return () => {
+    if (window.chartInstanceSetores) {
+      window.chartInstanceSetores.destroy();
+    }
+  };
+}, [ativo, dados.dia, economiaSetores]);
+
 
   const cores = {
     terrenos: "#FF7F32 ",
@@ -394,6 +735,75 @@ const dadosDiaSetores = economiaSetores.agricultura.economiaSetor.ArrayFatuHisto
       pointBorderWidth: 1,
     })
   );
+
+const coresSetoresGradiente = {
+  agricultura: {
+    start: '#4CAF50',
+    middle: '#66BB6A',
+    end: '#81C784',
+    glow: 'rgba(76, 175, 80, 0.3)'
+  },
+  tecnologia: {
+    start: '#FF6F00',
+    middle: '#FF8C42',
+    end: '#FFA726',
+    glow: 'rgba(255, 140, 66, 0.3)'
+  },
+  industria: {
+    start: '#1A1A1A',
+    middle: '#4D4D4D',
+    end: '#808080',
+    glow: 'rgba(77, 77, 77, 0.3)'
+  },
+  comercio: {
+    start: '#A31919',
+    middle: '#E60000',
+    end: '#FF4D4D',
+    glow: 'rgba(255, 77, 77, 0.3)'
+  },
+  imobiliario: {
+    start: '#1A1A8C',
+    middle: '#3333CC',
+    end: '#6666FF',
+    glow: 'rgba(102, 102, 255, 0.3)'
+  },
+  energia: {
+    start: '#A37F19',
+    middle: '#E6B800',
+    end: '#FFD966',
+    glow: 'rgba(255, 217, 102, 0.3)'
+  }
+};
+
+const createGradient = (ctx, setor) => {
+  const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+  const cores = coresSetoresGradiente[setor];
+  gradient.addColorStop(0, cores.start);
+  gradient.addColorStop(0.5, cores.middle);
+  gradient.addColorStop(1, cores.end);
+  return gradient;
+};
+
+
+  // const datasetsSetores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"].map(
+  //   (setorSelecionado) => ({
+  //     label: setorSelecionado,
+  //     data: economiaSetores[setorSelecionado]?.economiaSetor.ArrayFatuHistory || [],
+  //     borderColor: coresSetores[setorSelecionado]?.replace("0.5", "1") || "#000000",
+  //     backgroundColor: coresSetores[setorSelecionado] || "#000000",
+  //     tension: 0.4,
+  //     fill: true,
+  //     pointRadius: 0,
+  //     pointHoverRadius: 5,
+  //     pointBorderWidth: 1,
+  //   })
+  // );
+
+  // const dataSetores = {
+  //   labels: dadosDiaSetores,
+  //   datasets: datasetsSetores,
+  // };
+
 
   const data = {
     labels: dadosDia,
@@ -428,24 +838,6 @@ const dadosDiaSetores = economiaSetores.agricultura.economiaSetor.ArrayFatuHisto
     datasets: datasetsFinal,
   };
 
-  const datasetsSetores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"].map(
-    (setorSelecionado) => ({
-      label: setorSelecionado,
-      data: economiaSetores[setorSelecionado]?.economiaSetor.ArrayFatuHistory || [],
-      borderColor: coresSetores[setorSelecionado]?.replace("0.5", "1") || "#000000",
-      backgroundColor: coresSetores[setorSelecionado] || "#000000",
-      tension: 0.4,
-      fill: true,
-      pointRadius: 0,
-      pointHoverRadius: 5,
-      pointBorderWidth: 1,
-    })
-  );
-
-  const dataSetores = {
-    labels: dadosDiaSetores,
-    datasets: datasetsSetores,
-  };
 
 
 
@@ -840,17 +1232,39 @@ const arraysFinanceiros = {
           {licençaComprada ? (
             // Container com licença comprada
             <div className="w-full h-full p-4 flex flex-col">
-              {(ativo === "grafico") &&
-                (dados.dia <=
-                  270) && (
-                    <Line
-                      data={data}
-                      options={{
-                        ...config.options,
-                        maintainAspectRatio: false,
-                      }}
-                      className="w-full h-full"
-                    />
+              {ativo === "grafico" && dados.dia <= 270 && (
+  <div className="w-full h-full p-6 flex items-center justify-center">
+    <div 
+      className="w-full h-full rounded-2xl p-6 shadow-2xl relative overflow-hidden"
+      style={{
+        background: 'rgba(255, 255, 255, 0.05)',
+        backdropFilter: 'blur(20px)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)'
+      }}
+    >
+      {/* Brilho de fundo animado */}
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{
+          background: 'radial-gradient(circle at 50% 50%, rgba(242, 116, 5, 0.2) 0%, transparent 70%)',
+          animation: 'pulse 4s ease-in-out infinite'
+        }}
+      />
+      
+      {/* Título */}
+      <h2 className="text-white text-2xl font-bold mb-4 relative z-10 flex items-center gap-3">
+        <div className="w-1 h-8 bg-gradient-to-b from-[#FF7F32] to-[#6411D9] rounded-full" />
+        FATURAMENTO POR TIPO DE EDIFICAÇÃO
+      </h2>
+      
+      {/* Canvas do gráfico */}
+      <div className="relative z-10 h-[calc(100%-60px)]">
+        <canvas ref={chartRefEdificios}></canvas>
+      </div>
+    </div>
+  </div>
+
 
                     // <Map/>
 
@@ -882,18 +1296,39 @@ const arraysFinanceiros = {
                     //   </div>
                     // </div>
                   )}
-              {ativo === "grafico" &&
-                dados.dia >
-                  270 &&(
-                    <Line
-                      data={dataSetores}
-                      options={{
-                        ...configSetores.options,
-                        maintainAspectRatio: false,
-                      }}
-                      className="w-[400px] h-[200px]"
-                    />
-                  )}
+            {ativo === "grafico" && dados.dia > 270 && (
+  <div className="w-full h-full p-6 flex items-center justify-center">
+    <div 
+      className="w-full h-full rounded-2xl p-6 shadow-2xl relative overflow-hidden"
+      style={{
+        background: 'rgba(255, 255, 255, 0.05)',
+        backdropFilter: 'blur(20px)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)'
+      }}
+    >
+      {/* Brilho de fundo animado */}
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{
+          background: 'radial-gradient(circle at 50% 50%, rgba(106, 0, 255, 0.2) 0%, transparent 70%)',
+          animation: 'pulse 4s ease-in-out infinite'
+        }}
+      />
+      
+      {/* Título */}
+      <h2 className="text-white text-2xl font-bold mb-4 relative z-10 flex items-center gap-3">
+        <div className="w-1 h-8 bg-gradient-to-b from-[#6A00FF] to-[#FF00FF] rounded-full" />
+        FATURAMENTO POR SETOR
+      </h2>
+      
+      {/* Canvas do gráfico */}
+      <div className="relative z-10 h-[calc(100%-60px)]">
+        <canvas ref={chartRefSetores}></canvas>
+      </div>
+    </div>
+  </div>
+)}
               {ativo === "gerenciamento" && (
                 <div className="w-full h-full">
                   <MicroModel />
