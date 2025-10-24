@@ -24,7 +24,7 @@ import { CardSpecials } from "./components/cardsSpecials.jsx"
 import { TaxesYear } from "./components/TaxesYear.jsx";
 import ModalAlert from "./components/ModalAlert.jsx";
 import PatrimonioInterface from "./components/PatrimonioInterface.jsx";
-
+import NewStage from "./components/NewStage.jsx"
 
 import ToggleButton from "./components/ToggleButton.jsx";
 function Interface() {
@@ -43,6 +43,7 @@ function Interface() {
 
     return (
         <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-around items-center">
+            <NewStage/>
             <Achievements />
             <CardSpecials />
             <InputName />
