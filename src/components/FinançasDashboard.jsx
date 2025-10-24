@@ -15,7 +15,7 @@ import {
     Calendar,
     ArrowUpRight
 } from "lucide-react";
-
+import * as Chart from 'chart.js';
 import {
   Chart as ChartJS,
   CategoryScale,
