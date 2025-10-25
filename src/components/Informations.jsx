@@ -36,7 +36,7 @@ export default function Informations() {
                     <h1 className="fonteBold text-[#350973] text-[20px]">R$</h1>
                     <h1 className="fonteBold text-[#350973] text-[20px]"
                     >
-                        {formatarNumero(economiaSetores.saldo)}
+                        {(formatarNumero(economiaSetores.saldo.toFixed(2)))}
                     </h1>
                 </div>
             </div>

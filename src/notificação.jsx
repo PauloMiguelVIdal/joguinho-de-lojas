@@ -237,15 +237,16 @@ export default function Notificação() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[35vw] h-[35vh] bg-[#350973] rounded-[20px] z-20 relative"
+          className="w-[45vw] h-[45vh] bg-[#350973] rounded-[20px] z-20 relative"
         >
           <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
-            Fim
+            Infelizmente você foi a falencia
           </h1>
           <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
           <div>
             <h2 className="text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight">
-              você foi a falencia
+              Tente realizar o pagamento das suas dívidas, caso não seja
+              possível reinicie o jogo.
             </h2>
           </div>
           <button
