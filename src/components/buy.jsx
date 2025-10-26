@@ -31,6 +31,12 @@ export default function Buy() {
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
     DadosEconomyGlobalContext
   );
+    const constratoSelecionado = economiaSetores.idContrato
+    const contrato1 = economiaSetores.contratosBancos[constratoSelecionado || 0];
+
+  //  const limiteEmprestimoAtual = contrato1.limiteEmprestimo || 0;
+   const activeLoan = economiaSetores.activeLoan || null;
+  // const availableLoan = economiaSetores.availableLoan ?? limiteEmprestimoAtual;
 
   const [buttonConstructAudio] = useSound(constructorAudio);
   const [buttonAlertAudio] = useSound(alertAudio);
@@ -480,7 +486,9 @@ useHotkeys(
       return <SidebarCard />;
     } else {
       return (
-        <div className="flex justify-around flex-col w-full">
+        
+        <div className="flex justify-between h-full pt-10 pb-10 flex-col w-full">
+         <div className="flex justify-around flex-col w-full">
           {/* ===================== TERRENOS ===================== */}
           <Paper
             elevation={6}
@@ -742,6 +750,7 @@ useHotkeys(
                 {dados.terrenos.quantidade}
               </Typography>
             </Box>
+          
 
             {/* Tooltip global */}
             <Tooltip
@@ -1651,6 +1660,34 @@ useHotkeys(
             <Tooltip style={tooltipStyle} id="tooltip-lojag-aumentar" />
             <Tooltip style={tooltipStyle} id="tooltip-lojag-posse" />
           </Paper>
+          </div>
+          <div className="w-full bg-[#290064] rounded-3xl h-[150px] p-5">
+                          {activeLoan ? (
+                  <>
+                    <p className="text-2xl font-bold" style={{ color: contrato1.cor3 }}>
+                      R$ {activeLoan.valorParcela.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Saldo devedor: R$ {activeLoan.saldoDevedor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                    </p>
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                      <div className="flex justify-between text-xs text-gray-600 mb-1">
+                        <span>Próximo vencimento:</span>
+                        <span className="font-semibold">Dia {activeLoan.proximoVencimento}</span>
+                      </div>
+                    </div>
+                         <button style={{ backgroundColor: contrato1.cor2 }} className="flex justify-center hover:scale-105 transition-all duration-500 items-center w-full items-center p-3 rounded-lg ">
+                    <h2 className="text-white text-center">Pagar Fatura</h2>
+                  </button>
+                    
+                  </>
+                ) : (
+                  <>
+                    <p className="text-2xl font-bold text-gray-400">R$ 0,00</p>
+                    <p className="text-sm text-gray-500 mt-1">Sem empréstimos ativos</p>
+                  </>
+                )}
+          </div>
         </div>
       );
     }

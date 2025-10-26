@@ -80,7 +80,14 @@ export function NextDay() {
     if (!economiaSetores.despesasEmprestimo.despesasPagas) {
       return;
     }
-
+    if (!economiaSetores.despesasEmprestimo.despesasPagas) {
+      return;
+    }
+    if(economiaSetores.activeLoan?.proximoVencimento !== undefined){
+      if(economiaSetores.activeLoan.proximoVencimento===dados.dia){
+        return;
+      }
+    }
     //   useEffect(() => {
     //     if (dados.dia % 30 === 0) {
     //       atualizarDados('despesas', {

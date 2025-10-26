@@ -1625,7 +1625,7 @@ const BankSelection = () => {
       cor: "linear-gradient(90deg, #003816, #4CAF50)",
       icone: "🌱",
       descricao:
-        "Especialista no setor agrícola, libera crédito extra para fazendas.",
+        "Especialista no setor agrícola",
       cartoes: [
         {
           id: 111,
