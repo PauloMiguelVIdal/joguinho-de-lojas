@@ -6,7 +6,7 @@ const DadosEconomyGlobalContext = createContext();
 // Provedor do contexto
 const DadosEconomyGlobalProvider = ({ children }) => {
   const [economiaSetores, setEconomiaSetores] = useState({
-    saldo: 100000,
+    saldo: 1000000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
@@ -187,8 +187,8 @@ const DadosEconomyGlobalProvider = ({ children }) => {
           proximoCiclo: 30,
         },
         estoque: {
-          estoqueAtual: { beef: 45, pork: 20, chicken: 30, sausage: 15 },
-          capacidadeEstoque: 200,
+          estoqueAtual: { beef: 0, pork: 0, chicken: 0, sausage: 0 },
+          capacidadeEstoque: 5000,
         },
       },
       PainelSolarNegocio: {
