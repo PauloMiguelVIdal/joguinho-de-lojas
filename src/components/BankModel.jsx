@@ -41,11 +41,11 @@ const ListaContratosAtivos = () => {
   if (contratosValidos.length === 0) return null;
 
   return (
-    <div className="bg-white/10 rounded-xl p-4 mx-6 mb-4">
-      <h3 className="text-white font-bold mb-3">
+    // <div className="bg-white/10 rounded-xl p-4 mx-6 mb-4">
+      <h3 className="text-white font-bold  mr-6 mt-4 mb-4">
         Contratos ({contratosValidos.length}/3)
       </h3>
-      <div className="grid grid-cols-3 gap-3">
+      /*{ <div className="grid grid-cols-3 gap-3">
         {contratosArray.map((c, i) => {
           if (!c) return (
             <div key={i} className="bg-white/5 border-2 border-dashed border-white/20 rounded-lg p-3 text-center text-white/30 text-sm">
@@ -91,7 +91,7 @@ const ListaContratosAtivos = () => {
           );
         })}
       </div>
-    </div>
+    </div> }*/
   );
 };
 

@@ -29,7 +29,7 @@ const BankInterface = () => {
   const availableLoans = economiaSetores.availableLoans || {};
   const availableLoan =
     availableLoans[idContratoAtivo] ?? limiteEmprestimoAtual;
-
+    const patrimonio = economiaSetores.patrimonio;
   const [investmentType, setInvestmentType] = useState("pos");
   const [investmentAmount, setInvestmentAmount] = useState(0);
   const [investmentDays, setInvestmentDays] = useState(90);
@@ -95,10 +95,8 @@ const BankInterface = () => {
     setor: contrato1.cashback?.setor || "-",
   };
 
-  const [lastProcessedPayment, setLastProcessedPayment] = useState(0);
 
-  const lastProcessedPaymentRef = useRef(0);
-
+  
   // useEffect(() => {
   //   if (!activeLoan) {
   //     lastProcessedPaymentRef.current = 0;
@@ -164,7 +162,17 @@ const BankInterface = () => {
   // if(diaAtualJogo===vencimento){
   //   economiaSetores.despesasEmprestimo
   // }
-  const vencimento =
+
+
+
+
+
+  const [lastProcessedPayment, setLastProcessedPayment] = useState(0);
+
+  const lastProcessedPaymentRef = useRef(0);
+
+
+ const vencimento =
     activeLoan?.proximoVencimento ??
     (activeLoan?.diaInicio
       ? activeLoan.diaInicio + 30 * (activeLoan.parcelaAtual ?? 1)
@@ -185,6 +193,56 @@ const BankInterface = () => {
     });
   }, [diaAtualJogo]);
 
+  // Atualização automática do limite de empréstimo a cada 120 dias
+  useEffect(() => {
+    if (!contrato1) return;
+
+    // Busca o último dia de atualização do limite ou usa o dia de início do contrato
+    const ultimaAtualizacaoLimite = economiaSetores.ultimaAtualizacaoLimite || {};
+    const ultimaAtualizacao = ultimaAtualizacaoLimite[idContratoAtivo] || contrato1.dataInicio || 0;
+
+    // Verifica se passou 120 dias desde a última atualização
+    const diasDesdeUltimaAtualizacao = diaAtualJogo - ultimaAtualizacao;
+    
+    if (diasDesdeUltimaAtualizacao >= 120) {
+      const patrimonioAtual = economiaSetores.patrimonio || 0;
+      const { novoLimite } = calcularProximoLimite(patrimonioAtual);
+      
+      // Aplica o multiplicador do config
+      const multiplicadorConfig = config.emprestimos[contrato1.emprestimo]?.mult || 1;
+      const limiteAtualizado = novoLimite * multiplicadorConfig;
+
+      // Atualiza o limite do contrato
+      const contratosAtualizados = Array.isArray(economiaSetores.contratosBancos) 
+        ? [...economiaSetores.contratosBancos] 
+        : [];
+      
+      if (contratosAtualizados[idContratoAtivo]) {
+        contratosAtualizados[idContratoAtivo] = {
+          ...contratosAtualizados[idContratoAtivo],
+          limiteEmprestimo: limiteAtualizado
+        };
+
+        atualizarEco('contratosBancos', contratosAtualizados);
+
+        // Atualiza o limite disponível (se não houver empréstimo ativo, o limite disponível é o limite total)
+        if (!activeLoan) {
+          atualizarEco('availableLoans', {
+            ...availableLoans,
+            [idContratoAtivo]: limiteAtualizado
+          });
+        }
+
+        // Registra o dia da atualização
+        atualizarEco('ultimaAtualizacaoLimite', {
+          ...ultimaAtualizacaoLimite,
+          [idContratoAtivo]: diaAtualJogo
+        });
+      }
+    }
+  }, [diaAtualJogo, patrimonio, idContratoAtivo]);
+
+
   const ModalEncerrarContrato = ({ isOpen, onClose, onConfirm, contrato, activeLoan, diaAtual }) => {
   if (!isOpen || !contrato) return null;
 
@@ -194,6 +252,10 @@ const BankInterface = () => {
 
   const podeEncerrar = passouValidade && !possuiEmprestimo;
 
+
+
+
+  
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in duration-300">
@@ -320,6 +382,24 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
 
 
   };
+
+
+
+  const calcularProximoLimite = (patrimonioAtual) => {
+    if (patrimonioAtual >= 10000000)
+      return { novoLimite: 500000, patrimonioNecessario: 10000000 };
+    if (patrimonioAtual >= 5000000)
+      return { novoLimite: 250000, patrimonioNecessario: 10000000 };
+    if (patrimonioAtual >= 1000000)
+      return { novoLimite: 100000, patrimonioNecessario: 5000000 };
+    if (patrimonioAtual >= 500000)
+      return { novoLimite: 50000, patrimonioNecessario: 1000000 };
+    if (patrimonioAtual >= 100000)
+      return { novoLimite: 25000, patrimonioNecessario: 500000 };
+    return { novoLimite: 10000, patrimonioNecessario: 100000 };
+  };
+
+  const proximoAumentoLimite = calcularProximoLimite(patrimonio);
 
 
     const handleEncerrarContrato = () => {
@@ -684,23 +764,6 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
     faturaAtual: 2450.75,
   };
 
-  const patrimonio = economiaSetores.patrimonio;
-
-  const calcularProximoLimite = (patrimonioAtual) => {
-    if (patrimonioAtual >= 10000000)
-      return { novoLimite: 500000, patrimonioNecessario: 10000000 };
-    if (patrimonioAtual >= 5000000)
-      return { novoLimite: 250000, patrimonioNecessario: 10000000 };
-    if (patrimonioAtual >= 1000000)
-      return { novoLimite: 100000, patrimonioNecessario: 5000000 };
-    if (patrimonioAtual >= 500000)
-      return { novoLimite: 50000, patrimonioNecessario: 1000000 };
-    if (patrimonioAtual >= 100000)
-      return { novoLimite: 25000, patrimonioNecessario: 500000 };
-    return { novoLimite: 10000, patrimonioNecessario: 100000 };
-  };
-
-  const proximoAumentoLimite = calcularProximoLimite(patrimonio);
 
   const TriangularFusionCard = ({ cartao }) => (
     <div
