@@ -1691,7 +1691,7 @@ export default function Buy() {
               <Tooltip style={tooltipStyle} id="tooltip-lojag-posse" />
             </Paper>
           </div>
-          {/* <LoanCarousel/> */}
+          <LoanCarousel/>
         </div>
       );
     }
