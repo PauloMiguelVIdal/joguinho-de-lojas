@@ -15,6 +15,24 @@ const SidebarCards = ({ banco, cartao, setor }) => {
     DadosEconomyGlobalContext
   );
 
+const contratos = economiaSetores?.contratosBancos || [];
+
+const getSlotsLiberados = () => {
+  const porteEmpresa = economiaSetores.porteEmpresa || [];
+  
+  // 7º nível (índice 6) - Corporação Multissetorial
+  const corporacaoMulti = porteEmpresa[6]?.status || false;
+  
+  // 4º nível (índice 3) - Companhia Local
+  const companiaLocal = porteEmpresa[3]?.status || false;
+  
+  if (corporacaoMulti) return 3; // 3 slots
+  if (companiaLocal) return 2;   // 2 slots
+  return 1;                       // 1 slot inicial
+};
+
+  const slotsLiberados = getSlotsLiberados();
+
   const [selectedCard, setSelectedCard] = useState(null);
 
   const setVision = (newVision) => {
@@ -24,6 +42,10 @@ const SidebarCards = ({ banco, cartao, setor }) => {
     });
   };
 
+
+
+
+
   const testeId = (id) => {
     const indice = economiaSetores.contratosBancos.findIndex(
       (c) => c.cartaoId === id
@@ -32,7 +54,16 @@ const SidebarCards = ({ banco, cartao, setor }) => {
     return indice;
   };
 
-  const abrirInterfaceBanco = () => setVision("bankInterface");
+
+
+
+ const abrirInterfaceBanco = (cartaoId) => {
+  const indice = contratos.findIndex((c) => c?.cartaoId === cartaoId);
+  if (indice !== -1) {
+    atualizarEco("idContrato", indice); // Define contrato ativo
+    setVision("bankInterface");          // Abre interface
+  }
+};
 
   //    const limite = parseInt(cartao.limiteEmprestimo);
   //         const usado = parseInt(cartao.limiteUsado);
@@ -44,18 +75,41 @@ const SidebarCards = ({ banco, cartao, setor }) => {
   const contrato2 = economiaSetores.contratosBancos[1];
   const contrato3 = economiaSetores.contratosBancos[2];
 
+
+const SlotVazio = ({ index }) => (
+  <div 
+    onClick={() => setVision("bank")}
+    className="w-[280px] h-[160px] rounded-3xl bg-gradient-to-br from-gray-700/30 to-gray-800/30 border-2 border-dashed border-gray-500/50 backdrop-blur-sm relative overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 group"
+  >
+    {/* Conteúdo do slot vazio */}
+  </div>
+);
+
+const SlotBloqueado = ({ index }) => {
+  const porteNecessario = index === 1 
+    ? "Companhia Local" 
+    : "Corporação Multissetorial";
+  
+  return (
+    <div className="w-[280px] h-[160px] rounded-3xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-2 border-gray-700/50 backdrop-blur-sm relative overflow-hidden">
+      {/* Conteúdo do slot bloqueado */}
+    </div>
+  );
+};
+
+
+
   const GeometricChaosCard = ({ cartao }) => (
     <div
       className="w-[280px] h-[160px] rounded-3xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 cursor-pointer hover:animate-rainbow-shift"
       style={{
         background: `linear-gradient(45deg, ${cartao.cor1} 0%, ${cartao.cor2} 25%, ${cartao.cor3} 50%, ${cartao.cor4} 75%, ${cartao.cor1} 100%)`,
       }}
-      onClick={() => {
-        setSelectedCard(cartao.id),
-          abrirInterfaceBanco("bankInterface"),
-          console.log(cartao.id),
-          testeId(cartao.id);
-      }}
+onClick={() => {
+  setSelectedCard(cartao.id);
+  abrirInterfaceBanco(cartao.id);
+  console.log("Cartão selecionado:", cartao.id);
+}}
     >
       {/* Losangos e retângulos com pulse */}
       <div className="absolute inset-0">
@@ -118,12 +172,11 @@ const SidebarCards = ({ banco, cartao, setor }) => {
       style={{
         background: `conic-gradient(from 0deg, ${cartao.cor1}, ${cartao.cor2}, ${cartao.cor3}, ${cartao.cor4}, ${cartao.cor1})`,
       }}
-      onClick={() => {
-        setSelectedCard(cartao.id),
-          abrirInterfaceBanco("bankInterface"),
-          console.log(cartao.id),
-          testeId(cartao.id);
-      }}
+onClick={() => {
+  setSelectedCard(cartao.id);
+  abrirInterfaceBanco(cartao.id);
+  console.log("Cartão selecionado:", cartao.id);
+}}
     >
       <div className="absolute inset-0">
         <div
@@ -187,12 +240,11 @@ const SidebarCards = ({ banco, cartao, setor }) => {
       style={{
         background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 50%, ${cartao.cor3} 100%)`,
       }}
-      onClick={() => {
-        setSelectedCard(cartao.id),
-          abrirInterfaceBanco("bankInterface"),
-          console.log(cartao.id),
-          testeId(cartao.id);
-      }}
+onClick={() => {
+  setSelectedCard(cartao.id);
+  abrirInterfaceBanco(cartao.id);
+  console.log("Cartão selecionado:", cartao.id);
+}}
     >
       {/* Formas geométricas */}
       <div className="absolute inset-0">
@@ -255,11 +307,11 @@ const SidebarCards = ({ banco, cartao, setor }) => {
       style={{
         background: `radial-gradient(circle at top right, ${cartao.cor3} 0%, ${cartao.cor2} 50%, ${cartao.cor1} 100%)`,
       }}
-      onClick={() => {
-        setSelectedCard(cartao.id),
-          abrirInterfaceBanco("bankInterface"),
-          console.log(cartao.id);
-      }}
+onClick={() => {
+  setSelectedCard(cartao.id);
+  abrirInterfaceBanco(cartao.id);
+  console.log("Cartão selecionado:", cartao.id);
+}}
     >
       {/* Hexágonos */}
       <div className="absolute inset-0">
@@ -346,12 +398,11 @@ const SidebarCards = ({ banco, cartao, setor }) => {
       style={{
         background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 33%, ${cartao.cor3} 66%, ${cartao.cor4} 100%)`,
       }}
-      onClick={() => {
-        setSelectedCard(cartao.id),
-          abrirInterfaceBanco("bankInterface"),
-          console.log(cartao.id),
-          testeId(cartao.id);
-      }}
+onClick={() => {
+  setSelectedCard(cartao.id);
+  abrirInterfaceBanco(cartao.id);
+  console.log("Cartão selecionado:", cartao.id);
+}}
     >
       {/* Ondas */}
       <div className="absolute inset-0 hover:animate-geometric-pulse">
@@ -488,7 +539,7 @@ const SidebarCards = ({ banco, cartao, setor }) => {
   };
 
   // Função que adapta contrato para formato de "cartão"
-  const contratoParaCartao = (contrato, dados) => ({
+  const contratoParaCartao = (contrato) => ({
     id: contrato.cartaoId,
     banco: contrato.bancoNome,
     design: contrato.design,
@@ -496,51 +547,33 @@ const SidebarCards = ({ banco, cartao, setor }) => {
     cor2: contrato.cor2,
     cor3: contrato.cor3,
     cor4: contrato.cor4,
-    numeroCard: contrato.cartaoNome, // ou gere um número fictício se quiser
+    numeroCard: contrato.cartaoNome,
     validade: contrato.dataFim ? `até ${contrato.dataFim}` : "-",
-    empresa: dados?.inicioGame?.nomeEmpresa ?? "Minha Empresa",
   });
 
+  const slots = [0, 1, 2].map((index) => {
+    const contrato = contratos[index];
+
+    if (index < slotsLiberados) {
+      return contrato ? (
+        <div key={index} className="mb-2 bg-white/5 backdrop-blur-sm rounded-3xl p-5 border border-white/10">
+          {renderCartao(contratoParaCartao(contrato))}
+        </div>
+      ) : (
+       <div key={index} className="mb-2 bg-white/5 backdrop-blur-sm rounded-3xl p-5 border border-white/10">
+          <SlotVazio />
+        </div>
+      );
+    } else {
+      return (  <div key={index} className="mb-2 bg-white/5 backdrop-blur-sm rounded-3xl p-5 border border-white/10">
+          <SlotBloqueado index={index} />
+        </div>
+      );
+    }
+  });
   return (
-    <div className="h-[95vh] rounded-xl w-full items-center justify-around flex bg-gradient-to-br from-[#350973] via-[#6411D9] to-[#6411D9] p-6">
-      <div>
-        {economiaSetores?.contratosBancos?.length > 0 ? (
-          economiaSetores.contratosBancos.map((contrato, index) => (
-            <div
-              className="mb-2 bg-white/5 backdrop-blur-sm rounded-3xl p-5 border border-white/10"
-              key={index}
-            >
-              {renderCartao(contratoParaCartao(contrato, dados))}
-            
-              {/* <div className="mt-2 px-2">
-                <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-500 flex items-center justify-end pr-2"
-                    style={{
-                      width: `${percentualUsado}%`,
-                      background:
-                        percentualUsado > 80
-                          ? "linear-gradient(90deg, #ef4444, #dc2626)"
-                          : percentualUsado > 50
-                          ? "linear-gradient(90deg, #f59e0b, #d97706)"
-                          : "linear-gradient(90deg, #10b981, #059669)",
-                    }}
-                  ></div>
-                </div>
-                <div className="flex justify-between text-sm text-gray-300 mt-1">
-                  <span>
-                    {" "}
-                    Limite total: R$ {limite.toLocaleString("pt-BR")}
-                  </span>
-                  <span>{percentualUsado}%</span>
-                </div>
-              </div> */}
-            </div>
-          ))
-        ) : (
-          <p className="text-white">Nenhum contrato ativo</p>
-        )}
-      </div>
+    <div className="h-[95vh] rounded-xl w-full flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#350973] via-[#6411D9] to-[#6411D9] p-6 overflow-y-auto">
+      {slots}
     </div>
   );
 };
