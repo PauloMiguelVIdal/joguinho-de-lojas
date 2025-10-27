@@ -24,6 +24,7 @@ import alertAudio from "../../public/sounds/alertAudio.mp3";
 import payTerrain from "../../public/sounds/payTerrainAudio.mp3";
 import qtdAudio from "../../public/sounds/qtdAudio.mp3";
 import { useHotkeys } from "react-hotkeys-hook";
+import martelo from "../../public/outrasImagens/martelo.png"
 import LoanCarousel from "./LoanCarousel";
 export default function Buy() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
@@ -1409,7 +1410,39 @@ export default function Buy() {
                   }}
                 >
                   {/* Título */}
-                  <GradientBox>
+<Box className="flex justify-between">
+
+
+                  <GradientBox className="w-[70%]">
+                    <Box 
+                      data-tooltip-id="tooltip-lojag-tipo"
+                      data-tooltip-html="Construção grande, exige imóveis médios como base"
+                    >
+                      <Typography 
+                        variant="subtitle1"
+                        color="white"
+                        fontWeight="bold"
+                      >
+                        Imóvel Grande
+                      </Typography>
+                    </Box>
+                    
+                  </GradientBox>
+                          <Box className="w-[25%] bg-[#6411D9]"
+                              
+                data-tooltip-id="tooltip-lojag-posse"
+                data-tooltip-html="Quantidade total que você já possui desse imóvel"
+                sx={{
+                  bgcolor: "#6411D9",
+               
+                  borderRadius: "10px",
+                  border: "2px solid #F27405",
+                
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                     <Box
                       data-tooltip-id="tooltip-lojag-tipo"
                       data-tooltip-html="Construção grande, exige imóveis médios como base"
@@ -1418,20 +1451,26 @@ export default function Buy() {
                         variant="subtitle1"
                         color="white"
                         fontWeight="bold"
+                        className="text-center"
                       >
-                        Imóvel Grande
+                    {dados.lojasG.quantidade}
                       </Typography>
                     </Box>
-                  </GradientBox>
+                    
+                  </Box>
+                  </Box>
+
 
                   {/* Valor unitário */}
-                  <Box
-                    sx={{ mt: 0.5, ml: 2.5 }}
+                  <Box className="flex justify-between"
+                    sx={{ mt: 0.5,  }}
                     data-tooltip-id="tooltip-lojag-preco"
                     data-tooltip-html="Preço unitário para construir um imóvel grande"
                   >
                     <Box
-                      sx={{
+                     className="w-[50%] "
+                     mt={0.5} 
+                     sx={{
                         bgcolor: "#6411D9",
                         borderRadius: "2px",
                         display: "flex",
@@ -1439,6 +1478,7 @@ export default function Buy() {
                         alignItems: "center",
                         px: 1,
                         py: 0.25,
+                           borderRadius: { xs: "4px", sm: "5px" },
                       }}
                     >
                       <Typography
@@ -1446,20 +1486,82 @@ export default function Buy() {
                         color="white"
                         fontWeight="bold"
                       >
-                        Construção
+                      <img className="w-4" src={martelo} alt="" />
                       </Typography>
                       <Typography
                         variant="subtitle1"
                         color="white"
                         fontWeight="bold"
                       >
-                        {formatarNumero(dados.lojasG.preçoConstrução)}
+                        {formatarNumero(
+                          dados.lojasG.preçoConstrução * quantidadeLojasG
+                        )}
                       </Typography>
+                    </Box>
+                    <Box display="flex" alignItems="center" mt={0.5}>
+                      <Box
+                        data-tooltip-id="tooltip-lojag-diminuir"
+                        data-tooltip-html="Diminuir quantidade"
+                      >
+                        <IconButton
+                          onClick={DiminuirQuantidadeLojasG}
+                          sx={{
+                            bgcolor: "#6411D9",
+                            width: { xs: 24, sm: 28 },
+                            height: { xs: 24, sm: 28 },
+                            borderRadius: { xs: "4px", sm: "5px" },
+                            "&:hover": { bgcolor: "#834EDB" },
+                          }}
+                        >
+                          <img src={menos} width={12} height={12} />
+                        </IconButton>
+                      </Box>
+
+                      <Box
+                        data-tooltip-id="tooltip-lojag-quantidade"
+                        data-tooltip-html="Quantidade selecionada"
+                        sx={{
+                          mx: 1,
+                          bgcolor: "#6411D9",
+                          width: { xs: 24, sm: 28 },
+                          height: { xs: 24, sm: 28 },
+                          borderRadius: { xs: "4px", sm: "5px" },
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography
+                          color="white"
+                          fontWeight="bold"
+                          fontSize={{ xs: 12, sm: 14 }}
+                        >
+                          {quantidadeLojasG}
+                        </Typography>
+                      </Box>
+
+                      <Box
+                        data-tooltip-id="tooltip-lojag-aumentar"
+                        data-tooltip-html="Aumentar quantidade"
+                      >
+                        <IconButton
+                          onClick={AumentarQuantidadeLojasG}
+                          sx={{
+                            bgcolor: "#6411D9",
+                            width: { xs: 24, sm: 28 },
+                            height: { xs: 24, sm: 28 },
+                            borderRadius: { xs: "4px", sm: "5px" },
+                            "&:hover": { bgcolor: "#834EDB" },
+                          }}
+                        >
+                          <img src={mais} width={12} height={12} />
+                        </IconButton>
+                      </Box>
                     </Box>
                   </Box>
 
                   {/* Valor total */}
-                  <Box
+                  {/* <Box
                     sx={{ mt: 0.5, ml: 2.5 }}
                     data-tooltip-id="tooltip-lojag-total"
                     data-tooltip-html="Custo total considerando a quantidade escolhida"
@@ -1489,12 +1591,10 @@ export default function Buy() {
                         fontWeight="bold"
                         fontSize={{ xs: 12, sm: 14 }}
                       >
-                        {formatarNumero(
-                          dados.lojasG.preçoConstrução * quantidadeLojasG
-                        )}
+                     
                       </Typography>
                     </Box>
-                  </Box>
+                  </Box> */}
                 </Box>
 
                 {/* Controles */}
@@ -1528,7 +1628,7 @@ export default function Buy() {
                     >
                       <IconButton
                         onClick={ComprarLojaG}
-                        tipo="lojasP"
+                        tipo="lojasG"
                         sx={{
                           width: { xs: 60, sm: 80 },
                           height: { xs: 60, sm: 80 },
@@ -1549,71 +1649,11 @@ export default function Buy() {
                   </Box>
 
                   {/* Diminuir / Quantidade / Aumentar */}
-                  <Box display="flex" alignItems="center" mt={0.5}>
-                    <Box
-                      data-tooltip-id="tooltip-lojag-diminuir"
-                      data-tooltip-html="Diminuir quantidade"
-                    >
-                      <IconButton
-                        onClick={DiminuirQuantidadeLojasG}
-                        sx={{
-                          bgcolor: "#6411D9",
-                          width: { xs: 24, sm: 28 },
-                          height: { xs: 24, sm: 28 },
-                          borderRadius: { xs: "4px", sm: "5px" },
-                          "&:hover": { bgcolor: "#834EDB" },
-                        }}
-                      >
-                        <img src={menos} width={12} height={12} />
-                      </IconButton>
-                    </Box>
-
-                    <Box
-                      data-tooltip-id="tooltip-lojag-quantidade"
-                      data-tooltip-html="Quantidade selecionada"
-                      sx={{
-                        mx: 1,
-                        bgcolor: "#350973",
-                        width: { xs: 24, sm: 28 },
-                        height: { xs: 24, sm: 28 },
-                        borderRadius: { xs: "4px", sm: "5px" },
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Typography
-                        color="white"
-                        fontWeight="bold"
-                        fontSize={{ xs: 12, sm: 14 }}
-                      >
-                        {quantidadeLojasG}
-                      </Typography>
-                    </Box>
-
-                    <Box
-                      data-tooltip-id="tooltip-lojag-aumentar"
-                      data-tooltip-html="Aumentar quantidade"
-                    >
-                      <IconButton
-                        onClick={AumentarQuantidadeLojasG}
-                        sx={{
-                          bgcolor: "#6411D9",
-                          width: { xs: 24, sm: 28 },
-                          height: { xs: 24, sm: 28 },
-                          borderRadius: { xs: "4px", sm: "5px" },
-                          "&:hover": { bgcolor: "#834EDB" },
-                        }}
-                      >
-                        <img src={mais} width={12} height={12} />
-                      </IconButton>
-                    </Box>
-                  </Box>
                 </Box>
               </Box>
 
               {/* Quantidade disponível */}
-              <Box
+              {/* <Box
                 data-tooltip-id="tooltip-lojag-posse"
                 data-tooltip-html="Quantidade total que você já possui desse imóvel"
                 sx={{
@@ -1638,275 +1678,7 @@ export default function Buy() {
                 >
                   {dados.lojasG.quantidade}
                 </Typography>
-              </Box>
-
-              {/* Tooltips globais */}
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-tipo" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-preco" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-total" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-comprar" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-diminuir" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-quantidade" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-aumentar" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-posse" />
-            </Paper>
-            <Paper
-              elevation={6}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                p: 2,
-                bgcolor: "#290064",
-                borderRadius: "20px",
-                mb: 2,
-                // minHeight: "20vh",
-                maxWidth: 400,
-                position: "relative",
-                width: { xs: "90vw", sm: "60vw", md: "30vw", lg: "20vw" },
-              }}
-            >
-              <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
-                {/* Info */}
-                <Box
-                  sx={{
-                    flexGrow: 1,
-                    mr: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  {/* Título */}
-                  <GradientBox>
-                    <Box
-                      data-tooltip-id="tooltip-lojag-tipo"
-                      data-tooltip-html="Construção grande, exige imóveis médios como base"
-                    >
-                      <Typography
-                        variant="subtitle1"
-                        color="white"
-                        fontWeight="bold"
-                      >
-                        Imóvel Grande
-                      </Typography>
-                    </Box>
-                  </GradientBox>
-
-                  {/* Valor unitário */}
-                  <Box
-                    sx={{ mt: 0.5, ml: 2.5 }}
-                    data-tooltip-id="tooltip-lojag-preco"
-                    data-tooltip-html="Preço unitário para construir um imóvel grande"
-                  >
-                    <Box
-                      sx={{
-                        bgcolor: "#6411D9",
-                        borderRadius: "2px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        px: 1,
-                        py: 0.25,
-                      }}
-                    >
-                      <Typography
-                        variant="subtitle1"
-                        color="white"
-                        fontWeight="bold"
-                      >
-                        Construção
-                      </Typography>
-                      <Typography
-                        variant="subtitle1"
-                        color="white"
-                        fontWeight="bold"
-                      >
-                        {formatarNumero(dados.lojasG.preçoConstrução)}
-                      </Typography>
-                    </Box>
-                  </Box>
-
-                  {/* Valor total */}
-                  <Box
-                    sx={{ mt: 0.5, ml: 2.5 }}
-                    data-tooltip-id="tooltip-lojag-total"
-                    data-tooltip-html="Custo total considerando a quantidade escolhida"
-                  >
-                    <Box
-                      sx={{
-                        bgcolor: "#350973",
-                        borderRadius: "5px",
-                        height: { xs: 24, sm: 28 },
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        px: 1,
-                      }}
-                    >
-                      <Typography
-                        variant="body2"
-                        color="white"
-                        fontWeight="bold"
-                        fontSize={{ xs: 12, sm: 14 }}
-                      >
-                        Valor total
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="white"
-                        fontWeight="bold"
-                        fontSize={{ xs: 12, sm: 14 }}
-                      >
-                        {formatarNumero(
-                          dados.lojasG.preçoConstrução * quantidadeLojasG
-                        )}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
-
-                {/* Controles */}
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-around",
-                  }}
-                >
-                  <Box
-                    data-tooltip-id="tooltip-lojag-comprar"
-                    data-tooltip-html={`<div>
-          <p>Comprar imóvel grande</p>
-          <p style="margin-top:4px;">Precisa de 3 imóveis médios para construir.</p>
-        </div>`}
-                  >
-                    <Box
-                      style={getBotaoCompraStyle({
-                        podeComprar: podeComprarLojaG,
-                      })}
-                      sx={{
-                        // backgroundColor: "#F27405",
-                        flexGrow: 1,
-                        aspectRatio: "1",
-                        borderRadius: "10px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <IconButton
-                        onClick={ComprarLojaG}
-                        tipo="lojasP"
-                        sx={{
-                          width: { xs: 60, sm: 80 },
-                          height: { xs: 60, sm: 80 },
-                          borderRadius: "10px",
-                          "&:hover": {
-                            transform: "scale(1.05)",
-                          },
-                          "&:active": { transform: "scale(0.95)" },
-                        }}
-                      >
-                        <img
-                          src={LojaGImg}
-                          alt="loja grande"
-                          style={{ width: "60%", height: "60%" }}
-                        />
-                      </IconButton>
-                    </Box>
-                  </Box>
-
-                  {/* Diminuir / Quantidade / Aumentar */}
-                  <Box display="flex" alignItems="center" mt={0.5}>
-                    <Box
-                      data-tooltip-id="tooltip-lojag-diminuir"
-                      data-tooltip-html="Diminuir quantidade"
-                    >
-                      <IconButton
-                        onClick={DiminuirQuantidadeLojasG}
-                        sx={{
-                          bgcolor: "#6411D9",
-                          width: { xs: 24, sm: 28 },
-                          height: { xs: 24, sm: 28 },
-                          borderRadius: { xs: "4px", sm: "5px" },
-                          "&:hover": { bgcolor: "#834EDB" },
-                        }}
-                      >
-                        <img src={menos} width={12} height={12} />
-                      </IconButton>
-                    </Box>
-
-                    <Box
-                      data-tooltip-id="tooltip-lojag-quantidade"
-                      data-tooltip-html="Quantidade selecionada"
-                      sx={{
-                        mx: 1,
-                        bgcolor: "#350973",
-                        width: { xs: 24, sm: 28 },
-                        height: { xs: 24, sm: 28 },
-                        borderRadius: { xs: "4px", sm: "5px" },
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Typography
-                        color="white"
-                        fontWeight="bold"
-                        fontSize={{ xs: 12, sm: 14 }}
-                      >
-                        {quantidadeLojasG}
-                      </Typography>
-                    </Box>
-
-                    <Box
-                      data-tooltip-id="tooltip-lojag-aumentar"
-                      data-tooltip-html="Aumentar quantidade"
-                    >
-                      <IconButton
-                        onClick={AumentarQuantidadeLojasG}
-                        sx={{
-                          bgcolor: "#6411D9",
-                          width: { xs: 24, sm: 28 },
-                          height: { xs: 24, sm: 28 },
-                          borderRadius: { xs: "4px", sm: "5px" },
-                          "&:hover": { bgcolor: "#834EDB" },
-                        }}
-                      >
-                        <img src={mais} width={12} height={12} />
-                      </IconButton>
-                    </Box>
-                  </Box>
-                </Box>
-              </Box>
-
-              {/* Quantidade disponível */}
-              <Box
-                data-tooltip-id="tooltip-lojag-posse"
-                data-tooltip-html="Quantidade total que você já possui desse imóvel"
-                sx={{
-                  bgcolor: "#6411D9",
-                  width: { xs: 40, sm: 48 },
-                  height: { xs: 40, sm: 48 },
-                  borderRadius: "10px",
-                  border: "2px solid #F27405",
-                  position: "absolute",
-                  left: { xs: -20, sm: -24 },
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  color="white"
-                  fontWeight="bold"
-                  fontSize={{ xs: 12, sm: 16 }}
-                >
-                  {dados.lojasG.quantidade}
-                </Typography>
-              </Box>
+              </Box> */}
 
               {/* Tooltips globais */}
               <Tooltip style={tooltipStyle} id="tooltip-lojag-tipo" />
@@ -1919,7 +1691,7 @@ export default function Buy() {
               <Tooltip style={tooltipStyle} id="tooltip-lojag-posse" />
             </Paper>
           </div>
-{/* <LoanCarousel/> */}
+          {/* <LoanCarousel/> */}
         </div>
       );
     }
