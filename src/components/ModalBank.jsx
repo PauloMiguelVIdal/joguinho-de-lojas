@@ -11,12 +11,14 @@ export const ModalBank = ({ banco }) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [relationshipDays, setRelationshipDays] = useState(90);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showModalSlot, setShowModalSlot] = useState(false);
+  const [messageSlot, setMessageSlot] = useState("");
 
   const contratosDisponiveis = economiaSetores.contratosBancos || [];
   const contratosAtivos = contratosDisponiveis.filter(
-      (c) => c !== null && c !== undefined
-    );
-    const qtdContratosAtuais = contratosAtivos.length;
+    (c) => c !== null && c !== undefined
+  );
+  const qtdContratosAtuais = contratosAtivos.length;
   const getSlotsLiberados = () => {
     const porteEmpresa = economiaSetores.porteEmpresa || [];
 
@@ -28,13 +30,13 @@ export const ModalBank = ({ banco }) => {
     return 1;
   };
 
-    const slotsLiberados = getSlotsLiberados();
-    const slotsDisponiveis = slotsLiberados - qtdContratosAtuais; // MUDANÇA: agora considera slots liberados
-    
-    const jaTemContratoBanco = contratosAtivos.some(
-        (c) => c?.bancoId === banco.id
-    );
-    
+  const slotsLiberados = getSlotsLiberados();
+  const slotsDisponiveis = slotsLiberados - qtdContratosAtuais; // MUDANÇA: agora considera slots liberados
+
+  const jaTemContratoBanco = contratosAtivos.some(
+    (c) => c?.bancoId === banco.id
+  );
+
   const patrimonio = economiaSetores.patrimonio || 0;
 
   const setVision = (newVision) => {
@@ -86,8 +88,6 @@ export const ModalBank = ({ banco }) => {
     },
   };
 
-
-
   const calcularLimiteEmprestimo = (contrato) => {
     if (!contrato) return 0;
     const multiplicador = config.emprestimos[contrato.emprestimo]?.mult || 1;
@@ -127,7 +127,7 @@ export const ModalBank = ({ banco }) => {
           ? "Você atingiu o limite de 2 contratos! Evolua sua empresa para 'Corporação Multissetorial' para desbloquear o 3º slot."
           : "Limite máximo de 3 contratos atingido!";
 
-      return alert(mensagemLimite);
+      return  setShowConfirmModal(false), setSelectedCard(null),setShowModalSlot(true), setMessageSlot(mensagemLimite) ;
     }
 
     // Validação 2: Banco duplicado
@@ -957,6 +957,25 @@ export const ModalBank = ({ banco }) => {
           </div>
         ))}
       </div>
+  {showModalSlot && (
+
+  
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]">
+    <div className="bg-slate-800 rounded-2xl p-8 max-w-md w-full mx-4">
+      <h3 className="text-2xl font-bold text-white mb-4">Atenção</h3>
+      <p className="text-slate-300 mb-4">{messageSlot}</p>
+      <button
+        onClick={() => {
+          setShowModalSlot(false)
+        }}
+        className="flex-1 py-3 px-2 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl font-bold transition-all"
+      >
+        Entendido
+      </button>
+    </div>
+  </div>
+  )
+  }
 
       {/* Modal de confirmação */}
       {showConfirmModal && selectedCard && (
@@ -1014,4 +1033,9 @@ export const ModalBank = ({ banco }) => {
       )}
     </div>
   );
+};
+
+const ModalSlot = ({ msg }) => {
+  
+
 };
