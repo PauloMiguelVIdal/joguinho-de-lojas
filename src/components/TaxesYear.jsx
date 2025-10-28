@@ -71,16 +71,19 @@ export function TaxesYear() {
   };
   const proximoDia = proximoDiaChegar(dados.dia);
   
+  // ✅ Atualiza contador de dias até próximo pagamento
   useEffect(() => {
+    if (!economiaSetores.despesasImpostoAnual) return;
+    
     atualizarEcoProf(["despesasImpostoAnual"], {
       ...economiaSetores.despesasImpostoAnual,
       proximoPagamento: proximoDia,
     });
   }, [dados.dia]);
 
-  // ✅ NOVO: useEffect para calcular patrimônio quando edifícios mudam (sem alterar imposto acumulado)
+  // ✅ Atualiza patrimônio quando edifícios mudam (sem alterar imposto acumulado)
   useEffect(() => {
-    if (dados.dia < 270) return; // Só depois do dia 270
+    if (dados.dia < 270) return;
 
     let patrimonioGlobal = 0;
 
@@ -90,7 +93,7 @@ export function TaxesYear() {
 
       const patrimonioSetor = calcularPatrimonioSetor(setor, dados);
 
-      // Atualiza apenas o patrimônio atual (sem mexer no imposto acumulado)
+      // Atualiza apenas o patrimônio atual
       atualizarEcoProf([setor, "economiaSetor"], {
         ...setorData,
         patrimonio: patrimonioSetor,
@@ -103,14 +106,15 @@ export function TaxesYear() {
     atualizarEcoProf(["patrimonioGlobal"], patrimonioGlobal);
 
   }, [
-    // Monitora mudanças nos edifícios de todos os setores
     ...setoresArr.map(setor => dados[setor]?.edificios)
   ]);
 
-  // 🔹 Calcula e registra imposto mensal no fim de cada mês (para histórico)
+  // 🔹 Calcula e ACUMULA imposto mensal no fim de cada mês
   useEffect(() => {
     if (dados.dia < 270) return;
     if (dados.dia % 30 !== 0) return;
+
+    let impostoTotalMes = 0;
 
     setoresArr.forEach((setor) => {
       const setorData = economiaSetores[setor]?.economiaSetor;
@@ -119,9 +123,12 @@ export function TaxesYear() {
       const patrimonioSetor = calcularPatrimonioSetor(setor, dados);
       const valorImpostoMes = (patrimonioSetor * setorData.percImpostoAnualAtual) / 12 / 100;
 
-      // ✅ Registra no histórico mensal (mantém o registro para relatórios)
+      // ✅ ACUMULA o imposto no setor
+      const novoValorAcumulado = (setorData.valorImpostoAnualAtual || 0) + valorImpostoMes;
+
       atualizarEcoProf([setor, "economiaSetor"], {
         ...setorData,
+        valorImpostoAnualAtual: novoValorAcumulado,
         arrValorImpostoAnualPorMes: [
           ...(setorData.arrValorImpostoAnualPorMes || []),
           valorImpostoMes,
@@ -132,16 +139,24 @@ export function TaxesYear() {
             patrimonio: patrimonioSetor,
             percImposto: setorData.percImpostoAnualAtual,
             valorImposto: valorImpostoMes,
+            valorAcumulado: novoValorAcumulado,
           },
         },
       });
+
+      impostoTotalMes += valorImpostoMes;
     });
+
+    // ✅ ACUMULA no imposto global
+    const impostoGlobalAtual = economiaSetores.valorImpostoAnual || 0;
+    atualizarEcoProf(["valorImpostoAnual"], impostoGlobalAtual + impostoTotalMes);
 
     // 🔹 No dia 360 marca imposto como pendente
     if (dados.dia % 360 === 0) {
-      const impostoAnualGlobal = economiaSetores.valorImpostoAnual || 0;
+      const impostoAnualGlobal = (economiaSetores.valorImpostoAnual || 0) + impostoTotalMes;
       
       atualizarEcoProf(["despesasImpostoAnual"], {
+        ...economiaSetores.despesasImpostoAnual,
         diaPagarImpostoAnual: true,
         impostoAnualPago: false,
         proximoPagamento: 0,
@@ -157,11 +172,21 @@ export function TaxesYear() {
     }
   }, [dados.dia]);
 
-  // 🔹 Função que paga o imposto anual (quando clicar no botão)
+  // 🔹 Função que paga o imposto anual
   const pagarImpostoAnual = () => {
     if (!economiaSetores.despesasImpostoAnual?.diaPagarImpostoAnual) return;
 
     const valor = economiaSetores.valorImpostoAnual || 0;
+
+    // Verifica se tem saldo suficiente
+    if (economiaSetores.saldo < valor) {
+      atualizarEcoProf(["modalImpostoAnual"], {
+        estadoModal: true,
+        head: "Saldo Insuficiente",
+        content: `Você precisa de ${valor.toFixed(2)} mas tem apenas ${economiaSetores.saldo.toFixed(2)} disponível.`,
+      });
+      return;
+    }
 
     // Desconta do saldo
     atualizarEcoProf(["saldo"], economiaSetores.saldo - valor);
@@ -181,6 +206,7 @@ export function TaxesYear() {
 
     // Atualiza flags
     atualizarEcoProf(["despesasImpostoAnual"], {
+      ...economiaSetores.despesasImpostoAnual,
       diaPagarImpostoAnual: false,
       impostoAnualPago: true,
       proximoPagamento: 360,
@@ -196,7 +222,7 @@ export function TaxesYear() {
     atualizarEcoProf(["valorImpostoAnual"], 0);
   };
 
-  // 🔹 Tooltip customizado (mesmo estilo para todos os botões)
+  // 🔹 Tooltip customizado
   const tooltipStyle = {
     backgroundColor: "#FFFFFF",
     color: "#350973",
@@ -234,10 +260,10 @@ export function TaxesYear() {
         <div className="flex justify-center items-center w-full">
           <h2
             data-tooltip-id="dias-tip"
-            data-tooltip-content="Esse é o número de dias restantes para o pagamento do imposto anual" 
+            data-tooltip-content={`Faltam ${proximoDia} dias. Imposto acumulado: ${(economiaSetores.valorImpostoAnual || 0).toFixed(2)}`}
             className="text-white text-[20px] fonteBold"
           >
-            {economiaSetores.despesasImpostoAnual.proximoPagamento}
+            {economiaSetores.despesasImpostoAnual?.proximoPagamento || proximoDia}
             <Tooltip id="dias-tip" style={tooltipStyle} />
           </h2>
         </div>
@@ -246,13 +272,18 @@ export function TaxesYear() {
     );
   } else if (
     dados.dia % 360 === 0 &&
-    economiaSetores.despesasImpostoAnual.impostoAnualPago === false
+    economiaSetores.despesasImpostoAnual?.impostoAnualPago === false
   ) {
     return (
       <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative">
         <div className="flex justify-center items-center w-full">
-          <h2 className="text-white text-[20px] fonteBold">
-            {economiaSetores.despesasImpostoAnual.proximoPagamento}
+          <h2 
+            data-tooltip-id="valor-tip"
+            data-tooltip-content={`Imposto a pagar: ${(economiaSetores.valorImpostoAnual || 0).toFixed(2)}`}
+            className="text-white text-[20px] fonteBold"
+          >
+            {economiaSetores.despesasImpostoAnual?.proximoPagamento || 0}
+            <Tooltip id="valor-tip" style={tooltipStyle} />
           </h2>
         </div>
         {renderButton("Você precisa pagar o imposto anual, clique aqui para pagar!")}
@@ -269,7 +300,7 @@ export function TaxesYear() {
       <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative">
         <div className="flex justify-center items-center w-full">
           <h2 className="text-white text-[20px] fonteBold">
-            {economiaSetores.despesasImpostoAnual.proximoPagamento}
+            {economiaSetores.despesasImpostoAnual?.proximoPagamento || 360}
           </h2>
         </div>
         {renderButton("Imposto anual já pago, confira seu patrimônio")}

@@ -1565,7 +1565,7 @@ const arraysFinanceiros = {
                         <h1 className="text-white fonteBold text-[20px] mr-[20px]">
                           {formatarNumero(
                             economiaSetores[ativo].economiaSetor
-                              .valorImpostoAnualAtual
+                              .patrimonio
                           )}
                         </h1>
                       </div>
@@ -1588,8 +1588,8 @@ const arraysFinanceiros = {
                         </div>
                         <h1 className="text-white fonteBold text-[20px] mr-[20px]">
                           {
-                            economiaSetores[ativo].economiaSetor
-                              .percImpostoAnualAtual
+                            ((economiaSetores[ativo].economiaSetor
+                              .percImpostoAnualAtual)/12.).toFixed(2)
                           }
                           %
                         </h1>

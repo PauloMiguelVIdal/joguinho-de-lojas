@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import fechar from "../../public/outrasImagens/fechar.png";
 import { Localizador } from "./localizador";
@@ -13,6 +13,8 @@ const RaffledBuildings = () => {
   const [ModalObjOpen, setIsModalObjOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [campanhaSelecionada, setCampanhaSelecionada] = useState(null);
+const [modalConclusao, setModalConclusao] = useState(false);
+const [objetivoConcluido, setObjetivoConcluido] = useState(false);
 
   const setoresArr = [
     "agricultura",
@@ -280,10 +282,10 @@ const RaffledBuildings = () => {
       [copyS, copyA, copyB, copyC].forEach((arr) => removeFromArray(arr, nome));
     });
 
-    const qtdS = Math.max(0, 2 - obrigatoriosS);
-    const qtdA = Math.max(0, 3 - obrigatoriosA);
-    const qtdB = Math.max(0, 5 - obrigatoriosB);
-    const qtdC = Math.max(0, 8 - obrigatoriosC);
+    const qtdS = Math.max(0, 0 - obrigatoriosS);
+    const qtdA = Math.max(0, 0 - obrigatoriosA);
+    const qtdB = Math.max(0, 0 - obrigatoriosB);
+    const qtdC = Math.max(0, 0 - obrigatoriosC);
 
     const sorteados = [
       ...getRandomItems(copyS, qtdS),
@@ -316,7 +318,55 @@ const RaffledBuildings = () => {
 
   const fecharModal = () => setIsModalObjOpen(false);
   
+// 🔹 Verificar se todos os objetivos foram concluídos
+const verificarConclusao = () => {
+  if (!campanhaSelecionada || selectedItems.length === 0) return false;
+
+  const todosCompletos = selectedItems.every((ed) => {
+    const setores = [
+      "agricultura",
+      "tecnologia",
+      "comercio",
+      "industria",
+      "imobiliario",
+      "energia",
+    ];
+    
+    for (const setor of setores) {
+      const edificio = dados[setor]?.edificios?.find((e) => e.nome === ed.nome);
+      if (edificio && edificio.quantidade > 0) {
+        return true;
+      }
+    }
+    return false;
+  });
+
+  return todosCompletos;
+};
+
+// 🔹 useEffect para verificar conclusão automaticamente
+useEffect(() => {
+  if (campanhaSelecionada && !objetivoConcluido) {
+    const concluido = verificarConclusao();
+    if (concluido) {
+      setObjetivoConcluido(true);
+      setModalConclusao(true);
+    }
+  }
+}, [dados, campanhaSelecionada, selectedItems, objetivoConcluido]);
+
+const continuarJogo = () => {
+  setModalConclusao(false);
+};
+
+const encerrarJogo = () => {
+  window.location.reload();
+};
+
+{/* 🎉 MODAL DE CONCLUSÃO */}
+
 if(dados.dia<270) return null;
+
 if(dados.dia>=270){
 
   return (
@@ -464,6 +514,67 @@ if(dados.dia>=270){
           </motion.div>
         </div>
       )}
+      {modalConclusao && (
+  <div className="flex justify-center items-center z-[60] bg-black bg-opacity-95 w-[100vw] h-[100vh] fixed top-0 left-0 select-none">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.5, y: -100 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.5, type: "spring", stiffness: 120 }}
+      className="w-[90vw] max-w-[600px] bg-gradient-to-br from-[#6A00FF] via-[#8B00FF] to-[#F27405] rounded-[30px] p-8 relative shadow-2xl"
+    >
+      <div className="bg-[#1a0a3b] rounded-[20px] p-8 flex flex-col items-center gap-6">
+        <motion.h1
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
+          className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#F27405] to-[#FFD700] text-center"
+        >
+          🎉 PARABÉNS! 🎉
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.4 }}
+          className="text-white text-xl text-center fonteBold"
+        >
+          Você completou todos os objetivos da campanha
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.4 }}
+          className="text-[#F27405] text-3xl font-bold text-center"
+        >
+          {campanhaSelecionada}
+        </motion.p>
+
+        <div className="w-full h-[3px] bg-gradient-to-r from-transparent via-[#F27405] to-transparent"></div>
+
+        <div className="flex gap-4 w-full mt-4">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={continuarJogo}
+            className="flex-1 bg-gradient-to-r from-[#6A00FF] to-[#8B00FF] text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
+          >
+            Continuar Jogo
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={encerrarJogo}
+            className="flex-1 bg-gradient-to-r from-[#F27405] to-[#FF8C00] text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-orange-500/50 transition-all duration-300"
+          >
+            Encerrar Jogo
+          </motion.button>
+        </div>
+      </div>
+    </motion.div>
+  </div>
+)}
     </div>
   );
 }

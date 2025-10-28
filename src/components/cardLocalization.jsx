@@ -1078,12 +1078,12 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                                             }
                                         </div>
                                     </div>
-                                    <div className="w-[35%] h-full aspect-square flex justify-between items-center">
+                                    <div className="w-[35%] h-full aspect-square flex justify-between items-center"> 
                                         <div
                                             onClick={() => { handleMouseEnter(), handleShow('powerUp') }}
                                             className="w-full h-[80%] flex justify-center items-center drop-shadow-2xl">
                                             <div className="h-full w-full aspect-square flex justify-center items-center">
-                                                <div style={{ backgroundColor: setorInfo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] "> {/* Adicionei o `relative` aqui */}
+                                                <div style={{ backgroundColor: setorInfo.cor3 }} className="flex justify-center items-center w-full h-full rounded-[10px] ">
                                                     <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%, ${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)` }} onClick={() => handleFlip()} className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.20] duration-300 ease-in-out delay-[0.1s] cursor-pointer">
                                                         <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                                                     </div>

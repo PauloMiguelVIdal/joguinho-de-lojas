@@ -6,7 +6,7 @@ const DadosEconomyGlobalContext = createContext();
 // Provedor do contexto
 const DadosEconomyGlobalProvider = ({ children }) => {
   const [economiaSetores, setEconomiaSetores] = useState({
-    saldo: 100000000,
+    saldo: 1000000000000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
@@ -1093,6 +1093,14 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       //     RelatórioMensalImpostoAnual: {}
       //   }
     },
+      patrimonioGlobal: 0,
+  valorImpostoAnual: 0,
+
+      despesasImpostoAnual: {
+    diaPagarImpostoAnual: false,
+    impostoAnualPago: false,
+    proximoPagamento: 360,
+  },
   });
 
   const atualizarDadosEconomy = (caminho, novoValor) => {
