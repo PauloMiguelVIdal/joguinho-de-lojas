@@ -1699,11 +1699,11 @@ const arraysFinanceiros = {
               <img
                 src={solo}
                 alt="Terreno"
-                className="w-[700px] h-[600px] top-[100px] relative z-[10]"
+                className="w-[700px] h-[600px] top-[100px] relative z-[1]"
               />
 
               {/* Prédio */}
-              <div className="absolute bottom-[-100px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[10]">
+              <div className="absolute bottom-[-100px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[5]">
                 <img
                   src={buildBusiness}
                   alt="Prédio"
@@ -1719,7 +1719,7 @@ const arraysFinanceiros = {
               />
 
               {/* Container dos botões no canto inferior direito */}
-              <div className="absolute top-4 left-4 z-[10] flex flex-col gap-2">
+              <div className="absolute top-4 left-4 z-[5] flex flex-col gap-2">
                 {/* Botão do Computador */}
                 <button
                   onClick={abrirBanco}
@@ -1734,7 +1734,7 @@ const arraysFinanceiros = {
                   />
                 </button>
               </div>
-              <div className="absolute top-4 right-4 z-[10] flex flex-col gap-2">
+              <div className="absolute top-4 right-4 z-[5] flex flex-col gap-2">
                 {/* Botão do Computador */}
                 <button
                   onClick={() => {

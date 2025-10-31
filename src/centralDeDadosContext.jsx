@@ -15,7 +15,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
     animarCicloDia: null,
-    dia: 260,
+    dia: 1,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -44,6 +44,11 @@ const CentraldeDadosProvider = ({ children }) => {
       head: "",
       content: ""
     },
+modalPerson: {
+  estadoModal: false,
+  texto: "",
+  tipo: "pensamento"
+},
     modalAchievements: {
       estadoModal: false,
       lojaConquistada: "",

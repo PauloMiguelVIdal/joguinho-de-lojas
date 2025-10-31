@@ -25,7 +25,7 @@ import { TaxesYear } from "./components/TaxesYear.jsx";
 import ModalAlert from "./components/ModalAlert.jsx";
 import PatrimonioInterface from "./components/PatrimonioInterface.jsx";
 import NewStage from "./components/NewStage.jsx"
-
+import ModalPerson from "./components/ModalPerson.jsx";
 import ToggleButton from "./components/ToggleButton.jsx";
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
@@ -52,6 +52,7 @@ function Interface() {
             <Employees />
             <Notificação />
             <ModalAlert/>
+            <ModalPerson/>
             <div className="w-[20vw] h-[100vh] flex items-center justify-around">
                 <Buy />
             </div>

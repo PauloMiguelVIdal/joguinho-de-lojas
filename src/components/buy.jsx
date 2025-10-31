@@ -2252,7 +2252,7 @@ export default function Buy() {
                 justifyContent: "space-between",
               }}
             >
-              <Box className="flex justify-between">
+           
                 <GradientBox>
                   <Box
                     data-tooltip-id="tooltip-lojam-tipo"
@@ -2267,7 +2267,7 @@ export default function Buy() {
                     </Typography>
                   </Box>
                 </GradientBox>
-              </Box>
+             
               <Box
                 sx={{ mt: 0.5, ml: 2.5 }}
                 data-tooltip-id="tooltip-lojam-preco"
