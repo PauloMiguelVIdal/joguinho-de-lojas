@@ -5,7 +5,8 @@ import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { ModalBank } from "../components/ModalBank.jsx";
 import maps from "../../public/outrasImagens/maps.png";
 import backButton from "../../public/outrasImagens/back-button.png";
-
+import closeAudio from "../../public/sounds/closeAudio.mp3";
+import useSound from "use-sound";
 
 const BankSelection = () => {
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
@@ -16,6 +17,11 @@ const BankSelection = () => {
 
   const [banksModal, setBanksModal] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+
+
+  const [buttonCloseAudio] = useSound(closeAudio);
+
+
 
   const contratosArray = economiaSetores?.contratosBancos ?? [];
   const valueMaxH = !contratosArray.length ? 80 : 80;
@@ -1096,7 +1102,7 @@ const ListaContratosAtivos = () => {
         <div>
           <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
           <button
-            onClick={() => setVision("mapa")}
+            onClick={() =>{ setVision("mapa"), buttonCloseAudio()}}
             data-tooltip-id="tooltip-faturado"
             data-tooltip-html="Voltar"
             className="h-full w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"

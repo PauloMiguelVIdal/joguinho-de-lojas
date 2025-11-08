@@ -1722,7 +1722,7 @@ const arraysFinanceiros = {
               <div className="absolute top-4 left-4 z-[5] flex flex-col gap-2">
                 {/* Botão do Computador */}
                 <button
-                  onClick={abrirBanco}
+                  onClick={() => {abrirBanco(),buttonOpenAudio()}}
                   data-tooltip-id="saldo-tip"
                   data-tooltip-content="Abrir Bancos"
                   className="w-[100px] h-[100px] bg-laranja rounded-[15px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] transition-transform"
@@ -1739,6 +1739,7 @@ const arraysFinanceiros = {
                 <button
                   onClick={() => {
                     setBusinessLicenceModal(true);
+                    buttonOpenAudio()
                   }}
                   data-tooltip-id="saldo-tip"
                   data-tooltip-content="Abrir Licenças Empresariais"
