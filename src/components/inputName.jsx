@@ -33,7 +33,7 @@ const InputName = () => {
         return (
             <div className='flex justify-center items-center w-[100vw] h-[100vh] z-20 bg-black opacity-[95%] absolute' >
                 <div className='w-[60vw] h-[60vh] bg-roxo rounded-[10px] flex justify-center items-center p-10 flex-col' >
-                    <h1 className='fonteBold text-white mb-[10px] text-[25px]'>ESCOLHA O NOME DE SUAS LOJAS</h1>
+                    <h1 className='fonteBold text-white mb-[10px] text-[25px]'>ESCOLHA O NOME DA SUA EMPRESA</h1>
                     <h2 className='fonteBold text-white mb-[60px] text-[20px] opacity-70'>O nome da sua empresa é a primeira impressão que seus clientes terão. Escolha com cuidado e criatividade!</h2>
                     <div className='flex justify-center w-full items-center'>
                         <input

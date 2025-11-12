@@ -1394,7 +1394,7 @@ const arraysFinanceiros = {
                     </div>
 
                     {/* Licenças */}
-                    <div className="flex gap-2 h-full">
+                    {/* <div className="flex gap-2 h-full">
                       <button
                         data-tooltip-id="tooltip-licenca"
                         data-tooltip-html="Abrir menu de licenças empresariais"
@@ -1406,7 +1406,7 @@ const arraysFinanceiros = {
                       >
                         <img className="w-[70%]" src={licença} />
                       </button>
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* Linha de métricas */}

@@ -6,7 +6,7 @@ import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import EconomyGlobal from "./EconomyGlobal";
 import BankInterface from "./BankInterface";
-
+import LoanCarousel from "./LoanCarousel";
 const SidebarCards = ({ banco, cartao, setor }) => {
   const { dados, atualizarDados, atualizarDadosProf } = useContext(
     CentraldeDadosContext
@@ -15,21 +15,21 @@ const SidebarCards = ({ banco, cartao, setor }) => {
     DadosEconomyGlobalContext
   );
 
-const contratos = economiaSetores?.contratosBancos || [];
+  const contratos = economiaSetores?.contratosBancos || [];
 
-const getSlotsLiberados = () => {
-  const porteEmpresa = economiaSetores.porteEmpresa || [];
-  
-  // 7º nível (índice 6) - Corporação Multissetorial
-  const corporacaoMulti = porteEmpresa[6]?.status || false;
-  
-  // 4º nível (índice 3) - Companhia Local
-  const companiaLocal = porteEmpresa[3]?.status || false;
-  
-  if (corporacaoMulti) return 3; // 3 slots
-  if (companiaLocal) return 2;   // 2 slots
-  return 1;                       // 1 slot inicial
-};
+  const getSlotsLiberados = () => {
+    const porteEmpresa = economiaSetores.porteEmpresa || [];
+
+    // 7º nível (índice 6) - Corporação Multissetorial
+    const corporacaoMulti = porteEmpresa[6]?.status || false;
+
+    // 4º nível (índice 3) - Companhia Local
+    const companiaLocal = porteEmpresa[3]?.status || false;
+
+    if (corporacaoMulti) return 3; // 3 slots
+    if (companiaLocal) return 2; // 2 slots
+    return 1; // 1 slot inicial
+  };
 
   const slotsLiberados = getSlotsLiberados();
 
@@ -42,10 +42,6 @@ const getSlotsLiberados = () => {
     });
   };
 
-
-
-
-
   const testeId = (id) => {
     const indice = economiaSetores.contratosBancos.findIndex(
       (c) => c.cartaoId === id
@@ -54,16 +50,13 @@ const getSlotsLiberados = () => {
     return indice;
   };
 
-
-
-
- const abrirInterfaceBanco = (cartaoId) => {
-  const indice = contratos.findIndex((c) => c?.cartaoId === cartaoId);
-  if (indice !== -1) {
-    atualizarEco("idContrato", indice); // Define contrato ativo
-    setVision("bankInterface");          // Abre interface
-  }
-};
+  const abrirInterfaceBanco = (cartaoId) => {
+    const indice = contratos.findIndex((c) => c?.cartaoId === cartaoId);
+    if (indice !== -1) {
+      atualizarEco("idContrato", indice); // Define contrato ativo
+      setVision("bankInterface"); // Abre interface
+    }
+  };
 
   //    const limite = parseInt(cartao.limiteEmprestimo);
   //         const usado = parseInt(cartao.limiteUsado);
@@ -75,29 +68,25 @@ const getSlotsLiberados = () => {
   const contrato2 = economiaSetores.contratosBancos[1];
   const contrato3 = economiaSetores.contratosBancos[2];
 
-
-const SlotVazio = ({ index }) => (
-  <div 
-    onClick={() => setVision("bank")}
-    className="w-[280px] h-[160px] rounded-3xl bg-gradient-to-br from-gray-700/30 to-gray-800/30 border-2 border-dashed border-gray-500/50 backdrop-blur-sm relative overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 group"
-  >
-    {/* Conteúdo do slot vazio */}
-  </div>
-);
-
-const SlotBloqueado = ({ index }) => {
-  const porteNecessario = index === 1 
-    ? "Companhia Local" 
-    : "Corporação Multissetorial";
-  
-  return (
-    <div className="w-[280px] h-[160px] rounded-3xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-2 border-gray-700/50 backdrop-blur-sm relative overflow-hidden">
-      {/* Conteúdo do slot bloqueado */}
+  const SlotVazio = ({ index }) => (
+    <div
+      onClick={() => setVision("bank")}
+      className="w-[280px] h-[160px] rounded-3xl bg-gradient-to-br from-gray-700/30 to-gray-800/30 border-2 border-dashed border-gray-500/50 backdrop-blur-sm relative overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 group"
+    >
+      {/* Conteúdo do slot vazio */}
     </div>
   );
-};
 
+  const SlotBloqueado = ({ index }) => {
+    const porteNecessario =
+      index === 1 ? "Companhia Local" : "Corporação Multissetorial";
 
+    return (
+      <div className="w-[280px] h-[160px] rounded-3xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-2 border-gray-700/50 backdrop-blur-sm relative overflow-hidden">
+        {/* Conteúdo do slot bloqueado */}
+      </div>
+    );
+  };
 
   const GeometricChaosCard = ({ cartao }) => (
     <div
@@ -105,11 +94,11 @@ const SlotBloqueado = ({ index }) => {
       style={{
         background: `linear-gradient(45deg, ${cartao.cor1} 0%, ${cartao.cor2} 25%, ${cartao.cor3} 50%, ${cartao.cor4} 75%, ${cartao.cor1} 100%)`,
       }}
-onClick={() => {
-  setSelectedCard(cartao.id);
-  abrirInterfaceBanco(cartao.id);
-  console.log("Cartão selecionado:", cartao.id);
-}}
+      onClick={() => {
+        setSelectedCard(cartao.id);
+        abrirInterfaceBanco(cartao.id);
+        console.log("Cartão selecionado:", cartao.id);
+      }}
     >
       {/* Losangos e retângulos com pulse */}
       <div className="absolute inset-0">
@@ -172,11 +161,11 @@ onClick={() => {
       style={{
         background: `conic-gradient(from 0deg, ${cartao.cor1}, ${cartao.cor2}, ${cartao.cor3}, ${cartao.cor4}, ${cartao.cor1})`,
       }}
-onClick={() => {
-  setSelectedCard(cartao.id);
-  abrirInterfaceBanco(cartao.id);
-  console.log("Cartão selecionado:", cartao.id);
-}}
+      onClick={() => {
+        setSelectedCard(cartao.id);
+        abrirInterfaceBanco(cartao.id);
+        console.log("Cartão selecionado:", cartao.id);
+      }}
     >
       <div className="absolute inset-0">
         <div
@@ -240,11 +229,11 @@ onClick={() => {
       style={{
         background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 50%, ${cartao.cor3} 100%)`,
       }}
-onClick={() => {
-  setSelectedCard(cartao.id);
-  abrirInterfaceBanco(cartao.id);
-  console.log("Cartão selecionado:", cartao.id);
-}}
+      onClick={() => {
+        setSelectedCard(cartao.id);
+        abrirInterfaceBanco(cartao.id);
+        console.log("Cartão selecionado:", cartao.id);
+      }}
     >
       {/* Formas geométricas */}
       <div className="absolute inset-0">
@@ -307,11 +296,11 @@ onClick={() => {
       style={{
         background: `radial-gradient(circle at top right, ${cartao.cor3} 0%, ${cartao.cor2} 50%, ${cartao.cor1} 100%)`,
       }}
-onClick={() => {
-  setSelectedCard(cartao.id);
-  abrirInterfaceBanco(cartao.id);
-  console.log("Cartão selecionado:", cartao.id);
-}}
+      onClick={() => {
+        setSelectedCard(cartao.id);
+        abrirInterfaceBanco(cartao.id);
+        console.log("Cartão selecionado:", cartao.id);
+      }}
     >
       {/* Hexágonos */}
       <div className="absolute inset-0">
@@ -398,11 +387,11 @@ onClick={() => {
       style={{
         background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 33%, ${cartao.cor3} 66%, ${cartao.cor4} 100%)`,
       }}
-onClick={() => {
-  setSelectedCard(cartao.id);
-  abrirInterfaceBanco(cartao.id);
-  console.log("Cartão selecionado:", cartao.id);
-}}
+      onClick={() => {
+        setSelectedCard(cartao.id);
+        abrirInterfaceBanco(cartao.id);
+        console.log("Cartão selecionado:", cartao.id);
+      }}
     >
       {/* Ondas */}
       <div className="absolute inset-0 hover:animate-geometric-pulse">
@@ -556,24 +545,36 @@ onClick={() => {
 
     if (index < slotsLiberados) {
       return contrato ? (
-        <div key={index} className="mb-2 bg-white/5 backdrop-blur-sm rounded-3xl p-5 border border-white/10">
+        <div
+          key={index}
+          className=" rounded-3xl w-full flex items-center justify-center"
+        >
           {renderCartao(contratoParaCartao(contrato))}
         </div>
       ) : (
-       <div key={index} className="mb-2 bg-white/5 backdrop-blur-sm rounded-3xl p-5 border border-white/10">
+        <div
+          key={index}
+          className=" rounded-3xl border w-full flex items-center justify-center"
+        >
           <SlotVazio />
+        
         </div>
       );
     } else {
-      return (  <div key={index} className="mb-2 bg-white/5 backdrop-blur-sm rounded-3xl p-5 border border-white/10">
+      return (
+        <div
+          key={index}
+          className="flex items-center  justify-center rounded-3xl w-full"
+        >
           <SlotBloqueado index={index} />
         </div>
       );
-    }
+    } 
   });
   return (
-    <div className="h-[95vh] rounded-xl w-full flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#350973] via-[#6411D9] to-[#6411D9] p-6 overflow-y-auto">
-      {slots}
+    <div className="h-[95vh] rounded-xl w-full flex flex-col items-center justify-around gap-4 bg-gradient-to-br from-[#350973] via-[#6411D9] to-[#6411D9]  overflow-y-auto">
+    {slots}
+        <LoanCarousel/>
     </div>
   );
 };
