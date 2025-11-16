@@ -41,12 +41,12 @@ const InputName = () => {
                             placeholder="Nome empresa"
                             onChange={handleChangeNome}
                             value={novoNome}
-                            className="placeholder:text-white text-white placeholder:opacity-70 z-50 text-[25px] fonteBold w-[100%] pl-[10px] h-[60px] bg-[#290064] bg-opacity-[90%] rounded-[17.50px]"
+                            className="placeholder:text-white text-white placeholder:opacity-70 z-50 text-[25px] fonteBold w-[100%] pl-[15px] h-[60px] bg-[#290064] bg-opacity-[90%] rounded-[17.50px]"
                         />
                             
                         <button
                             onClick={atualizarContexto}
-                            className="flex justify-center items-center h-[60px] w-[60px] ml-[10px] aspect-square text-[20px] fonteBold bg-laranja rounded-[20px] text-white  z-50"
+                            className="flex justify-center items-center h-[60px] w-[60px] ml-[10px] aspect-square text-[20px] fonteBold bg-laranja rounded-[20px] text-white hover:scale-105 hover:bg-orange-600 z-50"
                         >
                             <img className='h-[60%]' src={correto} alt="correto" />                        </button>
                     </div>

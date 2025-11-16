@@ -27,6 +27,8 @@ import PatrimonioInterface from "./components/PatrimonioInterface.jsx";
 import NewStage from "./components/NewStage.jsx"
 import ModalPerson from "./components/ModalPerson.jsx";
 import ToggleButton from "./components/ToggleButton.jsx";
+import { InfoPage } from "./components/Info.jsx";
+import ModalInfo from "./components/ModalInfo.jsx";
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
@@ -53,6 +55,7 @@ function Interface() {
             <Notificação />
             <ModalAlert/>
             <ModalPerson/>
+            <ModalInfo/>
             <div className="w-[20vw] h-[100vh] flex items-center justify-around">
                 <Buy />
             </div>
@@ -106,7 +109,7 @@ function Interface() {
     <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3 min-h-0 overflow-y-auto">
       <ActiveEvents />
     </div>
-
+<InfoPage/>
   </div>
 )}
             </div>
