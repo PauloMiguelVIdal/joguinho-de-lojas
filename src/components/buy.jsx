@@ -513,8 +513,7 @@ export default function Buy() {
                      <Box className="flex justify-between">
                   <GradientBox className="w-[70%]">
                     <Box
-                      data-tooltip-id="tooltip-terreno-tipo"
-                      data-tooltip-html="Tipo de construção básica usada como base para outros imóveis"
+
                     >
                       <Typography
                         variant="subtitle1"
@@ -542,8 +541,7 @@ export default function Buy() {
                       }}
                     >
                       <Box
-                        data-tooltip-id="tooltip-lojag-tipo"
-                        data-tooltip-html="Construção grande, exige terrenos como base"
+
                       >
                         <Typography
                           variant="subtitle1"
@@ -562,11 +560,12 @@ export default function Buy() {
                   <Box
                           className="flex justify-between"
                     sx={{ mt: 0.5 }}
-                    data-tooltip-id="tooltip-terreno-preco"
-                    data-tooltip-html="Preço unitário para comprar um terreno"
+
                   >
                     <Box
                      className="w-[50%] "
+                                         data-tooltip-id="tooltip-terreno-preco"
+                    data-tooltip-html="Custo total para comprar um terreno"
                       mt={0.5}
                       sx={{
                         bgcolor: "#6411D9",
@@ -671,7 +670,7 @@ export default function Buy() {
                     data-tooltip-id="tooltip-lojag-comprar"
                     data-tooltip-html={`<div>
           <p>Comprar terreno</p>
-   <p style="margin-top:4px;">Dependendo do imóvel que você for construir, você vai precisar de um número mínimo de terrenos.</p>
+   <p style="margin-top:4px;">Dependendo do imóvel que você for construir, você <br/> vai precisar de um número mínimo de terrenos.</p>
               <p style="margin-top:4px;"><b>Imóvel pequeno</b> - 1 terreno.<br/><b>Imóvel médio</b> - 2 terrenos.<br/><b>Imóvel grande</b> - 3 terrenos.</p>
        
         </div>`}
@@ -850,8 +849,7 @@ export default function Buy() {
                   <Box className="flex justify-between">
                   <GradientBox className="w-[70%]">
                     <Box
-                      data-tooltip-id="tooltip-lojap-tipo"
-                      data-tooltip-html="Tipo de construção básica usada como base para outros imóveis"
+
                     >
                       <Typography
                         variant="subtitle1"
@@ -879,8 +877,7 @@ export default function Buy() {
                       }}
                     >
                       <Box
-                        data-tooltip-id="tooltip-lojag-tipo"
-                        data-tooltip-html="Construção grande, exige terrenos como base"
+
                       >
                         <Typography
                           variant="subtitle1"
@@ -897,12 +894,13 @@ export default function Buy() {
                   <Box
                  className="flex justify-between"
                     sx={{ mt: 0.5 }}
-                    data-tooltip-id="tooltip-lojap-preco"
-                    data-tooltip-html="Preço unitário para construir um imóvel pequeno no terreno"
+                  
                   >
                     <Box
                         className="w-[50%] "
                       mt={0.5}
+                                                data-tooltip-id="tooltip-lojap-preco"
+                    data-tooltip-html="Custo total para construir um imóvel pequeno no terreno"
                       sx={{
                         bgcolor: "#6411D9",
                         borderRadius: "2px",
@@ -911,6 +909,7 @@ export default function Buy() {
                         alignItems: "center",
                         px: 1,
                         py: 0.25,
+                        
                       }}
                     >
                       <Typography
@@ -924,6 +923,7 @@ export default function Buy() {
                         variant="subtitle1"
                         color="white"
                         fontWeight="bold"
+
                       >
                                                 {formatarNumero(
                           dados.lojasP.preçoConstrução * quantidadeLojasP
@@ -1008,7 +1008,7 @@ export default function Buy() {
                     data-tooltip-id="tooltip-lojap-comprar"
                     data-tooltip-html={`<div>
           <p>Comprar imóvel pequeno</p>
-          <p style="margin-top:4px;">Precisa de 1 terreno para poder construir em cima dele.</p>
+          <p style="margin-top:4px;">Precisa de 1 terreno.</p>
         </div>`}
                   >
                     <Box
@@ -1122,8 +1122,7 @@ export default function Buy() {
                   {/* Título */}
                   <GradientBox className="w-[70%]">
                     <Box
-                      data-tooltip-id="tooltip-lojam-tipo"
-                      data-tooltip-html="Construção média, exige imóveis pequenos como base"
+                  
                     >
                       <Typography
                         variant="subtitle1"
@@ -1151,8 +1150,7 @@ export default function Buy() {
                       }}
                     >
                       <Box
-                        data-tooltip-id="tooltip-lojag-tipo"
-                        data-tooltip-html="Construção grande, exige terrenos como base"
+
                       >
                         <Typography
                           variant="subtitle1"
@@ -1277,7 +1275,7 @@ export default function Buy() {
                     data-tooltip-id="tooltip-lojam-comprar"
                     data-tooltip-html={`<div>
           <p>Comprar imóvel médio</p>
-          <p style="margin-top:4px;">Precisa de 2 imóveis pequenos para construir.</p>
+          <p style="margin-top:4px;">Precisa de 2 terrenos para construir.</p>
         </div>`}
                   >
                     <Box
@@ -1391,8 +1389,7 @@ export default function Buy() {
                   <Box className="flex justify-between ">
                     <GradientBox className="w-[70%]">
                       <Box
-                        data-tooltip-id="tooltip-lojag-tipo"
-                        data-tooltip-html="Tipo de construção usada como base para outros imóveis"
+
                       >
                         <Typography
                         className="pl-[5px]"
@@ -1420,8 +1417,7 @@ export default function Buy() {
                       }}
                     >
                       <Box
-                        data-tooltip-id="tooltip-lojag-tipo"
-                        data-tooltip-html="Construção grande, exige terrenos como base"
+                     
                       >
                         <Typography
                           variant="subtitle1"
@@ -1628,8 +1624,7 @@ export default function Buy() {
             >
               <GradientBox>
                 <Box
-                  data-tooltip-id="tooltip-terreno-tipo"
-                  data-tooltip-html="Tipo de construção básica usada como base para outros imóveis"
+
                 >
                   <Typography
                     variant="subtitle1"
@@ -1723,7 +1718,7 @@ export default function Buy() {
               <Box
                 data-tooltip-id="tooltip-terreno-comprar"
                 data-tooltip-html={`
-        <div>
+        <div > 
           <p>Comprar terreno</p>
           <p style="margin-top:4px;">Dependendo do imóvel que você for construir, você vai precisar de um número mínimo de terrenos:</p>
           <p style="margin-top:4px;"><b>Imóvel pequeno</b> - 1 terreno<br/><b>Imóvel médio</b> - 2 terrenos<br/><b>Imóvel grande</b> - 3 terrenos</p>
@@ -1944,8 +1939,7 @@ export default function Buy() {
             >
               <GradientBox>
                 <Box
-                  data-tooltip-id="tooltip-lojap-tipo"
-                  data-tooltip-html="Tipo de construção usada como base para outros imóveis"
+               
                 >
                   <Typography
                     variant="subtitle1"
@@ -2255,8 +2249,7 @@ export default function Buy() {
            
                 <GradientBox>
                   <Box
-                    data-tooltip-id="tooltip-lojam-tipo"
-                    data-tooltip-html="Tipo de construção usada como base para outros imóveis"
+
                   >
                     <Typography
                       variant="subtitle1"
@@ -2565,8 +2558,7 @@ export default function Buy() {
             >
               <GradientBox>
                 <Box
-                  data-tooltip-id="tooltip-lojag-tipo"
-                  data-tooltip-html="Tipo de construção usada como base para outros imóveis"
+
                 >
                   <Typography
                     variant="subtitle1"

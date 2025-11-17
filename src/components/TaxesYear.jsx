@@ -2,7 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import patrimônio from "../../public/imagens/patrimônio.png";
-
+import useSound from "use-sound";
+import audioCoin from "../../public/sounds/cash-register-kaching-376867.mp3";
 // Tooltip
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
@@ -65,6 +66,8 @@ export function TaxesYear() {
   const { economiaSetores, atualizarEcoProf } =
     useContext(DadosEconomyGlobalContext);
 
+
+   const [audioPay] = useSound(audioCoin);   
   // 🔹 Atualiza contador para o próximo pagamento anual
   const proximoDiaChegar = (n) => {
     return n % 360 === 0 ? 0 : 360 - (n % 360);
@@ -190,7 +193,7 @@ export function TaxesYear() {
 
     // Desconta do saldo
     atualizarEcoProf(["saldo"], economiaSetores.saldo - valor);
-
+audioPay();
     // Reseta acumuladores de cada setor
     setoresArr.forEach((setor) => {
       const setorData = economiaSetores[setor]?.economiaSetor;

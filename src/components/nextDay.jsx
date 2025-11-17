@@ -226,18 +226,18 @@ export function NextDay() {
   );
 }
 
-export function useHotkeyOnce(key, callback) {
-  const [pressed, setPressed] = useState(false);
+// export function useHotkeyOnce(key, callback) {
+//   const [pressed, setPressed] = useState(false);
 
-  useHotkeys(
-    key,
-    () => {
-      if (pressed) return;
-      setPressed(true);
-      callback();
-    },
-    { keydown: true, keyup: false }
-  );
+//   useHotkeys(
+//     key,
+//     () => {
+//       if (pressed) return;
+//       setPressed(true);
+//       callback();
+//     },
+//     { keydown: true, keyup: false }
+//   );
 
-  useHotkeys(key, () => setPressed(false), { keydown: false, keyup: true });
-}
+//   useHotkeys(key, () => setPressed(false), { keydown: false, keyup: true });
+// }

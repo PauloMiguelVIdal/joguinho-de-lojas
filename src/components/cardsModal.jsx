@@ -906,7 +906,8 @@ export const CardModal = ({ index }) => {
     if (resultado !== true) {
       console.warn("Compra bloqueada:", resultado);
 
-      return alert(resultado);
+      return 
+      //alert(resultado);
     }
     console.log("Verificações de limite ok");
 
