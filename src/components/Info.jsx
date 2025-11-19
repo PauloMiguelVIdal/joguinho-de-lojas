@@ -16,7 +16,7 @@ export function InfoPage() {
       estadoModal: true,
     });
     buttonOpenAudio()
-    console.log("oiiiii")
+   
   };
 
   return (
