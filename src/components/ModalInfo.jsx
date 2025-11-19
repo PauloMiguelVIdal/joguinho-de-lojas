@@ -38,7 +38,7 @@ const [buttonCloseAudio] = useSound(closeAudio);
 
           <div>
             <h2 className="text-start text-white opacity-[70%] pl-[20px] text-[25px] pt-[20px] fonteLight">
-              Conteudo
+              Conteudo vamos iniciar
             </h2>
           </div>
         </motion.div>
