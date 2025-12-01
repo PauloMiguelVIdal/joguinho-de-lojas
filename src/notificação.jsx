@@ -6,7 +6,9 @@ import useSound from "use-sound";
 import closeAudio from "../public/sounds/closeAudio.mp3";
 import eventAudio from "../public/sounds/newEventAudio.mp3";
 import { useHotkeys } from "react-hotkeys-hook";
-
+import terreno from "../public/outrasImagens/terreno.png"
+import imovelPeq from "../public/outrasImagens/lojaP.png"
+import passarDia from "../public/outrasImagens/proximo.png"
 export default function Notificação() {
   const [isNKeyDown, setIsNKeyDown] = useState(false);
   //   if (novoEventoSelecionado === "modalDespesas") {
@@ -82,6 +84,29 @@ export default function Notificação() {
     buttonCloseAudio();
     atualizarDados("modalDespesas", {
       ...dados.modalDespesas,
+      estadoModal: false,
+    });
+  };
+
+  const fecharModalInicio = () => {
+    buttonCloseAudio();
+    atualizarDados("modalInicio", {
+      ...dados.modalInicio,
+      estadoModal: false,
+    });
+  };
+
+  const fecharModalContinuarDias = () => {
+    buttonCloseAudio();
+    atualizarDados("modalContinuarDias", {
+      ...dados.modalContinuarDias,
+      estadoModal: false,
+    });
+  };
+  const fecharModalCompraTerrenos = () => {
+    buttonCloseAudio();
+    atualizarDados("modalCompraTerrenos", {
+      ...dados.modalCompraTerrenos,
       estadoModal: false,
     });
   };
@@ -259,7 +284,150 @@ export default function Notificação() {
       </div>
     );
   }
-
+  if (dados.modalInicio.estadoModal) {
+    return (
+      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="w-[75vw] h-[75vh] bg-[#350973] rounded-[20px] z-20 relative"
+        >
+          <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
+           Construa um Imóvel Pequeno
+          </h1>
+          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
+          <div>
+            <h2 className="text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight">
+            Para que você construa um imóvel pequeno primeiramente é necessário que você tenha um terreno.
+            <br/>
+            
+            <br/>
+            <strong className="">COMPRE UM TERRENO</strong>
+            <br/>
+            
+            Para comprar um terreno é necessário clicar no botão:
+            <br/>
+            
+             <br/>
+            <div className="w-[100px] h-[100px] flex items-center justify-center rounded-[10px] bg-orange-700">
+              
+              <img className="w-[70%] h-[70%]" src={terreno}/>
+              </div> 
+              *está localizado na barra lateral da esquerda
+            
+             <br/>
+             <br/>
+            
+            </h2>
+          </div>
+          <button
+            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+            onClick={fecharModalInicio}
+          >
+            <h3>entendido</h3>
+          </button>
+        </motion.div>
+      </div>
+    );
+  } else
+  if (dados.modalCompraTerrenos.estadoModal) {
+    return (
+      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="w-[75vw] h-[75vh] bg-[#350973] rounded-[20px] z-20 relative"
+        >
+          <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
+           Construa um Imóvel Pequeno
+          </h1>
+          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
+          <div>
+            <h2 className="text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight">
+           Agora que você possui o terreno necessário, construa o imóvel pequeno
+            <br/>
+            
+            <br/>
+            <strong className="">CONTRUA O IMÓVEL PEQUENO</strong>
+            <br/>
+            
+            Para construir um imóvel pequeno é necessário clicar no botão:
+            <br/>
+            
+             <br/>
+            <div className="w-[100px] h-[100px] flex items-center justify-center rounded-[10px] bg-orange-700">
+              
+              <img className="w-[70%] h-[70%]" src={imovelPeq}/>
+              </div> 
+              *está localizado na barra lateral da esquerda
+            
+             <br/>
+             <br/>
+            
+            </h2>
+          </div>
+          <button
+            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+            onClick={fecharModalCompraTerrenos}
+          >
+            <h3>entendido</h3>
+          </button>
+        </motion.div>
+      </div>
+    );
+  } else
+  if (dados.modalContinuarDias.estadoModal) {
+    return (
+      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="w-[75vw] h-[75vh] bg-[#350973] rounded-[20px] z-20 relative"
+        >
+          <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
+           Passe para o próximo dia
+          </h1>
+          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
+          <div>
+            <h2 className="text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight">
+           Agora que você possui um imóvel pequeno, passe para o próximo dia até que tenha dinheiro suficiente para que possa comprar um novo terreno e continuar expandindo os seus imóveis.
+            <br/>
+            
+            <br/>
+            <strong className="">PASSE O DIA</strong>
+            <br/>
+            
+            Para passar o dia é necessário clicar no botão:
+            <br/>
+            
+             <br/>
+            <div className="w-[100px] h-[100px] flex items-center justify-center rounded-[10px] bg-orange-700">
+              
+              <img className="w-[70%] h-[70%]" src={passarDia}/>
+              </div> 
+              *está localizado na barra superior da direita
+            
+             <br/>
+             <br/>
+            
+            </h2>
+          </div>
+          <button
+            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+            onClick={fecharModalContinuarDias}
+          >
+            <h3>entendido</h3>
+          </button>
+        </motion.div>
+      </div>
+    );
+  } else
   if (dados.modal.estadoModal) {
     return (
       <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">

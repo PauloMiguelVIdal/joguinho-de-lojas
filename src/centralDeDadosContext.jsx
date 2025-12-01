@@ -14,7 +14,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
     animarCicloDia: null,
-    dia: 1070,
+    dia: 1000,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -29,6 +29,21 @@ const CentraldeDadosProvider = ({ children }) => {
       estadoModal: false,
       head: "",
       content: "",
+    },
+    modalInicio: {
+      estadoModal: false,
+      head: "Construa um Imóvel Pequeno",
+      content: "Para que você construa um imóvel pequeno primeiramente é necessário que vc compre um terreno, após isso construa o imóvel peequeno em seu terreno",
+    },
+    modalCompraTerrenos: {
+      estadoModal: false,
+      head: "Construa um Imóvel Pequeno",
+      content: "Para que você construa um imóvel pequeno primeiramente é necessário que vc compre um terreno, após isso construa o imóvel peequeno em seu terreno",
+    },
+    modalContinuarDias: {
+      estadoModal: false,
+      head: "Construa um Imóvel Pequeno",
+      content: "Para que você construa um imóvel pequeno primeiramente é necessário que vc compre um terreno, após isso construa o imóvel peequeno em seu terreno",
     },
     modalAlert: {
       estadoModal: false,

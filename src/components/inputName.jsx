@@ -21,6 +21,8 @@ const InputName = () => {
         if (novoNome) {
 
             atualizarDados("inicioGame", { ...dados.inicioGame, nomeEmpresa: novoNome, estadoModal: false })
+            atualizarDados("modalInicio", { ...dados.modalInicio, estadoModal: true })
+
         }
         else {
             alert("Campo não preenchido")

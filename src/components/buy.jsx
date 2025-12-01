@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import terrenoImg from "../../public/outrasImagens/terreno.png";
@@ -291,6 +291,7 @@ export default function Buy() {
       dados.terrenos.quantidade <
       dados.lojasP.quantidadeNecTerreno * quantidadeLojasP
     ) {
+
       alertAudio();
       atualizarDados("modalAlert", {
         ...dados.modalAlert,
@@ -316,6 +317,9 @@ export default function Buy() {
       });
       return; // impede o restante da execução
     } else {
+            if(dados.dia===1){
+  atualizarDados("modalContinuarDias", { ...dados.modalInicio, estadoModal: true })
+}
       buttonConstructAudio();
       atualizarDados("lojasP", {
         ...dados.lojasP,
@@ -431,6 +435,11 @@ export default function Buy() {
   };
 
   // Comprar Terreno
+
+
+
+
+
   const ComprarTerreno = () => {
     if (
       economiaSetores.saldo <
@@ -445,6 +454,13 @@ export default function Buy() {
       });
       return; // encerra a função aqui
     } else {
+
+if(dados.dia===1 && dados.terrenos.quantidade === 0){
+  atualizarDados("modalCompraTerrenos", { ...dados.modalInicio, estadoModal: true })
+}
+
+
+
       buttonPayTerrain();
       atualizarDados("terrenos", {
         ...dados.terrenos,
@@ -457,6 +473,12 @@ export default function Buy() {
       );
     }
   };
+
+
+
+
+
+
   const tooltipStyle = {
     backgroundColor: "#FFFFFF",
     color: "#350973",

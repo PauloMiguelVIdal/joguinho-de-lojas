@@ -5,9 +5,13 @@ import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import ListaDeOfertas from "./ListCards";
 import fechar from "../../public/outrasImagens/fechar.png"
 import { motion } from "framer-motion";
+import closeAudio from "../../public/sounds/closeAudio.mp3";
+import useSound from "use-sound";
 export default function Offers() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
     const { economiaSetores, setEconomiaSetores, } = useContext(DadosEconomyGlobalContext);
+
+ const [buttonCloseAudio] = useSound(closeAudio);
 
     const todasLojas = [
         "terrenos",
@@ -18,6 +22,7 @@ export default function Offers() {
 
     const fecharModal = () => {
         atualizarDados('modalOfertas', { ...dados.modalOfertas, estadoModal: false });
+buttonCloseAudio()
     }
 
     const ofertasNovas = () =>
