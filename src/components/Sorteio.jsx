@@ -28,11 +28,15 @@ export default function Sorteio() {
     "imposto fixo",
     "imposto sobre faturamento",
   ];
+  const departmentEventsFinal = [
+    "custos de construção",
+    "imposto anual"
+  ];
   const situacao = ["crescimento", "queda"];
   const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
   const periodo = [3, 7, 15, 30];
   const judgment = ["ÓTIMO", "PÉSSIMO"];
-
+  const setores = ["agricultura", "industria", "energia", "tecnologia", "comercio", "imobiliario"];
   const economiaAtual = () => {
     switch (`${economiaSetores.economiaGlobal}`) {
       case "recessão":
@@ -108,6 +112,7 @@ export default function Sorteio() {
       dados.dia < 257
         ? selecionarItem(departmentEvents)
         : "custos de construção";
+        // selecionarItem(departmentEventsFinal)
     const selecionarJulgamento = julgamentoSorteado();
     const selecionarPorcentagem = selecionarItem(porcentagem);
     const selecionarPeriodo = selecionarItem(periodo);
@@ -152,8 +157,12 @@ export default function Sorteio() {
     atualizarDados("modal", { ...dados.modal, estadoModal: true });
 
     // console.log("Evento sorteado:", dados.eventoAtual);
-  };
 
+    if(dados.dia>=257){
+
+
+      };
+    }
   useEffect(() => {
     sortearNovoEvento();
     // console.log("Sorteio executado para o dia", dados.dia);

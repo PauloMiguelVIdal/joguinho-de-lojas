@@ -2734,7 +2734,7 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                   }}
                   className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center"
                 >
-                  <img className="h-[70%]" src={constNece} alt="" />
+                  <img className="h-[70%]" src={terrenoImg} alt="" />
                 </div>
 
                 <div className="flex p-[10px] justify-center items-center">
