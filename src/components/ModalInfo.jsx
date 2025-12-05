@@ -23,9 +23,24 @@ const ModalInfo = ({ isOpen, message }) => {
   const categorias = [
     { id: 1, nome: "Introdução", icone: "📖" },
     { id: 2, nome: "Como Jogar", icone: "🎮" },
+    { id: 17, nome: "Primeiros 270 Dias", icone: "⌛" },
+    { id: 19, nome: "Dicas Avançadas", icone: "🚀" },
+    {
+      id: 20,
+      nome: "Mapa Dos Setores",
+      icone: "🗺️",
+      subsecoes: [
+        { id: "20.1", nome: "Mapa Do Comércio", icone: "🛒" },
+        { id: "20.2", nome: "Mapa Do Imobiliário", icone: "🏢" },
+        { id: "20.3", nome: "Mapa Da Energia", icone: "⚡" },
+        { id: "20.4", nome: "Mapa Da Teconologia", icone: "🧑‍💻" },
+        { id: "20.5", nome: "Mapa Da Indústria", icone: "🏭" },
+        { id: "20.6", nome: "Mapa Da Agricultura", icone: "🌱" },
+      ],
+    },
     // {
     //   id: 3,
-    //   nome: "Recursos",
+    //   nome: "P",
     //   icone: "📄",
     //   subsecoes: [
     //     { id: "3.1", nome: "Saldo Bancário", icone: "🏦" },
@@ -52,21 +67,7 @@ const ModalInfo = ({ isOpen, message }) => {
         { id: "5.2", nome: "Licenças Empresariais", icone: "🌐" },
       ],
     },
-    {
-      id: 6,
-      nome: "Edifícios Especiais",
-      icone: "⭐",
-      subsecoes: [
-        { id: "6.1", nome: "Terraplanagem e Pavimentação", icone: "🚧" },
-        { id: "6.2", nome: "Construtora de Pequenas Obras", icone: "🚧" },
-        { id: "6.3", nome: "Construtora", icone: "🏗️" },
-        {
-          id: "6.4",
-          nome: "Construtora de Grandes Infraestruturas",
-          icone: "🏢 ",
-        },
-      ],
-    },
+
     { id: 7, nome: "Objetivos Do Jogo", icone: "🎯" },
     {
       id: 9,
@@ -135,7 +136,23 @@ const ModalInfo = ({ isOpen, message }) => {
       nome: "Gráfico",
       icone: "📈",
     },
+    {
+      id: 6,
+      nome: "Edifícios Especiais",
+      icone: "⭐",
+      subsecoes: [
+        { id: "6.1", nome: "Terraplanagem e Pavimentação", icone: "🚧" },
+        { id: "6.2", nome: "Construtora de Pequenas Obras", icone: "🚧" },
+        { id: "6.3", nome: "Construtora", icone: "🏗️" },
+        {
+          id: "6.4",
+          nome: "Construtora de Grandes Infraestruturas",
+          icone: "🏢 ",
+        },
+      ],
+    },
 
+    { id: 18, nome: "Valores de mercado", icone: "💹" },
     { id: 8, nome: "Dicas", icone: "💡" },
   ];
 
@@ -287,72 +304,115 @@ const ModalInfo = ({ isOpen, message }) => {
         "⭐ As Licenças permitem que você expanda seu negócio para novos setores do jogo.\n⭐ Não expanda muito rápido\n⭐ Mantenha sempre uma reserva de emergência\n⭐ Aproveite as oportunidades limitadas\n⭐ Diversifique seus investimentos",
     },
     9.1: {
-  titulo: "💸 Imposto Fixo",
-  texto:
-"O 💸 **Imposto Fixo** representa a soma de todos os custos mensais da sua empresa. Esse valor é atualizado sempre que você compra um novo edifício, porém não sofre oscilações com a economia — permanecendo estável após cada atualização.\n\n⚠️ **Atenção nas crises econômicas**\nDurante períodos de 📉 recessão, o Imposto Fixo pode se tornar seu maior vilão, já que ele continua sendo cobrado mesmo quando seus lucros diminuem.\n\n🧾 **Como pagar o Imposto Fixo**\nA cada 30 dias, você deve pagar suas despesas mensais tocando no botão **🧾 Pagar Despesas Mensais**, localizado no canto superior direito do dashboard.\n\n🖱️ **Dica:**\nPasse o mouse sobre o botão \"Pagar Despesas Mensais\" para visualizar um resumo detalhado de todos os custos daquele mês, incluindo a origem de cada despesa.",
-},
+      titulo: "💸 Imposto Fixo",
+      texto:
+        'O 💸 **Imposto Fixo** representa a soma de todos os custos mensais da sua empresa. Esse valor é atualizado sempre que você compra um novo edifício, porém não sofre oscilações com a economia — permanecendo estável após cada atualização.\n\n⚠️ **Atenção nas crises econômicas**\nDurante períodos de 📉 recessão, o Imposto Fixo pode se tornar seu maior vilão, já que ele continua sendo cobrado mesmo quando seus lucros diminuem.\n\n🧾 **Como pagar o Imposto Fixo**\nA cada 30 dias, você deve pagar suas despesas mensais tocando no botão **🧾 Pagar Despesas Mensais**, localizado no canto superior direito do dashboard.\n\n🖱️ **Dica:**\nPasse o mouse sobre o botão "Pagar Despesas Mensais" para visualizar um resumo detalhado de todos os custos daquele mês, incluindo a origem de cada despesa.',
+    },
     9.2: {
       titulo: "📊 Imposto sobre Faturamento",
       texto:
-"O 📊 **Imposto sobre Faturamento** é um percentual aplicado ao faturamento diário de cada edifício e pode ser consultado na aba de Informações Financeiras de cada um deles.\n\nEmbora seja um imposto relativamente simples, ele pode ter grande impacto em edifícios que geram faturamentos muito altos. Por isso, fique sempre atento: em alguns casos, esse imposto pode consumir uma parcela significativa do seu lucro mensal.\n\n🧾 **Pagamento do Imposto sobre Faturamento**\nAssim como o Imposto Fixo, o Imposto sobre Faturamento é cobrado a cada 30 dias. Para pagá-lo, basta tocar no botão **🧾 Pagar Despesas Mensais**, localizado no canto superior direito do dashboard.\n\n🖱️ **Dica:**\nAo passar o mouse sobre o botão \"Pagar Despesas Mensais\", você verá um resumo completo das despesas do mês — incluindo quanto foi cobrado de Imposto sobre Faturamento e de onde cada custo se originou.",
+        'O 📊 **Imposto sobre Faturamento** é um percentual aplicado ao faturamento diário de cada edifício e pode ser consultado na aba de Informações Financeiras de cada um deles.\n\nEmbora seja um imposto relativamente simples, ele pode ter grande impacto em edifícios que geram faturamentos muito altos. Por isso, fique sempre atento: em alguns casos, esse imposto pode consumir uma parcela significativa do seu lucro mensal.\n\n🧾 **Pagamento do Imposto sobre Faturamento**\nAssim como o Imposto Fixo, o Imposto sobre Faturamento é cobrado a cada 30 dias. Para pagá-lo, basta tocar no botão **🧾 Pagar Despesas Mensais**, localizado no canto superior direito do dashboard.\n\n🖱️ **Dica:**\nAo passar o mouse sobre o botão "Pagar Despesas Mensais", você verá um resumo completo das despesas do mês — incluindo quanto foi cobrado de Imposto sobre Faturamento e de onde cada custo se originou.',
     },
     9.3: {
       titulo: "🗓️ Imposto Anual",
       texto:
-"O 🗓️ **Imposto Anual** é um tributo cobrado a cada 360 dias (1 ano completo dentro do jogo). Cada edifício possui seu próprio percentual de imposto anual baseado no patrimônio que ele gera dentro do setor correspondente.\n\n🔄 **Como ele é calculado**\nTodos os meses, uma fração desse imposto é somada ao total anual. No fim do ano, você deverá pagar o valor acumulado. Por isso, é essencial acompanhar como cada setor está tributando seu patrimônio.\n\n⚠️ **Atenção nos últimos meses do ano**\nDurante o último ciclo econômico (os últimos 3 meses do ano), é recomendado evitar grandes investimentos e focar em acumular caixa. Isso ajuda a evitar surpresas desagradáveis quando chegar o momento de pagar o imposto anual.\n\n📊 **Como verificar o percentual praticado por cada setor**\nNo dashboard, abra o setor desejado. Na parte superior, você verá o símbolo **🧾** seguido do percentual correspondente ao imposto anual daquele setor.\n\nFique sempre atento — setores com impostos altos podem comprometer significativamente sua economia anual.",
+        "O 🗓️ **Imposto Anual** é um tributo cobrado a cada 360 dias (1 ano completo dentro do jogo). Cada edifício possui seu próprio percentual de imposto anual baseado no patrimônio que ele gera dentro do setor correspondente.\n\n🔄 **Como ele é calculado**\nTodos os meses, uma fração desse imposto é somada ao total anual. No fim do ano, você deverá pagar o valor acumulado. Por isso, é essencial acompanhar como cada setor está tributando seu patrimônio.\n\n⚠️ **Atenção nos últimos meses do ano**\nDurante o último ciclo econômico (os últimos 3 meses do ano), é recomendado evitar grandes investimentos e focar em acumular caixa. Isso ajuda a evitar surpresas desagradáveis quando chegar o momento de pagar o imposto anual.\n\n📊 **Como verificar o percentual praticado por cada setor**\nNo dashboard, abra o setor desejado. Na parte superior, você verá o símbolo **🧾** seguido do percentual correspondente ao imposto anual daquele setor.\n\nFique sempre atento — setores com impostos altos podem comprometer significativamente sua economia anual.",
     },
-    
-    13:{
+
+    13: {
       titulo: "ℹ️ Informações de Edifícios",
       texto:
-"Lembre-se: estas informações se aplicam apenas às cartas de edifícios exibidas no Dashboard.\n\nFique atento: se houver uma bolinha branca em qualquer botão da aba de requisitos, como Imóveis Necessários ou Edifícios Necessários, isso significa que você ainda não possui todos os requisitos para realizar a construção desejada."
+        "Lembre-se: estas informações se aplicam apenas às cartas de edifícios exibidas no Dashboard.\n\nFique atento: se houver uma bolinha branca em qualquer botão da aba de requisitos, como Imóveis Necessários ou Edifícios Necessários, isso significa que você ainda não possui todos os requisitos para realizar a construção desejada.",
     },
     13.1: {
       titulo: "🧱 Imóveis Necessários ",
       texto:
         "Lembre-se: esta seção se refere apenas aos imóveis exigidos pelas cartas de edifícios presentes no Dashboard.\n\nPara verificar quais imóveis são exigidos para construir um determinado edifício, basta tocar no botão com o símbolo de terreno. Isso abrirá uma interface detalhada mostrando a quantidade de cada imóvel necessária, além do valor total para adquirir todos eles.\n\nFique atento: se uma bolinha branca aparecer no botão de Imóveis Necessários, significa que ainda está faltando comprar um ou mais imóveis essenciais para liberar a construção.",
     },
-13.2: {
-  titulo: "🏢 Edifícios Necessários",
-  texto:
-    "Ao tocar no botão de Edifícios Necessários dentro da carta do edifício (lembre-se: isso se refere apenas às cartas de edifícios do dashboard), você poderá visualizar dois tipos de requisitos: Construções Necessárias e Recursos de Construção.\n\n• Construções Necessárias são edifícios que você apenas precisa possuir para liberar a compra do edifício desejado. Por exemplo: para construir a Plantação de Grãos, é obrigatório já ter adquirido o Silo.\n\n• Recursos de Construção são edifícios que serão consumidos durante a construção de algo mais avançado — ou seja, eles deixam de existir após serem usados. Por exemplo: para construir uma Empresa de Desenvolvimento de Software, é necessário entregar uma Startup, já que ela funciona como a base evolutiva para esse novo edifício.\n\nSe estiver faltando qualquer um desses requisitos, uma bolinha branca aparecerá no botão de Edifícios Necessários para avisar que ainda há pendências antes que a construção seja liberada.",
-},
-13.3: {
-  titulo: "⚡ Power Ups",
-  texto:
-    "Os Power Ups são responsáveis por gerar as sinergias entre os edifícios e aumentar sua rentabilidade ao atingir certos marcos de quantidade. Eles funcionam como melhorias progressivas que deixam sua empresa mais eficiente.\n\nPara acessar os Power Ups dentro da carta do edifício (📌 lembre-se: estamos falando apenas das cartas do dashboard), basta tocar no botão com a seta para cima ⬆️. Isso irá virar o card e mostrar informações básicas, incluindo quantos edifícios são necessários para que este edifício alcance o Nível 2 ⭐ ou Nível 3 ⭐⭐.\n\nSe quiser ver detalhes mais avançados, toque no botão \"Todos os Power Ups\" 📊. Isso abrirá uma interface completa com uma tabela contendo:\n• 🏭 Edifícios que ESTE fornece Power Ups\n• 🏢 Edifícios que ESTE recebe Power Ups\n• 📈 Níveis necessários para cada bônus\n• 📊 Percentuais acumulativos que afetam faturamento ou custo\n\nEsses efeitos são cumulativos e podem, por exemplo, reduzir o custo de operação ou aumentar o faturamento de outro edifício. Exemplo: se você possui a Fábrica de Pães 🍞, ela reduz o custo da Padaria 🥐 e, ao mesmo tempo, aumenta o faturamento dela.\n\nNa tabela, quando você possuir determinado edifício, a linha correspondente mudará de cor 🎨 para indicar o nível atual.\n\n💡 Dica: fique sempre atento aos edifícios que mais impactam o seu ecossistema atual. Comprar edifícios que fornecem bons Power Ups para aqueles que você já possui pode gerar vantagens enormes em rentabilidade 📈, melhorar sua estratégia e ajudar na gestão da sua empresa.",
-},
+    13.2: {
+      titulo: "🏢 Edifícios Necessários",
+      texto:
+        "Ao tocar no botão de Edifícios Necessários dentro da carta do edifício (lembre-se: isso se refere apenas às cartas de edifícios do dashboard), você poderá visualizar dois tipos de requisitos: Construções Necessárias e Recursos de Construção.\n\n• Construções Necessárias são edifícios que você apenas precisa possuir para liberar a compra do edifício desejado. Por exemplo: para construir a Plantação de Grãos, é obrigatório já ter adquirido o Silo.\n\n• Recursos de Construção são edifícios que serão consumidos durante a construção de algo mais avançado — ou seja, eles deixam de existir após serem usados. Por exemplo: para construir uma Empresa de Desenvolvimento de Software, é necessário entregar uma Startup, já que ela funciona como a base evolutiva para esse novo edifício.\n\nSe estiver faltando qualquer um desses requisitos, uma bolinha branca aparecerá no botão de Edifícios Necessários para avisar que ainda há pendências antes que a construção seja liberada.",
+    },
+    13.3: {
+      titulo: "⚡ Power Ups",
+      texto:
+        'Os Power Ups são responsáveis por gerar as sinergias entre os edifícios e aumentar sua rentabilidade ao atingir certos marcos de quantidade. Eles funcionam como melhorias progressivas que deixam sua empresa mais eficiente.\n\nPara acessar os Power Ups dentro da carta do edifício (📌 lembre-se: estamos falando apenas das cartas do dashboard), basta tocar no botão com a seta para cima ⬆️. Isso irá virar o card e mostrar informações básicas, incluindo quantos edifícios são necessários para que este edifício alcance o Nível 2 ⭐ ou Nível 3 ⭐⭐.\n\nSe quiser ver detalhes mais avançados, toque no botão "Todos os Power Ups" 📊. Isso abrirá uma interface completa com uma tabela contendo:\n• 🏭 Edifícios que ESTE fornece Power Ups\n• 🏢 Edifícios que ESTE recebe Power Ups\n• 📈 Níveis necessários para cada bônus\n• 📊 Percentuais acumulativos que afetam faturamento ou custo\n\nEsses efeitos são cumulativos e podem, por exemplo, reduzir o custo de operação ou aumentar o faturamento de outro edifício. Exemplo: se você possui a Fábrica de Pães 🍞, ela reduz o custo da Padaria 🥐 e, ao mesmo tempo, aumenta o faturamento dela.\n\nNa tabela, quando você possuir determinado edifício, a linha correspondente mudará de cor 🎨 para indicar o nível atual.\n\n💡 Dica: fique sempre atento aos edifícios que mais impactam o seu ecossistema atual. Comprar edifícios que fornecem bons Power Ups para aqueles que você já possui pode gerar vantagens enormes em rentabilidade 📈, melhorar sua estratégia e ajudar na gestão da sua empresa.',
+    },
 
-13.4: {
-  titulo: "💲 Informações Financeiras",
-  texto:
-    "As Informações Financeiras exibem todos os dados contábeis relacionados ao edifício (📌 apenas nas cartas do dashboard). Ao abrir essa interface, você poderá visualizar detalhes como:\n• 🧾 Imposto fixo do edifício\n• 💸 Imposto sobre faturamento\n• 📅 Faturamento diário\n• 📆 Faturamento mensal\n• 📉 Custos operacionais e outros dados importantes\n\nEssas informações ajudam você a entender exatamente como cada edifício contribui para a saúde financeira da sua empresa.",
-},
-13.5: {
-  titulo: "📊 Rentabilidade",
-  texto:
-    "A rentabilidade exibida no dashboard é sempre calculada considerando um cenário econômico estável ⚖️. Porém, ela pode mudar dependendo da economia atual do setor.\n\nPara ver a rentabilidade real e atualizada daquele edifício (📌 lembrando: estamos falando das cartas do dashboard), basta abrir a interface de Licenças do setor correspondente 🏷️. Nessa tela, a rentabilidade é recalculada com base na economia setorial do momento — seja recessão 📉, estabilidade ⚖️ ou aquecimento 📈.\n\nAssim, você sempre terá uma visão fiel do desempenho real dos seus edifícios.",
-},
-13.6: {
-  titulo: "💰 Preço de Construção",
-  texto:
-    "O Preço de Construção representa o valor necessário para erguer a estrutura do edifício (📌 lembrete: estamos falando das cartas do dashboard).\n\nEsse custo pode ser reduzido caso você possua alguns dos Edifícios Especiais capazes de diminuir gastos de construção 🏗️⬇️. São eles:\n• 🟫 Terraplanagem e Pavimentação\n• 🧱 Construtora de Pequenas Obras\n• 🏠 Construtora\n• 🏗️ Construtora de Grandes Infraestruturas\n\nCada um deles pode oferecer reduções progressivas conforme seu nível.\n\nSe quiser entender melhor como cada Edifício Especial funciona e quais custos eles reduzem, basta acessar a seção \"⭐ Edifícios Especiais\" aqui na aba de ajuda.",
-},
-14: {
-  titulo: "💼 Carteira",
-  texto:
-    "A aba Carteira reúne todas as informações essenciais sobre a sua empresa e os edifícios que você possui no momento.\n\n📊 **Edifícios Atuais**\nAqui você pode visualizar todos os seus edifícios, junto com a rentabilidade atualizada baseada no cenário econômico dos setores naquele instante.\n\n🏢 **Informações Empresariais**\nNesta aba você também encontra um resumo completo do estado atual da sua empresa, incluindo:\n• 🔢 Quantidade máxima total de edifícios permitidos\n• 🏙️ Quantidade máxima de um único tipo de edifício\n• 🌐 Quantos setores diferentes você está habilitado a investir\n• 🧩 Diversidade máxima de edifícios permitida\n• 🏛️ Porte empresarial atual\n\nA Carteira funciona como um painel geral da sua expansão, ideal para acompanhar sua evolução, ajustar a estratégia e decidir seus próximos passos.",
-},
-15: {
-  titulo: "🧑‍💼 Central de Gerenciamento",
-  texto:
-    "A Central de Gerenciamento é o local onde você pode administrar ativamente certos negócios do seu império. Porém, nem todos os edifícios possuem opções de gerenciamento.\n\n🏢 **Edifícios Gerenciáveis**\nOs edifícios que permitem gerenciamento oferecem vantagens estratégicas e oportunidades de aumentar sua renda. Neles, você pode decidir onde investir, quais melhorias priorizar e como direcionar o crescimento do seu patrimônio — o que pode gerar avanços significativos dependendo da estrutura do seu ecossistema.\n\n🔍 **Como saber quais edifícios podem ser gerenciados?**\nBasta acessar a aba da 🧑‍💼 Central de Gerenciamento no Dashboard. Lá você encontrará uma lista completa de todos os edifícios atualmente gerenciáveis.\n\nUse essa ferramenta para potencializar seus resultados e tomar decisões mais inteligentes ao longo da partida!",
-},
-16: {
-  titulo: "📈 Gráfico",
-  texto:
-    "Na aba 📈 Gráfico, você pode visualizar a evolução do faturamento de cada setor e entender como eles estão reagindo às mudanças da economia.\n\n💹 **Análise de desempenho**\nO gráfico permite acompanhar sua evolução patrimonial ao longo do tempo, destacando os momentos de crescimento, estabilidade ou queda.\n\n🧭 **Direção estratégica**\nCom essas informações, fica muito mais fácil identificar quais setores estão trazendo os melhores resultados e qual segmento pode ser o mais vantajoso para continuar investindo.\n\nUse o gráfico para ajustar sua estratégia e maximizar seus ganhos conforme a economia se transforma!",
-},
+    13.4: {
+      titulo: "💲 Informações Financeiras",
+      texto:
+        "As Informações Financeiras exibem todos os dados contábeis relacionados ao edifício (📌 apenas nas cartas do dashboard). Ao abrir essa interface, você poderá visualizar detalhes como:\n• 🧾 Imposto fixo do edifício\n• 💸 Imposto sobre faturamento\n• 📅 Faturamento diário\n• 📆 Faturamento mensal\n• 📉 Custos operacionais e outros dados importantes\n\nEssas informações ajudam você a entender exatamente como cada edifício contribui para a saúde financeira da sua empresa.",
+    },
+    13.5: {
+      titulo: "📊 Rentabilidade",
+      texto:
+        "A rentabilidade exibida no dashboard é sempre calculada considerando um cenário econômico estável ⚖️. Porém, ela pode mudar dependendo da economia atual do setor.\n\nPara ver a rentabilidade real e atualizada daquele edifício (📌 lembrando: estamos falando das cartas do dashboard), basta abrir a interface de Licenças do setor correspondente 🏷️. Nessa tela, a rentabilidade é recalculada com base na economia setorial do momento — seja recessão 📉, estabilidade ⚖️ ou aquecimento 📈.\n\nAssim, você sempre terá uma visão fiel do desempenho real dos seus edifícios.",
+    },
+    13.6: {
+      titulo: "💰 Preço de Construção",
+      texto:
+        'O Preço de Construção representa o valor necessário para erguer a estrutura do edifício (📌 lembrete: estamos falando das cartas do dashboard).\n\nEsse custo pode ser reduzido caso você possua alguns dos Edifícios Especiais capazes de diminuir gastos de construção 🏗️⬇️. São eles:\n• 🟫 Terraplanagem e Pavimentação\n• 🧱 Construtora de Pequenas Obras\n• 🏠 Construtora\n• 🏗️ Construtora de Grandes Infraestruturas\n\nCada um deles pode oferecer reduções progressivas conforme seu nível.\n\nSe quiser entender melhor como cada Edifício Especial funciona e quais custos eles reduzem, basta acessar a seção "⭐ Edifícios Especiais" aqui na aba de ajuda.',
+    },
+    14: {
+      titulo: "💼 Carteira",
+      texto:
+        "A aba Carteira reúne todas as informações essenciais sobre a sua empresa e os edifícios que você possui no momento.\n\n📊 **Edifícios Atuais**\nAqui você pode visualizar todos os seus edifícios, junto com a rentabilidade atualizada baseada no cenário econômico dos setores naquele instante.\n\n🏢 **Informações Empresariais**\nNesta aba você também encontra um resumo completo do estado atual da sua empresa, incluindo:\n• 🔢 Quantidade máxima total de edifícios permitidos\n• 🏙️ Quantidade máxima de um único tipo de edifício\n• 🌐 Quantos setores diferentes você está habilitado a investir\n• 🧩 Diversidade máxima de edifícios permitida\n• 🏛️ Porte empresarial atual\n\nA Carteira funciona como um painel geral da sua expansão, ideal para acompanhar sua evolução, ajustar a estratégia e decidir seus próximos passos.",
+    },
+    15: {
+      titulo: "🧑‍💼 Central de Gerenciamento",
+      texto:
+        "A Central de Gerenciamento é o local onde você pode administrar ativamente certos negócios do seu império. Porém, nem todos os edifícios possuem opções de gerenciamento.\n\n🏢 **Edifícios Gerenciáveis**\nOs edifícios que permitem gerenciamento oferecem vantagens estratégicas e oportunidades de aumentar sua renda. Neles, você pode decidir onde investir, quais melhorias priorizar e como direcionar o crescimento do seu patrimônio — o que pode gerar avanços significativos dependendo da estrutura do seu ecossistema.\n\n🔍 **Como saber quais edifícios podem ser gerenciados?**\nBasta acessar a aba da 🧑‍💼 Central de Gerenciamento no Dashboard. Lá você encontrará uma lista completa de todos os edifícios atualmente gerenciáveis.\n\nUse essa ferramenta para potencializar seus resultados e tomar decisões mais inteligentes ao longo da partida!",
+    },
+    16: {
+      titulo: "📈 Gráfico",
+      texto:
+        "Na aba 📈 Gráfico, você pode visualizar a evolução do faturamento de cada setor e entender como eles estão reagindo às mudanças da economia.\n\n💹 **Análise de desempenho**\nO gráfico permite acompanhar sua evolução patrimonial ao longo do tempo, destacando os momentos de crescimento, estabilidade ou queda.\n\n🧭 **Direção estratégica**\nCom essas informações, fica muito mais fácil identificar quais setores estão trazendo os melhores resultados e qual segmento pode ser o mais vantajoso para continuar investindo.\n\nUse o gráfico para ajustar sua estratégia e maximizar seus ganhos conforme a economia se transforma!",
+    },
+    17: {
+      titulo: "⏳ Primeiros 270 Dias",
+      texto:
+        "Durante os PRIMEIROS 270 DIAS você passará por uma fase introdutória do jogo. Esse período existe para ajudar você a entender o funcionamento da economia, os ciclos e os prazos que exigem mais atenção.\n\n📉 ALTERAÇÕES DA ECONOMIA\nA cada 90 DIAS a economia global muda, afetando diretamente a rentabilidade dos setores. Prepare-se para adaptar sua estratégia conforme o cenário econômico se altera.\n\n🧾 DESPESAS MENSAIS\nA cada 30 DIAS você deve pagar suas despesas mensais. Planeje seu capital com cuidado — evitar ficar sem caixa é fundamental.\n\n⚠️ DICA IMPORTANTE\nSe faltarem 10 DIAS OU MENOS para o próximo pagamento de despesas, EVITE fazer investimentos arriscados. Pode não haver tempo suficiente para recuperar o valor gasto.\n\n🏗️ CUSTO DE CONSTRUÇÃO\nFique atento aos indicadores de custo de construção — eles podem oscilar de maneira significativa, ajudando ou prejudicando seu avanço dependendo do momento.\n\n🏠 IMÓVEIS BASE (Terreno, Loja P, Loja M e Loja G)\nDurante os primeiros 270 dias esses imóveis GERAM FATURAMENTO. Após esse período, eles deixam de gerar lucro e passam a servir apenas como componentes para construir edifícios mais avançados.\n\n💡 ESTRATÉGIA RECOMENDADA\nCompre o máximo de imóveis PEQUENOS que puder no início — eles ajudam muito na sua renda inicial.\n\n⚠️ EXCEÇÃO ESTRATÉGICA\nSe a economia global estiver AQUECIDA logo no início, pode valer a pena VENDER seus imóveis (na aba 🤝 OFERTAS, no canto superior direito) para reinvestir em edifícios com rentabilidade superior.",
+    },
+    18: {
+      titulo: "Valores de mercado",
+      texto:
+        "VALORES DE MERCADO — SEMPRE TENHA ISSO EM MENTE\n\nEsses são os valores-base que você deve considerar ao avaliar oportunidades de compra:\n\n🏡 TERRENO\nValor padrão: 40.000\n\n🏠 IMÓVEL PEQUENO\nConstrução: 50.000\nCusto total: 90.000\n\n🏢 IMÓVEL MÉDIO\nConstrução: 100.000\nCusto total: 180.000\n\n🏬 IMÓVEL GRANDE\nConstrução: 240.000\nCusto total: 360.000\n\n----------------------------------------\n\nPOR QUE ISSO IMPORTA?\n\nSe algum desses imóveis estiver ABAIXO DO VALOR BASE, normalmente é uma boa oportunidade — especialmente o TERRENO, pois ele impacta diretamente o custo dos imóveis maiores.\n\nIsso acontece porque:\n• IMÓVEL PEQUENO → usa 1 TERRENO\n• IMÓVEL MÉDIO → usa 2 TERRENOS\n• IMÓVEL GRANDE → usa 3 TERRENOS\n\nQuanto maior o preço do terreno e da construção, maior será o custo final de edifícios avançados, reduzindo sua rentabilidade.\n\n----------------------------------------\n\nEXEMPLO PRÁTICO — IMPACTO DO PREÇO DO TERRENO\n\nPara construir uma FAZENDA DE VACAS, você precisa de:\n• 3 TERRENOS\n• 1 IMÓVEL MÉDIO\n\nCENÁRIO ORIGINAL:\n3 Terrenos = 120.000\n1 Imóvel Médio = 180.000\nCUSTO TOTAL = 300.000\n\nCENÁRIO COM TERRENO A 50.000:\n3 Terrenos = 150.000\n1 Imóvel Médio ajustado = 200.000\nCUSTO TOTAL = 350.000\n\nIsso representa quase 20% DE AUMENTO, reduzindo diretamente sua margem de lucro.\n\n",
+    },
+    20: { titulo: "🗺️ Mapa Dos Setores", texto: "" },
+    20.1: {
+      titulo: "🛒 Mapa Do Comércio",
+      texto:
+        "Lembre-se: esta seção se refere apenas aos imóveis exigidos pelas cartas de edifícios presentes no Dashboard.\n\nPara verificar quais imóveis são exigidos para construir um determinado edifício, basta tocar no botão com o símbolo de terreno. Isso abrirá uma interface detalhada mostrando a quantidade de cada imóvel necessária, além do valor total para adquirir todos eles.\n\nFique atento: se uma bolinha branca aparecer no botão de Imóveis Necessários, significa que ainda está faltando comprar um ou mais imóveis essenciais para liberar a construção.",
+    },
+    20.2: {
+      titulo: "🏢 Mapa Do Imobiliário",
+      texto:
+        "Ao tocar no botão de Edifícios Necessários dentro da carta do edifício (lembre-se: isso se refere apenas às cartas de edifícios do dashboard), você poderá visualizar dois tipos de requisitos: Construções Necessárias e Recursos de Construção.\n\n• Construções Necessárias são edifícios que você apenas precisa possuir para liberar a compra do edifício desejado. Por exemplo: para construir a Plantação de Grãos, é obrigatório já ter adquirido o Silo.\n\n• Recursos de Construção são edifícios que serão consumidos durante a construção de algo mais avançado — ou seja, eles deixam de existir após serem usados. Por exemplo: para construir uma Empresa de Desenvolvimento de Software, é necessário entregar uma Startup, já que ela funciona como a base evolutiva para esse novo edifício.\n\nSe estiver faltando qualquer um desses requisitos, uma bolinha branca aparecerá no botão de Edifícios Necessários para avisar que ainda há pendências antes que a construção seja liberada.",
+    },
+    20.3: {
+      titulo: "⚡ Mapa Da Energia",
+      texto:
+        'Os Power Ups são responsáveis por gerar as sinergias entre os edifícios e aumentar sua rentabilidade ao atingir certos marcos de quantidade. Eles funcionam como melhorias progressivas que deixam sua empresa mais eficiente.\n\nPara acessar os Power Ups dentro da carta do edifício (📌 lembre-se: estamos falando apenas das cartas do dashboard), basta tocar no botão com a seta para cima ⬆️. Isso irá virar o card e mostrar informações básicas, incluindo quantos edifícios são necessários para que este edifício alcance o Nível 2 ⭐ ou Nível 3 ⭐⭐.\n\nSe quiser ver detalhes mais avançados, toque no botão "Todos os Power Ups" 📊. Isso abrirá uma interface completa com uma tabela contendo:\n• 🏭 Edifícios que ESTE fornece Power Ups\n• 🏢 Edifícios que ESTE recebe Power Ups\n• 📈 Níveis necessários para cada bônus\n• 📊 Percentuais acumulativos que afetam faturamento ou custo\n\nEsses efeitos são cumulativos e podem, por exemplo, reduzir o custo de operação ou aumentar o faturamento de outro edifício. Exemplo: se você possui a Fábrica de Pães 🍞, ela reduz o custo da Padaria 🥐 e, ao mesmo tempo, aumenta o faturamento dela.\n\nNa tabela, quando você possuir determinado edifício, a linha correspondente mudará de cor 🎨 para indicar o nível atual.\n\n💡 Dica: fique sempre atento aos edifícios que mais impactam o seu ecossistema atual. Comprar edifícios que fornecem bons Power Ups para aqueles que você já possui pode gerar vantagens enormes em rentabilidade 📈, melhorar sua estratégia e ajudar na gestão da sua empresa.',
+    },
+
+    20.4: {
+      titulo: "🧑‍💻 Mapa Da Tecnologia",
+      texto:
+        'O setor de TECNOLOGIA se destaca por oferecer edifícios capazes de aumentar significativamente o faturamento de construções específicas.\n\nO edifício fundamental desse setor é a STARTUP, pois ela serve como base para grande parte das construções avançadas, especialmente os Centros de Pesquisa.\n\nÉ um setor que exige muito capital para criar ecossistemas realmente eficientes. Abaixo estão valores aproximados para você ter uma noção dos investimentos necessários ao focar em um único edifício:\n\n• Startup — 1.200.000\n• Desenvolvimento de Software — 3.500.000\n• Jogos Digitais — 3.800.000\n• Telecomunicações — 4.500.000\n• Redes Sociais — 6.500.000\n• Marketplace Online — 7.000.000\n• Plataforma de Streaming — 7.500.000\n• Fábrica de Smartphones — 12.000.000\n• Fábrica de Computadores — 15.000.000\n• Fábrica de Consoles — 14.000.000\n• Fábrica de Dispositivos Vestíveis — 9.000.000\n• Instituto de Tecnologia Alimentar — 2.500.000\n• Centro de Pesquisa Agrícola — 2.500.000\n• Instituto de Biotecnologia — 3.700.000\n• Nanotecnologia — 4.000.000\n• Eletrônicos — 3.000.000\n• Design de Produtos — 3.000.000\n• Química — 2.500.000\n• Fusão Nuclear — 6.000.000\n• Novos Combustíveis — 3.500.000\n• Pesquisa Aeroespacial — 7.500.000\n• Engenharia Avançada — 5.500.000\n• Materiais Avançados — 5.500.000\n• Robótica — 5.000.000\n• Inteligência Artificial — 6.000.000\n\nEsses valores não são fixos, mas servem como referência para estimar quanto você precisará investir nesse setor.\n\nVerifique também se sua empresa possui LIMITE DE CONSTRUÇÃO suficiente para montar o ecossistema desejado. Caso não tenha, será necessário expandir sua empresa antes.\n\nRECOMENDAÇÃO: após ter uma noção do custo total, compre primeiro a LICENÇA do edifício que você deseja focar. Assim, você poderá consultar todos os pré-requisitos diretamente na carta e planejar seu ecossistema com precisão.',
+    },
+    20.5: {
+      titulo: "🏭 Mapa Da Indústria",
+      texto:
+        "A rentabilidade exibida no dashboard é sempre calculada considerando um cenário econômico estável ⚖️. Porém, ela pode mudar dependendo da economia atual do setor.\n\nPara ver a rentabilidade real e atualizada daquele edifício (📌 lembrando: estamos falando das cartas do dashboard), basta abrir a interface de Licenças do setor correspondente 🏷️. Nessa tela, a rentabilidade é recalculada com base na economia setorial do momento — seja recessão 📉, estabilidade ⚖️ ou aquecimento 📈.\n\nAssim, você sempre terá uma visão fiel do desempenho real dos seus edifícios.",
+    },
+    20.6: {
+      titulo: "🌱 Mapa Da Agricultura",
+           texto:
+        'O setor de AGRICULTURA depende de vários edifícios e licenças para formar um ecossistema básico de produção.\n\nA maioria das construções agrícolas exige a FAZENDA ADMINISTRATIVA como pré-requisito, e algumas plantações também precisam do SILO.\n\nExemplo: para produzir GRÃOS, você precisará tanto do SILO quanto da FAZENDA ADMINISTRATIVA.\n\nAbaixo está uma estimativa de quanto custaria iniciar um ecossistema agrícola completo caso você não possua nenhuma licença nem imóveis:\n• PLANTAÇÃO DE GRÃOS — 600.000\n• PLANTAÇÃO DE VEGETAIS — 600.000\n• POMARES — 500.000\n• FAZENDA DE VACAS — 1.000.000\n• GRANJA DE AVES — 400.000\n• CRIAÇÃO DE OVINOS — 500.000\n• MADEIREIRA — 550.000\n• ÁREA FLORESTAL — 400.000\n• TERRENOS DE MINERAÇÃO — 1.000.000\n• PLANTAÇÃO DE EUCALIPTO — 400.000\n• PLANTAS MEDICINAIS — 500.000\n\nEsses valores não são fixos, mas servem como referência do investimento necessário para operar nesse setor.\n\nLembre-se também de verificar se sua empresa possui LIMITE DE CONSTRUÇÃO suficiente para erguer todos os edifícios do ecossistema; caso contrário, será preciso expandir sua empresa.\n\nRECOMENDAÇÃO: após ter uma noção do valor necessário, compre primeiro a LICENÇA do edifício que deseja focar. Assim, você poderá ver na carta todos os requisitos e será mais fácil montar o ecossistema desejado.',
+
+    },
   };
 
   if (dados.modalAjuda.estadoModal) {
