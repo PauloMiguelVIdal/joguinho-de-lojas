@@ -1050,7 +1050,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       economiaSetor: {
         patrimonio: 0,
         estadoAtual: "estável",
-        percImpostoAnualAtual: 22,
+        percImpostoAnualAtual: 24,
         ArrayFatu: [],
         ArrayFatuHistory: [],
         arrValorImpostoAnualPorMes: [],
@@ -1062,7 +1062,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       economiaSetor: {
         patrimonio: 0,
         estadoAtual: "estável",
-        percImpostoAnualAtual: 20,
+        percImpostoAnualAtual: 22,
         ArrayFatu: [],
         ArrayFatuHistory: [],
         arrValorImpostoAnualPorMes: [],
@@ -1074,7 +1074,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       economiaSetor: {
         patrimonio: 0,
         estadoAtual: "estável",
-        percImpostoAnualAtual: 24,
+        percImpostoAnualAtual: 20,
         ArrayFatu: [], 
         ArrayFatuHistory: [], 
         arrValorImpostoAnualPorMes: [],
