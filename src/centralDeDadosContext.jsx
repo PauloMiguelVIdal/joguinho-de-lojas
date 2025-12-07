@@ -1064,9 +1064,9 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 70000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 200,
-            impostoFixo: 25000,
-            impostoSobreFatu: 0.02,
+            faturamentoUnitário: -640,
+            impostoFixo: 800,
+            impostoSobreFatu: 0.06,
             rent: 32,
           },
 

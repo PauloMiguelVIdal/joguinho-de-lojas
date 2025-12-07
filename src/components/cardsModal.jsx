@@ -906,7 +906,7 @@ export const CardModal = ({ index }) => {
     if (resultado !== true) {
       console.warn("Compra bloqueada:", resultado);
 
-      return 
+      return;
       //alert(resultado);
     }
     console.log("Verificações de limite ok");
@@ -1079,39 +1079,30 @@ export const CardModal = ({ index }) => {
     //     {...economiaSetores[setorAtivo].economiaSetor,patrimonio: + custosEdBase + custo}
     // );
 
-
-atualizarEco("patrimônio", {
-  ...economiaSetores
-  [setorAtivo].economiaSetor,"patrimonio":
-      economiaSetores[setorAtivo].economiaSetor.
-      patrimonio +
+    atualizarEco("patrimônio", {
+      ...economiaSetores[setorAtivo].economiaSetor,
+      patrimonio:
+        economiaSetores[setorAtivo].economiaSetor.patrimonio +
         custosEdBase +
         custo,
-    },
-)
-;
+    });
 
-console.log(economiaSetores
-  [setorAtivo].economiaSetor,"patrimonio")
+    console.log(economiaSetores[setorAtivo].economiaSetor, "patrimonio");
 
+    // atualizarEco("patrimônio", {
+    //   ...economiaSetores,
+    //   [setorAtivo]: {
+    //     ...economiaSetores[setorAtivo],
+    //     economiaSetor: {
+    //       ...economiaSetores[setorAtivo].economiaSetor,
+    //       patrimonio:
+    //         economiaSetores[setorAtivo].economiaSetor.patrimonio +
+    //         custosEdBase +
+    //         custo,
+    //     },
+    //   },
+    // });
 
-// atualizarEco("patrimônio", {
-//   ...economiaSetores,
-//   [setorAtivo]: {
-//     ...economiaSetores[setorAtivo],
-//     economiaSetor: {
-//       ...economiaSetores[setorAtivo].economiaSetor,
-//       patrimonio:
-//         economiaSetores[setorAtivo].economiaSetor.patrimonio +
-//         custosEdBase +
-//         custo,
-//     },
-//   },
-// });
-   
-
-
-   
     // atualizarEco("patrimonio", economiaSetores.agricultura.economiaSetor.patrimonio + custosEdBase + custo);
 
     // 🔹 6) Atualiza centralEdificios
@@ -1287,7 +1278,15 @@ console.log(economiaSetores
 
         const qtdMelhorado = quantidadeAtivo(edMelhorado.nome);
         const qtd = quantidadeAtivo(dados[setorAtivo].edificios[index].nome);
-
+        const economiaSetor =
+          economiaSetores[setorAtivo]?.economiaSetor?.estadoAtual || "estável";
+        const fatorEconomico = {
+          recessão: 0.4,
+          declinio: 0.8,
+          estável: 1,
+          progressiva: 1.1,
+          aquecida: 1.25,
+        }[economiaSetor];
         const powerUpSelecionado =
           qtd >= quantidadeMinimaPowerUpNv3
             ? "powerUpNv3"
@@ -1402,6 +1401,13 @@ console.log(economiaSetores
     dados[setorAtivo].edificios[index].finanças.impostoSobreFatu;
   const custoConstrução = dados[setorAtivo].edificios[index].custoConstrucao;
 
+      const fatorEconomico = {
+        "recessão": 0.4,
+        "declinio": 0.8,
+        "estável": 1,
+        "progressiva": 1.1,
+        "aquecida": 1.25,
+    }[economiaSetor];
   const impostoSobreFatuFinal =
     impostoSobreFatu -
     impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100);
@@ -1503,7 +1509,7 @@ console.log(economiaSetores
 
   // console.log("🔚 Custo total acumulado de todos os recursos:", custoRecursos);
 
-  let fatuMensal = valorFatuFinal * 30;
+  let fatuMensal = valorFatuFinal * 30 * fatorEconomico;
   let valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal;
   // console.log("custoRecursos", custoRecursos)
   // console.log("custo de lojas", CustoTotalSomadoLojas)
