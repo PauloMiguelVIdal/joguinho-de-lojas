@@ -337,9 +337,9 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 40000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 1000,
-            impostoFixo: 500,
-            impostoSobreFatu: 0.1,
+            faturamentoUnitário: 1095,
+            impostoFixo: 480,
+            impostoSobreFatu: 0.07,
             rent: 32,
           },
 
@@ -719,9 +719,9 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 60000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 800,
-            impostoFixo: 1800,
-            impostoSobreFatu: 0.1,
+            faturamentoUnitário: 680,
+            impostoFixo: 400,
+            impostoSobreFatu: 0.07,
             rent: 32,
           },
 
@@ -896,9 +896,9 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 40000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 1220,
-            impostoFixo: 3150,
-            impostoSobreFatu: 0.1,
+            faturamentoUnitário: 1010,
+            impostoFixo: 500,
+            impostoSobreFatu: 0.07,
             rent: 32,
           },
           lojasNecessarias: {
@@ -1064,9 +1064,9 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 70000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: -640,
-            impostoFixo: 800,
-            impostoSobreFatu: 0.06,
+            faturamentoUnitário: -780,
+            impostoFixo: 480,
+            impostoSobreFatu: 0.07,
             rent: 32,
           },
 
@@ -1201,10 +1201,10 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 1150000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 75000,
-            impostoFixo: 1300000,
-            impostoSobreFatu: 0.1,
-            rent: 25,
+            faturamentoUnitário: 47300,
+            impostoFixo: 20000,
+            impostoSobreFatu: 0.07,
+            rent: 32,
           },
 
           lojasNecessarias: {
@@ -1353,10 +1353,10 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 900000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 25000,
-            impostoFixo: 170000,
-            impostoSobreFatu: 0.1,
-            rent: 28,
+            faturamentoUnitário: 17800,
+            impostoFixo: 10000,
+            impostoSobreFatu: 0.07,
+            rent: 32,
           },
 
           lojasNecessarias: {
@@ -1507,10 +1507,10 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 0,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 300,
-            impostoFixo: 14000,
-            impostoSobreFatu: 0.05,
-            rent: 1,
+            faturamentoUnitário: -980,
+            impostoFixo: 600,
+            impostoSobreFatu: 0.07,
+            rent: 32,
           },
 
           lojasNecessarias: {
@@ -1616,10 +1616,10 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 40000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 390,
-            impostoFixo: 12000,
-            impostoSobreFatu: 0.05,
-            rent: 1,
+            faturamentoUnitário: -940,
+            impostoFixo: 600,
+            impostoSobreFatu: 0.07,
+            rent: 32,
           },
 
           lojasNecessarias: {
@@ -1717,10 +1717,10 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 40000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 180,
-            impostoFixo: 2000,
-            impostoSobreFatu: 0.05,
-            rent: 1,
+            faturamentoUnitário: -704,
+            impostoFixo: 480,
+            impostoSobreFatu: 0.07,
+            rent: 32,
           },
 
           lojasNecessarias: {
@@ -1887,9 +1887,9 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 100000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 5000,
-            impostoFixo: 37000,
-            impostoSobreFatu: 0.1,
+            faturamentoUnitário: 3380,
+            impostoFixo: 1600,
+            impostoSobreFatu: 0.07,
             rent: 32,
           },
 
@@ -2048,9 +2048,9 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 70000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2800,
-            impostoFixo: 30000,
-            impostoSobreFatu: 0.1,
+            faturamentoUnitário: 1560,
+            impostoFixo: 800,
+            impostoSobreFatu: 0.07,
             rent: 32,
           },
 
@@ -2198,10 +2198,10 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 30000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 1750,
-            impostoFixo: 4000,
-            impostoSobreFatu: 0.1,
-            rent: 34,
+            faturamentoUnitário: 1600,
+            impostoFixo: 800,
+            impostoSobreFatu: 0.07,
+            rent: 32,
           },
 
           lojasNecessarias: {
@@ -2338,9 +2338,9 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 100000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 4200,
-            impostoFixo: 55000,
-            impostoSobreFatu: 0.1,
+            faturamentoUnitário: 2050,
+            impostoFixo: 1600,
+            impostoSobreFatu: 0.07,
             rent: 32,
           },
 
@@ -2433,11 +2433,11 @@ const CentraldeDadosProvider = ({ children }) => {
           },
           custoConstrucao: 40000,
           quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 2200,
-            impostoFixo: 11000,
-            impostoSobreFatu: 0.1,
-            rent: 28,
+           finanças: {
+            faturamentoUnitário: 1630,
+            impostoFixo: 800,
+            impostoSobreFatu: 0.07,
+            rent: 32,
           },
 
           lojasNecessarias: {
@@ -2529,10 +2529,10 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 400000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 12000,
-            impostoFixo: 140000,
-            impostoSobreFatu: 0.1,
-            rent: 23,
+            faturamentoUnitário: 8370,
+            impostoFixo: 3200,
+            impostoSobreFatu: 0.07,
+            rent: 32,
           },
 
           lojasNecessarias: {
@@ -2625,10 +2625,10 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 20000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 1300,
-            impostoFixo: 4000,
-            impostoSobreFatu: 0.1,
-            rent: 29,
+            faturamentoUnitário: 1045,
+            impostoFixo: 560,
+            impostoSobreFatu: 0.07,
+            rent: 32,
           },
 
           lojasNecessarias: {
@@ -2764,10 +2764,10 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 100000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 3400,
-            impostoFixo: 16000,
-            impostoSobreFatu: 0.1,
-            rent: 27,
+            faturamentoUnitário: 2540,
+            impostoFixo: 1200,
+            impostoSobreFatu: 0.07,
+            rent: 32,
           },
 
           lojasNecessarias: {
