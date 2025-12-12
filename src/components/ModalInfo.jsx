@@ -302,9 +302,9 @@ const ModalInfo = ({ isOpen, message }) => {
         "⭐ Comece investindo em negócios estáveis\n⭐ Não expanda muito rápido\n⭐ Mantenha sempre uma reserva de emergência\n⭐ Aproveite as oportunidades limitadas\n⭐ Diversifique seus investimentos",
     },
     9: {
-      titulo: "Licenças",
+      titulo: "💵 Despesas",
       texto:
-        "⭐ As Licenças permitem que você expanda seu negócio para novos setores do jogo.\n⭐ Não expanda muito rápido\n⭐ Mantenha sempre uma reserva de emergência\n⭐ Aproveite as oportunidades limitadas\n⭐ Diversifique seus investimentos",
+        "Despesas representam todos os custos necessários para manter a empresa funcionando, englobando tanto os impostos fixos quanto os impostos sobre o faturamento. Essas despesas devem ser pagas a cada 30 dias, e o jogador não pode avançar para o dia seguinte sem quitá-las.",
     },
 
     9.1: {
@@ -367,7 +367,6 @@ texto:"O banco oferece dois tipos:\n\n🟦 1. Investimento Pré-Fixado\nVocê de
 12:{
   titulo:" Economia",
 texto:"A economia é o termômetro que define as mudanças e os rumos do jogo, podendo trazer uma maré de sorte ou de azar. Seus efeitos são totalmente aleatórios, tornando cada partida imprevisível."
-
 },
 12.1:{
   título:"Economia Global",

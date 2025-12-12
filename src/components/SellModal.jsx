@@ -20,12 +20,17 @@ import menos from "../../public/outrasImagens/simbolo-de-menos.png"
 import { Statistic } from './statistic'
 import { Box, Grid, IconButton, Paper, Typography } from '@mui/material'
 import { styled } from '@mui/system';
-
+import closeAudio from "../../public/sounds/closeAudio.mp3";
+import useSound from "use-sound";
+import payTerrain from "../../public/sounds/payTerrainAudio.mp3";
 
 export const SellModal = ({ setor, index, onClose }) => {
   const { dados, atualizarDados, atualizarDadosProf,atualizarDadosProf2 } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
+  const [buttonPayTerrain] = useSound(payTerrain);
+    const [buttonCloseAudio] = useSound(closeAudio);
+  
 
   const setorAtivo = setor
 
@@ -194,7 +199,7 @@ return (
       {/* Botão Fechar */}
       <button
         className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
-        onClick={onClose}
+        onClick={() => { onClose(); buttonCloseAudio() }}
       >
         <img src={fechar} alt="Fechar" className="w-[60%]" />
       </button>
@@ -307,7 +312,7 @@ return (
 
           {/* Botão Vender */}
           <button
-            onClick={venderEdificio}
+            onClick={() => { venderEdificio(); buttonPayTerrain(); }}
             className="w-full py-3 bg-gradient-to-r from-[#6411D9] to-[#934CFF] text-white rounded-[12px] fonteBold hover:scale-105 transition duration-300 shadow-md"
           >
             Vender

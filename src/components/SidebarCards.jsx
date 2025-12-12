@@ -554,7 +554,7 @@ const SidebarCards = ({ banco, cartao, setor }) => {
       ) : (
         <div
           key={index}
-          className=" rounded-3xl border w-full flex items-center justify-center"
+          className=" rounded-3xl w-full flex items-center justify-center"
         >
           <SlotVazio />
         

@@ -4,11 +4,11 @@ import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import useSound from "use-sound";
 import openAudio from "../../public/sounds/openAudio.mp3";
 export default function Sorteio() {
-    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-    const { economiaSetores, setEconomiaSetores } = useContext(
-        DadosEconomyGlobalContext
-    );
-    const [buttonOpenAudio] = useSound(openAudio);
+  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  const { economiaSetores, setEconomiaSetores } = useContext(
+    DadosEconomyGlobalContext
+  );
+  const [buttonOpenAudio] = useSound(openAudio);
 
   const fecharModal = () => {
     // console.log(dados.eventoAtual);
@@ -28,15 +28,19 @@ export default function Sorteio() {
     "imposto fixo",
     "imposto sobre faturamento",
   ];
-  const departmentEventsFinal = [
-    "custos de construção",
-    "imposto anual"
-  ];
+  const departmentEventsFinal = ["custos de construção", "imposto anual"];
   const situacao = ["crescimento", "queda"];
   const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
   const periodo = [3, 7, 15, 30];
   const judgment = ["ÓTIMO", "PÉSSIMO"];
-  const setores = ["agricultura", "industria", "energia", "tecnologia", "comercio", "imobiliario"];
+  const setores = [
+    "agricultura",
+    "industria",
+    "energia",
+    "tecnologia",
+    "comercio",
+    "imobiliario",
+  ];
   const economiaAtual = () => {
     switch (`${economiaSetores.economiaGlobal}`) {
       case "recessão":
@@ -94,6 +98,18 @@ export default function Sorteio() {
         return "nada";
     }
   };
+  const conversorDepartmentEventsFinal = (selecionarDepartamento) => {
+    switch (selecionarDepartamento) {
+      case "custos de construção":
+        return "preçoConstrução";
+      case "imposto anual":
+        return ()=>s;
+
+      // case "despesas de funcionários": return "custoFuncionárioUnitárioPadrão";
+      default:
+        return "nada";
+    }
+  };
 
   const conversorSituacao = (resultadoBase) =>
     resultadoBase === "crescimento" ? "+" : "-";
@@ -112,7 +128,8 @@ export default function Sorteio() {
       dados.dia < 257
         ? selecionarItem(departmentEvents)
         : "custos de construção";
-        // selecionarItem(departmentEventsFinal)
+    // eventosFinais()
+    // selecionarItem(departmentEventsFinal)
     const selecionarJulgamento = julgamentoSorteado();
     const selecionarPorcentagem = selecionarItem(porcentagem);
     const selecionarPeriodo = selecionarItem(periodo);
@@ -128,6 +145,15 @@ export default function Sorteio() {
     const lojaChave = conversorTodasLojas(selecionarLoja);
     const departamentoChave = conversorDepartmentEvents(selecionarDepartamento);
     const operador = conversorSituacao(resultadoBase);
+
+    const setorSelecionado = selecionarItem(setores);
+    const valorInicialImposto =
+      economiaSetores[setorSelecionado]?.[percImpostoAnualAtual] ?? 0;
+
+    const novoValorImposto =
+      Math.round(
+        calcular(valorInicialImposto, porcentagemDecimal, operador) * 100
+      ) / 100;
 
     // console.log(lojaChave)
     // console.log(departamentoChave)
@@ -153,16 +179,76 @@ export default function Sorteio() {
       julgamento: selecionarJulgamento,
       novoValor,
     });
-    buttonOpenAudio()
+    buttonOpenAudio();
     atualizarDados("modal", { ...dados.modal, estadoModal: true });
 
     // console.log("Evento sorteado:", dados.eventoAtual);
 
-    if(dados.dia>=257){
+    const eventosFinais = () => {
+      const setorSelecionado = selecionarItem(setores);
+      const valorInicialImposto =
+        economiaSetores[setorSelecionado]?.[percImpostoAnualAtual] ?? 0;
+
+      d
+      const novoValorImposto =
+        Math.round(
+          calcular(valorInicialImposto, porcentagemDecimal, operador) * 100
+        ) / 100;
+
+      const departmentEventsFinal = selecionarItem(departmentEventsFinal);
 
 
-      };
-    }
+
+
+
+
+      atualizarDados("eventoAtual", {
+        ...dados.eventoAtual,
+        eventoAtivo: true,
+        title: `${selecionarLoja} terão ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento}. Durante o período de ${selecionarPeriodo} dias, não será sorteado novos eventos.`,
+        lojaSelecionada: selecionarLoja,
+        situacaoSelecionada: resultadoBase,
+        porcentagemSelecionada: selecionarPorcentagem,
+        periodoSelecionado: selecionarPeriodo,
+        diaInicial: dados.dia,
+        diaFinal: dados.dia + selecionarPeriodo,
+        departamento: selecionarDepartamento,
+        julgamento: selecionarJulgamento,
+        novoValor,
+      });
+      if (departmentEventsFinal === "custos de construção") {
+        atualizarDados("eventoAtual", {
+          ...dados.eventoAtual,
+          eventoAtivo: true,
+          title: `${selecionarLoja} terão ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento}. Durante o período de ${selecionarPeriodo} dias, não será sorteado novos eventos.`,
+          lojaSelecionada: selecionarLoja,
+          situacaoSelecionada: resultadoBase,
+          porcentagemSelecionada: selecionarPorcentagem,
+          periodoSelecionado: selecionarPeriodo,
+          diaInicial: dados.dia,
+          diaFinal: dados.dia + selecionarPeriodo,
+          departamento: selecionarDepartamento,
+          julgamento: selecionarJulgamento,
+          novoValor,
+        });
+      } else {
+        atualizarDados("eventoAtual", {
+          ...dados.eventoAtual,
+          eventoAtivo: true,
+          title: `${setorSelecionado} terão ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento}. Durante o período de ${selecionarPeriodo} dias, não será sorteado novos eventos.`,
+          setorSelecionada: setorSelecionado,
+          situacaoSelecionada: resultadoBase,
+          porcentagemSelecionada: selecionarPorcentagem,
+          periodoSelecionado: selecionarPeriodo,
+          diaInicial: dados.dia,
+          diaFinal: dados.dia + selecionarPeriodo,
+          departamento: setorSelecionado,
+          julgamento: selecionarJulgamento,
+          novoValor,
+        });
+      }
+    };
+  };
   useEffect(() => {
     sortearNovoEvento();
     // console.log("Sorteio executado para o dia", dados.dia);
