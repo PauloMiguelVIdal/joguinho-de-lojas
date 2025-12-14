@@ -34,7 +34,7 @@ export default function Buy() {
     DadosEconomyGlobalContext
   );
   const constratoSelecionado = economiaSetores.idContrato;
-  const contrato1 = economiaSetores.contratosBancos[constratoSelecionado || 0];
+  // const contrato1 = economiaSetores.contratosBancos[constratoSelecionado || 0] ;
 
   //  const limiteEmprestimoAtual = contrato1.limiteEmprestimo || 0;
   const activeLoan = economiaSetores.activeLoan || null;

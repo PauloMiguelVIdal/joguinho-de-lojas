@@ -19,10 +19,19 @@ function Events(){
 },[dados.eventoAtual])
 
 useEffect(()=>{
-  if(dados.dia===2){
+  if(dados.dia>2){
       atualizarDados("chanceNovoEvento",20)
        }
 },[dados.dia])
+
+
+//descomentar par fim dom jogo
+
+// useEffect(()=>{
+//   if(dados.dia===2){
+//       atualizarDados("chanceNovoEvento",20)
+//        }
+// },[dados.dia])
 
 
 
