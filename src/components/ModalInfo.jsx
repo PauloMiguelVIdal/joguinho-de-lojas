@@ -21,11 +21,69 @@ const ModalInfo = ({ isOpen, message }) => {
   };
 
   const categorias = [
-    { id: 1, nome: "Introdução", icone: "📖" },
-    { id: 2, nome: "Como Jogar", icone: "🎮" },
     { id: 17, nome: "Primeiros 270 Dias", icone: "⌛" },
     { id: 22, nome: "Guia Inicial, dia 271", icone: "📘 " },
-    { id: 19, nome: "Dicas Avançadas", icone: "🚀" },
+            {
+      id: 12,
+      nome: "Economia",
+      icone: "📈",
+      subsecoes: [
+        { id: "12.1", nome: "Economia Global", icone: "🌐" },
+        { id: "12.2", nome: "Economia De Setores", icone: "🏭" },
+      ],
+    },
+            {
+      id: 10,
+      nome: "Eventos",
+      icone: "🌪️",
+      subsecoes: [
+        { id: "10.1", nome: "Faturamento", icone: "📈" },
+        { id: "10.2", nome: "Imposto fixo", icone: "🧾" },
+        { id: "10.3", nome: "Imposto sobre faturamento", icone: "🧾" },
+        { id: "10.4", nome: "Custo de construção", icone: "🧱" },
+        { id: "10.5", nome: "Imposto Anual", icone: "🧾" },
+      ],
+    },
+            {
+      id: 9,
+      nome: "Despesas",
+      icone: "💸",
+      subsecoes: [
+        { id: "9.1", nome: "Imposto fixo", icone: "⚙️" },
+        { id: "9.2", nome: "Impostos Sobre Faturamento", icone: "🛃" },
+        { id: "9.3", nome: "Imposto Anual", icone: "📉" },
+      ],
+    },
+        {
+      id: 5,
+      nome: "Licenças",
+      icone: "📜",
+      subsecoes: [
+        { id: "5.1", nome: "Licenças De Setores", icone: "🏭" },
+        { id: "5.2", nome: "Licenças Empresariais", icone: "🌐" },
+      ],
+    },
+
+
+
+        {
+      id: 13,
+      nome: "Informações de Edifícios",
+      icone: "ℹ️",
+      subsecoes: [
+        { id: "13.1", nome: "Imóveis Necessários ", icone: "🧱" },
+        { id: "13.2", nome: "Edifícios Necessários", icone: "🏢" },
+        { id: "13.3", nome: "Power Ups", icone: "⚡" },
+        { id: "13.4", nome: "Informações Financeiras", icone: "💲" },
+        { id: "13.5", nome: "Rentabilidade", icone: "📊 " }
+      ],
+    },
+        {
+      id: 14,
+      nome: "Carteira",
+      icone: "💼",
+    },
+
     {
       id: 20,
       nome: "Mapa Dos Setores",
@@ -39,6 +97,9 @@ const ModalInfo = ({ isOpen, message }) => {
         { id: "20.6", nome: "Mapa Da Agricultura", icone: "🌱" },
       ],
     },
+    { id: 1, nome: "Introdução", icone: "📖" },
+    { id: 2, nome: "Como Jogar", icone: "🎮" },
+    { id: 19, nome: "Dicas Avançadas", icone: "🚀" },
     // {
     //   id: 3,
     //   nome: "P",
@@ -59,39 +120,11 @@ const ModalInfo = ({ isOpen, message }) => {
     //     { id: "4.3", nome: "Conglomerado", icone: "🌐" },
     //   ],
     // },
-    {
-      id: 5,
-      nome: "Licenças",
-      icone: "📜",
-      subsecoes: [
-        { id: "5.1", nome: "Licenças De Setores", icone: "🏭" },
-        { id: "5.2", nome: "Licenças Empresariais", icone: "🌐" },
-      ],
-    },
+
 
     { id: 7, nome: "Objetivos Do Jogo", icone: "🎯" },
-    {
-      id: 9,
-      nome: "Despesas",
-      icone: "💸",
-      subsecoes: [
-        { id: "9.1", nome: "Imposto fixo", icone: "⚙️" },
-        { id: "9.2", nome: "Impostos Sobre Faturamento", icone: "🛃" },
-        { id: "9.3", nome: "Imposto Anual", icone: "📉" },
-      ],
-    },
-    {
-      id: 10,
-      nome: "Eventos",
-      icone: "🌪️",
-      subsecoes: [
-        { id: "10.1", nome: "Faturamento", icone: "📈" },
-        { id: "10.2", nome: "Imposto fixo", icone: "🧾" },
-        { id: "10.3", nome: "Imposto sobre faturamento", icone: "🧾" },
-        { id: "10.4", nome: "Custo de construção", icone: "🧱" },
-        { id: "10.5", nome: "Imposto Anual", icone: "🧾" },
-      ],
-    },
+
+
     {
       id: 11,
       nome: "Banco",
@@ -102,33 +135,8 @@ const ModalInfo = ({ isOpen, message }) => {
         { id: "11.3", nome: "Investimentos", icone: "📈" },
       ],
     },
-    {
-      id: 12,
-      nome: "Economia",
-      icone: "📈",
-      subsecoes: [
-        { id: "12.1", nome: "Economia Global", icone: "🌐" },
-        { id: "12.2", nome: "Economia De Setores", icone: "🏭" },
-      ],
-    },
-    {
-      id: 13,
-      nome: "Informações de Edifícios",
-      icone: "ℹ️",
-      subsecoes: [
-        { id: "13.1", nome: "Imóveis Necessários ", icone: "🧱" },
-        { id: "13.2", nome: "Edifícios Necessários", icone: "🏢" },
-        { id: "13.3", nome: "Power Ups", icone: "⚡" },
-        { id: "13.4", nome: "Informações Financeiras", icone: "💲" },
-        { id: "13.5", nome: "Rentabilidade", icone: "📊 " },
-        { id: "13.6", nome: "Preço de Construção", icone: "💰" },
-      ],
-    },
-    {
-      id: 14,
-      nome: "Carteira",
-      icone: "💼",
-    },
+
+
     {
       id: 15,
       nome: "Central de Gerenciamento",
@@ -499,12 +507,12 @@ texto:"🏭 ECONOMIA DE SETORES\n\nA Economia de Setor define o faturamento fina
           </motion.button>
 
           {/* Menu Lateral */}
-          <div className="w-[280px] bg-[#2a0a50] border-r-2 border-[#883EF0] p-4 overflow-y-auto">
+          <div className="w-[280px] bg-[#2a0a50] border-r-2 border-[#883EF0] p-4 overflow-y-auto scrollbar-custom">
             <h2 className="text-white text-[24px] font-bold mb-6 text-center bg-gradient-to-r from-[#883EF0] to-[#A473E9] py-3 rounded-lg">
               📚 Menu de Ajuda
             </h2>
 
-            <div className="space-y-2">
+            <div className="space-y-2 ">
               {categorias.map((cat) => (
                 <div key={cat.id}>
                   {/* Botão principal da categoria */}

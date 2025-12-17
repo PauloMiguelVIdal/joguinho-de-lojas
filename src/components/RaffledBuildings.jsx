@@ -14,6 +14,7 @@ import useSound from "use-sound";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import openAudio from "../../public/sounds/openAudio.mp3";
 
+import newStageAudio from "../../public/sounds/newStageAudio.mp3";  
 
 const RaffledBuildings = () => {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
@@ -25,11 +26,13 @@ const RaffledBuildings = () => {
   const [quantidadeExtras, setQuantidadeExtras] = useState(0);
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
+  const [buttonNewStageAudio] = useSound(newStageAudio);
 
   useEffect(() => {
-    if (dados.dia === 270) {
+    if (dados.dia === 400) {
       setIsModalObjOpen(true);
       buttonOpenAudio();
+      buttonNewStageAudio();
     }
   }, [dados.dia]);
 
@@ -858,18 +861,21 @@ const RaffledBuildings = () => {
 
     return (
       <div>
-        <button
+        {dados.dia >= 400 &&
+
+          <button
           onClick={() => { setIsModalObjOpen(true), buttonOpenAudio(); }}
           data-tooltip-id="saldo-tip"
           data-tooltip-content="Observe os objetivos do jogo"
           className="bg-laranja min-h-[50px] hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center"
-        >
+          >
           <img
             className="w-[60%] max-w-[58px] aspect-square"
             src={alvo}
             alt="Economia"
-          />
+            />
         </button>
+          }
         <Tooltip
           id="saldo-tip"
           style={{
@@ -894,7 +900,7 @@ const RaffledBuildings = () => {
               {campanhaSelecionada && (
                 <button
                   className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
-                  onClick={() => { fecharModal(); closeAudio(); }}
+                  onClick={() => { fecharModal(); buttonCloseAudio(); }}
                 >
                   <img src={fechar} alt="Fechar" className="w-[60%]" />
                 </button>
@@ -953,7 +959,7 @@ const RaffledBuildings = () => {
                           <p className="text-sm text-white">{c.descricao}</p>
 
                           <button
-                            onClick={() => gerarCampanha(c.nome)}
+                            onClick={() => { gerarCampanha(c.nome); buttonNewStageAudio(); }}
                             className="bg-gradient-to-r from-[#F27405] to-[#6A00FF] text-white px-6 py-2 rounded-xl font-bold hover:scale-105 transition-transform duration-200 shadow-md"
                           >
                             Selecionar

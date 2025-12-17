@@ -145,13 +145,13 @@ export default function EconomyGlobal() {
         <img
           data-tooltip-id="economia-tip"
 data-tooltip-html={`Esse é a economia global atual do jogo, <b>${economiaAtual}</b> <br/> <br/>    <div>
-      <p>O desempenho do faturamento varia de acordo com a economia global:</p>
+      <p>A categoria de novos eventos varia de acordo com a economia global:</p>
       <ul style={{ marginLeft: "15px", marginTop: "5px" }}>
-        <li><b>Recessão:</b> 40% do faturamento</li>
-        <li><b>Declínio:</b> 80% do faturamento</li>
-        <li><b>Estável:</b> 100% do faturamento</li>
-        <li><b>Progressiva:</b> 110% do faturamento</li>
-        <li><b>Aquecida:</b> 125% do faturamento</li>
+        <li><b>Recessão:</b> 35% de eventos benéficos, 65% de eventos prejudiciais</li>
+        <li><b>Declínio:</b> 45% de eventos benéficos, 55% de eventos prejudiciais</li>
+        <li><b>Estável:</b> 50% de eventos benéficos, 50% de eventos prejudiciais</li>
+        <li><b>Progressiva:</b> 55% de eventos benéficos, 45% de eventos prejudiciais</li>
+        <li><b>Aquecida:</b> 65% de eventos benéficos, 35% de eventos prejudiciais</li>
       </ul>
     </div>`}          className="w-[60%] max-w-[58px] aspect-square"
           src={circularEconomia}

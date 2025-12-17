@@ -2989,7 +2989,7 @@ const CentraldeDadosProvider = ({ children }) => {
           edifíciosLiberados: [
             "Centro De Pesquisa Aeroespacial",
             "Centro De Engenharia Avançada",
-            "Centro De Pesquisa Em Materiais Avançados",
+            "Centro De Pesquisa Em Materiais",
           ],
           status: false,
         },
@@ -3337,7 +3337,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 6, nível2: 12, nível3: 16 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 6, nível2: 7, nível3: 8 },
             },
@@ -3514,7 +3514,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 1, nível2: 1, nível3: 3 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 14, nível2: 16, nível3: 16 },
             },
@@ -4815,7 +4815,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 29, nível2: 40, nível3: 90 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 14, nível2: 18, nível3: 40 },
             },
@@ -5206,7 +5206,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 25, nível2: 34, nível3: 80 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 16, nível2: 20, nível3: 40 },
             },
@@ -5254,8 +5254,8 @@ const CentraldeDadosProvider = ({ children }) => {
           custoConstrucao: 410000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 76270,
-            impostoFixo: 48000,
+            faturamentoUnitário: 17000,
+            impostoFixo: 30000,
             impostoSobreFatu: 0.1,
             rent: 22,
           },
@@ -6161,7 +6161,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 15, nível2: 25, nível3: 55 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 35, nível2: 45, nível3: 95 },
             },
@@ -6427,7 +6427,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 8, nível2: 10, nível3: 12 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 18, nível3: 24 },
             },
@@ -6826,7 +6826,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 29, nível2: 40, nível3: 90 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 24, nível2: 38, nível3: 84 },
             },
@@ -6962,7 +6962,7 @@ const CentraldeDadosProvider = ({ children }) => {
           },
         },
         {
-          nome: "Centro De Pesquisa Em Materiais Avançados",
+          nome: "Centro De Pesquisa Em Materiais",
           desc: "Tecnologias voltadas ao setor aeroespacial.",
           licençaLiberado: {
             licença: "Licença De Engenharia Avançada",
@@ -7490,7 +7490,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 4, nível3: 6 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 18, nível2: 20, nível3: 50 },
             },
@@ -10136,7 +10136,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 8, nível2: 16, nível3: 15 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 9, nível2: 18, nível3: 18 },
             },
@@ -10320,7 +10320,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 14, nível2: 18, nível3: 24 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 11, nível3: 12 },
             },
@@ -10493,7 +10493,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 9, nível2: 10, nível3: 11 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 7, nível2: 11, nível3: 15 },
             },
@@ -10686,7 +10686,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 8, nível2: 12, nível3: 16 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 16, nível3: 20 },
             },
@@ -10904,7 +10904,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 8, nível2: 10, nível3: 12 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 9, nível2: 11, nível3: 13 },
             },
@@ -11102,7 +11102,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 8, nível2: 10, nível3: 11 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -11300,7 +11300,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 8, nível2: 10, nível3: 11 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -11473,7 +11473,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 7, nível2: 10, nível3: 12 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -11641,7 +11641,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 8, nível3: 15 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 10, nível3: 20 },
             },
@@ -11792,7 +11792,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 3, nível2: 18, nível3: 40 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               red极: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 15, nível3: 38 },
             },
@@ -12609,7 +12609,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 8, nível2: 10, nível3: 11 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12786,7 +12786,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 8, nível2: 10, nível3: 11 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12959,7 +12959,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 3, nível2: 4, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13183,7 +13183,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 2, nível2: 3, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13386,7 +13386,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 6, nível3: 6 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 6, nível3: 6 },
             },
@@ -13744,7 +13744,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 4, nível2: 0, nível3: 5 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 0, nível3: 5 },
             },
@@ -13932,7 +13932,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 2, nível2: 14, nível3: 28 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14134,7 +14134,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 3, nível2: 12, nível3: 26 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14340,7 +14340,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 3, nível2: 15, nível3: 27 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 12, nível3: 20 },
             },
@@ -14547,7 +14547,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 4, nível2: 18, nível3: 42 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 17, nível3: 37 },
             },
@@ -19030,7 +19030,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 10, nível2: 14, nível3: 16 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 16, nível3: 20 },
             },
@@ -19182,7 +19182,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 15, nível2: 20, nível3: 40 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 15, nível3: 30 },
             },
@@ -19405,7 +19405,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 25, nível2: 35, nível3: 75 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 25, nível2: 35, nível3: 75 },
             },
@@ -19616,7 +19616,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21566,7 +21566,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 5, nível2: 7, nível3: 9 },
             },
@@ -22196,7 +22196,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -23981,7 +23981,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -24358,7 +24358,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -24731,7 +24731,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25137,7 +25137,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25505,7 +25505,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25876,7 +25876,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -26279,7 +26279,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Materiais Avançados",
+              nome: "Centro De Pesquisa Em Materiais",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },

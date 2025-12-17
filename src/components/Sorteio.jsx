@@ -5,7 +5,7 @@ import useSound from "use-sound";
 import openAudio from "../../public/sounds/openAudio.mp3";
 export default function Sorteio() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, setEconomiaSetores } = useContext(
+  const { economiaSetores, setEconomiaSetores,atualizarEco,atualizarEcoProf } = useContext(
     DadosEconomyGlobalContext
   );
   const [buttonOpenAudio] = useSound(openAudio);
@@ -28,9 +28,14 @@ export default function Sorteio() {
     "imposto fixo",
     "imposto sobre faturamento",
   ];
-  const departmentEventsFinal = ["custos de construção", "imposto anual"];
+  const departmentEventsFinal = [
+    "custos de construção",   
+    "imposto anual"];
   const situacao = ["crescimento", "queda"];
-  const porcentagem = [1, 3, 5, 7, 10, 15, 20, 30];
+  const porcentagem = [
+    1, 3, 5, 7, 10, 15, 20, 30
+  // 50,100,200,
+  ];
   const periodo = [3, 7, 15, 30];
   const judgment = ["ÓTIMO", "PÉSSIMO"];
   const setores = [
@@ -199,7 +204,7 @@ export default function Sorteio() {
     const setorSelecionado = selecionarItem(setores);
     const selecionarDepartamentoFinal = selecionarItem(departmentEventsFinal);
     const valorInicialImposto =
-      economiaSetores[setorSelecionado]?.percImpostoAnualAtual ?? 0;
+      economiaSetores[setorSelecionado].economiaSetor.percImpostoAnualAtual ?? 0;
     const novoValorImposto =
       Math.round(
         calcular(valorInicialImposto, porcentagemDecimal, operador) * 100
@@ -208,13 +213,15 @@ export default function Sorteio() {
       
       console.log("setor selecionado:",setorSelecionado)
       console.log("setor acessado",economiaSetores[setorSelecionado])
-      console.log("valor setor acessado",economiaSetores[setorSelecionado].percImpostoAnualAtual)
-      console.log("valor setor acessado",economiaSetores[setorSelecionado].valorImpostoAnualAtual)
-      
-      setEconomiaSetores(setorSelecionado, {
-        ...economiaSetores[setorSelecionado],
-        percImpostoAnualAtual: novoValorImposto,
-      });
+      console.log("valor setor acessado",economiaSetores[setorSelecionado].economiaSetor.percImpostoAnualAtual)
+      console.log("valor setor acessado",economiaSetores[setorSelecionado].economiaSetor.valorImpostoAnualAtual)
+
+    //  atualizarEcoProf(["economiaSetores",setorSelecionado,"economiaSetor","percImpostoAnualAtual"], 122222);
+
+atualizarEcoProf(
+  [setorSelecionado, "economiaSetor", "percImpostoAnualAtual"],
+  novoValorImposto
+);
 
       if (selecionarDepartamentoFinal === "imposto anual") {
         atualizarDados("eventoAtual", {

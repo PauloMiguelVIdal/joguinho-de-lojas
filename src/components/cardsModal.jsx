@@ -2257,9 +2257,9 @@ export const CardModal = ({ index }) => {
               <div
                 data-tooltip-id="tooltip-faturado"
                 data-tooltip-html="Nome do edifício"
-                className="flex p-[10px] justify-center"
+                className="flex p-[10px] justify-center items-center w-full h-full"
               >
-                <h1 className="text-white fonteBold text-[12px]">
+                <h1 className="text-white fonteBold text-center text-[12px]">
                   {dados[setorAtivo].edificios[index].nome}
                 </h1>
               </div>
