@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import agricultura from "./setores/agricultura.png";
-import tecnologia from "./setores/tecnologia.png";
-import comercio from "./setores/comercio.png";
-import industria from "./setores/industria.png";
-import imobiliario from "./setores/Imobiliário.png";
-import energia from "./setores/torre-eletrica.png";
+import agricultura from "../../public/outrasImagens/setores/agricultura.png";
+import tecnologia from "../../public/outrasImagens/setores/tecnologia.png";
+import comercio from "../../public/outrasImagens/setores/comercio.png";
+import industria from "../../public/outrasImagens/setores/industria.png";
+import imobiliario from "../../public/outrasImagens/setores/imobiliário.png";
+import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 const PatrimonioInterface = () => {

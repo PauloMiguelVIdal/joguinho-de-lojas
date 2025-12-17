@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import circularEconomia from "../../public/outrasImagens/circular-economy.png";
-import agricultura from '../components/setores/agricultura.png';
-import tecnologia from '../components/setores/tecnologia.png';
-import industria from '../components/setores/industria.png';
-import comercio from '../components/setores/comercio.png';
-import imobiliario from '../components/setores/Imobiliário.png';
-import energia from '../components/setores/torre-eletrica.png';
+import agricultura from "../../public/outrasImagens/setores/agricultura.png";
+import tecnologia from "../../public/outrasImagens/setores/tecnologia.png";
+import comercio from "../../public/outrasImagens/setores/comercio.png";
+import industria from "../../public/outrasImagens/setores/industria.png";
+import imobiliario from "../../public/outrasImagens/setores/imobiliário.png";
+import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
 import Converter from "./Converter";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { Tooltip } from "react-tooltip";

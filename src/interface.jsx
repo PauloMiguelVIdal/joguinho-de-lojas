@@ -109,7 +109,7 @@ function Interface() {
     <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3 min-h-0 overflow-y-auto">
       <ActiveEvents />
     </div>
-<InfoPage/>
+
   </div>
 )}
             </div>

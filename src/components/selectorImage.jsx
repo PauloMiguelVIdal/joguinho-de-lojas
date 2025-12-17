@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-import agricultura from "./setores/agricultura.png"
-import tecnologia from "./setores/tecnologia.png"
-import comercio from "./setores/comercio.png"
-import industria from "./setores/industria.png"
-import imobiliario from "./setores/Imobiliário.png"
-import energia from "./setores/torre-eletrica.png"
-import grafico from "./setores/grafico.png"
+import agricultura from "../../public/outrasImagens/setores/agricultura.png";
+import tecnologia from "../../public/outrasImagens/setores/tecnologia.png";
+import comercio from "../../public/outrasImagens/setores/comercio.png";
+import industria from "../../public/outrasImagens/setores/industria.png";
+import imobiliario from "../../public/outrasImagens/setores/imobiliário.png";
+import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
+import grafico from "../../public/outrasImagens/setores/grafico.png";
 
 
 export default function SelectorImage({ index }) {
