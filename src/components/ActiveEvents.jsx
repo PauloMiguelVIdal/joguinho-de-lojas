@@ -76,13 +76,17 @@ export default function ActiveEvents() {
           transition={{ duration: 0.3, ease: "easeOut" }}
           className="flex flex-col items-center justify-center bg-[#6411D9] rounded-[20px] w-full p-[5px]  gap-[10px]"
         >
-          {dados.eventoAtual.setorSelecionado !== "" && (
+          {dados.eventoAtual.departamento ? (
             <div className="w-[95%] bg-[#331B8C] rounded-[5px] fonteBold text-[20px] flex place-content-between">
+              <h1 className="text-white m-[5px]   ml-[10px]">
+                {dados.eventoAtual.departamento}
+              </h1>
+            </div>
+          ):     <div className="w-[95%] bg-[#331B8C] rounded-[5px] fonteBold text-[20px] flex place-content-between">
               <h1 className="text-white m-[5px]   ml-[10px]">
                 {dados.eventoAtual.lojaSelecionada}
               </h1>
-            </div>
-          )}
+            </div>}
           <div className="bg-[#290064] rounded-[20px] aspect-square h-[80%] flex flex-col items-center justify-center relative">
             <div className="flex flex-col h-full  justify-between items-start p-[5px]">
               <div className="flex fonteLight place-content-around items-center w-[90%] mt-[10px]">
@@ -95,11 +99,11 @@ export default function ActiveEvents() {
                 Data de encerramento : {dados.eventoAtual.diaFinal}
               </div>
             </div>
-            <img
+            {/* <img
               className="h-[45px] aspect-square opacity-50 flex justify-center absolute"
               src={foto}
               alt="teste"
-            />
+            /> */}
           </div>
         </motion.div>
       </div>

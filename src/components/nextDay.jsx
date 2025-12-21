@@ -39,6 +39,7 @@ export function NextDay() {
         dados.modalAlert.estadoModal ||
         dados.modalDespesas.estadoModal ||
         dados.modalEconomiaGlobal.estadoModal ||
+        dados.dia % 30 === 0 ||
         isNKeyDown // 2. Se já estiver pressionada, ignora o auto-repeat
       )
         return;
@@ -203,7 +204,7 @@ export function NextDay() {
     <div className="flex">
       <button
         data-tooltip-id="saldo-tip"
-        data-tooltip-content="Avança para o próximo dia"
+        data-tooltip-content="Avança para o próximo dia (D)"
         className="w-full min-h-[50px] aspect-square bg-laranja rounded-[20px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] "
         onClick={ProximoDia}
       >

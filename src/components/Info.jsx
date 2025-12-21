@@ -23,7 +23,7 @@ export function InfoPage() {
     <div>
       <button
         onClick={activeModal}
-        className="w-[40px] bg-white h-[40px] flex items-center justify-center rounded-xl"
+        className="bg-white h-[50px] aspect-square rounded-[10px] flex items-center justify-center cursor-pointer"
       >
         <Info className="color-blue" />
       </button>

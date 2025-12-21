@@ -603,7 +603,7 @@ const novoArrayFatuSetorHistory = [...arrayFatuSetorHistory, faturamentoTotalSet
 
   const tooltipText = `
 <div>
-  <p>Clique aqui para pagar as despesas mensais.</p>
+  <p>Clique aqui para pagar as despesas mensais. (S)</p>
   <p style="margin-top:4px;">Detalhes dos impostos:</p>
   <p><p/>
   <p style="margin-left:10px;">Imposto Fixo Mensal: R$ ${

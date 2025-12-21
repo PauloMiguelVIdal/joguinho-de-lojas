@@ -691,7 +691,7 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
                   <Box
                     data-tooltip-id="tooltip-lojag-comprar"
                     data-tooltip-html={`<div>
-          <p>Comprar terreno</p>
+          <p>Comprar terreno (Q)</p>
    <p style="margin-top:4px;">Dependendo do imóvel que você for construir, você <br/> vai precisar de um número mínimo de terrenos.</p>
               <p style="margin-top:4px;"><b>Imóvel pequeno</b> - 1 terreno.<br/><b>Imóvel médio</b> - 2 terrenos.<br/><b>Imóvel grande</b> - 3 terrenos.</p>
        
@@ -1029,7 +1029,7 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
                   <Box
                     data-tooltip-id="tooltip-lojap-comprar"
                     data-tooltip-html={`<div>
-          <p>Comprar imóvel pequeno</p>
+          <p>Comprar imóvel pequeno (W)</p>
           <p style="margin-top:4px;">Precisa de 1 terreno.</p>
         </div>`}
                   >
@@ -1296,7 +1296,7 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
                   <Box
                     data-tooltip-id="tooltip-lojam-comprar"
                     data-tooltip-html={`<div>
-          <p>Comprar imóvel médio</p>
+          <p>Comprar imóvel médio (E)</p>
           <p style="margin-top:4px;">Precisa de 2 terrenos para construir.</p>
         </div>`}
                   >
@@ -1559,7 +1559,7 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
                   <Box
                     data-tooltip-id="tooltip-lojag-comprar"
                     data-tooltip-html={`<div>
-          <p>Comprar imóvel grande</p>
+          <p>Comprar imóvel grande (R)</p>
           <p style="margin-top:4px;">Precisa de 3 terrenos para construir.</p>
         </div>`}
                   >
@@ -1741,7 +1741,7 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
                 data-tooltip-id="tooltip-terreno-comprar"
                 data-tooltip-html={`
         <div > 
-          <p>Comprar terreno</p>
+          <p>Comprar terreno (Q)</p>
           <p style="margin-top:4px;">Dependendo do imóvel que você for construir, você vai precisar de um número mínimo de terrenos:</p>
           <p style="margin-top:4px;"><b>Imóvel pequeno</b> - 1 terreno<br/><b>Imóvel médio</b> - 2 terrenos<br/><b>Imóvel grande</b> - 3 terrenos</p>
         </div>
@@ -2053,7 +2053,7 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
             >
               <Box
                 data-tooltip-id="tooltip-lojap-comprar"
-                data-tooltip-html="<div><p>Comprar imóvel pequeno</p><p style='margin-top:4px;'>Precisa de um terreno para poder construir em cima dele</p></div>"
+                data-tooltip-html="<div><p>Comprar imóvel pequeno (W)</p><p style='margin-top:4px;'>Precisa de um terreno para poder construir em cima dele</p></div>"
               >
                 <Box
                   style={getBotaoCompraStyle({
@@ -2364,7 +2364,7 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
             >
               <Box
                 data-tooltip-id="tooltip-lojam-comprar"
-                data-tooltip-html="<div><p>Comprar imóvel médio</p><p style='margin-top:4px;'>Precisa de dois terrenos ou mais para construir</p></div>"
+                data-tooltip-html="<div><p>Comprar imóvel médio (E)</p><p style='margin-top:4px;'>Precisa de dois terrenos ou mais para construir</p></div>"
               >
                 <Box
                   style={getBotaoCompraStyle({
@@ -2672,7 +2672,7 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
             >
               <Box
                 data-tooltip-id="tooltip-lojag-comprar"
-                data-tooltip-html="<div><p>Comprar imóvel grande</p><p style='margin-top:4px;'>Precisa de três terrenos ou mais para construir</p></div>"
+                data-tooltip-html="<div><p>Comprar imóvel grande (R)</p><p style='margin-top:4px;'>Precisa de três terrenos ou mais para construir</p></div>"
               >
                 <Box
                   style={getBotaoCompraStyle({

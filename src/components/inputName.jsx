@@ -34,9 +34,11 @@ const InputName = () => {
     if (dados.inicioGame.estadoModal === true) {
         return (
             <div className='flex justify-center items-center w-[100vw] h-[100vh] z-20 bg-black opacity-[95%] absolute' >
+              
                 <div className='w-[60vw] h-[60vh] bg-roxo rounded-[10px] flex justify-center items-center p-10 flex-col' >
+                    <h1 className='fonteBold text-white mb-[10px] text-[25px]'>Seja bem vindo ao Business Game</h1>
+                    <br/>
                     <h1 className='fonteBold text-white mb-[10px] text-[25px]'>ESCOLHA O NOME DA SUA EMPRESA</h1>
-                    <h2 className='fonteBold text-white mb-[60px] text-[20px] opacity-70'>O nome da sua empresa é o seu legado, podendo se tornar no futuro uma grande corporação!</h2>
                     <div className='flex justify-center w-full items-center'>
                         <input
                             type="text"
@@ -52,6 +54,9 @@ const InputName = () => {
                         >
                             <img className='h-[60%]' src={correto} alt="correto" />                        </button>
                     </div>
+
+                    <br/>
+                    <h2 className='fonteBold text-white mb-[60px] text-[20px] opacity-70'>O nome da sua empresa é o seu legado, podendo se tornar no futuro uma grande corporação!</h2>
 
                 </div>
             </div>
