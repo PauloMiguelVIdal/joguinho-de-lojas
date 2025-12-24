@@ -1740,9 +1740,9 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
               <Box
                 data-tooltip-id="tooltip-terreno-comprar"
                 data-tooltip-html={`
-        <div > 
+        <div className="z-[100]"> 
           <p>Comprar terreno (Q)</p>
-          <p style="margin-top:4px;">Dependendo do imóvel que você for construir, você vai precisar de um número mínimo de terrenos:</p>
+          <p style="margin-top:4px;">Dependendo do imóvel que você for</br> construir, você vai precisar de </br> um número mínimo de terrenos:</p>
           <p style="margin-top:4px;"><b>Imóvel pequeno</b> - 1 terreno<br/><b>Imóvel médio</b> - 2 terrenos<br/><b>Imóvel grande</b> - 3 terrenos</p>
         </div>
       `}

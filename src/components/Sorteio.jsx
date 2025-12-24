@@ -5,9 +5,12 @@ import useSound from "use-sound";
 import openAudio from "../../public/sounds/openAudio.mp3";
 export default function Sorteio() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, setEconomiaSetores,atualizarEco,atualizarEcoProf } = useContext(
-    DadosEconomyGlobalContext
-  );
+  const {
+    economiaSetores,
+    setEconomiaSetores,
+    atualizarEco,
+    atualizarEcoProf,
+  } = useContext(DadosEconomyGlobalContext);
   const [buttonOpenAudio] = useSound(openAudio);
 
   const fecharModal = () => {
@@ -28,13 +31,11 @@ export default function Sorteio() {
     "imposto fixo",
     "imposto sobre faturamento",
   ];
-  const departmentEventsFinal = [
-    "custos de construção",   
-    "imposto anual"];
+  const departmentEventsFinal = ["custos de construção", "imposto anual"];
   const situacao = ["crescimento", "queda"];
   const porcentagem = [
-    1, 3, 5, 7, 10, 15, 20, 30
-  // 50,100,200,
+    1, 3, 5, 7, 10, 15, 20, 30,
+    // 50,100,200,
   ];
   const periodo = [3, 7, 15, 30];
   const judgment = ["ÓTIMO", "PÉSSIMO"];
@@ -204,42 +205,50 @@ export default function Sorteio() {
     const setorSelecionado = selecionarItem(setores);
     const selecionarDepartamentoFinal = selecionarItem(departmentEventsFinal);
     const valorInicialImposto =
-      economiaSetores[setorSelecionado].economiaSetor.percImpostoAnualAtual ?? 0;
+      economiaSetores[setorSelecionado].economiaSetor.percImpostoAnualAtual ??
+      0;
     const novoValorImposto =
       Math.round(
         calcular(valorInicialImposto, porcentagemDecimal, operador) * 100
       ) / 100;
 
-      
-      console.log("setor selecionado:",setorSelecionado)
-      console.log("setor acessado",economiaSetores[setorSelecionado])
-      console.log("valor setor acessado",economiaSetores[setorSelecionado].economiaSetor.percImpostoAnualAtual)
-      console.log("valor setor acessado",economiaSetores[setorSelecionado].economiaSetor.valorImpostoAnualAtual)
+    console.log("setor selecionado:", setorSelecionado);
+    console.log("setor acessado", economiaSetores[setorSelecionado]);
+    console.log(
+      "valor setor acessado",
+      economiaSetores[setorSelecionado].economiaSetor.percImpostoAnualAtual
+    );
+    console.log(
+      "valor setor acessado",
+      economiaSetores[setorSelecionado].economiaSetor.valorImpostoAnualAtual
+    );
 
     //  atualizarEcoProf(["economiaSetores",setorSelecionado,"economiaSetor","percImpostoAnualAtual"], 122222);
 
-atualizarEcoProf(
-  [setorSelecionado, "economiaSetor", "percImpostoAnualAtual"],
-  novoValorImposto
-);
 
-      if (selecionarDepartamentoFinal === "imposto anual") {
-        atualizarDados("eventoAtual", {
-          ...dados.eventoAtual,
-          eventoAtivo: true,
-          title: `O setor ${setorSelecionado}, terá ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento}. Durante o período de ${selecionarPeriodo} dias, não será sorteado novos eventos.`,
-          setorSelecionada: setorSelecionado,
-          situacaoSelecionada: resultadoBase,
-          porcentagemSelecionada: selecionarPorcentagem,
-          periodoSelecionado: selecionarPeriodo,
-          diaInicial: dados.dia,
-          diaFinal: dados.dia + selecionarPeriodo,
-          departamento: setorSelecionado,
-          julgamento: selecionarJulgamento,
-          novoValor,
-        });
-        console.log(valorInicialImposto)
-      console.log(novoValorImposto)
+
+    if (selecionarDepartamentoFinal === "imposto anual") {
+      atualizarEcoProf(
+        [setorSelecionado, "economiaSetor", "percImpostoAnualAtual"],
+        novoValorImposto
+      );
+
+      atualizarDados("eventoAtual", {
+        ...dados.eventoAtual,
+        eventoAtivo: true,
+        title: `O setor ${setorSelecionado},kkkkkk terá ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento}. Durante o período de ${selecionarPeriodo} dias, não será sorteado novos eventos.`,
+        setorSelecionada: setorSelecionado,
+        situacaoSelecionada: resultadoBase,
+        porcentagemSelecionada: selecionarPorcentagem,
+        periodoSelecionado: selecionarPeriodo,
+        diaInicial: dados.dia,
+        diaFinal: dados.dia + selecionarPeriodo,
+        departamento: setorSelecionado,
+        julgamento: selecionarJulgamento,
+        novoValor,
+      });
+      console.log(valorInicialImposto);
+      console.log(novoValorImposto);
 
       buttonOpenAudio();
       atualizarDados("modal", { ...dados.modal, estadoModal: true });
@@ -302,7 +311,7 @@ atualizarEcoProf(
 
       // console.log("Evento aplicado nas lojas!");
       // console.log("useEffect chamado10!");
-    } 
+    }
     // else if (
     //   dados.eventoAtual.eventoAtivo &&
     //   dados.dia >= 270 &&
