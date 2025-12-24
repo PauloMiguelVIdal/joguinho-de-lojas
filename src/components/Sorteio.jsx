@@ -149,7 +149,10 @@ export default function Sorteio() {
         : "queda";
 
     const lojaChave = conversorTodasLojas(selecionarLoja);
-    const departamentoChave = conversorDepartmentEventsFinal(
+
+    const departamentoChave = dados.dia < 269 ? conversorDepartmentEvents(
+      selecionarDepartamento
+    ) : conversorDepartmentEventsFinal(
       selecionarDepartamento
     );
     const operador = conversorSituacao(resultadoBase);
@@ -227,7 +230,7 @@ export default function Sorteio() {
 
 
 
-    if (selecionarDepartamentoFinal === "imposto anual") {
+    if (selecionarDepartamentoFinal === "imposto anual" && dados.dia >= 269) {
       atualizarEcoProf(
         [setorSelecionado, "economiaSetor", "percImpostoAnualAtual"],
         novoValorImposto
@@ -236,7 +239,7 @@ export default function Sorteio() {
       atualizarDados("eventoAtual", {
         ...dados.eventoAtual,
         eventoAtivo: true,
-        title: `O setor ${setorSelecionado},kkkkkk terá ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento}. Durante o período de ${selecionarPeriodo} dias, não será sorteado novos eventos.`,
+        title: `O setor ${setorSelecionado},terá ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento}. Durante o período de ${selecionarPeriodo} dias, não será sorteado novos eventos.`,
         setorSelecionada: setorSelecionado,
         situacaoSelecionada: resultadoBase,
         porcentagemSelecionada: selecionarPorcentagem,
@@ -279,7 +282,7 @@ export default function Sorteio() {
 
   // ✅ UseEffect no nível superior para atualizar os valores das lojas quando evento for ativado
   useEffect(() => {
-    if (dados.eventoAtual.eventoAtivo && dados.dia < 270) {
+    if (dados.eventoAtual.eventoAtivo && dados.dia < 269) {
       const lojaChave = conversorTodasLojas(dados.eventoAtual.lojaSelecionada);
       const departamentoChave = conversorDepartmentEvents(
         dados.eventoAtual.departamento
