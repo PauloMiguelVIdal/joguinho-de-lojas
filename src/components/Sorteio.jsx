@@ -19,10 +19,10 @@ export default function Sorteio() {
   };
 
   const todasLojas = [
-    "terrenos",
-    "lojas pequenas",
-    "lojas médias",
-    "lojas grandes",
+    "Terrenos",
+    "Imóvel Pequeno",
+    "Imóvel Médio",
+    "Imóvel Grande",
   ];
   const departmentEvents = [
     "faturamento",
@@ -76,13 +76,13 @@ export default function Sorteio() {
 
   const conversorTodasLojas = (selecionarLoja) => {
     switch (selecionarLoja) {
-      case "terrenos":
+      case "Terrenos":
         return "terrenos";
-      case "lojas pequenas":
+      case "Imóvel Pequeno":
         return "lojasP";
-      case "lojas médias":
+      case "Imóvel Médio":
         return "lojasM";
-      case "lojas grandes":
+      case "Imóvel Grande":
         return "lojasG";
       default:
         return "nada";
@@ -177,6 +177,8 @@ export default function Sorteio() {
       100;
 
     // console.log(novoValor)
+
+     atualizarDados("modal", { ...dados.modal, estadoModal: true });
     atualizarDados("eventoAtual", {
       ...dados.eventoAtual,
       eventoAtivo: true,
