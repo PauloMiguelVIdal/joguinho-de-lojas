@@ -14,7 +14,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
     animarCicloDia: null,
-    dia: 1,
+    dia: 1000,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -26,6 +26,11 @@ const CentraldeDadosProvider = ({ children }) => {
       proximoPagamento: "",
     },
     modal: {
+      estadoModal: false,
+      head: "",
+      content: "",
+    },
+    modalEditável: {
       estadoModal: false,
       head: "",
       content: "",
@@ -273,6 +278,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Comércios Agrícolas",
+
           desc: "Permite a criação de centros de distribuição e cooperativas para otimizar a comercialização de produtos agrícolas entre regiões.",
           valor: 750000,
           edifíciosLiberados: [
@@ -283,6 +289,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Fazendas De Animais",
+          nomeEditável: "Licença De Fazendas De Animais",
           desc: "Habilita a criação profissional de animais como gado, aves e ovinos, essencial para abastecer frigoríficos e laticínios.",
           valor: 78000,
           edifíciosLiberados: [
@@ -294,6 +301,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Armazenamentos Agrícolas",
+          nomeEditável: "Licença De Armazenamentos Agrícolas",
           desc: "Concede permissão para construção de unidades de armazenamento especializadas para grãos e insumos agrícolas.",
           valor: 44000,
           edifíciosLiberados: [
@@ -305,6 +313,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Áreas Especiais",
+          nomeEditável: "Licença De Áreas Especiais",
           desc: "Autoriza a exploração sustentável de recursos naturais como madeira e minérios em áreas designadas.",
           valor: 140000,
           edifíciosLiberados: [
@@ -316,6 +325,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Outras Plantações",
+          nomeEditável: "Licença De Outras Plantações",
           desc: "Permite o cultivo de espécies vegetais especiais com alto valor agregado para indústrias específicas.",
           valor: 44000,
           edifíciosLiberados: [
@@ -329,6 +339,7 @@ const CentraldeDadosProvider = ({ children }) => {
       edificios: [
         {
           nome: "Plantação De Grãos",
+          nomeEditável: "Plantação De Grãos",
           desc: "Base da produção agrícola. Dá suporte às fazendas e à alimentação.",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
@@ -711,6 +722,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Plantação De Vegetais",
+          nomeEditável: "Plantação De Vegetais",
           desc: "Elemento essencial do setor agrícola. Representa variedade e frescor.",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
@@ -888,6 +900,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Pomares",
+          nomeEditável: "Pomares",
           desc: "Diversifica a produção rural. Dá suporte à indústria e ao comércio local.",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
@@ -1056,6 +1069,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Fazenda Administrativa",
+          nomeEditável: "Fazenda Administrativa",
           desc: "Organiza e valoriza o setor rural. Aumenta a eficiência das plantações.",
           licençaLiberado: {
             licença: "Licença Global De Agricultura",
@@ -1193,6 +1207,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Cooperativa Agrícola",
+          nomeEditável: "Cooperativa Agrícola",
           desc: "Conecta pequenos produtores. Melhora o valor das construções agrícolas.",
           licençaLiberado: {
             licença: "Licença De Comércios Agrícolas",
@@ -1345,6 +1360,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Centro De Comércio De Plantações",
+          nomeEditável: "Centro De Comércio De Plantações",
           desc: "Representa o escoamento da produção. Aumenta o valor do setor agrícola.",
           licençaLiberado: {
             licença: "Licença De Comércios Agrícolas",
@@ -1499,6 +1515,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Armazém",
+          nomeEditável: "Armazém",
           desc: "Espaço de armazenamento geral. Dá suporte a múltiplos setores produtivos.",
           licençaLiberado: {
             licença: "Licença De Armazenamentos Agrícolas",
@@ -1608,6 +1625,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Silo",
+          nomeEditável: "Silo",
           desc: "Armazena grãos. Aumenta a eficiência e o valor das plantações ao redor.",
           licençaLiberado: {
             licença: "Licença De Armazenamentos Agrícolas",
@@ -1709,6 +1727,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Depósito De Resíduos Orgânicos",
+          nomeEditável: "Depósito De Resíduos Orgânicos",
           desc: "Processa sobras naturais. Melhora a rentabilidade de fazendas e plantações.",
           licençaLiberado: {
             licença: "Licença De Armazenamentos Agrícolas",
@@ -1879,6 +1898,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Fazenda De Vacas",
+          nomeEditável: "Fazenda De Vacas",
           desc: "Produção animal de grande porte. Suporte para indústrias e comércios.",
           licençaLiberado: {
             licença: "Licença De Fazendas De Animais",
@@ -2040,6 +2060,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Granja De Aves",
+          nomeEditável: "Granja De Aves",
           desc: "Produção rápida e leve. Base para setores alimentares e de exportação.",
           licençaLiberado: {
             licença: "Licença De Fazendas De Animais",
@@ -2190,6 +2211,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Criação De Ovinos",
+          nomeEditável: "Criação De Ovinos",
           desc: "Fonte de carne e lã. Conecta o campo à indústria têxtil e alimentícia.",
           licençaLiberado: {
             licença: "Licença De Fazendas De Animais",
@@ -2330,6 +2352,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Madeireira",
+          nomeEditável: "Madeireira",
           desc: "Transforma madeira em insumo. Essencial para fábricas e construção.",
           licençaLiberado: {
             licença: "Licença De Áreas Especiais",
@@ -2426,6 +2449,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Área Florestal",
+          nomeEditável: "Área Florestal",
           desc: "Fonte sustentável de madeira. Suporte contínuo para a produção.",
           licençaLiberado: {
             licença: "Licença De Áreas Especiais",
@@ -2521,6 +2545,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Terreno De Mineração",
+          nomeEditável: "Terreno De Mineração",
           desc: "Origem de minérios. Base essencial para fábricas e tecnologias.",
           licençaLiberado: {
             licença: "Licença De Áreas Especiais",
@@ -2617,6 +2642,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Plantação De Eucalipto",
+          nomeEditável: "Plantação De Eucalipto",
           desc: "Produção rápida de madeira. Dá suporte a serrarias e papelarias.",
           licençaLiberado: {
             licença: "Licença De Outras Plantações",
@@ -2756,6 +2782,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Plantação De Plantas Medicinais",
+          nomeEditável: "Plantação De Plantas Medicinais",
           desc: "Fornece insumos raros. Suporte direto para a indústria farmacêutica.",
           licençaLiberado: {
             licença: "Licença De Outras Plantações",
@@ -2950,6 +2977,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença Eletrônica e Design",
+         
           desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
           valor: 1100000,
           edifíciosLiberados: [
@@ -2973,6 +3001,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Tecnologia Experimental",
+          nomeEditável: "Licença De Tecnologia Experimental",
           desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
           valor: 1320000,
           edifíciosLiberados: [
@@ -2984,6 +3013,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Engenharia Avançada",
+          nomeEditável: "Licença De Engenharia Avançada",
           desc: "Habilita centros de pesquisa em eletrônica de última geração e tecnologia aeroespacial, impulsionando inovações em mobilidade e comunicação.",
           valor: 2050000,
           edifíciosLiberados: [
@@ -2995,6 +3025,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Pesquisa Em Robótica e IA",
+          nomeEditável: "Licença De Pesquisa Em Robótica e IA",
           desc: "Permite o desenvolvimento de inteligência artificial e sistemas robóticos autônomos, representando o estado da arte em automação e machine learning.",
           valor: 1180000,
           edifíciosLiberados: [
@@ -3008,6 +3039,7 @@ const CentraldeDadosProvider = ({ children }) => {
       edificios: [
         {
           nome: "Startup",
+          nomeEditável: "Startup",
           desc: "Negócio inovador focado em soluções tecnológicas.",
           licençaLiberado: {
             licença: "Licença Global De Tecnologia",
@@ -3096,6 +3128,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Servidor Em Nuvem",
+          nomeEditável: "Servidor Em Nuvem",
           desc: "Infraestrutura digital para armazenamento e serviços online.",
           licençaLiberado: {
             licença: "Licença Global De Tecnologia",
@@ -3256,6 +3289,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Data Center",
+          nomeEditável: "Data Center",
           desc: "Centro de processamento e armazenamento de dados.",
           licençaLiberado: {
             licença: "Licença Global De Tecnologia",
@@ -3458,6 +3492,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Empresa De Desenvolvimento De Software",
+          nomeEditável: "Empresa De Desenvolvimento De Software",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença De Empreendimentos Tech",
@@ -3616,6 +3651,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Empresa De Jogos Digitais",
+          nomeEditável: "Empresa De Jogos Digitais",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença De Empreendimentos Tech",
@@ -3733,6 +3769,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Empresa De Telecomunicações",
+          nomeEditável: "Empresa De Telecomunicações",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença De Empreendimentos Tech",
@@ -3825,6 +3862,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Plataforma De Redes Sociais",
+          nomeEditável: "Plataforma De Redes Sociais",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença De Plataformas Digitais",
@@ -3928,6 +3966,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Marketplace Online",
+          nomeEditável: "Marketplace Online",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença De Plataformas Digitais",
@@ -4101,6 +4140,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Plataforma De Streaming",
+          nomeEditável: "Plataforma De Streaming",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença De Plataformas Digitais",
@@ -4198,6 +4238,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Instituto De Tecnologia Alimentar",
+          nomeEditável: "Instituto De Tecnologia Alimentar",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença Agro e Biotecnologia",
@@ -4396,6 +4437,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Pesquisa Agrícola",
+          nomeEditável: "Centro De Pesquisa Agrícola",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença Agro e Biotecnologia",
@@ -4544,6 +4586,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Instituto De Biotecnologia",
+          nomeEditável: "Instituto De Biotecnologia",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença Agro e Biotecnologia",
@@ -4687,6 +4730,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Laboratório De Design De Produtos",
+          nomeEditável: "Laboratório De Design De Produtos",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença Eletrônica e Design",
@@ -4855,6 +4899,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Pesquisa Em Eletrônicos",
+          nomeEditável: "Centro De Pesquisa Em Eletrônicos",
           desc: "Desenvolvimento de circuitos e dispositivos eletrônicos.",
           licençaLiberado: {
             licença: "Licença Eletrônica e Design",
@@ -5123,6 +5168,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Laboratório De Nanotecnologia",
+          nomeEditável: "Laboratório De Nanotecnologia",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença Eletrônica e Design",
@@ -5246,6 +5292,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Smartphones",
+          nomeEditável: "Fábrica De Smartphones",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença De Fábricas Tecnológicas",
@@ -5414,6 +5461,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Computadores",
+          nomeEditável: "Fábrica De Computadores",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença De Fábricas Tecnológicas",
@@ -5572,6 +5620,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Consoles De Jogos",
+          nomeEditável: "Fábrica De Consoles De Jogos",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença De Fábricas Tecnológicas",
@@ -5720,6 +5769,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Dispositivos Vestiveis",
+          nomeEditável: "Fábrica De Dispositivos Vestiveis",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
             licença: "Licença De Fábricas Tecnológicas",
@@ -5878,6 +5928,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Pesquisa Química",
+          nomeEditável: "Centro De Pesquisa Química",
           desc: "Pesquisas avançadas em compostos químicos.",
           licençaLiberado: {
             licença: "Licença De Tecnologia Experimental",
@@ -6196,6 +6247,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Pesquisa Em Fusão Nuclear",
+          nomeEditável: "Centro De Pesquisa Em Fusão Nuclear",
           desc: "Pesquisa para geração de energia por fusão nuclear.",
           licençaLiberado: {
             licença: "Licença De Tecnologia Experimental",
@@ -6329,6 +6381,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Laboratório De Novos Combustíveis",
+          nomeEditável: "Laboratório De Novos Combustíveis",
           desc: "Pesquisa para geração de energia por fusão nuclear.",
           licençaLiberado: {
             licença: "Licença De Tecnologia Experimental",
@@ -6467,6 +6520,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Pesquisa Aeroespacial",
+          nomeEditável: "Centro De Pesquisa Aeroespacial",
           desc: "Tecnologias voltadas ao setor aeroespacial.",
           licençaLiberado: {
             licença: "Licença De Engenharia Avançada",
@@ -6630,6 +6684,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Engenharia Avançada",
+          nomeEditável: "Centro De Engenharia Avançada",
           desc: "Tecnologias voltadas ao setor aeroespacial.",
           licençaLiberado: {
             licença: "Licença De Engenharia Avançada",
@@ -6963,6 +7018,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Pesquisa Em Materiais",
+          nomeEditável: "Centro De Pesquisa Em Materiais",
           desc: "Tecnologias voltadas ao setor aeroespacial.",
           licençaLiberado: {
             licença: "Licença De Engenharia Avançada",
@@ -7221,6 +7277,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Pesquisa Em Robótica",
+          nomeEditável: "Centro De Pesquisa Em Robótica",
           desc: "Inovações em robótica e automação industrial.",
           licençaLiberado: {
             licença: "Licença De Pesquisa Em Robótica e IA",
@@ -7424,6 +7481,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Pesquisa Em IA",
+          nomeEditável: "Centro De Pesquisa Em IA",
           desc: "Desenvolvimento de inteligência artificial aplicada.",
           licençaLiberado: {
             licença: "Licença De Pesquisa Em Robótica e IA",
@@ -7810,6 +7868,7 @@ const CentraldeDadosProvider = ({ children }) => {
       edificios: [
         {
           nome: "Fábrica De Móveis",
+          nomeEditável: "Fábrica De Móveis",
           desc: "Produz móveis com recursos agrícolas e industriais.",
           licençaLiberado: {
             licença: "Licença Global De Indústria",
@@ -7912,6 +7971,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Ração",
+          nomeEditável: "Fábrica De Ração",
           desc: "Processa vegetais e cereais para fabricar ração.",
           licençaLiberado: {
             licença: "Licença Global De Indústria",
@@ -8040,6 +8100,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Embalagens",
+          nomeEditável: "Fábrica De Embalagens",
           desc: "Produz embalagens para diversos produtos.",
           licençaLiberado: {
             licença: "Licença Global De Indústria",
@@ -8173,6 +8234,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Fertilizante",
+          nomeEditável: "Fábrica De Fertilizante",
           desc: "Transforma matéria orgânica em fertilizantes.",
           licençaLiberado: {
             licença: "Licença De Fábricas Simples",
@@ -8341,6 +8403,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Bebidas",
+          nomeEditável: "Fábrica De Bebidas",
           desc: "Usa vegetais para produzir bebidas diversas.",
           licençaLiberado: {
             licença: "Licença De Fábricas Simples",
@@ -8469,6 +8532,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Pães",
+          nomeEditável: "Fábrica De Pães",
           desc: "Fabrica pães a partir de cereais e vegetais.",
           licençaLiberado: {
             licença: "Licença De Fábricas Simples",
@@ -8587,6 +8651,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica Textil",
+          nomeEditável: "Fábrica Textil",
           desc: "Fabrica tecidos a partir de vegetais e fibras naturais.",
           licençaLiberado: {
             licença: "Licença De Fábricas Simples",
@@ -8710,6 +8775,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Calçados",
+          nomeEditável: "Fábrica De Calçados",
           desc: "Fabrica calçados a partir de vegetais e couro.",
           licençaLiberado: {
             licença: "Licença De Fábricas Simples",
@@ -8833,6 +8899,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Roupas",
+          nomeEditável: "Fábrica De Roupas",
           desc: "Fabrica pães a partir de cereais e vegetais.",
           licençaLiberado: {
             licença: "Licença De Fábricas Simples",
@@ -8962,6 +9029,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Fábrica De Celulose",
+          nomeEditável: "Fábrica De Celulose",
           desc: "Transforma celulose em papel e derivados.",
           licençaLiberado: {
             licença: "Licença De Papel E Celulose",
@@ -9106,6 +9174,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Fábrica De Papel",
+          nomeEditável: "Fábrica De Papel",
           desc: "Produz papel a partir de matéria-prima vegetal.",
           licençaLiberado: {
             licença: "Licença De Papel E Celulose",
@@ -9244,6 +9313,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Livros",
+          nomeEditável: "Fábrica De Livros",
           desc: "Fabrica livros utilizando papel e outros materiais.",
           licençaLiberado: {
             licença: "Licença De Papel E Celulose",
@@ -9337,6 +9407,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Medicamentos",
+          nomeEditável: "Fábrica De Medicamentos",
           desc: "Produz medicamentos a partir de matérias-primas.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -9455,6 +9526,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Laboratório Farmacêutico",
+          nomeEditável: "Laboratório Farmacêutico",
           desc: "Desenvolve medicamentos e produtos farmacêuticos.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -9622,6 +9694,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Plásticos",
+          nomeEditável: "Fábrica De Plásticos",
           desc: "Fabrica de plásticos a partir de matérias-primas.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -9775,6 +9848,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Químicos Especializados",
+          nomeEditável: "Fábrica De Químicos Especializados",
           desc: "Fabrica produtos químicos especializados para diversas indústrias.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -10008,6 +10082,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Alto-Forno",
+          nomeEditável: "Alto-Forno",
           desc: "Processa minérios para produzir metais brutos.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -10172,6 +10247,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Usina Siderúrgica",
+          nomeEditável: "Usina Siderúrgica",
           desc: "Transforma minérios em aço e outros metais.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -10355,6 +10431,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fundição De Alumínio",
+          nomeEditável: "Fundição De Alumínio",
           desc: "Produz alumínio a partir de bauxita e outros minerais.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -10533,6 +10610,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Ligas Metálicas",
+          nomeEditável: "Fábrica De Ligas Metálicas",
           desc: "Fabrica ligas metálicas para diversas aplicações.",
           licençaLiberado: {
             licença: "Licença De Base Metalúrgica",
@@ -10726,6 +10804,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Indústria De Componentes Mecânicos",
+          nomeEditável: "Indústria De Componentes Mecânicos",
           desc: "Produz componentes mecânicos para indústrias.",
           licençaLiberado: {
             licença: "Licença De Metalúrgia Avançada",
@@ -10939,6 +11018,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Chapas Metálicas",
+          nomeEditável: "Fábrica De Chapas Metálicas",
           desc: "Fabrica chapas metálicas para construção e indústria.",
           licençaLiberado: {
             licença: "Licença De Metalúrgia Avançada",
@@ -11137,6 +11217,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Estruturas Metálicas",
+          nomeEditável: "Fábrica De Estruturas Metálicas",
           desc: "Produz estruturas metálicas para edificações.",
           licençaLiberado: {
             licença: "Licença De Metalúrgia Avançada",
@@ -11335,6 +11416,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Peças Automotivas",
+          nomeEditável: "Fábrica De Peças Automotivas",
           desc: "Fabrica peças para veículos automotivos.",
           licençaLiberado: {
             licença: "Licença Automotiva",
@@ -11513,6 +11595,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Montadora De Veículos Elétricos",
+          nomeEditável: "Montadora De Veículos Elétricos",
           desc: "Monta veículos elétricos e seus componentes.",
           licençaLiberado: {
             licença: "Licença Automotiva",
@@ -11684,6 +11767,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Automóveis",
+          nomeEditável: "Fábrica De Automóveis",
           desc: "Produz automóveis e veículos convencionais.",
           licençaLiberado: {
             licença: "Licença Automotiva",
@@ -11833,6 +11917,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Refinaria De Biocombustíveis",
+          nomeEditável: "Refinaria De Biocombustíveis",
           desc: "Transforma biomassa em biocombustíveis.",
           licençaLiberado: {
             licença: "Licença De Refinaria",
@@ -12030,6 +12115,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Refinaria",
+          nomeEditável: "Refinaria",
           desc: "Processa petróleo em combustíveis e derivados.",
           licençaLiberado: {
             licença: "Licença De Refinaria",
@@ -12240,6 +12326,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Biofábrica",
+          nomeEditável: "Biofábrica",
           desc: "Produz bioprodutos e materiais orgânicos.",
           licençaLiberado: {
             licença: "Licença De Refinaria",
@@ -12457,6 +12544,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Chips",
+          nomeEditável: "Fábrica De Chips",
           desc: "Produz bioprodutos e materiais orgânicos.",
           licençaLiberado: {
             licença: "Licença Microeletrônica",
@@ -12644,6 +12732,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Placas Eletrônicas",
+          nomeEditável: "Fábrica De Placas Eletrônicas",
           desc: "Produz bioprodutos e materiais orgânicos.",
           licençaLiberado: {
             licença: "Licença Microeletrônica",
@@ -12821,6 +12910,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Semicondutores",
+          nomeEditável: "Fábrica De Semicondutores",
           desc: "Produz semicondutores e chips para tecnologia.",
           licençaLiberado: {
             licença: "Licença Microeletrônica",
@@ -13000,6 +13090,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Fábrica De Eletrônicos",
+          nomeEditável: "Fábrica De Eletrônicos",
           desc: "Fabrica dispositivos eletrônicos e componentes.",
           licençaLiberado: {
             licença: "Licença De Eletrônica Avançada",
@@ -13238,6 +13329,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Robôs",
+          nomeEditável: "Fábrica De Robôs",
           desc: "Monta robôs e sistemas de automação.",
           licençaLiberado: {
             licença: "Licença De Eletrônica Avançada",
@@ -13441,6 +13533,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Empresa De Automação Industrial",
+          nomeEditável: "Empresa De Automação Industrial",
           desc: "Desenvolve sistemas industriais automatizados.",
           licençaLiberado: {
             licença: "Licença De Eletrônica Avançada",
@@ -13784,6 +13877,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Motores",
+          nomeEditável: "Fábrica De Motores",
           desc: "Fabrica motores para veículos e máquinas.",
           licençaLiberado: {
             licença: "Licença De Engenharia Mecânica Avançada",
@@ -13971,6 +14065,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Foguetes",
+          nomeEditável: "Fábrica De Foguetes",
           desc: "Fabrica foguetes e sistemas de propulsão avançados.",
           licençaLiberado: {
             licença: "Licença De Engenharia Mecânica Avançada",
@@ -14177,6 +14272,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Aeronaves",
+          nomeEditável: "Fábrica De Aeronaves",
           desc: "Produz aeronaves e componentes aeroespaciais.",
           licençaLiberado: {
             licença: "Licença De Engenharia Mecânica Avançada",
@@ -14394,6 +14490,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Estaleiro",
+          nomeEditável: "Estaleiro",
           desc: "Constrói navios e embarcações de grande porte.",
           licençaLiberado: {
             licença: "Licença De Engenharia Mecânica Avançada",
@@ -14691,6 +14788,7 @@ const CentraldeDadosProvider = ({ children }) => {
       edificios: [
         {
           nome: "Feira",
+          nomeEditável: "Feira",
           desc: "Vende produtos agrícolas e artesanais em um mercado aberto.",
           licençaLiberado: {
             licença: "Licença Global De Comércio",
@@ -14793,6 +14891,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Móveis",
+          nomeEditável: "Loja De Móveis",
           desc: "Comercializa móveis e artigos para decoração.",
           licençaLiberado: {
             licença: "Licença Global De Comércio",
@@ -14885,6 +14984,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Restaurante",
+          nomeEditável: "Restaurante",
           desc: "Serve refeições e pratos preparados com alimentos frescos.",
           licençaLiberado: {
             licença: "Licença Global De Comércio",
@@ -15007,6 +15107,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Livraria",
+          nomeEditável: "Livraria",
           desc: "Vende livros, revistas e materiais de leitura.",
           licençaLiberado: {
             licença: "Licença Global De Comércio",
@@ -15094,6 +15195,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Mercado",
+          nomeEditável: "Mercado",
           desc: "Oferece alimentos, bebidas e produtos básicos para consumo.",
           licençaLiberado: {
             licença: "Licença De Comércio Local",
@@ -15222,6 +15324,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Adega",
+          nomeEditável: "Adega",
           desc: "Comercializa vinhos, cervejas e outras bebidas alcóolicas.",
           licençaLiberado: {
             licença: "Licença De Comércio Local",
@@ -15309,6 +15412,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Padaria",
+          nomeEditável: "Padaria",
           desc: "Produz e vende pães, bolos e doces frescos.",
           licençaLiberado: {
             licença: "Licença De Comércio Local",
@@ -15396,6 +15500,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Açougue",
+          nomeEditável: "Açougue",
           desc: "Vende carnes, aves e produtos derivados de açougue.",
           licençaLiberado: {
             licença: "Licença De Comércio Local",
@@ -15499,6 +15604,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Conveniência",
+          nomeEditável: "Loja De Conveniência",
           desc: "Oferece produtos de conveniência e itens essenciais.",
           licençaLiberado: {
             licença: "Licença De Varejo",
@@ -15581,6 +15687,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Posto De Combustíveis",
+          nomeEditável: "Posto De Combustíveis",
           desc: "Vende combustíveis e serviços para veículos automotivos.",
           licençaLiberado: {
             licença: "Licença De Varejo",
@@ -15679,6 +15786,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Redes De Fast-food",
+          nomeEditável: "Redes De Fast-food",
           desc: "Serve lanches rápidos e refeições pré-preparadas.",
           licençaLiberado: {
             licença: "Licença De Comércio Urbano",
@@ -15788,6 +15896,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Petshop",
+          nomeEditável: "Petshop",
           desc: "Oferece produtos e serviços para animais de estimação.",
           licençaLiberado: {
             licença: "Licença De Serviços E Saúde",
@@ -15870,6 +15979,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Farmácia",
+          nomeEditável: "Farmácia",
           desc: "Vende medicamentos e produtos de saúde e bem-estar.",
           licençaLiberado: {
             licença: "Licença De Serviços E Saúde",
@@ -15962,6 +16072,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Cafeteria",
+          nomeEditável: "Cafeteria",
           desc: "Serve cafés, chás e lanches leves em ambiente aconchegante.",
           licençaLiberado: {
             licença: "Licença De Serviços E Saúde",
@@ -16070,6 +16181,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Departamentos",
+          nomeEditável: "Loja De Departamentos",
           desc: "Lojas diversificadas em um único espaço comercial.",
           licençaLiberado: {
             licença: "Licença De Varejo Especializado",
@@ -16157,6 +16269,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Calçados",
+          nomeEditável: "Loja De Calçados",
           desc: "Especializada em calçados e acessórios para pés.",
           licençaLiberado: {
             licença: "Licença De Varejo Especializado",
@@ -16244,6 +16357,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Vestuário",
+          nomeEditável: "Loja De Vestuário",
           desc: "Vende roupas, acessórios e artigos de moda.",
           licençaLiberado: {
             licença: "Licença De Varejo Especializado",
@@ -16331,6 +16445,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Gadgets E Wearables",
+          nomeEditável: "Loja De Gadgets E Wearables",
           desc: "Especializada na venda de dispositivos tecnológicos inovadores, como smartwatches, óculos inteligentes e outros gadgets modernos.",
           licençaLiberado: {
             licença: "Licença De Comércio De Tecnologia",
@@ -16423,6 +16538,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Games",
+          nomeEditável: "Loja De Games",
           desc: "Focada na venda de consoles, jogos físicos e digitais, além de acessórios voltados para o público gamer.",
           licençaLiberado: {
             licença: "Licença De Comércio De Tecnologia",
@@ -16515,6 +16631,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Celulares",
+          nomeEditável: "Loja De Celulares",
           desc: "Comércio especializado em smartphones, tablets e acessórios relacionados à telefonia móvel.",
           licençaLiberado: {
             licença: "Licença De Comércio De Tecnologia",
@@ -16607,6 +16724,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Loja De Informática",
+          nomeEditável: "Loja De Informática",
           desc: "Oferece computadores, notebooks, peças de hardware e periféricos voltados para o público em geral e profissionais de tecnologia.",
           licençaLiberado: {
             licença: "Licença De Comércio De Tecnologia",
@@ -16700,6 +16818,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Loja De Eletrônicos",
+          nomeEditável: "Loja De Eletrônicos",
           desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
           licençaLiberado: {
             licença: "Licença De Comércio Urbano",
@@ -16812,6 +16931,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Joalheria",
+          nomeEditável: "Joalheria",
           desc: "Vende joias, relógios e acessórios de luxo.",
           licençaLiberado: {
             licença: "Licença De Comércio Urbano",
@@ -16899,6 +17019,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Concessionária De Veículos",
+          nomeEditável: "Concessionária De Veículos",
           desc: "Revende veículos novos e usados de diversas marcas.",
           licençaLiberado: {
             licença: "Licença De Comércio Urbano",
@@ -16992,6 +17113,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Shopping Popular",
+          nomeEditável: "Shopping Popular",
           desc: "Conjunto de lojas e serviços em um espaço popular.",
           licençaLiberado: {
             licença: "Licença De Shoppings",
@@ -17109,6 +17231,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Shopping Center",
+          nomeEditável: "Shopping Center",
           desc: "Complexo comercial com diversas lojas e entretenimento.",
           licençaLiberado: {
             licença: "Licença De Shoppings",
@@ -17235,6 +17358,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Transporte E Entrega",
+          nomeEditável: "Centro De Transporte E Entrega",
           desc: "Distribui produtos e mercadorias para redes varejistas.",
           licençaLiberado: {
             licença: "Licença De Logística E Transporte",
@@ -17453,6 +17577,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Distribuição",
+          nomeEditável: "Centro De Distribuição",
           desc: "Distribui produtos e mercadorias para redes varejistas.",
           licençaLiberado: {
             licença: "Licença De Logística E Transporte",
@@ -17586,6 +17711,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Armazém Logístico",
+          nomeEditável: "Armazém Logístico",
           desc: "Armazena e gerencia estoques para logística eficiente.",
           licençaLiberado: {
             licença: "Licença De Logística E Transporte",
@@ -17919,6 +18045,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Transporte Petrolífero",
+          nomeEditável: "Transporte Petrolífero",
           desc: "Transporta petróleo e derivados para refinarias e distribuidoras.",
           licençaLiberado: {
             licença: "Licença De Logística E Transporte",
@@ -18084,6 +18211,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Projetos e Design",
+          nomeEditável: "Licença De Projetos e Design",
           desc: "Habilita a elaboração de projetos arquitetônicos, design de interiores e consultorias técnicas em engenharia civil, essenciais para obras e empreendimentos.",
           valor: 240000,
           edifíciosLiberados: [
@@ -18095,6 +18223,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Construção Imobiliária",
+          nomeEditável: "Licença De Construção Imobiliária",
           desc: "Autoriza a atuação no setor imobiliário, permitindo a construção, administração e comercialização de imóveis residenciais e comerciais.",
           valor: 320000,
           edifíciosLiberados: [
@@ -18106,6 +18235,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Grandes Infraestruturas",
+          nomeEditável: "Licença De Grandes Infraestruturas",
           desc: "Autoriza a construção de obras de infraestrutura estratégica como aeroportos e portos, fundamentais para o transporte regional e nacional.",
           valor: 26000000,
           edifíciosLiberados: [
@@ -18117,6 +18247,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Mineração",
+          nomeEditável: "Licença De Mineração",
           desc: "Habilita a exploração de recursos minerais convencionais, radioativos e pedras preciosas, impulsionando a indústria extrativista.",
           valor: 10500000,
           edifíciosLiberados: [
@@ -18128,6 +18259,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença Comercial E Residencial",
+          nomeEditável: "Licença Comercial E Residencial",
           desc: "Permite a construção de grandes empreendimentos mistos que combinam espaços comerciais e residenciais de alto padrão.",
           valor: 1800000,
           edifíciosLiberados: ["Mega Mercado", "Prédio De Alto Padrão"],
@@ -18135,6 +18267,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Construções Energéticas",
+          nomeEditável: "Licença De Construções Energéticas",
           desc: "Autoriza a implantação de infraestruturas especializadas em produção e armazenamento de combustíveis e bioenergia.",
           valor: 5500000,
           edifíciosLiberados: [
@@ -18148,6 +18281,7 @@ const CentraldeDadosProvider = ({ children }) => {
       edificios: [
         {
           nome: "Cartório E Licenças",
+          nomeEditável: "Cartório E Licenças",
           desc: "Registra propriedades e emite licenças comerciais.",
           licençaLiberado: {
             licença: "Licença Global Imobiliária",
@@ -18256,6 +18390,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Terraplanagem E Pavimentação",
+          nomeEditável: "Terraplanagem E Pavimentação",
           desc: "Prepara terrenos e constrói vias de transporte.",
           licençaLiberado: {
             licença: "Licença Global Imobiliária",
@@ -18409,6 +18544,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Construtora De Pequenas Obras",
+          nomeEditável: "Construtora De Pequenas Obras",
           desc: "Constrói edifícios residenciais e comerciais.",
           licençaLiberado: {
             licença: "Licença Global Imobiliária",
@@ -18847,6 +18983,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Escritório De Design De Interiores",
+          nomeEditável: "Escritório De Design De Interiores",
           desc: "Constrói edifícios residenciais e comerciais.",
           licençaLiberado: {
             licença: "Licença De Projetos e Design",
@@ -19075,6 +19212,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Escritório De Arquitetura",
+          nomeEditável: "Escritório De Arquitetura",
           desc: "Constrói edifícios residenciais e comerciais.",
           licençaLiberado: {
             licença: "Licença De Projetos e Design",
@@ -19222,6 +19360,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Consultoria Em Engenharia Civil",
+          nomeEditável: "Consultoria Em Engenharia Civil",
           desc: "Constrói edifícios residenciais e comerciais.",
           licençaLiberado: {
             licença: "Licença De Projetos e Design",
@@ -19445,6 +19584,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Construtora",
+          nomeEditável: "Construtora",
           desc: "Constrói edifícios residenciais e comerciais.",
           licençaLiberado: {
             licença: "Licença De Construção Imobiliária",
@@ -19743,6 +19883,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Imobiliária Residencial",
+          nomeEditável: "Imobiliária Residencial",
           desc: "Constrói edifícios residenciais e comerciais.",
           licençaLiberado: {
             licença: "Licença De Construção Imobiliária",
@@ -19825,6 +19966,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Imobiliária Comercial",
+          nomeEditável: "Imobiliária Comercial",
           desc: "Constrói edifícios residenciais e comerciais.",
           licençaLiberado: {
             licença: "Licença De Construção Imobiliária",
@@ -19907,6 +20049,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Construtora De Infraestruturas",
+          nomeEditável: "Construtora De Infraestruturas",
           desc: "Desenvolve grandes obras de infraestrutura urbana.",
           licençaLiberado: {
             licença: "Licença De Grandes Infraestruturas",
@@ -20154,6 +20297,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Aeroporto",
+          nomeEditável: "Aeroporto",
           desc: "Opera voos comerciais e transporte aéreo.",
           licençaLiberado: {
             licença: "Licença De Grandes Infraestruturas",
@@ -20327,6 +20471,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Porto",
+          nomeEditável: "Porto",
           desc: "Gerencia comércio marítimo e transporte naval.",
           licençaLiberado: {
             licença: "Licença De Grandes Infraestruturas",
@@ -20495,6 +20640,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Mineradora",
+          nomeEditável: "Mineradora",
           desc: "Extrai minérios e recursos naturais do solo.",
           licençaLiberado: {
             licença: "Licença De Mineração",
@@ -20651,6 +20797,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Mineradora Radioativa",
+          nomeEditável: "Mineradora Radioativa",
           desc: "Mineradora especializada em materiais radioativos.",
           licençaLiberado: {
             licença: "Licença De Mineração",
@@ -20804,6 +20951,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Mineradora De Pedras Preciosas",
+          nomeEditável: "Mineradora De Pedras Preciosas",
           desc: "Explora jazidas de pedras preciosas e gemas.",
           licençaLiberado: {
             licença: "Licença De Mineração",
@@ -20952,6 +21100,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Mega Mercado",
+          nomeEditável: "Mega Mercado",
           desc: "Grande complexo de varejo e autosserviço.",
           licençaLiberado: {
             licença: "Licença Comercial E Residencial",
@@ -21125,6 +21274,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Prédio De Alto Padrão",
+          nomeEditável: "Prédio De Alto Padrão",
           desc: "Edifício residencial de luxo e alto padrão.",
           licençaLiberado: {
             licença: "Licença Comercial E Residencial",
@@ -21222,6 +21372,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Coleta De Biomassa",
+          nomeEditável: "Centro De Coleta De Biomassa",
           desc: "Coleta matéria orgânica para produção energética.",
           licençaLiberado: {
             licença: "Licença De Construções Energéticas",
@@ -21355,6 +21506,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Tanque De Armazenamento Biocombustível",
+          nomeEditável: "Tanque De Armazenamento Biocombustível",
           desc: "Armazena biocombustíveis para distribuição.",
           licençaLiberado: {
             licença: "Licença De Construções Energéticas",
@@ -21453,6 +21605,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Plataforma De Petróleo",
+          nomeEditável: "Plataforma De Petróleo",
           desc: "Extrai petróleo em plataformas oceânicas.",
           licençaLiberado: {
             licença: "Licença De Construções Energéticas",
@@ -21633,6 +21786,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Fábricas Energéticas",
+          nomeEditável: "Licença De Fábricas Energéticas",
           desc: "Habilita a fabricação de componentes para geração de energia renovável e armazenamento.",
           valor: 310000,
           edifíciosLiberados: [
@@ -21644,6 +21798,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Comércios Energéticos",
+          nomeEditável: "Licença De Comércios Energéticos",
           desc: "Autoriza a abertura e operação de estabelecimentos voltados à venda e distribuição de energia e derivados, incluindo comércio de créditos energéticos e tecnologias associadas.",
           valor: 490000,
           edifíciosLiberados: [
@@ -21655,6 +21810,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Melhoria Energética",
+          nomeEditável: "Licença De Melhoria Energética",
           desc: "Autoriza centros de pesquisa e desenvolvimento de tecnologias para armazenamento e eficiência energética, incluindo estações de carregamento veicular.",
           valor: 500000,
           edifíciosLiberados: [
@@ -21666,6 +21822,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Energia Sustentável",
+          nomeEditável: "Licença De Energia Sustentável",
           desc: "Habilita a construção de usinas que utilizam biomassa e biocombustíveis, oferecendo soluções energéticas renováveis e de baixo impacto ambiental.",
           valor: 1100000,
           edifíciosLiberados: [
@@ -21676,6 +21833,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Usinas",
+          nomeEditável: "Licença De Usinas",
           desc: "Permite a instalação de grandes complexos geradores de energia convencionais, incluindo hidrelétricas, termelétricas e parques eólicos.",
           valor: 3500000,
           edifíciosLiberados: [
@@ -21687,6 +21845,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Licença De Usinas Nucleares",
+          nomeEditável: "Licença De Usinas Nucleares",
           desc: "Concede autorização para construção e operação de usinas nucleares de fissão e fusão, representando o ápice da tecnologia energética no jogo.",
           valor: 100000000,
           edifíciosLiberados: [
@@ -21699,6 +21858,7 @@ const CentraldeDadosProvider = ({ children }) => {
       edificios: [
         {
           nome: "Subestação De Energia",
+          nomeEditável: "Subestação De Energia",
           desc: "Distribui energia entre usinas e cidades.",
           licençaLiberado: {
             licença: "Licença Global De Energia",
@@ -21822,6 +21982,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Rede De Distribuição Elétrica",
+          nomeEditável: "Rede De Distribuição Elétrica",
           desc: "Transporta eletricidade para todas as estruturas.",
           licençaLiberado: {
             licença: "Licença Global De Energia",
@@ -21915,6 +22076,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Usina Solar",
+          nomeEditável: "Usina Solar",
           desc: "Gera energia limpa através da luz solar.",
           licençaLiberado: {
             licença: "Licença Global De Energia",
@@ -22283,6 +22445,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Turbinas Eólicas",
+          nomeEditável: "Fábrica De Turbinas Eólicas",
           desc: "Monta turbinas para gerar energia eólica.",
           licençaLiberado: {
             licença: "Licença De Fábricas Energéticas",
@@ -22446,6 +22609,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Painéis Solares",
+          nomeEditável: "Fábrica De Painéis Solares",
           desc: "Produz painéis para captação solar.",
           licençaLiberado: {
             licença: "Licença De Fábricas Energéticas",
@@ -22613,6 +22777,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Fábrica De Baterias",
+          nomeEditável: "Fábrica De Baterias",
           desc: "Fabrica baterias para armazenar energia.",
           licençaLiberado: {
             licença: "Licença De Fábricas Energéticas",
@@ -22791,6 +22956,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Empresa De Comercio Energético",
+          nomeEditável: "Empresa De Comercio Energético",
           desc: "Transporta eletricidade para todas as estruturas.",
           licençaLiberado: {
             licença: "Licença De Comércios Energéticos",
@@ -22954,6 +23120,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Empresa De Consultoria Energética",
+          nomeEditável: "Empresa De Consultoria Energética",
           desc: "Transporta eletricidade para todas as estruturas.",
           licençaLiberado: {
             licença: "Licença De Comércios Energéticos",
@@ -23192,6 +23359,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Estação De Carregamento",
+          nomeEditável: "Estação De Carregamento",
           desc: "Fornece carregamento para veículos elétricos.",
           licençaLiberado: {
             licença: "Licença De Comércios Energéticos",
@@ -23290,6 +23458,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Pesquisa Em Energias Renováveis",
+          nomeEditável: "Centro De Pesquisa Em Energias Renováveis",
           desc: "Transporta eletricidade para todas as estruturas.",
           licençaLiberado: {
             licença: "Licença De Melhoria Energética",
@@ -23408,6 +23577,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Pesquisa Energética",
+          nomeEditável: "Centro De Pesquisa Energética",
           desc: "Desenvolve novas tecnologias energéticas.",
           licençaLiberado: {
             licença: "Licença De Melhoria Energética",
@@ -23606,6 +23776,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Centro De Reciclagem De Baterias",
+          nomeEditável: "Centro De Reciclagem De Baterias",
           desc: "Recicla baterias para produção sustentável.",
           licençaLiberado: {
             licença: "Licença De Melhoria Energética",
@@ -23700,6 +23871,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
         {
           nome: "Usina Termelétrica A Biocombustíveis",
+          nomeEditável: "Usina Termelétrica A Biocombustíveis",
           desc: "Produz energia a partir de biocombustíveis.",
           licençaLiberado: {
             licença: "Licença De Energia Sustentável",
@@ -24077,6 +24249,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Usina De Biomassa",
+          nomeEditável: "Usina De Biomassa",
           desc: "Transforma resíduos orgânicos em energia.",
           licençaLiberado: {
             licença: "Licença De Energia Sustentável",
@@ -24450,6 +24623,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Usina Hidrelétrica",
+          nomeEditável: "Usina Hidrelétrica",
           desc: "Gera eletricidade a partir de rios e represas.",
           licençaLiberado: {
             licença: "Licença De Usinas",
@@ -24856,6 +25030,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Parque Eólico",
+          nomeEditável: "Parque Eólico",
           desc: "Produz energia eólica através de turbinas.",
           licençaLiberado: {
             licença: "Licença De Usinas",
@@ -25224,6 +25399,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Usina Termolétrica",
+          nomeEditável: "Usina Termolétrica",
           desc: "Gera energia a partir da queima de combustíveis.",
           licençaLiberado: {
             licença: "Licença De Usinas",
@@ -25595,6 +25771,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Reator Nuclear Convencional",
+          nomeEditável: "Reator Nuclear Convencional",
           desc: "Produz energia nuclear de forma convencional.",
           licençaLiberado: {
             licença: "Licença De Usinas Nucleares",
@@ -25998,6 +26175,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Usina De Fusão Nuclear",
+          nomeEditável: "Usina De Fusão Nuclear",
           desc: "Gera energia limpa através de fusão nuclear.",
           licençaLiberado: {
             licença: "Licença De Usinas Nucleares",

@@ -80,6 +80,8 @@ export default function Notificação() {
     atualizarDados("modal", { ...dados.modal, estadoModal: false });
   };
 
+
+
   const fecharModalDespesas = () => {
     buttonCloseAudio();
     atualizarDados("modalDespesas", {
@@ -456,7 +458,9 @@ export default function Notificação() {
         </motion.div>
       </div>
     );
-  } else {
+  } 
+
+  else {
     return null;
   }
 }

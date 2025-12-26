@@ -14,9 +14,10 @@ import industria from "../../public/outrasImagens/setores/industria.png";
 import imobiliario from "../../public/outrasImagens/setores/imobiliário.png";
 import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
 import grafico from "../../public/outrasImagens/setores/grafico.png";
+import correto from "../../public/outrasImagens//simbolo-correto (1).png";
 
 import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png";
-import { motion } from "framer-motion";
+import { hover, motion } from "framer-motion";
 import LojaPImg from "../../public/outrasImagens/lojaP.png";
 import LojaMImg from "../../public/outrasImagens/lojaM.png";
 import LojaGImg from "../../public/outrasImagens/lojaG.png";
@@ -38,12 +39,15 @@ import closeAudio from "../../public/sounds/closeAudio.mp3";
 import openAudio from "../../public/sounds/openAudio.mp3";
 import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3";
 import { createPortal } from "react-dom";
+import editar from "../../public/outrasImagens/editar.png";
 
 export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   const { economiaSetores, setEconomiaSetores } = useContext(
     DadosEconomyGlobalContext
   );
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  const { dados, atualizarDados, atualizarDadosProf2 } = useContext(
+    CentraldeDadosContext
+  );
   const setorAtivo = setor;
   const setorAtualContext = dados.setorAtivo;
 
@@ -52,6 +56,13 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   const [buttonOpenAudio] = useSound(openAudio);
   const [buttonWalletOpenAudio] = useSound(walletOpenAudio);
 
+  const fecharModalEditavel = () => {
+    buttonCloseAudio();
+    atualizarDados("modalEditável", {
+      ...dados.modalEditável,
+      estadoModal: false,
+    });
+  };
   const setores = [
     {
       id: "agricultura",
@@ -133,6 +144,80 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [visibleId, setVisibleId] = useState("lojasNec");
   const [modalPowerup, setModalPowerUp] = useState(false);
+  const [modalEditarNome, setModalEditarNome] = useState(false);
+  const [inputNome, setinputNome] = useState("");
+
+
+  function handleChangeNome(event) {
+    setinputNome(event.target.value.toUpperCase());
+  }
+
+  function abrirModal() {
+
+
+console.log(index);
+console.log(setor)
+
+    atualizarDados("modalEditável", {
+      ...dados.modalEditável,
+      estadoModal: true,
+    });
+  }
+
+
+  function editarNomeEditavel() {
+    if (inputNome) {
+      atualizarDadosProf2(
+        [setor, "edificios", index, "nomeEditável"],
+        inputNome
+      );
+      // atualizarDados("nomeEditável", {
+      //   ...dados[setorAtivo].edificios[index],
+      //   nomeEditável: inputNome
+      // });
+      atualizarDados("modalEditável", {
+        ...dados.modalEditável,
+        estadoModal: false,
+      });
+
+
+      setinputNome("");
+      console.log(dados[setorAtivo].edificios[index].nome);
+      console.log(dados[setorAtivo].edificios[index].nomeEditável);
+      console.log(inputNome);
+    } else {
+      alert("Campo não preenchido");
+    }
+  }
+
+  // const editarNomeEditavel = () => {
+  //   console.log("eai");
+  //   console.log(modalEditarNome);
+  //   setModalEditarNome(true);
+  //   console.log(modalEditarNome);
+  //   atualizarDados("nomeEditavel", {
+  //     ...dados[setorAtivo]?.edificios[index],
+  //     nomeEditável: inputNome,
+  //   });
+  // };
+
+  // {
+  //   modalEditarNome && (
+  //     <div className="flex justify-center items-center w-[100vw] h-[100vh] z-20 bg-black opacity-[95%] absolute">
+  //       <div className="w-[60vw] h-[60vh] bg-roxo rounded-[10px] flex justify-center items-center p-10 flex-col">
+  //         <h2>Editar Nome</h2>
+  //         <input type="text" value={inputNome} onChange={handleChangeNome} />
+  //         <button
+  //           onClick={() => {
+  //             editarNomeEditavel();
+  //           }}
+  //         >
+  //           Salvar
+  //         </button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   const contabilidadeDeFalta = (edificio) => {
     const qtdAtual = dados[edificio].quantidade;
@@ -1362,7 +1447,43 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
       </div>
     );
   }
+  if (dados.modalEditável.estadoModal) {
+    return (
+      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] fixed inset-0 select-none">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="w-[35vw] h-[35vh] bg-[#350973] rounded-[20px] z-20 relative"
+        >
+          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
+          <div className="flex justify-center w-full items-center">
+            <input
+              type="text"
+              placeholder="Nome empresa"
+              onChange={handleChangeNome}
+              value={inputNome}
+              className="placeholder:text-white text-white placeholder:opacity-70 z-50 text-[25px] fonteBold w-[100%] pl-[15px] h-[60px] bg-[#290064] bg-opacity-[90%] rounded-[17.50px]"
+            />
 
+            <button
+              onClick={editarNomeEditavel}
+              className="flex justify-center items-center h-[60px] w-[60px] ml-[10px] aspect-square text-[20px] fonteBold bg-laranja rounded-[20px] text-white hover:scale-105 hover:bg-orange-600 z-50"
+            >
+              <img className="h-[60%]" src={correto} alt="correto" />{" "}
+            </button>
+          </div>
+          <button
+            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+            onClick={fecharModalEditavel}
+          >
+            <h3>entendido</h3>
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
   return (
     <motion.div
       onMouseMove={handleMouseMove}
@@ -1370,6 +1491,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
       // onClick={handleFlip} // Flip ao clicar
       style={{
         background: `linear-gradient(135deg, ${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)`,
+        height: setorAtivo !== "carteira" ? "280px" : "230px",
       }}
       className="w-[215px] h-[230px] bg-white rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
       initial={{ scale: 1 }}
@@ -1392,9 +1514,10 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
           false && (
           <motion.div
             style={{
-              background: `transparent`, // fundo transparente para o container principal
+              background: `transparent`,
+              width: setorAtivo !== "carteira" ? "295px" : "285px", // fundo transparente para o container principal
             }}
-            className="w-[215px] h-[230px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective z-10 cursor-pointer absolute"
+            className=" rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective z-10 cursor-pointer absolute"
             initial={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 100, damping: 10 }}
           >
@@ -1457,6 +1580,22 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
 
         <div className="absolute w-full h-full flex items-center justify-center rounded-xl">
           <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
+                        <div
+              style={{ backgroundColor: setorInfo.cor1 }}
+              className="w-full h-[500px] items-center justify-between rounded-[10px] flex drop-shadow-xs mb-[10px]"
+            >
+              <h1 className="text-white fonteBold text-center text-[12px] ml-[8px]">
+                {dados[setorAtivo].edificios[index].nomeEditável}
+              </h1>
+              <button
+                onClick={()=>{abrirModal(setor, index),console.log(index);
+console.log(setor)}}
+                style={{ backgroundColor: setorInfo.cor2 }}
+                className="h-[40px] flex items-center justify-center border aspect-square bg-white ml-[8px] rounded-[10px]"
+              >
+                <img className="w-[20px] " src={editar} alt="" />
+              </button>
+            </div>
             <div
               style={{ backgroundColor: setorInfo.cor1 }}
               className="w-full h-[25%] rounded-[10px] flex justify-between drop-shadow-xs"
@@ -1474,12 +1613,13 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                 />
               </div>
 
-              <div  className="flex p-[10px] justify-center items-center w-full h-full">
-              <h1 className="text-white fonteBold text-center text-[12px]">
+              <div className="flex p-[10px] justify-center items-center w-full h-full">
+                <h1 className="text-white fonteBold text-center text-[12px]">
                   {dados[setorAtivo].edificios[index].nome}
                 </h1>
               </div>
             </div>
+
             <div className="h-[35%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
               <h2
                 style={{ color: setorInfo.cor1 }}
@@ -1736,10 +1876,8 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                 )}
               </div>
             </div>
-      
 
-          
-                {/* <b>Valor gasto para construir o edifício</b> <br/><br/>
+            {/* <b>Valor gasto para construir o edifício</b> <br/><br/>
                 <div style="max-width: 600px;">
                   <p>
                     Para construir qualquer edifício, você precisa de <b>imóveis base</b>: Terreno, Imóvel Pequeno, Imóvel Médio e Imóvel Grande. Cada edifício exige uma combinação desses imóveis e tem um <b>custo de construção</b> específico, que representa o dinheiro necessário para finalizar a obra.
@@ -1760,7 +1898,6 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                     Dica: planeje sua estratégia considerando tanto os imóveis base quanto os edifícios que podem reduzir custos. Isso ajuda a economizar dinheiro e construir mais eficientemente.
                   </p>
                 </div> */}
-              
 
             {setorAtualContext === "carteira" && (
               <div className="h-[25%] w-full flex justify-around flex-col  items-center drop-shadow-xs">
@@ -1769,9 +1906,10 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                   className="w-full flex items-center justify-center rounded-[10px] p-[5px] gap-[5px] h-full"
                 >
                   <div className="w-[100%] rounded-[20px] flex justify-around items-center h-full ">
-
                     <button
-                      onClick={() =>{abrirModalSell(setor, index), buttonOpenAudio()}}
+                      onClick={() => {
+                        abrirModalSell(setor, index), buttonOpenAudio();
+                      }}
                       data-tooltip-id="tooltip-faturado"
                       data-tooltip-html={`Abre a interface de venda do edifício`}
                       style={{
