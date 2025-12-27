@@ -1464,7 +1464,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
             <img src={fechar} alt="" className="w-[60%]" />
           </button>
           <h2 className="text-white text-center text-[25px] fonteBold mt-[20px]">
-            Qual o novo do edifício?
+            Qual o novo nome do edifício?
           </h2>
 
           <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex  rounded-[5px] relative m-auto"></div>
