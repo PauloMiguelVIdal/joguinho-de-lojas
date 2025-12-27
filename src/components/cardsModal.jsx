@@ -2150,6 +2150,7 @@ export const CardModal = ({ index }) => {
       // onClick={handleFlip} // Flip ao clicar
       style={{
         background: `linear-gradient(135deg, ${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)`,
+        // background: `linear-gradient(135deg, ${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)`,
       }}
       className="w-[215px] h-[230px] bg-white rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
       initial={{ scale: 1 }}
@@ -2159,11 +2160,17 @@ export const CardModal = ({ index }) => {
     >
       {/* Container do Card */}
       <motion.div
-        className="relative w-full h-full"
+        // className="relative w-full h-full "
+
+
+        className="relative w-full h-full rounded-[20px]"
+        // className="relative w-full h-full bg-roxoForte/40 rounded-[20px]"
         animate={{ rotateY: flipped ? 180 : 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
         style={{
           transformStyle: "preserve-3d",
+          background: powerUpSelecionado === "powerUpNv3" ? "#6411D966" : powerUpSelecionado === "powerUpNv2" ? "#35097366" : "#FFFFFF00",
+          
         }}
       >
         {/* Frente do Card */}
