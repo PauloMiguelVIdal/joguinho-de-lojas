@@ -15,7 +15,7 @@ import imobiliario from "../../public/outrasImagens/setores/imobiliário.png";
 import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
 import grafico from "../../public/outrasImagens/setores/grafico.png";
 import correto from "../../public/outrasImagens//simbolo-correto (1).png";
-
+import fechar from "../../public/outrasImagens/fechar.png"
 import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png";
 import { hover, motion } from "framer-motion";
 import LojaPImg from "../../public/outrasImagens/lojaP.png";
@@ -24,7 +24,7 @@ import LojaGImg from "../../public/outrasImagens/lojaG.png";
 import SelectorImage from "./selectorImage";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import LicenseNec from "./licenseNec";
-import fechar from "../../public/outrasImagens/fechar.png";
+
 import plantação from "../../public/imagens/Plantação De Grãos.png";
 import imgLucro from "../../public/outrasImagens/imgLucroLiquido.png";
 import imgFatuMensal from "../../public/outrasImagens/imgFaturamentoMensal.png";
@@ -147,28 +147,29 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   const [modalEditarNome, setModalEditarNome] = useState(false);
   const [inputNome, setinputNome] = useState("");
 
-
   function handleChangeNome(event) {
     setinputNome(event.target.value.toUpperCase());
   }
 
-  function abrirModal() {
-
-
-console.log(index);
-console.log(setor)
+  function abrirModal({ index, setor }) {
+    console.log(index);
+    console.log(setor);
 
     atualizarDados("modalEditável", {
       ...dados.modalEditável,
       estadoModal: true,
+      index: index,
+      setor: setor,
     });
   }
 
-
   function editarNomeEditavel() {
     if (inputNome) {
+      const indexModificar = dados.modalEditável.index;
+      const setorModificar = dados.modalEditável.setor;
+
       atualizarDadosProf2(
-        [setor, "edificios", index, "nomeEditável"],
+        [setorModificar, "edificios", indexModificar, "nomeEditável"],
         inputNome
       );
       // atualizarDados("nomeEditável", {
@@ -179,7 +180,6 @@ console.log(setor)
         ...dados.modalEditável,
         estadoModal: false,
       });
-
 
       setinputNome("");
       console.log(dados[setorAtivo].edificios[index].nome);
@@ -1455,13 +1455,23 @@ console.log(setor)
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[35vw] h-[35vh] bg-[#350973] rounded-[20px] z-20 relative"
+          className="w-[550px] h-[200px] bg-[#350973] rounded-[20px] z-20 flex-col flex justify-between"
         >
-          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
+                              <button
+            className="bg-laranja relative top-[-20px] right-[-530px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
+            onClick={fecharModalEditavel}
+          >
+            <img src={fechar} alt="" className="w-[60%]" />
+          </button>
+          <h2 className="text-white text-center text-[25px] fonteBold mt-[20px]">
+            Qual o novo do edifício?
+          </h2>
+
+          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex  rounded-[5px] relative m-auto"></div>
           <div className="flex justify-center w-full items-center">
             <input
               type="text"
-              placeholder="Nome empresa"
+              placeholder="Nome edifício"
               onChange={handleChangeNome}
               value={inputNome}
               className="placeholder:text-white text-white placeholder:opacity-70 z-50 text-[25px] fonteBold w-[100%] pl-[15px] h-[60px] bg-[#290064] bg-opacity-[90%] rounded-[17.50px]"
@@ -1474,12 +1484,8 @@ console.log(setor)
               <img className="h-[60%]" src={correto} alt="correto" />{" "}
             </button>
           </div>
-          <button
-            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={fecharModalEditavel}
-          >
-            <h3>entendido</h3>
-          </button>
+
+
         </motion.div>
       </div>
     );
@@ -1491,7 +1497,7 @@ console.log(setor)
       // onClick={handleFlip} // Flip ao clicar
       style={{
         background: `linear-gradient(135deg, ${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)`,
-        height: setorAtivo !== "carteira" ? "280px" : "230px",
+        height: setorAtualContext === "carteira" ? "280px" : "230px",
       }}
       className="w-[215px] h-[230px] bg-white rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
       initial={{ scale: 1 }}
@@ -1501,11 +1507,17 @@ console.log(setor)
     >
       {/* Container do Card */}
       <motion.div
-        className="relative w-full h-full"
+        className="relative w-full h-full  rounded-[20px]"
         animate={{ rotateY: flipped ? 180 : 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
         style={{
           transformStyle: "preserve-3d",
+          background:
+            powerUpSelecionado === "powerUpNv3"
+              ? "#b8870b77"
+              : powerUpSelecionado === "powerUpNv2"
+              ? "#6411D966"
+              : "#FFFFFF00",
         }}
       >
         {/* Frente do Card */}
@@ -1580,22 +1592,27 @@ console.log(setor)
 
         <div className="absolute w-full h-full flex items-center justify-center rounded-xl">
           <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
-                        <div
-              style={{ backgroundColor: setorInfo.cor1 }}
-              className="w-full h-[500px] items-center justify-between rounded-[10px] flex drop-shadow-xs mb-[10px]"
-            >
-              <h1 className="text-white fonteBold text-center text-[12px] ml-[8px]">
-                {dados[setorAtivo].edificios[index].nomeEditável}
-              </h1>
-              <button
-                onClick={()=>{abrirModal(setor, index),console.log(index);
-console.log(setor)}}
-                style={{ backgroundColor: setorInfo.cor2 }}
-                className="h-[40px] flex items-center justify-center border aspect-square bg-white ml-[8px] rounded-[10px]"
+            {setorAtualContext === "carteira" && (
+              <div
+                style={{ backgroundColor: setorInfo.cor1 }}
+                className="w-full h-[500px] items-center justify-between rounded-[10px] flex drop-shadow-xs mb-[10px]"
               >
-                <img className="w-[20px] " src={editar} alt="" />
-              </button>
-            </div>
+                <h1 className="text-white fonteBold text-center text-[12px] ml-[8px]">
+                  {dados[setorAtivo].edificios[index].nomeEditável}
+                </h1>
+                <button
+                  onClick={() => {
+                    abrirModal({ setor, index });
+                    console.log(index);
+                    console.log(setor);
+                  }}
+                  style={{ backgroundColor: setorInfo.cor2 }}
+                  className="h-[40px] flex items-center justify-center border aspect-square bg-white ml-[8px] rounded-[10px]"
+                >
+                  <img className="w-[20px] " src={editar} alt="" />
+                </button>
+              </div>
+            )}
             <div
               style={{ backgroundColor: setorInfo.cor1 }}
               className="w-full h-[25%] rounded-[10px] flex justify-between drop-shadow-xs"

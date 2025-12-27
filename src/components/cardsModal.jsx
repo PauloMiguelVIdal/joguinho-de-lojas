@@ -2169,7 +2169,7 @@ export const CardModal = ({ index }) => {
         transition={{ duration: 0.5, ease: "easeInOut" }}
         style={{
           transformStyle: "preserve-3d",
-          background: powerUpSelecionado === "powerUpNv3" ? "#6411D966" : powerUpSelecionado === "powerUpNv2" ? "#35097366" : "#FFFFFF00",
+          background: powerUpSelecionado === "powerUpNv3" ? "#b8870b77" : powerUpSelecionado === "powerUpNv2" ? "#6411D966" : "#FFFFFF00",
           
         }}
       >
