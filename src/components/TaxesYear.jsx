@@ -48,6 +48,8 @@ function calcularPatrimonioSetor(setor, dados) {
     return 0;
   }
 
+
+
   const setorDados = dados[setor];
   if (!setorDados || !setorDados.edificios) return 0;
 
@@ -62,6 +64,15 @@ function calcularPatrimonioSetor(setor, dados) {
 }
 
 export function TaxesYear() {
+
+    const TooltipPadrao = ({ id }) => (
+  <Tooltip
+    id={id}
+    style={tooltipStyle}
+    border="1px solid #350973"
+  />
+);
+
   const { dados } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEcoProf } =
     useContext(DadosEconomyGlobalContext);
@@ -229,7 +240,6 @@ audioPay();
   const tooltipStyle = {
     backgroundColor: "#FFFFFF",
     color: "#350973",
-    border: "1px solid #350973",
     borderRadius: "6px",
     padding: "6px 10px",
     fontWeight: "600",
@@ -253,7 +263,8 @@ audioPay();
           data-tooltip-content={tooltipContent}
         />
       </button>
-      <Tooltip id="patrimonio-tip" style={tooltipStyle} />
+
+     <TooltipPadrao style={tooltipStyle} id="patrimonio-tip" />
     </>
   );
 
@@ -267,7 +278,9 @@ audioPay();
             className="text-white text-[20px] fonteBold"
           >
             {economiaSetores.despesasImpostoAnual?.proximoPagamento || proximoDia}
-            <Tooltip id="dias-tip" style={tooltipStyle} />
+
+                  <TooltipPadrao style={tooltipStyle} id="dias-tip"  />
+
           </h2>
         </div>
         {renderButton(`Faltam ${proximoDia} dias para você precisar pagar o imposto anual!`)}
@@ -286,7 +299,7 @@ audioPay();
             className="text-white text-[20px] fonteBold"
           >
             {economiaSetores.despesasImpostoAnual?.proximoPagamento || 0}
-            <Tooltip id="valor-tip" style={tooltipStyle} />
+            <TooltipPadrao style={tooltipStyle} id="valor-tip" />
           </h2>
         </div>
         {renderButton("Você precisa pagar o imposto anual, clique aqui para pagar!")}

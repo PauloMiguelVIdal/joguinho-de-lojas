@@ -5,6 +5,23 @@ import { CentraldeDadosContext } from "../centralDeDadosContext";
 export default function Day() {
   const { dados } = useContext(CentraldeDadosContext);
 
+  const TooltipPadrao = ({ id }) => (
+  <Tooltip
+    id={id}
+    style={tooltipStyle}
+    border="1px solid #350973"
+  />
+);
+
+  const tooltipStyle = {
+    backgroundColor: "#FFFFFF",
+    color: "#350973",
+    borderRadius: "6px",
+    padding: "6px 10px",
+    fontWeight: "600",
+    fontSize: "14px",
+  };
+
   return (
     <div className="flex items-center justify-center min-h-[50px] w-[100%] bg-white rounded-[10px]">
       <div
@@ -17,19 +34,8 @@ export default function Day() {
       </div>
 
       {/* Tooltip customizado */}
-      <Tooltip
-        id="saldo-tip"
-        style={{
-          backgroundColor: "#FFFFFF",
-          color: "#350973",
-          border: "1px solid #350973",
-          borderRadius: "6px",
-          padding: "6px 10px",
-          fontWeight: "600",
-          fontSize: "14px",
-          boxShadow: "0 2px 6px rgba(0,0,0,0.15)", // sombra suave
-        }}
-      />
+
+        <TooltipPadrao style={tooltipStyle}  id="saldo-tip" />
     </div>
   );
 }

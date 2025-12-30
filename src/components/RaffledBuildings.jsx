@@ -45,6 +45,24 @@ const RaffledBuildings = () => {
     "energia",
   ];
 
+  const tooltipStyle = {
+    backgroundColor: "#FFFFFF",
+    color: "#350973",
+    borderRadius: "6px",
+    padding: "6px 10px",
+    fontWeight: "600",
+    fontSize: "14px",
+  };
+
+  const TooltipPadrao = ({ id }) => (
+  <Tooltip
+    id={id}
+    style={tooltipStyle}
+    border="1px solid #350973"
+  />
+);
+
+
   // Arrays de rank
   const RankS = [
     "Usina Hidrelétrica",
@@ -876,17 +894,9 @@ const RaffledBuildings = () => {
             />
         </button>
           }
-        <Tooltip
+        <TooltipPadrao
           id="saldo-tip"
-          style={{
-            backgroundColor: "#FFFFFF", // fundo branco
-            color: "#350973", // texto roxo
-            border: "1px solid #350973", // borda fina
-            borderRadius: "6px", // cantos arredondados
-            padding: "6px 10px", // espaçamento interno
-            fontWeight: "600", // deixa a fonte mais destacada
-            fontSize: "14px",
-          }}
+          style={tooltipStyle}
         />
         {ModalObjOpen && (
           <div className="flex justify-center items-center z-50 bg-black bg-opacity-90 w-[100vw] h-[100vh] fixed top-0 left-0 select-none">

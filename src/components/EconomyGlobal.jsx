@@ -21,6 +21,24 @@ export default function EconomyGlobal() {
   const economiaAtual = economiaSetores.economiaGlobal;
   const setores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"];
 
+    const tooltipStyle = {
+    backgroundColor: "#FFFFFF",
+    color: "#350973",
+    borderRadius: "6px",
+    padding: "6px 10px",
+    fontWeight: "600",
+    fontSize: "14px",
+  };
+  
+  const TooltipPadrao = ({ id }) => (
+    <Tooltip
+      id={id}
+      style={tooltipStyle}
+      border="1px solid #350973"
+    />
+  );
+
+
   const imagensSetores = {
     agricultura,
     tecnologia,
@@ -139,12 +157,12 @@ export default function EconomyGlobal() {
   }, [dados.dia]);
 
   return (
-    <div  className="flex max-h-[50px] w-[100%] bg-white rounded-[10px]">
+    <div className="flex max-h-[50px] w-[100%] bg-white rounded-[10px]">
       <Converter />
       <div className={`${corClasse} min-h-[50px] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center`}>
         <img
           data-tooltip-id="economia-tip"
-data-tooltip-html={`Esse é a economia global atual do jogo, <b>${economiaAtual}</b> <br/> <br/>    <div>
+          data-tooltip-html={`Esse é a economia global atual do jogo, <b>${economiaAtual}</b> <br/> <br/>    <div>
       <p>A categoria de novos eventos varia de acordo com a economia global:</p>
       <ul style={{ marginLeft: "15px", marginTop: "5px" }}>
         <li><b>Recessão:</b> 35% de eventos benéficos, 65% de eventos prejudiciais</li>
@@ -153,40 +171,21 @@ data-tooltip-html={`Esse é a economia global atual do jogo, <b>${economiaAtual}
         <li><b>Progressiva:</b> 55% de eventos benéficos, 45% de eventos prejudiciais</li>
         <li><b>Aquecida:</b> 65% de eventos benéficos, 35% de eventos prejudiciais</li>
       </ul>
-    </div>`}          className="w-[60%] max-w-[58px] aspect-square"
+    </div>`} className="w-[60%] max-w-[58px] aspect-square"
           src={circularEconomia}
           alt="Economia"
         />
-        <Tooltip
-          id="economia-tip"
-          style={{
-            backgroundColor: "#FFFFFF",   // fundo branco
-            color: "#350973",            // texto roxo
-            border: "1px solid #350973", // borda fina
-            borderRadius: "6px",         // cantos arredondados
-            padding: "6px 10px",         // espaçamento interno
-            fontWeight: "600",           // deixa a fonte mais destacada
-            fontSize: "14px"
-          }}
-        />
+        <TooltipPadrao style={tooltipStyle} id="economia-tip" />
+
       </div>
       <div
         data-tooltip-id="economiaData-tip"
         data-tooltip-content="Esse é o número de dias restantes para a próxima mudança na economia global"
         className="flex justify-center items-center w-full">
         <h2 className="text-[#350973] text-[20px] fonteBold">{dados.proximaEconomia}</h2>
-        <Tooltip
-          id="economiaData-tip"
-          style={{
-            backgroundColor: "#FFFFFF",   // fundo branco
-            color: "#350973",            // texto roxo
-            border: "1px solid #350973", // borda fina
-            borderRadius: "6px",         // cantos arredondados
-            padding: "6px 10px",         // espaçamento interno
-            fontWeight: "600",           // deixa a fonte mais destacada
-            fontSize: "14px"
-          }}
-        />
+        <TooltipPadrao style={tooltipStyle} id="economiaData-tip" />
+
+
       </div>
     </div>
   );

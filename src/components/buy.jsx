@@ -45,18 +45,7 @@ export default function Buy() {
   const [buttonPayTerrain] = useSound(payTerrain);
   const [buttonQtdAudio] = useSound(qtdAudio);
 
-  const CustomTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))(() => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: "#F27405", // fundo laranja
-      color: "#fff", // texto branco
-      border: "1px solid #E56100",
-      fontSize: "13px",
-      fontWeight: 500,
-      borderRadius: "6px",
-    },
-  }));
+
 
   useHotkeys(
     "q",
@@ -482,12 +471,20 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
   const tooltipStyle = {
     backgroundColor: "#FFFFFF",
     color: "#350973",
-    border: "1px solid #350973",
     borderRadius: "6px",
     padding: "6px 10px",
     fontWeight: "600",
     fontSize: "14px",
   };
+
+  const TooltipPadrao = ({ id }) => (
+  <Tooltip
+    id={id}
+    style={tooltipStyle}
+    border="1px solid #350973"
+  />
+);
+
 
   const formatarNumero = (num) => {
     if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T"; // Trilhões
@@ -742,102 +739,15 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
              
 
               {/* Tooltip global */}
-              <Tooltip
-                style={{
-                  backgroundColor: "#FFFFFF", // fundo branco
-                  color: "#350973", // texto roxo
-                  border: "1px solid #350973", // borda fina
-                  borderRadius: "6px", // cantos arredondados
-                  padding: "6px 10px", // espaçamento interno
-                  fontWeight: "600", // deixa a fonte mais destacada
-                  fontSize: "14px",
-                }}
-                id="tooltip-terreno-tipo"
-              />
-              <Tooltip
-                style={{
-                  backgroundColor: "#FFFFFF", // fundo branco
-                  color: "#350973", // texto roxo
-                  border: "1px solid #350973", // borda fina
-                  borderRadius: "6px", // cantos arredondados
-                  padding: "6px 10px", // espaçamento interno
-                  fontWeight: "600", // deixa a fonte mais destacada
-                  fontSize: "14px",
-                }}
-                id="tooltip-terreno-preco"
-              />
-              <Tooltip
-                style={{
-                  backgroundColor: "#FFFFFF", // fundo branco
-                  color: "#350973", // texto roxo
-                  border: "1px solid #350973", // borda fina
-                  borderRadius: "6px", // cantos arredondados
-                  padding: "6px 10px", // espaçamento interno
-                  fontWeight: "600", // deixa a fonte mais destacada
-                  fontSize: "14px",
-                }}
-                id="tooltip-terreno-total"
-              />
-              <Tooltip
-                style={{
-                  backgroundColor: "#FFFFFF", // fundo branco
-                  color: "#350973", // texto roxo
-                  border: "1px solid #350973", // borda fina
-                  borderRadius: "6px", // cantos arredondados
-                  padding: "6px 10px", // espaçamento interno
-                  fontWeight: "600", // deixa a fonte mais destacada
-                  fontSize: "14px",
-                }}
-                id="tooltip-terreno-comprar"
-              />
-              <Tooltip
-                style={{
-                  backgroundColor: "#FFFFFF", // fundo branco
-                  color: "#350973", // texto roxo
-                  border: "1px solid #350973", // borda fina
-                  borderRadius: "6px", // cantos arredondados
-                  padding: "6px 10px", // espaçamento interno
-                  fontWeight: "600", // deixa a fonte mais destacada
-                  fontSize: "14px",
-                }}
-                id="tooltip-terreno-diminuir"
-              />
-              <Tooltip
-                style={{
-                  backgroundColor: "#FFFFFF", // fundo branco
-                  color: "#350973", // texto roxo
-                  border: "1px solid #350973", // borda fina
-                  borderRadius: "6px", // cantos arredondados
-                  padding: "6px 10px", // espaçamento interno
-                  fontWeight: "600", // deixa a fonte mais destacada
-                  fontSize: "14px",
-                }}
-                id="tooltip-terreno-quantidade"
-              />
-              <Tooltip
-                style={{
-                  backgroundColor: "#FFFFFF", // fundo branco
-                  color: "#350973", // texto roxo
-                  border: "1px solid #350973", // borda fina
-                  borderRadius: "6px", // cantos arredondados
-                  padding: "6px 10px", // espaçamento interno
-                  fontWeight: "600", // deixa a fonte mais destacada
-                  fontSize: "14px",
-                }}
-                id="tooltip-terreno-aumentar"
-              />
-              <Tooltip
-                style={{
-                  backgroundColor: "#FFFFFF", // fundo branco
-                  color: "#350973", // texto roxo
-                  border: "1px solid #350973", // borda fina
-                  borderRadius: "6px", // cantos arredondados
-                  padding: "6px 10px", // espaçamento interno
-                  fontWeight: "600", // deixa a fonte mais destacada
-                  fontSize: "14px",
-                }}
-                id="tooltip-terreno-posse"
-              />
+
+ <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-tipo" />
+ <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-preco" />
+ <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-total" />
+ <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-comprar" />
+ <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-diminuir" />
+ <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-quantidade" />
+ <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-aumentar"/>
+ <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-posse"/>
             </Paper>
 
             {/* ===================== LOJAS PEQUENAS ===================== */}
@@ -1103,14 +1013,14 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
               </Box> */}
 
               {/* Tooltips globais */}
-              <Tooltip style={tooltipStyle} id="tooltip-lojap-tipo" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojap-preco" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojap-total" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojap-comprar" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojap-diminuir" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojap-quantidade" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojap-aumentar" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojap-posse" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-tipo" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-preco" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-total" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-comprar" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-diminuir" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-quantidade" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-aumentar" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-posse" />
             </Paper>
 
             {/* ===================== LOJAS MÉDIAS ===================== */}
@@ -1370,14 +1280,14 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
               </Box> */}
 
               {/* Tooltips globais */}
-              <Tooltip style={tooltipStyle} id="tooltip-lojam-tipo" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojam-preco" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojam-total" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojam-comprar" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojam-diminuir" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojam-quantidade" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojam-aumentar" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojam-posse" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-tipo" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-preco" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-total" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-comprar" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-diminuir" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-quantidade" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-aumentar" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-posse" />
             </Paper>
 
             {/* ===================== LOJAS GRANDES ===================== */}
@@ -1600,14 +1510,14 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
                   </Box>
                 </Box>
               </Box>
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-tipo" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-preco" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-total" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-comprar" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-diminuir" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-quantidade" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-aumentar" />
-              <Tooltip style={tooltipStyle} id="tooltip-lojag-posse" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-tipo" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-preco" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-total" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-comprar" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-diminuir" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-quantidade" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-aumentar" />
+              <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-posse" />
             </Paper>
           </div>
           <LoanCarousel />
@@ -1921,16 +1831,16 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
           </Box>
 
           {/* Tooltips globais */}
-          <Tooltip style={tooltipStyle} id="tooltip-terreno-tipo" />
-          <Tooltip style={tooltipStyle} id="tooltip-terreno-preco" />
-          <Tooltip style={tooltipStyle} id="tooltip-terreno-total" />
-          <Tooltip style={tooltipStyle} id="tooltip-terreno-comprar" />
-          <Tooltip style={tooltipStyle} id="tooltip-terreno-diminuir" />
-          <Tooltip style={tooltipStyle} id="tooltip-terreno-quantidade" />
-          <Tooltip style={tooltipStyle} id="tooltip-terreno-aumentar" />
-          <Tooltip style={tooltipStyle} id="tooltip-terreno-faturamento" />
-          <Tooltip style={tooltipStyle} id="tooltip-terreno-rentabilidade" />
-          <Tooltip style={tooltipStyle} id="tooltip-terreno-posse" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-tipo" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-preco" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-total" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-comprar" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-diminuir" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-quantidade" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-aumentar" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-faturamento" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-rentabilidade" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-terreno-posse" />
         </Paper>
 
         {/* ===================== LOJAS PEQUENAS ===================== */}
@@ -2229,16 +2139,16 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
           </Box>
 
           {/* Tooltips globais */}
-          <Tooltip style={tooltipStyle} id="tooltip-lojap-tipo" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojap-preco" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojap-total" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojap-comprar" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojap-diminuir" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojap-quantidade" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojap-aumentar" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojap-faturamento" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojap-rentabilidade" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojap-posse" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-tipo" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-preco" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-total" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-comprar" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-diminuir" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-quantidade" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-aumentar" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-faturamento" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-rentabilidade" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojap-posse" />
         </Paper>
 
         {/* ===================== LOJAS MÉDIAS ===================== */}
@@ -2540,16 +2450,16 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
           </Box>
 
           {/* Tooltips globais */}
-          <Tooltip style={tooltipStyle} id="tooltip-lojam-tipo" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojam-preco" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojam-total" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojam-comprar" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojam-diminuir" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojam-quantidade" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojam-aumentar" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojam-faturamento" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojam-rentabilidade" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojam-posse" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-tipo" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-preco" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-total" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-comprar" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-diminuir" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-quantidade" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-aumentar" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-faturamento" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-rentabilidade" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojam-posse" />
         </Paper>
 
         {/* ===================== LOJAS GRANDES ===================== */}
@@ -2844,16 +2754,16 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
               {dados.lojasG.quantidade}
             </Typography>
           </Box>
-          <Tooltip style={tooltipStyle} id="tooltip-lojag-tipo" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojag-preco" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojag-total" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojag-comprar" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojag-diminuir" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojag-quantidade" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojag-aumentar" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojag-faturamento" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojag-rentabilidade" />
-          <Tooltip style={tooltipStyle} id="tooltip-lojag-posse" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-tipo" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-preco" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-total" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-comprar" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-diminuir" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-quantidade" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-aumentar" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-faturamento" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-rentabilidade" />
+          <TooltipPadrao style={tooltipStyle} id="tooltip-lojag-posse" />
         </Paper>
       </div>
     );

@@ -18,6 +18,23 @@ export default function PayTexes() {
     atualizarEco,
   } = useContext(DadosEconomyGlobalContext);
 
+    const tooltipStyle = {
+      backgroundColor: "#FFFFFF",
+      color: "#350973",
+      borderRadius: "6px",
+      padding: "6px 10px",
+      fontWeight: "600",
+      fontSize: "14px",
+    };
+  
+    const TooltipPadrao = ({ id }) => (
+    <Tooltip
+      id={id}
+      style={tooltipStyle}
+      border="1px solid #350973"
+    />
+  );
+
   const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
   const [isNKeyDown, setIsNKeyDown] = useState(false);
 
@@ -621,15 +638,6 @@ const novoArrayFatuSetorHistory = [...arrayFatuSetorHistory, faturamentoTotalSet
 </div>
 `;
 
-  const tooltipStyle = {
-    backgroundColor: "#FFFFFF",
-    color: "#350973",
-    border: "1px solid #350973",
-    borderRadius: "6px",
-    padding: "6px 10px",
-    fontWeight: "600",
-    fontSize: "14px",
-  };
 
   return (
     <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative">
@@ -669,7 +677,8 @@ const novoArrayFatuSetorHistory = [...arrayFatuSetorHistory, faturamentoTotalSet
       )}
 
       {/* Tooltip global */}
-      <Tooltip style={tooltipStyle} id="tooltip-despesas" />
+
+       <TooltipPadrao style={tooltipStyle} id="tooltip-despesas" />
     </div>
   );
 }

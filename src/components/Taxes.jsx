@@ -15,12 +15,19 @@ export default function Taxes() {
   const tooltipStyle = {
     backgroundColor: "#FFFFFF",
     color: "#350973",
-    border: "1px solid #350973",
     borderRadius: "6px",
     padding: "6px 10px",
     fontWeight: "600",
     fontSize: "14px",
   };
+
+  const TooltipPadrao = ({ id }) => (
+  <Tooltip
+    id={id}
+    style={tooltipStyle}
+    border="1px solid #350973"
+  />
+);
 
   // useEffect(() => {
   //   // Verifica se é necessário atualizar as despesas e o estado modal
@@ -71,10 +78,10 @@ export default function Taxes() {
   return (
 
     <div className=' rounded-[40px] flex flex-col items-center gap-[10px]'>
-      <Tooltip style={tooltipStyle} id="tooltip-faturado" />
-      <Tooltip style={tooltipStyle} id="tooltip-despesas" />
-      <Tooltip style={tooltipStyle} id="tooltip-lucro" />
-      <Tooltip style={tooltipStyle} id="tooltip-impostoAnual" />
+      <TooltipPadrao style={tooltipStyle} id="tooltip-faturado" />
+      <TooltipPadrao style={tooltipStyle} id="tooltip-despesas" />
+      <TooltipPadrao style={tooltipStyle} id="tooltip-lucro" />
+      <TooltipPadrao style={tooltipStyle} id="tooltip-impostoAnual" />
       <div
         data-tooltip-id="tooltip-faturado"
         data-tooltip-html="Faturamento total acumulado no mês atual"

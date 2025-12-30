@@ -11,6 +11,23 @@ export default function Informations() {
     const { dados } = useContext(CentraldeDadosContext);
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
 
+      const tooltipStyle = {
+    backgroundColor: "#FFFFFF",
+    color: "#350973",
+    borderRadius: "6px",
+    padding: "6px 10px",
+    fontWeight: "600",
+    fontSize: "14px",
+  };
+
+      const TooltipPadrao = ({ id }) => (
+      <Tooltip
+        id={id}
+        style={tooltipStyle}
+        border="1px solid #350973"
+      />
+    );
+    
     const formatarNumero = (num) => {
         if (num >= 1e12)
             return (num / 1e12).toFixed(2).replace(/\.00$/, "") + "T"; // Trilhões
@@ -41,18 +58,8 @@ export default function Informations() {
                 </div>
             </div>
             {/* Tooltip global (pode ficar fora dos elementos) */}
-            <Tooltip
-                id="saldo-tip"
-                style={{
-                    backgroundColor: "#FFFFFF",   // fundo branco
-                    color: "#350973",            // texto roxo
-                    border: "1px solid #350973", // borda fina
-                    borderRadius: "6px",         // cantos arredondados
-                    padding: "6px 10px",         // espaçamento interno
-                    fontWeight: "600",           // deixa a fonte mais destacada
-                    fontSize: "14px"
-                }}
-            />
+             <TooltipPadrao style={tooltipStyle} id="saldo-tip"/>
+
         </div>
     );
 }

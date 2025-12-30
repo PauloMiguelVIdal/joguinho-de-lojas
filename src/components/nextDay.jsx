@@ -16,6 +16,24 @@ export function NextDay() {
     DadosEconomyGlobalContext
   );
 
+  const tooltipStyle = {
+    backgroundColor: "#FFFFFF",
+    color: "#350973",
+    borderRadius: "6px",
+    padding: "6px 10px",
+    fontWeight: "600",
+    fontSize: "14px",
+  };
+
+  const TooltipPadrao = ({ id }) => (
+  <Tooltip
+    id={id}
+    style={tooltipStyle}
+    border="1px solid #350973"
+  />
+);
+
+
   const [buttonNextDayAudio] = useSound(nextDayAudio);
   const [buttonNewStageAudio] = useSound(newStageAudio);
   const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
@@ -211,18 +229,8 @@ export function NextDay() {
         <img className="w-[60%] aspect-square" src={PróximoImg} alt="Próximo" />
       </button>
       <Sorteio />
-      <Tooltip
-        id="saldo-tip"
-        style={{
-          backgroundColor: "#FFFFFF", // fundo branco
-          color: "#350973", // texto roxo
-          border: "1px solid #350973", // borda fina
-          borderRadius: "6px", // cantos arredondados
-          padding: "6px 10px", // espaçamento interno
-          fontWeight: "600", // deixa a fonte mais destacada
-          fontSize: "14px",
-        }}
-      />
+
+        <TooltipPadrao style={tooltipStyle} id="saldo-tip" />
     </div>
   );
 }

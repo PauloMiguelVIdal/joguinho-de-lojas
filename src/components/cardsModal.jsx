@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useContext, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import porcem from "../../public/outrasImagens/simbolo-de-porcentagem.png";
-import terrenoImg from "../../public/outrasImagens/terreno.png";
+import gerenciamento from "../../public/outrasImagens/setores/gerenciamento.png"; import terrenoImg from "../../public/outrasImagens/terreno.png";
 import constNece from "../../public/outrasImagens/construção necessária.png";
 import PróximoImg from "../../public/outrasImagens/proximo.png";
 import ConstuirImg from "../../public/outrasImagens/martelo.png";
@@ -63,6 +63,24 @@ export const CardModal = ({ index }) => {
   // }, [dados[setorAtivo].economiaSetor])
 
   const [buttonPurchaseEdifAudio] = useSound(purchaseEdifAudio);
+
+const edificiosComGerenciamento = [
+  "Mineradora",
+  "Açougue",
+  "Fábrica De Painel Solar",
+  "Terraplanagem E Pavimentação",
+  "Construtora",
+  "Fábrica De Smarthphone",
+  "Concessionária",
+  "Fábrica De Automóveis",
+  "Plantação De Grãos",
+];
+
+
+
+
+
+
 
   const setores = [
     {
@@ -163,22 +181,22 @@ export const CardModal = ({ index }) => {
       edificio === "terrenos"
         ? dados[edificio].preçoConstrução
         : edificio === "lojasP"
-        ? dados[edificio].preçoConstrução + dados.terrenos.preçoConstrução
-        : edificio === "lojasM"
-        ? dados[edificio].preçoConstrução + 2 * dados.terrenos.preçoConstrução
-        : edificio === "lojasG"
-        ? dados[edificio].preçoConstrução + 3 * dados.terrenos.preçoConstrução
-        : "lascou";
+          ? dados[edificio].preçoConstrução + dados.terrenos.preçoConstrução
+          : edificio === "lojasM"
+            ? dados[edificio].preçoConstrução + 2 * dados.terrenos.preçoConstrução
+            : edificio === "lojasG"
+              ? dados[edificio].preçoConstrução + 3 * dados.terrenos.preçoConstrução
+              : "lascou";
     const edificioSuficiente =
       edificio === "terrenos"
         ? "terrenosSuficientes"
         : edificio === "lojasP"
-        ? "lojasPSuficientes"
-        : edificio === "lojasM"
-        ? "lojasMSuficientes"
-        : edificio === "lojasG"
-        ? "lojasGSuficientes"
-        : "lascou";
+          ? "lojasPSuficientes"
+          : edificio === "lojasM"
+            ? "lojasMSuficientes"
+            : edificio === "lojasG"
+              ? "lojasGSuficientes"
+              : "lascou";
 
     return qtdFalta * custoTotalConst;
   };
@@ -465,12 +483,12 @@ export const CardModal = ({ index }) => {
       edificio === "terrenos"
         ? "terrenosSuficientes"
         : edificio === "lojasP"
-        ? "lojasPSuficientes"
-        : edificio === "lojasM"
-        ? "lojasMSuficientes"
-        : edificio === "lojasG"
-        ? "lojasGSuficientes"
-        : "lascou";
+          ? "lojasPSuficientes"
+          : edificio === "lojasM"
+            ? "lojasMSuficientes"
+            : edificio === "lojasG"
+              ? "lojasGSuficientes"
+              : "lascou";
 
     if (qtdAtual >= qtdNecessaria) {
       const novoEdificio = {
@@ -1030,14 +1048,14 @@ export const CardModal = ({ index }) => {
     const custosEdBase =
       qTerrenos * dados.terrenos.preçoConstrução +
       qP *
-        (dados.lojasP.preçoConstrução +
-          dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
+      (dados.lojasP.preçoConstrução +
+        dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
       qM *
-        (dados.lojasM.preçoConstrução +
-          dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
+      (dados.lojasM.preçoConstrução +
+        dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
       qG *
-        (dados.lojasG.preçoConstrução +
-          dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução);
+      (dados.lojasG.preçoConstrução +
+        dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução);
 
     // 🔹 4) Deduz recursos de construção
     if (edif.recursoDeConstrução?.length) {
@@ -1167,8 +1185,8 @@ export const CardModal = ({ index }) => {
     quantidadeAtivoAtual >= quantidadeMinimaPowerUpNv3
       ? "powerUpNv3"
       : quantidadeAtivoAtual >= quantidadeMinimaPowerUpNv2
-      ? "powerUpNv2"
-      : "powerUpNv1";
+        ? "powerUpNv2"
+        : "powerUpNv1";
 
   const corPowerUpAtual = corPowerUp(powerUpSelecionado);
   const corColunaAtual = corPadrão; // Definição da variável antes de usá-la
@@ -1183,24 +1201,24 @@ export const CardModal = ({ index }) => {
     corLinha === "#8F5ADA"
       ? corPowerUp("powerUpNv1")
       : powerUpSelecionado === "powerUpNv2"
-      ? corPowerUp("powerUpNv2")
-      : powerUpSelecionado === "powerUpNv3"
-      ? corPowerUp("powerUpNv3")
-      : corPadrão;
+        ? corPowerUp("powerUpNv2")
+        : powerUpSelecionado === "powerUpNv3"
+          ? corPowerUp("powerUpNv3")
+          : corPadrão;
 
   const bgColuna2 =
     powerUpSelecionado === "powerUpNv1"
       ? corPadrão
       : powerUpSelecionado === "powerUpNv2"
-      ? corPowerUp("powerUpNv2")
-      : corPowerUp("powerUpNv3");
+        ? corPowerUp("powerUpNv2")
+        : corPowerUp("powerUpNv3");
 
   const bgColuna3 =
     powerUpSelecionado === "powerUpNv1"
       ? corPadrão
       : powerUpSelecionado === "powerUpNv2"
-      ? corPadrão
-      : corPowerUp("powerUpNv3");
+        ? corPadrão
+        : corPowerUp("powerUpNv3");
   const columnStyleNv1 = { backgroundColor: bgColuna1 };
   const columnStyleNv2 = { backgroundColor: bgColuna2 };
   const columnStyleNv3 = { backgroundColor: bgColuna3 };
@@ -1291,16 +1309,16 @@ export const CardModal = ({ index }) => {
           qtd >= quantidadeMinimaPowerUpNv3
             ? "powerUpNv3"
             : qtd >= quantidadeMinimaPowerUpNv2
-            ? "powerUpNv2"
-            : "powerUpNv1";
+              ? "powerUpNv2"
+              : "powerUpNv1";
 
         if (qtdMelhorado > 0) {
           const ValorpowerUpAtualRedCustoFornece =
             powerUpSelecionado === "powerUpNv1"
               ? edMelhorado.redCusto.nível1
               : powerUpSelecionado === "powerUpNv2"
-              ? edMelhorado.redCusto.nível2
-              : edMelhorado.redCusto.nível3;
+                ? edMelhorado.redCusto.nível2
+                : edMelhorado.redCusto.nível3;
 
           novoAcumuladorRedCusto += ValorpowerUpAtualRedCustoFornece;
 
@@ -1308,8 +1326,8 @@ export const CardModal = ({ index }) => {
             powerUpSelecionado === "powerUpNv1"
               ? edMelhorado.aumFatu.nível1
               : powerUpSelecionado === "powerUpNv2"
-              ? edMelhorado.aumFatu.nível2
-              : edMelhorado.aumFatu.nível3;
+                ? edMelhorado.aumFatu.nível2
+                : edMelhorado.aumFatu.nível3;
 
           novoAcumuladorAumFatu += ValorpowerUpAtualAumFatuFornece;
         }
@@ -1355,16 +1373,16 @@ export const CardModal = ({ index }) => {
           qtd >= quantidadeMinimaPowerUpNv3
             ? "powerUpNv3"
             : qtd >= quantidadeMinimaPowerUpNv2
-            ? "powerUpNv2"
-            : "powerUpNv1";
+              ? "powerUpNv2"
+              : "powerUpNv1";
 
         if (qtdMelhorado > 0) {
           const ValorpowerUpAtualRedCustoFornece =
             powerUpSelecionado === "powerUpNv1"
               ? edMelhorado.redCusto.nível1
               : powerUpSelecionado === "powerUpNv2"
-              ? edMelhorado.redCusto.nível2
-              : edMelhorado.redCusto.nível3;
+                ? edMelhorado.redCusto.nível2
+                : edMelhorado.redCusto.nível3;
 
           novoAcumuladorRedCusto += ValorpowerUpAtualRedCustoFornece;
 
@@ -1372,8 +1390,8 @@ export const CardModal = ({ index }) => {
             powerUpSelecionado === "powerUpNv1"
               ? edMelhorado.aumFatu.nível1
               : powerUpSelecionado === "powerUpNv2"
-              ? edMelhorado.aumFatu.nível2
-              : edMelhorado.aumFatu.nível3;
+                ? edMelhorado.aumFatu.nível2
+                : edMelhorado.aumFatu.nível3;
 
           novoAcumuladorAumFatu += ValorpowerUpAtualAumFatuFornece;
         }
@@ -1401,13 +1419,13 @@ export const CardModal = ({ index }) => {
     dados[setorAtivo].edificios[index].finanças.impostoSobreFatu;
   const custoConstrução = dados[setorAtivo].edificios[index].custoConstrucao;
 
-      const fatorEconomico = {
-        "recessão": 0.4,
-        "declinio": 0.8,
-        "estável": 1,
-        "progressiva": 1.1,
-        "aquecida": 1.25,
-    }[economiaSetor];
+  const fatorEconomico = {
+    "recessão": 0.4,
+    "declinio": 0.8,
+    "estável": 1,
+    "progressiva": 1.1,
+    "aquecida": 1.25,
+  }[economiaSetor];
   const impostoSobreFatuFinal =
     impostoSobreFatu -
     impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100);
@@ -1716,21 +1734,21 @@ export const CardModal = ({ index }) => {
                         qtd >= quantidadeMinimaPowerUpNv3
                           ? "powerUpNv3"
                           : qtd >= quantidadeMinimaPowerUpNv2
-                          ? "powerUpNv2"
-                          : "powerUpNv1";
+                            ? "powerUpNv2"
+                            : "powerUpNv1";
 
                       if (qtdMelhorado > 0) {
                         powerUpSelecionado === "powerUpNv1"
                           ? edMelhorado.redCusto.nível1
                           : powerUpSelecionado === "powerUpNv2"
-                          ? edMelhorado.redCusto.nível2
-                          : edMelhorado.redCusto.nível3;
+                            ? edMelhorado.redCusto.nível2
+                            : edMelhorado.redCusto.nível3;
 
                         powerUpSelecionado === "powerUpNv1"
                           ? edMelhorado.aumFatu.nível1
                           : powerUpSelecionado === "powerUpNv2"
-                          ? edMelhorado.aumFatu.nível2
-                          : edMelhorado.aumFatu.nível3;
+                            ? edMelhorado.aumFatu.nível2
+                            : edMelhorado.aumFatu.nível3;
 
                         // atualizarDadosProf2([setorAtivo, "edificios", index, "powerUp","aumFatuAtual"],ResultFinalAcumuladorRedCusto)
                         // console.log(index)
@@ -1757,24 +1775,24 @@ export const CardModal = ({ index }) => {
                         corLinha === "#8F5ADA"
                           ? corPowerUp("powerUpNv1")
                           : powerUpSelecionado === "powerUpNv2"
-                          ? corPowerUp("powerUpNv2")
-                          : powerUpSelecionado === "powerUpNv3"
-                          ? corPowerUp("powerUpNv3")
-                          : corPadrão;
+                            ? corPowerUp("powerUpNv2")
+                            : powerUpSelecionado === "powerUpNv3"
+                              ? corPowerUp("powerUpNv3")
+                              : corPadrão;
 
                       const bgColuna2 =
                         powerUpSelecionado === "powerUpNv1"
                           ? corPadrão
                           : powerUpSelecionado === "powerUpNv2"
-                          ? corPowerUp("powerUpNv2")
-                          : corPowerUp("powerUpNv3");
+                            ? corPowerUp("powerUpNv2")
+                            : corPowerUp("powerUpNv3");
 
                       const bgColuna3 =
                         powerUpSelecionado === "powerUpNv1"
                           ? corPadrão
                           : powerUpSelecionado === "powerUpNv2"
-                          ? corPadrão
-                          : corPowerUp("powerUpNv3");
+                            ? corPadrão
+                            : corPowerUp("powerUpNv3");
                       const columnStyleNv1 = { backgroundColor: bgColuna1 };
                       const columnStyleNv2 = { backgroundColor: bgColuna2 };
                       const columnStyleNv3 = { backgroundColor: bgColuna3 };
@@ -1982,21 +2000,21 @@ export const CardModal = ({ index }) => {
                         qtd >= quantidadeMinimaPowerUpNv3
                           ? "powerUpNv3"
                           : qtd >= quantidadeMinimaPowerUpNv2
-                          ? "powerUpNv2"
-                          : "powerUpNv1";
+                            ? "powerUpNv2"
+                            : "powerUpNv1";
 
                       if (qtdMelhorado > 0) {
                         powerUpSelecionado === "powerUpNv1"
                           ? edMelhorado.redCusto.nível1
                           : powerUpSelecionado === "powerUpNv2"
-                          ? edMelhorado.redCusto.nível2
-                          : edMelhorado.redCusto.nível3;
+                            ? edMelhorado.redCusto.nível2
+                            : edMelhorado.redCusto.nível3;
 
                         powerUpSelecionado === "powerUpNv1"
                           ? edMelhorado.aumFatu.nível1
                           : powerUpSelecionado === "powerUpNv2"
-                          ? edMelhorado.aumFatu.nível2
-                          : edMelhorado.aumFatu.nível3;
+                            ? edMelhorado.aumFatu.nível2
+                            : edMelhorado.aumFatu.nível3;
                       }
                       const corPowerUpAtual = corPowerUp(powerUpSelecionado);
                       const corColunaAtual = corPadrão; // Definição da variável antes de usá-la
@@ -2014,24 +2032,24 @@ export const CardModal = ({ index }) => {
                         corLinha === "#8F5ADA"
                           ? corPowerUp("powerUpNv1")
                           : powerUpSelecionado === "powerUpNv2"
-                          ? corPowerUp("powerUpNv2")
-                          : powerUpSelecionado === "powerUpNv3"
-                          ? corPowerUp("powerUpNv3")
-                          : corPadrão;
+                            ? corPowerUp("powerUpNv2")
+                            : powerUpSelecionado === "powerUpNv3"
+                              ? corPowerUp("powerUpNv3")
+                              : corPadrão;
 
                       const bgColuna2 =
                         powerUpSelecionado === "powerUpNv1"
                           ? corPadrão
                           : powerUpSelecionado === "powerUpNv2"
-                          ? corPowerUp("powerUpNv2")
-                          : corPowerUp("powerUpNv3");
+                            ? corPowerUp("powerUpNv2")
+                            : corPowerUp("powerUpNv3");
 
                       const bgColuna3 =
                         powerUpSelecionado === "powerUpNv1"
                           ? corPadrão
                           : powerUpSelecionado === "powerUpNv2"
-                          ? corPadrão
-                          : corPowerUp("powerUpNv3");
+                            ? corPadrão
+                            : corPowerUp("powerUpNv3");
                       const columnStyleNv1 = { backgroundColor: bgColuna1 };
                       const columnStyleNv2 = { backgroundColor: bgColuna2 };
                       const columnStyleNv3 = { backgroundColor: bgColuna3 };
@@ -2158,6 +2176,7 @@ export const CardModal = ({ index }) => {
       // animate={{ rotateX, rotateY }}
       transition={{ type: "spring", stiffness: 100, damping: 10 }}
     >
+
       {/* Container do Card */}
       <motion.div
         // className="relative w-full h-full "
@@ -2170,77 +2189,87 @@ export const CardModal = ({ index }) => {
         style={{
           transformStyle: "preserve-3d",
           background: powerUpSelecionado === "powerUpNv3" ? "#b8870b77" : powerUpSelecionado === "powerUpNv2" ? "#6411D966" : "#FFFFFF00",
-          
+
         }}
       >
+{edificiosComGerenciamento.includes(
+  dados[setorAtivo].edificios[index].nome
+) && (
+  <div className="bg-roxo absolute top-[-15px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px]">
+    <img src={gerenciamento} alt="" className="w-[60%]" />
+  </div>
+)}
         {/* Frente do Card */}
 
         {dados[setorAtivo].edificios[index].licençaLiberado.liberado ===
           false && (
-          <motion.div
-            style={{
-              background: `transparent`, // fundo transparente para o container principal
-            }}
-            className="w-[215px] h-[230px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective z-[2] cursor-pointer absolute"
-            initial={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 100, damping: 10 }}
-          >
-            {/* Camada de fundo com opacidade */}
-            <div
-              className="absolute inset-0 rounded-[20px] z-0"
-              style={{
-                background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor2} 70%, ${setorInfo.cor4} 100%)`,
-                opacity: 0.9,
-              }}
-            />
-
-            {/* Container do Card */}
             <motion.div
-              className="relative flex justify-center items-center w-full h-full z-[2]"
-              animate={{ rotateY: flipped ? 180 : 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
               style={{
-                transformStyle: "preserve-3d",
+                background: `transparent`, // fundo transparente para o container principal
               }}
+              className="w-[215px] h-[230px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective z-[2] cursor-pointer absolute"
+              initial={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 100, damping: 10 }}
             >
+
+              {/* Camada de fundo com opacidade */}
               <div
-                style={{ backgroundColor: setorInfo.cor1 }}
-                className="h-[40%] flex justify-center items-center aspect-square rounded-[20px] relative z-[2]"
+                className="absolute inset-0 rounded-[20px] z-0"
+                style={{
+                  background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor2} 70%, ${setorInfo.cor4} 100%)`,
+                  opacity: 0.9,
+                }}
+              />
+
+
+              {/* Container do Card */}
+              <motion.div
+                className="relative flex justify-center items-center w-full h-full z-[2]"
+                animate={{ rotateY: flipped ? 180 : 0 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                style={{
+                  transformStyle: "preserve-3d",
+                }}
               >
+
                 <div
-                  style={{ backgroundColor: setorInfo.cor3 }}
-                  className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-[2]"
+                  style={{ backgroundColor: setorInfo.cor1 }}
+                  className="h-[40%] flex justify-center items-center aspect-square rounded-[20px] relative z-[2]"
                 >
                   <div
-                    style={{ backgroundColor: setorInfo.cor1 }}
+                    style={{ backgroundColor: setorInfo.cor3 }}
                     className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-[2]"
                   >
                     <div
-                      style={{ backgroundColor: setorInfo.cor2 }}
-                      className="flex items-center justify-center h-[95%] aspect-square rounded-[30px] absolute z-[2]"
+                      style={{ backgroundColor: setorInfo.cor1 }}
+                      className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-[2]"
                     >
                       <div
-                        style={{
-                          background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor4} 100%)`,
-                        }}
-                        className="flex items-center justify-center h-[95%] aspect-square rounded-[60px] absolute z-[2] relative"
+                        style={{ backgroundColor: setorInfo.cor2 }}
+                        className="flex items-center justify-center h-[95%] aspect-square rounded-[30px] absolute z-[2]"
                       >
-                        <img
-                          className="h-[70%] aspect-square absolute"
-                          src={getImageUrl(
-                            dados[setorAtivo].edificios[index].licençaLiberado
-                              .licença
-                          )}
-                          alt=""
-                        />
+                        <div
+                          style={{
+                            background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor4} 100%)`,
+                          }}
+                          className="flex items-center justify-center h-[95%] aspect-square rounded-[60px] absolute z-[2] relative"
+                        >
+                          <img
+                            className="h-[70%] aspect-square absolute"
+                            src={getImageUrl(
+                              dados[setorAtivo].edificios[index].licençaLiberado
+                                .licença
+                            )}
+                            alt=""
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
+          )}
 
         <div className="absolute w-full h-full flex items-center justify-center rounded-xl">
           <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
@@ -2549,9 +2578,8 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                 <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">} */}
         {/* Verso do Card */}
         <div
-          className={`absolute w-full h-full flex items-center justify-center rounded-[20px] text-white transform cursor-pointer rotate-y-180 ${
-            flipped ? "pointer-events-auto z-50" : "pointer-events-none"
-          }`}
+          className={`absolute w-full h-full flex items-center justify-center rounded-[20px] text-white transform cursor-pointer rotate-y-180 ${flipped ? "pointer-events-auto z-50" : "pointer-events-none"
+            }`}
           style={{
             transform: "rotateY(180deg)",
             backfaceVisibility: "hidden",
@@ -3300,9 +3328,9 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                     {formatarNumero(
                       dados[setorAtivo].edificios[index].finanças
                         .faturamentoUnitário *
-                        30 *
-                        dados[setorAtivo].edificios[index].finanças
-                          .impostoSobreFatu
+                      30 *
+                      dados[setorAtivo].edificios[index].finanças
+                        .impostoSobreFatu
                     )}
                   </h2>
                 </div>
@@ -3383,14 +3411,14 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                     {formatarNumero(
                       dados[setorAtivo].edificios[index].finanças
                         .faturamentoUnitário *
-                        30 -
-                        (dados[setorAtivo].edificios[index].finanças
-                          .faturamentoUnitário *
-                          30 *
-                          dados[setorAtivo].edificios[index].finanças
-                            .impostoSobreFatu +
-                          dados[setorAtivo].edificios[index].finanças
-                            .impostoFixo)
+                      30 -
+                      (dados[setorAtivo].edificios[index].finanças
+                        .faturamentoUnitário *
+                        30 *
+                        dados[setorAtivo].edificios[index].finanças
+                          .impostoSobreFatu +
+                        dados[setorAtivo].edificios[index].finanças
+                          .impostoFixo)
                     )}
                   </h2>
                 </div>
@@ -3415,10 +3443,10 @@ Dependendo para construir este edifício, você precisa já possuir previamente 
                     {formatarNumero(
                       dados[setorAtivo].edificios[index].finanças
                         .faturamentoUnitário *
-                        30 *
-                        dados[setorAtivo].edificios[index].finanças
-                          .impostoSobreFatu +
-                        dados[setorAtivo].edificios[index].finanças.impostoFixo
+                      30 *
+                      dados[setorAtivo].edificios[index].finanças
+                        .impostoSobreFatu +
+                      dados[setorAtivo].edificios[index].finanças.impostoFixo
                     )}
                   </h2>
                 </div>
