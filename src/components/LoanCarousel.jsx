@@ -46,6 +46,14 @@ const LoanCarousel = () => {
     const novoSaldo = saldoAtual - valorParcela;
     atualizarEco("saldo", novoSaldo);
 
+        atualizarEco("despesasEmprestimo", {
+          ...economiaSetores.despesas,
+          diaPagarDespesas: true,
+          despesasPagas: true,
+          proximoPagamento: "30",
+        });
+
+
     const parcelaAntes = activeLoan.parcelaAtual || 1;
     const novoSaldoDevedor = Math.max(
       0,

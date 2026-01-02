@@ -29,6 +29,7 @@ import ModalPerson from "./components/ModalPerson.jsx";
 import ToggleButton from "./components/ToggleButton.jsx";
 import { InfoPage } from "./components/Info.jsx";
 import ModalInfo from "./components/ModalInfo.jsx";
+import UpgradeCards from "./components/UpgradeCards.jsx";
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
@@ -56,6 +57,7 @@ function Interface() {
             <ModalAlert/>
             <ModalPerson/>
             <ModalInfo/>
+            <UpgradeCards/>
             <div className="w-[20vw] h-[100vh] flex items-center justify-around">
                 <Buy />
             </div>

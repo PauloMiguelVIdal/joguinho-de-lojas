@@ -182,6 +182,9 @@ const BankInterface = () => {
     if (!activeLoans) return;
 
     Object.values(activeLoans).forEach((loan) => {
+  if(diaAtualJogo !==loan.proximoVencimento){
+    
+  }
       if (diaAtualJogo === loan.proximoVencimento) {
         atualizarEco("despesasEmprestimo", {
           ...economiaSetores.despesas,

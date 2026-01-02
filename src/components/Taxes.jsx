@@ -124,7 +124,7 @@ export default function Taxes() {
         >
           <h1 className="fonteBold text-white">Imposto Anual</h1>
           <h1 className="fonteBold text-white text-[20px]">
-            {(economiaSetores.valorImpostoAnual)}
+            {((economiaSetores.valorImpostoAnual).toFixed(0))}
           </h1>
         </div>
       )

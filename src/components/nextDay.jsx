@@ -26,12 +26,12 @@ export function NextDay() {
   };
 
   const TooltipPadrao = ({ id }) => (
-  <Tooltip
-    id={id}
-    style={tooltipStyle}
-    border="1px solid #350973"
-  />
-);
+    <Tooltip
+      id={id}
+      style={tooltipStyle}
+      border="1px solid #350973"
+    />
+  );
 
 
   const [buttonNextDayAudio] = useSound(nextDayAudio);
@@ -99,13 +99,27 @@ export function NextDay() {
     if (!economiaSetores.despesasEmprestimo.despesasPagas) {
       return;
     }
-    if (!economiaSetores.despesasEmprestimo.despesasPagas) {
-      return;
-    }
-    if(economiaSetores.activeLoan?.proximoVencimento !== undefined){
-      if(economiaSetores.activeLoan.proximoVencimento===dados.dia){
+    if (economiaSetores.activeLoans?.[0]?.proximoVencimento !== undefined) {
+      if (economiaSetores.activeLoans[0].proximoVencimento <= dados.dia) {
         return;
       }
+    }
+    if (economiaSetores.activeLoans?.[1]?.proximoVencimento !== undefined) {
+      if (economiaSetores.activeLoans[1].proximoVencimento <= dados.dia) {
+        return;
+      }
+    }
+    if (economiaSetores.activeLoans?.[2]?.proximoVencimento !== undefined) {
+      if (economiaSetores.activeLoans[2].proximoVencimento <= dados.dia) {
+        return;
+      }
+    }
+
+    if (economiaSetores.activeLoan?.proximoVencimento !== undefined) {
+      if (economiaSetores.activeLoan.proximoVencimento === dados.dia) {
+        return; 
+      }
+
     }
     //   useEffect(() => {
     //     if (dados.dia % 30 === 0) {
@@ -181,7 +195,7 @@ export function NextDay() {
         : dados.faturamento.faturamentoMensal + faturamentoDiario;
 
     atualizarEco("saldo", economiaSetores.saldo + faturamentoDiario);
-    if (dados.dia <= 270){
+    if (dados.dia <= 270) {
 
       atualizarDados("faturamento", {
         ...dados.faturamento,
@@ -192,8 +206,8 @@ export function NextDay() {
           faturamentoDiario,
         ],
       });
-    } ;
-      
+    };
+
     todasLojas.forEach((loja, index) => {
       atualizarDados(loja, novasLojas[index]);
     });
@@ -230,7 +244,7 @@ export function NextDay() {
       </button>
       <Sorteio />
 
-        <TooltipPadrao style={tooltipStyle} id="saldo-tip" />
+      <TooltipPadrao style={tooltipStyle} id="saldo-tip" />
     </div>
   );
 }
