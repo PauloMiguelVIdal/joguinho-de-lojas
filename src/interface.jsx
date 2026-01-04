@@ -57,7 +57,7 @@ function Interface() {
             <ModalAlert/>
             <ModalPerson/>
             <ModalInfo/>
-            <UpgradeCards/>
+     
             <div className="w-[20vw] h-[100vh] flex items-center justify-around">
                 <Buy />
             </div>
@@ -82,6 +82,7 @@ function Interface() {
                         <TaxesYear />
                         <EconomyGlobal />
                         <RaffledBuildings />
+                               <UpgradeCards/>
                     </div>
                 </div>
 
