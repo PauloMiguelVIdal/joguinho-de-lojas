@@ -2668,7 +2668,7 @@ const CentraldeDadosProvider = ({ children }) => {
           melhoraEficiencia: [
             "Fábrica de Celulose",
             "Madeireira",
-            "Fábrica de Papel",
+            "Fábrica De Papel",
             "Granja De Aves",
             "Criação De Ovinos",
             "Plantação De Eucalipto",

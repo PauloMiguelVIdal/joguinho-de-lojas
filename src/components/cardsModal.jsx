@@ -1541,6 +1541,9 @@ const edificiosComGerenciamento = [
       (CustoTotalSomadoLojas + custoRecursos + custoConstrução)) *
     100;
 
+
+
+    
   // console.log("faturamento mensal", fatuMensal)
   // console.log("imposto sobre faturamento", valorImpostoSobreFatu)
   // console.log("valor final mês", valorFinalMês)
@@ -2203,6 +2206,78 @@ const edificiosComGerenciamento = [
 
         {dados[setorAtivo].edificios[index].licençaLiberado.liberado ===
           false && (
+            <motion.div
+              style={{
+                background: `transparent`, // fundo transparente para o container principal
+              }}
+              className="w-[215px] h-[230px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective z-[2] cursor-pointer absolute"
+              initial={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 100, damping: 10 }}
+            >
+
+              {/* Camada de fundo com opacidade */}
+              <div
+                className="absolute inset-0 rounded-[20px] z-0"
+                style={{
+                  background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor2} 70%, ${setorInfo.cor4} 100%)`,
+                  opacity: 0.9,
+                }}
+              />
+
+
+              {/* Container do Card */}
+              <motion.div
+                className="relative flex justify-center items-center w-full h-full z-[2]"
+                animate={{ rotateY: flipped ? 180 : 0 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                style={{
+                  transformStyle: "preserve-3d",
+                }}
+              >
+
+                <div
+                  style={{ backgroundColor: setorInfo.cor1 }}
+                  className="h-[40%] flex justify-center items-center aspect-square rounded-[20px] relative z-[2]"
+                >
+                  <div
+                    style={{ backgroundColor: setorInfo.cor3 }}
+                    className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-[2]"
+                  >
+                    <div
+                      style={{ backgroundColor: setorInfo.cor1 }}
+                      className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-[2]"
+                    >
+                      <div
+                        style={{ backgroundColor: setorInfo.cor2 }}
+                        className="flex items-center justify-center h-[95%] aspect-square rounded-[30px] absolute z-[2]"
+                      >
+                        <div
+                          style={{
+                            background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor4} 100%)`,
+                          }}
+                          className="flex items-center justify-center h-[95%] aspect-square rounded-[60px] absolute z-[2] relative"
+                        >
+                          <img
+                            className="h-[70%] aspect-square absolute"
+                            src={getImageUrl(
+                              dados[setorAtivo].edificios[index].licençaLiberado
+                                .licença
+                            )}
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        {(rentabilidade > 200 && quantidadeAtivoAtual === 1)
+          || (rentabilidade >=150 && rentabilidade<200 && quantidadeAtivoAtual === 3) 
+          || (rentabilidade >=120 && rentabilidade<150 && quantidadeAtivoAtual === 5) 
+          || (rentabilidade >=70 && rentabilidade<120 && quantidadeAtivoAtual === 10) 
+          && (
             <motion.div
               style={{
                 background: `transparent`, // fundo transparente para o container principal

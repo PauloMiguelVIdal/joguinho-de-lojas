@@ -103,7 +103,19 @@ const LoanCarousel = () => {
     );
   }
 
-  const { contrato: currentContrato, index: currentContratoIndex, loan: currentLoan } = contratosComEmprestimos[currentIndex];
+const currentItem = contratosComEmprestimos[currentIndex];
+
+if (!currentItem) {
+  return null; // ou um loading/fallback
+}
+
+const {
+  contrato: currentContrato,
+  index: currentContratoIndex,
+  loan: currentLoan
+} = currentItem;
+
+
 
   const podeAbrirPagamento = () => {
     if (!currentLoan) return false;

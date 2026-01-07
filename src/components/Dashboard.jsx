@@ -116,6 +116,17 @@ export default function Dashboard() {
     index: 0,
   });
 
+useEffect(()=>{
+  if(dados.dia>=270){
+  if(ativo=== "carteira") return
+  if(ativo!=="carteira"){
+    setAtivo("carteira")
+  }
+  }
+
+},[dados.dia])
+
+
   const abrirModalSell = (setor, index) => {
     setModalProps({ setor, index });
     setModalSellOpen(true);

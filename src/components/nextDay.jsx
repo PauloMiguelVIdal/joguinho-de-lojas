@@ -135,6 +135,7 @@ export function NextDay() {
 
     //    dados.animarCicloDia();
     const novoDia = dados.dia + 1;
+
     atualizarDados("dia", novoDia);
     // console.log(dados.dia);
     calcularFaturamento();
