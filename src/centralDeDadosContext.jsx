@@ -14,7 +14,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
     animarCicloDia: null,
-    dia: 1,
+    dia: 1000,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -535,7 +535,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica De Fertilizantes",
+              nome: "Fábrica De FertilizantDs",
               redCusto: {
                 nível1: 1,
                 nível2: 3,
@@ -749,7 +749,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Mercado",
             "Feira",
             "Restaurante",
-            "Redes de Fast-Food",
+            "Redes De Fast-Food",
             "Petshop",
           ],
 
@@ -812,7 +812,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica De Fertilizantes",
+              nome: "Fábrica De FertilizantDs",
               redCusto: { nível1: 1, nível2: 3, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -926,9 +926,9 @@ const CentraldeDadosProvider = ({ children }) => {
             "Mercado",
             "Feira",
             "Restaurante",
-            "Redes de Fast-Food",
-            "Fábrica de Bebidas",
-            "Usina de Biomassa",
+            "Redes De Fast-Food",
+            "Fábrica De Bebidas",
+            "Usina De Biomassa",
             "Refinaria De Biocombustíveis",
           ],
 
@@ -981,7 +981,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica De Fertilizantes",
+              nome: "Fábrica De FertilizantDs",
               redCusto: { nível1: 1, nível2: 3, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -1238,7 +1238,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Mercado",
             "Feira",
             "Restaurante",
-            "Redes de Fast-Food",
+            "Redes De Fast-Food",
             "Petshop",
           ],
 
@@ -1393,9 +1393,9 @@ const CentraldeDadosProvider = ({ children }) => {
             "Plantação De Plantas Medicinais",
             "Mercado",
             "Feira",
-            "Fábrica de Ração",
+            "Fábrica De Ração",
             "Restaurante",
-            "Usina de Biomassa",
+            "Usina De Biomassa",
           ],
 
           ForneceMelhoraEficiencia: [
@@ -1548,9 +1548,9 @@ const CentraldeDadosProvider = ({ children }) => {
             "Plantação De Plantas Medicinais",
             "Mercado",
             "Feira",
-            "Fábrica de Ração",
+            "Fábrica De Ração",
             "Restaurante",
-            "Usina de Biomassa",
+            "Usina De Biomassa",
           ],
 
           ForneceMelhoraEficiencia: [
@@ -1751,14 +1751,14 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: ["Silo"],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Usina de Biomassa",
+            "Usina De Biomassa",
             "Refinaria De Biocombustíveis",
-            "Fábrica de Fertilizantes",
+            "Fábrica De Fertilizantes",
           ],
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Fábrica De Fertilizantes",
+              nome: "Fábrica De FertilizantDs",
               redCusto: { nível1: 1, nível2: 1, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -1788,7 +1788,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 2, nível2: 4, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -1926,11 +1926,11 @@ const CentraldeDadosProvider = ({ children }) => {
             "Açougue",
             "Feira",
             "Restaurante",
-            "Redes de Fast-Food",
+            "Redes De Fast-Food",
             "Padaria",
             "Fábrica De Pães",
-            "Usina de Biomassa",
-            "Fábrica de Fertilizantes",
+            "Usina De Biomassa",
+            "Fábrica De Fertilizantes",
           ],
 
           ForneceMelhoraEficiencia: [
@@ -1965,7 +1965,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Fertilizantes",
+              nome: "Fábrica De FertilizantDs",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2007,7 +2007,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
             },
             {
-              nome: "Fábrica De Fertilizantes",
+              nome: "Fábrica De FertilizantDs",
               redCusto: { nível1: 8, nível2: 11, nível3: 16 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2091,7 +2091,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Redes De Fast-Food",
             "Fábrica De Ração",
             "Petshop",
-            "Usina de Biomassa",
+            "Usina De Biomassa",
           ],
 
           ForneceMelhoraEficiencia: [
@@ -2158,7 +2158,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
             },
             {
-              nome: "Fábrica De Fertilizantes",
+              nome: "Fábrica De FertilizantDs",
               redCusto: { nível1: 8, nível2: 12, nível3: 17 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2239,10 +2239,10 @@ const CentraldeDadosProvider = ({ children }) => {
             "Açougue",
             "Feira",
             "Restaurante",
-            "Redes de Fast-Food",
-            "Fábrica de Ração",
+            "Redes De Fast-Food",
+            "Fábrica De Ração",
             "Petshop",
-            "Usina de Biomassa",
+            "Usina De Biomassa",
           ],
 
           ForneceMelhoraEficiencia: [
@@ -2299,7 +2299,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
             },
             {
-              nome: "Fábrica De Fertilizantes",
+              nome: "Fábrica De FertilizantDs",
               redCusto: { nível1: 8, nível2: 12, nível3: 17 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2376,10 +2376,10 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Fábrica de Móveis",
-            "Fábrica de Celulose",
-            "Fábrica de Estruturas Metálicas",
-            "Fábrica de Embalagens",
+            "Fábrica De Móveis",
+            "Fábrica De Celulose",
+            "Fábrica De Estruturas Metálicas",
+            "Fábrica De Embalagens",
           ],
 
           ForneceMelhoraEficiencia: [
@@ -2502,7 +2502,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 7, nível2: 15, nível3: 30 },
             },
             {
-              nome: "Fábrica De Fertilizante",
+              nome: "Fábrica De FertilizantD",
               redCusto: { nível1: 1, nível2: 3, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2666,7 +2666,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Fábrica de Celulose",
+            "Fábrica De Celulose",
             "Madeireira",
             "Fábrica De Papel",
             "Granja De Aves",
@@ -2675,9 +2675,9 @@ const CentraldeDadosProvider = ({ children }) => {
             "Plantação De Plantas Medicinais",
             "Mercado",
             "Feira",
-            "Fábrica de Ração",
+            "Fábrica De Ração",
             "Restaurante",
-            "Usina de Biomassa",
+            "Usina De Biomassa",
           ],
 
           ForneceMelhoraEficiencia: [
@@ -2714,7 +2714,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 10, nível2: 15, nível3: 30 },
             },
             {
-              nome: "Fábrica De Fertilizantes",
+              nome: "Fábrica De FertilizantDs",
               redCusto: { nível1: 1, nível2: 4, nível3: 10 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2806,7 +2806,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Fábrica De Produtos Químicos Especializados",
+            "Fábrica De Químicos Especializados",
             "Farmácia",
           ],
 
@@ -2827,7 +2827,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Fertilizantes",
+              nome: "Fábrica De FertilizantDs",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2844,7 +2844,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica De Fertilizantes",
+              nome: "Fábrica De FertilizantDs",
               redCusto: { nível1: 1, nível2: 3, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2988,7 +2988,7 @@ const CentraldeDadosProvider = ({ children }) => {
           status: false,
         },
         {
-          nome: "Licença De Fábricas Tecnológicas",
+          nome: "Licença De Fábrica Tecnológicas",
           desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
           valor: 4500000,
           edifíciosLiberados: [
@@ -3211,7 +3211,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -3413,7 +3413,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -3453,7 +3453,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 10, nível2: 14, nível3: 16 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 2, nível2: 2, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -3591,7 +3591,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -4382,7 +4382,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -4529,7 +4529,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 7, nível3: 14 },
             },
             {
-              nome: "Fábrica De Fertilizante",
+              nome: "Fábrica De FertilizantD",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 16, nível3: 19 },
             },
@@ -4673,7 +4673,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 3, nível2: 12, nível3: 28 },
             },
             {
-              nome: "Fábrica De Fertilizante",
+              nome: "Fábrica De FertilizantD",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 16, nível3: 19 },
             },
@@ -4822,7 +4822,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 1, nível2: 2, nível3: 3 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 4, nível3: 6 },
             },
@@ -4971,17 +4971,17 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 3, nível2: 5, nível3: 10 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 11, nível3: 12 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 9, nível2: 12, nível3: 15 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 4, nível3: 36 },
             },
@@ -4996,7 +4996,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 3, nível2: 4, nível3: 5 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 4, nível3: 5 },
             },
@@ -5078,7 +5078,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -5128,7 +5128,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 3, nível2: 4, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -5222,7 +5222,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -5295,7 +5295,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Smartphones",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Tecnológicas",
+            licença: "Licença De Fábrica Tecnológicas",
             liberado: false,
           },
           custoConstrucao: 410000,
@@ -5366,7 +5366,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -5464,7 +5464,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Computadores",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Tecnológicas",
+            licença: "Licença De Fábrica Tecnológicas",
             liberado: false,
           },
           custoConstrucao: 410000,
@@ -5525,7 +5525,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -5623,7 +5623,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Consoles De Jogos",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Tecnológicas",
+            licença: "Licença De Fábrica Tecnológicas",
             liberado: false,
           },
           custoConstrucao: 410000,
@@ -5684,7 +5684,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -5772,7 +5772,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Dispositivos Vestiveis",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Tecnológicas",
+            licença: "Licença De Fábrica Tecnológicas",
             liberado: false,
           },
           custoConstrucao: 410000,
@@ -5833,7 +5833,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -6070,12 +6070,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 8, nível2: 10, nível3: 12 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 6, nível2: 8, nível3: 10 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 4, nível3: 7 },
             },
@@ -6090,7 +6090,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 17, nível2: 21, nível3: 25 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 17, nível2: 21, nível3: 25 },
             },
@@ -6172,7 +6172,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -6311,7 +6311,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -6594,7 +6594,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -6731,7 +6731,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 4, nível2: 7, nível3: 10 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 7, nível3: 8 },
             },
@@ -6826,7 +6826,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 6, nível2: 8, nível3: 9 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 4, nível3: 5 },
             },
@@ -6836,7 +6836,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 6, nível3: 6 },
             },
@@ -6943,7 +6943,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -7090,7 +7090,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 8, nível2: 10, nível3: 11 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 4, nível3: 5 },
             },
@@ -7100,7 +7100,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 6, nível3: 6 },
             },
@@ -7192,7 +7192,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -7314,7 +7314,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 7, nível2: 10, nível3: 12 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 6, nível2: 29, nível3: 55 },
             },
@@ -7329,7 +7329,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 7, nível2: 9, nível3: 10 },
             },
@@ -7391,7 +7391,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -7446,7 +7446,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 8, nível2: 12, nível3: 13 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -7563,7 +7563,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 3, nível3: 5 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 6, nível3: 6 },
             },
@@ -7645,7 +7645,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -7741,18 +7741,18 @@ const CentraldeDadosProvider = ({ children }) => {
           status: false,
         },
         {
-          nome: "Licença De Fábricas Simples",
+          nome: "Licença De Fábrica Simples",
           desc: "Autoriza a produção de insumos agrícolas e alimentos processados, conectando o campo à indústria.",
           valor: 140000,
           edifíciosLiberados: [
-            "Fábrica De Fertilizante",
+            "Fábrica De FertilizantD",
             "Fábrica De Bebidas",
             "Fábrica De Pães",
           ],
           status: false,
         },
         {
-          nome: "Licença De Fábricas textil",
+          nome: "Licença De Fábrica textil",
           desc: "Habilita a produção de têxteis e vestuário, conectando a agricultura à indústria têxtil.",
           valor: 160000,
           edifíciosLiberados: [
@@ -8147,7 +8147,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -8157,7 +8157,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Fertilizante",
+              nome: "Fábrica De FertilizantD",
               redCusto: { nível1: 1, nível2: 2, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -8233,11 +8233,11 @@ const CentraldeDadosProvider = ({ children }) => {
           },
         },
         {
-          nome: "Fábrica De Fertilizante",
-          nomeEditável: "Fábrica De Fertilizante",
+          nome: "Fábrica De FertilizantD",
+          nomeEditável: "Fábrica De FertilizantD",
           desc: "Transforma matéria orgânica em fertilizantes.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Simples",
+            licença: "Licença De Fábrica Simples",
             liberado: false,
           },
           custoConstrucao: 1320000,
@@ -8406,7 +8406,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Bebidas",
           desc: "Usa vegetais para produzir bebidas diversas.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Simples",
+            licença: "Licença De Fábrica Simples",
             liberado: false,
           },
           custoConstrucao: 140000,
@@ -8535,7 +8535,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Pães",
           desc: "Fabrica pães a partir de cereais e vegetais.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Simples",
+            licença: "Licença De Fábrica Simples",
             liberado: false,
           },
           custoConstrucao: 40000,
@@ -8654,7 +8654,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica Textil",
           desc: "Fabrica tecidos a partir de vegetais e fibras naturais.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Simples",
+            licença: "Licença De Fábrica Simples",
             liberado: false,
           },
           custoConstrucao: 40000,
@@ -8695,7 +8695,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 2, nível2: 3, nível3: 7 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -8778,7 +8778,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Calçados",
           desc: "Fabrica calçados a partir de vegetais e couro.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Simples",
+            licença: "Licença De Fábrica Simples",
             liberado: false,
           },
           custoConstrucao: 80000,
@@ -8834,7 +8834,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 3, nível2: 4, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -8902,7 +8902,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Roupas",
           desc: "Fabrica pães a partir de cereais e vegetais.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Simples",
+            licença: "Licença De Fábrica Simples",
             liberado: false,
           },
           custoConstrucao: 120000,
@@ -8958,7 +8958,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 2, nível2: 3, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -9098,7 +9098,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -9243,7 +9243,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -9446,7 +9446,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 1, nível2: 1, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -9483,7 +9483,7 @@ const CentraldeDadosProvider = ({ children }) => {
             {
               nome: "Transporte Petrolífero",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
-              aumFatu: { nível极速1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
               nome: "Fábrica De Embalagens",
@@ -9555,115 +9555,246 @@ const CentraldeDadosProvider = ({ children }) => {
             "Mercado",
             "Feira Livre",
           ],
+ForneceMelhoraEficiencia: [
+  {
+    nome: "Fábrica De Medicamentos",
+    redCusto: {
+      nível1: 2,
+      nível2: 2,
+      nível3: 5,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Farmácias",
+    redCusto: {
+      nível1: 3,
+      nível2: 5,
+      nível3: 7,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+],
 
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-            },
-            {
-              nome: "Mercado",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-            },
-            {
-              nome: "Feira Livre",
-              redCusto: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-              aumFatu: {
-                nível1: 1,
-                nível2: 2,
-                nível3: 4,
-              },
-            },
-          ],
+RecebeMelhoraEficiencia: [
+  {
+    nome: "Fábrica De Químicos Especializados",
+    redCusto: {
+      nível1: 2,
+      nível2: 3,
+      nível3: 2,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Usina Hidrelétrica",
+    redCusto: {
+      nível1: 1,
+      nível2: 1,
+      nível3: 2,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Usina Solar",
+    redCusto: {
+      nível1: 0,
+      nível2: 1,
+      nível3: 0,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Parque Eólico",
+    redCusto: {
+      nível1: 0,
+      nível2: 1,
+      nível3: 0,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Usina Termelétrica",
+    redCusto: {
+      nível1: 1,
+      nível2: 1,
+      nível3: 2,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Usina Termelétrica A Biocombustíveis",
+    redCusto: {
+      nível1: 0,
+      nível2: 1,
+      nível3: 0,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Usina De Biomassa",
+    redCusto: {
+      nível1: 0,
+      nível2: 1,
+      nível3: 0,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Reator Nuclear Convencional",
+    redCusto: {
+      nível1: 1,
+      nível2: 2,
+      nível3: 3,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Usina De Fusão Nuclear",
+    redCusto: {
+      nível1: 1,
+      nível2: 2,
+      nível3: 3,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Armazém Logístico",
+    redCusto: {
+      nível1: 1,
+      nível2: 2,
+      nível3: 3,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Centro De Pesquisa Química",
+    redCusto: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+    aumFatu: {
+      nível1: 18,
+      nível2: 22,
+      nível3: 28,
+    },
+  },
+  {
+    nome: "Empresa De Automação Industrial",
+    redCusto: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+    aumFatu: {
+      nível1: 12,
+      nível2: 18,
+      nível3: 22,
+    },
+  },
+  {
+    nome: "Plantações De Plantas Medicinais",
+    redCusto: {
+      nível1: 1,
+      nível2: 1,
+      nível3: 2,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Construtora",
+    redCusto: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 1,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Transporte Petrolífero",
+    redCusto: {
+      nível1: 1,
+      nível2: 1,
+      nível3: 3,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+  {
+    nome: "Biofábrica",
+    redCusto: {
+      nível1: 1,
+      nível2: 2,
+      nível3: 5,
+    },
+    aumFatu: {
+      nível1: 0,
+      nível2: 0,
+      nível3: 0,
+    },
+  },
+],
+
 
           recursoDeConstrução: [],
           dependências: [
@@ -9731,7 +9862,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 1, nível2: 1, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -9763,7 +9894,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -9880,7 +10011,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 2, nível2: 2, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -9940,7 +10071,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 2, nível2: 2, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -9950,7 +10081,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 6, nível2: 6, nível3: 12 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -9987,7 +10118,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -10171,7 +10302,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -10346,7 +10477,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -10520,7 +10651,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -10709,7 +10840,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -10918,7 +11049,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -11127,7 +11258,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -11321,7 +11452,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -11490,7 +11621,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -11940,7 +12071,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica de Ração",
+            "Fábrica De Ração",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -11953,7 +12084,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 3, nível2: 6, nível3: 12 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12070,7 +12201,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 7, nível2: 28, nível3: 47 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 1, nível2: 2, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12138,7 +12269,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            { nome: "Fábrica de Ração", redCusto: 1, redFatu: 2 },
+            { nome: "Fábrica De Ração", redCusto: 1, redFatu: 2 },
             { nome: "Biofábrica", redCusto: 4, redFatu: 1 },
             { nome: "Mercado", redCusto: 2, redFatu: 4 },
             { nome: "Feira Livre", redCusto: 2, redFatu: 3 },
@@ -12151,7 +12282,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 4, nível2: 6, nível3: 16 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 1, nível3: 3 },
             },
@@ -12228,7 +12359,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12263,7 +12394,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12349,7 +12480,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica de Ração",
+            "Fábrica De Ração",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -12357,7 +12488,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Fábrica De Fertilizante",
+              nome: "Fábrica De FertilizantD",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 5, nível3: 12 },
             },
@@ -12392,7 +12523,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 5, nível3: 5 },
             },
@@ -12434,7 +12565,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Fertilizante",
+              nome: "Fábrica De FertilizantD",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12567,7 +12698,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica de Ração",
+            "Fábrica De Ração",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -12612,12 +12743,12 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 2, nível2: 1, nível3: 7 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 3, nível2: 2, nível3: 8 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12642,7 +12773,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12755,7 +12886,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica de Ração",
+            "Fábrica De Ração",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -12790,12 +12921,12 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 2, nível2: 1, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 3, nível2: 2, nível3: 9 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12820,7 +12951,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12942,12 +13073,12 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 2, nível3: 4 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -12994,7 +13125,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13019,7 +13150,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 6, nível2: 6, nível3: 12 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13122,7 +13253,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -13167,7 +13298,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Centros De Pesquisa Em IA",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 7, nível2: 9, nível3: 9 },
             },
@@ -13189,12 +13320,12 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 2, nível2: 2, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 2, nível2: 2, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13219,7 +13350,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13361,12 +13492,12 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Empresa de Automação Industrial",
+              nome: "Empresa De Automação Industrial",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 4, nível3: 7 },
             },
             {
-              nome: "Centros de Pesquisa em Robótica",
+              nome: "Centros De Pesquisa em Robótica",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 12, nível3: 13 },
             },
@@ -13383,12 +13514,12 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábricas de Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas de Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13413,12 +13544,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina de Biomassa",
+              nome: "Usina De Biomassa",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13428,12 +13559,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina de Fusão Nuclear",
+              nome: "Usina De Fusão Nuclear",
               redCusto: { nível1: 2, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Empresa de Automação Industrial",
+              nome: "Empresa De Automação Industrial",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
@@ -13443,17 +13574,17 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Centro de Pesquisa em Robótica",
+              nome: "Centro De Pesquisa em Robótica",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 6, nível2: 29, nível3: 55 },
             },
             {
-              nome: "Centro de Pesquisa em Eletrônicos",
+              nome: "Centro De Pesquisa em Eletrônicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 4, nível3: 36 },
             },
             {
-              nome: "Construtora de Grandes Infraestruturas",
+              nome: "Construtora De Grandes Infraestruturas",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13483,12 +13614,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 6, nível3: 6 },
             },
             {
-              nome: "Centro de Pesquisa em IA",
+              nome: "Centro De Pesquisa em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 6, nível3: 6 },
             },
             {
-              nome: "Indústria de Componentes Mecânicos",
+              nome: "Indústria De Componentes Mecânicos",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13565,12 +13696,12 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Fábricas de Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 4, nível3: 7 },
             },
             {
-              nome: "Fábricas de Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 1, nível3: 4 },
             },
@@ -13580,47 +13711,47 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centros de Pesquisa em IA",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica de Turbinas Eólicas",
+              nome: "Fábrica De Turbinas Eólicas",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica de Painéis Solares",
+              nome: "Fábrica De Painéis Solares",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica de Baterias",
+              nome: "Fábrica De Baterias",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica de Móveis",
+              nome: "Fábrica De Móveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 6, nível3: 8 },
             },
             {
-              nome: "Fábrica de Rações",
+              nome: "Fábrica De Rações",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 12, nível3: 18 },
             },
             {
-              nome: "Fábrica de Embalagens",
+              nome: "Fábrica De Embalagens",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 12, nível3: 14 },
             },
             {
-              nome: "Fábrica de Fertilizante",
+              nome: "Fábrica De Fertilizante",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 6, nível2: 8, nível3: 12 },
             },
             {
-              nome: "Fábrica de Bebidas",
+              nome: "Fábrica De Bebidas",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 12, nível3: 16 },
             },
@@ -13630,22 +13761,22 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 14, nível2: 18, nível3: 24 },
             },
             {
-              nome: "Fábrica de Roupas",
+              nome: "Fábrica De Roupas",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 20, nível3: 26 },
             },
             {
-              nome: "Fábrica de Celulose",
+              nome: "Fábrica De Celulose",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 18, nível2: 22, nível3: 28 },
             },
             {
-              nome: "Fábrica de Papel",
+              nome: "Fábrica De Papel",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 25, nível3: 30 },
             },
             {
-              nome: "Fábrica de Livros",
+              nome: "Fábrica De Livros",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
             },
@@ -13665,7 +13796,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 10, nível2: 15, nível3: 20 },
             },
             {
-              nome: "Fábrica de Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 15, nível3: 20 },
             },
@@ -13685,32 +13816,32 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Fábrica de Ligas Metálicas",
+              nome: "Fábrica De Ligas Metálicas",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Indústria de Componentes Mecânicos",
+              nome: "Indústria De Componentes Mecânicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Fábrica de Chapas Metálicas",
+              nome: "Fábrica De Chapas Metálicas",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 15, nível3: 21 },
             },
             {
-              nome: "Fábrica de Peças Automotivas",
+              nome: "Fábrica De Peças Automotivas",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Fábrica de Estruturas Metálicas",
+              nome: "Fábrica De Estruturas Metálicas",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 15, nível3: 21 },
             },
             {
-              nome: "Montadora de Veículos Elétricos",
+              nome: "Montadora De Veículos Elétricos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 2, nível3: 3 },
             },
@@ -13725,7 +13856,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 1, nível2: 2, nível3: 3 },
             },
             {
-              nome: "Fábricas de Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 5 },
             },
@@ -13735,7 +13866,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Fábricas de Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
@@ -13782,12 +13913,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina de Biomassa",
+              nome: "Usina De Biomassa",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13842,7 +13973,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 3, nível2: 0, nível3: 5 },
             },
             {
-              nome: "Indústria de Componentes Mecânicos",
+              nome: "Indústria De Componentes Mecânicos",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13961,7 +14092,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14129,7 +14260,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14169,7 +14300,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14189,7 +14320,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14321,12 +14452,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica de Estruturas Metálicas",
+              nome: "Fábrica De Estruturas Metálicas",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica de Chapas Metálicas",
+              nome: "Fábrica De Chapas Metálicas",
               redCusto: { nível1: 1, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14351,12 +14482,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina de Biomassa",
+              nome: "Usina De Biomassa",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14381,7 +14512,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 4, nível2: 12, nível3: 32 },
             },
             {
-              nome: "Fábrica de Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14446,12 +14577,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 8, nível3: 15 },
             },
             {
-              nome: "Fábrica de Ligas Metálicas",
+              nome: "Fábrica De Ligas Metálicas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Indústria de Componentes Mecânicos",
+              nome: "Indústria De Componentes Mecânicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14534,27 +14665,27 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Indústria de Componentes Mecânicos",
+              nome: "Indústria De Componentes Mecânicos",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica de Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica de Ligas Metálicas",
+              nome: "Fábrica De Ligas Metálicas",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica de Estruturas Metálicas",
+              nome: "Fábrica De Estruturas Metálicas",
               redCusto: { nível1: 1, nível2: 2, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica de Chapas Metálicas",
+              nome: "Fábrica De Chapas Metálicas",
               redCusto: { nível1: 1, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14579,12 +14710,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina de Biomassa",
+              nome: "Usina De Biomassa",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -16856,7 +16987,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17963,7 +18094,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17973,7 +18104,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -19522,7 +19653,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 6, nível2: 7, nível3: 10 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 6, nível3: 6 },
             },
@@ -19726,7 +19857,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -19766,7 +19897,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Fertilizante",
+              nome: "Fábrica De FertilizantD",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20191,12 +20322,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20391,7 +20522,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20540,7 +20671,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20724,7 +20855,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20861,7 +20992,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21020,7 +21151,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21169,7 +21300,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21414,7 +21545,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Fertilizante",
+              nome: "Fábrica De FertilizantD",
               redCusto: { nível1: 2, nível2: 2, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21538,7 +21669,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 2, nível2: 4, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21699,7 +21830,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21785,8 +21916,8 @@ const CentraldeDadosProvider = ({ children }) => {
           status: false,
         },
         {
-          nome: "Licença De Fábricas Energéticas",
-          nomeEditável: "Licença De Fábricas Energéticas",
+          nome: "Licença De Fábrica Energéticas",
+          nomeEditável: "Licença De Fábrica Energéticas",
           desc: "Habilita a fabricação de componentes para geração de energia renovável e armazenamento.",
           valor: 310000,
           edifíciosLiberados: [
@@ -21839,7 +21970,7 @@ const CentraldeDadosProvider = ({ children }) => {
           edifíciosLiberados: [
             "Usina Hidrelétrica",
             "Parque Eólico",
-            "Usina Termolétrica",
+            "Usina Termelétrica",
           ],
           status: false,
         },
@@ -21922,7 +22053,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -22178,12 +22309,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 21, nível3: 27 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 20, nível3: 30 },
             },
@@ -22448,7 +22579,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Turbinas Eólicas",
           desc: "Monta turbinas para gerar energia eólica.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Energéticas",
+            licença: "Licença De Fábrica Energéticas",
             liberado: false,
           },
           custoConstrucao: 140000,
@@ -22524,7 +22655,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -22612,7 +22743,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Painéis Solares",
           desc: "Produz painéis para captação solar.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Energéticas",
+            licença: "Licença De Fábrica Energéticas",
             liberado: false,
           },
           custoConstrucao: 90000,
@@ -22658,7 +22789,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 4, nível2: 5, nível3: 8 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -22688,7 +22819,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -22780,7 +22911,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Baterias",
           desc: "Fabrica baterias para armazenar energia.",
           licençaLiberado: {
-            licença: "Licença De Fábricas Energéticas",
+            licença: "Licença De Fábrica Energéticas",
             liberado: false,
           },
           custoConstrucao: 250000,
@@ -22836,7 +22967,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 2, nível2: 2, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -22861,7 +22992,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -22911,7 +23042,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 2, nível2: 3, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -22993,7 +23124,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 4, nível2: 5, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -23055,7 +23186,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -23157,7 +23288,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 3, nível2: 5, nível3: 7 },
             },
             {
-              nome: "Usina Termelétrica Movida A Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 5, nível2: 7, nível3: 14 },
             },
@@ -23292,7 +23423,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 1, nível2: 2, nível3: 3 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
@@ -23619,7 +23750,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 15, nível2: 20, nível3: 25 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 5, nível3: 6 },
             },
@@ -23721,7 +23852,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina Termelétrica Movida a Biocombustíveis",
+              nome: "Usina Termelétrica A Biocombustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
@@ -23963,22 +24094,22 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 20, nível3: 30 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -24220,7 +24351,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
           ],
-          recursoDeConstrução: ["Usina Termolétrica"],
+          recursoDeConstrução: ["Usina Termelétrica"],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 },
           ],
@@ -24351,12 +24482,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -24715,22 +24846,22 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25132,12 +25263,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25398,8 +25529,8 @@ const CentraldeDadosProvider = ({ children }) => {
           },
         },
         {
-          nome: "Usina Termolétrica",
-          nomeEditável: "Usina Termolétrica",
+          nome: "Usina Termelétrica",
+          nomeEditável: "Usina Termelétrica",
           desc: "Gera energia a partir da queima de combustíveis.",
           licençaLiberado: {
             licença: "Licença De Usinas",
@@ -25491,22 +25622,22 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25863,22 +25994,22 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Produtos Químicos Especializados",
+              nome: "Fábrica De Químicos Especializados",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Semicondutores",
+              nome: "Fábrica De Semicondutores",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -26277,12 +26408,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábricas De Robôs",
+              nome: "Fábrica De Robôs",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },

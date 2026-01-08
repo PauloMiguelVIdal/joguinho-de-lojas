@@ -33,6 +33,7 @@ import imgSomaImposto from "../../public/outrasImagens/imgSomaImpostos.png";
 import imgImpostoFixo from "../../public/outrasImagens/imgImpostoFixo.png";
 import imgFaturamentoDiario from "../../public/outrasImagens/imgFaturamentoDiario.png";
 import imgImpostoSFatu from "../../public/outrasImagens/imgImpostoSfatu.png";
+import sanção from '../../public/outrasImagens/sanção.png'
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import { useRef } from "react";
@@ -2273,10 +2274,12 @@ const edificiosComGerenciamento = [
               </motion.div>
             </motion.div>
           )}
-        {(rentabilidade > 200 && quantidadeAtivoAtual === 1)
-          || (rentabilidade >=150 && rentabilidade<200 && quantidadeAtivoAtual === 3) 
-          || (rentabilidade >=120 && rentabilidade<150 && quantidadeAtivoAtual === 5) 
-          || (rentabilidade >=70 && rentabilidade<120 && quantidadeAtivoAtual === 10) 
+        {(
+  (rentabilidade > 200 && quantidadeAtivoAtual === 1) ||
+  (rentabilidade >= 150 && rentabilidade < 200 && quantidadeAtivoAtual >= 3) ||
+  (rentabilidade >= 120 && rentabilidade < 150 && quantidadeAtivoAtual >= 5) ||
+  (rentabilidade >= 70 && rentabilidade < 120 && quantidadeAtivoAtual >= 10)
+)
           && (
             <motion.div
               style={{
@@ -2299,7 +2302,7 @@ const edificiosComGerenciamento = [
 
               {/* Container do Card */}
               <motion.div
-                className="relative flex justify-center items-center w-full h-full z-[2]"
+                className="relative flex justify-start items-center mt-[25px] flex-col w-full h-full z-[2]"
                 animate={{ rotateY: flipped ? 180 : 0 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 style={{
@@ -2331,10 +2334,7 @@ const edificiosComGerenciamento = [
                         >
                           <img
                             className="h-[70%] aspect-square absolute"
-                            src={getImageUrl(
-                              dados[setorAtivo].edificios[index].licençaLiberado
-                                .licença
-                            )}
+                            src={sanção}
                             alt=""
                           />
                         </div>
@@ -2342,6 +2342,8 @@ const edificiosComGerenciamento = [
                     </div>
                   </div>
                 </div>
+                <h2  className="text-white mt-[12px] text-[15px] text-center fonteBold">SANÇÃO DE MONOPÓLIO</h2>
+                <h2  className="text-white m-[12px] text-[12px] fonteBold">Por conta da alta rentabilidade, momentaneamente você não pode comprar mais desse edifício.</h2>
               </motion.div>
             </motion.div>
           )}
