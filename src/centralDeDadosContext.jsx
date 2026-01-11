@@ -481,7 +481,7 @@ const CentraldeDadosProvider = ({ children }) => {
               },
             },
             {
-              nome: "Fábrica Textil",
+              nome: "Fábrica Têxtil",
               redCusto: {
                 nível1: 1,
                 nível2: 2,
@@ -535,7 +535,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica De FertilizantDs",
+              nome: "Fábrica De Fertilizantes",
               redCusto: {
                 nível1: 1,
                 nível2: 3,
@@ -665,7 +665,7 @@ const CentraldeDadosProvider = ({ children }) => {
               },
             },
             {
-              nome: "Terraplanagem e Pavimentação",
+              nome: "Terraplanagem E Pavimentação",
               redCusto: {
                 nível1: 0,
                 nível2: 0,
@@ -749,7 +749,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Mercado",
             "Feira",
             "Restaurante",
-            "Redes De Fast-Food",
+            "Rede De Fast-Food",
             "Petshop",
           ],
 
@@ -765,7 +765,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Redes De Fast-Food",
+              nome: "Rede De Fast-Food",
               redCusto: { nível1: 1, nível2: 2, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -795,7 +795,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica Textil",
+              nome: "Fábrica Têxtil",
               redCusto: { nível1: 1, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -812,7 +812,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica De FertilizantDs",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 1, nível2: 3, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -862,7 +862,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 4, nível2: 13, nível3: 25 },
             },
             {
-              nome: "Terraplanagem e Pavimentação",
+              nome: "Terraplanagem E Pavimentação",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -926,7 +926,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Mercado",
             "Feira",
             "Restaurante",
-            "Redes De Fast-Food",
+            "Rede De Fast-Food",
             "Fábrica De Bebidas",
             "Usina De Biomassa",
             "Refinaria De Biocombustíveis",
@@ -981,7 +981,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica De FertilizantDs",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 1, nível2: 3, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -1031,7 +1031,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 4, nível2: 13, nível3: 25 },
             },
             {
-              nome: "Terraplanagem e Pavimentação",
+              nome: "Terraplanagem E Pavimentação",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -1238,7 +1238,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Mercado",
             "Feira",
             "Restaurante",
-            "Redes De Fast-Food",
+            "Rede De Fast-Food",
             "Petshop",
           ],
 
@@ -1274,7 +1274,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
             },
             {
-              nome: "Plantações De Eucalipto",
+              nome: "Plantação De Eucalipto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
             },
@@ -1284,7 +1284,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 3, nível2: 8, nível3: 18 },
             },
             {
-              nome: "Supermercado",
+              nome: "Mercado",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 10, nível3: 12 },
             },
@@ -1311,7 +1311,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -1393,7 +1393,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Plantação De Plantas Medicinais",
             "Mercado",
             "Feira",
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Restaurante",
             "Usina De Biomassa",
           ],
@@ -1420,7 +1420,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 12, nível2: 15, nível3: 20 },
             },
             {
-              nome: "Plantações De Eucalipto",
+              nome: "Plantação De Eucalipto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 15, nível2: 21, nível3: 35 },
             },
@@ -1430,7 +1430,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 15, nível2: 17, nível3: 35 },
             },
             {
-              nome: "Supermercado",
+              nome: "Mercado",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 12, nível3: 14 },
             },
@@ -1472,7 +1472,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Plantações De Eucalipto",
+              nome: "Plantação De Eucalipto",
               redCusto: { nível1: 30, nível2: 45, nível3: 90 },
               aumFatu: { nível1: 90, nível2: 120, nível3: 150 },
             },
@@ -1548,7 +1548,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Plantação De Plantas Medicinais",
             "Mercado",
             "Feira",
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Restaurante",
             "Usina De Biomassa",
           ],
@@ -1650,7 +1650,7 @@ const CentraldeDadosProvider = ({ children }) => {
           licençasNecessárias: [],
           melhoraEficiencia: [
             "Cooperativa Agrícola",
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Usina De Biomassa",
             "Refinaria De Biocombustíveis",
           ],
@@ -1758,7 +1758,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Fábrica De FertilizantDs",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 1, nível2: 1, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -1778,7 +1778,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Plantações De Eucalipto",
+              nome: "Plantação De Eucalipto",
               redCusto: { nível1: 2, nível2: 3, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -1835,7 +1835,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Plantações De Eucalipto",
+              nome: "Plantação De Eucalipto",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -1926,7 +1926,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Açougue",
             "Feira",
             "Restaurante",
-            "Redes De Fast-Food",
+            "Rede De Fast-Food",
             "Padaria",
             "Fábrica De Pães",
             "Usina De Biomassa",
@@ -1965,7 +1965,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De FertilizantDs",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2007,7 +2007,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
             },
             {
-              nome: "Fábrica De FertilizantDs",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 8, nível2: 11, nível3: 16 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2088,8 +2088,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Açougue",
             "Feira",
             "Restaurante",
-            "Redes De Fast-Food",
-            "Fábrica De Ração",
+            "Rede De Fast-Food",
+            "Fábrica De Rações",
             "Petshop",
             "Usina De Biomassa",
           ],
@@ -2116,7 +2116,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica Textil",
+              nome: "Fábrica Têxtil",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2158,7 +2158,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
             },
             {
-              nome: "Fábrica De FertilizantDs",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 8, nível2: 12, nível3: 17 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2239,8 +2239,8 @@ const CentraldeDadosProvider = ({ children }) => {
             "Açougue",
             "Feira",
             "Restaurante",
-            "Redes De Fast-Food",
-            "Fábrica De Ração",
+            "Rede De Fast-Food",
+            "Fábrica De Rações",
             "Petshop",
             "Usina De Biomassa",
           ],
@@ -2257,7 +2257,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica Textil",
+              nome: "Fábrica Têxtil",
               redCusto: { nível1: 2, nível2: 2, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2299,7 +2299,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
             },
             {
-              nome: "Fábrica De FertilizantDs",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 8, nível2: 12, nível3: 17 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2411,7 +2411,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 20, nível2: 27, nível3: 33 },
             },
             {
-              nome: "Plantações De Eucalipto",
+              nome: "Plantação De Eucalipto",
               redCusto: { nível1: 3, nível2: 5, nível3: 10 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2502,7 +2502,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 7, nível2: 15, nível3: 30 },
             },
             {
-              nome: "Fábrica De FertilizantD",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 1, nível2: 3, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2587,7 +2587,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 1, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2675,7 +2675,7 @@ const CentraldeDadosProvider = ({ children }) => {
             "Plantação De Plantas Medicinais",
             "Mercado",
             "Feira",
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Restaurante",
             "Usina De Biomassa",
           ],
@@ -2697,7 +2697,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica Textil",
+              nome: "Fábrica Têxtil",
               redCusto: { nível1: 2, nível2: 2, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2714,7 +2714,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 10, nível2: 15, nível3: 30 },
             },
             {
-              nome: "Fábrica De FertilizantDs",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 1, nível2: 4, nível3: 10 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2827,7 +2827,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De FertilizantDs",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2844,7 +2844,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica De FertilizantDs",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 1, nível2: 3, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2988,14 +2988,14 @@ const CentraldeDadosProvider = ({ children }) => {
           status: false,
         },
         {
-          nome: "Licença De Fábrica Tecnológicas",
+          nome: "Licença De Fábricas Tecnológicas",
           desc: "Autoriza pesquisas de ponta em química avançada e energia nuclear, habilitando descobertas científicas revolucionárias.",
           valor: 4500000,
           edifíciosLiberados: [
             "Fábrica De Smartphones",
             "Fábrica De Computadores",
             "Fábrica De Consoles De Jogos",
-            "Fábrica De Dispositivos Vestiveis",
+            "Fábrica De Dispositivos Vestíveis",
           ],
           status: false,
         },
@@ -3066,7 +3066,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 5 },
             },
@@ -3083,12 +3083,12 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 3, nível2: 5, nível3: 10 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 2, nível2: 3, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -3103,7 +3103,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
             },
@@ -3154,12 +3154,12 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Startups",
+              nome: "Startup",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 5, nível3: 10 },
             },
@@ -3246,12 +3246,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Startups",
+              nome: "Startup",
               redCusto: { nível1: 2, nível2: 3, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 14, nível3: 16 },
             },
@@ -3316,7 +3316,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Startups",
+              nome: "Startup",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 5 },
             },
@@ -3351,7 +3351,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 3, nível3: 3 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 5, nível3: 5 },
             },
@@ -3388,7 +3388,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 2, nível2: 3, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -3433,7 +3433,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Eletrônica",
+              nome: "Centro De Pesquisa Em Eletrônicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 16, nível3: 20 },
             },
@@ -3448,7 +3448,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 14, nível3: 16 },
             },
@@ -3519,12 +3519,12 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Startups",
+              nome: "Startup",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 5, nível3: 10 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 7, nível3: 7 },
             },
@@ -3561,12 +3561,12 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 3, nível2: 4, nível3: 8 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 3, nível2: 5, nível3: 7 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -3611,7 +3611,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
             },
@@ -3714,12 +3714,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 2, nível2: 3, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 2, nível2: 3, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -3734,7 +3734,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 16, nível2: 22, nível3: 27 },
             },
@@ -3827,7 +3827,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 12, nível3: 18 },
             },
@@ -3911,12 +3911,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 6, nível2: 11, nível3: 15 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 4, nível2: 8, nível3: 10 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -3931,7 +3931,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 15, nível3: 20 },
             },
@@ -4008,12 +4008,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 5, nível2: 5, nível3: 5 },
             },
             {
-              nome: "Redes De Fast-Food",
+              nome: "Rede De Fast-Food",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 10, nível3: 12 },
             },
             {
-              nome: "Farmácias",
+              nome: "Farmácia",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 15, nível3: 20 },
             },
@@ -4080,12 +4080,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 6, nível2: 8, nível3: 10 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 3, nível2: 5, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 2, nível2: 3, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -4100,7 +4100,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 14, nível2: 22, nível3: 30 },
             },
@@ -4183,12 +4183,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 4, nível2: 6, nível3: 8 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 6, nível2: 12, nível3: 16 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -4203,7 +4203,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 10, nível3: 12 },
             },
@@ -4295,12 +4295,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 7, nível2: 12, nível3: 25 },
             },
             {
-              nome: "Restaurantes",
+              nome: "Restaurante",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 14, nível3: 18 },
             },
             {
-              nome: "Loja De Bebidas",
+              nome: "Adega",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 18, nível2: 22, nível3: 28 },
             },
@@ -4330,7 +4330,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 22, nível2: 28, nível3: 32 },
             },
             {
-              nome: "Redes De Fast-Food",
+              nome: "Rede De Fast-Food",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 16, nível3: 20 },
             },
@@ -4509,7 +4509,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 12, nível2: 15, nível3: 25 },
             },
             {
-              nome: "Plantações De Plantas Medicinais",
+              nome: "Plantação De Plantas Medicinais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 13, nível3: 32 },
             },
@@ -4529,7 +4529,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 7, nível3: 14 },
             },
             {
-              nome: "Fábrica De FertilizantD",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 16, nível3: 19 },
             },
@@ -4653,12 +4653,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 15, nível2: 20, nível3: 40 },
             },
             {
-              nome: "Plantações De Eucalipto",
+              nome: "Plantação De Eucalipto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 12, nível3: 45 },
             },
             {
-              nome: "Plantações De Plantas Medicinais",
+              nome: "Plantação De Plantas Medicinais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 21, nível2: 25, nível3: 50 },
             },
@@ -4673,7 +4673,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 3, nível2: 12, nível3: 28 },
             },
             {
-              nome: "Fábrica De FertilizantD",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 16, nível3: 19 },
             },
@@ -4690,7 +4690,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 24, nível2: 30, nível3: 80 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 16, nível2: 24, nível3: 40 },
             },
@@ -4782,7 +4782,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 12, nível2: 14, nível3: 14 },
             },
             {
-              nome: "Fábrica De Dispositivos Vestiveis",
+              nome: "Fábrica De Dispositivos Vestíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 10, nível3: 12 },
             },
@@ -5021,7 +5021,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 20, nível2: 26, nível3: 32 },
             },
             {
-              nome: "Fábrica De Dispositivos Vestiveis",
+              nome: "Fábrica De Dispositivos Vestíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 14, nível2: 18, nível3: 22 },
             },
@@ -5031,12 +5031,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 18, nível2: 24, nível3: 28 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 16, nível3: 20 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 16, nível3: 20 },
             },
@@ -5108,12 +5108,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 2, nível2: 3, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Startups",
+              nome: "Startup",
               redCusto: { nível1: 2, nível2: 3, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -5295,7 +5295,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Smartphones",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Tecnológicas",
+            licença: "Licença De Fábricas Tecnológicas",
             liberado: false,
           },
           custoConstrucao: 410000,
@@ -5426,7 +5426,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -5464,13 +5464,13 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Computadores",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Tecnológicas",
+            licença: "Licença De Fábricas Tecnológicas",
             liberado: false,
           },
-          custoConstrucao: 410000,
+          custoConstrucao: 1850000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 60000,
+            faturamentoUnitário: 42000,
             impostoFixo: 48000,
             impostoSobreFatu: 0.1,
             rent: 22,
@@ -5585,7 +5585,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -5623,14 +5623,14 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Consoles De Jogos",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Tecnológicas",
+            licença: "Licença De Fábricas Tecnológicas",
             liberado: false,
           },
-          custoConstrucao: 410000,
+          custoConstrucao: 750000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 54000,
-            impostoFixo: 36000,
+            faturamentoUnitário: 32000,
+            impostoFixo: 70000,
             impostoSobreFatu: 0.1,
             rent: 22,
           },
@@ -5734,7 +5734,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 20, nível2: 26, nível3: 32 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -5768,18 +5768,18 @@ const CentraldeDadosProvider = ({ children }) => {
           },
         },
         {
-          nome: "Fábrica De Dispositivos Vestiveis",
-          nomeEditável: "Fábrica De Dispositivos Vestiveis",
+          nome: "Fábrica De Dispositivos Vestíveis",
+          nomeEditável: "Fábrica De Dispositivos Vestíveis",
           desc: "Criação de sistemas e aplicativos sob demanda.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Tecnológicas",
+            licença: "Licença De Fábricas Tecnológicas",
             liberado: false,
           },
-          custoConstrucao: 410000,
+          custoConstrucao: 1100000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 32000,
-            impostoFixo: 21000,
+            impostoFixo: 70000,
             impostoSobreFatu: 0.1,
             rent: 22,
           },
@@ -5985,7 +5985,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 25, nível2: 35, nível3: 80 },
             },
             {
-              nome: "Posto De Combustível",
+              nome: "Posto De Combustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 20, nível2: 25, nível3: 30 },
             },
@@ -6125,7 +6125,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 8, nível2: 14, nível3: 25 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 10, nível3: 30 },
             },
@@ -6197,12 +6197,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 6, nível2: 8, nível3: 8 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Startups",
+              nome: "Startup",
               redCusto: { nível1: 10, nível2: 15, nível3: 16 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -6284,7 +6284,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 10, nível2: 14, nível3: 20 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 30, nível3: 60 },
             },
@@ -6341,7 +6341,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 15, nível2: 22, nível3: 23 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -6433,17 +6433,17 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 3, nível2: 8, nível3: 10 },
             },
             {
-              nome: "Posto De Combustível",
+              nome: "Posto De Combustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 15, nível3: 20 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 12, nível3: 18 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 15, nível3: 20 },
             },
@@ -6460,7 +6460,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Posto De Combustível",
+              nome: "Posto De Combustíveis",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -6547,7 +6547,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 5, nível2: 16, nível3: 30 },
             },
@@ -6614,12 +6614,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 2, nível2: 3, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -6649,7 +6649,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 30, nível2: 40, nível3: 100 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 20, nível2: 30, nível3: 50 },
             },
@@ -6896,7 +6896,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 18, nível2: 25, nível3: 45 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 15, nível3: 50 },
             },
@@ -6963,7 +6963,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 38, nível2: 55, nível3: 110 },
             },
@@ -6978,7 +6978,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 6, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -7222,7 +7222,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 24, nível2: 38, nível3: 84 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 18, nível2: 20, nível3: 50 },
             },
@@ -7232,7 +7232,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 14, nível2: 16, nível3: 16 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 6, nível2: 7, nível3: 8 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -7359,7 +7359,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 2, nível2: 4, nível3: 8 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 40, nível2: 55, nível3: 100 },
             },
@@ -7421,7 +7421,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 2, nível2: 3, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -7505,7 +7505,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -7513,12 +7513,12 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Startups",
+              nome: "Startup",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
             },
             {
-              nome: "Centros De Pesquisa Em Robótica",
+              nome: "Centro De Pesquisa Em Robótica",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 26, nível2: 30, nível3: 80 },
             },
@@ -7598,12 +7598,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 8, nível2: 10, nível3: 12 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 14, nível3: 16 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 14, nível3: 16 },
             },
@@ -7615,7 +7615,7 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 3, nível2: 5, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -7735,17 +7735,17 @@ const CentraldeDadosProvider = ({ children }) => {
           valor: 95000,
           edifíciosLiberados: [
             "Fábrica De Móveis",
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Fábrica De Embalagens",
           ],
           status: false,
         },
         {
-          nome: "Licença De Fábrica Simples",
+          nome: "Licença De Fábricas Simples",
           desc: "Autoriza a produção de insumos agrícolas e alimentos processados, conectando o campo à indústria.",
           valor: 140000,
           edifíciosLiberados: [
-            "Fábrica De FertilizantD",
+            "Fábrica De Fertilizantes",
             "Fábrica De Bebidas",
             "Fábrica De Pães",
           ],
@@ -7756,7 +7756,7 @@ const CentraldeDadosProvider = ({ children }) => {
           desc: "Habilita a produção de têxteis e vestuário, conectando a agricultura à indústria têxtil.",
           valor: 160000,
           edifíciosLiberados: [
-            "Fábrica Textil",
+            "Fábrica Têxtil",
             "Fábrica De Calçados",
             "Fábrica De Roupas",
           ],
@@ -7892,7 +7892,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -7970,8 +7970,8 @@ const CentraldeDadosProvider = ({ children }) => {
           },
         },
         {
-          nome: "Fábrica De Ração",
-          nomeEditável: "Fábrica De Ração",
+          nome: "Fábrica De Rações",
+          nomeEditável: "Fábrica De Rações",
           desc: "Processa vegetais e cereais para fabricar ração.",
           licençaLiberado: {
             licença: "Licença Global De Indústria",
@@ -7995,7 +7995,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -8124,7 +8124,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -8157,7 +8157,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De FertilizantD",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 1, nível2: 2, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -8233,11 +8233,11 @@ const CentraldeDadosProvider = ({ children }) => {
           },
         },
         {
-          nome: "Fábrica De FertilizantD",
-          nomeEditável: "Fábrica De FertilizantD",
+          nome: "Fábrica De Fertilizantes",
+          nomeEditável: "Fábrica De Fertilizantes",
           desc: "Transforma matéria orgânica em fertilizantes.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Simples",
+            licença: "Licença De Fábricas Simples",
             liberado: false,
           },
           custoConstrucao: 1320000,
@@ -8258,7 +8258,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -8301,12 +8301,12 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Plantações De Eucalipto",
+              nome: "Plantação De Eucalipto",
               redCusto: { nível1: 1, nível2: 4, nível3: 10 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Plantações De Plantas Medicinais",
+              nome: "Plantação De Plantas Medicinais",
               redCusto: { nível1: 1, nível2: 3, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -8353,7 +8353,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Plantações De Plantas Medicinais",
+              nome: "Plantação De Plantas Medicinais",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -8406,7 +8406,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Bebidas",
           desc: "Usa vegetais para produzir bebidas diversas.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Simples",
+            licença: "Licença De Fábricas Simples",
             liberado: false,
           },
           custoConstrucao: 140000,
@@ -8427,7 +8427,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -8465,7 +8465,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Redes De Fast-Food",
+              nome: "Rede De Fast-Food",
               redCusto: { nível1: 3, nível2: 4, nível3: 8 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -8535,7 +8535,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Pães",
           desc: "Fabrica pães a partir de cereais e vegetais.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Simples",
+            licença: "Licença De Fábricas Simples",
             liberado: false,
           },
           custoConstrucao: 40000,
@@ -8556,7 +8556,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -8574,7 +8574,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Redes De Fast-Food",
+              nome: "Rede De Fast-Food",
               redCusto: { nível1: 2, nível2: 3, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -8650,11 +8650,11 @@ const CentraldeDadosProvider = ({ children }) => {
           },
         },
         {
-          nome: "Fábrica Textil",
-          nomeEditável: "Fábrica Textil",
+          nome: "Fábrica Têxtil",
+          nomeEditável: "Fábrica Têxtil",
           desc: "Fabrica tecidos a partir de vegetais e fibras naturais.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Simples",
+            licença: "Licença De Fábricas Simples",
             liberado: false,
           },
           custoConstrucao: 40000,
@@ -8675,7 +8675,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -8735,7 +8735,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Plantações De Eucalipto",
+              nome: "Plantação De Eucalipto",
               redCusto: { nível1: 2, nível2: 2, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -8778,7 +8778,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Calçados",
           desc: "Fabrica calçados a partir de vegetais e couro.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Simples",
+            licença: "Licença De Fábricas Simples",
             liberado: false,
           },
           custoConstrucao: 80000,
@@ -8799,7 +8799,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -8807,7 +8807,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Loja De Departamento",
+              nome: "Loja De Departamentos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 6, nível3: 12 },
             },
@@ -8902,7 +8902,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Fábrica De Roupas",
           desc: "Fabrica pães a partir de cereais e vegetais.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Simples",
+            licença: "Licença De Fábricas Simples",
             liberado: false,
           },
           custoConstrucao: 120000,
@@ -8923,7 +8923,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -8936,7 +8936,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 8, nível2: 12, nível3: 25 },
             },
             {
-              nome: "Loja De Departamento",
+              nome: "Loja De Departamentos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 5, nível2: 7, nível3: 14 },
             },
@@ -9053,7 +9053,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -9123,7 +9123,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 18, nível2: 22, nível3: 28 },
             },
             {
-              nome: "Plantações De Eucalipto",
+              nome: "Plantação De Eucalipto",
               redCusto: { nível1: 3, nível2: 4, nível3: 8 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -9198,7 +9198,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -9337,7 +9337,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -9431,7 +9431,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -9439,7 +9439,7 @@ const CentraldeDadosProvider = ({ children }) => {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Farmácias",
+              nome: "Farmácia",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 6, nível2: 8, nível3: 19 },
             },
@@ -9466,7 +9466,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 20, nível2: 25, nível3: 35 },
             },
             {
-              nome: "Plantações De Plantas Medicinais",
+              nome: "Plantação De Plantas Medicinais",
               redCusto: { nível1: 2, nível2: 3, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -9550,7 +9550,7 @@ const CentraldeDadosProvider = ({ children }) => {
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -9570,7 +9570,7 @@ ForneceMelhoraEficiencia: [
     },
   },
   {
-    nome: "Farmácias",
+    nome: "Farmácia",
     redCusto: {
       nível1: 3,
       nível2: 5,
@@ -9742,7 +9742,7 @@ RecebeMelhoraEficiencia: [
     },
   },
   {
-    nome: "Plantações De Plantas Medicinais",
+    nome: "Plantação De Plantas Medicinais",
     redCusto: {
       nível1: 1,
       nível2: 1,
@@ -9849,7 +9849,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -9921,7 +9921,7 @@ RecebeMelhoraEficiencia: [
             {
               nome: "Centro De Pesquisa Química",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 17, nível2: 21, nível3: 25 },
+              aumFatu: { nível1: 10, nível2: 15, nível3: 20 },
             },
             {
               nome: "Construtora",
@@ -10003,7 +10003,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -10145,7 +10145,7 @@ RecebeMelhoraEficiencia: [
             {
               nome: "Centro De Pesquisa Química",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 17, nível2: 21, nível3: 25 },
+              aumFatu: { nível1: 10, nível2: 15, nível3: 20 },
             },
             {
               nome: "Construtora",
@@ -10163,7 +10163,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Plantações De Plantas Medicinais",
+              nome: "Plantação De Plantas Medicinais",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -10237,7 +10237,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -10402,7 +10402,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -10435,12 +10435,12 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -10512,7 +10512,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -10586,7 +10586,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -10765,7 +10765,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -10959,7 +10959,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -11173,7 +11173,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -11191,17 +11191,17 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 1, nível2: 1, nível3: 0 },
             },
             {
-              nome: "Centros De Distribuição",
+              nome: "Centro De Distribuição",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 11, nível3: 14 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 0, nível3: 0 },
             },
@@ -11372,7 +11372,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -11395,17 +11395,17 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mega Mercados",
+              nome: "Mega Mercado",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 0, nível3: 2 },
             },
@@ -11415,7 +11415,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 1 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 0, nível3: 0 },
             },
@@ -11571,7 +11571,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -11584,7 +11584,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 1, nível2: 3, nível3: 2 },
             },
             {
-              nome: "Concessionárias De Veículos",
+              nome: "Concessionária De Veículos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 5, nível3: 8 },
             },
@@ -11750,7 +11750,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -11758,7 +11758,7 @@ RecebeMelhoraEficiencia: [
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Concessionárias De Veículos",
+              nome: "Concessionária De Veículos",
               redCusto: { nível1: 2, nível2: 3, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -11820,7 +11820,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 4, nível2: 12, nível3: 30 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 10, nível3: 20 },
             },
@@ -11830,12 +11830,12 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 1, nível2: 3, nível3: 7 },
             },
             {
-              nome: "Estações De Carregamento De Veículos Elétricos",
+              nome: "Estação De Carregamento",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -11922,7 +11922,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -11930,7 +11930,7 @@ RecebeMelhoraEficiencia: [
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Concessionárias De Automóveis",
+              nome: "Concessionária De Veículos",
               redCusto: { nível1: 4, nível2: 5, nível3: 13 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -11967,7 +11967,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12008,7 +12008,7 @@ RecebeMelhoraEficiencia: [
             },
             {
               nome: "Centro De Pesquisa Em Materiais",
-              red极: { nível1: 0, nível2: 0, nível3: 0 },
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 15, nível3: 38 },
             },
             {
@@ -12071,7 +12071,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -12079,7 +12079,7 @@ RecebeMelhoraEficiencia: [
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Posto De Combustível",
+              nome: "Posto De Combustíveis",
               redCusto: { nível1: 3, nível2: 4, nível3: 7 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12099,12 +12099,12 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 1, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12161,7 +12161,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 2, nível2: 5, nível3: 10 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12269,7 +12269,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            { nome: "Fábrica De Ração", redCusto: 1, redFatu: 2 },
+            { nome: "Fábrica De Rações", redCusto: 1, redFatu: 2 },
             { nome: "Biofábrica", redCusto: 4, redFatu: 1 },
             { nome: "Mercado", redCusto: 2, redFatu: 4 },
             { nome: "Feira Livre", redCusto: 2, redFatu: 3 },
@@ -12277,7 +12277,7 @@ RecebeMelhoraEficiencia: [
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Posto De Combustível",
+              nome: "Posto De Combustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 6, nível3: 16 },
             },
@@ -12302,12 +12302,12 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 5, nível2: 8, nível3: 20 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 1 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 1 },
             },
@@ -12404,7 +12404,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12480,7 +12480,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -12488,7 +12488,7 @@ RecebeMelhoraEficiencia: [
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Fábrica De FertilizantD",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 5, nível3: 12 },
             },
@@ -12528,7 +12528,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 3, nível2: 5, nível3: 5 },
             },
             {
-              nome: "Tanque De Armazenamento De Biocombustíveis",
+              nome: "Tanque De Armazenamento Biocombustível",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 16, nível3: 21 },
             },
@@ -12565,7 +12565,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De FertilizantD",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12580,12 +12580,12 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Plantações De Plantas Medicinais",
+              nome: "Plantação De Plantas Medicinais",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Eucalipto",
+              nome: "Plantação De Eucalipto",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12698,7 +12698,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -12721,7 +12721,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Fábrica De Dispositivos Vestiveis",
+              nome: "Fábrica De Dispositivos Vestíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 5 },
             },
@@ -12813,7 +12813,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12886,7 +12886,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -12909,7 +12909,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 2, nível2: 3, nível3: 5 },
             },
             {
-              nome: "Fábrica De Dispositivos Vestiveis",
+              nome: "Fábrica De Dispositivos Vestíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 5 },
             },
@@ -13065,7 +13065,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -13083,12 +13083,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 1, nível3: 0 },
             },
             {
-              nome: "Centros De Pesquisa Em Eletrônicos",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 4, nível3: 5 },
-            },
-            {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 2, nível3: 5 },
             },
@@ -13165,7 +13160,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13227,11 +13222,11 @@ RecebeMelhoraEficiencia: [
             licença: "Licença De Eletrônica Avançada",
             liberado: false,
           },
-          custoConstrucao: 1340000,
+          custoConstrucao: 3400000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 500000,
-            impostoFixo: 13080000,
+            impostoFixo: 14080000,
             impostoSobreFatu: 0.1,
             rent: 32,
           },
@@ -13245,7 +13240,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -13268,12 +13263,12 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 4, nível2: 5, nível3: 8 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 2, nível3: 4 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 4, nível3: 8 },
             },
@@ -13283,12 +13278,12 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 1, nível2: 2, nível3: 3 },
             },
             {
-              nome: "Centros De Pesquisa Em Robótica",
+              nome: "Centro De Pesquisa Em Robótica",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 6, nível3: 6 },
             },
             {
-              nome: "Startups",
+              nome: "Startup",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 2, nível3: 3 },
             },
@@ -13484,7 +13479,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -13497,7 +13492,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 2, nível2: 4, nível3: 7 },
             },
             {
-              nome: "Centros De Pesquisa em Robótica",
+              nome: "Centro De Pesquisa Em Robótica",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 12, nível3: 13 },
             },
@@ -13574,17 +13569,17 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Centro De Pesquisa em Robótica",
+              nome: "Centro De Pesquisa Em Robótica",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 6, nível2: 29, nível3: 55 },
             },
             {
-              nome: "Centro De Pesquisa em Eletrônicos",
+              nome: "Centro De Pesquisa Em Eletrônicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 4, nível3: 36 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13614,7 +13609,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 2, nível2: 6, nível3: 6 },
             },
             {
-              nome: "Centro De Pesquisa em IA",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 6, nível3: 6 },
             },
@@ -13670,11 +13665,11 @@ RecebeMelhoraEficiencia: [
             licença: "Licença De Eletrônica Avançada",
             liberado: false,
           },
-          custoConstrucao: 2530000,
+          custoConstrucao: 4000000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 1000000,
-            impostoFixo: 28000000,
+            impostoFixo: 30000000,
             impostoSobreFatu: 0.05,
             rent: 32,
           },
@@ -13688,7 +13683,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -13706,7 +13701,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 1, nível2: 1, nível3: 4 },
             },
             {
-              nome: "Mega Mercados",
+              nome: "Mega Mercado",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -13746,7 +13741,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 10, nível2: 12, nível3: 14 },
             },
             {
-              nome: "Fábrica De Fertilizante",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 6, nível2: 8, nível3: 12 },
             },
@@ -13861,7 +13856,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 2, nível2: 3, nível3: 5 },
             },
             {
-              nome: "Fábrica de Eletrônicos",
+              nome: "Fábrica De Eletrônicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
@@ -13871,17 +13866,17 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Fábrica de Motores",
+              nome: "Fábrica De Motores",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 2, nível3: 3 },
             },
             {
-              nome: "Fábrica de Foguetes",
+              nome: "Fábrica De Foguetes",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Fábrica de Aeronaves",
+              nome: "Fábrica De Aeronaves",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 2, nível3: 4 },
             },
@@ -13928,22 +13923,22 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina de Fusão Nuclear",
+              nome: "Usina De Fusão Nuclear",
               redCusto: { nível1: 2, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro de Pesquisa em IA",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 3, nível3: 5 },
             },
             {
-              nome: "Centro de Pesquisa em Eletrônicos",
+              nome: "Centro De Pesquisa Em Eletrônicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 5, nível3: 7 },
             },
             {
-              nome: "Centro de Pesquisa em Robótica",
+              nome: "Centro De Pesquisa Em Robótica",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 5, nível2: 7, nível3: 13 },
             },
@@ -14032,7 +14027,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -14102,7 +14097,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14220,7 +14215,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -14325,7 +14320,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 1, nível2: 2, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14427,7 +14422,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -14435,19 +14430,19 @@ RecebeMelhoraEficiencia: [
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 1, nível3: 0 },
             },
             {
-              nome: "Centro de Pesquisa Aeroespacial",
+              nome: "Centro De Pesquisa Aeroespacial",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 6, nível3: 7 },
             },
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica de Motores",
+              nome: "Fábrica De Motores",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14497,17 +14492,17 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina de Fusão Nuclear",
+              nome: "Usina De Fusão Nuclear",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro de Pesquisa em Eletrônicos",
+              nome: "Centro De Pesquisa Em Eletrônicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 5, nível3: 10 },
             },
             {
-              nome: "Centro de Pesquisa Aeroespacial",
+              nome: "Centro De Pesquisa Aeroespacial",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 12, nível3: 32 },
             },
@@ -14517,7 +14512,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Empresa de Automação Industrial",
+              nome: "Empresa De Automação Industrial",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 2, nível3: 4 },
             },
@@ -14527,7 +14522,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 1, nível2: 2, nível3: 4 },
             },
             {
-              nome: "Construtora de Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -14572,7 +14567,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 2, nível2: 12, nível3: 20 },
             },
             {
-              nome: "Centro de Pesquisa em Robótica",
+              nome: "Centro De Pesquisa Em Robótica",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 8, nível3: 15 },
             },
@@ -14630,8 +14625,8 @@ RecebeMelhoraEficiencia: [
           custoConstrucao: 1100000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 2000000,
-            impostoFixo: 52550000,
+            faturamentoUnitário: 30000,
+            impostoFixo: 89000,
             impostoSobreFatu: 0.1,
             rent: 32,
           },
@@ -14645,7 +14640,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -14725,22 +14720,22 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Usina de Fusão Nuclear",
+              nome: "Usina De Fusão Nuclear",
               redCusto: { nível1: 1, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora de Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro de Pesquisa em Eletrônicos",
+              nome: "Centro De Pesquisa Em Eletrônicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 10, nível3: 22 },
             },
             {
-              nome: "Empresa de Automação Industrial",
+              nome: "Empresa De Automação Industrial",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 5, nível3: 7 },
             },
@@ -14855,7 +14850,7 @@ RecebeMelhoraEficiencia: [
           edifíciosLiberados: [
             "Loja De Conveniência",
             "Posto De Combustíveis",
-            "Redes De Fast-food",
+            "Rede De Fast-Food",
           ],
           status: false,
         },
@@ -14943,7 +14938,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "mercado",
             "Feira Livre",
@@ -15046,7 +15041,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -15139,7 +15134,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -15262,7 +15257,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -15350,7 +15345,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -15479,7 +15474,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -15567,7 +15562,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -15655,7 +15650,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -15759,7 +15754,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -15842,7 +15837,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -15916,8 +15911,8 @@ RecebeMelhoraEficiencia: [
           },
         },
         {
-          nome: "Redes De Fast-food",
-          nomeEditável: "Redes De Fast-food",
+          nome: "Rede De Fast-Food",
+          nomeEditável: "Rede De Fast-Food",
           desc: "Serve lanches rápidos e refeições pré-preparadas.",
           licençaLiberado: {
             licença: "Licença De Comércio Urbano",
@@ -15941,7 +15936,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -16051,7 +16046,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -16134,7 +16129,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -16227,7 +16222,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -16336,7 +16331,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -16424,7 +16419,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -16512,7 +16507,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -16600,7 +16595,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -16693,7 +16688,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -16786,7 +16781,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -16879,7 +16874,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -16973,7 +16968,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -17086,7 +17081,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -17174,7 +17169,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -17268,7 +17263,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -17317,7 +17312,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17331,7 +17326,7 @@ RecebeMelhoraEficiencia: [
           recursoDeConstrução: [
             "Mercado",
             "Loja De Departamentos",
-            "Redes De Fast-food",
+            "Rede De Fast-Food",
             "Cafeteria",
           ],
           dependências: [
@@ -17386,7 +17381,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -17440,7 +17435,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 1, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17513,7 +17508,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -17526,7 +17521,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Restaurantes",
+              nome: "Restaurante",
               redCusto: { nível1: 2, nível2: 3, nível3: 6 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17571,7 +17566,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Redes De Fast-Food",
+              nome: "Rede De Fast-Food",
               redCusto: { nível1: 4, nível2: 6, nível3: 10 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17581,7 +17576,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Farmácias",
+              nome: "Farmácia",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17668,12 +17663,12 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 8, nível2: 12, nível3: 24 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 12, nível2: 18, nível3: 16 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17732,7 +17727,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -17750,7 +17745,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Armazéns Logísticos",
+              nome: "Armazém Logístico",
               redCusto: { nível1: 19, nível2: 28, nível3: 37 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17765,7 +17760,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mega Mercados",
+              nome: "Mega Mercado",
               redCusto: { nível1: 1, nível2: 1, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17790,7 +17785,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Dispositivos Vestiveis",
+              nome: "Fábrica De Dispositivos Vestíveis",
               redCusto: { nível1: 1, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17802,7 +17797,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 12, nível2: 18, nível3: 24 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17866,7 +17861,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -17909,7 +17904,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Plantações De Plantas Medicinais",
+              nome: "Plantação De Plantas Medicinais",
               redCusto: { nível1: 1, nível2: 1, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17919,7 +17914,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Tanque De Armazenamento De Biocombustíveis",
+              nome: "Tanque De Armazenamento Biocombustível",
               redCusto: { nível1: 7, nível2: 12, nível3: 16 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17944,7 +17939,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -17969,7 +17964,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Fertilizante",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18129,7 +18124,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Navios",
+              nome: "Estaleiro",
               redCusto: { nível1: 1, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18200,7 +18195,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -18228,7 +18223,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Posto De Gasolina",
+              nome: "Posto De Combustíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18260,14 +18255,14 @@ RecebeMelhoraEficiencia: [
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
               nome: "Consultoria Em Engenharia Civil",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
+              aumFatu: { nível1: 15, nível2: 20, nível3: 30 },
             },
             {
               nome: "Porto",
@@ -18436,7 +18431,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -18449,7 +18444,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 3, nível2: 5, nível3: 7 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18545,7 +18540,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -18558,22 +18553,22 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 7, nível2: 14, nível3: 21 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 1, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mega Mercados",
+              nome: "Mega Mercado",
               redCusto: { nível1: 1, nível2: 2, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18603,7 +18598,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Plantações De Plantas Medicinais",
+              nome: "Plantação De Plantas Medicinais",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18623,7 +18618,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18699,7 +18694,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -18757,7 +18752,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Restaurantes",
+              nome: "Restaurante",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18767,7 +18762,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Loja De Bebidas",
+              nome: "Adega",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18787,7 +18782,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Redes De Fast-Food",
+              nome: "Rede De Fast-Food",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18797,7 +18792,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Farmácias",
+              nome: "Farmácia",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18887,7 +18882,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Redes De Distribuição De Energia",
+              nome: "Rede De Distribuição Elétrica",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18947,7 +18942,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centros De Distribuição",
+              nome: "Centro De Distribuição",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -19022,7 +19017,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Posto De Gasolina",
+              nome: "Posto De Combustíveis",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -19032,17 +19027,17 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Armazéns Logísticos",
+              nome: "Armazém Logístico",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -19138,7 +19133,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -19151,7 +19146,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 11, nível2: 14, nível3: 16 },
             },
             {
-              nome: "Restaurantes",
+              nome: "Restaurante",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 11, nível3: 12 },
             },
@@ -19161,7 +19156,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 5, nível2: 5, nível3: 5 },
             },
             {
-              nome: "Loja De Bebidas",
+              nome: "Adega",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 18, nível3: 22 },
             },
@@ -19181,7 +19176,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
             },
             {
-              nome: "Redes De Fast-Food",
+              nome: "Rede De Fast-Food",
               redCusto: { nível1: 10, nível2: 15, nível3: 30 },
               aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
             },
@@ -19191,7 +19186,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
             },
             {
-              nome: "Farmácias",
+              nome: "Farmácia",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 18, nível2: 25, nível3: 30 },
             },
@@ -19367,7 +19362,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -19394,12 +19389,12 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 18, nível2: 22, nível3: 28 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 14, nível3: 22 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 6, nível2: 18, nível3: 30 },
             },
@@ -19419,7 +19414,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 8, nível2: 12, nível3: 18 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 12, nível3: 18 },
             },
@@ -19515,7 +19510,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -19553,7 +19548,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 20, nível2: 30, nível3: 60 },
             },
             {
-              nome: "Redes De Distribuição De Energia",
+              nome: "Rede De Distribuição Elétrica",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 20, nível2: 30, nível3: 70 },
             },
@@ -19573,17 +19568,17 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 12, nível2: 18, nível3: 22 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 12, nível2: 18, nível3: 22 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 23, nível3: 60 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 32, nível3: 80 },
             },
@@ -19598,7 +19593,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 20, nível2: 65, nível3: 130 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 5, nível2: 25, nível3: 40 },
             },
@@ -19613,7 +19608,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 10, nível2: 16, nível3: 20 },
             },
             {
-              nome: "Tanque De Armazenamento De Biocombustíveis",
+              nome: "Tanque De Armazenamento Biocombustível",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 50, nível2: 70, nível3: 150 },
             },
@@ -19739,7 +19734,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -19877,7 +19872,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Dispositivos Vestiveis",
+              nome: "Fábrica De Dispositivos Vestíveis",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -19892,12 +19887,12 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De FertilizantD",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -19932,7 +19927,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Tanque De Armazenamento De Biocombustíveis",
+              nome: "Tanque De Armazenamento Biocombustível",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20038,7 +20033,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -20121,7 +20116,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -20204,7 +20199,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -20287,7 +20282,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De Navios",
+              nome: "Estaleiro",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20297,17 +20292,17 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20357,7 +20352,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20379,7 +20374,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20452,7 +20447,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -20465,7 +20460,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centros De Distribuição",
+              nome: "Centro De Distribuição",
               redCusto: { nível1: 12, nível2: 18, nível3: 24 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20542,7 +20537,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20626,7 +20621,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -20696,7 +20691,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -20795,7 +20790,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -20952,7 +20947,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -21022,7 +21017,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 12, nível2: 30, nível3: 60 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21106,7 +21101,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -21176,7 +21171,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 16, nível2: 20, nível3: 30 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21255,7 +21250,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -21270,7 +21265,7 @@ RecebeMelhoraEficiencia: [
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Construtora De Grandes Estruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21429,7 +21424,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -21438,7 +21433,7 @@ RecebeMelhoraEficiencia: [
           ForneceMelhoraEficiencia: [],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Construtora De Grandes Estruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21453,7 +21448,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21527,7 +21522,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -21545,7 +21540,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Fábrica De FertilizantD",
+              nome: "Fábrica De Fertilizantes",
               redCusto: { nível1: 2, nível2: 2, nível3: 4 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21661,7 +21656,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -21760,7 +21755,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -21795,7 +21790,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 7, nível2: 7, nível3: 9 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -21916,8 +21911,8 @@ RecebeMelhoraEficiencia: [
           status: false,
         },
         {
-          nome: "Licença De Fábrica Energéticas",
-          nomeEditável: "Licença De Fábrica Energéticas",
+          nome: "Licença De Fábricas Energéticas",
+          nomeEditável: "Licença De Fábricas Energéticas",
           desc: "Habilita a fabricação de componentes para geração de energia renovável e armazenamento.",
           valor: 310000,
           edifíciosLiberados: [
@@ -21933,7 +21928,7 @@ RecebeMelhoraEficiencia: [
           desc: "Autoriza a abertura e operação de estabelecimentos voltados à venda e distribuição de energia e derivados, incluindo comércio de créditos energéticos e tecnologias associadas.",
           valor: 490000,
           edifíciosLiberados: [
-            "Empresa De Comercio Energético",
+            "Empresa De Comércio Energético",
             "Empresa De Consultoria Energética",
             "Estação De Carregamento",
           ],
@@ -22013,7 +22008,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -22021,7 +22016,7 @@ RecebeMelhoraEficiencia: [
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Redes De Distribuição De Energia",
+              nome: "Rede De Distribuição Elétrica",
               redCusto: { nível1: 1, nível2: 2, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -22137,7 +22132,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -22231,7 +22226,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -22274,7 +22269,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -22344,7 +22339,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -22354,22 +22349,22 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -22579,7 +22574,7 @@ RecebeMelhoraEficiencia: [
           nomeEditável: "Fábrica De Turbinas Eólicas",
           desc: "Monta turbinas para gerar energia eólica.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Energéticas",
+            licença: "Licença De Fábricas Energéticas",
             liberado: false,
           },
           custoConstrucao: 140000,
@@ -22600,7 +22595,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -22743,14 +22738,14 @@ RecebeMelhoraEficiencia: [
           nomeEditável: "Fábrica De Painéis Solares",
           desc: "Produz painéis para captação solar.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Energéticas",
+            licença: "Licença De Fábricas Energéticas",
             liberado: false,
           },
-          custoConstrucao: 90000,
+          custoConstrucao: 300000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 23000,
-            impostoFixo: 590000,
+            impostoFixo: 600000,
             impostoSobreFatu: 0.1,
             rent: 32,
           },
@@ -22764,7 +22759,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -22782,7 +22777,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 9, nível2: 12, nível3: 12 },
             },
             {
-              nome: "Estações De Carregamento De Veículos Elétricos",
+              nome: "Estação De Carregamento",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 6, nível2: 9, nível3: 17 },
             },
@@ -22844,7 +22839,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 3, nível2: 4, nível3: 5 },
             },
             {
-              nome: "Centro De Pesquisa Eletrônico",
+              nome: "Centro De Pesquisa Em Eletrônicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 5, nível3: 8 },
             },
@@ -22911,14 +22906,14 @@ RecebeMelhoraEficiencia: [
           nomeEditável: "Fábrica De Baterias",
           desc: "Fabrica baterias para armazenar energia.",
           licençaLiberado: {
-            licença: "Licença De Fábrica Energéticas",
+            licença: "Licença De Fábricas Energéticas",
             liberado: false,
           },
-          custoConstrucao: 250000,
+          custoConstrucao: 400000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 30000,
-            impostoFixo: 775000,
+            impostoFixo: 800000,
             impostoSobreFatu: 0.1,
             rent: 32,
           },
@@ -22932,7 +22927,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -22945,7 +22940,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 1, nível2: 2, nível3: 1 },
             },
             {
-              nome: "Estações De Carregamento De Veículos Elétricos",
+              nome: "Estação De Carregamento",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 4, nível2: 6, nível3: 12 },
             },
@@ -23017,7 +23012,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 2, nível2: 3, nível3: 4 },
             },
             {
-              nome: "Centro De Pesquisa Eletrônico",
+              nome: "Centro De Pesquisa Em Eletrônicos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 5, nível2: 6, nível3: 8 },
             },
@@ -23086,8 +23081,8 @@ RecebeMelhoraEficiencia: [
           },
         },
         {
-          nome: "Empresa De Comercio Energético",
-          nomeEditável: "Empresa De Comercio Energético",
+          nome: "Empresa De Comércio Energético",
+          nomeEditável: "Empresa De Comércio Energético",
           desc: "Transporta eletricidade para todas as estruturas.",
           licençaLiberado: {
             licença: "Licença De Comércios Energéticos",
@@ -23111,7 +23106,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -23159,7 +23154,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Redes De Distribuição De Energia",
+              nome: "Rede De Distribuição Elétrica",
               redCusto: { nível1: 20, nível2: 25, nível3: 50 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -23206,7 +23201,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Redes De Distribuição De Energia",
+              nome: "Rede De Distribuição Elétrica",
               redCusto: { nível1: 2, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -23275,7 +23270,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -23338,7 +23333,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 2, nível2: 4, nível3: 6 },
             },
             {
-              nome: "Estações De Carregamento De Veículos Elétricos",
+              nome: "Estação De Carregamento",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 8, nível2: 11, nível3: 10 },
             },
@@ -23373,7 +23368,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 10, nível2: 14, nível3: 18 },
             },
             {
-              nome: "Fábrica De Dispositivos Vestiveis",
+              nome: "Fábrica De Dispositivos Vestíveis",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 2, nível2: 4, nível3: 6 },
             },
@@ -23448,7 +23443,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 30, nível2: 40, nível3: 90 },
             },
             {
-              nome: "Redes De Distribuição De Energia",
+              nome: "Rede De Distribuição Elétrica",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 15, nível3: 30 },
             },
@@ -23514,7 +23509,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -23613,7 +23608,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -23732,7 +23727,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -23790,7 +23785,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 3, nível2: 5, nível3: 7 },
             },
             {
-              nome: "Estações De Carregamento De Veículos Elétricos",
+              nome: "Estação De Carregamento",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 14, nível3: 16 },
             },
@@ -23931,7 +23926,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -24026,7 +24021,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -24069,7 +24064,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -24139,7 +24134,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -24149,22 +24144,22 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -24404,7 +24399,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -24447,7 +24442,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -24517,7 +24512,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -24527,22 +24522,22 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -24778,7 +24773,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -24821,7 +24816,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -24891,7 +24886,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -24901,22 +24896,22 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25113,7 +25108,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 3, nível2: 5, nível3: 7 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25185,7 +25180,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -25228,7 +25223,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25298,7 +25293,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25308,22 +25303,22 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25398,7 +25393,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Empresa De Comercio Energético",
+              nome: "Empresa De Comércio Energético",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25475,7 +25470,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Empresa De Comercio Energético",
+              nome: "Empresa De Comércio Energético",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 6, nível3: 6 },
             },
@@ -25554,7 +25549,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -25597,7 +25592,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 10, nível2: 20, nível3: 30 },
             },
@@ -25667,7 +25662,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25677,22 +25672,22 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -25926,7 +25921,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -25969,7 +25964,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -26039,7 +26034,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -26049,22 +26044,22 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -26261,7 +26256,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 2, nível2: 4, nível3: 5 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -26330,7 +26325,7 @@ RecebeMelhoraEficiencia: [
           construçõesNecessárias: [],
           licençasNecessárias: ["Silo", "Plantação De Vegetais"],
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -26373,7 +26368,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 0, nível2: 1, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -26443,7 +26438,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Em Inteligência Artificial",
+              nome: "Centro De Pesquisa Em IA",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -26453,22 +26448,22 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Servidores De Nuvem",
+              nome: "Servidor Em Nuvem",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Data Centers",
+              nome: "Data Center",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Aeroportos",
+              nome: "Aeroporto",
               redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Portos",
+              nome: "Porto",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -26543,7 +26538,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Empresa De Comercio Energético",
+              nome: "Empresa De Comércio Energético",
               redCusto: { nível1: 0, nível2: 1, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -26665,12 +26660,12 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 4, nível2: 5, nível3: 6 },
             },
             {
-              nome: "Empresa De Comercio Energético",
+              nome: "Empresa De Comércio Energético",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 3, nível2: 4, nível3: 5 },
             },
             {
-              nome: "Construtora De Grandes Infraestruturas",
+              nome: "Construtora De Infraestruturas",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -26685,7 +26680,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 4, nível2: 5, nível3: 5 },
             },
             {
-              nome: "Mineradora De Minérios Radioativos",
+              nome: "Mineradora Radioativa",
               redCusto: { nível1: 9, nível2: 13, nível3: 27 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -26748,7 +26743,7 @@ RecebeMelhoraEficiencia: [
           licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
 
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -26811,7 +26806,7 @@ RecebeMelhoraEficiencia: [
           licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
 
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
@@ -26859,7 +26854,7 @@ RecebeMelhoraEficiencia: [
           licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
 
           melhoraEficiencia: [
-            "Fábrica De Ração",
+            "Fábrica De Rações",
             "Biofábrica",
             "Mercado",
             "Feira Livre",
