@@ -30,6 +30,9 @@ import ToggleButton from "./components/ToggleButton.jsx";
 import { InfoPage } from "./components/Info.jsx";
 import ModalInfo from "./components/ModalInfo.jsx";
 import UpgradeCards from "./components/UpgradeCards.jsx";
+import StorageMonolithDemo from "./components/StorageInterface.jsx";
+import MarketplaceSystem from "./components/MarketInterface.jsx";
+import { MercadoGlobal } from "./components/TablePrice.jsx";
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
@@ -45,78 +48,81 @@ function Interface() {
 
 
     return (
-        <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-around items-center">
-            <NewStage/>
-            <Achievements />
-            <CardSpecials />
-            <InputName />
-            <Offers />
-            <Events />
-            <Employees />
-            <Notificação />
-            <ModalAlert/>
-            <ModalPerson/>
-            <ModalInfo/>
+        // <StorageMonolithDemo/>
+        <MarketplaceSystem/>
+        // <MercadoGlobal/>
+//         <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-around items-center">
+//             <NewStage/>
+//             <Achievements />
+//             <CardSpecials />
+//             <InputName />
+//             <Offers />
+//             <Events />
+//             <Employees />
+//             <Notificação />
+//             <ModalAlert/>
+//             <ModalPerson/>
+//             <ModalInfo/>
      
-            <div className="w-[20vw] h-[100vh] flex items-center justify-around">
-                <Buy />
-            </div>
-            <div className="w-[75vw] h-[95vh] shadow-2xl rounded-[20px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-10 grid-cols-10 gap-[20px] p-[20px]">
+//             <div className="w-[20vw] h-[100vh] flex items-center justify-around">
+//                 <Buy />
+//             </div>
+//             <div className="w-[75vw] h-[95vh] shadow-2xl rounded-[20px] bg-gradient-to-b from-[#6411D9] to-[#350973] grid grid-rows-10 grid-cols-10 gap-[20px] p-[20px]">
 
-                {/* <div className="grid col-start-1 col-end-3 row-start-8 row-end-10">
-                    <MoreOptions />
-                    </div> */}
-                {/* <div className="grid col-start-4 col-end-9 row-start-1 row-end-10">
-                    <ButtonChange />
-                    </div> */}
-                <div className="grid col-start-1 col-end-9 row-start-2 row-end-11 h-full w-full ">
-                    <Dashboard className="h-full" />
-                </div>
-                <div className="grid col-start-1 col-end-9 row-1 w-full h-full">
-                    <div className="grid gap-[10px] col-start-1 col-end-8 w-full place-items-center">
-                        <Informations className="grid col-start-1 col-end-8" />
-                    </div>
-                    <div className="flex w-full items-center justify-center  col-start-8 col-end-9 gap-[10px]">
+//                 {/* <div className="grid col-start-1 col-end-3 row-start-8 row-end-10">
+//                     <MoreOptions />
+//                     </div> */}
+//                 {/* <div className="grid col-start-4 col-end-9 row-start-1 row-end-10">
+//                     <ButtonChange />
+//                     </div> */}
+//                 <div className="grid col-start-1 col-end-9 row-start-2 row-end-11 h-full w-full ">
+//                     <Dashboard className="h-full" />
+//                 </div>
+//                 <div className="grid col-start-1 col-end-9 row-1 w-full h-full">
+//                     <div className="grid gap-[10px] col-start-1 col-end-8 w-full place-items-center">
+//                         <Informations className="grid col-start-1 col-end-8" />
+//                     </div>
+//                     <div className="flex w-full items-center justify-center  col-start-8 col-end-9 gap-[10px]">
 
-                        <Day />
-                        <TaxesYear />
-                        <EconomyGlobal />
-                        <RaffledBuildings />
-                               <UpgradeCards/>
-                    </div>
-                </div>
+//                         <Day />
+//                         <TaxesYear />
+//                         <EconomyGlobal />
+//                         <RaffledBuildings />
+//                                <UpgradeCards/>
+//                     </div>
+//                 </div>
 
-                <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">
+//                 <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">
 
-                </div>
-                <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">
-                    <Buttons />
-                </div>
-{vision === "financas" && (
-  <div className="grid col-start-9 col-end-11 row-start-3 row-end-11 flex justify-center items-center">
-      <PatrimonioInterface />
-  </div>
-)}
+//                 </div>
+//                 <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">
+//                     <Buttons />
+//                 </div>
+// {vision === "financas" && (
+//   <div className="grid col-start-9 col-end-11 row-start-3 row-end-11 flex justify-center items-center">
+//       <PatrimonioInterface />
+//   </div>
+// )}
 
-{vision !== "financas" && (
-  <div className="col-start-9 col-end-11 row-start-3 row-end-11 grid grid-rows-[auto_auto_1fr] gap-4 p-2 overflow-y-auto">
+// {vision !== "financas" && (
+//   <div className="col-start-9 col-end-11 row-start-3 row-end-11 grid grid-rows-[auto_auto_1fr] gap-4 p-2 overflow-y-auto">
     
-    <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3">
-      <Economys />
-    </div>
+//     <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3">
+//       <Economys />
+//     </div>
 
-    <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3">
-      <Taxes />
-    </div>
+//     <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3">
+//       <Taxes />
+//     </div>
 
-    <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3 min-h-0 overflow-y-auto">
-      <ActiveEvents />
-    </div>
+//     <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3 min-h-0 overflow-y-auto">
+//       <ActiveEvents />
+//     </div>
 
-  </div>
-)}
-            </div>
-        </div>
+//   </div>
+// )}
+//             </div>
+//         </div>
     )
 
 }

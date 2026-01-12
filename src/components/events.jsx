@@ -15,14 +15,14 @@ function Events(){
         atualizarDados("chanceNovoEvento",0)
         // console.log("testando useEffect")
         // console.log(dados.chanceNovoEvento)
-    }
+    }else if(dados.dia>2 && dados.dia <270){
+      atualizarDados("chanceNovoEvento",20)
+       }
+    else if(dados.dia>270){
+      atualizarDados("chanceNovoEvento",10)
+       }
 },[dados.eventoAtual])
 
-// useEffect(()=>{
-//   if(dados.dia>2){
-//       atualizarDados("chanceNovoEvento",20)
-//        }
-// },[dados.dia])
 
 
 //descomentar par fim dom jogo

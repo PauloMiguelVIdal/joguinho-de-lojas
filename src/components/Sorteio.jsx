@@ -134,8 +134,8 @@ export default function Sorteio() {
       dados.dia < 269
         ? selecionarItem(departmentEvents)
         : // : "custos de construção";
-          // eventosFinais;
-          selecionarItem(departmentEventsFinal);
+        // eventosFinais;
+        selecionarItem(departmentEventsFinal);
     const selecionarJulgamento = julgamentoSorteado();
     const selecionarPorcentagem = selecionarItem(porcentagem);
     const selecionarPeriodo = selecionarItem(periodo);
@@ -143,8 +143,8 @@ export default function Sorteio() {
     const resultadoBase =
       (selecionarDepartamento === "faturamento" &&
         selecionarJulgamento === "ÓTIMO") ||
-      (selecionarDepartamento !== "faturamento" &&
-        selecionarJulgamento === "PÉSSIMO")
+        (selecionarDepartamento !== "faturamento" &&
+          selecionarJulgamento === "PÉSSIMO")
         ? "crescimento"
         : "queda";
 
@@ -178,7 +178,7 @@ export default function Sorteio() {
 
     // console.log(novoValor)
 
-     atualizarDados("modal", { ...dados.modal, estadoModal: true });
+    atualizarDados("modal", { ...dados.modal, estadoModal: true });
     atualizarDados("eventoAtual", {
       ...dados.eventoAtual,
       eventoAtivo: true,
@@ -241,7 +241,7 @@ export default function Sorteio() {
       atualizarDados("eventoAtual", {
         ...dados.eventoAtual,
         eventoAtivo: true,
-        title: `O setor ${setorSelecionado},terá ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento}. Durante o período de ${selecionarPeriodo} dias, não será sorteado novos eventos.`,
+        title: `O setor ${setorSelecionado},terá ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamentoFinal}. Durante o período de ${selecionarPeriodo} dias, não será sorteado novos eventos.`,
         setorSelecionada: setorSelecionado,
         situacaoSelecionada: resultadoBase,
         porcentagemSelecionada: selecionarPorcentagem,
@@ -257,11 +257,11 @@ export default function Sorteio() {
 
       buttonOpenAudio();
       atualizarDados("modal", { ...dados.modal, estadoModal: true });
-    } else if (selecionarDepartamentoFinal === "custos de construção") {
+    } else if (selecionarDepartamentoFinal === "preçoConstrução") {
       atualizarDados("eventoAtual", {
         ...dados.eventoAtual,
         eventoAtivo: true,
-        title: `${selecionarLoja} terão ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamento}. Durante o período de ${selecionarPeriodo} dias, não será sorteado novos eventos.`,
+        title: `${selecionarLoja} terão ${resultadoBase} de ${selecionarPorcentagem}% em ${selecionarDepartamentoFinal}. Durante o período de ${selecionarPeriodo} dias, não será sorteado novos eventos.`,
         lojaSelecionada: selecionarLoja,
         situacaoSelecionada: resultadoBase,
         porcentagemSelecionada: selecionarPorcentagem,
@@ -276,6 +276,7 @@ export default function Sorteio() {
       atualizarDados("modal", { ...dados.modal, estadoModal: true });
     }
   };
+
   useEffect(() => {
     sortearNovoEvento();
     // console.log("Sorteio executado para o dia", dados.dia);
@@ -296,8 +297,8 @@ export default function Sorteio() {
         [departamentoChave]: novoValor,
       });
 
-      // console.log("Evento aplicado nas lojas!");
-      // console.log("useEffect chamado10!");
+      console.log("Evento aplicado nas lojas!");
+      console.log("useEffect chamado10!");
     } else if (
       dados.eventoAtual.eventoAtivo &&
       dados.dia >= 270 &&
