@@ -5,7 +5,7 @@ import { DadosEconomyGlobalProvider } from "./dadosEconomyGlobal";
 import Notificação from "./notificação";
 import telaCheia from "../public/outrasImagens//tela cheia.png";
 import reduzirTela from "../public/outrasImagens/reduzir tela.png";
-
+import { GameProvider } from "./components/GameContext";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -52,6 +52,7 @@ function App() {
   }, []);
 
   return (
+      <GameProvider>
     <CentraldeDadosProvider>
       <DadosEconomyGlobalProvider>
         <div
@@ -75,6 +76,7 @@ function App() {
         </div>
       </DadosEconomyGlobalProvider>
     </CentraldeDadosProvider>
+     </GameProvider>
   );
 }
 

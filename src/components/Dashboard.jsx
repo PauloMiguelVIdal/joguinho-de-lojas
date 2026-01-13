@@ -53,6 +53,8 @@ import changeSectoryAudio from "../../public/sounds/changeSectoryAudio.mp3";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import openAudio from "../../public/sounds/openAudio.mp3";
 import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3";
+import MarketplaceSystem from "./MarketInterface.jsx";
+import StorageInterface from "./StorageInterface.jsx";
 
 import {
   Chart as ChartJS,
@@ -332,6 +334,24 @@ useEffect(()=>{
     },
     {
       id: "grafico",
+      corClasse: "bg-[#6A00FF]",
+      img: grafico,
+      cor1: "#6A00FF ",
+      cor2: "#6A00FF ",
+      cor3: "#6A00FF ",
+      cor4: "#6A00FF ",
+    },
+    {
+      id: "estoque",
+      corClasse: "bg-[#6A00FF]",
+      img: grafico,
+      cor1: "#6A00FF ",
+      cor2: "#6A00FF ",
+      cor3: "#6A00FF ",
+      cor4: "#6A00FF ",
+    },
+    {
+      id: "mercado",
       corClasse: "bg-[#6A00FF]",
       img: grafico,
       cor1: "#6A00FF ",
@@ -1183,6 +1203,8 @@ useEffect(()=>{
                 {setores
                   .filter(
                     (setor) =>
+                      // setor.id === "estoque" &&
+                      // setor.id === "mercado" &&
                       setor.id !== "carteira" &&
                       setor.id !== "gerenciamento" &&
                       setor.id !== "grafico"
@@ -1366,6 +1388,16 @@ useEffect(()=>{
                   <MicroModel />
                 </div>
               )}
+              {ativo === "mercado" && (
+                <div className="w-full h-full">
+                  <MarketplaceSystem />
+                </div>
+              )}
+              {ativo === "estoque" && (
+                <div className="w-full h-full">
+                  <StorageInterface />
+                </div>
+              )}
               {ativo === "carteira" && (
                 <div className="flex-1 w-full rounded-[20px] flex flex-col">
                   {/* Tooltips */}
@@ -1542,6 +1574,8 @@ useEffect(()=>{
               )}
 
               {ativo !== "grafico" &&
+                ativo !== "mercado" &&
+                ativo !== "estoque" &&
                 ativo !== "carteira" &&
                 ativo !== "gerenciamento" && (
                   <div className="flex-1 w-full rounded-[20px] flex flex-col justify-between h-full">

@@ -40,6 +40,7 @@ import { useRef } from "react";
 import { createPortal } from "react-dom";
 import useSound from "use-sound";
 import purchaseEdifAudio from "../../public/sounds/purchaseEdifAudio.mp3";
+import { Package } from "lucide-react";
 
 export const CardModal = ({ index }) => {
   const {
@@ -75,6 +76,19 @@ const edificiosComGerenciamento = [
   "Concessionária",
   "Fábrica De Automóveis",
   "Plantação De Grãos",
+];
+
+
+const edificiosDeArmazenamento = [
+  "Armazém",
+  "Silo",
+  "Depósito De Resíduos Orgânicos",
+  "Data Center",
+  "Servidor Em Nuvem",
+  "Armazém Logístico",
+  "Centro De Distribuição",
+  "Fábrica De Tanque De Armazenamento Biocombustível",
+  "Centro De Coleta De Biomassa",
 ];
 
 
@@ -2199,8 +2213,15 @@ const edificiosComGerenciamento = [
 {edificiosComGerenciamento.includes(
   dados[setorAtivo].edificios[index].nome
 ) && (
-  <div className="bg-roxo absolute top-[-15px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px]">
+  <div className="bg-roxo absolute top-[0px] right-[0px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] z-10">
     <img src={gerenciamento} alt="" className="w-[60%]" />
+  </div>
+)}
+{edificiosDeArmazenamento.includes(
+  dados[setorAtivo].edificios[index].nome
+) && (
+  <div className="bg-roxo absolute top-[0px] right-[0px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] z-10">
+    <img src={Package} alt="" className="w-[60%]" />
   </div>
 )}
         {/* Frente do Card */}
