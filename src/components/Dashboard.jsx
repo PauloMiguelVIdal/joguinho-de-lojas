@@ -121,9 +121,9 @@ export default function Dashboard() {
 useEffect(()=>{
   if(dados.dia>=270){
   if(ativo=== "carteira") return
-  if(ativo!=="carteira"){
-    setAtivo("carteira")
-  }
+  // if(ativo!=="carteira"){
+  //   setAtivo("carteira")
+  // }
   }
 
 },[dados.dia])

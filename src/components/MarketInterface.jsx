@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import {
   ShoppingCart,
   DollarSign,
@@ -8,14 +8,29 @@ import {
 import { productsCatalog } from "../components/ProductCatalog";
 import { getMarketPrice } from "../components/TablePrice";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { useGame } from "../components/GameContext";
 import QuantityModal from "./QuantityModal";
 
 
 export default function MarketplaceSystem() {
-  const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-  const { stock, addProduct, removeProduct, canAddProduct } =
-    useGame();
+  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+const {
+  stock,
+  addProduct,
+  removeProduct,
+  canAddProduct,
+  processarTransacoesMercado,
+  marketTransactions,
+  setMarketTransactions,
+  getMaxAddable,
+  getMaxRemovable,
+} = useGame();
+
+
+
+
 
   const [mode, setMode] = useState("buy");
   const [selectedSector, setSelectedSector] = useState("all");
@@ -23,11 +38,10 @@ export default function MarketplaceSystem() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalType, setModalType] = useState(null); // "buy" | "sell"
 
-  const {
-    getMaxAddable,
-    getMaxRemovable,
 
-  } = useGame();
+
+
+
 
 
   const sectors = [
@@ -39,6 +53,13 @@ export default function MarketplaceSystem() {
     { id: "imobiliario", name: "Imobiliário", icon: "🏗️" },
     { id: "energia", name: "Energia", icon: "⚡" },
   ];
+
+  const saldoBancário = economiaSetores.saldo
+  const diaAtual = dados.dia
+
+  function atualizarSaldo(delta) {
+    atualizarEco("saldo", economiaSetores.saldo + delta);
+  }
 
   const marketData = useMemo(() => {
     const grouped = {};
@@ -55,6 +76,137 @@ export default function MarketplaceSystem() {
 
     return grouped;
   }, [economiaSetores, stock]);
+
+function confirmarCompra(produto, quantidade) {
+  const preco = getMarketPrice(produto.id, economiaSetores);
+  const valorTotal = preco * quantidade;
+
+  if (economiaSetores.saldo < valorTotal) {
+    alert("Saldo insuficiente");
+    return;
+  }
+
+  atualizarSaldo(-valorTotal);
+
+  setMarketTransactions(prev => [
+    ...prev,
+    {
+      id: crypto.randomUUID(),
+      tipo: "buy",
+      produtoId: produto.id,
+      quantidade,
+      valorTotal,
+      diasRestantes: 10,
+    },
+  ]);
+}
+
+
+  function podeComprar(produto) {
+    const preco = getMarketPrice(produto.id, economiaSetores);
+    const temSaldo = economiaSetores.saldo >= preco;
+    const temEspaco = canAddProduct(produto.id, 1);
+
+    return temSaldo && temEspaco;
+  }
+
+
+function confirmarVenda(produto, quantidade) {
+  const preco = getMarketPrice(produto.id, economiaSetores);
+  const valorTotal = preco * quantidade;
+
+  removeProduct(produto.id, quantidade);
+
+  setMarketTransactions(prev => [
+    ...prev,
+    {
+      id: crypto.randomUUID(),
+      tipo: "sell",
+      produtoId: produto.id,
+      quantidade,
+      valorTotal,
+      diasRestantes: 10,
+    },
+  ]);
+}
+
+useEffect(() => {
+  processarTransacoesMercado();
+}, [dados.dia]);
+
+
+  // function processarTransacoesMercado() {
+  //   setMarketTransactions(prev =>
+  //     prev.flatMap(t => {
+  //       if (t.diasRestantes > 1) {
+  //         return [{ ...t, diasRestantes: t.diasRestantes - 1 }];
+  //       }
+
+  //       // Liquidação
+  //       if (t.tipo === "buy") {
+  //         addProduct(t.produtoId, t.quantidade);
+  //       }
+
+  //       if (t.tipo === "sell") {
+  //         atualizarSaldo(+t.valorTotal);
+  //       }
+
+  //       return []; // remove transação concluída
+  //     })
+  //   );
+  // }
+
+  
+
+  function MarketTransactionsPanel({ transactions }) {
+    return (
+      <div className="bg-gray-100 rounded-xl p-4 mb-6">
+        <h3 className="font-bold text-lg mb-4">
+          Transações em Andamento
+        </h3>
+
+        {transactions.length === 0 && (
+          <p className="text-sm text-gray-500">
+            Nenhuma transação em andamento
+          </p>
+        )}
+
+        {transactions.map(t => {
+          const p = productsCatalog[t.produtoId];
+
+          return (
+            <div
+              key={t.id}
+              className="flex justify-between text-sm py-2 border-b last:border-b-0"
+            >
+              <div>
+                <p className="font-semibold">
+                  {t.tipo === "buy" ? "📦 Compra" : "💰 Venda"} — {p.nome}
+                </p>
+                <p className="text-gray-500">
+                  {t.quantidade} {p.unidade}
+                </p>
+              </div>
+
+              <div className="text-right">
+                <p>
+                  {t.diasRestantes} dias
+                </p>
+                <p className="font-semibold">
+                  {new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(t.valorTotal)}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+
 
   const filteredData =
     selectedSector === "all"
@@ -82,40 +234,48 @@ export default function MarketplaceSystem() {
       variableStorageTotal,
     } = useGame();
 
-    const categorias = ["grãos", "fluidos", "aeronaves", "biomassa"];
+    const categorias = ["grãos", "fluidos", "aeronaves", "perecíveis"];
 
     return (
       <div className="bg-gray-100 rounded-xl p-4 mb-6">
         <h3 className="font-bold text-lg mb-4">
           Capacidade de Armazenamento
         </h3>
+        <p className="text-xs text-gray-500 mb-3">
+          O armazenamento é medido em <strong>slots</strong>.
+          Cada produto ocupa uma quantidade diferente de slots.
+        </p>
 
         {categorias.map(cat => {
-          const { usado, capEspecifica, capMax } =
+          const { usadoSlots,
+            capDedicadaSlots,
+            capMaxSlots, } =
             getCategoryStorageUI(cat);
 
-          if (capEspecifica === 0 && usado === 0) return null;
+          if (capDedicadaSlots === 0 && usadoSlots === 0) return null;
 
           const percent =
-            capMax > 0 ? Math.min((usado / capMax) * 100, 100) : 0;
+            capMaxSlots > 0 ? Math.min((usadoSlots / capMaxSlots) * 100, 100) : 0;
 
           return (
             <div key={cat} className="mb-3">
               <div className="flex justify-between text-sm mb-1">
                 <span className="capitalize">{cat}</span>
                 <span>
-                  {usado} / {capEspecifica}
-                  {capMax > capEspecifica && ` (${capMax})`}
+                  {usadoSlots.toFixed(1)} slots / {capDedicadaSlots}
+                  {capMaxSlots > capDedicadaSlots &&
+                    ` (máx ${capMaxSlots} slots)`}
                 </span>
+
               </div>
 
               <div className="w-full h-3 bg-gray-300 rounded">
                 <div
                   className={`h-3 rounded ${percent > 90
-                      ? "bg-red-500"
-                      : percent > 70
-                        ? "bg-yellow-400"
-                        : "bg-green-500"
+                    ? "bg-red-500"
+                    : percent > 70
+                      ? "bg-yellow-400"
+                      : "bg-green-500"
                     }`}
                   style={{ width: `${percent}%` }}
                 />
@@ -178,7 +338,7 @@ export default function MarketplaceSystem() {
       <h2 className="text-3xl font-bold text-center mb-6">
         Mercado Global
       </h2>
-
+      <MarketTransactionsPanel transactions={marketTransactions} />
       {/* BUY / SELL */}
       <div className="flex justify-center mb-6">
         <div className="bg-gray-200 p-1 rounded-lg flex">
@@ -206,8 +366,8 @@ export default function MarketplaceSystem() {
             key={s.id}
             onClick={() => setSelectedSector(s.id)}
             className={`px-4 py-2 rounded-lg ${selectedSector === s.id
-                ? "bg-indigo-600 text-white"
-                : "bg-gray-100"
+              ? "bg-indigo-600 text-white"
+              : "bg-gray-100"
               }`}
           >
             {s.icon} {s.name}
@@ -241,7 +401,7 @@ export default function MarketplaceSystem() {
             {isOpen && (
               <div className="border rounded-lg mt-2">
                 {items.map(p => {
-                  const canBuy = canAddProduct(p.id, 1);
+                  const canBuy = podeComprar(p);
 
                   return (
                     <div
@@ -255,6 +415,10 @@ export default function MarketplaceSystem() {
                         <p className="text-sm text-gray-500">
                           Estoque: {p.estoque} {p.unidade}
                         </p>
+                        <p className="text-xs text-gray-400">
+                          Ocupa {p.slotSize} slot{p.slotSize !== 1 && "s"} por {p.unidade}
+                        </p>
+
                       </div>
 
                       <div className="flex items-center gap-4">
@@ -297,30 +461,38 @@ export default function MarketplaceSystem() {
         );
       })}
       {selectedProduct && (
-  <QuantityModal
-    isOpen={!!selectedProduct}
-    title={
-      modalType === "buy"
-        ? `Comprar ${selectedProduct.nome}`
-        : `Vender ${selectedProduct.nome}`
-    }
-    price={selectedProduct.preco}
-    max={
-      modalType === "buy"
-        ? getMaxAddable(selectedProduct.id)
-        : getMaxRemovable(selectedProduct.id)
-    }
-    onClose={() => setSelectedProduct(null)}
-    onConfirm={qty => {
-      if (modalType === "buy") {
-        addProduct(selectedProduct.id, qty);
-      } else {
-        removeProduct(selectedProduct.id, qty);
-      }
-      setSelectedProduct(null);
-    }}
-  />
-)}
+        <QuantityModal
+          isOpen={!!selectedProduct}
+          productId={selectedProduct.id}
+          title={
+            modalType === "buy"
+              ? `Comprar ${selectedProduct.nome}`
+              : `Vender ${selectedProduct.nome}`
+          }
+          price={selectedProduct.preco}
+          max={
+            modalType === "buy"
+              ? Math.min(
+                getMaxAddable(selectedProduct.id),
+                Math.floor(
+                  economiaSetores.saldo /
+                  getMarketPrice(selectedProduct.id, economiaSetores)
+                )
+              )
+              : getMaxRemovable(selectedProduct.id)
+          }
+          onClose={() => setSelectedProduct(null)}
+          onConfirm={qty => {
+            if (modalType === "buy") {
+              confirmarCompra(selectedProduct, qty);
+            } else {
+              confirmarVenda(selectedProduct, qty);
+            }
+            setSelectedProduct(null);
+          }}
+        />
+
+      )}
 
     </div>
   );

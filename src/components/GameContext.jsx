@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useEffect, useState } from "react";
 import { productsCatalog } from "../components/ProductCatalog";
 
 const GameContext = createContext();
@@ -15,40 +15,81 @@ export function GameProvider({ children }) {
         aviao: 1,
     });
 
+    const [marketTransactions, setMarketTransactions] = useState([]);
+
+
     /* =========================
        ARMAZENAMENTOS
     ========================= */
-const storageBuildings = [
-  {
-    id: "silo",
-    nome: "Silo",
-    tipo: "dedicado",
-    categoria: "grãos",
-    capacidade: 5000,
-  },
-  {
-    id: "silo",
-    nome: "Silo",
-    tipo: "dedicado",
-    categoria: "grãos",
-    capacidade: 5000,
-  },
-  {
-    id: "hangar",
-    nome: "Hangar",
-    tipo: "dedicado",
-    categoria: "aeronaves",
-    capacidade: 5_000_000,
-  },
-  {
-    id: "armazemVariavel",
-    nome: "Armazém Variável",
-    tipo: "variavel",
-    capacidade: 1000,
-    categoriasPermitidas: ["grãos", "fluidos", "biomassa"],
-  },
-];
+    const storageBuildings = [
+        {
+            id: "silo",
+            nome: "Silo",
+            tipo: "dedicado",
+            categoria: "grãos",
+            capacidade: 5000,
+        },
+        {
+            id: "silo",
+            nome: "Silo",
+            tipo: "dedicado",
+            categoria: "grãos",
+            capacidade: 5000,
+        },
+        {
+            id: "silo",
+            nome: "Silo",
+            tipo: "dedicado",
+            categoria: "grãos",
+            capacidade: 5000,
+        },
+        {
+            id: "hangar",
+            nome: "Hangar",
+            tipo: "dedicado",
+            categoria: "aeronaves",
+            capacidade: 5_000_000,
+        },
+        {
+            id: "câmaraFria",
+            nome: "Câmara Fria",
+            tipo: "dedicado",
+            categoria: "perecíveis",
+            capacidade: 5000,
+        },
+        {
+            id: "armazemVariavel",
+            nome: "Armazém Variável",
+            tipo: "variavel",
+            capacidade: 1000,
+            categoriasPermitidas: ["grãos", "fluidos", "biomassa"],
+        },
+    ];
 
+    function processarTransacoesMercado() {
+        setMarketTransactions(prev =>
+            prev.flatMap(t => {
+                if (t.diasRestantes > 1) {
+                    return [{ ...t, diasRestantes: t.diasRestantes - 1 }];
+                }
+
+                // liquidação
+                if (t.tipo === "buy") {
+                    setStock(s => ({
+                        ...s,
+                        [t.produtoId]: (s[t.produtoId] || 0) + t.quantidade,
+                    }));
+                }
+
+                if (t.tipo === "sell") {
+                    // dinheiro entra aqui depois (Marketplace só agenda)
+                    // saldo é tratado fora do GameContext
+                }
+
+                return [];
+            })
+        );
+    }
 
     /* =========================
        CAPACIDADE DEDICADA
@@ -77,33 +118,41 @@ const storageBuildings = [
     );
 
     function getProductStockValue(productId) {
-    const qty = stock[productId] || 0;
-    const product = productsCatalog[productId];
-    if (!product) return 0;
+        const qty = stock[productId] || 0;
+        const product = productsCatalog[productId];
+        if (!product) return 0;
 
-    const price = product.precoBase || 0; // depois pode ser marketPrice
-    return qty * price;
-}
+        const price = product.precoBase || 0; // depois pode ser marketPrice
+        return qty * price;
+    }
 
 
     /* =========================
        USO POR CATEGORIA
     ========================= */
     const usedSpaceByCategory = useMemo(() => {
-        const result = {};
-
-        Object.entries(stock).forEach(([id, qty]) => {
+        return Object.entries(stock).reduce((acc, [id, qty]) => {
             const product = productsCatalog[id];
-            if (!product) return;
+            if (!product) return acc;
 
-            const used = qty * product.slotSize;
             const categoria = product.categoriaFisica;
+            const slotSize = Number(product.slotSize);
 
-            result[categoria] = (result[categoria] || 0) + used;
-        });
+            if (!categoria || !slotSize || qty <= 0) return acc;
 
-        return result;
+            const slotsUsados = qty * slotSize;
+
+            acc[categoria] = (acc[categoria] || 0) + slotsUsados;
+
+            return acc;
+        }, {});
     }, [stock]);
+
+
+    // useEffect(() => {
+    //   console.table(usedSpaceByCategory);
+    // }, [usedSpaceByCategory]);
+
 
     /* =========================
        USO DO ARMAZÉM VARIÁVEL
@@ -202,26 +251,27 @@ const storageBuildings = [
 
     function getCategoryStorageUI(categoria) {
         const usado = usedSpaceByCategory[categoria] || 0;
-        const capEspecifica =
-            dedicatedCapacityByCategory[categoria] || 0;
+        const capDedicada = dedicatedCapacityByCategory[categoria] || 0;
 
-        const excessoAtual = Math.max(usado - capEspecifica, 0);
-
-        const variavelDisponivel = Math.max(
-            variableStorageTotal - usedVariableStorage,
-            0
-        );
+        const excesso = Math.max(usado - capDedicada, 0);
 
         const aceitaVariavel = variableStorages.some(v =>
             v.categoriasPermitidas.includes(categoria)
         );
 
-        const capMax = aceitaVariavel
-            ? capEspecifica + excessoAtual + variavelDisponivel
-            : capEspecifica;
+        const variavelDisponivel = aceitaVariavel
+            ? Math.max(variableStorageTotal - usedVariableStorage, 0)
+            : 0;
 
-        return { usado, capEspecifica, capMax };
+        const capMax = capDedicada + variavelDisponivel;
+
+        return {
+            usadoSlots: usado,
+            capDedicadaSlots: capDedicada,
+            capMaxSlots: capMax,
+        };
     }
+
 
     const totalStockValue = useMemo(() => {
         let total = 0;
@@ -255,7 +305,7 @@ const storageBuildings = [
                 stock,
                 storageBuildings,
                 totalStockValue,
-                 getProductStockValue,
+                getProductStockValue,
                 addProduct,
                 removeProduct,
                 canAddProduct,
@@ -264,6 +314,10 @@ const storageBuildings = [
                 getCategoryStorageUI,
                 usedVariableStorage,
                 variableStorageTotal,
+                marketTransactions,
+                setMarketTransactions,
+                processarTransacoesMercado,
+
             }}
 
 

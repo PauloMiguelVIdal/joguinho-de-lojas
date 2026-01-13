@@ -45,7 +45,7 @@ carneBovina: {
   icon: "🥩",
   unidade: "kg",
   setor: "comercio",
-  categoriaFisica: "biomassa",
+  categoriaFisica: "perecíveis",
   slotSize: 0.5,
 },
 frango: {
@@ -54,7 +54,7 @@ frango: {
   icon: "🍗",
   unidade: "kg",
   setor: "comercio",
-  categoriaFisica: "biomassa",
+  categoriaFisica: "perecíveis",
   slotSize: 0.4,
 },
 carneSuina: {
@@ -63,7 +63,7 @@ carneSuina: {
   icon: "🥓",
   unidade: "kg",
   setor: "comercio",
-  categoriaFisica: "biomassa",
+  categoriaFisica: "perecíveis",
   slotSize: 0.45,
 },
 linguica: {
@@ -72,7 +72,7 @@ linguica: {
   icon: "🌭",
   unidade: "kg",
   setor: "comercio",
-  categoriaFisica: "biomassa",
+  categoriaFisica: "perecíveis",
   slotSize: 0.3,
 },
 

@@ -1,5 +1,8 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useGame } from "../components/GameContext";
+import { productsCatalog } from "../components/ProductCatalog";
+
 
 
 export default function QuantityModal({
@@ -9,9 +12,15 @@ export default function QuantityModal({
   max,
   price,
   title,
+  productId,
 }) {
+  const product = productsCatalog[productId];
+
   const [qty, setQty] = useState(1);
 
+  const {
+    getMaxAddable,
+  } = useGame();
   useEffect(() => {
     if (isOpen) setQty(1);
   }, [isOpen]);
@@ -69,6 +78,13 @@ export default function QuantityModal({
         <div className="text-center text-sm text-gray-600 mb-4">
           Máximo permitido: <b>{max}</b>
         </div>
+        <p className="text-xs text-gray-500 mt-2">
+          Máx: {getMaxAddable(productId)} {product.unidade}{" "}
+          ({(getMaxAddable(productId) * product.slotSize).toFixed(1)} slots)
+        </p>
+        <p className="text-xs text-gray-500 mt-2">
+          tempo de entrega: 10 dias
+        </p>
 
         <div className="text-center font-bold mb-4">
           Total:{" "}
