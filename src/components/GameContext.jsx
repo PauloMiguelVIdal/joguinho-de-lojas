@@ -17,54 +17,62 @@ export function GameProvider({ children }) {
 
     const [marketTransactions, setMarketTransactions] = useState([]);
 
+    const storageProfiles = {
+  silo: {
+    nome: "Silo",
+    tipo: "dedicado",
+    categoria: "grãos",
+    capacidadePorEdificio: 5000,
+  },
+
+  hangar: {
+    nome: "Hangar",
+    tipo: "dedicado",
+    categoria: "aeronaves",
+    capacidadePorEdificio: 5_000_000,
+  },
+
+  camaraFria: {
+    nome: "Câmara Fria",
+    tipo: "dedicado",
+    categoria: "perecíveis",
+    capacidadePorEdificio: 5000,
+  },
+
+  armazemVariavel: {
+    nome: "Armazém Variável",
+    tipo: "variavel",
+    capacidadePorEdificio: 1000,
+    categoriasPermitidas: ["grãos", "fluidos", "biomassa"],
+  },
+};
+
+
+const storageQuantities = {
+  silo: 3,              // 👈 simulação
+  hangar: 1,
+  camaraFria: 1,
+  armazemVariavel: 1,
+};
+
 
     /* =========================
        ARMAZENAMENTOS
     ========================= */
-    const storageBuildings = [
-        {
-            id: "silo",
-            nome: "Silo",
-            tipo: "dedicado",
-            categoria: "grãos",
-            capacidade: 5000,
-        },
-        {
-            id: "silo",
-            nome: "Silo",
-            tipo: "dedicado",
-            categoria: "grãos",
-            capacidade: 5000,
-        },
-        {
-            id: "silo",
-            nome: "Silo",
-            tipo: "dedicado",
-            categoria: "grãos",
-            capacidade: 5000,
-        },
-        {
-            id: "hangar",
-            nome: "Hangar",
-            tipo: "dedicado",
-            categoria: "aeronaves",
-            capacidade: 5_000_000,
-        },
-        {
-            id: "câmaraFria",
-            nome: "Câmara Fria",
-            tipo: "dedicado",
-            categoria: "perecíveis",
-            capacidade: 5000,
-        },
-        {
-            id: "armazemVariavel",
-            nome: "Armazém Variável",
-            tipo: "variavel",
-            capacidade: 1000,
-            categoriasPermitidas: ["grãos", "fluidos", "biomassa"],
-        },
-    ];
+const storageBuildings = useMemo(() => {
+  return Object.entries(storageProfiles).map(([id, profile]) => {
+    const quantidade = storageQuantities[id] || 0;
+
+    return {
+      id,
+      ...profile,
+      quantidade,
+      capacidadeTotal:
+        quantidade * profile.capacidadePorEdificio,
+    };
+  });
+}, []);
+
 
     function processarTransacoesMercado() {
         setMarketTransactions(prev =>
@@ -94,28 +102,36 @@ export function GameProvider({ children }) {
     /* =========================
        CAPACIDADE DEDICADA
     ========================= */
-    const dedicatedCapacityByCategory = useMemo(() => {
-        const result = {};
-        storageBuildings
-            .filter(b => b.tipo === "dedicado")
-            .forEach(b => {
-                result[b.categoria] =
-                    (result[b.categoria] || 0) + b.capacidade;
-            });
-        return result;
-    }, []);
+const dedicatedCapacityByCategory = useMemo(() => {
+  const result = {};
+
+  storageBuildings
+    .filter(b => b.tipo === "dedicado")
+    .forEach(b => {
+      result[b.categoria] =
+        (result[b.categoria] || 0) + b.capacidadeTotal;
+    });
+
+  return result;
+}, [storageBuildings]);
+
 
     /* =========================
        ARMAZÉM VARIÁVEL
     ========================= */
-    const variableStorages = storageBuildings.filter(
-        b => b.tipo === "variavel"
-    );
+const variableStorages = storageBuildings.filter(
+  b => b.tipo === "variavel" && b.quantidade > 0
+);
 
-    const variableStorageTotal = useMemo(
-        () => variableStorages.reduce((s, b) => s + b.capacidade, 0),
-        []
-    );
+const variableStorageTotal = useMemo(
+  () =>
+    variableStorages.reduce(
+      (s, b) => s + b.capacidadeTotal,
+      0
+    ),
+  [variableStorages]
+);
+
 
     function getProductStockValue(productId) {
         const qty = stock[productId] || 0;

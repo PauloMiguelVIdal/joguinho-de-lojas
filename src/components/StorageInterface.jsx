@@ -98,14 +98,16 @@ const { economiaSetores } = useContext(DadosEconomyGlobalContext);
         </h2>
 
         {categorias.map(cat => {
-          const { usado, capEspecifica, capMax } =
+          const { usadoSlots,
+            capDedicadaSlots,
+            capMaxSlots, } =
             getCategoryStorageUI(cat);
 
-          if (usado === 0 && capEspecifica === 0) return null;
+          if (usadoSlots === 0 && capDedicadaSlots === 0) return null;
 
           const percent =
-            capMax > 0
-              ? Math.min((usado / capMax) * 100, 100)
+            capMaxSlots > 0
+              ? Math.min((usadoSlots / capMaxSlots) * 100, 100)
               : 0;
 
           return (
@@ -113,10 +115,9 @@ const { economiaSetores } = useContext(DadosEconomyGlobalContext);
               <div className="flex justify-between text-sm mb-1">
                 <span className="capitalize">{cat}</span>
                 <span>
-                  {formatNumber(usado)} /{" "}
-                  {formatNumber(capEspecifica)}
-                  {capMax > capEspecifica &&
-                    ` (${formatNumber(capMax)})`}
+                  {usadoSlots.toFixed(1)} slots / {capDedicadaSlots}
+                  {capMaxSlots > capDedicadaSlots &&
+                    ` (máx ${capMaxSlots} slots)`}
                 </span>
               </div>
 
@@ -142,8 +143,7 @@ const { economiaSetores } = useContext(DadosEconomyGlobalContext);
         <div className="mt-4 pt-3 border-t border-zinc-700 text-sm flex justify-between">
           <span>Armazém Variável</span>
           <span>
-            {formatNumber(usedVariableStorage)} /{" "}
-            {formatNumber(variableStorageTotal)}
+         {usedVariableStorage} / {variableStorageTotal}
           </span>
         </div>
       </section>

@@ -55,6 +55,8 @@ import openAudio from "../../public/sounds/openAudio.mp3";
 import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3";
 import MarketplaceSystem from "./MarketInterface.jsx";
 import StorageInterface from "./StorageInterface.jsx";
+import ButcherShopPanel from '../components/ButcherShopPanel.jsx'
+
 
 import {
   Chart as ChartJS,
@@ -1385,7 +1387,8 @@ useEffect(()=>{
               )}
               {ativo === "gerenciamento" && (
                 <div className="w-full h-full">
-                  <MicroModel />
+                  {/* <MicroModel /> */}
+                  <ButcherShopPanel/>
                 </div>
               )}
               {ativo === "mercado" && (

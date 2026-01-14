@@ -130,9 +130,7 @@ function confirmarVenda(produto, quantidade) {
   ]);
 }
 
-useEffect(() => {
-  processarTransacoesMercado();
-}, [dados.dia]);
+useEffect(() => { processarTransacoesMercado();}, [dados.dia]);
 
 
   // function processarTransacoesMercado() {
