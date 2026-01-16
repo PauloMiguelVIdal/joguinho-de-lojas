@@ -4408,7 +4408,7 @@ const ConstrutoraInfraestruturaNegocio = () => {
     },
     {
       id: 24,
-      nome: "Centro de Distribuição Logístico",
+      nome: "Centro de Distribuição Logísticos",
       tipo: "Comercial",
       localizacao: "Guarulhos - SP",
       custo: 38000000,
