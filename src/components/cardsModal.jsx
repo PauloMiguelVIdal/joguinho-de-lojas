@@ -40,7 +40,7 @@ import { useRef } from "react";
 import { createPortal } from "react-dom";
 import useSound from "use-sound";
 import purchaseEdifAudio from "../../public/sounds/purchaseEdifAudio.mp3";
-import { Package } from "lucide-react";
+import estoque from '../../public/outrasImagens/estoque.png'
 
 export const CardModal = ({ index }) => {
   const {
@@ -89,6 +89,15 @@ const edificiosDeArmazenamento = [
   "Centro De Distribuição",
   "Fábrica De Tanque De Armazenamento Biocombustível",
   "Centro De Coleta De Biomassa",
+  "Campo De Estocagem",
+  "Armazém De Materiais Brutos",
+  "Câmara Fria",
+  "Container Modular",
+  "Pátio De Veículos",
+  "Armazém Industrial",
+  "Armazém De Materiais Sensíveis",
+  "Hangar",
+  "Pátio De Mineração",
 ];
 
 
@@ -2221,7 +2230,7 @@ const edificiosDeArmazenamento = [
   dados[setorAtivo].edificios[index].nome
 ) && (
   <div className="bg-roxo absolute top-[0px] right-[0px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] z-10">
-    <img src={Package} alt="" className="w-[60%]" />
+    <img src={estoque} alt="" className="w-[60%]" />
   </div>
 )}
         {/* Frente do Card */}

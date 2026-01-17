@@ -56,7 +56,8 @@ import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3";
 import MarketplaceSystem from "./MarketInterface.jsx";
 import StorageInterface from "./StorageInterface.jsx";
 import ButcherShopPanel from '../components/ButcherShopPanel.jsx'
-
+import mercado from '../../public/outrasImagens/mercado.png'
+import estoque from '../../public/outrasImagens/estoque.png'
 
 import {
   Chart as ChartJS,
@@ -346,7 +347,7 @@ useEffect(()=>{
     {
       id: "estoque",
       corClasse: "bg-[#6A00FF]",
-      img: grafico,
+      img: estoque,
       cor1: "#6A00FF ",
       cor2: "#6A00FF ",
       cor3: "#6A00FF ",
@@ -355,7 +356,7 @@ useEffect(()=>{
     {
       id: "mercado",
       corClasse: "bg-[#6A00FF]",
-      img: grafico,
+      img: mercado,
       cor1: "#6A00FF ",
       cor2: "#6A00FF ",
       cor3: "#6A00FF ",
