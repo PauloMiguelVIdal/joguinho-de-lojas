@@ -56,9 +56,11 @@ import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3";
 import MarketplaceSystem from "./MarketInterface.jsx";
 import StorageInterface from "./StorageInterface.jsx";
 import ButcherShopPanel from '../components/ButcherShopPanel.jsx'
+import FazendaVacasPanel from "./FazendaDeVacas.jsx";
 import mercado from '../../public/outrasImagens/mercado.png'
 import estoque from '../../public/outrasImagens/estoque.png'
-
+import ProductionQueueCard from "./ProductionQueueCard.jsx";
+import ProductionQueuePanel from "./ProductionQueuePanel.jsx";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -1389,7 +1391,10 @@ useEffect(()=>{
               {ativo === "gerenciamento" && (
                 <div className="w-full h-full">
                   {/* <MicroModel /> */}
-                  <ButcherShopPanel/>
+                  {/* <ButcherShopPanel/> */}
+                  <ProductionQueueCard/>
+                  <ProductionQueuePanel/>
+                  <FazendaVacasPanel/>
                 </div>
               )}
               {ativo === "mercado" && (

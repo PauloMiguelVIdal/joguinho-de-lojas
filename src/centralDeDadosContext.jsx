@@ -50,6 +50,16 @@ const CentraldeDadosProvider = ({ children }) => {
       head: "Construa um Imóvel Pequeno",
       content: "Para que você construa um imóvel pequeno primeiramente é necessário que vc compre um terreno, após isso construa o imóvel peequeno em seu terreno",
     },
+modalExcesso: {
+  estadoModal: false,
+    confirmarAvanco: false,
+  head: "Armazenamento insuficiente",
+  content:
+    "Para que você possa passar o dia é necessário ou vender o excesso de produção ou aumentar a sua capacidade de armazenamento atual",
+  quantidadeExcesso: 0,
+  ofertaExcesso: 0,
+},
+
     modalAlert: {
       estadoModal: false,
       head: "",
@@ -242,11 +252,11 @@ const CentraldeDadosProvider = ({ children }) => {
     licencas: {
       agricultura: [
         "Licença Agricultura Global",
-        "Licença De Comércios Agrícolas",
         "Licença De Armazenamento Agrícola",
         "Licença De Fazendas De Animais",
-        "Licença De Áreas Especiais",
         "Licença De Outras Plantações",
+        "Licença De Madeira",
+        "Licença De Comércios Agrícolas",
       ],
       tecnologia: [],
       industria: [],
@@ -270,20 +280,32 @@ const CentraldeDadosProvider = ({ children }) => {
           valor: 57000,
           edifíciosLiberados: [
             "Plantação De Grãos",
-            "Plantação De Vegetais",
             "Fazenda Administrativa",
-            "Pomares",
+            "Armazém",
           ],
           status: false,
         },
         {
-          nome: "Licença De Comércios Agrícolas",
-
-          desc: "Permite a criação de centros de distribuição e cooperativas para otimizar a comercialização de produtos agrícolas entre regiões.",
-          valor: 750000,
+          nome: "Licença De Base Agrícola",
+          nomeEditável: "Licença De Base Agrícola",
+          desc: "Habilita a liberação de edifícios base do ecossistema agrícola.",
+          valor: 78000,
           edifíciosLiberados: [
-            "Cooperativa Agrícola",
-            "Centro De Comércio De Plantações",
+            "Plantação De Vegetais",
+            "Pomares",
+            "Silo",
+          ],
+          status: false,
+        },
+        {
+          nome: "Licença De Outras Plantações",
+          nomeEditável: "Licença De Outras Plantações",
+          desc: "Permite o cultivo de espécies vegetais especiais com alto valor agregado para indústrias específicas.",
+          valor: 44000,
+          edifíciosLiberados: [
+            "Plantação De Eucalipto",
+            "Plantação De Plantas Medicinais",
+            "Campo De Estocagem"
           ],
           status: false,
         },
@@ -300,37 +322,37 @@ const CentraldeDadosProvider = ({ children }) => {
           status: false,
         },
         {
-          nome: "Licença De Armazenamentos Agrícolas",
-          nomeEditável: "Licença De Armazenamentos Agrícolas",
-          desc: "Concede permissão para construção de unidades de armazenamento especializadas para grãos e insumos agrícolas.",
-          valor: 44000,
-          edifíciosLiberados: [
-            "Armazém",
-            "Silo",
-            "Depósito De Resíduos Orgânicos",
-          ],
-          status: false,
-        },
-        {
-          nome: "Licença De Áreas Especiais",
-          nomeEditável: "Licença De Áreas Especiais",
-          desc: "Autoriza a exploração sustentável de recursos naturais como madeira e minérios em áreas designadas.",
+          nome: "Licença De Madeira",
+          nomeEditável: "Licença De Madeira",
+          desc: "Autoriza a exploração sustentável de recursos naturais como madeira e ceulose em áreas designadas.",
           valor: 140000,
           edifíciosLiberados: [
             "Madeireira",
             "Área Florestal",
-            "Terreno De Mineração",
+            "Armazém De Materiais Brutos",
           ],
           status: false,
         },
         {
-          nome: "Licença De Outras Plantações",
-          nomeEditável: "Licença De Outras Plantações",
-          desc: "Permite o cultivo de espécies vegetais especiais com alto valor agregado para indústrias específicas.",
-          valor: 44000,
+          nome: "Licença De Minérios Base",
+          nomeEditável: "Licença De Madeira",
+          desc: "Autoriza a exploração sustentável de recursos naturais como madeira e ceulose em áreas designadas.",
+          valor: 140000,
           edifíciosLiberados: [
-            "Plantação De Eucalipto",
-            "Plantação De Plantas Medicinais",
+            "Terreno De Mineração",
+            "Pátio De Mineração",
+            "Depósito De Resíduos Orgânicos",
+          ],
+          status: false,
+        },
+
+        {
+          nome: "Licença De Comércios Agrícolas",
+          desc: "Permite a criação de centros de distribuição e cooperativas para otimizar a comercialização de produtos agrícolas entre regiões.",
+          valor: 750000,
+          edifíciosLiberados: [
+            "Cooperativa Agrícola",
+            "Centro De Comércio De Plantações",
           ],
           status: false,
         },
@@ -719,561 +741,13 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           },
         },
-        {
-          nome: "Campo De Estocagem",
-          nomeEditável: "Loja De Eletrônicos",
-          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
-          licençaLiberado: {
-            licença: "Licença Global De Agricultura",
-            liberado: false,
-          },
-          custoConstrucao: 80000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1600,
-            impostoFixo: 22000,
-            impostoSobreFatu: 0.1,
-            rent: 12,
-          },
 
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-          RecebeMelhoraEficiencia: [],
-          recursoDeConstrução: [],
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-        {
-          nome: "Armazém De Materiais Brutos",
-          nomeEditável: "Loja De Eletrônicos",
-          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
-          licençaLiberado: {
-            licença: "Licença Global De Agricultura",
-            liberado: false,
-          },
-          custoConstrucao: 80000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1600,
-            impostoFixo: 22000,
-            impostoSobreFatu: 0.1,
-            rent: 12,
-          },
-
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-          RecebeMelhoraEficiencia: [],
-          recursoDeConstrução: [],
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-        {
-          nome: "Câmara Fria",
-          nomeEditável: "Loja De Eletrônicos",
-          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
-          licençaLiberado: {
-            licença: "Licença Global De Agricultura",
-            liberado: false,
-          },
-          custoConstrucao: 80000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1600,
-            impostoFixo: 22000,
-            impostoSobreFatu: 0.1,
-            rent: 12,
-          },
-
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-          RecebeMelhoraEficiencia: [],
-          recursoDeConstrução: [],
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-        {
-          nome: "Container Modular",
-          nomeEditável: "Loja De Eletrônicos",
-          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
-          licençaLiberado: {
-            licença: "Licença Global De Agricultura",
-            liberado: false,
-          },
-          custoConstrucao: 80000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1600,
-            impostoFixo: 22000,
-            impostoSobreFatu: 0.1,
-            rent: 12,
-          },
-
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-          RecebeMelhoraEficiencia: [],
-          recursoDeConstrução: [],
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-        {
-          nome: "Pátio De Veículos",
-          nomeEditável: "Loja De Eletrônicos",
-          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
-          licençaLiberado: {
-            licença: "Licença Global De Agricultura",
-            liberado: false,
-          },
-          custoConstrucao: 80000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1600,
-            impostoFixo: 22000,
-            impostoSobreFatu: 0.1,
-            rent: 12,
-          },
-
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-          RecebeMelhoraEficiencia: [],
-          recursoDeConstrução: [],
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-        {
-          nome: "Armazém Industrial",
-          nomeEditável: "Loja De Eletrônicos",
-          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
-          licençaLiberado: {
-            licença: "Licença Global De Agricultura",
-            liberado: false,
-          },
-          custoConstrucao: 80000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1600,
-            impostoFixo: 22000,
-            impostoSobreFatu: 0.1,
-            rent: 12,
-          },
-
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-          RecebeMelhoraEficiencia: [],
-          recursoDeConstrução: [],
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-        {
-          nome: "Armazém De Materiais Sensíveis",
-          nomeEditável: "Loja De Eletrônicos",
-          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
-          licençaLiberado: {
-            licença: "Licença Global De Agricultura",
-            liberado: false,
-          },
-          custoConstrucao: 80000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1600,
-            impostoFixo: 22000,
-            impostoSobreFatu: 0.1,
-            rent: 12,
-          },
-
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-          RecebeMelhoraEficiencia: [],
-          recursoDeConstrução: [],
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-        {
-          nome: "Hangar",
-          nomeEditável: "Loja De Eletrônicos",
-          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
-          licençaLiberado: {
-            licença: "Licença Global De Agricultura",
-            liberado: false,
-          },
-          custoConstrucao: 80000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1600,
-            impostoFixo: 22000,
-            impostoSobreFatu: 0.1,
-            rent: 12,
-          },
-
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-          RecebeMelhoraEficiencia: [],
-          recursoDeConstrução: [],
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-        {
-          nome: "Pátio De Mineração",
-          nomeEditável: "Loja De Eletrônicos",
-          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
-          licençaLiberado: {
-            licença: "Licença Global De Agricultura",
-            liberado: false,
-          },
-          custoConstrucao: 80000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1600,
-            impostoFixo: 22000,
-            impostoSobreFatu: 0.1,
-            rent: 12,
-          },
-
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-          RecebeMelhoraEficiencia: [],
-          recursoDeConstrução: [],
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
         {
           nome: "Plantação De Vegetais",
           nomeEditável: "Plantação De Vegetais",
           desc: "Elemento essencial do setor agrícola. Representa variedade e frescor.",
           licençaLiberado: {
-            licença: "Licença Global De Agricultura",
+            licença: "Licença De Base Agrícola",
             liberado: false,
           },
           custoConstrucao: 60000,
@@ -1451,7 +925,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Pomares",
           desc: "Diversifica a produção rural. Dá suporte à indústria e ao comércio local.",
           licençaLiberado: {
-            licença: "Licença Global De Agricultura",
+            licença: "Licença De Base Agrícola",
             liberado: false,
           },
           custoConstrucao: 40000,
@@ -2066,7 +1540,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Armazém",
           desc: "Espaço de armazenamento geral. Dá suporte a múltiplos setores produtivos.",
           licençaLiberado: {
-            licença: "Licença De Armazenamentos Agrícolas",
+            licença: "Licença Agricultura Global",
             liberado: false,
           },
           custoConstrucao: 0,
@@ -2176,7 +1650,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Silo",
           desc: "Armazena grãos. Aumenta a eficiência e o valor das plantações ao redor.",
           licençaLiberado: {
-            licença: "Licença De Armazenamentos Agrícolas",
+            licença: "Licença De Base Agrícola",
             liberado: false,
           },
           custoConstrucao: 40000,
@@ -2273,176 +1747,7 @@ const CentraldeDadosProvider = ({ children }) => {
           },
         },
 
-        {
-          nome: "Depósito De Resíduos Orgânicos",
-          nomeEditável: "Depósito De Resíduos Orgânicos",
-          desc: "Processa sobras naturais. Melhora a rentabilidade de fazendas e plantações.",
-          licençaLiberado: {
-            licença: "Licença De Armazenamentos Agrícolas",
-            liberado: false,
-          },
-          custoConstrucao: 40000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: -704,
-            impostoFixo: 480,
-            impostoSobreFatu: 0.07,
-            rent: 32,
-          },
 
-          lojasNecessarias: {
-            terrenos: 2,
-            lojasP: 0,
-            lojasM: 0,
-            lojasG: 0,
-          },
-          construçõesNecessárias: ["Silo"],
-          licençasNecessárias: [],
-          melhoraEficiencia: [
-            "Usina De Biomassa",
-            "Refinaria De Biocombustíveis",
-            "Fábrica De Fertilizantes",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Fábrica De Fertilizantes",
-              redCusto: { nível1: 1, nível2: 1, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Plantação De Grãos",
-              redCusto: { nível1: 1, nível2: 2, nível3: 4 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: { nível1: 1, nível2: 2, nível3: 4 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Pomares",
-              redCusto: { nível1: 1, nível2: 2, nível3: 4 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Plantação De Eucalipto",
-              redCusto: { nível1: 2, nível2: 3, nível3: 6 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Plantação De Plantas Medicinais",
-              redCusto: { nível1: 1, nível2: 2, nível3: 4 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Usina Termelétrica A Biocombustíveis",
-              redCusto: { nível1: 2, nível2: 4, nível3: 5 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Centro De Coleta De Biomassa",
-              redCusto: { nível1: 2, nível2: 3, nível3: 4 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: { nível1: 1, nível2: 1, nível3: 0 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Plantação De Grãos",
-              redCusto: { nível1: 2, nível2: 3, nível3: 4 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: { nível1: 2, nível2: 3, nível3: 4 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Pomares",
-              redCusto: { nível1: 2, nível2: 3, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Fazenda De Vacas",
-              redCusto: { nível1: 5, nível2: 7, nível3: 9 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Granja De Aves",
-              redCusto: { nível1: 3, nível2: 4, nível3: 5 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Criação De Ovinos",
-              redCusto: { nível1: 3, nível2: 4, nível3: 5 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Plantação De Eucalipto",
-              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Plantação De Plantas Medicinais",
-              redCusto: { nível1: 1, nível2: 2, nível3: 2 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Fazenda Administrativa",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 5, nível2: 10, nível3: 16 },
-            },
-            {
-              nome: "Centro De Pesquisa Química",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 25, nível2: 35, nível3: 80 },
-            },
-            {
-              nome: "Centro De Pesquisa Agrícola",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 20, nível2: 25, nível3: 54 },
-            },
-            {
-              nome: "Construtora De Pequenas Obras",
-              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Armazém Logístico",
-              redCusto: { nível1: 1, nível2: 2, nível3: 4 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-          ],
-
-          recursoDeConstrução: [],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
 
         {
           nome: "Fazenda De Vacas",
@@ -2903,7 +2208,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Madeireira",
           desc: "Transforma madeira em insumo. Essencial para fábricas e construção.",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença De Madeira",
             liberado: false,
           },
           custoConstrucao: 100000,
@@ -3000,7 +2305,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Área Florestal",
           desc: "Fonte sustentável de madeira. Suporte contínuo para a produção.",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença De Madeira",
             liberado: false,
           },
           custoConstrucao: 40000,
@@ -3090,13 +2395,73 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           },
         },
+        {
+          nome: "Armazém De Materiais Brutos",
+          nomeEditável: "Loja De Eletrônicos",
+          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
+          licençaLiberado: {
+            licença: "Licença De Madeira",
+            liberado: false,
+          },
+          custoConstrucao: 80000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1600,
+            impostoFixo: 22000,
+            impostoSobreFatu: 0.1,
+            rent: 12,
+          },
 
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Rações",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 },
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
         {
           nome: "Terreno De Mineração",
           nomeEditável: "Terreno De Mineração",
           desc: "Origem de minérios. Base essencial para fábricas e tecnologias.",
           licençaLiberado: {
-            licença: "Licença De Áreas Especiais",
+            licença: "Licença De Minérios Base",
             liberado: false,
           },
           custoConstrucao: 400000,
@@ -3187,7 +2552,237 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           },
         },
+        {
+          nome: "Pátio De Mineração",
+          nomeEditável: "Loja De Eletrônicos",
+          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
+          licençaLiberado: {
+            licença: "Licença De Minérios Base",
+            liberado: false,
+          },
+          custoConstrucao: 80000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1600,
+            impostoFixo: 22000,
+            impostoSobreFatu: 0.1,
+            rent: 12,
+          },
 
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Rações",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 },
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+        {
+          nome: "Depósito De Resíduos Orgânicos",
+          nomeEditável: "Depósito De Resíduos Orgânicos",
+          desc: "Processa sobras naturais. Melhora a rentabilidade de fazendas e plantações.",
+          licençaLiberado: {
+            licença: "Licença De Minérios Base",
+            liberado: false,
+          },
+          custoConstrucao: 40000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: -704,
+            impostoFixo: 480,
+            impostoSobreFatu: 0.07,
+            rent: 32,
+          },
+
+          lojasNecessarias: {
+            terrenos: 2,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 0,
+          },
+          construçõesNecessárias: ["Silo"],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Usina De Biomassa",
+            "Refinaria De Biocombustíveis",
+            "Fábrica De Fertilizantes",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Fábrica De Fertilizantes",
+              redCusto: { nível1: 1, nível2: 1, nível3: 3 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Plantação De Grãos",
+              redCusto: { nível1: 1, nível2: 2, nível3: 4 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: { nível1: 1, nível2: 2, nível3: 4 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Pomares",
+              redCusto: { nível1: 1, nível2: 2, nível3: 4 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Plantação De Eucalipto",
+              redCusto: { nível1: 2, nível2: 3, nível3: 6 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Plantação De Plantas Medicinais",
+              redCusto: { nível1: 1, nível2: 2, nível3: 4 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Usina Termelétrica A Biocombustíveis",
+              redCusto: { nível1: 2, nível2: 4, nível3: 5 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Centro De Coleta De Biomassa",
+              redCusto: { nível1: 2, nível2: 3, nível3: 4 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: { nível1: 1, nível2: 1, nível3: 0 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Plantação De Grãos",
+              redCusto: { nível1: 2, nível2: 3, nível3: 4 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: { nível1: 2, nível2: 3, nível3: 4 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Pomares",
+              redCusto: { nível1: 2, nível2: 3, nível3: 3 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Fazenda De Vacas",
+              redCusto: { nível1: 5, nível2: 7, nível3: 9 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Granja De Aves",
+              redCusto: { nível1: 3, nível2: 4, nível3: 5 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Criação De Ovinos",
+              redCusto: { nível1: 3, nível2: 4, nível3: 5 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Plantação De Eucalipto",
+              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Plantação De Plantas Medicinais",
+              redCusto: { nível1: 1, nível2: 2, nível3: 2 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Fazenda Administrativa",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 5, nível2: 10, nível3: 16 },
+            },
+            {
+              nome: "Centro De Pesquisa Química",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 25, nível2: 35, nível3: 80 },
+            },
+            {
+              nome: "Centro De Pesquisa Agrícola",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 20, nível2: 25, nível3: 54 },
+            },
+            {
+              nome: "Construtora De Pequenas Obras",
+              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Armazém Logístico",
+              redCusto: { nível1: 1, nível2: 2, nível3: 4 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+          ],
+
+          recursoDeConstrução: [],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
         {
           nome: "Plantação De Eucalipto",
           nomeEditável: "Plantação De Eucalipto",
@@ -3449,6 +3044,67 @@ const CentraldeDadosProvider = ({ children }) => {
           ],
 
           recursoDeConstrução: [],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+        {
+          nome: "Campo De Estocagem",
+          nomeEditável: "Loja De Eletrônicos",
+          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
+          licençaLiberado: {
+            licença: "Licença De Outras Plantações",
+            liberado: false,
+          },
+          custoConstrucao: 80000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1600,
+            impostoFixo: 22000,
+            impostoSobreFatu: 0.1,
+            rent: 12,
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Rações",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 },
+          ],
           powerUp: {
             redCustoAtual: 0,
             aumFatuAtual: 0,
@@ -8300,6 +7956,17 @@ const CentraldeDadosProvider = ({ children }) => {
           status: false,
         },
         {
+          nome: "Licença De Armazenamento Indústrial",
+          desc: "Habilita o armazenamento de materias e produtos indústriais.",
+          valor: 160000,
+          edifíciosLiberados: [
+            "Container Modular",
+            "Pátio De Veículos",
+            "Armazém Industrial",
+          ],
+          status: false,
+        },
+        {
           nome: "Licença De Fábrica textil",
           desc: "Habilita a produção de têxteis e vestuário, conectando a agricultura à indústria têxtil.",
           valor: 160000,
@@ -9170,6 +8837,189 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 },
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+        {
+          nome: "Container Modular",
+          nomeEditável: "Loja De Eletrônicos",
+          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
+          licençaLiberado: {
+            licença: "Armazém Industrial",
+            liberado: false,
+          },
+          custoConstrucao: 80000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1600,
+            impostoFixo: 22000,
+            impostoSobreFatu: 0.1,
+            rent: 12,
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Rações",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 },
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+        {
+          nome: "Pátio De Veículos",
+          nomeEditável: "Loja De Eletrônicos",
+          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
+          licençaLiberado: {
+            licença: "Licença De Armazenamento Indústrial",
+            liberado: false,
+          },
+          custoConstrucao: 80000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1600,
+            impostoFixo: 22000,
+            impostoSobreFatu: 0.1,
+            rent: 12,
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Rações",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 },
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+        {
+          nome: "Armazém Industrial",
+          nomeEditável: "Loja De Eletrônicos",
+          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
+          licençaLiberado: {
+            licença: "Licença De Armazenamento Indústrial",
+            liberado: false,
+          },
+          custoConstrucao: 80000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1600,
+            impostoFixo: 22000,
+            impostoSobreFatu: 0.1,
+            rent: 12,
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Rações",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [],
           recursoDeConstrução: [],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 },
@@ -15373,7 +15223,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nome: "Licença De Comércio Local",
           desc: "Autoriza operações de comércio varejista de alimentos e produtos básicos para suprir necessidades diárias da população.",
           valor: 18000,
-          edifíciosLiberados: ["Padaria", "Açougue"],
+          edifíciosLiberados: ["Padaria", "Açougue", "Câmara Fria"],
           status: false,
         },
         {
@@ -16249,6 +16099,67 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 },
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+        {
+          nome: "Câmara Fria",
+          nomeEditável: "Loja De Eletrônicos",
+          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
+          licençaLiberado: {
+            licença: "Licença De Comércio Local",
+            liberado: false,
+          },
+          custoConstrucao: 80000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1600,
+            impostoFixo: 22000,
+            impostoSobreFatu: 0.1,
+            rent: 12,
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Rações",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [],
           recursoDeConstrução: [],
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 },
@@ -18909,12 +18820,20 @@ const CentraldeDadosProvider = ({ children }) => {
           status: false,
         },
         {
+          nome: "Licença Comercial E Residencial",
+          nomeEditável: "Licença Comercial E Residencial",
+          desc: "Permite a construção de grandes empreendimentos mistos que combinam espaços comerciais e residenciais de alto padrão.",
+          valor: 1800000,
+          edifíciosLiberados: ["Construtora De Infraestruturas", "Mega Mercado", "Prédio De Alto Padrão"],
+          status: false,
+        },
+        {
           nome: "Licença De Grandes Infraestruturas",
           nomeEditável: "Licença De Grandes Infraestruturas",
           desc: "Autoriza a construção de obras de infraestrutura estratégica como aeroportos e portos, fundamentais para o transporte regional e nacional.",
           valor: 26000000,
           edifíciosLiberados: [
-            "Construtora De Infraestruturas",
+            "Hangar",
             "Aeroporto",
             "Porto",
           ],
@@ -18930,14 +18849,6 @@ const CentraldeDadosProvider = ({ children }) => {
             "Mineradora Radioativa",
             "Mineradora De Pedras Preciosas",
           ],
-          status: false,
-        },
-        {
-          nome: "Licença Comercial E Residencial",
-          nomeEditável: "Licença Comercial E Residencial",
-          desc: "Permite a construção de grandes empreendimentos mistos que combinam espaços comerciais e residenciais de alto padrão.",
-          valor: 1800000,
-          edifíciosLiberados: ["Mega Mercado", "Prédio De Alto Padrão"],
           status: false,
         },
         {
@@ -20727,7 +20638,7 @@ const CentraldeDadosProvider = ({ children }) => {
           nomeEditável: "Construtora De Infraestruturas",
           desc: "Desenvolve grandes obras de infraestrutura urbana.",
           licençaLiberado: {
-            licença: "Licença De Grandes Infraestruturas",
+            licença: "Licença Comercial E Residencial",
             liberado: false,
           },
           custoConstrucao: 2000000,
@@ -20965,6 +20876,67 @@ const CentraldeDadosProvider = ({ children }) => {
             nível3: {
               status: true,
               quantidadeMínima: 30,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+        {
+          nome: "Hangar",
+          nomeEditável: "Hangar",
+          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
+          licençaLiberado: {
+            licença: "Licença De Grandes Infraestruturas",
+            liberado: false,
+          },
+          custoConstrucao: 80000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1600,
+            impostoFixo: 22000,
+            impostoSobreFatu: 0.1,
+            rent: 12,
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Rações",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 },
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
               redCusto: 0,
               aumFatu: 0,
             },
@@ -22524,6 +22496,7 @@ const CentraldeDadosProvider = ({ children }) => {
           desc: "Concede autorização para construção e operação de usinas nucleares de fissão e fusão, representando o ápice da tecnologia energética no jogo.",
           valor: 100000000,
           edifíciosLiberados: [
+            "Armazém De Materiais Sensíveis",
             "Reator Nuclear Convencional",
             "Usina De Fusão Nuclear",
           ],
@@ -26439,6 +26412,67 @@ const CentraldeDadosProvider = ({ children }) => {
             nível3: {
               status: true,
               quantidadeMínima: 30,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+        {
+          nome: "Armazém De Materiais Sensíveis",
+          nomeEditável: "Loja De Eletrônicos",
+          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
+          licençaLiberado: {
+            licença: "Licença De Usinas Nucleares",
+            liberado: false,
+          },
+          custoConstrucao: 80000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1600,
+            impostoFixo: 22000,
+            impostoSobreFatu: 0.1,
+            rent: 12,
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Rações",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 },
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
               redCusto: 0,
               aumFatu: 0,
             },

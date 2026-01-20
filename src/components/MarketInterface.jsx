@@ -21,7 +21,6 @@ const {
   addProduct,
   removeProduct,
   canAddProduct,
-  processarTransacoesMercado,
   marketTransactions,
   setMarketTransactions,
   getMaxAddable,
@@ -130,7 +129,7 @@ function confirmarVenda(produto, quantidade) {
   ]);
 }
 
-useEffect(() => { processarTransacoesMercado();}, [dados.dia]);
+
 
 
   // function processarTransacoesMercado() {

@@ -33,6 +33,7 @@ import UpgradeCards from "./components/UpgradeCards.jsx";
 import StorageMonolithDemo from "./components/StorageInterface.jsx";
 import MarketplaceSystem from "./components/MarketInterface.jsx";
 import { MercadoGlobal } from "./components/TablePrice.jsx";
+import ModalExcesso from "./components/ModalExcesso.jsx";
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
@@ -53,6 +54,7 @@ function Interface() {
         // <MercadoGlobal/>
         <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-around items-center">
             <NewStage/>
+            <ModalExcesso/>
             <Achievements />
             <CardSpecials />
             <InputName />

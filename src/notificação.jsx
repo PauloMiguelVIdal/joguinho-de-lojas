@@ -286,6 +286,45 @@ export default function Notificação() {
       </div>
     );
   }
+  //  else if (dados.modalExcesso.estadoModal) {
+  //  return (
+  //   <div className="flex justify-center items-center z-50 bg-black/95 w-screen h-screen fixed select-none">
+  //     <motion.div
+  //       initial={{ opacity: 0, scale: 0.8 }}
+  //       animate={{ opacity: 1, scale: 1 }}
+  //       exit={{ opacity: 0, scale: 0.8 }}
+  //       transition={{ duration: 0.3, ease: "easeOut" }}
+  //     >
+  //       <div className="w-[45vw] min-h-[40vh] bg-[#350973] p-4 rounded-[20px] relative">
+  //         <h1 className="text-center text-white text-[30px] fonteBold">
+  //           {modal.head}
+  //         </h1>
+
+  //         <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo rounded-[5px] m-auto my-3" />
+
+  //         <h2 className="text-white opacity-[70%] text-[22px] fonteLight px-4">
+  //           {modal.content}
+  //         </h2>
+
+  //         {/* Área dinâmica */}
+  //         {modal.tipo === "excesso" && (
+  //           <div className="text-white px-4 mt-4">
+  //             <p>Excesso: {modal.extra.quantidadeExcesso}</p>
+  //             <p>Oferta: ${modal.extra.ofertaExcesso}</p>
+  //           </div>
+  //         )}
+
+  //         <button
+  //           className="absolute right-4 bottom-4 text-white bg-laranja px-4 py-2 rounded-[40px] fonteBold"
+  //           onClick={fecharModal}
+  //         >
+  //           Entendido
+  //         </button>
+  //       </div>
+  //     </motion.div>
+  //   </div>
+  // );
+  // }
   if (dados.modalInicio.estadoModal) {
     return (
       <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">

@@ -6,7 +6,7 @@ milho: {
   icon: "🌽",
   unidade: "sacas",
   setor: "agricultura",
-  categoriaFisica: "grãos",
+categoriaFisica: "agrícolas secos",
   slotSize: 1,
 },
 soja: {
@@ -15,7 +15,7 @@ soja: {
   icon: "🫘",
   unidade: "sacas",
   setor: "agricultura",
-  categoriaFisica: "grãos",
+categoriaFisica: "agrícolas secos",
   slotSize: 1,
 },
 trigo: {
@@ -24,7 +24,7 @@ trigo: {
   icon: "🌾",
   unidade: "sacas",
   setor: "agricultura",
-  categoriaFisica: "grãos",
+categoriaFisica: "agrícolas secos",
   slotSize: 1,
 },
 cevada: {
@@ -33,9 +33,51 @@ cevada: {
   icon: "🌱",
   unidade: "sacas",
   setor: "agricultura",
-  categoriaFisica: "grãos",
+categoriaFisica: "agrícolas secos",
   slotSize: 1,
 },
+
+
+
+
+
+
+vaca: {
+  id: "vaca",
+  nome: "Vaca",
+  icon: "🌱",
+  unidade: "unidades",
+  setor: "agricultura",
+  categoriaFisica: "animais",
+  slotSize: 5,
+},
+
+
+couro: {
+  id: "couro",
+  nome: "Couro",
+  icon: "🌱",
+  unidade: "kg",
+  setor: "agricultura",
+  categoriaFisica: "produtos manufaturados",
+  slotSize: 20,
+},
+
+
+racaoDeVacas: {
+  id: "racaoDeVacas",
+  nome: "Ração De Vacas",
+  icon: "🌱",
+  unidade: "sacas",
+  setor: "agricultura",
+  categoriaFisica: "biomassa / orgânicos",
+  slotSize: 0.1,
+},
+
+
+
+
+
 
 
   // 🥩 COMÉRCIO
@@ -46,7 +88,7 @@ carneBovina: {
   unidade: "kg",
   setor: "comercio",
   categoriaFisica: "perecíveis",
-  slotSize: 0.5,
+  slotSize: 0.1,
 },
 frango: {
   id: "frango",
@@ -84,7 +126,7 @@ veiculoPopular: {
   icon: "🚗",
   unidade: "unidades",
   setor: "industria",
-  categoriaFisica: "industriais",
+  categoriaFisica: "veículos",
   slotSize: 800,
 },
 sedan: {
@@ -93,7 +135,7 @@ sedan: {
   icon: "🚙",
   unidade: "unidades",
   setor: "industria",
-  categoriaFisica: "industriais",
+  categoriaFisica: "veículos",
   slotSize: 900,
 },
 suv: {
@@ -102,7 +144,7 @@ suv: {
   icon: "🚐",
   unidade: "unidades",
   setor: "industria",
-  categoriaFisica: "industriais",
+  categoriaFisica: "veículos",
   slotSize: 1100,
 },
 van: {
@@ -111,7 +153,7 @@ van: {
   icon: "🚚",
   unidade: "unidades",
   setor: "industria",
-  categoriaFisica: "industriais",
+  categoriaFisica: "veículos",
   slotSize: 1200,
 },
 
@@ -123,7 +165,7 @@ ferro: {
   icon: "⚫",
   unidade: "toneladas",
   setor: "industria",
-  categoriaFisica: "grãos",
+categoriaFisica: "minério",
   slotSize: 5,
 },
 
@@ -134,7 +176,7 @@ smartphoneBasico: {
   icon: "📱",
   unidade: "unidades",
   setor: "tecnologia",
-  categoriaFisica: "industriais",
+  categoriaFisica: "bens de alto valor",
   slotSize: 2,
 },
 
@@ -146,8 +188,67 @@ painelSolarIndustrial: {
   icon: "🏭",
   unidade: "unidades",
   setor: "energia",
-  categoriaFisica: "industriais",
+  categoriaFisica: "componentes industriais",
   slotSize: 200,
+},
+
+minerioUranio: {
+  id: "minerioUranio",
+  nome: "minerioUranio",
+  icon: "🏭",
+  unidade: "unidades",
+  setor: "energia",
+  categoriaFisica: "materiais sensíveis",
+  slotSize: 200,
+},
+
+combustivelCarro: {
+  id: "combustivelCarro",
+  nome: "combustivelCarro",
+  icon: "🏭",
+  unidade: "L",
+  setor: "comercio",
+  categoriaFisica: "fluidos",
+  slotSize: 3,
+},
+
+processadorSimples: {
+  id: "portaCarro",
+  nome: "portaCarro",
+  icon: "🏭",
+  unidade: "unidades",
+  setor: "industria",
+  categoriaFisica: "componentes eletrônicos",
+  slotSize: 3,
+},
+
+portaCarro: {
+  id: "portaCarro",
+  nome: "portaCarro",
+  icon: "🏭",
+  unidade: "kg",
+  setor: "industria",
+  categoriaFisica: "componentes industriais",
+  slotSize: 10,
+},
+
+softwareSimples: {
+  id: "softwareSimples",
+  nome: "softwareSimples",
+  icon: "🏭",
+  unidade: "gb",
+  setor: "tecnologia",
+  categoriaFisica: "produtos digitais",
+  slotSize: 100,
+},
+relogioLuxo: {
+  id: "relogioLuxo",
+  nome: "relogioLuxo",
+  icon: "🏭",
+  unidade: "gb",
+  setor: "comercio",
+  categoriaFisica: "bens de alto valor",
+  slotSize: 5,
 },
 
 };

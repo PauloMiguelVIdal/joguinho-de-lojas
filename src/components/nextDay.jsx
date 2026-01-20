@@ -9,7 +9,9 @@ import useSound from "use-sound";
 import nextDayAudio from "../../public/sounds/nextDayAudio.mp3";
 import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 import { useHotkeys } from "react-hotkeys-hook";
-import { use } from "react";
+import { useGame } from "../components/GameContext";
+import { productsCatalog } from "./ProductCatalog";
+
 export function NextDay() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
@@ -32,7 +34,13 @@ export function NextDay() {
       border="1px solid #350973"
     />
   );
+  const {
 
+    checkProductionOverflow,
+    processarTransacoesMercado,
+    processarContratosVenda,
+    processProductions
+  } = useGame();
 
   const [buttonNextDayAudio] = useSound(nextDayAudio);
   const [buttonNewStageAudio] = useSound(newStageAudio);
@@ -83,6 +91,14 @@ export function NextDay() {
   );
   // Função para avançar para o próximo dia
   const ProximoDia = () => {
+if (dados.modalExcesso.confirmarAvanco) {
+  atualizarDados("modalExcesso", {
+    ...dados.modalExcesso,
+    confirmarAvanco: false,
+  });
+}
+
+
     if (economiaSetores.saldo < 0) {
       atualizarEco("fimGame", true);
       return;
@@ -117,10 +133,39 @@ export function NextDay() {
 
     if (economiaSetores.activeLoan?.proximoVencimento !== undefined) {
       if (economiaSetores.activeLoan.proximoVencimento === dados.dia) {
-        return; 
+        return;
       }
 
     }
+
+const overflows = checkProductionOverflow();
+
+
+
+if (overflows.length > 0) {
+  const ofertaTotal = overflows.reduce(
+    (s, o) => s + o.valorVenda,
+    0
+  );
+
+  atualizarDados("modalExcesso", {
+    estadoModal: true,
+    head: "Armazenamento insuficiente",
+    content:
+      "A produção gerou mais itens do que sua capacidade permite.",
+    quantidadeExcesso: overflows.reduce(
+      (s, o) => s + o.quantidadeExcedente,
+      0
+    ),
+    ofertaExcesso: Math.floor(ofertaTotal),
+    overflows, // 👈 importante
+  });
+
+  return;
+}
+
+
+
     //   useEffect(() => {
     //     if (dados.dia % 30 === 0) {
     //       atualizarDados('despesas', {
@@ -140,6 +185,9 @@ export function NextDay() {
     // console.log(dados.dia);
     calcularFaturamento();
     buttonNextDayAudio();
+    processarTransacoesMercado();
+    processarContratosVenda()
+    processProductions()
   };
 
   const calcularFaturamento = () => {

@@ -6,177 +6,257 @@ import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
 export const productsCatalog = {
   // 🌱 AGRICULTURA
-  milho: {
-    id: "milho",
-    nome: "Milho",
-    icon: "🌽",
-    unidade: "sacas",
-    setor: "agricultura",
-  },
-  soja: {
-    id: "soja",
-    nome: "Soja",
-    icon: "🫘",
-    unidade: "sacas",
-    setor: "agricultura",
-  },
-  trigo: {
-    id: "trigo",
-    nome: "Trigo",
-    icon: "🌾",
-    unidade: "sacas",
-    setor: "agricultura",
-  },
-  cevada: {
-    id: "cevada",
-    nome: "Cevada",
-    icon: "🌱",
-    unidade: "sacas",
-    setor: "agricultura",
-  },
+milho: {
+  id: "milho",
+  nome: "Milho",
+  icon: "🌽",
+  unidade: "sacas",
+  setor: "agricultura",
+categoriaFisica: "agrícolas secos",
+  slotSize: 1,
+},
+soja: {
+  id: "soja",
+  nome: "Soja",
+  icon: "🫘",
+  unidade: "sacas",
+  setor: "agricultura",
+categoriaFisica: "agrícolas secos",
+  slotSize: 1,
+},
+trigo: {
+  id: "trigo",
+  nome: "Trigo",
+  icon: "🌾",
+  unidade: "sacas",
+  setor: "agricultura",
+categoriaFisica: "agrícolas secos",
+  slotSize: 1,
+},
+cevada: {
+  id: "cevada",
+  nome: "Cevada",
+  icon: "🌱",
+  unidade: "sacas",
+  setor: "agricultura",
+categoriaFisica: "agrícolas secos",
+  slotSize: 1,
+},
+
+
+
+
+
+
+vaca: {
+  id: "vaca",
+  nome: "Vaca",
+  icon: "🌱",
+  unidade: "unidades",
+  setor: "agricultura",
+  categoriaFisica: "animais",
+  slotSize: 5,
+},
+
+
+couro: {
+  id: "couro",
+  nome: "Couro",
+  icon: "🌱",
+  unidade: "kg",
+  setor: "agricultura",
+  categoriaFisica: "produtos manufaturados",
+  slotSize: 20,
+},
+
+
+racaoDeVacas: {
+  id: "racaoDeVacas",
+  nome: "Ração De Vacas",
+  icon: "🌱",
+  unidade: "sacas",
+  setor: "agricultura",
+  categoriaFisica: "biomassa / orgânicos",
+  slotSize: 0.1,
+},
+
+
+
+
+
+
 
   // 🥩 COMÉRCIO
-  carneBovina: {
-    id: "carneBovina",
-    nome: "Carne Bovina",
-    icon: "🥩",
-    unidade: "kg",
-    setor: "comercio",
-  },
-  frango: {
-    id: "frango",
-    nome: "Frango",
-    icon: "🍗",
-    unidade: "kg",
-    setor: "comercio",
-  },
-  carneSuina: {
-    id: "carneSuina",
-    nome: "Carne Suína",
-    icon: "🥓",
-    unidade: "kg",
-    setor: "comercio",
-  },
-  linguica: {
-    id: "linguica",
-    nome: "Linguiça",
-    icon: "🌭",
-    unidade: "kg",
-    setor: "comercio",
-  },
+carneBovina: {
+  id: "carneBovina",
+  nome: "Carne Bovina",
+  icon: "🥩",
+  unidade: "kg",
+  setor: "comercio",
+  categoriaFisica: "perecíveis",
+  slotSize: 0.1,
+},
+frango: {
+  id: "frango",
+  nome: "Frango",
+  icon: "🍗",
+  unidade: "kg",
+  setor: "comercio",
+  categoriaFisica: "perecíveis",
+  slotSize: 0.4,
+},
+carneSuina: {
+  id: "carneSuina",
+  nome: "Carne Suína",
+  icon: "🥓",
+  unidade: "kg",
+  setor: "comercio",
+  categoriaFisica: "perecíveis",
+  slotSize: 0.45,
+},
+linguica: {
+  id: "linguica",
+  nome: "Linguiça",
+  icon: "🌭",
+  unidade: "kg",
+  setor: "comercio",
+  categoriaFisica: "perecíveis",
+  slotSize: 0.3,
+},
+
 
   // 🏭 INDÚSTRIA
-  veiculoPopular: {
-    id: "veiculoPopular",
-    nome: "Veículo Popular",
-    icon: "🚗",
-    unidade: "unidades",
-    setor: "industria",
-  },
-  sedan: {
-    id: "sedan",
-    nome: "Sedan",
-    icon: "🚙",
-    unidade: "unidades",
-    setor: "industria",
-  },
-  suv: {
-    id: "suv",
-    nome: "SUV",
-    icon: "🚐",
-    unidade: "unidades",
-    setor: "industria",
-  },
-  van: {
-    id: "van",
-    nome: "Van",
-    icon: "🚚",
-    unidade: "unidades",
-    setor: "industria",
-  },
+veiculoPopular: {
+  id: "veiculoPopular",
+  nome: "Veículo Popular",
+  icon: "🚗",
+  unidade: "unidades",
+  setor: "industria",
+  categoriaFisica: "veículos",
+  slotSize: 800,
+},
+sedan: {
+  id: "sedan",
+  nome: "Sedan",
+  icon: "🚙",
+  unidade: "unidades",
+  setor: "industria",
+  categoriaFisica: "veículos",
+  slotSize: 900,
+},
+suv: {
+  id: "suv",
+  nome: "SUV",
+  icon: "🚐",
+  unidade: "unidades",
+  setor: "industria",
+  categoriaFisica: "veículos",
+  slotSize: 1100,
+},
+van: {
+  id: "van",
+  nome: "Van",
+  icon: "🚚",
+  unidade: "unidades",
+  setor: "industria",
+  categoriaFisica: "veículos",
+  slotSize: 1200,
+},
+
 
   // ⛏️ MINÉRIOS
-  cobre: {
-    id: "cobre",
-    nome: "Cobre",
-    icon: "🟠",
-    unidade: "toneladas",
-    setor: "industria",
-  },
-  ferro: {
-    id: "ferro",
-    nome: "Ferro",
-    icon: "⚫",
-    unidade: "toneladas",
-    setor: "industria",
-  },
-  bauxita: {
-    id: "bauxita",
-    nome: "Bauxita",
-    icon: "🟤",
-    unidade: "toneladas",
-    setor: "industria",
-  },
+ferro: {
+  id: "ferro",
+  nome: "Ferro",
+  icon: "⚫",
+  unidade: "toneladas",
+  setor: "industria",
+categoriaFisica: "minério",
+  slotSize: 5,
+},
 
   // 📱 TECNOLOGIA
-  smartphoneBasico: {
-    id: "smartphoneBasico",
-    nome: "Smartphone Básico",
-    icon: "📱",
-    unidade: "unidades",
-    setor: "tecnologia",
-  },
-  smartphonePremium: {
-    id: "smartphonePremium",
-    nome: "Smartphone Premium",
-    icon: "📳",
-    unidade: "unidades",
-    setor: "tecnologia",
-  },
-  smartphoneGamer: {
-    id: "smartphoneGamer",
-    nome: "Smartphone Gamer",
-    icon: "🎮",
-    unidade: "unidades",
-    setor: "tecnologia",
-  },
-  smartphoneDobravél: {
-    id: "smartphoneDobravél",
-    nome: "Smartphone Dobrável",
-    icon: "📴",
-    unidade: "unidades",
-    setor: "tecnologia",
-  },
+smartphoneBasico: {
+  id: "smartphoneBasico",
+  nome: "Smartphone Básico",
+  icon: "📱",
+  unidade: "unidades",
+  setor: "tecnologia",
+  categoriaFisica: "bens de alto valor",
+  slotSize: 2,
+},
+
 
   // ⚡ ENERGIA
-  painelSolarResidencial: {
-    id: "painelSolarResidencial",
-    nome: "Painel Solar Residencial",
-    icon: "🏠",
-    unidade: "unidades",
-    setor: "energia",
-  },
-  painelSolarComercial: {
-    id: "painelSolarComercial",
-    nome: "Painel Solar Comercial",
-    icon: "🏢",
-    unidade: "unidades",
-    setor: "energia",
-  },
-  painelSolarIndustrial: {
-    id: "painelSolarIndustrial",
-    nome: "Painel Solar Industrial",
-    icon: "🏭",
-    unidade: "unidades",
-    setor: "energia",
-  },
-  painelSolarPremium: {
-    id: "painelSolarPremium",
-    nome: "Painel Solar Premium",
-    icon: "⚡",
-    unidade: "unidades",
-    setor: "energia",
-  },
+painelSolarIndustrial: {
+  id: "painelSolarIndustrial",
+  nome: "Painel Solar Industrial",
+  icon: "🏭",
+  unidade: "unidades",
+  setor: "energia",
+  categoriaFisica: "componentes industriais",
+  slotSize: 200,
+},
+
+minerioUranio: {
+  id: "minerioUranio",
+  nome: "minerioUranio",
+  icon: "🏭",
+  unidade: "unidades",
+  setor: "energia",
+  categoriaFisica: "materiais sensíveis",
+  slotSize: 200,
+},
+
+combustivelCarro: {
+  id: "combustivelCarro",
+  nome: "combustivelCarro",
+  icon: "🏭",
+  unidade: "L",
+  setor: "comercio",
+  categoriaFisica: "fluidos",
+  slotSize: 3,
+},
+
+processadorSimples: {
+  id: "portaCarro",
+  nome: "portaCarro",
+  icon: "🏭",
+  unidade: "unidades",
+  setor: "industria",
+  categoriaFisica: "componentes eletrônicos",
+  slotSize: 3,
+},
+
+portaCarro: {
+  id: "portaCarro",
+  nome: "portaCarro",
+  icon: "🏭",
+  unidade: "kg",
+  setor: "industria",
+  categoriaFisica: "componentes industriais",
+  slotSize: 10,
+},
+
+softwareSimples: {
+  id: "softwareSimples",
+  nome: "softwareSimples",
+  icon: "🏭",
+  unidade: "gb",
+  setor: "tecnologia",
+  categoriaFisica: "produtos digitais",
+  slotSize: 100,
+},
+relogioLuxo: {
+  id: "relogioLuxo",
+  nome: "relogioLuxo",
+  icon: "🏭",
+  unidade: "gb",
+  setor: "comercio",
+  categoriaFisica: "bens de alto valor",
+  slotSize: 5,
+},
+
 };
 
 
@@ -189,6 +269,10 @@ export const marketPrices = {
   soja: 135,
   trigo: 80,
   cevada: 100,
+
+  couro: 1000,
+  vaca: 4000,
+  racaoDeVacas:1000,
 
   carneBovina: 30,
   frango: 12,
@@ -213,6 +297,13 @@ export const marketPrices = {
   painelSolarComercial: 5250,
   painelSolarIndustrial: 12000,
   painelSolarPremium: 14000,
+
+  minerioUranio:70000,
+  combustivelCarro:1000,
+  processadorSimples:1000,
+  portaCarro:1000,
+  softwareSimples:1000,
+  relogioLuxo:1000,
 };
 
 

@@ -1,4 +1,4 @@
-import { useMemo,useContext } from "react";
+import { useMemo, useContext } from "react";
 import { useGame } from "../components/GameContext";
 import { productsCatalog } from "../components/ProductCatalog";
 import { getMarketPrice } from "../components/TablePrice";
@@ -15,8 +15,9 @@ export default function StorageInterface() {
     usedVariableStorage,
     variableStorageTotal,
     storageBuildings,
+    potentialCapacityByCategory
   } = useGame();
-const { economiaSetores } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores } = useContext(DadosEconomyGlobalContext);
   /* =========================
      CATEGORIAS EXISTENTES
   ========================= */
@@ -30,20 +31,20 @@ const { economiaSetores } = useContext(DadosEconomyGlobalContext);
     ];
   }, []);
 
-  
+
   /* =========================
   PRODUTOS EM ESTOQUE
   ========================= */
   const stockedProducts = useMemo(() => {
     return Object.entries(stock)
-    .map(([id, qty]) => ({
-      id,
-      qty,
-      product: productsCatalog[id],
-    }))
-    .filter(p => p.product && p.qty > 0);
+      .map(([id, qty]) => ({
+        id,
+        qty,
+        product: productsCatalog[id],
+      }))
+      .filter(p => p.product && p.qty > 0);
   }, [stock]);
-  
+
   const totalStockValue = useMemo(() => {
     return stockedProducts.reduce((total, { id, qty }) => {
       if (!productsCatalog[id]) return total;
@@ -53,26 +54,26 @@ const { economiaSetores } = useContext(DadosEconomyGlobalContext);
   }, [stockedProducts, economiaSetores]);
 
   const groupedStorages = useMemo(() => {
-  const map = {};
+    const map = {};
 
-  storageBuildings.forEach(b => {
-    const key = b.id;
+    storageBuildings.forEach(b => {
+      const key = b.id;
 
-    if (!map[key]) {
-      map[key] = {
-        nome: b.nome,
-        tipo: b.tipo,
-        quantidade: 0,
-        capacidadeTotal: 0,
-      };
-    }
+      if (!map[key]) {
+        map[key] = {
+          nome: b.nome,
+          tipo: b.tipo,
+          quantidade: 0,
+          capacidadeTotal: 0,
+        };
+      }
 
-    map[key].quantidade += 1;
-    map[key].capacidadeTotal += b.capacidade;
-  });
+      map[key].quantidade += 1;
+      map[key].capacidadeTotal += b.capacidade;
+    });
 
-  return Object.values(map);
-}, [storageBuildings]);
+    return Object.values(map);
+  }, [storageBuildings]);
 
   /* =========================
      FORMATADORES
@@ -97,39 +98,52 @@ const { economiaSetores } = useContext(DadosEconomyGlobalContext);
           Capacidade de Armazenamento
         </h2>
 
-        {categorias.map(cat => {
-          const { usadoSlots,
-            capDedicadaSlots,
-            capMaxSlots, } =
-            getCategoryStorageUI(cat);
+{categorias.map(cat => {
+  const ui = getCategoryStorageUI(cat);
+  const potential = potentialCapacityByCategory[cat];
 
-          if (usadoSlots === 0 && capDedicadaSlots === 0) return null;
+  // se a categoria não pode existir em nenhum storage, não mostra
+  if (!potential) return null;
 
-          const percent =
-            capMaxSlots > 0
-              ? Math.min((usadoSlots / capMaxSlots) * 100, 100)
-              : 0;
+  const usadoSlots = ui.usadoSlots ?? 0;
+  const capDedicadaSlots = ui.capDedicadaSlots ?? 0;
+
+  const capMaxSlots =
+    (potential.dedicada ?? 0) +
+    (potential.variavel ?? 0);
+
+
+
+const percent =
+  capMaxSlots > 0
+    ? Math.min((usadoSlots / capMaxSlots) * 100, 100)
+    : 0;
+
 
           return (
             <div key={cat} className="mb-4">
               <div className="flex justify-between text-sm mb-1">
                 <span className="capitalize">{cat}</span>
-                <span>
-                  {usadoSlots.toFixed(1)} slots / {capDedicadaSlots}
-                  {capMaxSlots > capDedicadaSlots &&
-                    ` (máx ${capMaxSlots} slots)`}
-                </span>
+<span>
+  {usadoSlots.toFixed(1)} slots / {capDedicadaSlots}
+  {capMaxSlots > capDedicadaSlots && (
+    <span className="text-zinc-400">
+      {" "} (máx {capMaxSlots} slots)
+    </span>
+  )}
+</span>
+
+
               </div>
 
               <div className="w-full h-3 bg-zinc-700 rounded">
                 <div
-                  className={`h-3 rounded ${
-                    percent > 90
+                  className={`h-3 rounded ${percent > 90
                       ? "bg-red-500"
                       : percent > 70
-                      ? "bg-yellow-400"
-                      : "bg-green-500"
-                  }`}
+                        ? "bg-yellow-400"
+                        : "bg-green-500"
+                    }`}
                   style={{ width: `${percent}%` }}
                 />
               </div>
@@ -143,7 +157,7 @@ const { economiaSetores } = useContext(DadosEconomyGlobalContext);
         <div className="mt-4 pt-3 border-t border-zinc-700 text-sm flex justify-between">
           <span>Armazém Variável</span>
           <span>
-         {usedVariableStorage} / {variableStorageTotal}
+            {usedVariableStorage} / {variableStorageTotal}
           </span>
         </div>
       </section>
@@ -170,16 +184,16 @@ const { economiaSetores } = useContext(DadosEconomyGlobalContext);
             <span>
               {product.icon} {product.nome}
             </span>
-<div className="text-right">
-  <div className="font-semibold">
-    {formatNumber(qty)}
-  </div>
-  <div className="text-sm text-zinc-400">
-    {formatMoney(
-  qty * getMarketPrice(id, economiaSetores)
-)}
-  </div>
-</div>
+            <div className="text-right">
+              <div className="font-semibold">
+                {formatNumber(qty)}
+              </div>
+              <div className="text-sm text-zinc-400">
+                {formatMoney(
+                  qty * getMarketPrice(id, economiaSetores)
+                )}
+              </div>
+            </div>
 
           </div>
         ))}
@@ -188,28 +202,28 @@ const { economiaSetores } = useContext(DadosEconomyGlobalContext);
       {/* =========================
           ESTRUTURAS DE ARMAZENAMENTO
       ========================= */}
-     <section>
-  <h2 className="text-xl font-bold mb-4">
-    Estruturas de Armazenamento
-  </h2>
+      <section>
+        <h2 className="text-xl font-bold mb-4">
+          Estruturas de Armazenamento
+        </h2>
 
-  {groupedStorages.map(b => (
-    <div
-      key={b.nome}
-      className="flex justify-between text-sm py-1"
-    >
-      <span>
-        {b.nome}{" "}
-        <span className="text-zinc-400">
-          (x{b.quantidade})
-        </span>
-      </span>
-      <span>
-        {formatNumber(b.capacidadeTotal)}
-      </span>
-    </div>
-  ))}
-</section>
+        {groupedStorages.map(b => (
+          <div
+            key={b.nome}
+            className="flex justify-between text-sm py-1"
+          >
+            <span>
+              {b.nome}{" "}
+              <span className="text-zinc-400">
+                (x{b.quantidade})
+              </span>
+            </span>
+            <span>
+              {formatNumber(b.capacidadeTotal)}
+            </span>
+          </div>
+        ))}
+      </section>
 
 
       {/* =========================

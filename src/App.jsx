@@ -52,9 +52,9 @@ function App() {
   }, []);
 
   return (
-      <GameProvider>
     <CentraldeDadosProvider>
       <DadosEconomyGlobalProvider>
+      <GameProvider>
         <div
           ref={containerRef}
           className="h-[100vh] w-[100vw] relative bg-gray-900"
@@ -74,9 +74,9 @@ function App() {
           {/* Seu jogo */}
           <Interface />
         </div>
+     </GameProvider>
       </DadosEconomyGlobalProvider>
     </CentraldeDadosProvider>
-     </GameProvider>
   );
 }
 
