@@ -15,7 +15,8 @@ export default function StorageInterface() {
     usedVariableStorage,
     variableStorageTotal,
     storageBuildings,
-    potentialCapacityByCategory
+    potentialCapacityByCategory,
+    getStockPredictionReport
   } = useGame();
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
   /* =========================
@@ -87,6 +88,13 @@ export default function StorageInterface() {
       currency: "BRL",
     }).format(v);
 
+
+const predictionReport = useMemo(
+  () => getStockPredictionReport(),
+  [stock]
+);
+
+
   return (
     <div className="bg-zinc-900 text-white p-6 rounded-xl space-y-6">
 
@@ -98,40 +106,40 @@ export default function StorageInterface() {
           Capacidade de Armazenamento
         </h2>
 
-{categorias.map(cat => {
-  const ui = getCategoryStorageUI(cat);
-  const potential = potentialCapacityByCategory[cat];
+        {categorias.map(cat => {
+          const ui = getCategoryStorageUI(cat);
+          const potential = potentialCapacityByCategory[cat];
 
-  // se a categoria não pode existir em nenhum storage, não mostra
-  if (!potential) return null;
+          // se a categoria não pode existir em nenhum storage, não mostra
+          if (!potential) return null;
 
-  const usadoSlots = ui.usadoSlots ?? 0;
-  const capDedicadaSlots = ui.capDedicadaSlots ?? 0;
+          const usadoSlots = ui.usadoSlots ?? 0;
+          const capDedicadaSlots = ui.capDedicadaSlots ?? 0;
 
-  const capMaxSlots =
-    (potential.dedicada ?? 0) +
-    (potential.variavel ?? 0);
+          const capMaxSlots =
+            (potential.dedicada ?? 0) +
+            (potential.variavel ?? 0);
 
 
 
-const percent =
-  capMaxSlots > 0
-    ? Math.min((usadoSlots / capMaxSlots) * 100, 100)
-    : 0;
+          const percent =
+            capMaxSlots > 0
+              ? Math.min((usadoSlots / capMaxSlots) * 100, 100)
+              : 0;
 
 
           return (
             <div key={cat} className="mb-4">
               <div className="flex justify-between text-sm mb-1">
                 <span className="capitalize">{cat}</span>
-<span>
-  {usadoSlots.toFixed(1)} slots / {capDedicadaSlots}
-  {capMaxSlots > capDedicadaSlots && (
-    <span className="text-zinc-400">
-      {" "} (máx {capMaxSlots} slots)
-    </span>
-  )}
-</span>
+                <span>
+                  {usadoSlots.toFixed(1)} slots / {capDedicadaSlots}
+                  {capMaxSlots > capDedicadaSlots && (
+                    <span className="text-zinc-400">
+                      {" "} (máx {capMaxSlots} slots)
+                    </span>
+                  )}
+                </span>
 
 
               </div>
@@ -139,10 +147,10 @@ const percent =
               <div className="w-full h-3 bg-zinc-700 rounded">
                 <div
                   className={`h-3 rounded ${percent > 90
-                      ? "bg-red-500"
-                      : percent > 70
-                        ? "bg-yellow-400"
-                        : "bg-green-500"
+                    ? "bg-red-500"
+                    : percent > 70
+                      ? "bg-yellow-400"
+                      : "bg-green-500"
                     }`}
                   style={{ width: `${percent}%` }}
                 />
@@ -198,6 +206,66 @@ const percent =
           </div>
         ))}
       </section>
+{/* =========================
+    📈 PREVISÃO DE ESTOQUE
+========================= */}
+<section>
+  <h2 className="text-xl font-bold mb-4">
+    📈 Previsão de Produção
+  </h2>
+
+  {predictionReport.length === 0 && (
+    <p className="text-sm text-zinc-400">
+      Nenhuma produção futura registrada
+    </p>
+  )}
+
+  {predictionReport.map(item => (
+    <div
+      key={item.produtoId}
+      className="border border-zinc-700 rounded-lg p-4 mb-3"
+    >
+      <div className="flex justify-between items-center mb-2">
+        <span className="font-semibold">
+          {item.icon} {item.nome}
+        </span>
+
+        <span className="text-sm text-zinc-400">
+          +{item.totalQtd}
+        </span>
+      </div>
+
+      <div className="text-sm space-y-1">
+        {item.producoes
+          .sort((a, b) => a.dias - b.dias)
+          .map((p, i) => (
+            <div key={i} className="flex justify-between">
+              <span>Em {p.dias} dia(s)</span>
+              <span>+{p.quantidade}</span>
+            </div>
+          ))}
+      </div>
+
+      <div className="mt-2 text-sm text-zinc-400">
+        Slots necessários: {item.totalSlots}
+      </div>
+
+      <div className="mt-1 text-sm">
+        Valor estimado:{" "}
+        <span className="text-green-400">
+          {formatMoney(item.valorEstimado)}
+        </span>
+      </div>
+
+      {item.excessoQtd > 0 && (
+        <div className="mt-2 text-sm text-red-400">
+          ⚠ Excesso previsto: {item.excessoQtd} unidades <br />
+          Perda estimada: {formatMoney(item.valorPerdaEstimado)}
+        </div>
+      )}
+    </div>
+  ))}
+</section>
 
       {/* =========================
           ESTRUTURAS DE ARMAZENAMENTO

@@ -152,7 +152,7 @@ if (overflows.length > 0) {
     estadoModal: true,
     head: "Armazenamento insuficiente",
     content:
-      "A produção gerou mais itens do que sua capacidade permite.",
+      "A produção gerou mais itens do que sua capacidade permite. Caso deseje, expanda o seu armazenamento, ou se preferir vendar o valor excentente do produto",
     quantidadeExcesso: overflows.reduce(
       (s, o) => s + o.quantidadeExcedente,
       0

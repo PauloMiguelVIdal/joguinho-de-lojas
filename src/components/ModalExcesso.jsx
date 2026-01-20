@@ -79,7 +79,7 @@ const venderExcesso = () => {
             className="absolute right-4 bottom-4 bg-laranja text-white px-6 py-2 rounded-[40px] fonteBold hover:scale-105 active:scale-95"
             onClick={venderExcesso}
           >
-            Vender excesso e avançar
+            Vender excesso
           </button>
         </div>
       </motion.div>

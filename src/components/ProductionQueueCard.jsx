@@ -3,6 +3,14 @@ import { productsCatalog } from "../components/ProductCatalog";
 export default function ProductionQueueCard({ production, formula }) {
   if (!production) return null; // 🔒 blindagem
 
+const urgencyColor =
+  production.diasRestantes <= 2
+    ? "#ff4d4d"
+    : production.diasRestantes <= 5
+    ? "#ffb84d"
+    : "#2ecc71";
+
+
   return (
     <div
       style={{
@@ -17,6 +25,9 @@ export default function ProductionQueueCard({ production, formula }) {
     >
       <strong style={{ fontSize: 14 }}>
         {formula?.nome || "Produção"}
+      </strong>
+      <strong style={{ fontSize: 14 }}>
+        {urgencyColor}
       </strong>
 
       <span style={{ fontSize: 12, opacity: 0.8 }}>

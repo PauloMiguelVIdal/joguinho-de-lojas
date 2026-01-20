@@ -7,7 +7,7 @@ milho: {
   unidade: "sacas",
   setor: "agricultura",
 categoriaFisica: "agrícolas secos",
-  slotSize: 1,
+  slotSize: 0.5,
 },
 soja: {
   id: "soja",
@@ -16,7 +16,7 @@ soja: {
   unidade: "sacas",
   setor: "agricultura",
 categoriaFisica: "agrícolas secos",
-  slotSize: 1,
+  slotSize: 0.5,
 },
 trigo: {
   id: "trigo",
@@ -25,7 +25,7 @@ trigo: {
   unidade: "sacas",
   setor: "agricultura",
 categoriaFisica: "agrícolas secos",
-  slotSize: 1,
+  slotSize: 0.5,
 },
 cevada: {
   id: "cevada",
@@ -34,7 +34,7 @@ cevada: {
   unidade: "sacas",
   setor: "agricultura",
 categoriaFisica: "agrícolas secos",
-  slotSize: 1,
+  slotSize: 0.5,
 },
 
 
@@ -45,11 +45,41 @@ categoriaFisica: "agrícolas secos",
 vaca: {
   id: "vaca",
   nome: "Vaca",
-  icon: "🌱",
+  icon: "🐮",
   unidade: "unidades",
   setor: "agricultura",
   categoriaFisica: "animais",
-  slotSize: 5,
+  slotSize: 3,
+},
+
+galinha: {
+  id: "galinha",
+  nome: "Galinha",
+  icon: "🐔",
+  unidade: "unidades",
+  setor: "agricultura",
+  categoriaFisica: "animais",
+  slotSize: 0.2,
+},
+
+ovelha: {
+  id: "ovelha",
+  nome: "Ovelha",
+  icon: "🐑",
+  unidade: "unidades",
+  setor: "agricultura",
+  categoriaFisica: "animais",
+  slotSize: 1,
+},
+
+porco: {
+  id: "porco",
+  nome: "Porco",
+  icon: "🐷",
+  unidade: "unidades",
+  setor: "agricultura",
+  categoriaFisica: "animais",
+  slotSize: 1.5,
 },
 
 

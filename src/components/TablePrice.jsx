@@ -13,7 +13,7 @@ milho: {
   unidade: "sacas",
   setor: "agricultura",
 categoriaFisica: "agrícolas secos",
-  slotSize: 1,
+  slotSize: 0.5,
 },
 soja: {
   id: "soja",
@@ -22,7 +22,7 @@ soja: {
   unidade: "sacas",
   setor: "agricultura",
 categoriaFisica: "agrícolas secos",
-  slotSize: 1,
+  slotSize: 0.5,
 },
 trigo: {
   id: "trigo",
@@ -31,7 +31,7 @@ trigo: {
   unidade: "sacas",
   setor: "agricultura",
 categoriaFisica: "agrícolas secos",
-  slotSize: 1,
+  slotSize: 0.5,
 },
 cevada: {
   id: "cevada",
@@ -40,24 +40,50 @@ cevada: {
   unidade: "sacas",
   setor: "agricultura",
 categoriaFisica: "agrícolas secos",
-  slotSize: 1,
+  slotSize: 0.5,
 },
-
-
-
 
 
 
 vaca: {
   id: "vaca",
   nome: "Vaca",
-  icon: "🌱",
+  icon: "🐮",
   unidade: "unidades",
   setor: "agricultura",
   categoriaFisica: "animais",
-  slotSize: 5,
+  slotSize: 3,
 },
 
+galinha: {
+  id: "galinha",
+  nome: "Galinha",
+  icon: "🐔",
+  unidade: "unidades",
+  setor: "agricultura",
+  categoriaFisica: "animais",
+  slotSize: 0.2,
+},
+
+ovelha: {
+  id: "ovelha",
+  nome: "Ovelha",
+  icon: "🐑",
+  unidade: "unidades",
+  setor: "agricultura",
+  categoriaFisica: "animais",
+  slotSize: 1,
+},
+
+porco: {
+  id: "porco",
+  nome: "Porco",
+  icon: "🐷",
+  unidade: "unidades",
+  setor: "agricultura",
+  categoriaFisica: "animais",
+  slotSize: 1.5,
+},
 
 couro: {
   id: "couro",
@@ -133,7 +159,7 @@ veiculoPopular: {
   unidade: "unidades",
   setor: "industria",
   categoriaFisica: "veículos",
-  slotSize: 800,
+  slotSize: 6,
 },
 sedan: {
   id: "sedan",
@@ -142,7 +168,7 @@ sedan: {
   unidade: "unidades",
   setor: "industria",
   categoriaFisica: "veículos",
-  slotSize: 900,
+  slotSize: 6,
 },
 suv: {
   id: "suv",
@@ -151,7 +177,7 @@ suv: {
   unidade: "unidades",
   setor: "industria",
   categoriaFisica: "veículos",
-  slotSize: 1100,
+  slotSize: 6,
 },
 van: {
   id: "van",
@@ -160,7 +186,7 @@ van: {
   unidade: "unidades",
   setor: "industria",
   categoriaFisica: "veículos",
-  slotSize: 1200,
+  slotSize: 8,
 },
 
 
@@ -172,7 +198,7 @@ ferro: {
   unidade: "toneladas",
   setor: "industria",
 categoriaFisica: "minério",
-  slotSize: 5,
+  slotSize: 6,
 },
 
   // 📱 TECNOLOGIA
@@ -315,15 +341,15 @@ export const marketPrices = {
 function getEconomyMultiplier(estado) {
   switch (estado) {
     case "recessão":
-      return 0.4;
-    case "declínio":
       return 0.8;
+    case "declínio":
+      return 0.9;
     case "estável":
       return 1;
     case "progressiva":
-      return 1.2;
+      return 1.1;
     case "aquecida":
-      return 1.4;
+      return 1.2;
     default:
       return 1;
   }

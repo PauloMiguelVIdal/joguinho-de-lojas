@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useEffect, useState } from "react";
-import { productsCatalog, getMarketPrice }from "../components/TablePrice";
+import { productsCatalog, getMarketPrice } from "../components/TablePrice";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 
 
 const GameContext = createContext();
@@ -120,6 +121,13 @@ export function GameProvider({ children }) {
             categoriasPermitidas: "agrícolas secos",
         },
 
+         fazendaVacas: {
+            nome: "Fazenda De Vacas",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+           categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        
         camaraFria: {
             nome: "Câmara Fria",
             tipo: "dedicado",
@@ -383,20 +391,20 @@ export function GameProvider({ children }) {
     );
 
     const variableCapacityByCategory = useMemo(() => {
-  const map = {};
+        const map = {};
 
-  variableStorages.forEach(b => {
-    const categorias = Array.isArray(b.categoriasPermitidas)
-      ? b.categoriasPermitidas
-      : [b.categoriasPermitidas];
+        variableStorages.forEach(b => {
+            const categorias = Array.isArray(b.categoriasPermitidas)
+                ? b.categoriasPermitidas
+                : [b.categoriasPermitidas];
 
-    categorias.forEach(cat => {
-      map[cat] = (map[cat] || 0) + b.capacidadeTotal;
-    });
-  });
+            categorias.forEach(cat => {
+                map[cat] = (map[cat] || 0) + b.capacidadeTotal;
+            });
+        });
 
-  return map;
-}, [variableStorages]);
+        return map;
+    }, [variableStorages]);
 
 
     function getProductStockValue(productId) {
@@ -463,25 +471,25 @@ export function GameProvider({ children }) {
     /* =========================
        CAPACIDADE DISPONÍVEL
     ========================= */
-function getAvailableCapacity(categoria) {
-  const usedTotal = usedSpaceByCategory[categoria] || 0;
-  const dedicatedCap = dedicatedCapacityByCategory[categoria] || 0;
+    function getAvailableCapacity(categoria) {
+        const usedTotal = usedSpaceByCategory[categoria] || 0;
+        const dedicatedCap = dedicatedCapacityByCategory[categoria] || 0;
 
-  const dedicatedRemaining = Math.max(
-    dedicatedCap - usedTotal,
-    0
-  );
+        const dedicatedRemaining = Math.max(
+            dedicatedCap - usedTotal,
+            0
+        );
 
-  const variableCap = variableCapacityByCategory[categoria] || 0;
-  const variableUsed = usedVariableByCategory[categoria] || 0;
+        const variableCap = variableCapacityByCategory[categoria] || 0;
+        const variableUsed = usedVariableByCategory[categoria] || 0;
 
-  const variableRemaining = Math.max(
-    variableCap - variableUsed,
-    0
-  );
+        const variableRemaining = Math.max(
+            variableCap - variableUsed,
+            0
+        );
 
-  return dedicatedRemaining + variableRemaining;
-}
+        return dedicatedRemaining + variableRemaining;
+    }
 
 
     /* =========================
@@ -588,8 +596,17 @@ function getAvailableCapacity(categoria) {
 
 
 
-    function startProduction({ formula, quantidade }) {
-        // verificar estoque
+    function startProduction({ formula, quantidade, buildingCount }) {
+        const active = getActiveProductionsByFormula(formula.id);
+        const maxAllowed = getMaxProductionByBuilding({
+            formulaId: formula.id,
+            buildingCount,
+        });
+
+        if (active + quantidade > maxAllowed) {
+            return false;
+        }
+
         for (const [produto, qtd] of Object.entries(formula.input)) {
             if ((stock[produto] || 0) < qtd * quantidade) {
                 return false;
@@ -610,6 +627,7 @@ function getAvailableCapacity(categoria) {
                 nome: formula.nome,
                 diasRestantes: formula.duracao,
                 quantidade,
+                status: "ativa",
                 output: Object.fromEntries(
                     Object.entries(formula.output).map(([p, q]) => [
                         p,
@@ -661,9 +679,9 @@ function getAvailableCapacity(categoria) {
                 const usedNow =
                     usedSpaceByCategory[categoria] || 0;
 
-const capacityTotal =
-  (dedicatedCapacityByCategory[categoria] || 0) +
-  (variableCapacityByCategory[categoria] || 0);
+                const capacityTotal =
+                    (dedicatedCapacityByCategory[categoria] || 0) +
+                    (variableCapacityByCategory[categoria] || 0);
 
 
 
@@ -674,7 +692,7 @@ const capacityTotal =
                     const excessoSlots = requiredSlots - freeSlots;
                     const excessoQtd = Math.ceil(excessoSlots / product.slotSize);
 
-                    const preco = getMarketPrice(produtoId,economiaSetores) || 0;
+                    const preco = getMarketPrice(produtoId, economiaSetores) || 0;
                     const valorVenda = excessoQtd * preco * 0.5;
 
                     overflows.push({
@@ -695,42 +713,216 @@ const capacityTotal =
         return overflows;
     }
 
-const usedVariableByCategory = useMemo(() => {
-  const map = {};
+    const usedVariableByCategory = useMemo(() => {
+        const map = {};
 
-  Object.entries(usedSpaceByCategory).forEach(([categoria, totalUsed]) => {
-    const dedicatedCap =
-      dedicatedCapacityByCategory[categoria] || 0;
+        Object.entries(usedSpaceByCategory).forEach(([categoria, totalUsed]) => {
+            const dedicatedCap =
+                dedicatedCapacityByCategory[categoria] || 0;
 
-    const excesso = Math.max(totalUsed - dedicatedCap, 0);
+            const excesso = Math.max(totalUsed - dedicatedCap, 0);
 
-    if (variableCapacityByCategory[categoria]) {
-      map[categoria] = excesso;
+            if (variableCapacityByCategory[categoria]) {
+                map[categoria] = excesso;
+            }
+        });
+
+        return map;
+    }, [
+        usedSpaceByCategory,
+        dedicatedCapacityByCategory,
+        variableCapacityByCategory
+    ]);
+
+
+
+    function resolveProductionOverflowBySelling(overflows) {
+        let totalRecebido = 0;
+
+        overflows.forEach(item => {
+            totalRecebido += item.valorVenda;
+
+            // adiciona apenas o que cabe
+            if (item.quantidadeArmazenavel > 0) {
+                addProduct(item.produtoId, item.quantidadeArmazenavel);
+            }
+        });
+
+        atualizarEco("saldo", economiaSetores.saldo + totalRecebido);
     }
-  });
 
-  return map;
-}, [
-  usedSpaceByCategory,
-  dedicatedCapacityByCategory,
-  variableCapacityByCategory
-]);
-
-
-
-function resolveProductionOverflowBySelling(overflows) {
-  let totalRecebido = 0;
-
-  overflows.forEach(item => {
-    totalRecebido += item.valorVenda;
-
-    // adiciona apenas o que cabe
-    if (item.quantidadeArmazenavel > 0) {
-      addProduct(item.produtoId, item.quantidadeArmazenavel);
+    function getSortedProductionQueue() {
+        return [...productionQueue].sort(
+            (a, b) => a.diasRestantes - b.diasRestantes
+        );
     }
-  });
 
-  atualizarEco("saldo", economiaSetores.saldo + totalRecebido);
+    function getProductionOutputsPrediction() {
+        const prediction = {};
+
+        productionQueue.forEach(prod => {
+            Object.entries(prod.output).forEach(([produtoId, qtd]) => {
+                prediction[produtoId] =
+                    (prediction[produtoId] || 0) + qtd;
+            });
+        });
+
+        return prediction;
+    }
+
+    function getPredictedFinalStock() {
+        const prediction = { ...stock };
+        const productionPrediction = getProductionOutputsPrediction();
+
+        Object.entries(productionPrediction).forEach(([produtoId, qtd]) => {
+            prediction[produtoId] =
+                (prediction[produtoId] || 0) + qtd;
+        });
+
+        return prediction;
+    }
+
+    function getPredictedUsedSpaceByCategory() {
+        const predictedStock = getPredictedFinalStock();
+        const result = {};
+
+        Object.entries(predictedStock).forEach(([id, qty]) => {
+            const product = productsCatalog[id];
+            if (!product) return;
+
+            const categoria = product.categoriaFisica;
+            const slots = qty * product.slotSize;
+
+            result[categoria] = (result[categoria] || 0) + slots;
+        });
+
+        return result;
+    }
+
+    function getStockPredictionReport() {
+        const report = {};
+
+        productionQueue.forEach(prod => {
+            Object.entries(prod.output).forEach(([produtoId, qtd]) => {
+                const product = productsCatalog[produtoId];
+                if (!product) return;
+
+                const categoria = product.categoriaFisica;
+                const slotSize = product.slotSize;
+                const slots = qtd * slotSize;
+
+                if (!report[produtoId]) {
+                    report[produtoId] = {
+                        produtoId,
+                        nome: product.nome,
+                        icon: product.icon,
+                        categoria,
+                        totalQtd: 0,
+                        totalSlots: 0,
+                        producoes: [],
+                    };
+                }
+
+                report[produtoId].totalQtd += qtd;
+                report[produtoId].totalSlots += slots;
+
+                report[produtoId].producoes.push({
+                    dias: prod.diasRestantes,
+                    quantidade: qtd,
+                    slots,
+                });
+            });
+        });
+
+        // cálculo de risco de estouro
+        Object.values(report).forEach(item => {
+            const usadoAgora =
+                usedSpaceByCategory[item.categoria] || 0;
+
+            const capacidadeTotal =
+                (dedicatedCapacityByCategory[item.categoria] || 0) +
+                (variableCapacityByCategory[item.categoria] || 0);
+
+            const livre = Math.max(capacidadeTotal - usadoAgora, 0);
+
+            item.slotsDisponiveis = livre;
+            item.excessoSlots = Math.max(
+                item.totalSlots - livre,
+                0
+            );
+
+            item.excessoQtd = item.excessoSlots > 0
+                ? Math.ceil(item.excessoSlots / productsCatalog[item.produtoId].slotSize)
+                : 0;
+
+            const preco = getMarketPrice(
+                item.produtoId,
+                economiaSetores
+            );
+
+            item.valorEstimado =
+                item.totalQtd * preco;
+
+            item.valorPerdaEstimado =
+                item.excessoQtd * preco * 0.5;
+        });
+
+        return Object.values(report);
+    }
+
+
+    function canStartProductionSafely(formula, quantidade) {
+        const simulatedOutput = {};
+
+        Object.entries(formula.output).forEach(([p, q]) => {
+            simulatedOutput[p] = q * quantidade;
+        });
+
+        const predicted = getPredictedFinalStock();
+
+        for (const [produtoId, qtd] of Object.entries(simulatedOutput)) {
+            const product = productsCatalog[produtoId];
+            if (!product) continue;
+
+            const categoria = product.categoriaFisica;
+            const slotNeed = qtd * product.slotSize;
+
+            const used =
+                (getPredictedUsedSpaceByCategory()[categoria] || 0);
+
+            const cap =
+                (dedicatedCapacityByCategory[categoria] || 0) +
+                (variableCapacityByCategory[categoria] || 0);
+
+            if (used + slotNeed > cap) {
+                return {
+                    ok: false,
+                    categoria,
+                    excessoSlots: used + slotNeed - cap,
+                };
+            }
+        }
+
+        return { ok: true };
+    }
+
+    function getActiveProductionsByFormula(formulaId) {
+        return productionQueue.reduce((total, prod) => {
+            if (prod.formulaId === formulaId) {
+                total += prod.quantidade;
+            }
+            return total;
+        }, 0);
+    }
+
+function getMaxProductionByBuilding({ formulaId, buildingCount }) {
+  const formulaConfig = FORMULAS_EDIFICIOS
+    .flatMap(e => e.formulas)
+    .find(f => f.id === formulaId);
+
+  if (!formulaConfig) return 0;
+
+  return formulaConfig.capacidadePorEdificio * buildingCount;
 }
 
 
@@ -764,6 +956,9 @@ function resolveProductionOverflowBySelling(overflows) {
                 potentialCapacityByCategory,
                 checkProductionOverflow,
                 resolveProductionOverflowBySelling,
+                getStockPredictionReport,
+                getSortedProductionQueue
+
             }}
 
 
