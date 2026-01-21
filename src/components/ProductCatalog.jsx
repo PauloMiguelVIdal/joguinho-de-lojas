@@ -104,6 +104,16 @@ racaoDeVacas: {
   slotSize: 0.1,
 },
 
+racaoDeAves: {
+  id: "racaoDeAves",
+  nome: "Ração De Aves",
+  icon: "🌱",
+  unidade: "sacas",
+  setor: "agricultura",
+  categoriaFisica: "biomassa / orgânicos",
+  slotSize: 0.1,
+},
+
 
 
 

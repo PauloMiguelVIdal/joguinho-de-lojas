@@ -1,15 +1,10 @@
 import { useState, useMemo } from "react";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, AlertCircle } from "lucide-react";
 import { useGame } from "../components/GameContext";
 import { useBuildingFromFormula } from "./useBuildingFromFormula";
 
 export default function ProductionCard({ formula }) {
-  const {
-    stock,
-    startProduction,
-    productionQueue
-  } = useGame();
-
+  const { stock, startProduction, productionQueue } = useGame();
   const [quantidade, setQuantidade] = useState(1);
 
   const {
@@ -19,181 +14,122 @@ export default function ProductionCard({ formula }) {
     edificio
   } = useBuildingFromFormula(formula);
 
-  /* ============================
-     PRODUÇÕES ATIVAS DO EDIFÍCIO
-  ============================ */
   const producoesAtivas = useMemo(() => {
     if (!productionQueue || !edificio) return 0;
-
     return productionQueue.filter(p =>
-      p.formulaId === formula.id &&
-      p.status === "ativa"
+      p.formulaId === formula.id && p.status === "ativa"
     ).length;
   }, [productionQueue, formula.id, edificio]);
 
-  /* ============================
-     CÁLCULO DE LIMITE
-  ============================ */
   const calcularMaximo = () => {
     if (!quantidadeAtiva) return 0;
-
     const limiteEstoque = Math.min(
       ...Object.entries(formula.input).map(
-        ([produto, qtd]) =>
-          Math.floor((stock[produto] || 0) / qtd)
+        ([produto, qtd]) => Math.floor((stock[produto] || 0) / qtd)
       )
     );
-
-    const limiteEstrutural =
-      (formula.capacidadePorEdificio || 0) *
-      quantidadeAtiva;
-
-    return Math.max(
-      0,
-      Math.min(limiteEstoque, limiteEstrutural)
-    );
+    const limiteEstrutural = (formula.capacidadePorEdificio || 0) * quantidadeAtiva;
+    return Math.max(0, Math.min(limiteEstoque, limiteEstrutural));
   };
 
   const maximo = calcularMaximo();
+  const podeIniciar = producoesAtivas < maxAcoesSimultaneas && maximo >= quantidade;
 
-const podeIniciar =
-  producoesAtivas < maxAcoesSimultaneas &&
-  maximo >= quantidade;
-
-
-  /* ============================
-     AÇÕES
-  ============================ */
-function iniciar() {
-  if (!podeIniciar) return;
-
-  startProduction({
-    formula, // ✅ AGORA EXISTE
-    quantidade,
-    buildingCount: quantidadeAtiva,
-  });
-
-  setQuantidade(1);
-}
-
+  function iniciar() {
+    if (!podeIniciar) return;
+    startProduction({ formula, quantidade, buildingCount: quantidadeAtiva });
+    setQuantidade(1);
+  }
 
   const ajustarQuantidade = (op) => {
-    if (op === "aumentar" && quantidade < maximo) {
-      setQuantidade(q => q + 1);
-    }
-    if (op === "diminuir" && quantidade > 1) {
-      setQuantidade(q => q - 1);
-    }
-    if (op === "max") {
-      setQuantidade(maximo);
-    }
-  };
-
-  /* ============================
-     UI HELPERS
-  ============================ */
-  const getIcone = () => {
-    if (formula.id.includes("reproducao")) return "🐄";
-    if (formula.id.includes("abate")) return "🥩";
-    return "⚙️";
-  };
-
-  const getCor = () => {
-    if (formula.id.includes("reproducao")) return "#CD853F";
-    if (formula.id.includes("abate")) return "#DC2626";
-    return "#3B82F6";
-  };
-
-  const formatarNome = (p) =>
-  ({
-    vaca: "Vaca",
-    racaoDeVacas: "Ração",
-    couro: "Couro",
-    carneBovina: "Carne Bovina",
-  }[p] || p);
-
-  const emoji = {
-    vaca: "🐄",
-    racaoDeVacas: "🌾",
-    couro: "🦌",
-    carneBovina: "🥩",
+    if (op === "aumentar" && quantidade < maximo) setQuantidade(q => q + 1);
+    if (op === "diminuir" && quantidade > 1) setQuantidade(q => q - 1);
+    if (op === "max") setQuantidade(maximo);
   };
 
   const motivoBloqueio = (() => {
-    if (producoesAtivas >= maxAcoesSimultaneas) return "Limite de ações simultâneas atingido";
-    if (maximo === 0) return "Recursos insuficientes";
+    if (producoesAtivas >= maxAcoesSimultaneas) return "Fila Cheia";
+    if (maximo === 0) return "Recursos Insuficientes";
     return null;
   })();
 
-
-  /* ============================
-     RENDER
-  ============================ */
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6">
-      <h3 className="text-2xl font-bold text-center mb-4">
-        {getIcone()} {formula.nome}
-      </h3>
-
-      <div className="text-xs text-gray-500 text-center">
-        Estrutura ativa:{" "}
-        <strong>
-          {quantidadeAtiva} Edifício(s) · Nível {nivel}
-        </strong>
+    <div className="p-5 flex flex-col h-full bg-white/5 border border-white/10 rounded-[1.5rem] backdrop-blur-md">
+      
+      {/* NOME E INFO BÁSICA */}
+      <div className="mb-4">
+        <h3 className="text-white font-black text-base uppercase tracking-tight">
+          {formula.nome}
+        </h3>
+        <div className="flex gap-4 mt-1">
+          <div className="flex flex-col">
+            <span className="text-[8px] text-white/40 uppercase font-bold tracking-widest">Estrutura</span>
+            <span className="text-[11px] text-white/90 font-medium">Qtd: {quantidadeAtiva} • Nív: {nivel}</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[8px] text-white/40 uppercase font-bold tracking-widest">Fila de Ações</span>
+            <span className="text-[11px] text-white/90 font-medium">{producoesAtivas} / {maxAcoesSimultaneas}</span>
+          </div>
+        </div>
       </div>
 
-      <p className="text-xs text-center text-gray-500 mb-3">
-        Produções ativas: {producoesAtivas} / {maxAcoesSimultaneas}
-      </p>
-
-
-      {/* Quantidade */}
-      <div className="flex justify-center items-center gap-3 mb-4">
-        <button onClick={() => ajustarQuantidade("diminuir")}>
-          <Minus />
+      {/* SELETOR DE QUANTIDADE COMPACTO */}
+      <div className="flex items-center justify-between bg-black/30 rounded-2xl p-2 mb-5 border border-white/5">
+        <button 
+          onClick={() => ajustarQuantidade("diminuir")}
+          className="p-2 text-white/50 hover:text-white transition-colors"
+        >
+          <Minus size={18} />
         </button>
 
-        <input
-          type="number"
-          value={quantidade}
-          min={1}
-          max={maximo}
-          onChange={e =>
-            setQuantidade(
-              Math.max(1, Math.min(maximo, Number(e.target.value)))
-            )
-          }
-          className={`w-24 text-4xl font-bold text-center border-2 rounded-lg focus:outline-none
-  ${quantidade === maximo
-              ? "border-yellow-500 text-yellow-600"
-              : "border-gray-300 text-gray-800 focus:border-blue-500"}
-`}
+        <div className="flex flex-col items-center">
+          <input
+            type="number"
+            value={quantidade}
+            onChange={e => setQuantidade(Math.max(1, Math.min(maximo, Number(e.target.value))))}
+            className="bg-transparent text-white font-black text-2xl text-center w-20 focus:outline-none"
+          />
+          <button 
+            onClick={() => ajustarQuantidade("max")}
+            className="text-[9px] text-white/30 hover:text-yellow-400 font-bold uppercase tracking-widest transition-colors"
+          >
+            Máximo: {maximo}
+          </button>
+        </div>
 
-        />
-
-
-        <button onClick={() => ajustarQuantidade("aumentar")}>
-          <Plus />
+        <button 
+          onClick={() => ajustarQuantidade("aumentar")}
+          className="p-2 text-white/50 hover:text-white transition-colors"
+        >
+          <Plus size={18} />
         </button>
       </div>
 
+      {/* BOTÃO DE AÇÃO SÓBRIO */}
       <button
         onClick={iniciar}
         disabled={!podeIniciar}
-        className="w-full py-3 rounded-lg font-bold text-white transition-colors"
-        style={{
-          backgroundColor: podeIniciar ? getCor() : '#6C757D',
-          cursor: podeIniciar ? 'pointer' : 'not-allowed'
-        }}
+        className={`
+          w-full py-3 rounded-2xl font-bold text-xs uppercase tracking-[0.15em] transition-all duration-300
+          flex items-center justify-center gap-2
+          ${podeIniciar 
+            ? "bg-white text-black hover:bg-white/90 shadow-[0_4px_20px_rgba(255,255,255,0.1)]" 
+            : "bg-white/5 text-white/20 cursor-not-allowed border border-white/5"}
+        `}
       >
-        {motivoBloqueio
-          ? `❌ ${motivoBloqueio}`
-          : `${getIcone()} Iniciar Produção`}
+        {motivoBloqueio ? (
+          <>
+            <AlertCircle size={14} />
+            {motivoBloqueio}
+          </>
+        ) : (
+          "Iniciar Produção"
+        )}
       </button>
-          <div className="text-xs text-gray-400 mt-1">
-            Limite estrutural: {maxAcoesSimultaneas} ação(ões) simultânea(s)
-          </div>
 
+      <p className="text-[9px] text-center text-white/30 mt-3 font-medium uppercase tracking-tighter">
+        Capacidade: {maxAcoesSimultaneas} ações simultâneas
+      </p>
     </div>
   );
 }

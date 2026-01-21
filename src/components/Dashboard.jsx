@@ -56,7 +56,8 @@ import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3";
 import MarketplaceSystem from "./MarketInterface.jsx";
 import StorageInterface from "./StorageInterface.jsx";
 import ButcherShopPanel from '../components/ButcherShopPanel.jsx'
-import FazendaVacasPanel from "./FazendaDeVacas.jsx";
+import ManagerPanelInterface from "./ManagerPanelInterface.jsx";
+import HubManagement from "./HubManagement.jsx";
 import mercado from '../../public/outrasImagens/mercado.png'
 import estoque from '../../public/outrasImagens/estoque.png'
 import ProductionQueueCard from "./ProductionQueueCard.jsx";
@@ -1394,7 +1395,9 @@ useEffect(()=>{
                   {/* <ButcherShopPanel/> */}
                   <ProductionQueueCard/>
                   <ProductionQueuePanel/>
-                  <FazendaVacasPanel/>
+                  {/* <ManagerPanelInterface/> */}
+                  <HubManagement/>
+
                 </div>
               )}
               {ativo === "mercado" && (

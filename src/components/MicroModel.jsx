@@ -29,6 +29,9 @@ import construtora from "../../public/imagens/Construtora De Infraestruturas.png
 import terraplanagem from "../../public/imagens/Terraplanagem E Pavimentação.png";
 import mineradora from "../../public/imagens/Mineradora.png";
 import { InfoIcon } from "lucide-react";
+
+
+
 // ==================== CONFIGURAÇÃO DE SETORES ====================
 const SETORES_CONFIG = {
   agricultura: {

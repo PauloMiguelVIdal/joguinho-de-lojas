@@ -15,7 +15,7 @@ export const FORMULAS_EDIFICIOS = [
       {
         id: "reproducao_vacas",
         nome: "Reprodução",
-        capacidadePorEdificio: 2,
+        capacidadePorEdificio: 50,
         duracao: 30,
 
         input: {
@@ -31,8 +31,8 @@ export const FORMULAS_EDIFICIOS = [
       {
         id: "abate_vacas",
         nome: "Abate",
-        capacidadePorEdificio: 5,
-        duracao: 3,
+        capacidadePorEdificio: 100,
+        duracao: 20,
 
         input: {
           vaca: 1,
@@ -41,6 +41,51 @@ export const FORMULAS_EDIFICIOS = [
         output: {
           couro: 5,
           carneBovina: 300,
+        },
+      },
+    ],
+  },
+
+
+  {
+    edificioId: "granjaAves",
+    nomeEdificio: "Granja De Aves",
+    setor: "agricultura",
+
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "reproducao_aves",
+        nome: "Reprodução",
+        capacidadePorEdificio: 100,
+        duracao: 20,
+
+        input: {
+          galinha: 20,
+          racaoDeAves: 5,
+        },
+
+        output: {
+          galinha: 60,
+        },
+      },
+
+      {
+        id: "abate_aves",
+        nome: "Abate",
+        capacidadePorEdificio: 100,
+        duracao: 20,
+
+        input: {
+          galinha: 1,
+        },
+        output: {
+          frango: 30,
         },
       },
     ],
