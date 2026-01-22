@@ -33,8 +33,8 @@ export const productsCatalog = {
     categoriaFisica: "agrícolas secos",
     slotSize: 0.5,
   },
-  cevada: {
-    id: "cevada",
+  algodão: {
+    id: "algodão",
     nome: "Cevada",
     icon: "🌱",
     unidade: "sacas",
@@ -95,6 +95,27 @@ export const productsCatalog = {
     slotSize: 20,
   },
 
+  lã: {
+    id: "lã",
+    nome: "Lã",
+    icon: "🧶",
+    unidade: "kg",
+    setor: "agricultura",
+    categoriaFisica: "produtos manufaturados",
+    slotSize: 5,
+  },
+
+
+  esterco: {
+    id: "esterco",
+    nome: "Esterco",
+    icon: "💩",
+    unidade: "sacas",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 0.1,
+  },
+
 
   racaoDeVacas: {
     id: "racaoDeVacas",
@@ -114,6 +135,46 @@ export const productsCatalog = {
     setor: "agricultura",
     categoriaFisica: "biomassa / orgânicos",
     slotSize: 0.1,
+  },
+
+  racaoDeOvinos: {
+    id: "racaoDeOvinos",
+    nome: "Ração De Ovinos",
+    icon: "🌱",
+    unidade: "sacas",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 0.1,
+  },
+
+  racaoDePorco: {
+    id: "racaoDePorco",
+    nome: "Ração De Porco",
+    icon: "🌱",
+    unidade: "sacas",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 0.1,
+  },
+
+  fertilizantePlantação: {
+    id: "fertilizantePlantação",
+    nome: "Fertilizante De Plantações",
+    icon: "🌱",
+    unidade: "saco",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 1,
+  },
+
+  fertilizanteFlorestal: {
+    id: "fertilizanteFlorestal",
+    nome: "Fertilizante De Florestal",
+    icon: "🌱",
+    unidade: "saco",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 1,
   },
 
 
@@ -148,10 +209,10 @@ export const productsCatalog = {
     categoriaFisica: "perecíveis",
     slotSize: 0.45,
   },
-  linguica: {
-    id: "linguica",
-    nome: "Linguiça",
-    icon: "🌭",
+  carneOvino: {
+    id: "carneOvino",
+    nome: "Carne De Ovino",
+    icon: "🍖",
     unidade: "kg",
     setor: "comercio",
     categoriaFisica: "perecíveis",
@@ -302,14 +363,25 @@ export const marketPrices = {
   milho: 105,
   soja: 135,
   trigo: 80,
-  cevada: 100,
+  algodão: 100,
 
   couro: 1000,
+lã:20,
+
+
+fertilizantePlantação:500,
+
+
+  galinha: 100,
   vaca: 4000,
+  ovelha:200,
+
+
   racaoDeVacas: 1000,
   racaoDeAves: 200,
+  racaoDeOvinos: 500,
+  racaoDePorco: 400,
 
-galinha:100,
 
 
 
