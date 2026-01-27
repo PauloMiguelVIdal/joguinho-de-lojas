@@ -27,8 +27,8 @@ export const productsCatalog = {
     categoriaFisica: "agrícolas secos",
     slotSize: 0.5,
   },
-  cevada: {
-    id: "cevada",
+  algodão: {
+    id: "algodão",
     nome: "Cevada",
     icon: "🌱",
     unidade: "sacas",
@@ -99,13 +99,189 @@ export const productsCatalog = {
     slotSize: 5,
   },
 
+  arvoreEucalipto: {
+    id: "eucalipto",
+    nome: "Eucalipto",
+    icon: "🌴",
+    unidade: "arvore",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 5,
+  },
+
+  arvoreNativa: {
+    id: "arvoreNativa",
+    nome: "Arvore Nativa",
+    icon: "🌴",
+    unidade: "arvore",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 5,
+  },
+
+  toraEucalipto: {
+    id: "toraEucalipto",
+    nome: "Toras De Eucalipto",
+    icon: "🪵",
+    unidade: "tora",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 5,
+  },
+
+  toraNativa: {
+    id: "toraEucalipto",
+    nome: "Toras De Eucalipto",
+    icon: "🪵",
+    unidade: "tora",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 5,
+  },
+
+  sodaCáustica: {
+    id: "sodaCáustica",
+    nome: "Soda Caústica",
+    icon: "⚗️",
+    unidade: "Litros",
+    setor: "industria",
+    categoriaFisica: "químicos",
+    slotSize: 5,
+  },
+
+  ácidoSulfúrico: {
+    id: "ácidoSulfúrico",
+    nome: "Ácido Sulfúrico",
+    icon: "⚗️",
+    unidade: "Litros",
+    setor: "industria",
+    categoriaFisica: "químicos",
+    slotSize: 5,
+  },
+
+  cloro: {
+    id: "cloro",
+    nome: "Cloro",
+    icon: "⚗️",
+    unidade: "Litros",
+    setor: "industria",
+    categoriaFisica: "químicos",
+    slotSize: 5,
+  },
+
+  cavacoMadeiraNativa: {
+    id: "cavacoMadeiraNativa",
+    nome: "Cavaco De Madeira",
+    icon: "🪵",
+    unidade: "tora",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 5,
+  },
+
+  cavacoEucalipto: {
+    id: "cavacoEucalipto",
+    nome: "Cavaco De Eucalipto",
+    icon: "🪵",
+    unidade: "tora",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 5,
+  },
+
+  fardoCelulose: {
+    id: "fardoCelulose",
+    nome: "Fardo De Celulose",
+    icon: "🪵",
+    unidade: "fardo",
+    setor: "industria",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 5,
+  },
+  bobinaKraft: {
+    id: "bobinaKraft",
+    nome: "Bobina De Papel Kraft",
+    icon: "🪵",
+    unidade: "bobina",
+    setor: "industria",
+    categoriaFisica: "produtos manufaturados",
+    slotSize: 5,
+  },
+  bobinaBranco: {
+    id: "bobinaBranco",
+    nome: "Bobina De Papel Branco",
+    icon: "🪵",
+    unidade: "bobina",
+    setor: "industria",
+    categoriaFisica: "produtos manufaturados",
+    slotSize: 5,
+  },
+  
+  tinta: {
+    id: "tinta",
+    nome: "Tinta",
+    icon: "🎨",
+    unidade: "Litro",
+    setor: "industria",
+    categoriaFisica: "produtos manufaturados",
+    slotSize: 5,
+  },
+  livroComum: {
+    id: "livroComum",
+    nome: "Livro Comum",
+    icon: "📕",
+    unidade: "unidade",
+    setor: "industria",
+    categoriaFisica: "produtos manufaturados",
+    slotSize: 5,
+  },
+  livroPremium: {
+    id: "livroPremium",
+    nome: "Livro Premium",
+    icon: "📕",
+    unidade: "unidade",
+    setor: "industria",
+    categoriaFisica: "produtos manufaturados",
+    slotSize: 5,
+  },
+
+  biomassaLíquida: {
+    id: "biomassaLíquida",
+    nome: "Biomassa Líquida",
+    icon: "🪵",
+    unidade: "Litros",
+    setor: "industria",
+    categoriaFisica: "fluidos",
+    slotSize: 5,
+  },
+
+  serragem: {
+    id: "serragem",
+    nome: "Serragem",
+    icon: "🪵",
+    unidade: "tora",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 5,
+  },
+
+  esterco: {
+    id: "esterco",
+    nome: "Esterco",
+    icon: "💩",
+    unidade: "sacas",
+    setor: "agricultura",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 0.1,
+  },
+
 
   racaoDeVacas: {
     id: "racaoDeVacas",
     nome: "Ração De Vacas",
     icon: "🌱",
     unidade: "sacas",
-    setor: "agricultura",
+    setor: "industria",
     categoriaFisica: "biomassa / orgânicos",
     slotSize: 0.1,
   },
@@ -115,7 +291,7 @@ export const productsCatalog = {
     nome: "Ração De Aves",
     icon: "🌱",
     unidade: "sacas",
-    setor: "agricultura",
+    setor: "industria",
     categoriaFisica: "biomassa / orgânicos",
     slotSize: 0.1,
   },
@@ -125,7 +301,7 @@ export const productsCatalog = {
     nome: "Ração De Ovinos",
     icon: "🌱",
     unidade: "sacas",
-    setor: "agricultura",
+    setor: "industria",
     categoriaFisica: "biomassa / orgânicos",
     slotSize: 0.1,
   },
@@ -135,10 +311,31 @@ export const productsCatalog = {
     nome: "Ração De Porco",
     icon: "🌱",
     unidade: "sacas",
-    setor: "agricultura",
+    setor: "industria",
     categoriaFisica: "biomassa / orgânicos",
     slotSize: 0.1,
   },
+
+  fertilizantePlantação: {
+    id: "fertilizantePlantação",
+    nome: "Fertilizante De Plantações",
+    icon: "🌱",
+    unidade: "saco",
+    setor: "industria",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 1,
+  },
+
+  fertilizanteFlorestal: {
+    id: "fertilizanteFlorestal",
+    nome: "Fertilizante De Florestal",
+    icon: "🌱",
+    unidade: "saco",
+    setor: "industria",
+    categoriaFisica: "biomassa / orgânicos",
+    slotSize: 1,
+  },
+
 
 
 

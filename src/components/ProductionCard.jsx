@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
-import { Plus, Minus, AlertCircle } from "lucide-react";
+import { Plus, Minus, AlertCircle, ArrowRight } from "lucide-react";
 import { useGame } from "../components/GameContext";
 import { useBuildingFromFormula } from "./useBuildingFromFormula";
+import { productsCatalog } from "../components/TablePrice"; // Importado para os ícones
 
 export default function ProductionCard({ formula }) {
   const { stock, startProduction, productionQueue } = useGame();
@@ -56,7 +57,7 @@ export default function ProductionCard({ formula }) {
   return (
     <div className="p-5 flex flex-col h-full bg-white/5 border border-white/10 rounded-[1.5rem] backdrop-blur-md">
       
-      {/* NOME E INFO BÁSICA */}
+      {/* HEADER: NOME E ESTRUTURA */}
       <div className="mb-4">
         <h3 className="text-white font-black text-base uppercase tracking-tight">
           {formula.nome}
@@ -67,14 +68,40 @@ export default function ProductionCard({ formula }) {
             <span className="text-[11px] text-white/90 font-medium">Qtd: {quantidadeAtiva} • Nív: {nivel}</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-[8px] text-white/40 uppercase font-bold tracking-widest">Fila de Ações</span>
+            <span className="text-[8px] text-white/40 uppercase font-bold tracking-widest">Fila</span>
             <span className="text-[11px] text-white/90 font-medium">{producoesAtivas} / {maxAcoesSimultaneas}</span>
           </div>
         </div>
       </div>
 
-      {/* SELETOR DE QUANTIDADE COMPACTO */}
-      <div className="flex items-center justify-between bg-black/30 rounded-2xl p-2 mb-5 border border-white/5">
+      {/* SEÇÃO DE INSUMOS (CONSUMO) */}
+      <div className="mb-4 bg-black/20 rounded-xl p-3 border border-white/5">
+        <span className="text-[8px] text-white/30 uppercase font-black tracking-[0.2em] block mb-2">
+          Consumo Total para {quantidade}x
+        </span>
+        <div className="grid grid-cols-1 gap-2">
+          {Object.entries(formula.input).map(([id, qtdUnitária]) => {
+            const produto = productsCatalog[id];
+            const totalNecessario = qtdUnitária * quantidade;
+            const temEstoque = (stock[id] || 0) >= totalNecessario;
+
+            return (
+              <div key={id} className="flex items-center justify-between text-[10px]">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm">{produto?.icon}</span>
+                  <span className="text-white/70 font-bold uppercase">{produto?.nome}</span>
+                </div>
+                <div className={`font-black ${temEstoque ? 'text-white' : 'text-red-500'}`}>
+                  {totalNecessario} <span className="text-white/30 font-medium">{produto?.unidade}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* SELETOR DE QUANTIDADE */}
+      <div className="flex items-center justify-between bg-black/30 rounded-2xl p-2 mb-4 border border-white/5">
         <button 
           onClick={() => ajustarQuantidade("diminuir")}
           className="p-2 text-white/50 hover:text-white transition-colors"
@@ -105,7 +132,7 @@ export default function ProductionCard({ formula }) {
         </button>
       </div>
 
-      {/* BOTÃO DE AÇÃO SÓBRIO */}
+      {/* BOTÃO DE AÇÃO */}
       <button
         onClick={iniciar}
         disabled={!podeIniciar}
@@ -113,21 +140,18 @@ export default function ProductionCard({ formula }) {
           w-full py-3 rounded-2xl font-bold text-xs uppercase tracking-[0.15em] transition-all duration-300
           flex items-center justify-center gap-2
           ${podeIniciar 
-            ? "bg-white text-black hover:bg-white/90 shadow-[0_4px_20px_rgba(255,255,255,0.1)]" 
+            ? "bg-white text-black hover:bg-white/90 shadow-lg" 
             : "bg-white/5 text-white/20 cursor-not-allowed border border-white/5"}
         `}
       >
         {motivoBloqueio ? (
-          <>
-            <AlertCircle size={14} />
-            {motivoBloqueio}
-          </>
+          <><AlertCircle size={14} /> {motivoBloqueio}</>
         ) : (
           "Iniciar Produção"
         )}
       </button>
 
-      <p className="text-[9px] text-center text-white/30 mt-3 font-medium uppercase tracking-tighter">
+      <p className="text-[8px] text-center text-white/20 mt-3 font-medium uppercase tracking-widest">
         Capacidade: {maxAcoesSimultaneas} ações simultâneas
       </p>
     </div>
