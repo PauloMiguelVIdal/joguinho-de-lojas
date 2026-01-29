@@ -764,7 +764,7 @@ export const FORMULAS_EDIFICIOS = [
           sacolaPapelão: 10
         },
         output: {
-          camiseteAlgodão: 20,
+          camisetaAlgodão: 20,
         },
       },
       {
@@ -949,6 +949,70 @@ export const FORMULAS_EDIFICIOS = [
           colaIndustrial: 25,
         },
       },
+      {
+        id: "silício_puro",
+        nome: "Produção De Linha de Adesivos",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          silícioMetalúgico: 20,
+          cloro: 10,
+        },
+        output: {
+          silícioPuro: 15,
+        },
+      },
+      {
+        id: "carbono_ativado",
+        nome: "Produção De Carbono Ativado",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          carvãoRefinado: 20,
+          ácidoSulfúrico: 10,
+        },
+        output: {
+          carbonoEletrônico: 15,
+        },
+      },
+      {
+        id: "purificação_arsênio",
+        nome: "Purificação De Arsênio",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          arsênioBruto: 20,
+          cloro: 10,
+        },
+        output: {
+          arsênioPuro: 15,
+        },
+      },
+      {
+        id: "purificaçãoLítio",
+        nome: "Purificação De Lítio",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          minérioDeLítio: 30,
+          ácidoSulfúrico: 10,
+        },
+        output: {
+          lítioPuro: 20,
+        },
+      },
+      {
+        id: "sintetizaçãoGrafite",
+        nome: "Sintetização De Grafite",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          carvãoRefinado: 40,
+        },
+        output: {
+          grafiteIndustrial: 15,
+        },
+      },
     ],
   },
   {
@@ -1016,6 +1080,20 @@ export const FORMULAS_EDIFICIOS = [
           enxofreBruto: 15,
         },
       },
+      {
+        id: "destilaçãoÓleos",
+        nome: "Destilação De Óleos",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          petróleoBruto: 40,
+        },
+
+        output: {
+          óleoBase: 20,
+        },
+      },
     ],
   },
   {
@@ -1039,6 +1117,19 @@ export const FORMULAS_EDIFICIOS = [
         },
         output: {
           polímeroReforçado: 35,
+        },
+      },
+      {
+        id: "resinaEpóxi",
+        nome: "Resina Epóxi",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          nafta: 15,
+          benzeno: 5,
+        },
+        output: {
+          resinaIndustrial: 20,
         },
       },
     ],
@@ -1263,6 +1354,20 @@ export const FORMULAS_EDIFICIOS = [
 
     formulas: [
       {
+        id: "prodCoque",
+        nome: "Fusão De Ferro",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          carvão: 40,
+        },
+
+        output: {
+          carvãoRefinado: 30,
+        },
+      },
+      {
         id: "fusãoFerro",
         nome: "Fusão De Ferro",
         capacidadePorEdificio: 100,
@@ -1270,7 +1375,7 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           minérioFerro: 60,
-          calcário: 20,
+          carvãoRefinado: 25,
         },
 
         output: {
@@ -1290,6 +1395,36 @@ export const FORMULAS_EDIFICIOS = [
 
         output: {
           lingoteAço: 45,
+        },
+      },
+      {
+        id: "refinoAçoBásico",
+        nome: "Refino De Aço Básico",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          ferroGusa: 40,
+          ácidoSulfúrico: 10,
+        },
+
+        output: {
+          lingoteAço: 45,
+        },
+      },
+      {
+        id: "ProdSilícioMetalúgico",
+        nome: "Produção De Silício Metalúgico",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          minérioDeQuartzo: 40,
+          carvãoRefinado: 20,
+        },
+
+        output: {
+          silícioMetalúgico: 25,
         },
       },
 
@@ -1337,6 +1472,37 @@ export const FORMULAS_EDIFICIOS = [
           açoRefinado: 35,
         },
       },
+      {
+        id: "refinoCobre",
+        nome: "Refino De Cobre",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          minérioDeCobre: 40,
+          ácidoSulfúrico: 10,
+        },
+
+        output: {
+          lingoteDeCobre: 30,
+          arsênioBruto: 10,
+        },
+      },
+      {
+        id: "fundiçãoChumbo",
+        nome: "Fundição De Chumbo",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          minérioDeChumbo: 40,
+          carvãoRefinado: 10,
+        },
+
+        output: {
+          lingoteChumbo: 30,
+        },
+      },
     ],
   },
   {
@@ -1379,6 +1545,7 @@ export const FORMULAS_EDIFICIOS = [
       },
     ],
   },
+
   {
     edificioId: "fábricaLigasMetálicas",
     nomeEdificio: "Fábrica De Ligas Metálicas",
@@ -1397,7 +1564,7 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          minérioDeCobre: 20,
+          lingoteDeCobre: 20,
           minérioDeEstanho: 10,
 
         },
@@ -1412,7 +1579,7 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          minérioDeCobre: 20,
+          lingoteDeCobre: 20,
           minérioDeZinco: 10,
         },
         output: {
@@ -1466,7 +1633,7 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
         input: {
           minérioDePrata: 20,
-          minérioDeCobre: 10,
+          lingoteDeCobre: 10,
         },
         output: {
           contatoDePrata: 25,
@@ -1532,6 +1699,7 @@ export const FORMULAS_EDIFICIOS = [
         input: {
           lingoteAço: 30,
           minérioDeManganês: 10,
+          carvãoRefinado: 5
         },
         output: {
           açoBalistico: 35,
@@ -1550,9 +1718,23 @@ export const FORMULAS_EDIFICIOS = [
           blocoMagnético: 15,
         },
       },
+      {
+        id: "prodLigaDeOuro",
+        nome: "Produção De Liga De Ouro",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          minérioDeOuro: 10,
+          minérioDeNiquel: 5,
+          minérioDeCobalto: 5,
+        },
+        output: {
+          ligaDeOuro: 15,
+        },
+      },
     ],
   },
-    {
+  {
     edificioId: "fábricaMotores",
     nomeEdificio: "Fábrica De Motores",
     setor: "industria",
@@ -1563,6 +1745,20 @@ export const FORMULAS_EDIFICIOS = [
     },
 
     formulas: [
+      {
+        id: "prodMicroMotor",
+        nome: "Produção De Micro Motor",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          rolamento: 2,
+          fioCobre: 10,
+          aço: 2,
+        },
+        output: {
+          microMotor: 5,
+        },
+      },
       {
         id: "motorStandard",
         nome: "Produção De Motor Standard",
@@ -1627,7 +1823,7 @@ export const FORMULAS_EDIFICIOS = [
         input: {
           superligaTérmica: 15,
           lingoteTitânio: 30,
-          polímero: 10,
+          polímeroReforçado: 10,
         },
         output: {
           motorFoguete: 1,
@@ -1691,6 +1887,1267 @@ export const FORMULAS_EDIFICIOS = [
       },
     ],
   },
+  {
+    edificioId: "fábricaSemicondutores",
+    nomeEdificio: "Fábrica De Semicondutores",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodWaferSilício",
+        nome: "Wafer De Silício",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          silícioPuro: 40,
+          nitrogênio: 10,
+
+        },
+
+        output: {
+          waferSilício: 20,
+        },
+      },
+      {
+        id: "prodWaferPotência",
+        nome: "Wafer De Potência",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          silícioPuro: 20,
+          carbonoEletrônico: 10,
+
+        },
+
+        output: {
+          waferPotência: 15,
+        },
+      },
+      {
+        id: "arsenetoGálio",
+        nome: "Arseneto de Gálio",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          compostoSemicondutor: 10,
+          arsênioPuro: 10,
+        },
+        output: {
+          waferRF: 12,
+        },
+      },
+      {
+        id: "célulaFotovoltaica",
+        nome: "Célula Fotovoltaica",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          silícioPuro: 20,
+          contatoDePrata: 5,
+        },
+        output: {
+          celulaSolar: 30,
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaChips",
+    nomeEdificio: "Fábrica De Chips",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "chipAutomação",
+        nome: "Chip De Automação",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          waferSilício: 10,
+          ligaDeSolda: 5,
+        },
+        output: {
+          controladorLógico: 20,
+        },
+      },
+      {
+        id: "cpuAltaPerformance",
+        nome: "CPU Alta Performance",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          waferSilício: 15,
+          ligaDeSolda: 5,
+        },
+        output: {
+          processadorAltaPerformance: 5,
+        },
+      },
+      {
+        id: "UnidadeNeural",
+        nome: "Unidades Neurais",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          waferSilício: 15,
+          nanotubo: 5,
+        },
+        output: {
+          chipIA: 3,
+        },
+      },
+      {
+        id: "UnidadeNeural",
+        nome: "Unidades Neurais",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          waferSilício: 15,
+          nanotuboCarbono: 5,
+        },
+        output: {
+          chipIA: 3,
+        },
+      },
+      {
+        id: "prodControladorCarga",
+        nome: "Produção De Controlador De Carga",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          waferPotência: 10,
+          ligaDeLatão: 5,
+        },
+        output: {
+          ControladorCarga: 15,
+        },
+      },
+      {
+        id: "prodChipRF",
+        nome: "Produção De Chip RF E Sinal",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          waferRF: 10,
+          componenteConexão: 10,
+        },
+        output: {
+          módulo5G: 10,
+        },
+      },
+      {
+        id: "sensoresBio",
+        nome: "Produção De Sensores Bio-Químicos",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          waferSilício: 10,
+          contatoDePrata: 5,
+        },
+        output: {
+          bioChip: 15,
+        },
+      },
+      {
+        id: "ProdUnidadesNavegação",
+        nome: "Produção De Unidades De Navegação",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          waferRF: 10,
+          ligaDeOuro: 5,
+          minérioDePrata: 5,
+        },
+        output: {
+          sistemaGuia: 15,
+        },
+      },
+      {
+        id: "chipGeoMineradores",
+        nome: "Produção De Chips Geo-Mineradores",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          waferSilício: 15,
+          açoRefinado: 10,
+        },
+        output: {
+          processadorSísmico: 10,
+        },
+      },
+      {
+        id: "ProdUnidadesNavegação",
+        nome: "Produção De Micro-Controladores",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          waferSilício: 5,
+          lingoteAlumínio: 5,
+        },
+        output: {
+          processadorSísmico: 10,
+        },
+      },
+      {
+        id: "núcleosNucleares",
+        nome: "Produção De Núcleos Nucleares",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          waferPotência: 20,
+          minérioDeChumbo: 10,
+        },
+        output: {
+          processadorBlindado: 2,
+        },
+      },
+      {
+        id: "ProdMemoriaFlash",
+        nome: "Produção De Memoria Flash",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          waferSilício: 15,
+          minérioDeEstanho: 5,
+        },
+        output: {
+          chipMemória: 2,
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaPlacasEletrônicas",
+    nomeEdificio: "Fábrica De Placas Eletrônicas",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "placaControleIndustrial",
+        nome: "Placa De Controle Industrial",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          controladorLógico: 10,
+          fioCobre: 10,
+          resinaIndustrial: 5
+        },
+
+        output: {
+          unidadeComando: 15,
+        },
+      },
+      {
+        id: "placaMãeAltaDensidade",
+        nome: "Placa-Mãe De Alta Densidade",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          processadorAltaPerformance: 5,
+          carbonoEletrônico: 10,
+
+        },
+
+        output: {
+          placaMãe: 15,
+        },
+      },
+      {
+        id: "ProdPlacaGestãoEnergia",
+        nome: "Placa De Gestão De Energia",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          processadorAltaPerformance: 5,
+          ControladorCarga: 10,
+          ligaDeLatão: 5,
+          fioCobre: 10,
+
+
+        },
+
+        output: {
+          placaGestãoEnergia: 12,
+        },
+      },
+      {
+        id: "prodPlacaTelecomSatélite",
+        nome: "Placa De Telecom E Satélite",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          módulo5G: 10,
+          ligaDeOuro: 5,
+          ligaDeSolda: 5,
+        },
+
+        output: {
+          placaFrequência: 8,
+        },
+      },
+      {
+        id: "prodPlacaTelecomSatélite",
+        nome: "Placa De Telecom E Satélite",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          sistemaGuia: 5,
+          processadorBlindado: 5,
+        },
+
+        output: {
+          computadorVoo: 3,
+        },
+      },
+      {
+        id: "prodPlacaIndustrial",
+        nome: "Produção De Placa Industrial",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          controladorLógico: 10,
+          fioCobre: 5,
+          resinaIndustrial: 5,
+          ligaDeSolda: 5,
+        },
+
+        output: {
+          placaIndustrial: 3,
+        },
+      },
+      {
+        id: "prodMicroControladores",
+        nome: "Micro-Controladores",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          controladorLógico: 5,
+          ControladorCarga: 2,
+        },
+
+        output: {
+          microControlador: 15,
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaEletrônicos",
+    nomeEdificio: "Fábrica De Eletrônicos",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "módulosInterface",
+        nome: "Módulos de Interface",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chipWearables: 10,
+          polímeroReforçado: 10,
+          vidroTécnico: 5,
+
+        },
+
+        output: {
+          painélDeControle: 20,
+        },
+      },
+      {
+        id: "sistemaVisãoDigital",
+        nome: "Sistemas De Visão Digital",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          bioChip: 10,
+          ligaDeOuro: 5,
+          lentePrecisão: 5,
+
+        },
+
+        output: {
+          câmeraPrecisão: 10,
+        },
+      },
+      {
+        id: "sistemaVisãoDigital",
+        nome: "Sistemas De Visão Digital",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          processadorSísmico: 10,
+          polímeroReforçado: 5,
+          lingoteChumbo: 5,
+        },
+
+        output: {
+          SondaTerreno: 15,
+        },
+      },
+      {
+        id: "dispositivosDiagnóstico",
+        nome: "Dispositivos De Diagnóstico",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          bioChip: 10,
+          polímeroReforçado: 10,
+          contatoDePrata: 5,
+        },
+
+        output: {
+          scannerMédico: 12,
+        },
+      },
+      {
+        id: "kitPeriféricos",
+        nome: "Kits De Periféricos",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chipWearables: 10,
+          polímeroReforçado: 20,
+          fioCobre: 10,
+        },
+
+        output: {
+          periférico: 30,
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaChapasMetálicas",
+    nomeEdificio: "Fábrica De Chapas Metálicas",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "laminaçãoAço",
+        nome: "Laminação de Aço",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          lingoteAço: 20,
+        },
+
+        output: {
+          chapaAço: 15,
+        },
+      },
+      {
+        id: "extrusãoAlumínio",
+        nome: "Extrusão De Alumínio",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          lingoteAlumínio: 20,
+        },
+
+        output: {
+          chapaAlumínio: 15,
+        },
+      },
+      {
+        id: "painélAeroespacial",
+        nome: "Painél Aeroespacial",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          superligaTérmica: 15,
+          lingoteTitânio: 5,
+        },
+
+        output: {
+          chapaAltaTensão: 10,
+        },
+      },
+      {
+        id: "blindagemBalística",
+        nome: "Blindagem Balística",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          açoBalistico: 20,
+          lingoteChumbo: 5,
+        },
+
+        output: {
+          placaReforçada: 8,
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "indústriaComponentesMecânicos",
+    nomeEdificio: "Indústria De Componentes Mecânicos",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "usinagemTransmissão",
+        nome: "Usinagem de Transmissão",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          lingoteAço: 15,
+          óleoBase: 5,
+        },
+
+        output: {
+          sistemaTransmissão: 10,
+        },
+      },
+      {
+        id: "válvulasControle",
+        nome: "Válvulas de Controle",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          lingoteAço: 5,
+          ligaDeLatão: 5,
+        },
+
+        output: {
+          válvulaHidráulica: 8,
+        },
+      },
+      {
+        id: "válvulasControle",
+        nome: "Válvulas de Controle",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          lingoteAço: 10,
+          óleoBase: 5,
+        },
+
+        output: {
+          conjuntoRotação: 20,
+        },
+      },
+      {
+        id: "engrenagensTorque",
+        nome: "Engrenagens De Torque",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          lingoteAço: 15,
+          minérioDeManganês: 5,
+        },
+
+        output: {
+          redutorCarga: 12,
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaEstruturasMetálicas",
+    nomeEdificio: "Fábrica De Estruturas Metálicas",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "vigasEstruturais",
+        nome: "Vigas Estruturais",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chapaAço: 20,
+        },
+
+        output: {
+          vigaH: 10,
+        },
+      },
+      {
+        id: "kitHidráulico",
+        nome: "Kit Hidráulico",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          lingoteAço: 10,
+          polímeroReforçado: 5,
+        },
+
+        output: {
+          válvulaHidráulica: 8,
+        },
+      },
+      {
+        id: "estruturaAeroNaval",
+        nome: "Estrutura Aero/Naval",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chapaAltaTensão: 20,
+          resinaIndustrial: 5,
+        },
+
+        output: {
+          célulaFuselagem: 5,
+        },
+      },
+      {
+        id: "suportePainéis",
+        nome: "Suportes de Painéis",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chapaAlumínio: 10,
+          polímeroReforçado: 5,
+        },
+
+        output: {
+          treliçaLeve: 15,
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaPeçasAutomotivas",
+    nomeEdificio: "Fábrica De Peças Automotivas",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "kitCarroceria",
+        nome: "Kit de Carroceria",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chapaAço: 15,
+          termoplásticoRígido: 5,
+        },
+
+        output: {
+          chassiStandard: 10,
+        },
+      },
+      {
+        id: "kitHidráulico",
+        nome: "Kit Hidráulico",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          lingoteAço: 10,
+          polímeroReforçado: 5,
+        },
+
+        output: {
+          válvulaHidráulica: 8,
+        },
+      },
+      {
+        id: "kitAltaPerformance",
+        nome: "Kit De Alta Performance",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chapaAlumínio: 15,
+          polímeroReforçado: 5,
+        },
+
+        output: {
+          chassiLuxo: 5,
+        },
+      },
+      {
+        id: "móduloCabine",
+        nome: "Módulo De Cabine",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          painélDeControle: 5,
+          plásticoIsolante: 5,
+        },
+
+        output: {
+          cockpit: 15,
+        },
+      },
+      {
+        id: "conjuntoSuspensão",
+        nome: "Conjunto de Suspensão",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chapaAço: 10,
+          pistãoHidráulico: 5,
+        },
+
+        output: {
+          amortecedor: 12,
+        },
+      },
+      {
+        id: "mecanismoArticulação",
+        nome: "Mecanismo de Articulação",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          válvulaHidráulica: 5,
+          pistãoHidráulico: 10,
+        },
+
+        output: {
+          braçoHidráulico: 5,
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaAutomóveis",
+    nomeEdificio: "Fábrica De Automóveis",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "veículoPopular",
+        nome: "Veículo Popular",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chassiStandard: 1,
+          motorCombustão: 1,
+          sistemaTransmissão: 1
+        },
+
+        output: {
+          carroPopular: 2
+        },
+      },
+      {
+        id: "carroEsportivo",
+        nome: "Carro Esportivo",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chassiLuxo: 1,
+          motorCombustão: 10,
+          sistemaTransmissão: 5,
+        },
+
+        output: {
+          carroEsportivo: 1,
+        },
+      },
+      {
+        id: "máquinaPesada",
+        nome: "Máquina Pesada",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          placaReforçada: 2,
+          braçoHidráulico: 1,
+          motorNaval: 1,
+        },
+
+        output: {
+          Escavadeira: 1,
+        },
+      },
+
+    ],
+  },
+  {
+    edificioId: "montadoraVeículosElétricos",
+    nomeEdificio: "Montadora De Veículos Elétricos",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "veículoPopularElétrico",
+        nome: "veículo Popular Elétrico",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chassiStandard: 1,
+          motorElétrico: 1,
+          bateriaTracionamento: 1
+        },
+
+        output: {
+          carroElétrico: 2
+        },
+      },
+      {
+        id: "carroEsportivoElétrico",
+        nome: "Carro Esportivo Elétrico",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chassiLuxo: 1,
+          motorElétrico: 2,
+          bateriaTracionamento: 1,
+        },
+
+        output: {
+          hiperCarroElétrico: 1,
+        },
+      },
+      {
+        id: "prodCaminhãoElétrico",
+        nome: "Caminhão Elétrico",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chassiStandard: 2,
+          motorElétrico: 2,
+          bateriaTracionamento: 2,
+        },
+
+        output: {
+          caminhãoElétrico: 1,
+        },
+      },
+
+    ],
+  },
+  {
+    edificioId: "fábricaDeBaterias",
+    nomeEdificio: "Fábrica De Baterias",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "célulaLítio",
+        nome: "Célula De Lítio",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          lítioPuro: 10,
+          grafiteIndustrial: 5,
+          minérioDeCobalto: 5
+        },
+
+        output: {
+          UnidadeCélula: 20
+        },
+      },
+      {
+        id: "bateriaEV",
+        nome: "Pack De Bateria EV",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          UnidadeCélula: 50,
+          ControladorCarga: 2,
+          chapaAlumínio: 10,
+        },
+
+        output: {
+          bateriaTracionamento: 1,
+        },
+      },
+      {
+        id: "packEstacionário",
+        nome: "Pack Estacionário",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          UnidadeCélula: 20,
+          ControladorCarga: 1,
+          chapaAço: 5,
+        },
+        output: {
+          armazenamentoFixo: 2,
+        },
+      },
+      {
+        id: "bateriaSmall",
+        nome: "Bateria Small",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          UnidadeCélula: 5,
+          plásticoIsolante: 5,
+        },
+        output: {
+          bateriaPortátil: 15,
+        },
+      },
+
+    ],
+  },
+  {
+    edificioId: "FábricaRobôs",
+    nomeEdificio: "Fábrica De Robôs",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "braçoRobóticoIndustrial",
+        nome: "Braço Robótico Industrial",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          placaIndustrial: 2,
+          motorElétrico: 5,
+          pistãoHidráulico: 5,
+          açoBalistico: 10
+        },
+
+        output: {
+          unidadeAutomação: 2
+        },
+      },
+      {
+        id: "androideServiço",
+        nome: "Androide De Serviço",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          placaIndustrial: 2,
+          motorElétrico: 5,
+          pistãoHidráulico: 5,
+          açoBalistico: 10
+        },
+
+        output: {
+          robôServiço: 1
+        },
+      },
+      {
+        id: "prodDroneLogístico",
+        nome: "Drone Logístico",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          placaFrequência: 1,
+          microMotor: 4,
+          chapaAlumínio: 5,
+          bateriaPortátil: 10
+        },
+
+        output: {
+          droneLogístico: 3
+        },
+      },
+      {
+        id: "sondaExploratória",
+        nome: "Sonda Exploratória",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          placaFrequência: 1,
+          microMotor: 4,
+          chapaAlumínio: 5,
+          bateriaPortátil: 10
+        },
+
+        output: {
+          robôMineração: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaSmartphones",
+    nomeEdificio: "Fábrica De Smartphones",
+    setor: "tecnologia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "smartphoneStandard",
+        nome: "Smartphone Standard",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          placaMãe: 1,
+          tela: 1,
+          bateriaPortátil: 1,
+          polímero: 5
+        },
+
+        output: {
+          smartphoneBasico: 10
+        },
+      },
+      {
+        id: "prodSmartphonePremium",
+        nome: "Produção Smartphone Premium",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          placaMãe: 1,
+          tela: 1,
+          câmeraPrecisão: 1,
+          ligaDeOuro: 2
+        },
+
+        output: {
+          smartphonePremium: 5
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaComputadores",
+    nomeEdificio: "Fábrica De Computadores",
+    setor: "tecnologia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodComputador",
+        nome: "Produção De Computador",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          placaMãe: 1,
+          tela: 1,
+          placaFrequência: 2,
+          lingoteAlumínio: 10,
+        },
+
+        output: {
+          computador: 5
+        },
+      },
+      {
+        id: "RacksServidor",
+        nome: "Produção De Racks De Servidor",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          placaMãe: 4,
+          tela: 1,
+          placaFrequência: 10,
+          açoRefinado: 5,
+        },
+
+        output: {
+          unidadeServidor: 2
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaConsoles",
+    nomeEdificio: "Fábrica De Consoles De Jogos",
+    setor: "tecnologia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodComputador",
+        nome: "Produção De Computador",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          placaMãe: 1,
+          chipMemória:2,
+          polímero: 5,
+          placaFrequência: 2,
+        },
+
+        output: {
+          console: 8
+        },
+      },
+      {
+        id: "prodControle",
+        nome: "Produção De Controle",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          microControlador: 5,
+          polímero: 10,
+          fioCobre: 5,
+        },
+
+        output: {
+          controle: 2
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaDispositivosVestíveis",
+    nomeEdificio: "Fábrica De Dispositivos Vestíveis",
+    setor: "tecnologia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "relogiosInteligentes",
+        nome: "Produção De Relógios Inteligentes",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          microControlador: 1,
+          bateriaPortátil:1,
+          tela: 1,
+          polímero: 2,
+        },
+
+        output: {
+          smartwatch: 12
+        },
+      },
+      {
+        id: "prodFonesOuvídos",
+        nome: "Produção De Fones De Ouvídos",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          microControlador: 5,
+         bateriaPortátil:1,
+          microMotor:2
+        },
+
+        output: {
+          foneOuvido: 20
+        },
+      },
+    ],
+  },
+
 ];
 
 
