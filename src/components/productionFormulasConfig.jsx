@@ -1802,8 +1802,8 @@ export const FORMULAS_EDIFICIOS = [
         },
       },
       {
-        id: "produzirMotorJato",
-        nome: "Produção De Motor De Jato",
+        id: "produzirMotorAvião",
+        nome: "Produção De Motor De Avião",
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
@@ -1812,7 +1812,7 @@ export const FORMULAS_EDIFICIOS = [
           açoBalistico: 10,
         },
         output: {
-          motorJato: 1,
+          motorAvião: 1,
         },
       },
       {
@@ -2679,6 +2679,21 @@ export const FORMULAS_EDIFICIOS = [
           braçoHidráulico: 5,
         },
       },
+      {
+        id: "prodSeçãoCasco",
+        nome: "Produção Seção Casco",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          placaReforçada: 30,
+          ligaDeBronze: 10,
+        },
+
+        output: {
+          SeçãoCasco: 1,
+        },
+      },
     ],
   },
   {
@@ -3143,6 +3158,189 @@ export const FORMULAS_EDIFICIOS = [
 
         output: {
           foneOuvido: 20
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaAeronaves",
+    nomeEdificio: "Fábrica De Aeronaves",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "produçãoJatoComercial",
+        nome: "Produção De Jato Comercial",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          célulaFuselagem: 4,
+          motorAvião:2,
+          placaMãe: 1,
+        },
+
+        output: {
+          jatoComercial: 1
+        },
+      },
+      {
+        id: "prodAviãoCargueiro",
+        nome: "Produção De Avião Cargueiro",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          célulaFuselagem: 6,
+          motorAvião:2,
+          chassiStandard: 5,
+        },
+
+        output: {
+          aviãoCargueiro: 1
+        },
+      },
+      {
+        id: "prodCaçaDefesa",
+        nome: "Produção De Caça De Defesa",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          célulaFuselagem: 2,
+          motorAvião:1,
+          açoBalistico: 5,
+        },
+
+        output: {
+          caçaDefesa: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaFoguetes",
+    nomeEdificio: "Fábrica De Foguetes",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "produçãoSatéliteComunicação",
+        nome: "Produção Satélite de Comunicação",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          placaFrequência: 5,
+          tela:5,
+          ligaDeOuro: 10,
+        },
+
+        output: {
+          satéliteOrbital: 1
+        },
+      },
+      {
+        id: "prodSondaEspacial",
+        nome: "Produção De Sonda Espacial",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          açoBalistico: 5,
+          pistãoHidráulico: 10,
+          câmeraPrecisão: 2,
+        },
+
+        output: {
+          sondaEspacial: 1
+        },
+      },
+      {
+        id: "prodCaçaDefesa",
+        nome: "Produção De Caça De Defesa",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          chapaAltaTensão: 10,
+          motorFoguete:2,
+          ControladorCarga: 10,
+        },
+
+        output: {
+          fogueteLançamento: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "estaleiro",
+    nomeEdificio: "Estaleiro",
+    setor: "industria",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodNavioConteineres",
+        nome: "Produção DE Navio De Conteineres",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          SeçãoCasco: 20,
+          motorNaval:2,
+          vigaH: 10,
+        },
+
+        output: {
+          navioConteineres: 1
+        },
+      },
+      {
+        id: "prodNavioTanque",
+        nome: "Produção De Navio Tanque",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          SeçãoCasco: 30,
+          motorNaval:1,
+          pistãoHidráulico: 10,
+        },
+
+        output: {
+          navioPetroleiro: 1
+        },
+      },
+      {
+        id: "prodNavioPesquisa",
+        nome: "Produção De Navio De Pesquisa",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          SeçãoCasco: 10,
+          SondaTerreno:2,
+          tela: 5,
+        },
+
+        output: {
+          navioPesquisa: 1
         },
       },
     ],
