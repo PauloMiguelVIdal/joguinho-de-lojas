@@ -18,12 +18,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 40,
 
         input: {
-          milho: 1000,
+          sementeMilho: 1000,
           fertilizantePlantação: 10,
         },
 
         output: {
-          milho: 10000,
+          milho: 1000,
+          sementeMilho: 1000,
         },
       },
       {
@@ -33,12 +34,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 40,
 
         input: {
-          trigo: 1000,
+          sementeTrigo: 1000,
           fertilizantePlantação: 10,
         },
 
         output: {
-          trigo: 10000,
+          trigo: 1000,
+          sementeTrigo: 1000,
         },
       },
       {
@@ -48,11 +50,12 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 40,
 
         input: {
-          soja: 1000,
+          sementeSoja: 1000,
           fertilizantePlantação: 10,
         },
         output: {
-          soja: 10000,
+          soja: 1000,
+          sojsementeSojaa: 1000,
         },
       },
       {
@@ -62,12 +65,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 40,
 
         input: {
-          algodão: 1000,
+          sementeAlgodão: 1000,
           fertilizantePlantação: 10,
         },
 
         output: {
           algodão: 10000,
+          sementeAlgodão: 10000,
         },
       },
     ],
@@ -290,11 +294,11 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 40,
 
         input: {
-          toraEucalipto: 4,
+         toraNativa: 4,
         },
 
         output: {
-          cavacoDeMadeira: 20,
+          cavacoMadeiraNativa: 20,
           serragem: 10
         },
       },
@@ -305,10 +309,12 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 20,
 
         input: {
-          toraArvore: 4,
+          toraEucalipto: 4,
+          
         },
         output: {
-          toraArvore: 28,
+          cavacoEucalipto: 20,
+          serragem: 10
         },
       },
     ],
@@ -1712,7 +1718,7 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
         input: {
           ferroGusa: 10,
-          neodímio: 15,
+          minérioNeodímio: 15,
         },
         output: {
           blocoMagnético: 15,
