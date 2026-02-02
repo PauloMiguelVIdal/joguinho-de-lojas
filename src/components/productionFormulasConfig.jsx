@@ -18,13 +18,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 40,
 
         input: {
-          sementeMilho: 1000,
-          fertilizantePlantação: 10,
+          sementeMilho: 10,
+          fertilizantePlantação: 1,
         },
 
         output: {
-          milho: 1000,
-          sementeMilho: 1000,
+          milho: 20,
+          sementeMilho: 8,
         },
       },
       {
@@ -34,13 +34,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 40,
 
         input: {
-          sementeTrigo: 1000,
-          fertilizantePlantação: 10,
+          sementeTrigo: 10,
+          fertilizantePlantação: 1,
         },
 
         output: {
-          trigo: 1000,
-          sementeTrigo: 1000,
+          trigo: 20,
+          sementeTrigo: 8,
         },
       },
       {
@@ -50,12 +50,12 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 40,
 
         input: {
-          sementeSoja: 1000,
-          fertilizantePlantação: 10,
+          sementeSoja: 10,
+          fertilizantePlantação: 1,
         },
         output: {
-          soja: 1000,
-          sojsementeSojaa: 1000,
+          soja: 20,
+          sojsementeSojaa: 8,
         },
       },
       {
@@ -65,13 +65,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 40,
 
         input: {
-          sementeAlgodão: 1000,
-          fertilizantePlantação: 10,
+          sementeAlgodão: 10,
+          fertilizantePlantação: 1,
         },
 
         output: {
-          algodão: 10000,
-          sementeAlgodão: 10000,
+          algodão: 20,
+          sementeAlgodão: 8,
         },
       },
     ],
@@ -99,12 +99,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          vaca: 1,
-          racaoDeVacas: 2,
+          vaca: 2,
+          racaoDeVacas: 5,
         },
 
         output: {
-          vaca: 2,
+          vaca: 3,
+          esterco: 10
         },
       },
 
@@ -119,9 +120,8 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          couro: 5,
-          carneBovina: 300,
-          esterco: 20
+          couro: 6,
+          carneBovina: 10,
         },
       },
     ],
@@ -147,14 +147,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 20,
 
         input: {
-          galinha: 20,
+          galinha: 10,
           racaoDeAves: 5,
 
         },
 
         output: {
-          galinha: 60,
-          esterco: 2
+          galinha: 30,
         },
       },
 
@@ -168,7 +167,7 @@ export const FORMULAS_EDIFICIOS = [
           galinha: 1,
         },
         output: {
-          frango: 5,
+          frango: 8,
         },
       },
     ],
@@ -194,13 +193,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 40,
 
         input: {
-          ovelha: 4,
-          racaoDeOvinos: 10,
+          ovelha: 2,
+          racaoDeOvinos: 5,
         },
 
         output: {
-          ovelha: 8,
-          esterco: 5
+          ovelha: 3,
+          esterco: 10
         },
       },
 
@@ -214,7 +213,7 @@ export const FORMULAS_EDIFICIOS = [
           ovelha: 1,
         },
         output: {
-          carneOvino: 20,
+          carneOvino: 15,
         },
       },
       {
@@ -227,7 +226,7 @@ export const FORMULAS_EDIFICIOS = [
         },
         output: {
           ovelha: 1,
-          lã: 1,
+          lã: 5,
         },
       },
     ],
@@ -251,13 +250,13 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 40,
 
-        eucalipto: {
-          eucalipto: 4,
+        input: {
+          arvoreEucalipto: 4,
           fertilizanteFlorestal: 10,
         },
 
         output: {
-          eucalipto: 20,
+          arvoreEucalipto: 20,
         },
       },
       {
@@ -267,10 +266,10 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 20,
 
         input: {
-          eucalipto: 1,
+          arvoreNativa: 1,
         },
         output: {
-          torasEucalipto: 20,
+          arvoreNativa: 20,
         },
       },
     ],
@@ -288,13 +287,13 @@ export const FORMULAS_EDIFICIOS = [
 
     formulas: [
       {
-        id: "descascar_eucalipto",
-        nome: "Reprodução",
+        id: "cortar_eucalipto",
+        nome: "cortar",
         capacidadePorEdificio: 100,
         duracao: 40,
 
         input: {
-         toraNativa: 4,
+          toraNativa: 4,
         },
 
         output: {
@@ -303,14 +302,44 @@ export const FORMULAS_EDIFICIOS = [
         },
       },
       {
-        id: "descascar_tronco",
+        id: "cortar_nativo",
+        nome: "cortar nativo",
+        capacidadePorEdificio: 100,
+        duracao: 20,
+
+        input: {
+          arvoreEucalipto: 1,
+
+        },
+        output: {
+          toraEucalipto: 5,
+          serragem: 10,
+        },
+      },
+      {
+        id: "descascar_eucalipto",
+        nome: "Reprodução",
+        capacidadePorEdificio: 100,
+        duracao: 40,
+
+        input: {
+          arvoreNativa: 1,
+        },
+
+        output: {
+          toraNativa: 4,
+          serragem: 10,
+        },
+      },
+      {
+        id: "descascar_nativo",
         nome: "Explorar Eucalipto",
         capacidadePorEdificio: 100,
         duracao: 20,
 
         input: {
           toraEucalipto: 4,
-          
+
         },
         output: {
           cavacoEucalipto: 20,
@@ -416,7 +445,7 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          esterco: 25,
+          esterco: 20,
         },
 
         output: {
@@ -430,7 +459,7 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          esterco: 30,
+          esterco: 20,
         },
 
         output: {
@@ -460,13 +489,13 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           cavacoEucalipto: 40,
-          sodaCáustica: 10,
-          ácidoSulfúrico: 5,
+          sodaCáustica: 5,
+          ácidoSulfúrico: 2,
         },
 
         output: {
-          fardoCelulose: 40,
-          biomassaLíquida: 10,
+          fardoCelulose: 25,
+          biomassaLíquida: 5,
         },
       },
       {
@@ -477,13 +506,13 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           cavacoMadeiraNativa: 60,
-          sodaCáustica: 20,
-          ácidoSulfúrico: 15,
+          sodaCáustica: 10,
+          ácidoSulfúrico: 5,
         },
 
         output: {
           fardoCelulose: 15,
-          biomassaLíquida: 30,
+          biomassaLíquida: 25,
         },
       },
 
@@ -512,7 +541,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          bobinaKraft: 30,
+          bobinaKraft: 60,
         },
       },
       {
@@ -527,7 +556,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          bobinaBranco: 25,
+          bobinaBranco: 45,
         },
       },
 
@@ -845,23 +874,21 @@ export const FORMULAS_EDIFICIOS = [
         },
       },
       {
-        id: "sacola_papelão",
-        nome: "Produção De Sacolas De Varejo",
+        id: "caixa_papelão",
+        nome: "Produção De Caixa Pequena De Varejo",
         capacidadePorEdificio: 100,
         duracao: 30,
-
         input: {
           bobinaBranco: 30,
           tintaIndustrial: 15,
           polímero: 10,
         },
-
         output: {
           caixaPequenaPapelão: 40,
         },
       },
       {
-        id: "sacas_ industriais",
+        id: "sacas_industriais",
         nome: "Produção De Sacas Industriais",
         capacidadePorEdificio: 100,
         duracao: 30,
@@ -915,7 +942,7 @@ export const FORMULAS_EDIFICIOS = [
         },
       },
       {
-        id: "aditivos_Nylon.",
+        id: "aditivos_Nylon",
         nome: "Produção De Aditivos De Nylon",
         capacidadePorEdificio: 100,
         duracao: 30,
@@ -1061,7 +1088,7 @@ export const FORMULAS_EDIFICIOS = [
         },
       },
       {
-        id: "cracker_gás.",
+        id: "cracker_gás",
         nome: "Produção De Aditivos De Nylon",
         capacidadePorEdificio: 100,
         duracao: 30,
@@ -1136,6 +1163,45 @@ export const FORMULAS_EDIFICIOS = [
         },
         output: {
           resinaIndustrial: 20,
+        },
+      },
+      {
+        id: "moldagemABS",
+        nome: "Moldagem De ABS",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          polímero: 30,
+          aditivoDeNylon: 10,
+        },
+        output: {
+          termoplásticoRígido: 20,
+        },
+      },
+      {
+        id: "soproPET",
+        nome: "Sopro De PET",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          polímero: 30,
+          solvente: 10,
+        },
+        output: {
+          resinaEmbalagem: 20,
+        },
+      },
+      {
+        id: "extrusãoPVC",
+        nome: "Extrusão De PVC",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          polímero: 30,
+          cloro: 15,
+        },
+        output: {
+          plásticoIsolante: 40,
         },
       },
     ],
@@ -2850,7 +2916,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          UnidadeCélula: 20
+          unidadeCélula: 20
         },
       },
       {
@@ -2860,7 +2926,7 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          UnidadeCélula: 50,
+          unidadeCélula: 50,
           ControladorCarga: 2,
           chapaAlumínio: 10,
         },
@@ -2876,7 +2942,7 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          UnidadeCélula: 20,
+          unidadeCélula: 20,
           ControladorCarga: 1,
           chapaAço: 5,
         },
@@ -2891,7 +2957,7 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          UnidadeCélula: 5,
+          unidadeCélula: 5,
           plásticoIsolante: 5,
         },
         output: {
@@ -3095,13 +3161,13 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           placaMãe: 1,
-          chipMemória:2,
+          chipMemória: 2,
           polímero: 5,
           placaFrequência: 2,
         },
 
         output: {
-          console: 8
+          consoleJogos: 8
         },
       },
       {
@@ -3141,7 +3207,7 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           microControlador: 1,
-          bateriaPortátil:1,
+          bateriaPortátil: 1,
           tela: 1,
           polímero: 2,
         },
@@ -3158,8 +3224,8 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           microControlador: 5,
-         bateriaPortátil:1,
-          microMotor:2
+          bateriaPortátil: 1,
+          microMotor: 2
         },
 
         output: {
@@ -3187,7 +3253,7 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           célulaFuselagem: 4,
-          motorAvião:2,
+          motorAvião: 2,
           placaMãe: 1,
         },
 
@@ -3203,7 +3269,7 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           célulaFuselagem: 6,
-          motorAvião:2,
+          motorAvião: 2,
           chassiStandard: 5,
         },
 
@@ -3219,7 +3285,7 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           célulaFuselagem: 2,
-          motorAvião:1,
+          motorAvião: 1,
           açoBalistico: 5,
         },
 
@@ -3248,7 +3314,7 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           placaFrequência: 5,
-          tela:5,
+          tela: 5,
           ligaDeOuro: 10,
         },
 
@@ -3280,7 +3346,7 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           chapaAltaTensão: 10,
-          motorFoguete:2,
+          motorFoguete: 2,
           ControladorCarga: 10,
         },
 
@@ -3309,7 +3375,7 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           SeçãoCasco: 20,
-          motorNaval:2,
+          motorNaval: 2,
           vigaH: 10,
         },
 
@@ -3325,7 +3391,7 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           SeçãoCasco: 30,
-          motorNaval:1,
+          motorNaval: 1,
           pistãoHidráulico: 10,
         },
 
@@ -3341,12 +3407,369 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           SeçãoCasco: 10,
-          SondaTerreno:2,
+          SondaTerreno: 2,
           tela: 5,
         },
 
         output: {
           navioPesquisa: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaTurbinasEólicas",
+    nomeEdificio: "Fábrica De Turbinas Eólicas",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "geradorEólico",
+        nome: "Produção De Gerador Eólico",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          açoRefinado: 10,
+          rolamento: 5,
+          fioCobre: 5
+        },
+
+        output: {
+          turbinaEólica: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "fábricaPainéisSolares",
+    nomeEdificio: "Fábrica De Painéis Solares",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "célulaFotovoltaica",
+        nome: "Produção De Célula Fotovoltaica",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          vidroTécnico: 10,
+          silícioPuro: 5,
+          ligaDeLatão: 2
+        },
+
+        output: {
+          painelSolar: 10
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "centroReciclagemBaterias",
+    nomeEdificio: "Centro De Reciclagem De Baterias",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "reciclagemBaterias",
+        nome: "Reciclagem De Baterias",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+          bateriaUsada: 10,
+          ácidoSulfúrico: 5,
+        },
+
+        output: {
+          lítioPuro: 5,
+          minérioDeCobalto: 3
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "usinaSolar",
+    nomeEdificio: "Usina Solar",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodSolar",
+        nome: "Produção De Enegia Solar",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+
+        },
+
+        output: {
+          energiaLimpa: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "parqueEólico",
+    nomeEdificio: "Parque Eólico",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodEólico",
+        nome: "Produção De Enegia Eólica",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+
+        },
+
+        output: {
+          energiaLimpa: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "usinaBiomassa",
+    nomeEdificio: "Usina De Biomassa",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodBiomassa",
+        nome: "Produção De Enegia Por Biomassa",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+
+        },
+
+        output: {
+          energiaLimpa: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "usinaTermelétricaBiocombustíveis",
+    nomeEdificio: "Usina Termelétrica A Biocombustíveis",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodBiocombustíveis",
+        nome: "Produção De Enegia Por Biocombustíveis",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+
+        },
+
+        output: {
+          energiaLimpa: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "usinaTermelétricaBiocombustíveis",
+    nomeEdificio: "Usina Termelétrica A Biocombustíveis",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodBiocombustíveis",
+        nome: "Produção De Enegia Por Biocombustíveis",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+
+        },
+
+        output: {
+          energiaLimpa: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "usinaHidrelétrica",
+    nomeEdificio: "Usina Hidrelétrica",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodHidrelétrica",
+        nome: "Produção De Enegia Por Hidrelétrica",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+
+        },
+
+        output: {
+          energiaLimpa: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "usinaTermelétrica",
+    nomeEdificio: "Usina Termelétrica",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodTermelétrica",
+        nome: "Produção De Enegia Por Termelétrica",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+
+        },
+
+        output: {
+          energiaComum: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "usinaTermelétrica",
+    nomeEdificio: "Usina Termelétrica",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodTermelétrica",
+        nome: "Produção De Enegia Por Termelétrica",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+
+        },
+
+        output: {
+          energiaLimpa: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "reatorNuclear",
+    nomeEdificio: "Reator Nuclear Convencional",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodNuclear",
+        nome: "Produção De Enegia Por Nuclear",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+
+        },
+
+        output: {
+          energiaNuclear: 1
+        },
+      },
+    ],
+  },
+  {
+    edificioId: "usinaFusãoNuclear",
+    nomeEdificio: "Usina De Fusão Nuclear",
+    setor: "energia",
+    maxAcoesSimultaneasPorNivel: {
+      1: 1,
+      2: 2,
+      3: 3,
+    },
+
+    formulas: [
+      {
+        id: "prodNuclear",
+        nome: "Produção De Enegia Por Nuclear",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+
+        input: {
+
+        },
+
+        output: {
+          energiaNuclear: 1
         },
       },
     ],

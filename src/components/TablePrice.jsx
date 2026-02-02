@@ -1633,8 +1633,8 @@ export const productsCatalog = {
     categoriaFisica: "aeronaves",
     slotSize: 6,
   },
-  UnidadeCélula: {
-    id: "UnidadeCélula",
+  unidadeCélula: {
+    id: "unidadeCélula",
     nome: "Unidade De Célula",
     icon: "🔋",
     unidade: "unidade",
@@ -1866,6 +1866,16 @@ export const productsCatalog = {
     nome: "Aço Inox",
     icon: "⚫",
     unidade: "tonelada",
+    setor: "industria",
+    categoriaFisica: "componentes industriais",
+    slotSize: 6,
+  },
+
+  SeçãoCasco: {
+    id: "SeçãoCasco",
+    nome: "Seção Casco",
+    icon: "🚢",
+    unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes industriais",
     slotSize: 6,
@@ -2162,9 +2172,9 @@ export const productsCatalog = {
     categoriaFisica: "bens de alto valor",
     slotSize: 2,
   },
-  console: {
-    id: "computador",
-    nome: "Computador",
+  consoleJogos: {
+    id: "consoleJogos",
+    nome: "Console De Jogos",
     icon: "📱",
     unidade: "unidade",
     setor: "tecnologia",
@@ -2183,9 +2193,19 @@ export const productsCatalog = {
 
 
   // ⚡ ENERGIA
-  painelSolarIndustrial: {
-    id: "painelSolarIndustrial",
-    nome: "Painel Solar Industrial",
+  bateriaUsada: {
+    id: "bateriaUsada",
+    nome: "Bateria Usada",
+    icon: "🏭",
+    unidade: "unidade",
+    setor: "energia",
+    categoriaFisica: "componentes industriais",
+    slotSize: 200,
+  },
+
+  painelSolar: {
+    id: "painelSolar",
+    nome: "Painel Solar",
     icon: "🏭",
     unidade: "unidade",
     setor: "energia",
@@ -2252,6 +2272,15 @@ export const productsCatalog = {
     categoriaFisica: "componentes industriais",
     slotSize: 10,
   },
+  turbinaEólica: {
+    id: "turbinaEólica",
+    nome: "Turbina Eólica",
+    icon: "🍃",
+    unidade: "kg",
+    setor: "energia",
+    categoriaFisica: "componentes industriais",
+    slotSize: 10,
+  },
 
   softwareSimples: {
     id: "softwareSimples",
@@ -2270,6 +2299,33 @@ export const productsCatalog = {
     setor: "comercio",
     categoriaFisica: "bens de alto valor",
     slotSize: 5,
+  },
+  energiaLimpa: {
+    id: "energiaLimpa",
+    nome: "Energia Limpa",
+    icon: "⚡",
+    unidade: "MWh",
+    setor: "energia",
+    categoriaFisica: "energia",
+    slotSize: 1,
+  },
+  energiaComum: {
+    id: "energiaLimpa",
+    nome: "Energia Limpa",
+    icon: "⚡",
+    unidade: "MWh",
+    setor: "energia",
+    categoriaFisica: "energia",
+    slotSize: 1,
+  },
+  energiaNuclear: {
+    id: "energiaLimpa",
+    nome: "Energia Limpa",
+    icon: "⚡",
+    unidade: "MWh",
+    setor: "energia",
+    categoriaFisica: "energia",
+    slotSize: 1,
   },
 
 };
