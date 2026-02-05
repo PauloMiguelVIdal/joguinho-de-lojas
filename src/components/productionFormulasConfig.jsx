@@ -580,12 +580,12 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          bobinaBranco: 25,
-          tintaIndustrial: 5,
+          bobinaBranco: 1,
+          tintaIndustrial: 1,
         },
 
         output: {
-          livroComum: 20,
+          livroComum: 120,
         },
       },
       {
@@ -596,13 +596,13 @@ export const FORMULAS_EDIFICIOS = [
 
 
         input: {
-          bobinaBranco: 15,
-          tintaIndustrial: 5,
-          couro: 5,
+          bobinaBranco: 1,
+          tintaIndustrial: 1,
+          couro: 1,
         },
 
         output: {
-          livroPremium: 10,
+          livroPremium: 35,
         },
       },
     ],
@@ -625,12 +625,12 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          algodão: 50,
-          sodaCáustica: 10,
+          algodão: 40,
+          sodaCáustica: 1,
         },
 
         output: {
-          fioAlgodão: 40,
+          fioAlgodão: 16,
         },
       },
       {
@@ -641,28 +641,12 @@ export const FORMULAS_EDIFICIOS = [
 
 
         input: {
-          lã: 40,
-          sodaCáustica: 15,
+          lã: 10,
+          sodaCáustica: 1,
         },
 
         output: {
-          fioLã: 30,
-        },
-      },
-      {
-        id: "fiação_Lã",
-        nome: "Produção De Fiação De Lã",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-
-        input: {
-          lã: 40,
-          sodaCáustica: 15,
-        },
-
-        output: {
-          fioLã: 30,
+          fioLã: 5,
         },
       },
       {
@@ -673,28 +657,12 @@ export const FORMULAS_EDIFICIOS = [
 
 
         input: {
-          tecidoTecnico: 40,
-          sodaCáustica: 15,
+          polímero: 5,
+          aditivoDeNylon: 3,
         },
 
         output: {
-          fioLã: 30,
-        },
-      },
-      {
-        id: "fio_industrial",
-        nome: "Produção De Fio Industrial",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-
-        input: {
-          polímero: 30,
-          aditivoDeNylon: 10,
-        },
-
-        output: {
-          fioIndustrial: 40,
+          tecidoTecnico: 11,
         },
       },
       {
@@ -705,13 +673,13 @@ export const FORMULAS_EDIFICIOS = [
 
 
         input: {
-          couro: 20,
-          tintaIndustrial: 15,
-          saisDeCromo: 10,
+          couro: 10,
+          tintaIndustrial: 2,
+          saisDeCromo: 2,
         },
 
         output: {
-          couroPremium: 30,
+          couroPremium: 25,
         },
       },
     ],
@@ -734,8 +702,8 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          tecidoTecnico: 10,
-          polímero: 20,
+          tecidoTecnico: 2,
+          polímero: 4,
           caixaPequenaPapelão: 10,
         },
 
@@ -756,7 +724,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          tenisCorrida: 15,
+          tenisCorrida: 45,
         },
       },
       {
@@ -766,13 +734,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          couroPremium: 15,
-          polímero: 10,
+          couroPremium: 5,
+          polímero: 2,
           caixaPequenaPapelão: 10,
         },
 
         output: {
-          sapatoLuxo: 10,
+          sapatoLuxo: 32,
         },
       },
     ],
@@ -794,12 +762,12 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          fioAlgodão: 20,
-          tintaIndustrial: 5,
-          sacolaPapelão: 10
+          fioAlgodão: 3,
+          tintaIndustrial: 1,
+          sacolaPapelão: 5
         },
         output: {
-          camisetaAlgodão: 20,
+          camisetaAlgodão: 190,
         },
       },
       {
@@ -808,13 +776,13 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          fioLã: 20,
-          tintaIndustrial: 10,
+          fioLã: 4,
+          tintaIndustrial: 1,
           sacolaPapelão: 10,
         },
 
         output: {
-          casacoLã: 10,
+          casacoLã: 75,
         },
       },
       {
@@ -823,12 +791,12 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          tecidoTecnico: 20,
-          tintaIndustrial: 10,
+          tecidoTecnico: 3,
+          tintaIndustrial: 1,
           sacolaPapelão: 10,
         },
         output: {
-          roupasDryFit: 20,
+          roupasDryFit: 85,
         },
       },
     ],
@@ -898,7 +866,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          caixaPequenaPapelão: 40,
+          sacaIndustrial: 40,
         },
       },
     ],
@@ -984,7 +952,7 @@ export const FORMULAS_EDIFICIOS = [
       },
       {
         id: "silício_puro",
-        nome: "Produção De Linha de Adesivos",
+        nome: "Refino De Silício De Alta Pureza",
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
@@ -1014,11 +982,11 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          arsênioBruto: 20,
-          cloro: 10,
+          arsênioBruto: 10,
+          cloro: 5,
         },
         output: {
-          arsênioPuro: 15,
+          arsênioPuro: 1,
         },
       },
       {
@@ -1027,11 +995,11 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          minérioDeLítio: 30,
-          ácidoSulfúrico: 10,
+          minérioDeLítio: 5,
+          ácidoSulfúrico: 2,
         },
         output: {
-          lítioPuro: 20,
+          lítioPuro: 2,
         },
       },
       {
