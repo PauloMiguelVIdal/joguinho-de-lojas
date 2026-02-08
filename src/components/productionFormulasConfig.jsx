@@ -818,8 +818,8 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          bobinaKraft: 40,
-          colaIndustrial: 10,
+          bobinaKraft: 1,
+          colaIndustrial: 2,
         },
 
         output: {
@@ -833,12 +833,12 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          bobinaBranco: 20,
-          tintaIndustrial: 10,
+          bobinaBranco: 2,
+          tintaIndustrial: 1,
         },
 
         output: {
-          sacolaPapelão: 100,
+          sacolaPapelão: 90,
         },
       },
       {
@@ -861,12 +861,12 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          polímero: 30,
-          fioIndustrial: 10,
+          polímero: 3,
+          fioIndustrial: 2,
         },
 
         output: {
-          sacaIndustrial: 40,
+          sacaIndustrial: 85,
         },
       },
     ],
@@ -889,11 +889,11 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          enxofreBruto: 30,
+          enxofreBruto: 10,
         },
 
         output: {
-          ácidoSulfúrico: 40,
+          ácidoSulfúrico: 7,
         },
       },
       {
@@ -902,11 +902,11 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          sal: 30,
+          sal: 10,
         },
         output: {
-          sodaCáustica: 25,
-          cloro: 10,
+          sodaCáustica: 5,
+          cloro: 4,
         },
       },
       {
@@ -915,11 +915,11 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          ácidoSulfúrico: 15,
-          benzeno: 20,
+          ácidoSulfúrico: 2,
+          benzeno: 5,
         },
         output: {
-          aditivoDeNylon: 30,
+          aditivoDeNylon: 8,
         },
       },
       {
@@ -929,12 +929,12 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          benzeno: 15,
-          pigmento: 15,
+          benzeno: 5,
+          pigmento: 5,
         },
 
         output: {
-          tintaIndustrial: 40,
+          tintaIndustrial: 6,
         },
       },
       {
@@ -943,11 +943,11 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          benzeno: 15,
-          polímero: 10,
+          benzeno: 5,
+          polímero: 2,
         },
         output: {
-          colaIndustrial: 25,
+          colaIndustrial: 13,
         },
       },
       {
@@ -956,11 +956,11 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          silícioMetalúgico: 20,
-          cloro: 10,
+          silícioMetalúgico: 10,
+          cloro: 5,
         },
         output: {
-          silícioPuro: 15,
+          silícioPuro: 1,
         },
       },
       {
@@ -970,10 +970,10 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
         input: {
           carvãoRefinado: 20,
-          ácidoSulfúrico: 10,
+          ácidoSulfúrico: 2,
         },
         output: {
-          carbonoEletrônico: 15,
+          nanotuboCarbono: 1,
         },
       },
       {
@@ -982,8 +982,8 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          arsênioBruto: 10,
-          cloro: 5,
+          arsênioBruto: 8,
+          cloro: 2,
         },
         output: {
           arsênioPuro: 1,
@@ -1008,10 +1008,10 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          carvãoRefinado: 40,
+          carvãoRefinado: 30,
         },
         output: {
-          grafiteIndustrial: 15,
+          grafiteIndustrial: 4,
         },
       },
     ],
@@ -1038,8 +1038,8 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          nafta: 40,
-          benzeno: 20,
+          nafta: 30,
+          benzeno: 15,
         },
       },
       {
@@ -1051,7 +1051,7 @@ export const FORMULAS_EDIFICIOS = [
           petróleoBruto: 100,
         },
         output: {
-          diesel: 50,
+          diesel: 35,
           solvente: 10,
         },
       },
@@ -1061,10 +1061,10 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          nafta: 60,
+          nafta: 20,
         },
         output: {
-          polímero: 50,
+          polímero: 45,
         },
       },
       {
@@ -1074,11 +1074,11 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          petróleoBruto: 50,
+          petróleoBruto: 20,
         },
 
         output: {
-          enxofreBruto: 15,
+          enxofreBruto: 20,
         },
       },
       {
@@ -1088,7 +1088,7 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          petróleoBruto: 40,
+          petróleoBruto: 10,
         },
 
         output: {
@@ -1113,11 +1113,11 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          polímero: 25,
-          aditivoDeNylon: 15,
+          polímero: 20,
+          aditivoDeNylon: 10,
         },
         output: {
-          polímeroReforçado: 35,
+          polímeroReforçado: 10,
         },
       },
       {
@@ -1126,11 +1126,11 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          nafta: 15,
-          benzeno: 5,
+          nafta: 10,
+          benzeno: 10,
         },
         output: {
-          resinaIndustrial: 20,
+          resinaIndustrial: 30,
         },
       },
       {
@@ -1139,11 +1139,11 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          polímero: 30,
-          aditivoDeNylon: 10,
+          polímero: 20,
+          aditivoDeNylon: 15,
         },
         output: {
-          termoplásticoRígido: 20,
+          termoplásticoRígido: 23,
         },
       },
       {
@@ -1156,7 +1156,7 @@ export const FORMULAS_EDIFICIOS = [
           solvente: 10,
         },
         output: {
-          resinaEmbalagem: 20,
+          resinaEmbalagem: 47,
         },
       },
       {
@@ -1166,10 +1166,10 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
         input: {
           polímero: 30,
-          cloro: 15,
+          cloro: 10,
         },
         output: {
-          plásticoIsolante: 40,
+          plásticoIsolante: 24,
         },
       },
     ],
@@ -1212,7 +1212,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          oleoAntimicrobiano: 25,
+          óleoAntimicrobiano: 25,
         },
       },
       {
@@ -1266,7 +1266,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          comprimidosGenéricos: 30,
+          comprimidosGenéricos: 5000,
         },
       },
       {
@@ -1291,7 +1291,7 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          oleoAntimicrobiano: 10,
+          óleoAntimicrobiano: 10,
           solvente: 5,
         },
         output: {
@@ -1360,7 +1360,7 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          oleoAntimicrobiano: 10,
+          óleoAntimicrobiano: 10,
           solvente: 5,
         },
         output: {
@@ -1500,48 +1500,20 @@ export const FORMULAS_EDIFICIOS = [
       {
         id: "açoAltaPureza",
         nome: "Produção De Aço De Alta Pureza",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-        input: {
-          lingoteAço: 40,
-          cloro: 10,
-        },
-
-        output: {
-          açoRefinado: 35,
-        },
+        input: { lingoteAço: 40, cloro: 10 },
+        output: { açoRefinado: 10 }, // Preço 18000
       },
       {
         id: "refinoCobre",
         nome: "Refino De Cobre",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-        input: {
-          minérioDeCobre: 40,
-          ácidoSulfúrico: 10,
-        },
-
-        output: {
-          lingoteDeCobre: 30,
-          arsênioBruto: 10,
-        },
+        input: { minérioDeCobre: 40, ácidoSulfúrico: 10 },
+        output: { lingoteDeCobre: 23, arsênioBruto: 2 },
       },
       {
         id: "fundiçãoChumbo",
         nome: "Fundição De Chumbo",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-        input: {
-          minérioDeChumbo: 40,
-          carvãoRefinado: 10,
-        },
-
-        output: {
-          lingoteChumbo: 30,
-        },
+        input: { minérioDeChumbo: 40, carvãoRefinado: 10 },
+        output: { lingoteChumbo: 15 }, // Preço 5000
       },
     ],
   },
@@ -1557,31 +1529,16 @@ export const FORMULAS_EDIFICIOS = [
 
     formulas: [
       {
-        id: "reciclagemAço",
-        nome: "Reciclagem De Aço",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-        input: {
-          bauxita: 60,
-
-        },
-
-        output: {
-          lingoteAlumínio: 40,
-        },
+        id: "criandoLingoteA",
+        nome: "Produção de Alumínio (Bauxita)",
+        input: { bauxita: 60 },
+        output: { lingoteAlumínio: 10 }, // Preço 3500
       },
       {
-        id: "reciclagemAlumínio",
-        nome: "Reciclagem De Alumínio",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          sucata: 40,
-        },
-        output: {
-          lingoteAlumínio: 30,
-        },
+        id: "bronzeIndustrial",
+        nome: "Produção De Bronze Industrial",
+        input: { lingoteDeCobre: 20, minérioDeEstanho: 10 },
+        output: { ligaDeBronze: 18 }, // Preço 8500
       },
     ],
   },
@@ -1616,94 +1573,32 @@ export const FORMULAS_EDIFICIOS = [
       {
         id: "latãoElétrico",
         nome: "Produção De Latão Elétrico",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          lingoteDeCobre: 20,
-          minérioDeZinco: 10,
-        },
-        output: {
-          ligaDeLatão: 25,
-        },
-      },
-      {
-        id: "açoInoxidável",
-        nome: "Produção De Aço Inoxidável",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          açoRefinado: 20,
-          minérioDeCromo: 10,
-        },
-        output: {
-          açoInox: 25,
-        },
-      },
-      {
-        id: "ligaGalhoÍndio",
-        nome: "Produção De Liga Galho/Índio",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          minérioDeGalho: 10,
-          minérioDeIndio: 5,
-        },
-        output: {
-          compostoSemicondutor: 12,
-        },
+        input: { lingoteDeCobre: 20, minérioDeZinco: 10 },
+        output: { ligaDeLatão: 18 }, // Preço 8500
       },
       {
         id: "superligasTérmicas",
         nome: "Produção De Superligas Térmicas",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          minérioDeCobalto: 15,
-          minérioDeNiquel: 10,
-          açoRefinado: 5,
-        },
-        output: {
-          superligaTérmica: 20,
-        },
+        input: { minérioDeCobalto: 15, minérioDeNiquel: 10, açoRefinado: 5 },
+        output: { superligaTérmica: 9 }, // Preço 45000
       },
       {
         id: "contatosPrata",
         nome: "Produção De Contatos De Prata",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          minérioDePrata: 20,
-          lingoteDeCobre: 10,
-        },
-        output: {
-          contatoDePrata: 25,
-        },
+        input: { minérioDePrata: 20, lingoteDeCobre: 10 },
+        output: { contatoDePrata: 31 }, // Preço 12000 (Ajuste no Market)
       },
       {
         id: "titânioRefinado",
         nome: "Produção De Titânio Refinado",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          minérioDeTitânio: 30,
-          cloro: 10,
-        },
-        output: {
-          lingoteTitânio: 25,
-        },
+        input: { minérioDeTitânio: 30, cloro: 10 },
+        output: { lingoteTitânio: 32 }, // Preço 25000 (Ajuste no Market)
       },
       {
         id: "soldaEletrônica",
         nome: "Produção De Solda Eletrônica",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          minérioDeEstanho: 20,
-          minérioDePrata: 10,
-        },
-        output: {
-          ligaDeSolda: 25,
-        },
+        input: { minérioDeEstanho: 20, minérioDePrata: 10 },
+        output: { ligaDeSolda: 28 }, // Preço 8500
       },
       {
         id: "açoManganês",
@@ -1747,30 +1642,13 @@ export const FORMULAS_EDIFICIOS = [
       },
       {
         id: "ÍmãsNeodímio",
-        nome: "Produção De Ímãs De Neodímio",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          ferroGusa: 10,
-          minérioNeodímio: 15,
-        },
-        output: {
-          blocoMagnético: 15,
-        },
+        input: { ferroGusa: 10, minérioNeodímio: 15 },
+        output: { blocoMagnético: 11 },
       },
       {
         id: "prodLigaDeOuro",
-        nome: "Produção De Liga De Ouro",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          minérioDeOuro: 10,
-          minérioDeNiquel: 5,
-          minérioDeCobalto: 5,
-        },
-        output: {
-          ligaDeOuro: 15,
-        },
+        input: { minérioDeOuro: 10, minérioDeNiquel: 5, minérioDeCobalto: 5 },
+        output: { ligaDeOuro: 3 }, // Valor unitário alto
       },
     ],
   },
@@ -1787,143 +1665,34 @@ export const FORMULAS_EDIFICIOS = [
     formulas: [
       {
         id: "prodMicroMotor",
-        nome: "Produção De Micro Motor",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          rolamento: 2,
-          fioCobre: 10,
-          aço: 2,
-        },
-        output: {
-          microMotor: 5,
-        },
+        input: { rolamento: 2, fioCobre: 10, aço: 2 },
+        output: { microMotor: 12 },
       },
       {
         id: "motorStandard",
-        nome: "Produção De Motor Standard",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          lingoteAço: 20,
-          lingoteAlumínio: 10,
-          engrenagem: 5,
-        },
-        output: {
-          motorCombustão: 5,
-        },
+        input: { lingoteAço: 20, lingoteAlumínio: 10, engrenagem: 5 },
+        output: { motorCombustão: 4 },
       },
       {
         id: "produzirMotorElétrico",
-        nome: "Produção De Motor Elétrico",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          fioCobre: 20,
-          lingoteAlumínio: 10,
-          blocoMagnético: 10,
-        },
-        output: {
-          motorElétrico: 5,
-        },
-      },
-      {
-        id: "turbofãComercial",
-        nome: "Produção De Turbofã Comercial",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          açoRefinado: 30,
-          palhetaPrecisão: 10,
-          rolamento: 5,
-        },
-        output: {
-          motorElétrico: 5,
-        },
+        input: { fioCobre: 20, lingoteAlumínio: 10, blocoMagnético: 10 },
+        output: { motorElétrico: 11 },
       },
       {
         id: "produzirMotorAvião",
-        nome: "Produção De Motor De Avião",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          superligaTérmica: 20,
-          lingoteTitânio: 10,
-          açoBalistico: 10,
-        },
-        output: {
-          motorAvião: 1,
-        },
+        input: { superligaTérmica: 20, lingoteTitânio: 10, açoBalistico: 10 },
+        output: { motorAvião: 1 },
       },
       {
         id: "propulsorCriogênico",
-        nome: "Produção De Propulsor Criogênico",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          superligaTérmica: 15,
-          lingoteTitânio: 30,
-          polímeroReforçado: 10,
-        },
-        output: {
-          motorFoguete: 1,
-        },
-      },
-      {
-        id: "produzirMotorNaval",
-        nome: "Produção De Motor Naval",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          lingoteAço: 50,
-          engrenagem: 20,
-          ligaDeBronze: 15,
-        },
-        output: {
-          motorNaval: 2,
-        },
-      },
-      {
-        id: "motorDrones",
-        nome: "Produção De Motor De Drone",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          açoRefinado: 5,
-          lingoteAlumínio: 5,
-          blocoMagnético: 5,
-        },
-        output: {
-          motorDrone: 10,
-        },
-      },
-      {
-        id: "atuadorHidráulico",
-        nome: "Produção De Atuador Hidráulico",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          óleoIndustrial: 10,
-          açoBalistico: 15,
-          engrenagem: 5,
-        },
-        output: {
-          pistãoHidráulico: 10,
-        },
+        input: { superligaTérmica: 15, lingoteTitânio: 30, polímeroReforçado: 10 },
+        output: { motorFoguete: 1 }, // Valor unitário ~25M
       },
       {
         id: "motorPulso",
-        nome: "motorPulso",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          superligaTérmica: 20,
-          açoRefinado: 10,
-          lingoteTitânio: 5,
-        },
-        output: {
-          motorMíssil: 3,
-        },
+        nome: "Produção de Motor de Míssil",
+        input: { superligaTérmica: 20, açoRefinado: 10, lingoteTitânio: 5 },
+        output: { motorMíssil: 1 },
       },
     ],
   },
@@ -1940,19 +1709,8 @@ export const FORMULAS_EDIFICIOS = [
     formulas: [
       {
         id: "prodWaferSilício",
-        nome: "Wafer De Silício",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-        input: {
-          silícioPuro: 40,
-          nitrogênio: 10,
-
-        },
-
-        output: {
-          waferSilício: 20,
-        },
+        input: { silícioPuro: 40, nitrogênio: 10 },
+        output: { waferSilício: 4 },
       },
       {
         id: "prodWaferPotência",
@@ -1972,16 +1730,8 @@ export const FORMULAS_EDIFICIOS = [
       },
       {
         id: "arsenetoGálio",
-        nome: "Arseneto de Gálio",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          compostoSemicondutor: 10,
-          arsênioPuro: 10,
-        },
-        output: {
-          waferRF: 12,
-        },
+        input: { compostoSemicondutor: 10, arsênioPuro: 10 },
+        output: { waferRF: 8 },
       },
       {
         id: "célulaFotovoltaica",
@@ -2259,7 +2009,7 @@ export const FORMULAS_EDIFICIOS = [
         },
       },
       {
-        id: "prodPlacaTelecomSatélite",
+        id: "prodComputadorVoo",
         nome: "Placa De Telecom E Satélite",
         capacidadePorEdificio: 100,
         duracao: 30,
@@ -2353,7 +2103,7 @@ export const FORMULAS_EDIFICIOS = [
         },
       },
       {
-        id: "sistemaVisãoDigital",
+        id: "sistemaSondaTerreno",
         nome: "Sistemas De Visão Digital",
         capacidadePorEdificio: 100,
         duracao: 30,
@@ -2365,7 +2115,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          SondaTerreno: 15,
+          sondaTerreno: 15,
         },
       },
       {
@@ -2515,7 +2265,7 @@ export const FORMULAS_EDIFICIOS = [
         },
       },
       {
-        id: "válvulasControle",
+        id: "sistemaRotação",
         nome: "Válvulas de Controle",
         capacidadePorEdificio: 100,
         duracao: 30,
@@ -2645,21 +2395,6 @@ export const FORMULAS_EDIFICIOS = [
         },
       },
       {
-        id: "kitHidráulico",
-        nome: "Kit Hidráulico",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-        input: {
-          lingoteAço: 10,
-          polímeroReforçado: 5,
-        },
-
-        output: {
-          válvulaHidráulica: 8,
-        },
-      },
-      {
         id: "kitAltaPerformance",
         nome: "Kit De Alta Performance",
         capacidadePorEdificio: 100,
@@ -2764,7 +2499,7 @@ export const FORMULAS_EDIFICIOS = [
         },
       },
       {
-        id: "carroEsportivo",
+        id: "prodCarroEsportivo",
         nome: "Carro Esportivo",
         capacidadePorEdificio: 100,
         duracao: 30,
@@ -3122,7 +2857,7 @@ export const FORMULAS_EDIFICIOS = [
 
     formulas: [
       {
-        id: "prodComputador",
+        id: "prodConsoles",
         nome: "Produção De Computador",
         capacidadePorEdificio: 100,
         duracao: 30,
@@ -3375,7 +3110,7 @@ export const FORMULAS_EDIFICIOS = [
 
         input: {
           SeçãoCasco: 10,
-          SondaTerreno: 2,
+          sondaTerreno: 2,
           tela: 5,
         },
 
@@ -3581,33 +3316,6 @@ export const FORMULAS_EDIFICIOS = [
     ],
   },
   {
-    edificioId: "usinaTermelétricaBiocombustíveis",
-    nomeEdificio: "Usina Termelétrica A Biocombustíveis",
-    setor: "energia",
-    maxAcoesSimultaneasPorNivel: {
-      1: 1,
-      2: 2,
-      3: 3,
-    },
-
-    formulas: [
-      {
-        id: "prodBiocombustíveis",
-        nome: "Produção De Enegia Por Biocombustíveis",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-        input: {
-
-        },
-
-        output: {
-          energiaLimpa: 1
-        },
-      },
-    ],
-  },
-  {
     edificioId: "usinaHidrelétrica",
     nomeEdificio: "Usina Hidrelétrica",
     setor: "energia",
@@ -3662,33 +3370,6 @@ export const FORMULAS_EDIFICIOS = [
     ],
   },
   {
-    edificioId: "usinaTermelétrica",
-    nomeEdificio: "Usina Termelétrica",
-    setor: "energia",
-    maxAcoesSimultaneasPorNivel: {
-      1: 1,
-      2: 2,
-      3: 3,
-    },
-
-    formulas: [
-      {
-        id: "prodTermelétrica",
-        nome: "Produção De Enegia Por Termelétrica",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-        input: {
-
-        },
-
-        output: {
-          energiaLimpa: 1
-        },
-      },
-    ],
-  },
-  {
     edificioId: "reatorNuclear",
     nomeEdificio: "Reator Nuclear Convencional",
     setor: "energia",
@@ -3727,7 +3408,7 @@ export const FORMULAS_EDIFICIOS = [
 
     formulas: [
       {
-        id: "prodNuclear",
+        id: "prodFusãoNuclear",
         nome: "Produção De Enegia Por Nuclear",
         capacidadePorEdificio: 100,
         duracao: 30,
