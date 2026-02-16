@@ -1192,12 +1192,12 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          ervaAnalgésica: 50,
-          solvente: 15,
+          ervaAnalgésica: 20,
+          solvente: 2,
         },
 
         output: {
-          extratoAlívio: 25,
+          extratoAlívio: 2,
         },
       },
       {
@@ -1207,12 +1207,12 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          plantaAntissépticas: 50,
-          solvente: 15,
+          plantaAntissépticas: 20,
+          solvente: 2,
         },
 
         output: {
-          óleoAntimicrobiano: 25,
+          óleoAntimicrobiano: 3,
         },
       },
       {
@@ -1222,11 +1222,11 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          benzeno: 20,
-          ácidoSulfúrico: 10,
+          benzeno: 5,
+          ácidoSulfúrico: 2,
         },
         output: {
-          pASintético: 15,
+          pASintético: 2,
         },
       },
       {
@@ -1238,7 +1238,7 @@ export const FORMULAS_EDIFICIOS = [
           milho: 40,
         },
         output: {
-          excipienteFarmacêutico: 30,
+          excipienteFarmacêutico: 1,
         },
       },
     ],
@@ -1281,7 +1281,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          frascoVitamina: 20,
+          frascoVitamina: 1750,
         },
       },
       {
@@ -1295,7 +1295,7 @@ export const FORMULAS_EDIFICIOS = [
           solvente: 5,
         },
         output: {
-          bisnagaTratamento: 15,
+          bisnagaTratamento: 600,
         },
       },
       {
@@ -1304,11 +1304,11 @@ export const FORMULAS_EDIFICIOS = [
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
-          enzima: 10,
+          enzima: 1,
           cloro: 10,
         },
         output: {
-          testeLaboratorial: 20,
+          testeLaboratorial: 2,
         },
       },
     ],
@@ -1335,49 +1335,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          enzimaIndustrial: 25,
-        },
-      },
-      {
-        id: "suplementos_vitamínicos",
-        nome: "Suplementos Vitamínicos",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-        input: {
-          extratoAlívio: 20,
-          excipienteFarmacêutico: 10,
-        },
-
-        output: {
-          frascoVitamina: 20,
-        },
-      },
-      {
-        id: "produçãoPomadasMedicinais",
-        nome: "Produção De Pomadas Medicinais",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-        input: {
-          óleoAntimicrobiano: 10,
-          solvente: 5,
-        },
-        output: {
-          bisnagaTratamento: 15,
-        },
-      },
-      {
-        id: "teste_laboratorial",
-        nome: "Produção De Teste Laboratorial",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-        input: {
-          enzima: 10,
-          cloro: 10,
-        },
-        output: {
-          testeLaboratorial: 20,
+          enzimaIndustrial: 1,
         },
       },
     ],
@@ -1404,7 +1362,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          carvãoRefinado: 30,
+          carvãoRefinado: 20,
         },
       },
       {
@@ -1419,7 +1377,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          ferroGusa: 50,
+          ferroGusa: 70,
         },
       },
       {
@@ -1434,7 +1392,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          lingoteAço: 45,
+          lingoteAço: 42,
         },
       },
       {
@@ -1467,8 +1425,6 @@ export const FORMULAS_EDIFICIOS = [
           silícioMetalúgico: 25,
         },
       },
-
-
     ],
   },
   {
@@ -1489,25 +1445,24 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          resíduosMetálicos: 50,
-          ácidoSulfúrico: 5,
+          resíduosMetálicos: 40,
         },
 
         output: {
-          lingoteAço: 40,
+          lingoteAço: 8,
         },
       },
       {
         id: "açoAltaPureza",
         nome: "Produção De Aço De Alta Pureza",
         input: { lingoteAço: 40, cloro: 10 },
-        output: { açoRefinado: 10 }, // Preço 18000
+        output: { açoRefinado: 11 }, // Preço 18000
       },
       {
         id: "refinoCobre",
         nome: "Refino De Cobre",
         input: { minérioDeCobre: 40, ácidoSulfúrico: 10 },
-        output: { lingoteDeCobre: 23, arsênioBruto: 2 },
+        output: { lingoteDeCobre: 23, arsênioBruto: 5 },
       },
       {
         id: "fundiçãoChumbo",
@@ -1642,11 +1597,13 @@ export const FORMULAS_EDIFICIOS = [
       },
       {
         id: "ÍmãsNeodímio",
+        nome: "Produção De Bloco Magnético",
         input: { ferroGusa: 10, minérioNeodímio: 15 },
-        output: { blocoMagnético: 11 },
+        output: { blocoMagnético: 20 },
       },
       {
         id: "prodLigaDeOuro",
+        nome: "Produção De Liga De Ouro",
         input: { minérioDeOuro: 10, minérioDeNiquel: 5, minérioDeCobalto: 5 },
         output: { ligaDeOuro: 3 }, // Valor unitário alto
       },
@@ -1665,29 +1622,41 @@ export const FORMULAS_EDIFICIOS = [
     formulas: [
       {
         id: "prodMicroMotor",
+        nome: "Produção De Micro Motores",
         input: { rolamento: 2, fioCobre: 10, aço: 2 },
         output: { microMotor: 12 },
       },
       {
         id: "motorStandard",
+        nome: "Produção De Motor A Combustão",
         input: { lingoteAço: 20, lingoteAlumínio: 10, engrenagem: 5 },
         output: { motorCombustão: 4 },
       },
       {
         id: "produzirMotorElétrico",
+        nome: "Produção De Motor Elétrico",
         input: { fioCobre: 20, lingoteAlumínio: 10, blocoMagnético: 10 },
         output: { motorElétrico: 11 },
       },
       {
         id: "produzirMotorAvião",
+        nome: "Produção De Motor De Avião",
         input: { superligaTérmica: 20, lingoteTitânio: 10, açoBalistico: 10 },
         output: { motorAvião: 1 },
       },
       {
         id: "propulsorCriogênico",
+        nome: "Produção De Motor De Foguete",
         input: { superligaTérmica: 15, lingoteTitânio: 30, polímeroReforçado: 10 },
         output: { motorFoguete: 1 }, // Valor unitário ~25M
       },
+      {
+        id: "prodMotorNavio",
+        nome: "Produção De Motor Naval",
+        input: { lingoteAço: 50, engrenagem: 30, ligaDeBronze: 15 },
+        output: { motorNaval: 1 },
+      },
+
       {
         id: "motorPulso",
         nome: "Produção de Motor de Míssil",
@@ -1709,33 +1678,49 @@ export const FORMULAS_EDIFICIOS = [
     formulas: [
       {
         id: "prodWaferSilício",
-        input: { silícioPuro: 40, nitrogênio: 10 },
-        output: { waferSilício: 4 },
+        nome: "Produção de Wafer de Silício",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          silícioPuro: 40,
+          nitrogênio: 10
+        },
+        output: {
+          waferSilício: 17
+        },
+        // Custo: 1.4M Silício + 4k Nitrogênio
       },
       {
         id: "prodWaferPotência",
-        nome: "Wafer De Potência",
+        nome: "Produção de Wafer De Potência",
         capacidadePorEdificio: 100,
         duracao: 30,
-
         input: {
           silícioPuro: 20,
           carbonoEletrônico: 10,
-
         },
-
         output: {
-          waferPotência: 15,
+          waferPotência: 11,
         },
+        // Custo: 700k Silício + 150k Carbono E.
       },
       {
         id: "arsenetoGálio",
-        input: { compostoSemicondutor: 10, arsênioPuro: 10 },
-        output: { waferRF: 8 },
+        nome: "Produção de Wafer RF (Arseneto de Gálio)",
+        capacidadePorEdificio: 100,
+        duracao: 30,
+        input: {
+          compostoSemicondutor: 10,
+          arsênioPuro: 10
+        },
+        output: {
+          waferRF: 12
+        },
+        // Custo: 650k Composto + 280k Arsênio P.
       },
       {
         id: "célulaFotovoltaica",
-        nome: "Célula Fotovoltaica",
+        nome: "Produção de Célula Fotovoltaica",
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
@@ -1743,8 +1728,9 @@ export const FORMULAS_EDIFICIOS = [
           contatoDePrata: 5,
         },
         output: {
-          celulaSolar: 30,
+          celulaSolar: 13,
         },
+        // Custo: 700k Silício + 60k Prata | Venda: 65k/un
       },
     ],
   },
@@ -1764,169 +1750,99 @@ export const FORMULAS_EDIFICIOS = [
         nome: "Chip De Automação",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          waferSilício: 10,
-          ligaDeSolda: 5,
-        },
-        output: {
-          controladorLógico: 20,
-        },
+        input: { waferSilício: 10, ligaDeSolda: 5 },
+        output: { controladorLógico: 11 },
+        // Custo: 942k | Venda: 1.045M | Lucro: +103k
       },
       {
         id: "cpuAltaPerformance",
         nome: "CPU Alta Performance",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          waferSilício: 15,
-          ligaDeSolda: 5,
-        },
-        output: {
-          processadorAltaPerformance: 5,
-        },
+        input: { waferSilício: 15, ligaDeSolda: 5 },
+        output: { processadorAltaPerformance: 10 },
+        // Custo: 1.39M | Venda: 1.5M | Lucro: +110k
       },
       {
-        id: "UnidadeNeural",
-        nome: "Unidades Neurais",
+        id: "unidadeNeuralIA",
+        nome: "Unidade Neural (IA)",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          waferSilício: 15,
-          nanotubo: 5,
-        },
-        output: {
-          chipIA: 3,
-        },
-      },
-      {
-        id: "UnidadeNeural",
-        nome: "Unidades Neurais",
-        capacidadePorEdificio: 100,
-        duracao: 30,
-
-        input: {
-          waferSilício: 15,
-          nanotuboCarbono: 5,
-        },
-        output: {
-          chipIA: 3,
-        },
+        input: { waferSilício: 15, nanotuboCarbono: 5 },
+        output: { chipIA: 21 },
+        // Custo: 1.75M | Venda: 1.785M | Lucro: +35k (Item de Tier Alto)
       },
       {
         id: "prodControladorCarga",
         nome: "Produção De Controlador De Carga",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          waferPotência: 10,
-          ligaDeLatão: 5,
-        },
-        output: {
-          ControladorCarga: 15,
-        },
+        input: { waferPotência: 10, ligaDeLatão: 5 },
+        output: { ControladorCarga: 36 },
+        // Custo: 892k | Venda: 900k | Lucro: +8k (Base para energia)
       },
       {
         id: "prodChipRF",
         nome: "Produção De Chip RF E Sinal",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          waferRF: 10,
-          componenteConexão: 10,
-        },
-        output: {
-          módulo5G: 10,
-        },
+        input: { waferRF: 10, componenteConexão: 10 },
+        output: { módulo5G: 9 },
+        // Custo: 975k | Venda: 990k | Lucro: +15k
       },
       {
         id: "sensoresBio",
         nome: "Produção De Sensores Bio-Químicos",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          waferSilício: 10,
-          contatoDePrata: 5,
-        },
-        output: {
-          bioChip: 15,
-        },
+        input: { waferSilício: 10, contatoDePrata: 5 },
+        output: { bioChip: 1 },
+        // Custo: 960k | Venda: 1.8M | Lucro: +840k (Item Raro)
       },
       {
-        id: "ProdUnidadesNavegação",
+        id: "prodUnidadesNavegação",
         nome: "Produção De Unidades De Navegação",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          waferRF: 10,
-          ligaDeOuro: 5,
-          minérioDePrata: 5,
-        },
-        output: {
-          sistemaGuia: 15,
-        },
+        input: { waferRF: 10, ligaDeOuro: 5, minérioDePrata: 5 },
+        output: { sistemaGuia: 7 },
+        // Custo: 2.17M | Venda: 2.45M | Lucro: +280k
       },
       {
         id: "chipGeoMineradores",
         nome: "Produção De Chips Geo-Mineradores",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          waferSilício: 15,
-          açoRefinado: 10,
-        },
-        output: {
-          processadorSísmico: 10,
-        },
+        input: { waferSilício: 15, açoRefinado: 10 },
+        output: { processadorSísmico: 1 },
+        // Custo: 1.53M | Venda: 2.5M | Lucro: +970k
       },
       {
-        id: "ProdUnidadesNavegação",
+        id: "prodMicroControladores", // Corrigido ID duplicado
         nome: "Produção De Micro-Controladores",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          waferSilício: 5,
-          lingoteAlumínio: 5,
-        },
-        output: {
-          processadorSísmico: 10,
-        },
+        input: { waferSilício: 5, lingoteAlumínio: 5 },
+        output: { microControlador: 40 },
+        // Custo: 467k | Venda: 480k | Lucro: +13k
       },
       {
         id: "núcleosNucleares",
         nome: "Produção De Núcleos Nucleares",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          waferPotência: 20,
-          minérioDeChumbo: 10,
-        },
-        output: {
-          processadorBlindado: 2,
-        },
+        input: { waferPotência: 20, minérioDeChumbo: 10 },
+        output: { processadorBlindado: 12 },
+        // Custo: 1.71M | Venda: 1.8M | Lucro: +90k
       },
       {
-        id: "ProdMemoriaFlash",
+        id: "prodMemoriaFlash",
         nome: "Produção De Memoria Flash",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          waferSilício: 15,
-          minérioDeEstanho: 5,
-        },
-        output: {
-          chipMemória: 2,
-        },
+        input: { waferSilício: 15, minérioDeEstanho: 5 },
+        output: { chipMemória: 115 },
+        // Custo: 1.36M | Venda: 1.38M | Lucro: +20k
       },
     ],
   },
@@ -1946,114 +1862,104 @@ export const FORMULAS_EDIFICIOS = [
         nome: "Placa De Controle Industrial",
         capacidadePorEdificio: 100,
         duracao: 30,
-
         input: {
           controladorLógico: 10,
           fioCobre: 10,
           resinaIndustrial: 5
         },
-
         output: {
-          unidadeComando: 15,
+          unidadeComando: 15
         },
+        // Venda Unitária: 350.000
       },
       {
         id: "placaMãeAltaDensidade",
         nome: "Placa-Mãe De Alta Densidade",
         capacidadePorEdificio: 100,
         duracao: 30,
-
         input: {
           processadorAltaPerformance: 5,
-          carbonoEletrônico: 10,
-
+          carbonoEletrônico: 10
         },
-
         output: {
-          placaMãe: 15,
+          placaMãe: 15
         },
+        // Venda Unitária: 350.000
       },
       {
         id: "ProdPlacaGestãoEnergia",
         nome: "Placa De Gestão De Energia",
         capacidadePorEdificio: 100,
         duracao: 30,
-
         input: {
           processadorAltaPerformance: 5,
           ControladorCarga: 10,
-          ligaDeLatão: 5,
-          fioCobre: 10,
-
-
+          resinaIndustrial: 5 // Substituído os metais por resina para dar corpo à placa
         },
-
         output: {
-          placaGestãoEnergia: 12,
+          placaGestãoEnergia: 12
         },
+        // Custo: 750k (Proc) + 250k (Ctrl) + 35k (Resina) = ~1.03M
+        // Venda: 95k por unidade
       },
       {
         id: "prodPlacaTelecomSatélite",
         nome: "Placa De Telecom E Satélite",
         capacidadePorEdificio: 100,
         duracao: 30,
-
         input: {
           módulo5G: 10,
           ligaDeOuro: 5,
-          ligaDeSolda: 5,
+          ligaDeSolda: 5
         },
-
         output: {
-          placaFrequência: 8,
+          placaFrequência: 25
         },
+        // Ouro custa 250k. Precisa de 25 unidades para cobrir o custo de 2.3M.
       },
       {
         id: "prodComputadorVoo",
-        nome: "Placa De Telecom E Satélite",
+        nome: "Produção de Computador de Voo",
         capacidadePorEdificio: 100,
         duracao: 30,
-
         input: {
           sistemaGuia: 5,
-          processadorBlindado: 5,
+          processadorBlindado: 5
         },
-
         output: {
-          computadorVoo: 3,
+          computadorVoo: 3
         },
+        // Venda Unitária: 1.200.000
       },
       {
         id: "prodPlacaIndustrial",
         nome: "Produção De Placa Industrial",
         capacidadePorEdificio: 100,
         duracao: 30,
-
         input: {
           controladorLógico: 10,
           fioCobre: 5,
           resinaIndustrial: 5,
-          ligaDeSolda: 5,
+          ligaDeSolda: 5
         },
-
         output: {
-          placaIndustrial: 3,
+          placaIndustrial: 50
         },
+        // Venda Unitária: 150.000
       },
       {
         id: "prodMicroControladores",
         nome: "Micro-Controladores",
         capacidadePorEdificio: 100,
         duracao: 30,
-
         input: {
           controladorLógico: 5,
-          ControladorCarga: 2,
+          ControladorCarga: 2
         },
-
         output: {
-          microControlador: 15,
+          microControlador: 55
         },
+        // Venda Unitária: 12.000 | Volume alto necessário pelo custo do Controlador Lógico.
       },
     ],
   },
@@ -2073,84 +1979,46 @@ export const FORMULAS_EDIFICIOS = [
         nome: "Módulos de Interface",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          chipWearables: 10,
-          polímeroReforçado: 10,
-          vidroTécnico: 5,
-
-        },
-
-        output: {
-          painélDeControle: 20,
-        },
+        input: { chipWearables: 10, polímeroReforçado: 10, vidroTécnico: 5 },
+        output: { painélDeControle: 50 }, // Venda unitária: 45k
       },
       {
         id: "sistemaVisãoDigital",
         nome: "Sistemas De Visão Digital",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          bioChip: 10,
-          ligaDeOuro: 5,
-          lentePrecisão: 5,
-
-        },
-
-        output: {
-          câmeraPrecisão: 10,
-        },
+        input: { bioChip: 1, ligaDeOuro: 1, lentePrecisão: 5 },
+        output: { câmeraPrecisão: 15 },
+        // Ajuste: 10 Biochips custariam 18M! Reduzi o input para 1 para manter o lucro.
       },
       {
         id: "sistemaSondaTerreno",
-        nome: "Sistemas De Visão Digital",
+        nome: "Sistemas de Sonda de Terreno",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          processadorSísmico: 10,
-          polímeroReforçado: 5,
-          lingoteChumbo: 5,
-        },
-
-        output: {
-          sondaTerreno: 15,
-        },
+        input: { processadorSísmico: 1, polímeroReforçado: 5, lingoteChumbo: 5 },
+        output: { sondaTerreno: 4 },
+        // Venda unitária: 750k | Valor Total: 3M | Custo: ~2.6M
       },
       {
         id: "dispositivosDiagnóstico",
         nome: "Dispositivos De Diagnóstico",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          bioChip: 10,
-          polímeroReforçado: 10,
-          contatoDePrata: 5,
-        },
-
-        output: {
-          scannerMédico: 12,
-        },
+        input: { bioChip: 1, polímeroReforçado: 10, contatoDePrata: 5 },
+        output: { scannerMédico: 3 },
+        // Venda unitária: 750k | Valor Total: 2.25M | Custo: ~2.1M
       },
       {
         id: "kitPeriféricos",
         nome: "Kits De Periféricos",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          chipWearables: 10,
-          polímeroReforçado: 20,
-          fioCobre: 10,
-        },
-
-        output: {
-          periférico: 30,
-        },
+        input: { chipWearables: 5, polímeroReforçado: 10, fioCobre: 10 },
+        output: { consoleJogos: 200 },
+        // Ajustado para criar o item "consoleJogos" que vale 4.5k
       },
-    ],
+    ]
   },
   {
     edificioId: "fábricaChapasMetálicas",
@@ -2168,60 +2036,38 @@ export const FORMULAS_EDIFICIOS = [
         nome: "Laminação de Aço",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          lingoteAço: 20,
-        },
-
-        output: {
-          chapaAço: 15,
-        },
+        input: { lingoteAço: 20 },
+        output: { açoRefinado: 5 },
+        // Aço Refinado vale 18k | Input: 70k -> Output: 90k
       },
       {
         id: "extrusãoAlumínio",
         nome: "Extrusão De Alumínio",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          lingoteAlumínio: 20,
-        },
-
-        output: {
-          chapaAlumínio: 15,
-        },
+        input: { lingoteAlumínio: 20 },
+        output: { vigaH: 7 },
+        // Ajustado para produzir VigaH (12k)
       },
       {
         id: "painélAeroespacial",
         nome: "Painél Aeroespacial",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          superligaTérmica: 15,
-          lingoteTitânio: 5,
-        },
-
-        output: {
-          chapaAltaTensão: 10,
-        },
+        input: { superligaTérmica: 15, lingoteTitânio: 5 },
+        output: { chapaAltaTensão: 16 },
+        // Venda unitária: 55k | Custo: 800k -> Output: 880k
       },
       {
         id: "blindagemBalística",
         nome: "Blindagem Balística",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          açoBalistico: 20,
-          lingoteChumbo: 5,
-        },
-
-        output: {
-          placaReforçada: 8,
-        },
+        input: { açoBalistico: 10, lingoteChumbo: 5 },
+        output: { açoInox: 50 },
+        // Ajustado para Aço Inox (22k) ou use o Aço Balístico como input principal
       },
-    ],
+    ]
   },
   {
     edificioId: "indústriaComponentesMecânicos",
@@ -2239,62 +2085,38 @@ export const FORMULAS_EDIFICIOS = [
         nome: "Usinagem de Transmissão",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          lingoteAço: 15,
-          óleoBase: 5,
-        },
-
-        output: {
-          sistemaTransmissão: 10,
-        },
+        input: { lingoteAço: 15, óleoBase: 5 },
+        output: { engrenagem: 8 },
+        // Engrenagem vale 8.5k
       },
       {
         id: "válvulasControle",
         nome: "Válvulas de Controle",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          lingoteAço: 5,
-          ligaDeLatão: 5,
-        },
-
-        output: {
-          válvulaHidráulica: 8,
-        },
+        input: { lingoteAço: 5, ligaDeLatão: 5 },
+        output: { pistãoHidráulico: 55 },
+        // Pistão Hidráulico vale 1.5k
       },
       {
         id: "sistemaRotação",
-        nome: "Válvulas de Controle",
+        nome: "Sistema de Rotação",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          lingoteAço: 10,
-          óleoBase: 5,
-        },
-
-        output: {
-          conjuntoRotação: 20,
-        },
+        input: { lingoteAço: 10, óleoBase: 5 },
+        output: { rolamento: 6 },
+        // Rolamento vale 8.5k
       },
       {
         id: "engrenagensTorque",
         nome: "Engrenagens De Torque",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          lingoteAço: 15,
-          minérioDeManganês: 5,
-        },
-
-        output: {
-          redutorCarga: 12,
-        },
+        input: { lingoteAço: 15, minérioDeManganês: 5 },
+        output: { redutorCarga: 10 },
+        // Redutor de carga (Ajustado para o valor de engrenagens de precisão)
       },
-    ],
+    ]
   },
   {
     edificioId: "fábricaEstruturasMetálicas",
@@ -2312,61 +2134,36 @@ export const FORMULAS_EDIFICIOS = [
         nome: "Vigas Estruturais",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          chapaAço: 20,
-        },
-
-        output: {
-          vigaH: 10,
-        },
+        input: { açoRefinado: 10 },
+        output: { vigaH: 18 },
       },
       {
         id: "kitHidráulico",
         nome: "Kit Hidráulico",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          lingoteAço: 10,
-          polímeroReforçado: 5,
-        },
-
-        output: {
-          válvulaHidráulica: 8,
-        },
+        input: { lingoteAço: 10, polímeroReforçado: 5 },
+        output: { braçoHidráulico: 1 },
+        // Braço Hidráulico vale 650k! Custo: 160k -> Lucro massivo.
       },
       {
         id: "estruturaAeroNaval",
         nome: "Estrutura Aero/Naval",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          chapaAltaTensão: 20,
-          resinaIndustrial: 5,
-        },
-
-        output: {
-          célulaFuselagem: 5,
-        },
+        input: { chapaAltaTensão: 20, resinaIndustrial: 5 },
+        output: { célulaFuselagem: 1 },
+        // Célula Fuselagem vale 1.2M | Custo: 1.1M | Lucro: 100k
       },
       {
         id: "suportePainéis",
         nome: "Suportes de Painéis",
         capacidadePorEdificio: 100,
         duracao: 30,
-
-        input: {
-          chapaAlumínio: 10,
-          polímeroReforçado: 5,
-        },
-
-        output: {
-          treliçaLeve: 15,
-        },
+        input: { lingoteAlumínio: 10, polímeroReforçado: 5 },
+        output: { treliçaLeve: 20 },
       },
-    ],
+    ]
   },
   {
     edificioId: "fábricaPeçasAutomotivas",
@@ -2421,7 +2218,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          cockpit: 15,
+          cockpit: 12,
         },
       },
       {
@@ -2436,7 +2233,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          amortecedor: 12,
+          amortecedor: 10,
         },
       },
       {
@@ -2451,7 +2248,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          braçoHidráulico: 5,
+          braçoHidráulico: 1,
         },
       },
       {
@@ -2461,7 +2258,7 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          placaReforçada: 30,
+          placaReforçada: 3,
           ligaDeBronze: 10,
         },
 
@@ -2511,7 +2308,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          carroEsportivo: 1,
+          carroEsportivo: 2,
         },
       },
       {
@@ -2527,7 +2324,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          Escavadeira: 1,
+          Escavadeira: 4,
         },
       },
 
@@ -2589,7 +2386,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          caminhãoElétrico: 1,
+          caminhãoElétrico: 4,
         },
       },
 
@@ -2619,7 +2416,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          unidadeCélula: 20
+          unidadeCélula: 150
         },
       },
       {
@@ -2635,7 +2432,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          bateriaTracionamento: 1,
+          bateriaTracionamento: 10,
         },
       },
       {
@@ -2691,11 +2488,10 @@ export const FORMULAS_EDIFICIOS = [
           placaIndustrial: 2,
           motorElétrico: 5,
           pistãoHidráulico: 5,
-          açoBalistico: 10
         },
 
         output: {
-          unidadeAutomação: 2
+          unidadeAutomação: 5
         },
       },
       {
@@ -2707,7 +2503,6 @@ export const FORMULAS_EDIFICIOS = [
         input: {
           placaIndustrial: 2,
           motorElétrico: 5,
-          pistãoHidráulico: 5,
           açoBalistico: 10
         },
 
@@ -2724,12 +2519,11 @@ export const FORMULAS_EDIFICIOS = [
         input: {
           placaFrequência: 1,
           microMotor: 4,
-          chapaAlumínio: 5,
           bateriaPortátil: 10
         },
 
         output: {
-          droneLogístico: 3
+          droneLogístico: 6
         },
       },
       {
@@ -2742,7 +2536,6 @@ export const FORMULAS_EDIFICIOS = [
           placaFrequência: 1,
           microMotor: 4,
           chapaAlumínio: 5,
-          bateriaPortátil: 10
         },
 
         output: {
@@ -2769,14 +2562,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          placaMãe: 1,
-          tela: 1,
-          bateriaPortátil: 1,
-          polímero: 5
+          placaMãe: 10,
+          tela: 10,
+          bateriaPortátil: 10,
         },
 
         output: {
-          smartphoneBasico: 10
+          smartphoneBasico: 250
         },
       },
       {
@@ -2786,14 +2578,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          placaMãe: 1,
-          tela: 1,
-          câmeraPrecisão: 1,
-          ligaDeOuro: 2
+          microControlador: 5,
+          câmeraPrecisão: 5,
+          tela: 5
         },
 
         output: {
-          smartphonePremium: 5
+          smartphonePremium: 100
         },
       },
     ],
@@ -2816,14 +2607,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          placaMãe: 1,
-          tela: 1,
-          placaFrequência: 2,
-          lingoteAlumínio: 10,
+          placaMãe: 1,      // Custo: 350k
+          tela: 10,         // Custo: 20k (10x 2k)
+          chapaAlumínio: 5  // Custo: 22.5k (Carcaça)
         },
 
         output: {
-          computador: 5
+          computador: 100
         },
       },
       {
@@ -2831,18 +2621,17 @@ export const FORMULAS_EDIFICIOS = [
         nome: "Produção De Racks De Servidor",
         capacidadePorEdificio: 100,
         duracao: 30,
-
         input: {
-          placaMãe: 4,
-          tela: 1,
-          placaFrequência: 10,
-          açoRefinado: 5,
+          microControlador: 10,   // Custo: 120k
+          placaIndustrial: 2,     // Custo: 300k
+          açoRefinado: 5          // Custo: 90k
         },
-
         output: {
           unidadeServidor: 2
         },
-      },
+        // Custo Total: ~510k | Venda Total (2 un): 700k
+        // Lucro: +190k. Agora faz sentido!
+      }
     ],
   },
   {
@@ -2863,14 +2652,13 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          placaMãe: 1,
-          chipMemória: 2,
-          polímero: 5,
-          placaFrequência: 2,
+          placaMãe: 1,      // Custo: 350k
+          placaFrequência: 1, // Custo: 110k
+          polímero: 10      // Carcaça
         },
 
         output: {
-          consoleJogos: 8
+          consoleJogos: 120
         },
       },
       {
@@ -2886,7 +2674,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          controle: 2
+          controle: 1000
         },
       },
     ],
@@ -2916,7 +2704,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          smartwatch: 12
+          smartwatch: 70
         },
       },
       {
@@ -2987,8 +2775,8 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          célulaFuselagem: 2,
-          motorAvião: 1,
+          célulaFuselagem: 20,
+          motorAvião: 5,
           açoBalistico: 5,
         },
 
@@ -3016,9 +2804,9 @@ export const FORMULAS_EDIFICIOS = [
         duracao: 30,
 
         input: {
-          placaFrequência: 5,
-          tela: 5,
-          ligaDeOuro: 10,
+          placaFrequência: 100,
+          tela: 100,
+          ligaDeOuro: 100,
         },
 
         output: {
@@ -3173,7 +2961,7 @@ export const FORMULAS_EDIFICIOS = [
         },
 
         output: {
-          painelSolar: 10
+          painelSolar: 80
         },
       },
     ],
