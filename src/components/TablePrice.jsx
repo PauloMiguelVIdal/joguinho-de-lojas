@@ -18,7 +18,7 @@ export const productsCatalog = {
   sementeSoja: {
     id: "sementeSoja",
     nome: "Semente De Soja",
-    icon: "🌰",
+    icon: "🌱",
     unidade: "sacas",
     setor: "agricultura",
     categoriaFisica: "agrícolas secos",
@@ -27,7 +27,7 @@ export const productsCatalog = {
   sementeTrigo: {
     id: "sementeTrigo",
     nome: "Semente De Trigo",
-    icon: "🌰",
+    icon: "🌱",
     unidade: "sacas",
     setor: "agricultura",
     categoriaFisica: "agrícolas secos",
@@ -72,7 +72,7 @@ export const productsCatalog = {
   algodão: {
     id: "algodão",
     nome: "Algodão",
-    icon: "🌿",
+    icon: "☁️",
     unidade: "sacas",
     setor: "agricultura",
     categoriaFisica: "agrícolas secos",
@@ -82,7 +82,7 @@ export const productsCatalog = {
   ervaAnalgésica: {
     id: "ervaAnalgésica",
     nome: "Erva Analgésica",
-    icon: "🌱",
+    icon: "🌿",
     unidade: "sacas",
     setor: "agricultura",
     categoriaFisica: "agrícolas secos",
@@ -216,7 +216,7 @@ export const productsCatalog = {
   sodaCáustica: {
     id: "sodaCáustica",
     nome: "Soda Caústica",
-    icon: "⚗️",
+    icon: "🧪",
     unidade: "kg",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -226,7 +226,7 @@ export const productsCatalog = {
   ácidoSulfúrico: {
     id: "ácidoSulfúrico",
     nome: "Ácido Sulfúrico",
-    icon: "⚗️",
+    icon: "⚠️",
     unidade: "kg",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -246,7 +246,7 @@ export const productsCatalog = {
   benzeno: {
     id: "benzeno",
     nome: "Benzeno",
-    icon: "⚗️",
+    icon: "🧪",
     unidade: "litro",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -266,7 +266,7 @@ export const productsCatalog = {
   cloro: {
     id: "cloro",
     nome: "Cloro",
-    icon: "⚗️",
+    icon: "🧪",
     unidade: "kg",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -306,7 +306,7 @@ export const productsCatalog = {
   fardoCelulose: {
     id: "fardoCelulose",
     nome: "Fardo De Celulose",
-    icon: "🪵",
+    icon: "📦",
     unidade: "fardo",
     setor: "industria",
     categoriaFisica: "biomassa / orgânicos",
@@ -324,7 +324,7 @@ export const productsCatalog = {
   bobinaBranco: {
     id: "bobinaBranco",
     nome: "Bobina De Papel Branco",
-    icon: "🪵",
+    icon: "🧻",
     unidade: "bobina",
     setor: "industria",
     categoriaFisica: "produtos manufaturados",
@@ -353,7 +353,7 @@ export const productsCatalog = {
   livroPremium: {
     id: "livroPremium",
     nome: "Livro Premium",
-    icon: "📕",
+    icon: "📙",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "produtos manufaturados",
@@ -363,7 +363,7 @@ export const productsCatalog = {
   fioAlgodão: {
     id: "fioAlgodão",
     nome: "Fio De Algodão",
-    icon: "🪢",
+    icon: "🧵",
     unidade: "rolo",
     setor: "industria",
     categoriaFisica: "produtos manufaturados",
@@ -373,7 +373,7 @@ export const productsCatalog = {
   fioLã: {
     id: "fioLã",
     nome: "Fio De Lã",
-    icon: "🪢",
+    icon: "🧶",
     unidade: "rolo",
     setor: "industria",
     categoriaFisica: "produtos manufaturados",
@@ -393,7 +393,7 @@ export const productsCatalog = {
   colaIndustrial: {
     id: "colaIndustrial",
     nome: "Cola",
-    icon: "📦",
+    icon: "🧴",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -413,7 +413,7 @@ export const productsCatalog = {
   diesel: {
     id: "diesel",
     nome: "Diesel",
-    icon: "🛢️",
+    icon: "⛽",
     unidade: "litro",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -463,7 +463,7 @@ export const productsCatalog = {
   sacolaPapelão: {
     id: "sacolaPapelão",
     nome: "Sacola De Papelão",
-    icon: "📦",
+    icon: "🛍️",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "produtos manufaturados",
@@ -483,7 +483,7 @@ export const productsCatalog = {
   tecidoTecnico: {
     id: "tecidoTecnico",
     nome: "Tecido Tecnico(Dry-FIT)",
-    icon: "🧵",
+    icon: "👕",
     unidade: "rolo",
     setor: "industria",
     categoriaFisica: "produtos manufaturados",
@@ -493,7 +493,7 @@ export const productsCatalog = {
   aditivoDeNylon: {
     id: "aditivoDeNylon",
     nome: "Aditivo De Nylon",
-    icon: "🧵",
+    icon: "⚗️",
     unidade: "rolo",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -513,7 +513,7 @@ export const productsCatalog = {
   polímero: {
     id: "polímero",
     nome: "Polímero",
-    icon: "🧪",
+    icon: "⚗️",
     unidade: "litro",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -533,7 +533,7 @@ export const productsCatalog = {
   pvcIndustrial: {
     id: "pvcIndustrial",
     nome: "PVC Industrial",
-    icon: "🧪",
+    icon: "⚗️",
     unidade: "litro",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -584,7 +584,7 @@ export const productsCatalog = {
   óleoIndustrial: {
     id: "óleoIndustrial",
     nome: "Óleo Industrial",
-    icon: "💊",
+    icon: "💧",
     unidade: "litro",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -604,7 +604,7 @@ export const productsCatalog = {
   pASintético: {
     id: "pASintético",
     nome: "P.A Sintético",
-    icon: "💊",
+    icon: "🧪",
     unidade: "litro",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -614,7 +614,7 @@ export const productsCatalog = {
   resinaIndustrial: {
     id: "resinaIndustrial",
     nome: "Resina Industrial",
-    icon: "💊",
+    icon: "🧴",
     unidade: "litro",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -654,7 +654,7 @@ export const productsCatalog = {
   bisnagaTratamento: {
     id: "bisnagaTratamento",
     nome: "Bisnaga De Tratamento",
-    icon: "💊",
+    icon: "🧴",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -664,7 +664,7 @@ export const productsCatalog = {
   testeLaboratorial: {
     id: "testeLaboratorial",
     nome: "Teste Laboratorial",
-    icon: "💊",
+    icon: "🔬",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -674,7 +674,7 @@ export const productsCatalog = {
   enzimaIndustrial: {
     id: "enzimaIndustrial",
     nome: "Enzima Industrial",
-    icon: "💊",
+    icon: "🧬",
     unidade: "kg",
     setor: "industria",
     categoriaFisica: "químicos",
@@ -737,7 +737,7 @@ export const productsCatalog = {
   sapatoLuxo: {
     id: "sapatoLuxo",
     nome: "Sapato de Luxo",
-    icon: "👟",
+    icon: "👞",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "produtos manufaturados",
@@ -747,7 +747,7 @@ export const productsCatalog = {
   biomassaLíquida: {
     id: "biomassaLíquida",
     nome: "Biomassa Líquida",
-    icon: "🪵",
+    icon: "🧪",
     unidade: "litro",
     setor: "industria",
     categoriaFisica: "fluidos",
@@ -757,7 +757,7 @@ export const productsCatalog = {
   serragem: {
     id: "serragem",
     nome: "Serragem",
-    icon: "🪵",
+    icon: "🍂",
     unidade: "kg",
     setor: "agricultura",
     categoriaFisica: "biomassa / orgânicos",
@@ -778,7 +778,7 @@ export const productsCatalog = {
   racaoDeVacas: {
     id: "racaoDeVacas",
     nome: "Ração De Vacas",
-    icon: "🌱",
+    icon: "🥡",
     unidade: "sacas",
     setor: "industria",
     categoriaFisica: "biomassa / orgânicos",
@@ -788,7 +788,7 @@ export const productsCatalog = {
   racaoDeAves: {
     id: "racaoDeAves",
     nome: "Ração De Aves",
-    icon: "🌱",
+    icon: "🥡",
     unidade: "sacas",
     setor: "industria",
     categoriaFisica: "biomassa / orgânicos",
@@ -798,7 +798,7 @@ export const productsCatalog = {
   racaoDeOvinos: {
     id: "racaoDeOvinos",
     nome: "Ração De Ovinos",
-    icon: "🌱",
+    icon: "🥡",
     unidade: "sacas",
     setor: "industria",
     categoriaFisica: "biomassa / orgânicos",
@@ -808,7 +808,7 @@ export const productsCatalog = {
   racaoDePorco: {
     id: "racaoDePorco",
     nome: "Ração De Porco",
-    icon: "🌱",
+    icon: "🥡",
     unidade: "sacas",
     setor: "industria",
     categoriaFisica: "biomassa / orgânicos",
@@ -818,7 +818,7 @@ export const productsCatalog = {
   fertilizantePlantação: {
     id: "fertilizantePlantação",
     nome: "Fertilizante De Plantações",
-    icon: "🌱",
+    icon: "♻️",
     unidade: "saco",
     setor: "industria",
     categoriaFisica: "biomassa / orgânicos",
@@ -828,7 +828,7 @@ export const productsCatalog = {
   fertilizanteFlorestal: {
     id: "fertilizanteFlorestal",
     nome: "Fertilizante De Florestal",
-    icon: "🌱",
+    icon: "♻️",
     unidade: "saco",
     setor: "industria",
     categoriaFisica: "biomassa / orgânicos",
@@ -936,7 +936,7 @@ export const productsCatalog = {
   suv: {
     id: "suv",
     nome: "SUV",
-    icon: "🚐",
+    icon: "🚙",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "veículos",
@@ -945,7 +945,7 @@ export const productsCatalog = {
   van: {
     id: "van",
     nome: "Van",
-    icon: "🚚",
+    icon: "🚐",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "veículos",
@@ -957,7 +957,7 @@ export const productsCatalog = {
   minérioFerro: {
     id: "minérioFerro",
     nome: "Minério De Ferro",
-    icon: "⛏️",
+    icon: "🪨",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "minério",
@@ -966,7 +966,7 @@ export const productsCatalog = {
   minérioDeCobre: {
     id: "minérioDeCobre",
     nome: "Minério De Cobre",
-    icon: "⛏️",
+    icon: "🪨",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "minério",
@@ -975,7 +975,7 @@ export const productsCatalog = {
   minérioDeChumbo: {
     id: "minérioDeChumbo",
     nome: "Minério De Chumbo",
-    icon: "⛏️",
+    icon: "🪨",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "minério",
@@ -999,10 +999,11 @@ export const productsCatalog = {
     categoriaFisica: "minério",
     slotSize: 6,
   },
+
   minérioDeEstanho: {
     id: "minérioDeEstanho",
     nome: "Minério De Estanho",
-    icon: "⛏️",
+    icon: "🪨",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "minério",
@@ -1011,7 +1012,7 @@ export const productsCatalog = {
   minérioDeZinco: {
     id: "minérioDeZinco",
     nome: "Minério De Zinco",
-    icon: "⛏️",
+    icon: "🪨",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "minério",
@@ -1020,7 +1021,7 @@ export const productsCatalog = {
   minérioDeGalho: {
     id: "minérioDeGalho",
     nome: "Minério De Galho",
-    icon: "⛏️",
+    icon: "🪨",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "minério",
@@ -1056,7 +1057,7 @@ export const productsCatalog = {
   minérioDeQuartzo: {
     id: "minérioDeQuartzo",
     nome: "Minério De Quartzo",
-    icon: "⛏️",
+    icon: "💎",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "minério",
@@ -1065,7 +1066,7 @@ export const productsCatalog = {
   minérioDePrata: {
     id: "minérioDePrata",
     nome: "Minério De Prata",
-    icon: "⛏️",
+    icon: "⚪",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "minério",
@@ -1074,7 +1075,7 @@ export const productsCatalog = {
   minérioDeOuro: {
     id: "minérioDeOuro",
     nome: "Minério De Ouro",
-    icon: "⛏️",
+    icon: "🪙",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "minério",
@@ -1084,7 +1085,7 @@ export const productsCatalog = {
   minérioDeLítio: {
     id: "minérioDeLítio",
     nome: "Minério De Lítio",
-    icon: "⛏️",
+    icon: "🪨",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "minério",
@@ -1130,7 +1131,7 @@ export const productsCatalog = {
   chipIA: {
     id: "chipIA",
     nome: "Chip de IA",
-    icon: "💾",
+    icon: "🧠",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes eletrônicos",
@@ -1140,7 +1141,7 @@ export const productsCatalog = {
   chipWearables: {
     id: "chipWearables",
     nome: "Chip De Wearables",
-    icon: "💾",
+    icon: "📟",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes eletrônicos",
@@ -1150,7 +1151,7 @@ export const productsCatalog = {
   computadorVoo: {
     id: "computadorVoo",
     nome: "Computador De Voo",
-    icon: "💾",
+    icon: "✈️",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes eletrônicos",
@@ -1160,7 +1161,7 @@ export const productsCatalog = {
   processadorBlindado: {
     id: "processadorBlindado",
     nome: "Processador Blindado",
-    icon: "💾",
+    icon: "🛡️",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes eletrônicos",
@@ -1170,7 +1171,7 @@ export const productsCatalog = {
   processadorSísmico: {
     id: "processadorSísmico",
     nome: "Processador Sísmico",
-    icon: "💾",
+    icon: "🌋",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes eletrônicos",
@@ -1180,7 +1181,7 @@ export const productsCatalog = {
   sistemaGuia: {
     id: "sistemaGuia",
     nome: "Sistema De Guia",
-    icon: "🎛️",
+    icon: "🗺️",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes eletrônicos",
@@ -1189,7 +1190,7 @@ export const productsCatalog = {
   bioChip: {
     id: "bioChip",
     nome: "Bio-Chip",
-    icon: "💾",
+    icon: "🧬",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes eletrônicos",
@@ -1204,6 +1205,7 @@ export const productsCatalog = {
     categoriaFisica: "componentes eletrônicos",
     slotSize: 6,
   },
+  //AQUI
   sensoresCampoRemoto: {
     id: "sensoresCampoRemoto",
     nome: "Sensores De Campo Remoto",
@@ -1216,7 +1218,7 @@ export const productsCatalog = {
   lentePrecisão: {
     id: "lentePrecisão",
     nome: "Lente De Precisão",
-    icon: "📡",
+    icon: "🔍",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes eletrônicos",
@@ -1234,7 +1236,7 @@ export const productsCatalog = {
   chipMemória: {
     id: "chipMemória",
     nome: "Chip De Memória",
-    icon: "💾",
+    icon: "🧠",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes eletrônicos",
@@ -1282,7 +1284,7 @@ export const productsCatalog = {
   minérioNeodímio: {
     id: "minérioNeodímio",
     nome: "Minério De Neodímio",
-    icon: "⚫",
+    icon: "🧲",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "minério",
@@ -1302,7 +1304,7 @@ export const productsCatalog = {
   ligaDeBronze: {
     id: "ligaDeBronze",
     nome: "Liga De Bronze",
-    icon: "⚫",
+    icon: "🥉",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "componentes industriais",
@@ -1311,7 +1313,7 @@ export const productsCatalog = {
   ligaDeSolda: {
     id: "ligaDeSolda",
     nome: "Liga De Solda",
-    icon: "⚫",
+    icon: "🖇️",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "componentes industriais",
@@ -1321,7 +1323,7 @@ export const productsCatalog = {
   ligaDeLatão: {
     id: "ligaDeLatão",
     nome: "Liga De Latão",
-    icon: "⚫",
+    icon: "🟡",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "componentes industriais",
@@ -1330,7 +1332,7 @@ export const productsCatalog = {
   superligaTérmica: {
     id: "superligaTérmica",
     nome: "Superliga Térmica",
-    icon: "⚫",
+    icon: "🔥",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "componentes industriais",
@@ -1339,7 +1341,7 @@ export const productsCatalog = {
   ligaDeOuro: {
     id: "ligaDeOuro",
     nome: "Liga De Ouro",
-    icon: "⚫",
+    icon: "📀",
     unidade: "tonelada",
     setor: "industria",
     categoriaFisica: "componentes industriais",
@@ -1357,7 +1359,7 @@ export const productsCatalog = {
   celulaSolar: {
     id: "celulaSolar",
     nome: "Celula Solar",
-    icon: "⚫",
+    icon: "☀️",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes industriais",
@@ -1366,7 +1368,7 @@ export const productsCatalog = {
   engrenagem: {
     id: "engrenagem",
     nome: "Engrenagem",
-    icon: "⚫",
+    icon: "⚙️",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes industriais",
@@ -1375,7 +1377,7 @@ export const productsCatalog = {
   placaIndustrial: {
     id: "placaIndustrial",
     nome: "Placa Industrial",
-    icon: "🟩",
+    icon: "📟",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes industriais",
@@ -1399,6 +1401,8 @@ export const productsCatalog = {
     categoriaFisica: "componentes eletrônicos",
     slotSize: 6,
   },
+
+  //AQUI
   ControladorCarga: {
     id: "ControladorCarga",
     nome: "Controlador De Carga",
@@ -1438,7 +1442,7 @@ export const productsCatalog = {
   bateriaPortátil: {
     id: "bateriaPortátil",
     nome: "Bateria Portátil",
-    icon: "⚫",
+    icon: "🔋",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes eletrônicos",
@@ -1456,7 +1460,7 @@ export const productsCatalog = {
   droneLogístico: {
     id: "droneLogístico",
     nome: "Drone Logístico",
-    icon: "🤖",
+    icon: "🛸",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes industriais",
@@ -1483,7 +1487,7 @@ export const productsCatalog = {
   rolamento: {
     id: "rolamento",
     nome: "Rolamento",
-    icon: "⚫",
+    icon: "⚙️",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes industriais",
@@ -1537,7 +1541,7 @@ export const productsCatalog = {
   motorFoguete: {
     id: "motorFoguete",
     nome: "Motor Foguete",
-    icon: "⚫",
+    icon: "🚀",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes industriais",
@@ -1546,7 +1550,7 @@ export const productsCatalog = {
   motorNaval: {
     id: "motorNaval",
     nome: "Motor Naval",
-    icon: "⚫",
+    icon: "🚢",
     unidade: "unidade",
     setor: "industria",
     categoriaFisica: "componentes industriais",
@@ -1597,6 +1601,7 @@ export const productsCatalog = {
     categoriaFisica: "aeronaves",
     slotSize: 6,
   },
+//AQUI
   sondaEspacial: {
     id: "sondaEspacial",
     nome: "Sonda Espacial",
