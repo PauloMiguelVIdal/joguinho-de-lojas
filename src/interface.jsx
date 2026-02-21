@@ -53,8 +53,8 @@ function Interface() {
         // <MarketplaceSystem/>
         // <MercadoGlobal/>
         <div className="w-[100vw] bg-[#7317F3] h-[100vh]  flex justify-around items-center">
-            <NewStage/>
-            <ModalExcesso/>
+            <NewStage />
+            <ModalExcesso />
             <Achievements />
             <CardSpecials />
             <InputName />
@@ -62,10 +62,10 @@ function Interface() {
             <Events />
             <Employees />
             <Notificação />
-            <ModalAlert/>
-            <ModalPerson/>
-            <ModalInfo/>
-     
+            <ModalAlert />
+            <ModalPerson />
+            <ModalInfo />
+
             <div className="w-[20vw] h-[100vh] flex items-center justify-around">
                 <Buy />
             </div>
@@ -90,7 +90,7 @@ function Interface() {
                         <TaxesYear />
                         <EconomyGlobal />
                         <RaffledBuildings />
-                               <UpgradeCards/>
+                        <UpgradeCards />
                     </div>
                 </div>
 
@@ -100,29 +100,29 @@ function Interface() {
                 <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">
                     <Buttons />
                 </div>
-{vision === "financas" && (
-  <div className="grid col-start-9 col-end-11 row-start-3 row-end-11 flex justify-center items-center">
-      <PatrimonioInterface />
-  </div>
-)}
+                {vision === "financas" && (
+                    <div className="grid col-start-9 col-end-11 row-start-3 row-end-11 flex justify-center items-center">
+                        <PatrimonioInterface />
+                    </div>
+                )}
 
-{vision !== "financas" && (
-  <div className="col-start-9 col-end-11 row-start-3 row-end-11 grid grid-rows-[auto_auto_1fr] gap-4 p-2 overflow-y-auto">
-    
-    <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3">
-      <Economys />
-    </div>
+                {vision !== "financas" && (
+                    <div className="col-start-9 col-end-11 row-start-3 row-end-11 grid grid-rows-[auto_auto_1fr] gap-4 p-2 overflow-y-auto">
 
-    <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3">
-      <Taxes />
-    </div>
+                        <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3">
+                            <Economys />
+                        </div>
 
-    <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3 min-h-0 overflow-y-auto">
-      <ActiveEvents />
-    </div>
+                        <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3">
+                            <Taxes />
+                        </div>
 
-  </div>
-)}
+                        <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3 min-h-0 overflow-y-auto">
+                            <ActiveEvents />
+                        </div>
+
+                    </div>
+                )}
             </div>
         </div>
     )

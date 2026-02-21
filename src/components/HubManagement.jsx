@@ -2,16 +2,16 @@ import { useState, useMemo } from "react";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import BuildingCard from "./BuildingCard";
 import ManagerPanelInterface from "./ManagerPanelInterface";
-import { 
-  Factory, 
-  LayoutDashboard, 
-  Globe, 
-  Wheat, 
-  ShoppingCart, 
-  Cpu, 
-  Hammer, 
-  Zap, 
-  Home 
+import {
+  Factory,
+  LayoutDashboard,
+  Globe,
+  Wheat,
+  ShoppingCart,
+  Cpu,
+  Hammer,
+  Zap,
+  Home
 } from "lucide-react";
 
 export default function HubManagement() {
@@ -41,29 +41,27 @@ export default function HubManagement() {
 
   if (edificioSelecionado) {
     return (
-      <ManagerPanelInterface 
-        edificioId={edificioSelecionado} 
-        onBack={() => setEdificioSelecionado(null)} 
+      <ManagerPanelInterface
+        edificioId={edificioSelecionado}
+        onBack={() => setEdificioSelecionado(null)}
       />
     );
   }
 
   return (
     // Fundo alinhado com o roxo vibrante da sua interface
-    <div className="min-h-screen bg-[#6A00FF] p-4 md:p-8">
-      
+    <div className="h-[70vh] bg-[#6A00FF] rounded-[1rem]">
+
       {/* Container Principal: Glassmorphism Claro e Sóbrio */}
-      <div className="max-w-6xl mx-auto bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2rem] shadow-2xl overflow-hidden flex flex-col h-[85vh]">
-        
+      <div className="w-full justify-around bg-white/10 backdrop-blur-xl border border-white/20 rounded-[1rem] shadow-2xl overflow-hidden flex flex-col h-full">
+
         {/* HEADER: Limpo e Profissional */}
         <div className="px-8 py-6 border-b border-white/10 bg-white/5 shrink-0">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-white/20 rounded-2xl border border-white/30 text-white shadow-sm">
-                <Factory size={32} />
-              </div>
+
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                <h1 className="text-[10px] md:text-xl font-bold text-white">
                   Hub de Produção
                 </h1>
                 <p className="text-white/70 text-sm font-medium flex items-center gap-2">
@@ -80,8 +78,8 @@ export default function HubManagement() {
                   onClick={() => setSelectedSector(s.id)}
                   className={`
                     flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200
-                    ${selectedSector === s.id 
-                      ? "bg-white text-[#350973] shadow-md scale-105" 
+                    ${selectedSector === s.id
+                      ? "bg-white text-[#350973] shadow-md scale-105"
                       : "text-white/60 hover:text-white hover:bg-white/10"}
                   `}
                 >
@@ -94,9 +92,9 @@ export default function HubManagement() {
         </div>
 
         {/* ÁREA DE CONTEÚDO */}
-        <div className="flex-1 overflow-y-auto p-6 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+        <div className="h-full overflow-y-auto p-6 scrollbar-custom">
           {filteredBuildings.length > 0 ? (
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 scrollbar-custom">
               {filteredBuildings.map((edificio) => (
                 <BuildingCard
                   key={edificio.edificioId}
@@ -111,7 +109,7 @@ export default function HubManagement() {
             <div className="h-full flex flex-col items-center justify-center text-white/40 space-y-4">
               <Factory size={80} className="opacity-20" />
               <p className="text-lg font-medium">Nenhum edifício neste setor.</p>
-              <button 
+              <button
                 onClick={() => setSelectedSector("all")}
                 className="text-white hover:underline font-bold text-sm tracking-widest uppercase"
               >
@@ -119,24 +117,6 @@ export default function HubManagement() {
               </button>
             </div>
           )}
-        </div>
-
-        {/* FOOTER: Minimalista */}
-        <div className="px-8 py-4 bg-black/5 border-t border-white/10 flex justify-between items-center shrink-0">
-          <div className="flex gap-6">
-            <div className="flex flex-col border-l border-white/30 pl-3">
-              <span className="text-[10px] text-white/50 uppercase font-black tracking-widest">Setor Selecionado</span>
-              <span className="text-sm text-white font-bold capitalize">{selectedSector}</span>
-            </div>
-          </div>
-          
-          <div className="text-right">
-            <span className="text-[10px] text-white/50 uppercase font-black tracking-widest block mb-1">Status Global</span>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-white">
-              <span className="w-2 h-2 bg-green-400 rounded-full shadow-[0_0_8px_#4ade80]"></span>
-              <span className="text-[10px] font-bold uppercase tracking-widest">Operacional</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>

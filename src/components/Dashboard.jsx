@@ -1390,7 +1390,7 @@ useEffect(()=>{
                 </div>
               )}
               {ativo === "gerenciamento" && (
-                <div className="w-full h-full">
+                <div className="w-full h-full flex flex-col justify-between">
                   {/* <MicroModel /> */}
                   {/* <ButcherShopPanel/> */}
                   <ProductionQueueCard/>

@@ -4,6 +4,9 @@ import {
   DollarSign,
   ChevronDown,
   ChevronUp,
+  Clock,
+  Activity,
+  Database
 } from "lucide-react";
 import { productsCatalog } from "../components/ProductCatalog";
 import { getMarketPrice } from "../components/TablePrice";
@@ -155,53 +158,56 @@ function confirmarVenda(produto, quantidade) {
 
   
 
-  function MarketTransactionsPanel({ transactions }) {
-    return (
-      <div className="bg-gray-100 rounded-xl p-4 mb-6">
-        <h3 className="font-bold text-lg mb-4">
-          Transações em Andamento
-        </h3>
+function MarketTransactionsPanel({ transactions }) {
+  // return (
+  //   <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-[1.5rem] p-4 mb-6">
+  //     <div className="flex items-center gap-2 text-white/60 mb-4 ml-1">
+  //       <Activity size={16} />
+  //       <h3 className="font-bold uppercase tracking-widest text-[11px]">
+  //         Transações em Andamento
+  //       </h3>
+  //     </div>
 
-        {transactions.length === 0 && (
-          <p className="text-sm text-gray-500">
-            Nenhuma transação em andamento
-          </p>
-        )}
+  //     {transactions.length === 0 && (
+  //       <p className="text-xs text-white/40 text-center py-4 italic">
+  //         Nenhuma transação ativa no momento...
+  //       </p>
+  //     )}
 
-        {transactions.map(t => {
-          const p = productsCatalog[t.produtoId];
+  //     <div className="space-y-2">
+  //       {transactions.map(t => {
+  //         const p = productsCatalog[t.id] || productsCatalog[t.produtoId];
+  //         return (
+  //           <div key={t.id} className="bg-white/5 border border-white/5 rounded-xl p-3 flex justify-between items-center">
+  //             <div className="flex gap-3 items-center">
+  //               <span className="text-2xl bg-white/10 w-10 h-10 flex items-center justify-center rounded-lg border border-white/10">
+  //                 {p?.icon || "📦"}
+  //               </span>
+  //               <div>
+  //                 <p className="text-white font-bold text-sm uppercase tracking-tight">
+  //                   {t.tipo === "buy" ? "Compra" : "Venda"} — {p?.nome}
+  //                 </p>
+  //                 <p className="text-[10px] font-bold text-white/40 uppercase">
+  //                   {t.quantidade} {p?.unidade}
+  //                 </p>
+  //               </div>
+  //             </div>
 
-          return (
-            <div
-              key={t.id}
-              className="flex justify-between text-sm py-2 border-b last:border-b-0"
-            >
-              <div>
-                <p className="font-semibold">
-                  {t.tipo === "buy" ? "📦 Compra" : "💰 Venda"} — {p.nome}
-                </p>
-                <p className="text-gray-500">
-                  {t.quantidade} {p.unidade}
-                </p>
-              </div>
-
-              <div className="text-right">
-                <p>
-                  {t.diasRestantes} dias
-                </p>
-                <p className="font-semibold">
-                  {new Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(t.valorTotal)}
-                </p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
+  //             <div className="text-right">
+  //               <p className="text-white font-black text-sm">
+  //                 {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(t.valorTotal)}
+  //               </p>
+  //               <div className="inline-flex items-center gap-1 text-[9px] font-bold text-orange-400 uppercase">
+  //                  <Clock size={10} /> {t.diasRestantes} dias
+  //               </div>
+  //             </div>
+  //           </div>
+  //         );
+  //       })}
+  //     </div>
+  //   </div>
+  // );
+}
 
 
 
@@ -224,72 +230,42 @@ function confirmarVenda(produto, quantidade) {
     }).format(price);
 
 
-  function StoragePanel() {
-    const {
-      getCategoryStorageUI,
-      usedVariableStorage,
-      variableStorageTotal,
-    } = useGame();
+function StoragePanel() {
+  const { getCategoryStorageUI, usedVariableStorage, variableStorageTotal } = useGame();
+  const categorias = ["grãos", "fluidos", "aeronaves", "perecíveis"];
 
-    const categorias = ["grãos", "fluidos", "aeronaves", "perecíveis"];
+  // return (
+  //   <div className="bg-black/30 backdrop-blur-md border border-white/10 rounded-[1.5rem] p-5 mb-6">
+  //     <div className="flex items-center gap-2 text-white/60 mb-4">
+  //       <Database size={16} />
+  //       <h3 className="font-bold uppercase tracking-widest text-[11px]">Capacidade de Armazenamento</h3>
+  //     </div>
 
-    return (
-      <div className="bg-gray-100 rounded-xl p-4 mb-6">
-        <h3 className="font-bold text-lg mb-4">
-          Capacidade de Armazenamento
-        </h3>
-        <p className="text-xs text-gray-500 mb-3">
-          O armazenamento é medido em <strong>slots</strong>.
-          Cada produto ocupa uma quantidade diferente de slots.
-        </p>
+  //     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  //       {categorias.map(cat => {
+  //         const { usadoSlots, capDedicadaSlots, capMaxSlots } = getCategoryStorageUI(cat);
+  //         if (capDedicadaSlots === 0 && usadoSlots === 0) return null;
+  //         const percent = capMaxSlots > 0 ? Math.min((usadoSlots / capMaxSlots) * 100, 100) : 0;
 
-        {categorias.map(cat => {
-          const { usadoSlots,
-            capDedicadaSlots,
-            capMaxSlots, } =
-            getCategoryStorageUI(cat);
-
-          if (capDedicadaSlots === 0 && usadoSlots === 0) return null;
-
-          const percent =
-            capMaxSlots > 0 ? Math.min((usadoSlots / capMaxSlots) * 100, 100) : 0;
-
-          return (
-            <div key={cat} className="mb-3">
-              <div className="flex justify-between text-sm mb-1">
-                <span className="capitalize">{cat}</span>
-                <span>
-                  {usadoSlots.toFixed(1)} slots / {capDedicadaSlots}
-                  {capMaxSlots > capDedicadaSlots &&
-                    ` (máx ${capMaxSlots} slots)`}
-                </span>
-
-              </div>
-
-              <div className="w-full h-3 bg-gray-300 rounded">
-                <div
-                  className={`h-3 rounded ${percent > 90
-                    ? "bg-red-500"
-                    : percent > 70
-                      ? "bg-yellow-400"
-                      : "bg-green-500"
-                    }`}
-                  style={{ width: `${percent}%` }}
-                />
-              </div>
-            </div>
-          );
-        })}
-
-        <div className="mt-4 pt-3 border-t text-sm flex justify-between">
-          <span>Armazém Variável</span>
-          <span>
-            {usedVariableStorage} / {variableStorageTotal}
-          </span>
-        </div>
-      </div>
-    );
-  }
+  //         return (
+  //           <div key={cat} className="space-y-1">
+  //             <div className="flex justify-between text-[10px] font-bold uppercase text-white/70 px-1">
+  //               <span>{cat}</span>
+  //               <span>{usadoSlots.toFixed(1)} / {capMaxSlots} Slots</span>
+  //             </div>
+  //             <div className="h-1.5 bg-black/40 rounded-full overflow-hidden border border-white/5">
+  //               <div 
+  //                 className={`h-full transition-all duration-500 ${percent > 90 ? "bg-red-500" : percent > 70 ? "bg-yellow-500" : "bg-emerald-500"}`}
+  //                 style={{ width: `${percent}%` }}
+  //               />
+  //             </div>
+  //           </div>
+  //         );
+  //       })}
+  //     </div>
+  //   </div>
+  // );
+}
 
   function StockList() {
     const { stock } = useGame();
@@ -331,132 +307,164 @@ function confirmarVenda(produto, quantidade) {
 
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow flex-1 overflow-y-auto scrollbar-custom rounded-[10px] h-full">
-      <h2 className="text-3xl font-bold text-center mb-6">
-        Mercado Global
-      </h2>
+   <div 
+    style={{ backgroundColor: "#6411D9" }} // Um azul bem escuro ou preto
+    className="h-full p-6 overflow-y-auto scrollbar-custom rounded-[20px] text-white animate-in fade-in duration-500"
+  >
+    <h2 className="text-2xl font-black text-center mb-8 uppercase tracking-tighter">
+      Mercado Global
+    </h2>
       <MarketTransactionsPanel transactions={marketTransactions} />
       {/* BUY / SELL */}
-      <div className="flex justify-center mb-6">
-        <div className="bg-gray-200 p-1 rounded-lg flex">
-          <button
-            onClick={() => setMode("buy")}
-            className={`px-6 py-2 rounded-lg flex gap-2 ${mode === "buy" ? "bg-blue-500 text-white" : ""
-              }`}
-          >
-            <ShoppingCart /> Comprar
-          </button>
-          <button
-            onClick={() => setMode("sell")}
-            className={`px-6 py-2 rounded-lg flex gap-2 ${mode === "sell" ? "bg-green-500 text-white" : ""
-              }`}
-          >
-            <DollarSign /> Vender
-          </button>
-        </div>
+   <div className="flex justify-center mb-8">
+      <div className="bg-black/40 p-1.5 rounded-2xl flex border border-white/10 backdrop-blur-md">
+        <button
+          onClick={() => setMode("buy")}
+          className={`px-8 py-2.5 rounded-xl flex gap-2 font-bold uppercase text-xs tracking-widest transition-all ${
+            mode === "buy" ? "bg-blue-600 shadow-lg shadow-blue-900/40 text-white" : "text-white/40 hover:text-white"
+          }`}
+        >
+          <ShoppingCart size={16} /> Comprar
+        </button>
+        <button
+          onClick={() => setMode("sell")}
+          className={`px-8 py-2.5 rounded-xl flex gap-2 font-bold uppercase text-xs tracking-widest transition-all ${
+            mode === "sell" ? "bg-emerald-600 shadow-lg shadow-emerald-900/40 text-white" : "text-white/40 hover:text-white"
+          }`}
+        >
+          <DollarSign size={16} /> Vender
+        </button>
       </div>
+    </div>
 
       {/* SETORES */}
-      <div className="flex flex-wrap justify-center gap-2 mb-6 ">
-        {sectors.map(s => (
-          <button
-            key={s.id}
-            onClick={() => setSelectedSector(s.id)}
-            className={`px-4 py-2 rounded-lg ${selectedSector === s.id
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-100"
-              }`}
-          >
-            {s.icon} {s.name}
-          </button>
-        ))}
-      </div>
+     <div className="flex flex-wrap justify-center gap-2 mb-8">
+      {sectors.map(s => (
+        <button
+          key={s.id}
+          onClick={() => setSelectedSector(s.id)}
+          className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border ${
+            selectedSector === s.id
+              ? "bg-white text-black border-white"
+              : "bg-transparent text-white/60 border-white/20 hover:border-white/50"
+          }`}
+        >
+          {s.name}
+        </button>
+      ))}
+    </div>
       {mode === "buy" ? (
         <StoragePanel />
       ) : (
         <StockList />
       )}
       {/* LISTA */}
-      {Object.entries(filteredData).map(([sectorKey, items]) => {
-        if (!items.length) return null;
+{/* LISTA DE SETORES (ACCORDIONS) */}
+{/* CONTAINER DE ROLAGEM DOS PRODUTOS */}
+<div className="overflow-y-auto pr-2 scrollbar-custom h-[30%]" style={{ height: '600px', // Use um valor fixo em pixels para garantir que o scroll funcione
+    minHeight: '450px' }}>
+  {Object.entries(filteredData).map(([sectorKey, items]) => {
+    if (!items.length) return null;
 
-        const sectorInfo = sectors.find(s => s.id === sectorKey);
-        const isOpen = openAccordions[sectorKey];
+    const sectorInfo = sectors.find(s => s.id === sectorKey);
+    const isOpen = openAccordions[sectorKey];
 
-        return (
-          <div key={sectorKey} className="mb-6">
-            <button
-              onClick={() => toggleAccordion(sectorKey)}
-              className="w-full px-4 py-3 bg-gray-100 rounded-lg flex justify-between"
-            >
-              <span className="font-semibold flex gap-2">
-                {sectorInfo?.icon} {sectorInfo?.name}
-              </span>
-              {isOpen ? <ChevronUp /> : <ChevronDown />}
-            </button>
+    return (
+      <div key={sectorKey} className="mb-4 group">
+        {/* HEADER DO ACCORDION - Adicionado sticky para não perder o título ao rolar itens longos */}
+        <button
+          onClick={() => toggleAccordion(sectorKey)}
+          className={`w-full px-5 py-4 flex justify-between items-center transition-all duration-300 rounded-[1.2rem] border sticky top-0 z-10 ${
+            isOpen 
+              ? "bg-[#1a1a1a] border-white/20 shadow-lg backdrop-blur-md" 
+              : "bg-black/20 border-white/5 hover:bg-white/5 hover:border-white/10"
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <span className="text-xl opacity-80 group-hover:scale-110 transition-transform">
+              {sectorInfo?.icon}
+            </span>
+            <span className="font-bold uppercase tracking-[0.15em] text-[11px] text-white/90">
+              {sectorInfo?.name}
+            </span>
+          </div>
+          <div className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
+            <ChevronDown size={18} className="text-white/40" />
+          </div>
+        </button>
 
-            {isOpen && (
-              <div className="border rounded-lg mt-2">
-                {items.map(p => {
-                  const canBuy = podeComprar(p);
+        {/* CONTEÚDO DO ACCORDION */}
+        {isOpen && (
+          <div className="mt-2 space-y-2 animate-in slide-in-from-top-2 duration-300">
+            {items.map(p => {
+              const canBuy = podeComprar(p);
 
-                  return (
-                    <div
-                      key={p.id}
-                      className="flex justify-between p-4 border-b"
-                    >
-                      <div>
-                        <p className="font-semibold">
-                          {p.icon} {p.nome}
+              return (
+                <div
+                  key={p.id}
+                  className="bg-black/20 backdrop-blur-md border border-white/5 rounded-[1.2rem] p-4 flex justify-between items-center hover:bg-white/5 transition-colors"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center border border-white/10 text-2xl shadow-inner">
+                      {p.icon}
+                    </div>
+                    
+                    <div>
+                      <p className="font-black text-white uppercase text-sm tracking-tight leading-none mb-1">
+                        {p.nome}
+                      </p>
+                      <div className="flex flex-col gap-0.5">
+                        <p className="text-[10px] font-bold text-white/40 uppercase">
+                          Disponível: <span className="text-white/70">{p.estoque} {p.unidade}</span>
                         </p>
-                        <p className="text-sm text-gray-500">
-                          Estoque: {p.estoque} {p.unidade}
+                        <p className="text-[9px] font-medium text-blue-400/60 uppercase tracking-tighter italic">
+                          Carga: {p.slotSize} slot{p.slotSize !== 1 ? "s" : ""} / {p.unidade}
                         </p>
-                        <p className="text-xs text-gray-400">
-                          Ocupa {p.slotSize} slot{p.slotSize !== 1 && "s"} por {p.unidade}
-                        </p>
-
-                      </div>
-
-                      <div className="flex items-center gap-4">
-                        <span className="font-bold text-green-600">
-                          {formatPrice(p.preco)}
-                        </span>
-
-                        {mode === "buy" ? (
-                          <button
-                            disabled={!canBuy}
-                            onClick={() => {
-                              setSelectedProduct(p);
-                              setModalType("buy");
-                            }}
-                            className="bg-blue-500 disabled:opacity-40 text-white px-4 py-2 rounded-lg"
-                          >
-                            Comprar
-                          </button>
-
-                        ) : (
-                          <button
-                            disabled={p.estoque <= 0}
-                            onClick={() => {
-                              setSelectedProduct(p);
-                              setModalType("sell");
-                            }}
-                            className="bg-green-500 disabled:opacity-40 text-white px-4 py-2 rounded-lg"
-                          >
-                            Vender
-                          </button>
-
-                        )}
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-            )}
+                  </div>
+
+                  <div className="flex items-center gap-6">
+                    <div className="text-right">
+                      <p className="text-[10px] font-bold text-white/30 uppercase leading-none mb-1">Unitário</p>
+                      <span className="font-black text-emerald-400 text-lg tracking-tighter">
+                        {formatPrice(p.preco)}
+                      </span>
+                    </div>
+
+                    {mode === "buy" ? (
+                      <button
+                        disabled={!canBuy}
+                        onClick={() => {
+                          setSelectedProduct(p);
+                          setModalType("buy");
+                        }}
+                        className="h-10 px-6 bg-blue-600 hover:bg-blue-500 disabled:opacity-20 disabled:grayscale text-white rounded-xl font-black uppercase text-[10px] tracking-widest transition-all active:scale-95 shadow-lg shadow-blue-900/20"
+                      >
+                        Comprar
+                      </button>
+                    ) : (
+                      <button
+                        disabled={p.estoque <= 0}
+                        onClick={() => {
+                          setSelectedProduct(p);
+                          setModalType("sell");
+                        }}
+                        className="h-10 px-6 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-20 disabled:grayscale text-white rounded-xl font-black uppercase text-[10px] tracking-widest transition-all active:scale-95 shadow-lg shadow-emerald-900/20"
+                      >
+                        Vender
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        );
-      })}
+        )}
+      </div>
+    );
+  })}
+</div>
       {selectedProduct && (
         <QuantityModal
           isOpen={!!selectedProduct}

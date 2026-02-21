@@ -22,9 +22,9 @@ export default function ManagerPanelInterface({ edificioId, onBack }) {
     [edificioId]
   );
 
-  const setorInfo = useMemo(() => 
+  const setorInfo = useMemo(() =>
     setores.find(s => s.id === edificioConfig?.setor) || setores[2]
-  , [edificioConfig]);
+    , [edificioConfig]);
 
   const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
 
@@ -42,14 +42,14 @@ export default function ManagerPanelInterface({ edificioId, onBack }) {
 
   return (
     // Background dinâmico baseado no setor (cor1)
-    <div 
+    <div
       style={{ backgroundColor: setorInfo.cor1 }}
-      className="min-h-screen p-4 md:p-6 animate-in fade-in duration-500 transition-colors"
+      className="h-full p-4 animate-in fade-in duration-500 transition-colors rounded-xl "
     >
       <div className="max-w-6xl mx-auto flex flex-col gap-4">
-        
+
         {/* HEADER / VOLTAR */}
-        <button 
+        <button
           onClick={onBack}
           className="flex items-center gap-2 text-white/70 hover:text-white transition-colors group w-fit"
         >
@@ -58,75 +58,86 @@ export default function ManagerPanelInterface({ edificioId, onBack }) {
         </button>
 
         {/* HERO SECTION COMPACTO */}
-        <div 
-          style={{ background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor3} 100%)` }}
-          className="relative overflow-hidden rounded-3xl shadow-xl border border-white/10"
-        >
-          <div className="absolute inset-0 bg-black/10" />
-          
-          <div className="relative p-4 md:p-6 flex items-center gap-6">
-            {/* Imagem Menor */}
-            <div className="w-20 h-20 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
-              <img 
-                src={getImageUrl(edificioConfig.nomeEdificio)} 
-                alt={edificioConfig.nomeEdificio}
-                className="w-14 h-14 object-contain drop-shadow-lg"
-              />
-            </div>
+        <div className="w-full flex gap-4">
+          <div
+            style={{ background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor3} 100%)` }}
+            className="relative overflow-hidden rounded-3xl shadow-xl border border-white/10"
+          >
+            <div className="absolute inset-0 bg-black/10" />
 
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/10 border border-white/10 text-white/80 text-[10px] font-bold uppercase tracking-tight mb-1">
-                <Factory size={12} />
-                {edificioConfig.setor}
-              </div>
-              <h1 className="text-xl md:text-2xl font-black text-white tracking-tight uppercase">
-                {edificioConfig.nomeEdificio}
-              </h1>
-            </div>
-          </div>
-        </div>
+            <div className="relative p-4 md:p-6 flex items-center flex-col gap-6">
+              {/* Imagem Menor */}
+              <div className="flex justify-between w-full">
 
-        {/* ESTOQUE OBSERVADO (AGORA NA BASE E LARGURA TOTAL) */}
-        <div className="mt-2 space-y-3">
-          <div className="flex items-center gap-2 text-white/60 ml-2">
-            <Box size={16} />
-            <h2 className="font-bold uppercase tracking-widest text-[10px]">Estoque do Edifício</h2>
-          </div>
-          
-          <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-[1.5rem] p-3">
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
-              {produtosEstoque.map(produto => (
-                <div
-                  key={produto.id}
-                  className="bg-white/5 border border-white/5 p-2 rounded-xl flex flex-col items-center justify-center text-center"
-                >
-                  <span className="text-xl mb-0.5">{produto.icon}</span>
-                  <span className="text-[8px] text-white/40 font-bold uppercase truncate w-full px-1">
-                    {produto.nome}
-                  </span>
-                  <div className="text-white font-bold text-sm">
-                    {stock[produto.id] || 0}
-                    <span className="text-[9px] ml-0.5 text-white/50">{produto.unidade}</span>
-                  </div>
+                <div className="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-around border border-white/20 aspect-square">
+                  <img
+                    src={getImageUrl(edificioConfig.nomeEdificio)}
+                    alt={edificioConfig.nomeEdificio}
+                    className="w-10 h-10 object-contain drop-shadow-lg"
+                  />
                 </div>
-              ))}
+                <div className="inline-flex items-center text-white/80 text-[10px] font-bold uppercase tracking-tight mb-1">
+                  <Factory size={12} />
+                  {edificioConfig.setor}
+                </div>
+              </div>
+
+              <div>
+
+                <h1 className="text-xl md:text-2xl font-black text-white tracking-tight uppercase">
+                  {edificioConfig.nomeEdificio}
+                </h1>
+              </div>
+            </div>
+          </div>
+
+          {/* ESTOQUE OBSERVADO (AGORA NA BASE E LARGURA TOTAL) */}
+          <div className="mt-2 space-y-3">
+            <div className="flex items-center gap-2 text-white/60 ml-2">
+              <Box size={16} />
+              <h2 className="font-bold uppercase tracking-widest text-[10px]">Estoque do Edifício</h2>
+            </div>
+
+            <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-[1.5rem] p-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
+                {produtosEstoque.map(produto => (
+                  <div
+                    key={produto.id}
+                    className="bg-white/5 border border-white/5 p-2 rounded-xl flex flex-col items-center justify-center text-center"
+                  >
+                    <span className="text-xl mb-0.5">{produto.icon}</span>
+                    <span className="text-[8px] text-white/40 font-bold uppercase truncate w-full px-1">
+                      {produto.nome}
+                    </span>
+                    <div className="text-white font-bold text-sm">
+                      {stock[produto.id] || 0}
+                      <span className="text-[9px] ml-0.5 text-white/50">{produto.unidade}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
+
 
         {/* LINHAS DE PRODUÇÃO (AGORA EM CIMA E LARGURA TOTAL) */}
         <div className="space-y-3">
+          {/* Título - Fica fixo fora da área de rolagem */}
           <div className="flex items-center gap-2 text-white/60 ml-2">
             <Factory size={16} />
             <h2 className="font-bold uppercase tracking-widest text-[10px]">Linhas de Produção</h2>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {edificioConfig.formulas.map(formula => (
-              <div key={formula.id} className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[1.5rem] overflow-hidden">
-                 <ProductionCard formula={formula} />
-              </div>
-            ))}
+
+          {/* Container com Scroll - Apenas os cards rolam */}
+          <div className="h-[450px] overflow-y-auto pr-2 scrollbar-custom">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {edificioConfig.formulas.map(formula => (
+                <div key={formula.id} className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[1.5rem] overflow-hidden h-full">
+                  <ProductionCard formula={formula} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

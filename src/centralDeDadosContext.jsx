@@ -50,15 +50,15 @@ const CentraldeDadosProvider = ({ children }) => {
       head: "Construa um Imóvel Pequeno",
       content: "Para que você construa um imóvel pequeno primeiramente é necessário que vc compre um terreno, após isso construa o imóvel peequeno em seu terreno",
     },
-modalExcesso: {
-  estadoModal: false,
-    confirmarAvanco: false,
-  head: "Armazenamento insuficiente",
-  content:
-    "Para que você possa passar o dia é necessário ou vender o excesso de produção ou aumentar a sua capacidade de armazenamento atual",
-  quantidadeExcesso: 0,
-  ofertaExcesso: 0,
-},
+    modalExcesso: {
+      estadoModal: false,
+      confirmarAvanco: false,
+      head: "Armazenamento insuficiente",
+      content:
+        "Para que você possa passar o dia é necessário ou vender o excesso de produção ou aumentar a sua capacidade de armazenamento atual",
+      quantidadeExcesso: 0,
+      ofertaExcesso: 0,
+    },
 
     modalAlert: {
       estadoModal: false,
@@ -741,6 +741,252 @@ modalExcesso: {
             },
           },
         },
+        {
+          nome: "Fazenda Administrativa",
+          nomeEditável: "Fazenda Administrativa",
+          desc: "Organiza e valoriza o setor rural. Aumenta a eficiência das plantações.",
+          licençaLiberado: {
+            licença: "Licença Global De Agricultura",
+            liberado: false,
+          },
+          custoConstrucao: 70000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: -780,
+            impostoFixo: 480,
+            impostoSobreFatu: 0.07,
+            rent: 32,
+          },
+
+          lojasNecessarias: {
+            terrenos: 1,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Grãos",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 2, nível2: 5, nível3: 9 },
+            },
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 2, nível2: 5, nível3: 9 },
+            },
+            {
+              nome: "Pomares",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 2, nível2: 5, nível3: 9 },
+            },
+            {
+              nome: "Fazenda De Vacas",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 3, nível2: 4, nível3: 7 },
+            },
+            {
+              nome: "Granja De Aves",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 3, nível2: 4, nível3: 7 },
+            },
+            {
+              nome: "Criação De Ovinos",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 3, nível2: 4, nível3: 7 },
+            },
+            {
+              nome: "Plantação De Eucalipto",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 10, nível2: 15, nível3: 30 },
+            },
+            {
+              nome: "Plantação De Plantas Medicinais",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
+            },
+            {
+              nome: "Cooperativa Agrícola",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
+            },
+            {
+              nome: "Centro De Comércio De Plantações",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
+            },
+            {
+              nome: "Depósito De Resíduos Orgânicos",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 5, nível2: 10, nível3: 16 },
+            },
+            {
+              nome: "Madeireira",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 10, nível2: 13, nível3: 17 },
+            },
+            {
+              nome: "Área Florestal",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 7, nível2: 15, nível3: 30 },
+            },
+            {
+              nome: "Terreno De Mineração",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 10, nível2: 20, nível3: 30 },
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Construtora De Pequenas Obras",
+              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+          ],
+          recursoDeConstrução: [],
+          melhoraEficiencia: [
+            "Plantação De Grãos",
+            "Plantação De Vegetais",
+            "Pomares",
+            "Fazenda De Vacas",
+            "Granja De Aves",
+            "Criação De Ovinos",
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+        {
+          nome: "Armazém",
+          nomeEditável: "Armazém",
+          desc: "Espaço de armazenamento geral. Dá suporte a múltiplos setores produtivos.",
+          licençaLiberado: {
+            licença: "Licença Global De Agricultura",
+            liberado: false,
+          },
+          custoConstrucao: 0,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: -980,
+            impostoFixo: 600,
+            impostoSobreFatu: 0.07,
+            rent: 32,
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 0,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Plantação De Grãos",
+            "Pomares",
+            "Fazenda De Vacas",
+            "Granja De Aves",
+            "Criação De Ovinos",
+            "Plantação De Eucalipto",
+            "Plantação De Plantas Medicinais",
+            "Mercado",
+            "Feira",
+            "Fábrica De Rações",
+            "Restaurante",
+            "Usina De Biomassa",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Plantas Medicinais",
+              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Centro De Comércio De Plantações",
+              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Cooperativa Agrícola",
+              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Plantação De Grãos",
+              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: { nível1: 1, nível2: 1, nível3: 2 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Pomares",
+              redCusto: { nível1: 1, nível2: 1, nível3: 2 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Construtora De Pequenas Obras",
+              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Armazém Logístico",
+              redCusto: { nível1: 20, nível2: 30, nível3: 39 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+          ],
+
+          recursoDeConstrução: [],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
 
         {
           nome: "Plantação De Vegetais",
@@ -1088,564 +1334,7 @@ modalExcesso: {
             },
           },
         },
-
-        {
-          nome: "Fazenda Administrativa",
-          nomeEditável: "Fazenda Administrativa",
-          desc: "Organiza e valoriza o setor rural. Aumenta a eficiência das plantações.",
-          licençaLiberado: {
-            licença: "Licença Global De Agricultura",
-            liberado: false,
-          },
-          custoConstrucao: 70000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: -780,
-            impostoFixo: 480,
-            impostoSobreFatu: 0.07,
-            rent: 32,
-          },
-
-          lojasNecessarias: {
-            terrenos: 1,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: [],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Grãos",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 2, nível2: 5, nível3: 9 },
-            },
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 2, nível2: 5, nível3: 9 },
-            },
-            {
-              nome: "Pomares",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 2, nível2: 5, nível3: 9 },
-            },
-            {
-              nome: "Fazenda De Vacas",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 4, nível3: 7 },
-            },
-            {
-              nome: "Granja De Aves",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 4, nível3: 7 },
-            },
-            {
-              nome: "Criação De Ovinos",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 4, nível3: 7 },
-            },
-            {
-              nome: "Plantação De Eucalipto",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 10, nível2: 15, nível3: 30 },
-            },
-            {
-              nome: "Plantação De Plantas Medicinais",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
-            },
-            {
-              nome: "Cooperativa Agrícola",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
-            },
-            {
-              nome: "Centro De Comércio De Plantações",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
-            },
-            {
-              nome: "Depósito De Resíduos Orgânicos",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 5, nível2: 10, nível3: 16 },
-            },
-            {
-              nome: "Madeireira",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 10, nível2: 13, nível3: 17 },
-            },
-            {
-              nome: "Área Florestal",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 7, nível2: 15, nível3: 30 },
-            },
-            {
-              nome: "Terreno De Mineração",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 10, nível2: 20, nível3: 30 },
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Construtora De Pequenas Obras",
-              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-          ],
-          recursoDeConstrução: [],
-          melhoraEficiencia: [
-            "Plantação De Grãos",
-            "Plantação De Vegetais",
-            "Pomares",
-            "Fazenda De Vacas",
-            "Granja De Aves",
-            "Criação De Ovinos",
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-
-        {
-          nome: "Cooperativa Agrícola",
-          nomeEditável: "Cooperativa Agrícola",
-          desc: "Conecta pequenos produtores. Melhora o valor das construções agrícolas.",
-          licençaLiberado: {
-            licença: "Licença De Comércios Agrícolas",
-            liberado: false,
-          },
-          custoConstrucao: 1150000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 47300,
-            impostoFixo: 20000,
-            impostoSobreFatu: 0.07,
-            rent: 32,
-          },
-
-          lojasNecessarias: {
-            terrenos: 5,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 1,
-          },
-          construçõesNecessárias: [
-            "Plantação De Grãos",
-            "Plantação De Vegetais",
-            "Pomares",
-          ],
-          licençasNecessárias: [],
-          melhoraEficiencia: [
-            "Mercado",
-            "Feira",
-            "Restaurante",
-            "Rede De Fast-Food",
-            "Petshop",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Grãos",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
-            },
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
-            },
-            {
-              nome: "Pomares",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
-            },
-            {
-              nome: "Fazenda De Vacas",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
-            },
-            {
-              nome: "Granja De Aves",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
-            },
-            {
-              nome: "Criação De Ovinos",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
-            },
-            {
-              nome: "Plantação De Eucalipto",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
-            },
-            {
-              nome: "Plantação De Plantas Medicinais",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 8, nível3: 18 },
-            },
-            {
-              nome: "Mercado",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 8, nível2: 10, nível3: 12 },
-            },
-            {
-              nome: "Mega Mercado",
-              redCusto: { nível1: 1, nível2: 1, nível3: 2 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Madeireira",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 20, nível2: 27, nível3: 33 },
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Centro De Distribuição",
-              redCusto: { nível1: 8, nível2: 11, nível3: 23 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Fazenda Administrativa",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
-            },
-            {
-              nome: "Construtora De Infraestruturas",
-              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Armazém",
-              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Silo",
-              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-          ],
-
-          recursoDeConstrução: [
-            "Armazém",
-            "Silo",
-            "Fazenda Administrativa",
-            "Centro De Comércio De Plantações",
-          ],
-
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 8,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 30,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-
-        {
-          nome: "Centro De Comércio De Plantações",
-          nomeEditável: "Centro De Comércio De Plantações",
-          desc: "Representa o escoamento da produção. Aumenta o valor do setor agrícola.",
-          licençaLiberado: {
-            licença: "Licença De Comércios Agrícolas",
-            liberado: false,
-          },
-          custoConstrucao: 900000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 17800,
-            impostoFixo: 10000,
-            impostoSobreFatu: 0.07,
-            rent: 32,
-          },
-
-          lojasNecessarias: {
-            terrenos: 5,
-            lojasP: 3,
-            lojasM: 1,
-            lojasG: 1,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: [],
-          melhoraEficiencia: [
-            "Plantação De Grãos",
-            "Pomares",
-            "Fazenda De Vacas",
-            "Granja De Aves",
-            "Criação De Ovinos",
-            "Plantação De Eucalipto",
-            "Plantação De Plantas Medicinais",
-            "Mercado",
-            "Feira",
-            "Fábrica De Rações",
-            "Restaurante",
-            "Usina De Biomassa",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Grãos",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 5, nível2: 15, nível3: 40 },
-            },
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 5, nível2: 18, nível3: 40 },
-            },
-            {
-              nome: "Pomares",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 5, nível2: 12, nível3: 40 },
-            },
-            {
-              nome: "Restaurante",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 12, nível2: 15, nível3: 20 },
-            },
-            {
-              nome: "Plantação De Eucalipto",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 15, nível2: 21, nível3: 35 },
-            },
-            {
-              nome: "Plantação De Plantas Medicinais",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 15, nível2: 17, nível3: 35 },
-            },
-            {
-              nome: "Mercado",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 10, nível2: 12, nível3: 14 },
-            },
-            {
-              nome: "Mega Mercado",
-              redCusto: { nível1: 1, nível2: 1, nível3: 2 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Fábrica De Embalagens",
-              redCusto: { nível1: 3, nível2: 5, nível3: 10 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Centro De Distribuição",
-              redCusto: { nível1: 5, nível2: 6, nível3: 13 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Fazenda Administrativa",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
-            },
-            {
-              nome: "Construtora",
-              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Armazém",
-              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Silo",
-              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Plantação De Eucalipto",
-              redCusto: { nível1: 30, nível2: 45, nível3: 90 },
-              aumFatu: { nível1: 90, nível2: 120, nível3: 150 },
-            },
-            {
-              nome: "Plantação De Plantas Medicinais",
-              redCusto: { nível1: 10, nível2: 15, nível3: 30 },
-              aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
-            },
-          ],
-
-          recursoDeConstrução: [
-            "Armazém",
-            "Silo",
-            "Fazenda Administrativa",
-            "Plantação De Grãos",
-          ],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 8,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 30,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-
-        {
-          nome: "Armazém",
-          nomeEditável: "Armazém",
-          desc: "Espaço de armazenamento geral. Dá suporte a múltiplos setores produtivos.",
-          licençaLiberado: {
-            licença: "Licença Agricultura Global",
-            liberado: false,
-          },
-          custoConstrucao: 0,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: -980,
-            impostoFixo: 600,
-            impostoSobreFatu: 0.07,
-            rent: 32,
-          },
-
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: [],
-          melhoraEficiencia: [
-            "Plantação De Grãos",
-            "Pomares",
-            "Fazenda De Vacas",
-            "Granja De Aves",
-            "Criação De Ovinos",
-            "Plantação De Eucalipto",
-            "Plantação De Plantas Medicinais",
-            "Mercado",
-            "Feira",
-            "Fábrica De Rações",
-            "Restaurante",
-            "Usina De Biomassa",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Plantação De Plantas Medicinais",
-              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Centro De Comércio De Plantações",
-              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Cooperativa Agrícola",
-              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Plantação De Grãos",
-              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Plantação De Vegetais",
-              redCusto: { nível1: 1, nível2: 1, nível3: 2 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Pomares",
-              redCusto: { nível1: 1, nível2: 1, nível3: 2 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Construtora De Pequenas Obras",
-              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Armazém Logístico",
-              redCusto: { nível1: 20, nível2: 30, nível3: 39 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-          ],
-
-          recursoDeConstrução: [],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-
-        {
+           {
           nome: "Silo",
           nomeEditável: "Silo",
           desc: "Armazena grãos. Aumenta a eficiência e o valor das plantações ao redor.",
@@ -1746,6 +1435,353 @@ modalExcesso: {
             },
           },
         },
+ {
+          nome: "Plantação De Eucalipto",
+          nomeEditável: "Plantação De Eucalipto",
+          desc: "Produção rápida de madeira. Dá suporte a serrarias e papelarias.",
+          licençaLiberado: {
+            licença: "Licença De Outras Plantações",
+            liberado: false,
+          },
+          custoConstrucao: 20000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1045,
+            impostoFixo: 560,
+            impostoSobreFatu: 0.07,
+            rent: 32,
+          },
+
+          lojasNecessarias: {
+            terrenos: 3,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Fábrica De Celulose",
+            "Madeireira",
+            "Fábrica De Papel",
+            "Granja De Aves",
+            "Criação De Ovinos",
+            "Plantação De Eucalipto",
+            "Plantação De Plantas Medicinais",
+            "Mercado",
+            "Feira",
+            "Fábrica De Rações",
+            "Restaurante",
+            "Usina De Biomassa",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Depósito De Resíduos Orgânicos",
+              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Fábrica De Celulose",
+              redCusto: { nível1: 3, nível2: 4, nível3: 8 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Madeireira",
+              redCusto: { nível1: 3, nível2: 5, nível3: 10 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Fábrica Têxtil",
+              redCusto: { nível1: 2, nível2: 2, nível3: 4 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Fazenda Administrativa",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 10, nível2: 15, nível3: 30 },
+            },
+            {
+              nome: "Fábrica De Fertilizantes",
+              redCusto: { nível1: 1, nível2: 4, nível3: 10 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Centro De Pesquisa Agrícola",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 12, nível2: 15, nível3: 25 },
+            },
+            {
+              nome: "Instituto De Biotecnologia",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 10, nível2: 12, nível3: 45 },
+            },
+            {
+              nome: "Terraplanagem E Pavimentação",
+              redCusto: { nível1: 0, nível2: 1, nível3: 2 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Armazém Logístico",
+              redCusto: { nível1: 2, nível2: 2, nível3: 2 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Cooperativa Agrícola",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
+            },
+            {
+              nome: "Centro De Comércio De Plantações",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 15, nível2: 21, nível3: 35 },
+            },
+            {
+              nome: "Depósito De Resíduos Orgânicos",
+              redCusto: { nível1: 2, nível2: 3, nível3: 6 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+          ],
+
+          recursoDeConstrução: [],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+
+        {
+          nome: "Plantação De Plantas Medicinais",
+          nomeEditável: "Plantação De Plantas Medicinais",
+          desc: "Fornece insumos raros. Suporte direto para a indústria farmacêutica.",
+          licençaLiberado: {
+            licença: "Licença De Outras Plantações",
+            liberado: false,
+          },
+          custoConstrucao: 100000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 2540,
+            impostoFixo: 1200,
+            impostoSobreFatu: 0.07,
+            rent: 32,
+          },
+
+          lojasNecessarias: {
+            terrenos: 5,
+            lojasP: 0,
+            lojasM: 0,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Fábrica De Químicos Especializados",
+            "Farmácia",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Fábrica De Químicos Especializados",
+              redCusto: { nível1: 1, nível2: 1, nível3: 1 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Laboratório Farmacêutico",
+              redCusto: { nível1: 1, nível2: 1, nível3: 2 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              Dome: "Fábrica De Medicamentos",
+              redCusto: { nível1: 2, nível2: 3, nível3: 5 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Fábrica De Fertilizantes",
+              redCusto: { nível1: 1, nível2: 1, nível3: 1 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Biofábrica",
+              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Depósito De Resíduos Orgânicos",
+              redCusto: { nível1: 1, nível2: 2, nível3: 2 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Fábrica De Fertilizantes",
+              redCusto: { nível1: 1, nível2: 3, nível3: 6 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Fazenda Administrativa",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
+            },
+            {
+              nome: "Cooperativa Agrícola",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 3, nível2: 8, nível3: 18 },
+            },
+            {
+              nome: "Silo",
+              redCusto: { nível1: 1, nível2: 1, nível3: 2 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Armazém",
+              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Centro De Comércio De Plantações",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 15, nível2: 17, nível3: 35 },
+            },
+            {
+              nome: "Depósito De Resíduos Orgânicos",
+              redCusto: { nível1: 1, nível2: 2, nível3: 4 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Centro De Pesquisa Agrícola",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 8, nível2: 13, nível3: 32 },
+            },
+            {
+              nome: "Instituto De Biotecnologia",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 21, nível2: 25, nível3: 50 },
+            },
+            {
+              nome: "Terraplanagem E Pavimentação",
+              redCusto: { nível1: 0, nível2: 1, nível3: 2 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Armazém Logístico",
+              redCusto: { nível1: 1, nível2: 1, nível3: 3 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+          ],
+
+          recursoDeConstrução: [],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+        {
+          nome: "Campo De Estocagem",
+          nomeEditável: "Loja De Eletrônicos",
+          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
+          licençaLiberado: {
+            licença: "Licença De Outras Plantações",
+            liberado: false,
+          },
+          custoConstrucao: 80000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 1600,
+            impostoFixo: 22000,
+            impostoSobreFatu: 0.1,
+            rent: 12,
+          },
+
+          lojasNecessarias: {
+            terrenos: 0,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 0,
+          },
+          construçõesNecessárias: [],
+          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
+          melhoraEficiencia: [
+            "Fábrica De Rações",
+            "Biofábrica",
+            "Mercado",
+            "Feira Livre",
+          ],
+
+          ForneceMelhoraEficiencia: [],
+          RecebeMelhoraEficiencia: [],
+          recursoDeConstrução: [],
+          dependências: [
+            { construção: "fazendaAdministrativa", quantidade: 0 },
+          ],
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 20,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 100,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+
+     
 
 
 
@@ -2783,35 +2819,189 @@ modalExcesso: {
             },
           },
         },
+       
         {
-          nome: "Plantação De Eucalipto",
-          nomeEditável: "Plantação De Eucalipto",
-          desc: "Produção rápida de madeira. Dá suporte a serrarias e papelarias.",
+          nome: "Cooperativa Agrícola",
+          nomeEditável: "Cooperativa Agrícola",
+          desc: "Conecta pequenos produtores. Melhora o valor das construções agrícolas.",
           licençaLiberado: {
-            licença: "Licença De Outras Plantações",
+            licença: "Licença De Comércios Agrícolas",
             liberado: false,
           },
-          custoConstrucao: 20000,
+          custoConstrucao: 1150000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: 1045,
-            impostoFixo: 560,
+            faturamentoUnitário: 47300,
+            impostoFixo: 20000,
             impostoSobreFatu: 0.07,
             rent: 32,
           },
 
           lojasNecessarias: {
-            terrenos: 3,
-            lojasP: 0,
-            lojasM: 0,
-            lojasG: 0,
+            terrenos: 5,
+            lojasP: 1,
+            lojasM: 1,
+            lojasG: 1,
+          },
+          construçõesNecessárias: [
+            "Plantação De Grãos",
+            "Plantação De Vegetais",
+            "Pomares",
+          ],
+          licençasNecessárias: [],
+          melhoraEficiencia: [
+            "Mercado",
+            "Feira",
+            "Restaurante",
+            "Rede De Fast-Food",
+            "Petshop",
+          ],
+
+          ForneceMelhoraEficiencia: [
+            {
+              nome: "Plantação De Grãos",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
+            },
+            {
+              nome: "Plantação De Vegetais",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
+            },
+            {
+              nome: "Pomares",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
+            },
+            {
+              nome: "Fazenda De Vacas",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
+            },
+            {
+              nome: "Granja De Aves",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
+            },
+            {
+              nome: "Criação De Ovinos",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 12, nível2: 14, nível3: 28 },
+            },
+            {
+              nome: "Plantação De Eucalipto",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
+            },
+            {
+              nome: "Plantação De Plantas Medicinais",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 3, nível2: 8, nível3: 18 },
+            },
+            {
+              nome: "Mercado",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 8, nível2: 10, nível3: 12 },
+            },
+            {
+              nome: "Mega Mercado",
+              redCusto: { nível1: 1, nível2: 1, nível3: 2 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Madeireira",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 20, nível2: 27, nível3: 33 },
+            },
+          ],
+          RecebeMelhoraEficiencia: [
+            {
+              nome: "Centro De Distribuição",
+              redCusto: { nível1: 8, nível2: 11, nível3: 23 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Fazenda Administrativa",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
+            },
+            {
+              nome: "Construtora De Infraestruturas",
+              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Armazém",
+              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Silo",
+              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+          ],
+
+          recursoDeConstrução: [
+            "Armazém",
+            "Silo",
+            "Fazenda Administrativa",
+            "Centro De Comércio De Plantações",
+          ],
+
+          powerUp: {
+            redCustoAtual: 0,
+            aumFatuAtual: 0,
+            nível1: {
+              status: true,
+              quantidadeMínima: 1,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível2: {
+              status: true,
+              quantidadeMínima: 8,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+            nível3: {
+              status: true,
+              quantidadeMínima: 30,
+              redCusto: 0,
+              aumFatu: 0,
+            },
+          },
+        },
+
+        {
+          nome: "Centro De Comércio De Plantações",
+          nomeEditável: "Centro De Comércio De Plantações",
+          desc: "Representa o escoamento da produção. Aumenta o valor do setor agrícola.",
+          licençaLiberado: {
+            licença: "Licença De Comércios Agrícolas",
+            liberado: false,
+          },
+          custoConstrucao: 900000,
+          quantidade: 0,
+          finanças: {
+            faturamentoUnitário: 17800,
+            impostoFixo: 10000,
+            impostoSobreFatu: 0.07,
+            rent: 32,
+          },
+
+          lojasNecessarias: {
+            terrenos: 5,
+            lojasP: 3,
+            lojasM: 1,
+            lojasG: 1,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Fábrica De Celulose",
-            "Madeireira",
-            "Fábrica De Papel",
+            "Plantação De Grãos",
+            "Pomares",
+            "Fazenda De Vacas",
             "Granja De Aves",
             "Criação De Ovinos",
             "Plantação De Eucalipto",
@@ -2825,185 +3015,65 @@ modalExcesso: {
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Depósito De Resíduos Orgânicos",
-              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Fábrica De Celulose",
-              redCusto: { nível1: 3, nível2: 4, nível3: 8 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Madeireira",
-              redCusto: { nível1: 3, nível2: 5, nível3: 10 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Fábrica Têxtil",
-              redCusto: { nível1: 2, nível2: 2, nível3: 4 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-          ],
-          RecebeMelhoraEficiencia: [
-            {
-              nome: "Fazenda Administrativa",
+              nome: "Plantação De Grãos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 10, nível2: 15, nível3: 30 },
+              aumFatu: { nível1: 5, nível2: 15, nível3: 40 },
             },
             {
-              nome: "Fábrica De Fertilizantes",
-              redCusto: { nível1: 1, nível2: 4, nível3: 10 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Centro De Pesquisa Agrícola",
+              nome: "Plantação De Vegetais",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 12, nível2: 15, nível3: 25 },
+              aumFatu: { nível1: 5, nível2: 18, nível3: 40 },
             },
             {
-              nome: "Instituto De Biotecnologia",
+              nome: "Pomares",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 10, nível2: 12, nível3: 45 },
+              aumFatu: { nível1: 5, nível2: 12, nível3: 40 },
             },
             {
-              nome: "Terraplanagem E Pavimentação",
-              redCusto: { nível1: 0, nível2: 1, nível3: 2 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Armazém Logístico",
-              redCusto: { nível1: 2, nível2: 2, nível3: 2 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Cooperativa Agrícola",
+              nome: "Restaurante",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
+              aumFatu: { nível1: 12, nível2: 15, nível3: 20 },
             },
             {
-              nome: "Centro De Comércio De Plantações",
+              nome: "Plantação De Eucalipto",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 15, nível2: 21, nível3: 35 },
             },
             {
-              nome: "Depósito De Resíduos Orgânicos",
-              redCusto: { nível1: 2, nível2: 3, nível3: 6 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-          ],
-
-          recursoDeConstrução: [],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-
-        {
-          nome: "Plantação De Plantas Medicinais",
-          nomeEditável: "Plantação De Plantas Medicinais",
-          desc: "Fornece insumos raros. Suporte direto para a indústria farmacêutica.",
-          licençaLiberado: {
-            licença: "Licença De Outras Plantações",
-            liberado: false,
-          },
-          custoConstrucao: 100000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 2540,
-            impostoFixo: 1200,
-            impostoSobreFatu: 0.07,
-            rent: 32,
-          },
-
-          lojasNecessarias: {
-            terrenos: 5,
-            lojasP: 0,
-            lojasM: 0,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: [],
-          melhoraEficiencia: [
-            "Fábrica De Químicos Especializados",
-            "Farmácia",
-          ],
-
-          ForneceMelhoraEficiencia: [
-            {
-              nome: "Fábrica De Químicos Especializados",
-              redCusto: { nível1: 1, nível2: 1, nível3: 1 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+              nome: "Plantação De Plantas Medicinais",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 15, nível2: 17, nível3: 35 },
             },
             {
-              nome: "Laboratório Farmacêutico",
+              nome: "Mercado",
+              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
+              aumFatu: { nível1: 10, nível2: 12, nível3: 14 },
+            },
+            {
+              nome: "Mega Mercado",
               redCusto: { nível1: 1, nível2: 1, nível3: 2 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              Dome: "Fábrica De Medicamentos",
-              redCusto: { nível1: 2, nível2: 3, nível3: 5 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Fábrica De Fertilizantes",
-              redCusto: { nível1: 1, nível2: 1, nível3: 1 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Biofábrica",
-              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Depósito De Resíduos Orgânicos",
-              redCusto: { nível1: 1, nível2: 2, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Fábrica De Fertilizantes",
-              redCusto: { nível1: 1, nível2: 3, nível3: 6 },
+              nome: "Fábrica De Embalagens",
+              redCusto: { nível1: 3, nível2: 5, nível3: 10 },
+              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+            },
+            {
+              nome: "Centro De Distribuição",
+              redCusto: { nível1: 5, nível2: 6, nível3: 13 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
               nome: "Fazenda Administrativa",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 7, nível3: 15 },
+              aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
             },
             {
-              nome: "Cooperativa Agrícola",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 3, nível2: 8, nível3: 18 },
-            },
-            {
-              nome: "Silo",
-              redCusto: { nível1: 1, nível2: 1, nível3: 2 },
+              nome: "Construtora",
+              redCusto: { nível1: 0, nível2: 0, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
@@ -3012,98 +3082,27 @@ modalExcesso: {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Comércio De Plantações",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 15, nível2: 17, nível3: 35 },
-            },
-            {
-              nome: "Depósito De Resíduos Orgânicos",
-              redCusto: { nível1: 1, nível2: 2, nível3: 4 },
+              nome: "Silo",
+              redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Centro De Pesquisa Agrícola",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 8, nível2: 13, nível3: 32 },
+              nome: "Plantação De Eucalipto",
+              redCusto: { nível1: 30, nível2: 45, nível3: 90 },
+              aumFatu: { nível1: 90, nível2: 120, nível3: 150 },
             },
             {
-              nome: "Instituto De Biotecnologia",
-              redCusto: { nível1: 0, nível2: 0, nível3: 0 },
-              aumFatu: { nível1: 21, nível2: 25, nível3: 50 },
-            },
-            {
-              nome: "Terraplanagem E Pavimentação",
-              redCusto: { nível1: 0, nível2: 1, nível3: 2 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
-              nome: "Armazém Logístico",
-              redCusto: { nível1: 1, nível2: 1, nível3: 3 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
+              nome: "Plantação De Plantas Medicinais",
+              redCusto: { nível1: 10, nível2: 15, nível3: 30 },
+              aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
             },
           ],
 
-          recursoDeConstrução: [],
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 20,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 100,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-          },
-        },
-        {
-          nome: "Campo De Estocagem",
-          nomeEditável: "Loja De Eletrônicos",
-          desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
-          licençaLiberado: {
-            licença: "Licença De Outras Plantações",
-            liberado: false,
-          },
-          custoConstrucao: 80000,
-          quantidade: 0,
-          finanças: {
-            faturamentoUnitário: 1600,
-            impostoFixo: 22000,
-            impostoSobreFatu: 0.1,
-            rent: 12,
-          },
-
-          lojasNecessarias: {
-            terrenos: 0,
-            lojasP: 1,
-            lojasM: 1,
-            lojasG: 0,
-          },
-          construçõesNecessárias: [],
-          licençasNecessárias: ["Silo", "Plantação De Vegetais"],
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
-
-          ForneceMelhoraEficiencia: [],
-          RecebeMelhoraEficiencia: [],
-          recursoDeConstrução: [],
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
+          recursoDeConstrução: [
+            "Armazém",
+            "Silo",
+            "Fazenda Administrativa",
+            "Plantação De Grãos",
           ],
           powerUp: {
             redCustoAtual: 0,
@@ -3116,13 +3115,13 @@ modalExcesso: {
             },
             nível2: {
               status: true,
-              quantidadeMínima: 20,
+              quantidadeMínima: 8,
               redCusto: 0,
               aumFatu: 0,
             },
             nível3: {
               status: true,
-              quantidadeMínima: 100,
+              quantidadeMínima: 30,
               redCusto: 0,
               aumFatu: 0,
             },

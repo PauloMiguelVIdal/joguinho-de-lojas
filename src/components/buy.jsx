@@ -26,10 +26,13 @@ import qtdAudio from "../../public/sounds/qtdAudio.mp3";
 import { useHotkeys } from "react-hotkeys-hook";
 import martelo from "../../public/outrasImagens/martelo.png";
 import LoanCarousel from "./LoanCarousel";
+import SidebarStorage from './SidebarStorage'
+
 export default function Buy() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const [isNKeyDown, setIsNKeyDown] = useState(false);
   const vision = dados.vision.visionAtual;
+  
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
     DadosEconomyGlobalContext
   );
@@ -44,8 +47,6 @@ export default function Buy() {
   const [buttonAlertAudio] = useSound(alertAudio);
   const [buttonPayTerrain] = useSound(payTerrain);
   const [buttonQtdAudio] = useSound(qtdAudio);
-
-
 
   useHotkeys(
     "q",
@@ -496,7 +497,15 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
   if (dados.dia > 269) {
     if (vision !== "dashboard") {
       return <SidebarCard />;
-    } else {
+    } else if (vision === "mercado") {
+      return <SidebarStorage />;
+    } else
+      
+      
+      
+      
+      
+      {
       return (
         <div className="flex justify-between h-full pt-10 pb-10 flex-col w-full">
           <div className="flex justify-around flex-col w-full">

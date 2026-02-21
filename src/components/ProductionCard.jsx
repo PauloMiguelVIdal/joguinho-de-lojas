@@ -55,7 +55,7 @@ export default function ProductionCard({ formula }) {
   })();
 
   return (
-    <div className="p-5 flex flex-col h-full bg-white/5 border border-white/10 rounded-[1.5rem] backdrop-blur-md">
+    <div className="p-5 flex flex-col h-[380px] bg-white/5 border border-white/10 rounded-[1.5rem] backdrop-blur-md">
       
       {/* HEADER: NOME E ESTRUTURA */}
       <div className="mb-4">
