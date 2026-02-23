@@ -32,6 +32,7 @@ export default function Buy() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const [isNKeyDown, setIsNKeyDown] = useState(false);
   const vision = dados.vision.visionAtual;
+  const setorAtual = dados.setorAtual;
   
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
     DadosEconomyGlobalContext
@@ -497,7 +498,7 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
   if (dados.dia > 269) {
     if (vision !== "dashboard") {
       return <SidebarCard />;
-    } else if (vision === "mercado") {
+    } if (setorAtual === "mercado") {
       return <SidebarStorage />;
     } else
       

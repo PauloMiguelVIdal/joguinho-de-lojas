@@ -34,12 +34,14 @@ import StorageMonolithDemo from "./components/StorageInterface.jsx";
 import MarketplaceSystem from "./components/MarketInterface.jsx";
 import { MercadoGlobal } from "./components/TablePrice.jsx";
 import ModalExcesso from "./components/ModalExcesso.jsx";
+import SidebarStorage from "./components/SidebarStorage.jsx";
+
 function Interface() {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
 
     const vision = dados.vision.visionAtual
-
+const setorAtivo =  dados.setorAtivo
 
     const setVision = (newVision) => {
         atualizarDados("vision", {
@@ -105,6 +107,11 @@ function Interface() {
                         <PatrimonioInterface />
                     </div>
                 )}
+                {/* {setorAtivo === "mercado" && (
+                    <div className="grid col-start-9 col-end-11 row-start-3 row-end-11 flex justify-center items-center">
+                        <SidebarStorage />
+                    </div>
+                )} */}
 
                 {vision !== "financas" && (
                     <div className="col-start-9 col-end-11 row-start-3 row-end-11 grid grid-rows-[auto_auto_1fr] gap-4 p-2 overflow-y-auto">

@@ -159,54 +159,65 @@ function confirmarVenda(produto, quantidade) {
   
 
 function MarketTransactionsPanel({ transactions }) {
-  // return (
-  //   <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-[1.5rem] p-4 mb-6">
-  //     <div className="flex items-center gap-2 text-white/60 mb-4 ml-1">
-  //       <Activity size={16} />
-  //       <h3 className="font-bold uppercase tracking-widest text-[11px]">
-  //         Transações em Andamento
-  //       </h3>
-  //     </div>
+  return (
+    /* 1. Container Principal: h-auto para evitar cortes e mx-auto para centralizar se desejar */
+    <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-[1.5rem] p-4 mb-6 min-h-[150px] w-full">
+      
+      <div className="flex items-center gap-2 text-white/60 mb-4 ml-1">
+        <Activity size={16} />
+        <h3 className="font-bold uppercase tracking-widest text-[11px]">
+          Transações em Andamento
+        </h3>
+      </div>
 
-  //     {transactions.length === 0 && (
-  //       <p className="text-xs text-white/40 text-center py-4 italic">
-  //         Nenhuma transação ativa no momento...
-  //       </p>
-  //     )}
+      {transactions.length === 0 && (
+        <p className="text-xs text-white/40 text-center py-4 italic">
+          Nenhuma transação ativa no momento...
+        </p>
+      )}
 
-  //     <div className="space-y-2">
-  //       {transactions.map(t => {
-  //         const p = productsCatalog[t.id] || productsCatalog[t.produtoId];
-  //         return (
-  //           <div key={t.id} className="bg-white/5 border border-white/5 rounded-xl p-3 flex justify-between items-center">
-  //             <div className="flex gap-3 items-center">
-  //               <span className="text-2xl bg-white/10 w-10 h-10 flex items-center justify-center rounded-lg border border-white/10">
-  //                 {p?.icon || "📦"}
-  //               </span>
-  //               <div>
-  //                 <p className="text-white font-bold text-sm uppercase tracking-tight">
-  //                   {t.tipo === "buy" ? "Compra" : "Venda"} — {p?.nome}
-  //                 </p>
-  //                 <p className="text-[10px] font-bold text-white/40 uppercase">
-  //                   {t.quantidade} {p?.unidade}
-  //                 </p>
-  //               </div>
-  //             </div>
+      {/* 2. Container de Scroll: 
+         - Usamos max-w-[900px] para limitar o tamanho no desktop.
+         - w-full garante que ele ocupe o que for possível em telas menores.
+         - overflow-x-auto habilita o scroll.
+      */}
+      <div className="flex gap-3 pb-2 scrollbar-custom overflow-x-auto w-full max-w-[900px] mx-auto">
+        {transactions.map(t => {
+          const p = productsCatalog[t.id] || productsCatalog[t.produtoId];
+          return (
 
-  //             <div className="text-right">
-  //               <p className="text-white font-black text-sm">
-  //                 {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(t.valorTotal)}
-  //               </p>
-  //               <div className="inline-flex items-center gap-1 text-[9px] font-bold text-orange-400 uppercase">
-  //                  <Clock size={10} /> {t.diasRestantes} dias
-  //               </div>
-  //             </div>
-  //           </div>
-  //         );
-  //       })}
-  //     </div>
-  //   </div>
-  // );
+            <div 
+              key={t.id} 
+              className="flex-shrink-0 w-[500px] bg-white/5 border border-white/5 rounded-xl p-3 flex justify-between items-center h-[70px]"
+            >
+              <div className="flex gap-3 items-center">
+                <span className="flex-shrink-0 text-2xl bg-white/10 w-10 h-10 flex items-center justify-center rounded-lg border border-white/10">
+                  {p?.icon || "📦"}
+                </span>
+                <div>
+                  <p className="text-white font-bold text-sm uppercase tracking-tight">
+                    {t.tipo === "buy" ? "Compra" : "Venda"} — {p?.nome}
+                  </p>
+                  <p className="text-[10px] font-bold text-white/40 uppercase">
+                    {t.quantidade} {p?.unidade}
+                  </p>
+                </div>
+              </div>
+
+              <div className="text-right flex-shrink-0">
+                <p className="text-white font-black text-sm whitespace-nowrap">
+                  {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(t.valorTotal)}
+                </p>
+                <div className="inline-flex items-center gap-1 text-[9px] font-bold text-orange-400 uppercase">
+                   <Clock size={10} /> {t.diasRestantes} dias
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 
@@ -361,7 +372,7 @@ function StoragePanel() {
       {/* LISTA */}
 {/* LISTA DE SETORES (ACCORDIONS) */}
 {/* CONTAINER DE ROLAGEM DOS PRODUTOS */}
-<div className="overflow-y-auto pr-2 scrollbar-custom h-[30%]" style={{ height: '600px', // Use um valor fixo em pixels para garantir que o scroll funcione
+<div className="overflow-y-auto pr-2 scrollbar-custom h-[30%]" style={{ height: '300px', // Use um valor fixo em pixels para garantir que o scroll funcione
     minHeight: '450px' }}>
   {Object.entries(filteredData).map(([sectorKey, items]) => {
     if (!items.length) return null;
