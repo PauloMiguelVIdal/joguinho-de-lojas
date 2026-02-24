@@ -23,12 +23,7 @@ export function GameProvider({ children }) {
     const [productionQueue, setProductionQueue] = useState([]);
 
 
-    const [salesContracts, setSalesContracts] = useState({
-        butcher: {
-            active: null,
-            available: [],
-        },
-    });
+const [salesContracts, setSalesContracts] = useState({});
 
     function acceptSalesContract(type, contract, removeProduct) {
         setSalesContracts(prev => {

@@ -62,6 +62,8 @@ import mercado from '../../public/outrasImagens/mercado.png'
 import estoque from '../../public/outrasImagens/estoque.png'
 import ProductionQueueCard from "./ProductionQueueCard.jsx";
 import ProductionQueuePanel from "./ProductionQueuePanel.jsx";
+import ManagerSellPanel from "./ManagerSellPanel.jsx";
+import HubSell from "./HubSell.jsx";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -124,15 +126,15 @@ export default function Dashboard() {
     index: 0,
   });
 
-useEffect(()=>{
-  if(dados.dia>=270){
-  if(ativo=== "carteira") return
-  // if(ativo!=="carteira"){
-  //   setAtivo("carteira")
-  // }
-  }
+  useEffect(() => {
+    if (dados.dia >= 270) {
+      if (ativo === "carteira") return
+      // if(ativo!=="carteira"){
+      //   setAtivo("carteira")
+      // }
+    }
 
-},[dados.dia])
+  }, [dados.dia])
 
 
   const abrirModalSell = (setor, index) => {
@@ -1226,9 +1228,8 @@ useEffect(()=>{
                         className={`
                   w-[60px] h-[60px] rounded-[20px] flex items-center justify-center shadow-md
                   hover:bg-[${setor.cor3}] active:scale-95 hover:scale-[1.05]
-                  ${
-                    ativo === setor.id ? "ring-1 ring-white scale-[1.1]" : ""
-                  } transition
+                  ${ativo === setor.id ? "ring-1 ring-white scale-[1.1]" : ""
+                          } transition
                 `}
                         style={{ backgroundColor: setor.cor3 }}
                       >
@@ -1262,9 +1263,8 @@ useEffect(()=>{
                         className={`
                   w-[60px] h-[60px] rounded-[20px] flex items-center justify-center shadow-md
                   hover:bg-[${setor.cor3}] active:scale-95 hover:scale-[1.05]
-                  ${
-                    ativo === setor.id ? "ring-1 ring-white scale-[1.1]" : ""
-                  } transition
+                  ${ativo === setor.id ? "ring-1 ring-white scale-[1.1]" : ""
+                          } transition
                 `}
                         style={{ backgroundColor: setor.cor3 }}
                       >
@@ -1283,9 +1283,8 @@ useEffect(()=>{
 
         {/* Dashboard */}
         <div
-          className={`h-full rounded-[0px] items-center justify-center transition-all duration-300 bg-[${
-            setorAtivo.cor2
-          }] ${dados.dia >= 270 ? "w-[calc(100%-100px)]" : "w-[calc(100%)]"}`}
+          className={`h-full rounded-[0px] items-center justify-center transition-all duration-300 bg-[${setorAtivo.cor2
+            }] ${dados.dia >= 270 ? "w-[calc(100%-100px)]" : "w-[calc(100%)]"}`}
         >
           {/* Renderiza o conteúdo baseado no estado da licença */}
           {licençaComprada ? (
@@ -1392,12 +1391,13 @@ useEffect(()=>{
               {ativo === "gerenciamento" && (
                 <div className="w-full h-full flex flex-col justify-between">
                   {/* <MicroModel /> */}
-                  {/* <ButcherShopPanel/> */}
-                  <ProductionQueueCard/>
-                  <ProductionQueuePanel/>
-                  {/* <ManagerPanelInterface/> */}
-                  <HubManagement/>
-
+                  {/* <ProductionQueueCard/>
+                  <ProductionQueuePanel />
+                  <ManagerPanelInterface />
+                  <HubManagement /> */}
+                  <HubSell/>
+                  <ButcherShopPanel />
+                  <ManagerSellPanel />
                 </div>
               )}
               {ativo === "mercado" && (
@@ -1414,7 +1414,7 @@ useEffect(()=>{
                 <div className="flex-1 w-full rounded-[20px] flex flex-col">
                   {/* Tooltips */}
                   <Tooltip style={tooltipStyle} id="tooltip-terreno-aumentar" />
-       
+
 
                   {/* Barra superior */}
                   <div className="h-[50px] w-full flex justify-between gap-[10px] items-start">
@@ -1706,7 +1706,7 @@ useEffect(()=>{
                       style={tooltipStyle}
                       id="tooltip-terreno-aumentar"
                     />
-                    <Tooltip style={tooltipStyle} id="tooltip-terreno-aumentar"/>
+                    <Tooltip style={tooltipStyle} id="tooltip-terreno-aumentar" />
                     <Tooltip style={tooltipStyle} id="tooltip-terreno-aumentar" />
                   </div>
                 )}

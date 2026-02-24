@@ -1,14 +1,14 @@
-export const CONTRACT_PERIODS = [20, 30, 40, 50];
-
 import { useContext, useMemo } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-import { productsCatalog } from "./TablePrice";
 
-export function useButcherBuildingData(index = 7) {
+export function useSalesBuildingData(edificioId, index = 0) {
   const { dados } = useContext(CentraldeDadosContext);
 
   const setorAtivo = "comercio";
-  const edificio = dados?.[setorAtivo]?.edificios?.[index];
+
+  const edificio = dados?.[setorAtivo]?.edificios?.find(
+    e => e.id === edificioId
+  );
 
   return useMemo(() => {
     if (!edificio) return null;
@@ -18,7 +18,6 @@ export function useButcherBuildingData(index = 7) {
     const qtdNv2 = edificio.powerUp.nível2.quantidadeMínima;
     const qtdNv3 = edificio.powerUp.nível3.quantidadeMínima;
 
-    // 👉 ESTE é o nível REAL do açougue
     const nivelEdificio =
       quantidadeAtivoAtual >= qtdNv3
         ? 3
@@ -33,58 +32,66 @@ export function useButcherBuildingData(index = 7) {
   }, [edificio]);
 }
 
-
-export function generateButcherContracts({
-  butcherCount = 0,
+export function generateSalesContracts({
+  edificioConfig,
+  buildingCount = 0,
   level = 1,
   marketPrices = {},
 }) {
-  if (butcherCount <= 0) return [];
+  if (!edificioConfig || buildingCount <= 0) return [];
 
-  const products = [
-    productsCatalog.carneBovina,
-    productsCatalog.frango,
-    productsCatalog.carneSuina,
-    productsCatalog.linguica,
-  ];
+  const formulas = edificioConfig.formulas;
 
-  const contratosPorNivel = {
-    1: 4,
-    2: 8,
-    3: 12,
-  };
-
-  const baseQtdPorPeriodo = {
-    20: 500,
-    30: 1000,
-    40: 2500,
-    50: 5000,
-  };
-
-  const maxContratos = contratosPorNivel[level] ?? 4;
+  const maxContratos =
+    edificioConfig.maxContratosDisponiveisPorNível *
+    (edificioConfig.multiplicadorNivel[level] || 1);
 
   return Array.from({ length: maxContratos }).map(() => {
-    const produto =
-      products[Math.floor(Math.random() * products.length)];
+    const formula =
+      formulas[Math.floor(Math.random() * formulas.length)];
 
-    const periodo = [20, 30, 40, 50][
-      Math.floor(Math.random() * 4)
-    ];
+    const produtoId = formula.produto;
 
-    const base = baseQtdPorPeriodo[periodo] ?? 0;
-    const quantidade = base * butcherCount;
+    const periodo =
+      Math.floor(
+        Math.random() *
+          (edificioConfig.rangeDuracaoContrato.max -
+            edificioConfig.rangeDuracaoContrato.min)
+      ) + edificioConfig.rangeDuracaoContrato.min;
 
-    const preco = Number(marketPrices[produto.id]) || 0;
+    const capacidadeBase =
+      edificioConfig.capacidadePorEdificio * buildingCount;
+
+    const quantidade =
+      capacidadeBase *
+      (Math.random() *
+        (edificioConfig.rangeQuantidadeContrato
+          .maxCapacidadeMultiplicador -
+          edificioConfig.rangeQuantidadeContrato
+            .minCapacidadeMultiplicador) +
+        edificioConfig.rangeQuantidadeContrato
+          .minCapacidadeMultiplicador);
+
+    const preco = Number(marketPrices[produtoId]) || 0;
+
+    const margem =
+      formula.margemBase +
+      (Math.random() *
+        (edificioConfig.variacaoMargem.max -
+          edificioConfig.variacaoMargem.min) +
+        edificioConfig.variacaoMargem.min);
+
+    const valorUnitario = preco * (1 + margem / 100);
+
+    const valorTotal = Math.round(valorUnitario * quantidade);
 
     return {
       id: crypto.randomUUID(),
-      productId: produto.id,
-      produtoNome: produto.nome,
-      quantidade,
+      productId: produtoId,
+      quantidade: Math.round(quantidade),
       diasTotais: periodo,
-      valorTotal: quantidade * preco,
+      valorTotal,
       status: "disponivel",
     };
   });
 }
-

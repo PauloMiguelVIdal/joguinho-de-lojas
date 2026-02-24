@@ -1,51 +1,65 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useGame } from "../components/GameContext";
-import { generateButcherContracts } from "../components/salesContractsConfig";
-import { marketPrices } from "../components/TablePrice";
+import { generateSalesContracts } from "../components/salesContractsConfig";
+import { marketPrices, productsCatalog } from "../components/TablePrice";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { SALES_EDIFICIOS } from "../components/salesFormulasConfig";
 
-export default function ButcherShopPanel() {
-  const { stock, removeProduct, salesContracts, setAvailableSalesContracts, acceptSalesContract } =
-    useGame();
+export default function SalesBuildingPanel({ edificioId }) {
+  const {
+    stock,
+    removeProduct,
+    salesContracts,
+    setAvailableSalesContracts,
+    acceptSalesContract,
+  } = useGame();
 
   const { dados } = useContext(CentraldeDadosContext);
 
-  const setorAtivo = "comercio";
-  const indexAçougue = 7;
+  const config = SALES_EDIFICIOS.find(e => e.edificioId === edificioId);
+  if (!config) return null;
 
-  const edificio =
-    dados?.[setorAtivo]?.edificios?.[indexAçougue];
+  const setorAtivo = config.setor;
+
+  const edificio = dados?.[setorAtivo]?.edificios?.find(
+    e => e.id === edificioId
+  );
 
   if (!edificio) return null;
 
-  const butcherCount = edificio.quantidade;
+  const buildingCount = edificio.quantidade;
 
   const qtdNv2 = edificio.powerUp.nível2.quantidadeMínima;
   const qtdNv3 = edificio.powerUp.nível3.quantidadeMínima;
 
   const level =
-    butcherCount >= qtdNv3
+    buildingCount >= qtdNv3
       ? 3
-      : butcherCount >= qtdNv2
+      : buildingCount >= qtdNv2
       ? 2
       : 1;
 
-  const butcherContracts = salesContracts.butcher;
-  const { available, active } = butcherContracts;
+  const buildingContracts = salesContracts[edificioId] || {
+    available: [],
+    active: null,
+  };
+
+  const { available, active } = buildingContracts;
 
   function gerarContratos() {
-    if (butcherCount <= 0) {
-      setAvailableSalesContracts("butcher", []);
+    if (buildingCount <= 0) {
+      setAvailableSalesContracts(edificioId, []);
       return;
     }
 
-    const contracts = generateButcherContracts({
-      butcherCount,
+    const contracts = generateSalesContracts({
+      edificioConfig: config,
+      buildingCount,
       level,
       marketPrices,
     });
 
-    setAvailableSalesContracts("butcher", contracts);
+    setAvailableSalesContracts(edificioId, contracts);
   }
 
   function podeAceitar(contract) {
@@ -53,24 +67,27 @@ export default function ButcherShopPanel() {
   }
 
   function aceitarContrato(contract) {
-    acceptSalesContract("butcher", contract, removeProduct);
+    acceptSalesContract(edificioId, contract, removeProduct);
   }
 
   return (
     <div className="p-4 bg-white rounded-lg shadow">
-      <h2 className="text-xl font-bold mb-3">🥩 Açougue</h2>
+      <h2 className="text-xl font-bold mb-3">{config.nomeEdificio}</h2>
 
       <p className="text-sm mb-4">
-        Açougues: {butcherCount} | Nível: {level}
+        Edifícios: {buildingCount} | Nível: {level}
       </p>
 
       {active ? (
         <div className="border p-3 rounded bg-yellow-50">
           <p className="font-semibold">
-            Vendendo {active.produtoNome}
+            Vendendo {productsCatalog[active.productId]?.nome}
           </p>
-          <p>{active.quantidade} kg</p>
+
+          <p>{active.quantidade}</p>
+
           <p>Dias restantes: {active.diasRestantes}</p>
+
           <p className="text-green-700 font-bold">
             💰 {active.valorTotal}
           </p>
@@ -95,10 +112,13 @@ export default function ButcherShopPanel() {
                 }`}
               >
                 <p className="font-semibold">
-                  {contract.produtoNome}
+                  {productsCatalog[contract.productId]?.nome}
                 </p>
-                <p>{contract.quantidade} kg</p>
+
+                <p>{contract.quantidade}</p>
+
                 <p>Recebe em {contract.diasTotais} dias</p>
+
                 <p className="font-bold text-green-700">
                   💰 {contract.valorTotal}
                 </p>
