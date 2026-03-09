@@ -1,14 +1,18 @@
-import { createContext, useContext, useMemo, useEffect, useState } from "react";
+import { createContext, useContext, useMemo, useEffect, useState, useRef } from "react";
 import { productsCatalog, getMarketPrice } from "../components/TablePrice";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
-
+import { generateSalesContracts } from "./salesContractsConfig";
+import { marketPrices } from "./TablePrice";
+import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 const GameContext = createContext();
 
 export function GameProvider({ children }) {
+    const liquidadoRefPersist = useRef(0);
 
-
+// Dentro do GameProvider, adicione:
+const { dados } = useContext(CentraldeDadosContext);
     const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
         DadosEconomyGlobalContext
     );
@@ -21,9 +25,37 @@ export function GameProvider({ children }) {
     const [pendingSettlements, setPendingSettlements] = useState([]);
 
     const [productionQueue, setProductionQueue] = useState([]);
+    const [sellQueue, setSellQueue] = useState([]);
 
+    const [salesContracts, setSalesContracts] = useState({});
+    const [contratosEdificios, setContratosEdificios] = useState({});
 
-const [salesContracts, setSalesContracts] = useState({});
+    function getOuGerarContratos(edificioConfig, diaAtual, buildingCount = 1, level = 1) {
+        const id = edificioConfig.edificioId;
+        const existente = contratosEdificios[id];
+
+        if (existente && diaAtual < existente.validadeAte) {
+            return existente.contratos;
+        }
+
+        // marketPrices já é o objeto correto importado do TablePrice
+        const novosContratos = generateSalesContracts({
+            edificioConfig,
+            buildingCount,
+            level,
+            marketPrices, // ← objeto com preços reais (carneOvino: 180, etc.)
+            diaAtual,
+        });
+
+        const novaValidade = diaAtual + edificioConfig.periodoNovosContratos;
+
+        setContratosEdificios(prev => ({
+            ...prev,
+            [id]: { contratos: novosContratos, validadeAte: novaValidade }
+        }));
+
+        return novosContratos;
+    }
 
     function acceptSalesContract(type, contract, removeProduct) {
         setSalesContracts(prev => {
@@ -109,20 +141,397 @@ const [salesContracts, setSalesContracts] = useState({});
 
     const storageProfiles = {
         // 🌱 AGRÍCOLA / BIOLÓGICO
+        plantaçãoDeGrãos: {
+            nome: "Plantação De Grãos",
+            tipo: "dedicado",
+            capacidadePorEdificio: 3000,
+            categoriasPermitidas: "agrícolas secos",
+        },
+        fazendaAdministrativa: {
+            nome: "Fazenda Administrativa",
+            tipo: "dedicado",
+            capacidadePorEdificio: 3000,
+            categoriasPermitidas: "agrícolas secos",
+        },
+        armazém: {
+            nome: "Armazém",
+            tipo: "variavel",
+            capacidadePorEdificio: 3000,
+            categoriasPermitidas: ["biomassa / orgânicos", "produtos manufaturados", "agrícolas secos"],
+        },
+        // plantaçãoDeVegetais: {
+        //     nome: "Plantação De Vegetais",
+        //     tipo: "dedicado",
+        //     capacidadePorEdificio: 3000,
+        //     categoriasPermitidas: "agrícolas secos",
+        // },
         silo: {
             nome: "Silo",
             tipo: "dedicado",
             capacidadePorEdificio: 3000,
             categoriasPermitidas: "agrícolas secos",
         },
+        plantaçãoDeEucalipto: {
+            nome: "Plantação De Eucalipto",
+            tipo: "dedicado",
+            capacidadePorEdificio: 3000,
+            categoriasPermitidas: "biomassa / orgânicos",
+        },
 
-         fazendaVacas: {
+        fazendaVacas: {
             nome: "Fazenda De Vacas",
             tipo: "variavel",
             capacidadePorEdificio: 50,
-           categoriasPermitidas: ["animais", "produtos manufaturados"],
+            categoriasPermitidas: ["animais", "produtos manufaturados", "biomassa / orgânicos", "perecíveis"],
         },
-        
+        granjaDeAves: {
+            nome: "Granja De Aves",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "biomassa / orgânicos", "perecíveis"],
+        },
+        criaçãoDeOvinos: {
+            nome: "Criação De Ovinos",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados", "biomassa / orgânicos", "perecíveis"],
+        },
+        madeireira: {
+            nome: "Madeireira",
+            tipo: "dedicado",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: "biomassa / orgânicos",
+        },
+        fábricaDeSmartphones: {
+            nome: "Fábrica De Smartphones",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["componentes eletrônicos", "bens de alto valor"],
+        },
+        fábricaDeComputadores: {
+            nome: "Fábrica De Computadores",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["bens de alto valor", "componentes industriais"],
+        },
+        fábricaDeConsolesDeJogos: {
+            nome: "Fábrica De Consoles De Jogos",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["bens de alto valor", "componentes industriais", "químicos"],
+        },
+        fábricaDeDispositivosVestíveis: {
+            nome: "Fábrica De Dispositivos Vestíveis",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["bens de alto valor", "componentes industriais", "químicos"],
+        },
+        fábricaDeRações: {
+            nome: "Fábrica De Rações",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["agrícolas secos", "biomassa / orgânicos"],
+        },
+        FábricaDeEmbalagens: {
+            nome: "Fábrica De Embalagens",
+            tipo: "dedicado",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["químicos", "produtos manufaturados"],
+        },
+        fábricaDeFertilizantes: {
+            nome: "Fábrica De Fertilizantes",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: "biomassa / orgânicos",
+        },
+        fábricaTêxtil: {
+            nome: "Fábrica Têxtil",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["agrícolas secos", "químicos", "produtos manufaturados"],
+        },
+        fábricaDeCalçados: {
+            nome: "Fábrica De Calçados",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["químicos", "produtos manufaturados"],
+        },
+        fábricaDeRoupas: {
+            nome: "Fábrica De Roupas",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["produtos manufaturados"],
+        },
+        fábricaDeCelulose: {
+            nome: "Fábrica De Celulose",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["fluidos", "biomassa / orgânicos"],
+        },
+        fábricaDePapel: {
+            nome: "Fábrica De Papel",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["biomassa / orgânicos", "produtos manufaturados", "químicos"],
+        },
+        fábricaDeLivros: {
+            nome: "Fábrica De Livros",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["biomassa / orgânicos", "produtos manufaturados"],
+        },
+        fábricaDeMedicamentos: {
+            nome: "Fábrica De Medicamentos",
+            tipo: "dedicado",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: "químicos",
+        },
+
+
+
+        // estou aqui
+
+
+        laboratórioFarmacêutico: {
+            nome: "Laboratório Farmacêutico",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDePlásticos: {
+            nome: "Fábrica De Plásticos",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDeQuímicosEspecializados: {
+            nome: "Fábrica De Químicos Especializados",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        altoForno: {
+            nome: "Alto-Forno",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        usinaSiderúrgica: {
+            nome: "Usina Siderúrgica",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fundiçãoDeAlumínio: {
+            nome: "Fundição De Alumínio",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDeLigasMetálicas: {
+            nome: "Fábrica De Ligas Metálicas",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        indústriaDeComponentesMecânicos: {
+            nome: "Indústria De Componentes Mecânicos",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDeChapasMetálicas: {
+            nome: "Fábrica De Chapas Metálicas",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDeEstruturasMetálicas: {
+            nome: "Fábrica De Estruturas Metálicas",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDePeçasAutomotivas: {
+            nome: "Fábrica De Peças Automotivas",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        montadoraDeVeículosElétricos: {
+            nome: "Montadora De Veículos Elétricos",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDeAutomóveis: {
+            nome: "Fábrica De Automóveis",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        //    refinariaDeBiocombustíveis: {
+        //         nome: "Refinaria De Biocombustíveis",
+        //         tipo: "variavel",
+        //         capacidadePorEdificio: 50,
+        //         categoriasPermitidas: ["animais", "produtos manufaturados"],
+        //     },
+        refinaria: {
+            nome: "Refinaria",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        biofábrica: {
+            nome: "Biofábrica",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDeChips: {
+            nome: "Fábrica De Chips",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDePlacasEletrônicas: {
+            nome: "Fábrica De Placas Eletrônicas",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDeSemicondutores: {
+            nome: "Fábrica De Semicondutores",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDeEletrônicos: {
+            nome: "Fábrica De Eletrônicos",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDeRobôs: {
+            nome: "Fábrica De Robôs",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDeMotores: {
+            nome: "Fábrica De Motores",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDeFoguetes: {
+            nome: "Fábrica De Foguetes",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        fábricaDeAeronaves: {
+            nome: "Fábrica De Aeronaves",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        estaleiro: {
+            nome: "Estaleiro",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        livraria: {
+            nome: "Livraria",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        mercado: {
+            nome: "Mercado",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        açougue: {
+            nome: "Açougue",
+            tipo: "dedicado",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: "perecíveis",
+        },
+        postoDeCombustíveis: {
+            nome: "Posto De Combustíveis",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        petshop: {
+            nome: "Petshop",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        farmácia: {
+            nome: "Farmácia",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        lojaDeCalçados: {
+            nome: "Loja De Calçados",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        lojaDeVestuário: {
+            nome: "Loja De Vestuário",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        lojaDeGadgetsEWearables: {
+            nome: "Loja De Gadgets E Wearables",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        lojaDeGames: {
+            nome: "Loja De Games",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        lojaDeCelulares: {
+            nome: "Loja De Celulares",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        lojaDeInformática: {
+            nome: "Loja De Informática",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        lojaDeEletrônicos: {
+            nome: "Loja De Eletrônicos",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+        concessionáriaDeVeículos: {
+            nome: "Concessionária De Veículos",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        },
+
+
+
+        //
+        //
+        //
         camaraFria: {
             nome: "Câmara Fria",
             tipo: "dedicado",
@@ -137,7 +546,7 @@ const [salesContracts, setSalesContracts] = useState({});
             categoriasPermitidas: [
                 "animais",
                 "biomassa / orgânicos",
-                "madeira", "celulose",
+
             ],
         },
 
@@ -260,43 +669,126 @@ const [salesContracts, setSalesContracts] = useState({});
 
 
 
-    const storageQuantities = {
-        silo: 5,
-        hangar: 2,
-        camaraFria: 5,
-        campoDeEstocagem: 400,
-        armazemLogistico: 5,
-        armazemMateriaisSensiveis: 2,
-        centroColetaBiomassa: 100,
-        containerModular: 1,
-        depositoDeResiduosOrganicos: 1,
-        patioDeMineracao: 1,
-        armazemMateriaisBrutos: 1,
-        tanqueFluidos: 1,
-        armazemIndustrial: 1,
-        centroDistribuicao: 1,
-        patioVeiculos: 1,
-        dataCenter: 1,
-        servidorNuvem: 1
-    };
+    // const storageQuantities = {
+    //     plantaçãoDeGrãos: 0,
+    //     fazendaAdministrativa: 0,
+    //     armazém: 0,
+    //     plantaçãoDeEucalipto: 0,
+    //     fazendaVacas: 0,
+    //     granjaDeAves: 0,
+    //     criaçãoDeOvinos: 0,
+    //     madeireira: 0,
+    //     fábricaDeSmartphones: 0,
+    //     fábricaDeComputadores: 0,
+    //     fábricaDeConsolesDeJogos: 0,
+    //     fábricaDeDispositivosVestíveis: 0,
+    //     fábricaDeRações: 0,
+    //     FábricaDeEmbalagens: 0,
+    //     fábricaDeFertilizantes: 0,
+    //     fábricaTêxtil: 0,
+    //     fábricaDeCalçados: 0,
+    //     fábricaDeRoupas: 0,
+    //     fábricaDeCelulose: 0,
+    //     fábricaDePapel: 0,
+    //     fábricaDeLivros: 0,
+    //     fábricaDeMedicamentos: 0,
+    //     laboratórioFarmacêutico: 0,
+    //     fábricaDePlásticos: 0,
+    //     fábricaDeQuímicosEspecializados: 0,
+    //     altoForno: 0,
+    //     usinaSiderúrgica: 0,
+    //     fundiçãoDeAlumínio: 0,
+    //     fábricaDeLigasMetálicas: 0,
+    //     indústriaDeComponentesMecânicos: 0,
+    //     fábricaDeChapasMetálicas: 0,
+    //     fábricaDeEstruturasMetálicas: 0,
+    //     fábricaDePeçasAutomotivas: 0,
+    //     montadoraDeVeículosElétricos: 0,
+    //     fábricaDeAutomóveis: 0,
+    //     refinaria: 0,
+    //     biofábrica: 0,
+    //     fábricaDeChips: 0,
+    //     fábricaDePlacasEletrônicas: 0,
+    //     fábricaDeSemicondutores: 0,
+    //     fábricaDeEletrônicos: 0,
+    //     fábricaDeRobôs: 0,
+    //     fábricaDeMotores: 0,
+    //     fábricaDeFoguetes: 0,
+    //     fábricaDeAeronaves: 0,
+    //     estaleiro: 0,
+    //     livraria: 0,
+    //     mercado: 0,
+    //     açougue: 0,
+    //     postoDeCombustíveis: 0,
+    //     petshop: 0,
+    //     farmácia: 0,
+    //     lojaDeCalçados: 0,
+    //     lojaDeVestuário: 0,
+    //     lojaDeGadgetsEWearables: 0,
+    //     lojaDeGames: 0,
+    //     lojaDeCelulares: 0,
+    //     lojaDeInformática: 0,
+    //     lojaDeEletrônicos: 0,
+    //     concessionáriaDeVeículos: 0,
+    //     silo: 5,
+    //     hangar: 2,
+    //     camaraFria: 5,
+    //     campoDeEstocagem: 400,
+    //     armazemLogistico: 5,
+    //     armazemMateriaisSensiveis: 2,
+    //     centroColetaBiomassa: 100,
+    //     containerModular: 1,
+    //     depositoDeResiduosOrganicos: 1,
+    //     patioDeMineracao: 1,
+    //     armazemMateriaisBrutos: 1,
+    //     tanqueFluidos: 1,
+    //     armazemIndustrial: 1,
+    //     centroDistribuicao: 1,
+    //     patioVeiculos: 1,
+    //     dataCenter: 1,
+    //     servidorNuvem: 1
+    // };
+
+
+const storageQuantities = useMemo(() => {
+  if (!dados) return {};
+
+  const result = {};
+  const setores = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
+
+  setores.forEach(setor => {
+    const edificios = dados?.[setor]?.edificios || [];
+    edificios.forEach(edificio => {
+      // Normaliza o nome para bater com a chave do storageProfiles
+      // Ex: "Câmara Fria" → "camaraFria"
+      const chave = Object.keys(storageProfiles).find(k =>
+        storageProfiles[k].nome === edificio.nome
+      );
+      if (chave) {
+        result[chave] = edificio.quantidade || 0;
+      }
+    });
+  });
+
+  return result;
+}, [dados]);
+
 
 
     /* =========================
        ARMAZENAMENTOS
     ========================= */
-    const storageBuildings = useMemo(() => {
-        return Object.entries(storageProfiles).map(([id, profile]) => {
-            const quantidade = storageQuantities[id] || 0;
-
-            return {
-                id,
-                ...profile,
-                quantidade,
-                capacidadeTotal:
-                    quantidade * profile.capacidadePorEdificio,
-            };
-        });
-    }, []);
+const storageBuildings = useMemo(() => {
+    return Object.entries(storageProfiles).map(([id, profile]) => {
+        const quantidade = storageQuantities[id] || 0;
+        return {
+            id,
+            ...profile,
+            quantidade,
+            capacidadeTotal: quantidade * profile.capacidadePorEdificio,
+        };
+    });
+}, [storageQuantities]);
 
 
     function processarTransacoesMercado() {
@@ -588,7 +1080,61 @@ const [salesContracts, setSalesContracts] = useState({});
     /* =========================
        Produção 
     ========================= */
+    // No GameContext.jsx
+    function processSellQueue(faturamentoDiario = 0) {
+        liquidadoRefPersist.current = 0; // reseta antes
 
+        setSellQueue(prevSales => {
+            let total = 0;
+            const next = prevSales.reduce((acc, venda) => {
+                if (venda.diasRestantes > 1) {
+                    acc.push({ ...venda, diasRestantes: venda.diasRestantes - 1 });
+                } else {
+                    total += Number(venda.valorTotal) || 0;
+                }
+                return acc;
+            }, []);
+
+            // useRef persiste mesmo com double-invoke do Strict Mode
+            liquidadoRefPersist.current = total;
+            return next;
+        });
+
+        // Usa setTimeout(0) para garantir que o setSellQueue já commitou
+        setTimeout(() => {
+            const totalAdicionar = faturamentoDiario + liquidadoRefPersist.current;
+            console.log("💰 Liquidando:", faturamentoDiario, "+", liquidadoRefPersist.current, "=", totalAdicionar);
+            if (totalAdicionar > 0) {
+                setEconomiaSetores(prev => ({
+                    ...prev,
+                    saldo: prev.saldo + totalAdicionar
+                }));
+            }
+        }, 0);
+    }
+    function iniciarVendaComercial(formula, quantidade) {
+        const produto = productsCatalog[formula.produto];
+
+        // Cálculo do valor: (Preço Base * (1 + Margem/100)) * Qtd
+        const precoComMargem = produto.precoBase * (1 + (formula.margemBase / 100));
+        const valorFinal = precoComMargem * quantidade;
+
+        const novaVenda = {
+            id: crypto.randomUUID(),
+            formulaId: formula.id,
+            produtoId: formula.produto,
+            quantidade: quantidade,
+            valorTotal: valorFinal, // <--- GARANTE QUE NÃO É 0
+            diasRestantes: formula.duracao,
+            duracaoInicial: formula.duracao,
+            tipo: "venda"
+        };
+
+        setSellQueue(prev => [...prev, novaVenda]);
+
+        // Remove do estoque na hora para evitar venda duplicada
+        removeProduct(formula.produto, quantidade);
+    }
 
 
     function startProduction({ formula, quantidade, buildingCount }) {
@@ -635,6 +1181,96 @@ const [salesContracts, setSalesContracts] = useState({});
         return true;
     }
 
+    // Substitua sua função processProductions por esta no useGame
+    function processarFilaUnificada() {
+        setProductionQueue(prev => {
+            const nextQueue = [];
+
+            prev.forEach(item => {
+                if (item.diasRestantes > 1) {
+                    // Ainda em tempo de espera: apenas reduz o dia
+                    nextQueue.push({ ...item, diasRestantes: item.diasRestantes - 1 });
+                } else {
+                    // O dia chegou a 0: Liquidação
+                    if (item.tipo === "venda") {
+                        // LIQUIDAÇÃO DE VENDA: Adiciona ao saldo
+                        const valorAReceber = Number(item.valorTotal) || 0;
+
+                        // Usando a função de atualização de saldo do seu sistema
+                        setEconomiaSetores(prevEco => ({
+                            ...prevEco,
+                            saldo: prevEco.saldo + valorAReceber
+                        }));
+
+                        console.log(`Contrato de venda finalizado: +$${valorAReceber}`);
+                    } else {
+                        // LIQUIDAÇÃO DE PRODUÇÃO: Adiciona itens ao estoque
+                        if (item.output) {
+                            Object.entries(item.output).forEach(([prodId, qtd]) => {
+                                addProduct(prodId, qtd);
+                            });
+                        }
+                    }
+                    // Nota: Ao não dar "push" no nextQueue, o item é removido da fila
+                }
+            });
+
+            return nextQueue;
+        });
+    }
+
+
+    // GameContext.jsx
+
+    function startSale(contrato) {
+        if (!contrato) return;
+
+        // Impede duplicata pelo mesmo id
+        setSellQueue(prev => {
+            const jaExiste = prev.some(v => v.id === contrato.id);
+            if (jaExiste) return prev;
+
+            const novaVenda = {
+                id: contrato.id,
+                formulaId: contrato.formulaId,
+                produto: contrato.productId,
+                quantidade: contrato.quantidade,
+                valorTotal: contrato.valorTotal,
+                diasRestantes: contrato.prazoDias,
+                duracaoInicial: contrato.prazoDias,
+                tipo: "venda"
+            };
+
+            removeProduct(contrato.productId, contrato.quantidade);
+            return [...prev, novaVenda];
+        });
+
+        console.log(`✅ Contrato fechado! Aguardando ${contrato.prazoDias} dias para receber $${contrato.valorTotal}`);
+    }
+
+    const processarVendas = () => {
+        setSellQueue(prev => {
+            const remaining = [];
+            prev.forEach(venda => {
+                if (venda.diasRestantes > 1) {
+                    remaining.push({ ...venda, diasRestantes: venda.diasRestantes - 1 });
+                } else {
+                    // Aqui o valorTotal DEVE existir no objeto
+                    const valorParaAdicionar = Number(venda.valorTotal) || 0;
+
+                    // Atualiza o saldo global
+                    setEconomiaSetores(prevEco => ({
+                        ...prevEco,
+                        saldo: prevEco.saldo + valorParaAdicionar
+                    }));
+
+                    console.log(`Venda finalizada: +$${valorParaAdicionar}`);
+                }
+            });
+            return remaining;
+        });
+    };
+
 
 
     function processProductions() {
@@ -657,51 +1293,56 @@ const [salesContracts, setSalesContracts] = useState({});
         return true;
     }
 
+    function processSell() {
+        setProductionQueue(prev => {
+            const next = [];
+
+            prev.forEach(prod => {
+                if (prod.diasRestantes > 1) {
+                    // Ainda em andamento
+                    next.push({ ...prod, diasRestantes: prod.diasRestantes - 1 });
+                } else {
+                    // Finalizando hoje
+                    if (prod.tipo === "venda") {
+                        // USE UMA FUNÇÃO AQUI para não pegar saldo desatualizado
+                        setEconomiaSetores(prevEco => ({
+                            ...prevEco,
+                            saldo: prevEco.saldo + (prod.valorTotal || 0)
+                        }));
+                        console.log("Venda concluída, saldo atualizado!");
+                    } else {
+                        // Produção normal
+                        Object.entries(prod.output || {}).forEach(([produto, qtd]) => {
+                            addProduct(produto, qtd);
+                        });
+                    }
+                }
+            });
+
+            return next;
+        });
+    }
+
+
 
 
     function checkProductionOverflow() {
         const overflows = [];
 
         productionQueue.forEach(prod => {
-            if (prod.diasRestantes > 1) return;
+            // 1. Se for uma venda ou não tiver dias para terminar, pula
+            if (prod.tipo === "venda" || prod.diasRestantes > 1) return;
+
+            // 2. Garante que prod.output existe antes de usar Object.entries
+            if (!prod.output) return;
 
             Object.entries(prod.output).forEach(([produtoId, qtd]) => {
                 const product = productsCatalog[produtoId];
                 if (!product) return;
 
+                // ... resto do seu código de lógica de slots ...
                 const categoria = product.categoriaFisica;
-                const requiredSlots = qtd * product.slotSize;
-                const usedNow =
-                    usedSpaceByCategory[categoria] || 0;
-
-                const capacityTotal =
-                    (dedicatedCapacityByCategory[categoria] || 0) +
-                    (variableCapacityByCategory[categoria] || 0);
-
-
-
-                const freeSlots = Math.max(capacityTotal - usedNow, 0);
-
-
-                if (requiredSlots > freeSlots) {
-                    const excessoSlots = requiredSlots - freeSlots;
-                    const excessoQtd = Math.ceil(excessoSlots / product.slotSize);
-
-                    const preco = getMarketPrice(produtoId, economiaSetores) || 0;
-                    const valorVenda = excessoQtd * preco * 0.5;
-
-                    overflows.push({
-                        produtoId,
-                        categoria,
-                        quantidadeProduzida: qtd,
-                        quantidadeArmazenavel: Math.floor(
-                            freeSlots / product.slotSize
-                        ),
-                        quantidadeExcedente: excessoQtd,
-                        valorVenda,
-                    });
-                }
-
+                // ...
             });
         });
 
@@ -910,16 +1551,20 @@ const [salesContracts, setSalesContracts] = useState({});
         }, 0);
     }
 
-function getMaxProductionByBuilding({ formulaId, buildingCount }) {
-  const formulaConfig = FORMULAS_EDIFICIOS
-    .flatMap(e => e.formulas)
-    .find(f => f.id === formulaId);
+    function getMaxProductionByBuilding({ formulaId, buildingCount }) {
+        const formulaConfig = FORMULAS_EDIFICIOS
+            .flatMap(e => e.formulas)
+            .find(f => f.id === formulaId);
 
-  if (!formulaConfig) return 0;
+        if (!formulaConfig) return 0;
 
-  return formulaConfig.capacidadePorEdificio * buildingCount;
-}
+        return formulaConfig.capacidadePorEdificio * buildingCount;
+    }
 
+    // Coloque logo após a declaração do sellQueue
+    useEffect(() => {
+        console.log("sellQueue mudou:", sellQueue);
+    }, [sellQueue]);
 
 
 
@@ -952,8 +1597,14 @@ function getMaxProductionByBuilding({ formulaId, buildingCount }) {
                 checkProductionOverflow,
                 resolveProductionOverflowBySelling,
                 getStockPredictionReport,
-                getSortedProductionQueue
-
+                getSortedProductionQueue,
+                startSale,
+                processSell,
+                processarFilaUnificada,
+                processSellQueue,
+                iniciarVendaComercial,
+                processarVendas,
+                getOuGerarContratos, contratosEdificios, sellQueue
             }}
 
 

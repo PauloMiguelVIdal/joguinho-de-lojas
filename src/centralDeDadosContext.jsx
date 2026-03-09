@@ -14,7 +14,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
     animarCicloDia: null,
-    dia: 1000,
+    dia: 399,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -1721,7 +1721,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Campo De Estocagem",
-          nomeEditável: "Loja De Eletrônicos",
+          nomeEditável: "Campo De Estocagem",
           desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
           licençaLiberado: {
             licença: "Licença De Outras Plantações",
@@ -2433,7 +2433,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Armazém De Materiais Brutos",
-          nomeEditável: "Loja De Eletrônicos",
+          nomeEditável: "Armazém De Materiais Brutos",
           desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
           licençaLiberado: {
             licença: "Licença De Madeira",
@@ -2590,7 +2590,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Pátio De Mineração",
-          nomeEditável: "Loja De Eletrônicos",
+          nomeEditável: "Pátio De Mineração",
           desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
           licençaLiberado: {
             licença: "Licença De Minérios Base",
@@ -8865,7 +8865,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Container Modular",
-          nomeEditável: "Loja De Eletrônicos",
+          nomeEditável: "Container Modular",
           desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
           licençaLiberado: {
             licença: "Armazém Industrial",
@@ -8926,7 +8926,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Pátio De Veículos",
-          nomeEditável: "Loja De Eletrônicos",
+          nomeEditável: "Pátio De Veículos",
           desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
           licençaLiberado: {
             licença: "Licença De Armazenamento Indústrial",
@@ -8987,7 +8987,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Armazém Industrial",
-          nomeEditável: "Loja De Eletrônicos",
+          nomeEditável: "Armazém Industrial",
           desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
           licençaLiberado: {
             licença: "Licença De Armazenamento Indústrial",
@@ -16127,7 +16127,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Câmara Fria",
-          nomeEditável: "Loja De Eletrônicos",
+          nomeEditável: "Câmara Fria",
           desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
           licençaLiberado: {
             licença: "Licença De Comércio Local",
@@ -26418,7 +26418,7 @@ const CentraldeDadosProvider = ({ children }) => {
         },
         {
           nome: "Armazém De Materiais Sensíveis",
-          nomeEditável: "Loja De Eletrônicos",
+          nomeEditável: "Armazém De Materiais Sensíveis",
           desc: "Comercializa eletrônicos, gadgets e aparelhos tecnológicos.",
           licençaLiberado: {
             licença: "Licença De Usinas Nucleares",

@@ -64,6 +64,8 @@ import ProductionQueueCard from "./ProductionQueueCard.jsx";
 import ProductionQueuePanel from "./ProductionQueuePanel.jsx";
 import ManagerSellPanel from "./ManagerSellPanel.jsx";
 import HubSell from "./HubSell.jsx";
+import SalesQueuePanel from "./SalesQueuePanel.jsx";
+import SalesQueueCard from "./SalesQueueCard.jsx";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -1192,12 +1194,12 @@ export default function Dashboard() {
   if (vision === "dashboard") {
     return (
       <div
-        className={`${corClasse} w-full h-full border-[#350973] rounded-[20px] flex`}
+        className={`${corClasse} w-full h-full border-[#350973] rounded-[20px] flex justify-between`}
       >
         {/* Sidebar */}
 
         {dados.dia >= 270 && (
-          <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col">
+          <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col ">
             <div
               className={`
         w-[80px] h-full pb-[20px] pt-[20px] flex flex-col justify-between items-center shadow-md transition-opacity duration-500
@@ -1283,7 +1285,7 @@ export default function Dashboard() {
 
         {/* Dashboard */}
         <div
-          className={`h-full rounded-[0px] items-center justify-center transition-all duration-300 bg-[${setorAtivo.cor2
+          className={`h-full rounded-[0px] items-center justify-center transition-all rounded-[40px] duration-300 bg-[${setorAtivo.cor2
             }] ${dados.dia >= 270 ? "w-[calc(100%-100px)]" : "w-[calc(100%)]"}`}
         >
           {/* Renderiza o conteúdo baseado no estado da licença */}
@@ -1391,13 +1393,16 @@ export default function Dashboard() {
               {ativo === "gerenciamento" && (
                 <div className="w-full h-full flex flex-col justify-between">
                   {/* <MicroModel /> */}
-                  {/* <ProductionQueueCard/>
+                  <ProductionQueueCard/> 
                   <ProductionQueuePanel />
                   <ManagerPanelInterface />
-                  <HubManagement /> */}
-                  <HubSell/>
+                   <HubManagement />
                   <ButcherShopPanel />
-                  <ManagerSellPanel />
+                  <SalesQueuePanel/>
+                  <HubSell/>
+                  <SalesQueueCard/>
+
+                   {/* <ManagerSellPanel /> */}
                 </div>
               )}
               {ativo === "mercado" && (

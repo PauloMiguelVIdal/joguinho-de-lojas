@@ -14,7 +14,7 @@ import { productsCatalog } from "./ProductCatalog";
 
 export function NextDay() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
+  const { economiaSetores, setEconomiaSetores, atualizarEco,atualizarVenda } = useContext(
     DadosEconomyGlobalContext
   );
 
@@ -35,11 +35,14 @@ export function NextDay() {
     />
   );
   const {
-
+    // processSell,
+    processarVendas,
     checkProductionOverflow,
     processarTransacoesMercado,
-    processarContratosVenda,
-    processProductions
+    // processarContratosVenda,
+    processProductions,
+    // processarFilaUnificada,
+    processSellQueue
   } = useGame();
 
   const [buttonNextDayAudio] = useSound(nextDayAudio);
@@ -91,12 +94,12 @@ export function NextDay() {
   );
   // Função para avançar para o próximo dia
   const ProximoDia = () => {
-if (dados.modalExcesso.confirmarAvanco) {
-  atualizarDados("modalExcesso", {
-    ...dados.modalExcesso,
-    confirmarAvanco: false,
-  });
-}
+    if (dados.modalExcesso.confirmarAvanco) {
+      atualizarDados("modalExcesso", {
+        ...dados.modalExcesso,
+        confirmarAvanco: false,
+      });
+    }
 
 
     if (economiaSetores.saldo < 0) {
@@ -138,31 +141,31 @@ if (dados.modalExcesso.confirmarAvanco) {
 
     }
 
-const overflows = checkProductionOverflow();
+    const overflows = checkProductionOverflow();
 
 
 
-if (overflows.length > 0) {
-  const ofertaTotal = overflows.reduce(
-    (s, o) => s + o.valorVenda,
-    0
-  );
+    if (overflows.length > 0) {
+      const ofertaTotal = overflows.reduce(
+        (s, o) => s + o.valorVenda,
+        0
+      );
 
-  atualizarDados("modalExcesso", {
-    estadoModal: true,
-    head: "Armazenamento insuficiente",
-    content:
-      "A produção gerou mais itens do que sua capacidade permite. Caso deseje, expanda o seu armazenamento, ou se preferir vendar o valor excentente do produto",
-    quantidadeExcesso: overflows.reduce(
-      (s, o) => s + o.quantidadeExcedente,
-      0
-    ),
-    ofertaExcesso: Math.floor(ofertaTotal),
-    overflows, // 👈 importante
-  });
+      atualizarDados("modalExcesso", {
+        estadoModal: true,
+        head: "Armazenamento insuficiente",
+        content:
+          "A produção gerou mais itens do que sua capacidade permite. Caso deseje, expanda o seu armazenamento, ou se preferir vendar o valor excentente do produto",
+        quantidadeExcesso: overflows.reduce(
+          (s, o) => s + o.quantidadeExcedente,
+          0
+        ),
+        ofertaExcesso: Math.floor(ofertaTotal),
+        overflows, // 👈 importante
+      });
 
-  return;
-}
+      return;
+    }
 
 
 
@@ -179,18 +182,33 @@ if (overflows.length > 0) {
     //  ("saçdfjasçkldfj")
 
     //    dados.animarCicloDia();
-    const novoDia = dados.dia + 1;
+    // const novoDia = dados.dia + 1;
 
-    atualizarDados("dia", novoDia);
+    // atualizarDados("dia", novoDia);
     // console.log(dados.dia);
-    calcularFaturamento();
-    buttonNextDayAudio();
+    // calcularFaturamento();
+    // buttonNextDayAudio();
+    // processarTransacoesMercado();
+    // processarContratosVenda()
+    // processProductions();
+    // processarVendas()
+    // processSell();
+    // processarFilaUnificada(),
+    // processSellQueue();
+
+
+        const novoDia = dados.dia + 1;
+    atualizarDados("dia", novoDia);
+    
+    const faturamento = calcularFaturamento(); // ← agora retorna o valor
+     console.log("faturamento calculado:", faturamento);
+    // buttonNextDayAudio();
     processarTransacoesMercado();
-    processarContratosVenda()
-    processProductions()
+    // processProductions();
+    processSellQueue(faturamento); // ← passa o faturamento junt
   };
 
-  const calcularFaturamento = () => {
+const calcularFaturamento = () => {
     let faturamentoDiario = 0;
 
     const novasLojas = todasLojas.map((loja) => {
@@ -204,28 +222,18 @@ if (overflows.length > 0) {
       );
 
       faturamentoDiario += faturamentoTotal;
+
       if (dados.dia === 270) {
         let patrimonio = 0;
-
         lojas.forEach((loja) => {
           const quantidadeLojas = dados[loja].quantidade;
           const precoConstrucao = dados[loja].preçoConstrução;
-
           const quantidadeTerrenosNec = dados[loja].quantidadeNecTerreno;
           const custoTerreno = dados.terrenos.preçoConstrução;
-
-          const custoTotalLoja =
-            quantidadeLojas * precoConstrucao +
-            quantidadeTerrenosNec * custoTerreno;
+          const custoTotalLoja = quantidadeLojas * precoConstrucao + quantidadeTerrenosNec * custoTerreno;
           patrimonio += custoTotalLoja;
-          //   atualizarDados(loja, { ...dados[loja], quantidade: 0 });
         });
-
-        // const patrimonioTotal = patrimonio + economiaSetores.saldo;
         faturamentoDiario += patrimonio * 0.1;
-        // atualizarEco("saldo", economiaSetores.saldo + patrimonio);
-        //  // uma única atualização
-        //  console.log(patrimonio)
       }
 
       return {
@@ -233,34 +241,30 @@ if (overflows.length > 0) {
         faturamentoUnitário: valorVariável,
         faturamentoTotal,
       };
-
-      console.log();
     });
 
-    // Verifica se é o início de um novo mês e reseta o faturamento mensal
     const novoFaturamentoMensal =
       dados.dia % 30 === 0
         ? faturamentoDiario
         : dados.faturamento.faturamentoMensal + faturamentoDiario;
 
-    atualizarEco("saldo", economiaSetores.saldo + faturamentoDiario);
-    if (dados.dia <= 270) {
+    // ❌ REMOVIDO: atualizarVenda("saldo", ...) daqui
 
+    if (dados.dia <= 270) {
       atualizarDados("faturamento", {
         ...dados.faturamento,
         faturamentoDiário: faturamentoDiario,
         faturamentoMensal: novoFaturamentoMensal,
-        arrayFatuDiário: [
-          ...dados.faturamento.arrayFatuDiário,
-          faturamentoDiario,
-        ],
+        arrayFatuDiário: [...dados.faturamento.arrayFatuDiário, faturamentoDiario],
       });
-    };
+    }
 
     todasLojas.forEach((loja, index) => {
       atualizarDados(loja, novasLojas[index]);
     });
-  };
+
+    return faturamentoDiario; // ← retorna em vez de setar
+};
 
   // Função para capturar a tecla espaço
   // const handleKeyDown = (event) => {

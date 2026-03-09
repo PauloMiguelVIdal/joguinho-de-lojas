@@ -99,7 +99,7 @@ const RaffledBuildings = () => {
     "Centro De Pesquisa Em Fusão Nuclear",
     "Centro De Pesquisa Aeroespacial",
     "Centro De Engenharia Avançada",
-    "Centro De Pesquisa Em Materiais Avançados",
+    "Centro De Pesquisa Em Materiais",
     "Centro De Pesquisa Em IA",
     "Mineradora De Pedras Preciosas",
     "Mega Mercado",
@@ -223,11 +223,11 @@ const RaffledBuildings = () => {
     "Escritório De Arquitetura",
     "Consultoria Em Engenharia Civil",
     "Fábrica De Móveis",
-    "Fábrica De Ração",
+    "Fábrica De Rações",
     "Fábrica De Embalagem",
     "Fábrica De Bebidas",
     "Fábrica De Pães",
-    "Fábrica Textil",
+    "Fábrica Têxtil",
     "Fábrica De Calçados",
     "Fábrica De Roupas",
     "Fábrica De Celulose",
@@ -246,6 +246,12 @@ const RaffledBuildings = () => {
         "Estação De Carregamento",
       ],
     },
+
+
+
+
+
+
     {
       nome: "Apple",
       descricao: "Se torne um empreendedor no ramo de celulares e computadores",
@@ -255,65 +261,7 @@ const RaffledBuildings = () => {
         "Loja De Celulares",
       ],
     },
-    {
-      nome: "SpaceX",
-      descricao: "Se torne um empreendedor no ramo espacial",
-      obrigatorios: [
-        "Fábrica De Foguetes",
-        "Centro De Pesquisa Aeroespacial",
-        "Aeroporto",
-      ],
-    },
-    {
-      nome: "AgroTech",
-      descricao: "Domine a indústria agrícola moderna",
-      obrigatorios: [
-        "Cooperativa Agrícola",
-        "Centro De Pesquisa Agrícola",
-        "Plantação De Grãos",
-        "Fazenda De Vacas",
-      ],
-    },
-    {
-      nome: "Energia Sustentável",
-      descricao: "Controle fontes de energia limpa",
-      obrigatorios: [
-        "Usina Solar",
-        "Parque Eólico",
-        "Centro De Pesquisa Em Energias Renováveis",
-        "Usina De Fusão Nuclear",
-      ],
-    },
-    {
-      nome: "Cidade Inteligente",
-      descricao: "Desenvolva infraestrutura e serviços urbanos",
-      obrigatorios: [
-        "Shopping Center",
-        "Posto De Combustíveis",
-        "Rede De Distribuição Elétrica",
-        "Estação De Carregamento",
-      ],
-    },
-    {
-      nome: "Amazonia Tech",
-      descricao: "Domine o mercado de varejo online e tecnologia",
-      obrigatorios: [
-        "Marketplace Online",
-        "Data Center",
-        "Centro De Distribuição",
-        "Fábrica De Eletrônicos",
-      ],
-    },
-    {
-      nome: "PetroGlobal",
-      descricao: "Controle o mercado de energia e combustíveis fósseis",
-      obrigatorios: [
-        "Plataforma De Petróleo",
-        "Refinaria",
-        "Transporte Petrolífero",
-        "Posto De Combustíveis",
-      ],
-    }, //limpo
+
     {
       nome: "BioFuture",
       descricao: "Lidere a revolução da biotecnologia e energias renováveis",
@@ -324,7 +272,224 @@ const RaffledBuildings = () => {
         "Refinaria De Biocombustíveis",
       ],
     },
+
     {
+      nome: "FoodNetwork",
+      descricao: "Controle a cadeia produtiva de alimentos",
+      obrigatorios: [
+        "Cooperativa Agrícola",
+        "Mega Mercado",
+        "Restaurante",
+        "Fábrica De Rações",
+      ],
+    },
+
+
+
+
+
+
+
+
+    {
+      nome: "TechResearch",
+      descricao:
+        "Torne-se referência em pesquisa e desenvolvimento tecnológico",
+      obrigatorios: [
+        "Centro De Pesquisa Em IA",
+        "Centro De Pesquisa Em Materiais",
+        "Laboratório De Nanotecnologia",
+        "Centro De Pesquisa Em Eletrônicos",
+      ],
+    },
+
+    {
+      nome: "PetLove",
+      descricao:
+        "Crie o maior ecossistema de produtos para animais de estimação",
+      obrigatorios: [
+        "Petshop",
+        "Fábrica De Rações",
+        "Fazenda De Vacas",
+        "Granja De Aves",
+        "Centro De Distribuição",
+        "Mercado",
+        "Farmácia",
+        "Fábrica De Medicamentos",
+      ],
+    },
+
+    {
+      nome: "EduTech",
+      descricao: "Revolucione o mercado educacional com tecnologia",
+      obrigatorios: [
+        "Empresa De Desenvolvimento De Software",
+        "Livraria",
+        "Data Center",
+        "Centro De Pesquisa Em IA",
+      ],
+    },
+
+
+
+
+
+
+
+
+
+
+
+    {
+      nome: "Construtora Elite",
+      descricao:
+        "Torne-se referência em construções de alto padrão e design sofisticado",
+      obrigatorios: [
+        "Fábrica De Móveis",
+        "Prédio De Alto Padrão",
+        "Escritório De Arquitetura",
+        "Escritório De Design De Interiores",
+        "Terraplanagem E Pavimentação",
+      ],
+    },
+    {
+      nome: "Galaxy Tech",
+      descricao:
+        "Domine a tecnologia aeroespacial com foguetes, pesquisa avançada e propulsão",
+      obrigatorios: [
+        "Fábrica De Foguetes",
+        "Fábrica De Motores",
+        "Centro De Engenharia Avançada",
+        "Centro De Pesquisa Em Materiais",
+        "Centro De Pesquisa Em Robótica",
+        "Laboratório De Novos Combustíveis",
+        "Centro De Pesquisa Aeroespacial",
+      ],
+    },
+    {
+      nome: "Naval Force",
+      descricao:
+        "Lidere a construção naval com estaleiros de ponta e engenharia avançada",
+      obrigatorios: [
+        "Estaleiro",
+        "Centro De Pesquisa Em Materiais",
+        "Centro De Engenharia Avançada",
+        "Indústria De Componentes Mecânicos",
+        "Fábrica De Estruturas Metálicas",
+      ],
+    },
+        {
+      nome: "FashionStyle",
+      descricao: "Torne-se líder no mercado de moda e vestuário",
+      obrigatorios: [
+        "Fábrica Têxtil",
+        "Fábrica De Roupas",
+        "Fábrica De Calçados",
+        "Loja De Vestuário",
+      ],
+    },
+        {
+      nome: "SpaceX", //certo
+      descricao: "Se torne um empreendedor no ramo espacial",
+      obrigatorios: [
+        "Fábrica De Foguetes",
+        "Centro De Pesquisa Aeroespacial",
+        "Aeroporto",
+      ],
+    },
+        {
+      nome: "TecnoAgro",
+      descricao:
+        "Implemente a agricultura 4.0 com pesquisa de ponta e automação",
+      obrigatorios: [
+        "Centro De Pesquisa Agrícola",
+        "Instituto De Biotecnologia",
+        "Instituto De Tecnologia Alimentar",
+        "Empresa De Automação Industrial",
+        "Biofábrica",
+        "Cooperativa Agrícola",
+        "Armazém Logístico",
+        "Fazenda Administrativa",
+      ],
+    },
+        {
+      nome: "Aço & Alumínio",
+      descricao:
+        "Monopolize a produção metalúrgica desde a mineração até a fabricação",
+      obrigatorios: [
+        "Alto-Forno",
+        "Usina Siderúrgica",
+        "Fundição De Alumínio",
+        "Mineradora",
+        "Terreno De Mineração",
+      ],
+    },
+        {
+      nome: "HealthCare Brasil",
+      descricao: "Controle a cadeia completa de saúde e farmácias",
+      obrigatorios: [
+        "Farmácia",
+        "Laboratório Farmacêutico",
+        "Fábrica De Medicamentos",
+        "Plantação De Plantas Medicinais",
+        "Biofábrica",
+        "Centro De Pesquisa Química",
+        "Centro De Distribuição",
+        "Instituto De Biotecnologia",
+      ],
+    },
+
+    {
+      nome: "AgroTech", //certo
+      descricao: "Domine a indústria agrícola moderna",
+      obrigatorios: [
+        "Cooperativa Agrícola",
+        "Centro De Pesquisa Agrícola",
+        "Plantação De Grãos",
+        "Fazenda De Vacas",
+      ],
+    },
+    {
+      nome: "Energia Sustentável", //certo
+      descricao: "Controle fontes de energia limpa",
+      obrigatorios: [
+        "Usina Solar",
+        "Parque Eólico",
+        "Centro De Pesquisa Em Energias Renováveis",
+        "Usina De Fusão Nuclear",
+      ],
+    },
+    {
+      nome: "Cidade Inteligente", //certo
+      descricao: "Desenvolva infraestrutura e serviços urbanos",
+      obrigatorios: [
+        "Shopping Center",
+        "Posto De Combustíveis",
+        "Rede De Distribuição Elétrica",
+        "Estação De Carregamento",
+      ],
+    },
+    {
+      nome: "Amazonia Tech", //certo
+      descricao: "Domine o mercado de varejo online e tecnologia",
+      obrigatorios: [
+        "Marketplace Online",
+        "Data Center",
+        "Centro De Distribuição",
+        "Fábrica De Eletrônicos",
+      ],
+    },
+    {
+      nome: "PetroGlobal", //certo
+      descricao: "Controle o mercado de energia e combustíveis fósseis",
+      obrigatorios: [
+        "Plataforma De Petróleo",
+        "Refinaria",
+        "Transporte Petrolífero",
+        "Posto De Combustíveis",
+      ],
+    }, //limpo
+        {
       nome: "MetaVerse Inc",
       descricao: "Crie o império de entretenimento digital e realidade virtual",
       obrigatorios: [
@@ -345,7 +510,7 @@ const RaffledBuildings = () => {
       ],
     }, //////errado
     {
-      nome: "HealthPlus",
+      nome: "HealthPlus", //certo
       descricao: "Domine o mercado farmacêutico e de saúde",
       obrigatorios: [
         "Fábrica De Medicamentos",
@@ -355,7 +520,7 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "AutoGroup",
+      nome: "AutoGroup", //certo
       descricao: "Lidere a indústria automotiva e de mobilidade",
       obrigatorios: [
         "Montadora De Veículos Elétricos",
@@ -364,29 +529,8 @@ const RaffledBuildings = () => {
         "Estação De Carregamento",
       ],
     },
-    {
-      nome: "FoodNetwork",
-      descricao: "Controle a cadeia produtiva de alimentos",
-      obrigatorios: [
-        "Cooperativa Agrícola",
-        "Mega Mercado",
-        "Restaurante",
-        "Fábrica De Ração",
-      ],
-    },
-    {
-      nome: "TechResearch",
-      descricao:
-        "Torne-se referência em pesquisa e desenvolvimento tecnológico",
-      obrigatorios: [
-        "Centro De Pesquisa Em IA",
-        "Centro De Pesquisa Em Materiais Avançados",
-        "Laboratório De Nanotecnologia",
-        "Centro De Pesquisa Em Eletrônicos",
-      ],
-    },
-    {
-      nome: "EcoPower",
+        {
+      nome: "EcoPower", //certo
       descricao: "Lidere a transição para energias renováveis",
       obrigatorios: [
         "Usina Solar",
@@ -396,7 +540,7 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "SteelIndustry",
+      nome: "SteelIndustry", //certo
       descricao: "Domine a produção de aço e metais",
       obrigatorios: [
         "Alto-Forno",
@@ -406,21 +550,51 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "PetLove",
+      nome: "RoboTech", //certo
       descricao:
-        "Crie o maior ecossistema de produtos para animais de estimação",
+        "Revolutionize a indústria com automação, robótica e inteligência artificial",
       obrigatorios: [
-        "Petshop",
-        "Fábrica De Ração",
-        "Fazenda De Vacas",
-        "Granja De Aves",
-        "Centro De Distribuição",
-        "Mercado",
-        "Farmácia",
-        "Fábrica De Medicamentos",
+        "Fábrica De Robôs",
+        "Fábrica De Placas Eletrônicas",
+        "Fábrica De Chips",
+        "Indústria De Componentes Mecânicos",
+        "Centro De Pesquisa Em IA",
+        "Centro De Pesquisa Em Eletrônicos",
+        "Centro De Pesquisa Em Robótica",
+        "Fábrica De Eletrônicos",
       ],
     },
     {
+      nome: "Verde & Papel", //certo
+      descricao:
+        "Monte o ecossistema completo de produção de papel desde a floresta até as livrarias",
+      obrigatorios: [
+        "Fábrica De Celulose",
+        "Fábrica De Papel",
+        "Madeireira",
+        "Área Florestal",
+        "Plantação De Eucalipto",
+        "Centro De Pesquisa Química",
+        "Empresa De Automação Industrial",
+        "Livraria",
+      ],
+    },
+    {
+      nome: "AgroPower Brasil", //certo
+      descricao:
+        "Domine toda a cadeia produtiva do agronegócio brasileiro, desde a plantação até a exportação",
+      obrigatorios: [
+        "Plantação De Grãos",
+        "Plantação De Vegetais",
+        "Cooperativa Agrícola",
+        "Centro De Comércio De Plantações",
+        "Fazenda Administrativa",
+        "Armazém",
+        "Silo",
+        "Centro De Distribuição",
+      ],
+    },
+        {
       nome: "Home&Decor",
       descricao: "Domine o mercado de móveis e decoração para residências",
       obrigatorios: [
@@ -435,7 +609,7 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "EntregaExpress",
+      nome: "EntregaExpress", //certo
       descricao: "Monte a maior rede de logística e entregas do país",
       obrigatorios: [
         "Centro De Transporte E Entrega",
@@ -459,113 +633,7 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "EduTech",
-      descricao: "Revolucione o mercado educacional com tecnologia",
-      obrigatorios: [
-        "Empresa De Desenvolvimento De Software",
-        "Livraria",
-        "Data Center",
-        "Centro De Pesquisa Em IA",
-      ],
-    },
-    {
-      nome: "Diamond Empire",
-      descricao:
-        "Domine o mercado de joias luxuosas e mineração de pedras preciosas",
-      obrigatorios: [
-        "Mineradora De Pedras Preciosas",
-        "Joalheria",
-        "Terreno De Mineração",
-        "Laboratório De Design De Produtos",
-        "Terraplanagem E Pavimentação",
-        "Consultoria Em Engenharia Civil",
-      ],
-    },
-    {
-      nome: "Construtora Elite",
-      descricao:
-        "Torne-se referência em construções de alto padrão e design sofisticado",
-      obrigatorios: [
-        "Fábrica De Móveis",
-        "Prédio De Alto Padrão",
-        "Escritório De Arquitetura",
-        "Escritório De Design De Interiores",
-        "Terraplanagem E Pavimentação",
-      ],
-    },
-    {
-      nome: "Galaxy Tech",
-      descricao:
-        "Domine a tecnologia aeroespacial com foguetes, pesquisa avançada e propulsão",
-      obrigatorios: [
-        "Fábrica De Foguetes",
-        "Fábrica De Motores",
-        "Centro De Engenharia Avançada",
-        "Centro De Pesquisa Em Materiais Avançados",
-        "Centro De Pesquisa Em Robótica",
-        "Laboratório De Novos Combustíveis",
-        "Centro De Pesquisa Aeroespacial",
-      ],
-    },
-    {
-      nome: "Naval Force",
-      descricao:
-        "Lidere a construção naval com estaleiros de ponta e engenharia avançada",
-      obrigatorios: [
-        "Estaleiro",
-        "Centro De Pesquisa Em Materiais Avançados",
-        "Centro De Engenharia Avançada",
-        "Indústria De Componentes Mecânicos",
-        "Fábrica De Estruturas Metálicas",
-      ],
-    },
-    {
-      nome: "RoboTech",
-      descricao:
-        "Revolutionize a indústria com automação, robótica e inteligência artificial",
-      obrigatorios: [
-        "Fábrica De Robôs",
-        "Fábrica De Placas Eletrônicas",
-        "Fábrica De Chips",
-        "Indústria De Componentes Mecânicos",
-        "Centro De Pesquisa Em IA",
-        "Centro De Pesquisa Em Eletrônicos",
-        "Centro De Pesquisa Em Robótica",
-        "Fábrica De Eletrônicos",
-      ],
-    },
-    {
-      nome: "Verde & Papel",
-      descricao:
-        "Monte o ecossistema completo de produção de papel desde a floresta até as livrarias",
-      obrigatorios: [
-        "Fábrica De Celulose",
-        "Fábrica De Papel",
-        "Madeireira",
-        "Área Florestal",
-        "Plantação De Eucalipto",
-        "Centro De Pesquisa Química",
-        "Empresa De Automação Industrial",
-        "Livraria",
-      ],
-    },
-    {
-      nome: "AgroPower Brasil",
-      descricao:
-        "Domine toda a cadeia produtiva do agronegócio brasileiro, desde a plantação até a exportação",
-      obrigatorios: [
-        "Plantação De Grãos",
-        "Plantação De Vegetais",
-        "Cooperativa Agrícola",
-        "Centro De Comércio De Plantações",
-        "Fazenda Administrativa",
-        "Armazém",
-        "Silo",
-        "Centro De Distribuição",
-      ],
-    },
-    {
-      nome: "BioCombustíveis Nacional",
+      nome: "BioCombustíveis Nacional", //certo
       descricao:
         "Lidere a produção de energia renovável a partir de biomassa e resíduos agrícolas",
       obrigatorios: [
@@ -579,23 +647,9 @@ const RaffledBuildings = () => {
         "Fazenda Administrativa",
       ],
     },
+
     {
-      nome: "FarmaVerde",
-      descricao:
-        "Monopolize a produção de plantas medicinais e produtos farmacêuticos naturais",
-      obrigatorios: [
-        "Plantação De Plantas Medicinais",
-        "Biofábrica",
-        "Laboratório Farmacêutico",
-        "Fábrica De Medicamentos",
-        "Fábrica De Químicos Especializados",
-        "Instituto De Biotecnologia",
-        "Depósito De Resíduos Orgânicos",
-        "Centro De Pesquisa Agrícola",
-      ],
-    },
-    {
-      nome: "Madeira & Papel",
+      nome: "Madeira & Papel", //certo
       descricao: "Controle a cadeia completa de produção madeireira e de papel",
       obrigatorios: [
         "Plantação De Eucalipto",
@@ -608,23 +662,9 @@ const RaffledBuildings = () => {
         "Fazenda Administrativa",
       ],
     },
+
     {
-      nome: "TecnoAgro",
-      descricao:
-        "Implemente a agricultura 4.0 com pesquisa de ponta e automação",
-      obrigatorios: [
-        "Centro De Pesquisa Agrícola",
-        "Instituto De Biotecnologia",
-        "Instituto De Tecnologia Alimentar",
-        "Empresa De Automação Industrial",
-        "Biofábrica",
-        "Cooperativa Agrícola",
-        "Armazém Logístico",
-        "Fazenda Administrativa",
-      ],
-    },
-    {
-      nome: "Shopping Brasil",
+      nome: "Shopping Brasil", //certo
       descricao: "Domine o varejo nacional com shoppings populares e centers",
       obrigatorios: [
         "Shopping Center",
@@ -638,7 +678,7 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "TechMall",
+      nome: "TechMall", //certo
       descricao: "Crie o maior centro de tecnologia e gadgets do país",
       obrigatorios: [
         "Loja De Eletrônicos",
@@ -651,22 +691,9 @@ const RaffledBuildings = () => {
         "Marketplace Online",
       ],
     },
+
     {
-      nome: "HealthCare Brasil",
-      descricao: "Controle a cadeia completa de saúde e farmácias",
-      obrigatorios: [
-        "Farmácia",
-        "Laboratório Farmacêutico",
-        "Fábrica De Medicamentos",
-        "Plantação De Plantas Medicinais",
-        "Biofábrica",
-        "Centro De Pesquisa Química",
-        "Centro De Distribuição",
-        "Instituto De Biotecnologia",
-      ],
-    },
-    {
-      nome: "AutoShopping",
+      nome: "AutoShopping", //certo
       descricao: "Integre concessionárias e centros automotivos",
       obrigatorios: [
         "Concessionária De Veículos",
@@ -679,18 +706,9 @@ const RaffledBuildings = () => {
         "Consultoria Em Engenharia Civil",
       ],
     },
+
     {
-      nome: "FashionStyle",
-      descricao: "Torne-se líder no mercado de moda e vestuário",
-      obrigatorios: [
-        "Fábrica Textil",
-        "Fábrica De Roupas",
-        "Fábrica De Calçados",
-        "Loja De Vestuário",
-      ],
-    },
-    {
-      nome: "Átomo Avançado",
+      nome: "Átomo Avançado", //certo
       descricao:
         "Lidere a revolução da energia nuclear com pesquisa de ponta e mineração radioativa",
       obrigatorios: [
@@ -702,18 +720,20 @@ const RaffledBuildings = () => {
         "Centro De Pesquisa Química",
       ],
     },
-    {
-      nome: "Aço & Alumínio",
+        {
+      nome: "Diamond Empire", //certo
       descricao:
-        "Monopolize a produção metalúrgica desde a mineração até a fabricação",
+        "Domine o mercado de joias luxuosas e mineração de pedras preciosas",
       obrigatorios: [
-        "Alto-Forno",
-        "Usina Siderúrgica",
-        "Fundição De Alumínio",
-        "Mineradora",
+        "Mineradora De Pedras Preciosas",
+        "Joalheria",
         "Terreno De Mineração",
+        "Laboratório De Design De Produtos",
+        "Terraplanagem E Pavimentação",
+        "Consultoria Em Engenharia Civil",
       ],
     },
+
   ];
 
   // 🔹 Função para sortear itens

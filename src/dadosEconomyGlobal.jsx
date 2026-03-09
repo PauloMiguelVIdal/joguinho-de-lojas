@@ -6,7 +6,7 @@ const DadosEconomyGlobalContext = createContext();
 // Provedor do contexto
 const DadosEconomyGlobalProvider = ({ children }) => {
   const [economiaSetores, setEconomiaSetores] = useState({
-    saldo: 1000000000,
+    saldo: 3000000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
@@ -1432,6 +1432,16 @@ const atualizarEcoSafely = (chave, patch) => {
     };
   });
 };
+
+const atualizarVenda = (chave, valor) => {
+  setEconomiaSetores(prev => ({
+    ...prev,
+    // Se valor for função, chama com o valor atual; senão usa direto
+    [chave]: typeof valor === "function" ? valor(prev[chave]) : valor,
+  }));
+};
+
+
   const salvarContrato = (novoContrato) => {
     setContratos((prev) => [...prev, novoContrato]);
   };
@@ -1449,7 +1459,9 @@ const atualizarEcoSafely = (chave, patch) => {
         liberaProximoNivel,
         salvarContrato,
         atualizarEcoCallback,
-        atualizarEcoSafely
+        atualizarEcoSafely,
+        atualizarVenda
+
       }}
     >
       {children}

@@ -21,6 +21,9 @@ export default function StorageInterface() {
     return [...new Set(Object.values(productsCatalog).map(p => p.categoriaFisica))];
   }, []);
 
+const edifícioStorage = ['Armazém','Silo','Campo De Estocagem','Armazém De Materiais Brutos','Pátio De Mineração','Servidor Em Nuvem','Data Center','Container Modular','Pátio De Veículos','Armazém Industrial','Câmara Fria','Centro De Distribuição','Armazém Logístico',' Pátio De Veículos','Hangar','Armazém Especializado de Materiais Sensíveis']
+
+
   const stockedProducts = useMemo(() => {
     return Object.entries(stock)
       .map(([id, qty]) => ({

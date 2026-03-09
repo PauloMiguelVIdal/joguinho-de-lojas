@@ -148,7 +148,7 @@ export const productsCatalog = {
     icon: "🟫",
     unidade: "kg",
     setor: "agricultura",
-    categoriaFisica: "produtos biomassa / orgânicos",
+    categoriaFisica: "biomassa / orgânicos",
     slotSize: 20,
   },
 
@@ -158,7 +158,7 @@ export const productsCatalog = {
     icon: "👜",
     unidade: "kg",
     setor: "agricultura",
-    categoriaFisica: "produtos biomassa / orgânicos",
+    categoriaFisica: "produtos manufaturados",
     slotSize: 20,
   },
 
@@ -168,7 +168,7 @@ export const productsCatalog = {
     icon: "🧶",
     unidade: "kg",
     setor: "agricultura",
-    categoriaFisica: "produtos biomassa / orgânicos",
+    categoriaFisica: "produtos manufaturados",
     slotSize: 5,
   },
 
@@ -2173,7 +2173,7 @@ export const productsCatalog = {
   },
   foneOuvido: {
     id: "foneOuvido",
-    nome: "FoneOuvido",
+    nome: "Fone De Ouvido",
     icon: "🎧",
     unidade: "unidade",
     setor: "tecnologia",

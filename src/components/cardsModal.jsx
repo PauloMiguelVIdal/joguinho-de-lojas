@@ -41,7 +41,8 @@ import { createPortal } from "react-dom";
 import useSound from "use-sound";
 import purchaseEdifAudio from "../../public/sounds/purchaseEdifAudio.mp3";
 import estoque from '../../public/outrasImagens/estoque.png'
-
+import component from '../../public/outrasImagens/component.png'
+import bag from '../../public/outrasImagens/bag.png'
 export const CardModal = ({ index }) => {
   const {
     economiaSetores,
@@ -66,39 +67,44 @@ export const CardModal = ({ index }) => {
 
   const [buttonPurchaseEdifAudio] = useSound(purchaseEdifAudio);
 
-const edificiosComGerenciamento = [
-  "Mineradora",
-  "Açougue",
-  "Fábrica De Painel Solar",
-  "Terraplanagem E Pavimentação",
-  "Construtora",
-  "Fábrica De Smarthphone",
-  "Concessionária",
-  "Fábrica De Automóveis",
-  "Plantação De Grãos",
-];
+  const productions = ['Plantação De Grãos', 'Fazenda De Vacas', "Plantação De Eucalipto", "Fazenda De Vacas", "Granja De Aves", "Madeireira", "Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestíveis", "Fábrica De Rações", "Fábrica De Embalagens", "Fábrica De Fertilizantes", "Fábrica De Pães", "Fábrica Têxtil", "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose", "Fábrica De Papel", "Fábrica De Livros", "Fábrica De Medicamentos", "Laboratório Farmacêutico", "Fábrica De Plásticos", "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas", "Indústria De Componentes Mecânicos", "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas", "Fábrica De Peças Automotivas", "Montadora De Veículos Elétricos", "Fábrica De Automóveis", "Refinaria", "Biofábrica", "Fábrica De Chips", "Fábrica De Placas Eletrônicas", "Fábrica De Semicondutores", "Fábrica De Robôs", "Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves", "Estaleiro", "Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias",]
+
+  const sellFinal = ["Livraria", "Mercado", "Açougue", "Petshop", "Farmácia", "Loja De Calçados", "Loja De Vestuário", "Loja De Gadgets E Wearables", "Loja De Games", "Loja De Celulares", "Loja De Informática", "Loja De Eletrônicos", "Concessionária De Veículos"]
 
 
-const edificiosDeArmazenamento = [
-  "Armazém",
-  "Silo",
-  "Depósito De Resíduos Orgânicos",
-  "Data Center",
-  "Servidor Em Nuvem",
-  "Armazém Logístico",
-  "Centro De Distribuição",
-  "Fábrica De Tanque De Armazenamento Biocombustível",
-  "Centro De Coleta De Biomassa",
-  "Campo De Estocagem",
-  "Armazém De Materiais Brutos",
-  "Câmara Fria",
-  "Container Modular",
-  "Pátio De Veículos",
-  "Armazém Industrial",
-  "Armazém De Materiais Sensíveis",
-  "Hangar",
-  "Pátio De Mineração",
-];
+  const edificiosComGerenciamento = [
+    // "Mineradora",
+    // "Açougue",
+    // "Fábrica De Painel Solar",
+    // "Terraplanagem E Pavimentação",
+    // "Construtora",
+    // "Fábrica De Smarthphone",
+    // "Concessionária",
+    // "Fábrica De Automóveis",
+    // "Plantação De Grãos",
+  ];
+
+
+  const edificiosDeArmazenamento = [
+    "Armazém",
+    "Silo",
+    "Depósito De Resíduos Orgânicos",
+    "Data Center",
+    "Servidor Em Nuvem",
+    "Armazém Logístico",
+    "Centro De Distribuição",
+    "Fábrica De Tanque De Armazenamento Biocombustível",
+    "Centro De Coleta De Biomassa",
+    "Campo De Estocagem",
+    "Armazém De Materiais Brutos",
+    "Câmara Fria",
+    "Container Modular",
+    "Pátio De Veículos",
+    "Armazém Industrial",
+    "Armazém De Materiais Sensíveis",
+    "Hangar",
+    "Pátio De Mineração",
+  ];
 
 
 
@@ -1567,7 +1573,7 @@ const edificiosDeArmazenamento = [
 
 
 
-    
+
   // console.log("faturamento mensal", fatuMensal)
   // console.log("imposto sobre faturamento", valorImpostoSobreFatu)
   // console.log("valor final mês", valorFinalMês)
@@ -2219,20 +2225,34 @@ const edificiosDeArmazenamento = [
 
         }}
       >
-{edificiosComGerenciamento.includes(
-  dados[setorAtivo].edificios[index].nome
-) && (
-  <div className="bg-roxo absolute top-[0px] right-[0px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] z-10">
-    <img src={gerenciamento} alt="" className="w-[60%]" />
-  </div>
-)}
-{edificiosDeArmazenamento.includes(
-  dados[setorAtivo].edificios[index].nome
-) && (
-  <div className="bg-roxo absolute top-[0px] right-[0px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] z-10">
-    <img src={estoque} alt="" className="w-[60%]" />
-  </div>
-)}
+        {productions.includes(
+          dados[setorAtivo].edificios[index].nome
+        ) && (
+            <div className="bg-roxo absolute top-[0px] right-[0px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] z-10">
+              <img src={component} alt="" className="w-[60%]" />
+            </div>
+          )}
+        {sellFinal.includes(
+          dados[setorAtivo].edificios[index].nome
+        ) && (
+            <div className="bg-roxo absolute top-[0px] right-[0px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] z-10">
+              <img src={bag} alt="" className="w-[60%]" />
+            </div>
+          )}
+        {edificiosComGerenciamento.includes(
+          dados[setorAtivo].edificios[index].nome
+        ) && (
+            <div className="bg-roxo absolute top-[0px] right-[0px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] z-10">
+              <img src={gerenciamento} alt="" className="w-[60%]" />
+            </div>
+          )}
+        {edificiosDeArmazenamento.includes(
+          dados[setorAtivo].edificios[index].nome
+        ) && (
+            <div className="bg-roxo absolute top-[0px] right-[0px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] z-10">
+              <img src={estoque} alt="" className="w-[60%]" />
+            </div>
+          )}
         {/* Frente do Card */}
 
         {dados[setorAtivo].edificios[index].licençaLiberado.liberado ===
@@ -2305,11 +2325,11 @@ const edificiosDeArmazenamento = [
             </motion.div>
           )}
         {(
-  (rentabilidade > 200 && quantidadeAtivoAtual === 1) ||
-  (rentabilidade >= 150 && rentabilidade < 200 && quantidadeAtivoAtual >= 3) ||
-  (rentabilidade >= 120 && rentabilidade < 150 && quantidadeAtivoAtual >= 5) ||
-  (rentabilidade >= 70 && rentabilidade < 120 && quantidadeAtivoAtual >= 10)
-)
+          (rentabilidade > 200 && quantidadeAtivoAtual === 1) ||
+          (rentabilidade >= 150 && rentabilidade < 200 && quantidadeAtivoAtual >= 3) ||
+          (rentabilidade >= 120 && rentabilidade < 150 && quantidadeAtivoAtual >= 5) ||
+          (rentabilidade >= 70 && rentabilidade < 120 && quantidadeAtivoAtual >= 10)
+        )
           && (
             <motion.div
               style={{
@@ -2372,8 +2392,8 @@ const edificiosDeArmazenamento = [
                     </div>
                   </div>
                 </div>
-                <h2  className="text-white mt-[12px] text-[15px] text-center fonteBold">SANÇÃO DE MONOPÓLIO</h2>
-                <h2  className="text-white m-[12px] text-[12px] fonteBold">Por conta da alta rentabilidade, momentaneamente você não pode comprar mais desse edifício.</h2>
+                <h2 className="text-white mt-[12px] text-[15px] text-center fonteBold">SANÇÃO DE MONOPÓLIO</h2>
+                <h2 className="text-white m-[12px] text-[12px] fonteBold">Por conta da alta rentabilidade, momentaneamente você não pode comprar mais desse edifício.</h2>
               </motion.div>
             </motion.div>
           )}
