@@ -8,7 +8,7 @@ import agricultura from "../../public/outrasImagens/setores/agricultura.png";
 import tecnologia from "../../public/outrasImagens/setores/tecnologia.png";
 import comercio from "../../public/outrasImagens/setores/comercio.png";
 import industria from "../../public/outrasImagens/setores/industria.png";
-import imobiliario from "../../public/outrasImagens/setores/imobiliário.png";
+import imobiliario from "../../public/outrasImagens/setores/public/outrasImagens/setores/Imobiliário.png";
 import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
 import grafico from "../../public/outrasImagens/setores/grafico.png";
 import { motion } from "framer-motion";
