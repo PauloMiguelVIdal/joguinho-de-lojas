@@ -1389,7 +1389,7 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
                         alignItems: "center",
                         px: 1,
                         py: 0.25,
-                        borderRadius: { xs: "4px", sm: "5px" },
+                      
                       }}
                     >
                       <Typography

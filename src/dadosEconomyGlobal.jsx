@@ -1094,13 +1094,6 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       //   }
     },
       patrimonioGlobal: 0,
-
-
-      despesasImpostoAnual: {
-    diaPagarImpostoAnual: false,
-    impostoAnualPago: false,
-    proximoPagamento: 360,
-  },
   });
 
   const atualizarDadosEconomy = (caminho, novoValor) => {
