@@ -1094,7 +1094,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       //   }
     },
       patrimonioGlobal: 0,
-  valorImpostoAnual: 0,
+
 
       despesasImpostoAnual: {
     diaPagarImpostoAnual: false,
