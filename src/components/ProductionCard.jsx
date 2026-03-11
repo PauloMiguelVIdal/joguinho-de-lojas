@@ -2,18 +2,13 @@ import { useState, useMemo } from "react";
 import { Plus, Minus, AlertCircle, ArrowRight } from "lucide-react";
 import { useGame } from "../components/GameContext";
 import { useBuildingFromFormula } from "./useBuildingFromFormula";
-import { productsCatalog } from "../components/TablePrice"; // Importado para os ícones
+import { productsCatalog } from "../components/TablePrice";
 
 export default function ProductionCard({ formula }) {
   const { stock, startProduction, productionQueue } = useGame();
   const [quantidade, setQuantidade] = useState(1);
 
-  const {
-    quantidadeAtiva,
-    nivel,
-    maxAcoesSimultaneas,
-    edificio
-  } = useBuildingFromFormula(formula);
+  const { quantidadeAtiva, nivel, maxAcoesSimultaneas, edificio } = useBuildingFromFormula(formula);
 
   const producoesAtivas = useMemo(() => {
     if (!productionQueue || !edificio) return 0;
@@ -55,9 +50,9 @@ export default function ProductionCard({ formula }) {
   })();
 
   return (
-    <div className="p-5 flex flex-col h-[380px] bg-white/5 border border-white/10 rounded-[1.5rem] backdrop-blur-md">
-      
-      {/* HEADER: NOME E ESTRUTURA */}
+    <div className="p-5 flex flex-col bg-white/5 border border-white/10 rounded-[1.5rem] backdrop-blur-md">
+
+      {/* HEADER */}
       <div className="mb-4">
         <h3 className="text-white font-black text-base uppercase tracking-tight">
           {formula.nome}
@@ -74,35 +69,72 @@ export default function ProductionCard({ formula }) {
         </div>
       </div>
 
-      {/* SEÇÃO DE INSUMOS (CONSUMO) */}
-      <div className="mb-4 bg-black/20 rounded-xl p-3 border border-white/5">
-        <span className="text-[8px] text-white/30 uppercase font-black tracking-[0.2em] block mb-2">
-          Consumo Total para {quantidade}x
-        </span>
-        <div className="grid grid-cols-1 gap-2">
-          {Object.entries(formula.input).map(([id, qtdUnitária]) => {
-            const produto = productsCatalog[id];
-            const totalNecessario = qtdUnitária * quantidade;
-            const temEstoque = (stock[id] || 0) >= totalNecessario;
+      {/* FLUXO: ENTRADA → SAÍDA */}
+      <div className="flex gap-2 items-stretch mb-4">
 
-            return (
-              <div key={id} className="flex items-center justify-between text-[10px]">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm">{produto?.icon}</span>
-                  <span className="text-white/70 font-bold uppercase">{produto?.nome}</span>
+        {/* ENTRADA */}
+        <div className="flex-1 bg-black/20 rounded-xl p-3 border border-white/5">
+          <span className="text-[8px] text-white/30 uppercase font-black tracking-[0.2em] block mb-2">
+            Entrada × {quantidade}
+          </span>
+          <div className="flex flex-col gap-2">
+            {Object.entries(formula.input).map(([id, qtdUnitária]) => {
+              const produto = productsCatalog[id];
+              const totalNecessario = qtdUnitária * quantidade;
+              const temEstoque = (stock[id] || 0) >= totalNecessario;
+
+              return (
+                <div key={id} className="flex items-center justify-between text-[10px]">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm">{produto?.icon}</span>
+                    <span className="text-white/60 font-bold uppercase truncate max-w-[70px]">{produto?.nome}</span>
+                  </div>
+                  <span className={`font-black shrink-0 ${temEstoque ? "text-white" : "text-red-400"}`}>
+                    {totalNecessario}
+                    <span className="text-white/30 font-medium ml-0.5">{produto?.unidade}</span>
+                  </span>
                 </div>
-                <div className={`font-black ${temEstoque ? 'text-white' : 'text-red-500'}`}>
-                  {totalNecessario} <span className="text-white/30 font-medium">{produto?.unidade}</span>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
+
+        {/* Seta central */}
+        <div className="flex items-center shrink-0">
+          <ArrowRight size={14} className="text-white/20" />
+        </div>
+
+        {/* SAÍDA */}
+        <div className="flex-1 bg-black/20 rounded-xl p-3 border border-white/5">
+          <span className="text-[8px] text-emerald-400/60 uppercase font-black tracking-[0.2em] block mb-2">
+            Saída × {quantidade}
+          </span>
+          <div className="flex flex-col gap-2">
+            {Object.entries(formula.output).map(([id, qtdUnitária]) => {
+              const produto = productsCatalog[id];
+              const totalSaida = qtdUnitária * quantidade;
+
+              return (
+                <div key={id} className="flex items-center justify-between text-[10px]">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm">{produto?.icon}</span>
+                    <span className="text-white/60 font-bold uppercase truncate max-w-[70px]">{produto?.nome}</span>
+                  </div>
+                  <span className="font-black text-emerald-400 shrink-0">
+                    +{totalSaida}
+                    <span className="text-white/30 font-medium ml-0.5">{produto?.unidade}</span>
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
       </div>
 
       {/* SELETOR DE QUANTIDADE */}
       <div className="flex items-center justify-between bg-black/30 rounded-2xl p-2 mb-4 border border-white/5">
-        <button 
+        <button
           onClick={() => ajustarQuantidade("diminuir")}
           className="p-2 text-white/50 hover:text-white transition-colors"
         >
@@ -116,7 +148,7 @@ export default function ProductionCard({ formula }) {
             onChange={e => setQuantidade(Math.max(1, Math.min(maximo, Number(e.target.value))))}
             className="bg-transparent text-white font-black text-2xl text-center w-20 focus:outline-none"
           />
-          <button 
+          <button
             onClick={() => ajustarQuantidade("max")}
             className="text-[9px] text-white/30 hover:text-yellow-400 font-bold uppercase tracking-widest transition-colors"
           >
@@ -124,7 +156,7 @@ export default function ProductionCard({ formula }) {
           </button>
         </div>
 
-        <button 
+        <button
           onClick={() => ajustarQuantidade("aumentar")}
           className="p-2 text-white/50 hover:text-white transition-colors"
         >
@@ -132,15 +164,15 @@ export default function ProductionCard({ formula }) {
         </button>
       </div>
 
-      {/* BOTÃO DE AÇÃO */}
+      {/* BOTÃO */}
       <button
         onClick={iniciar}
         disabled={!podeIniciar}
         className={`
           w-full py-3 rounded-2xl font-bold text-xs uppercase tracking-[0.15em] transition-all duration-300
           flex items-center justify-center gap-2
-          ${podeIniciar 
-            ? "bg-white text-black hover:bg-white/90 shadow-lg" 
+          ${podeIniciar
+            ? "bg-white text-black hover:bg-white/90 shadow-lg"
             : "bg-white/5 text-white/20 cursor-not-allowed border border-white/5"}
         `}
       >

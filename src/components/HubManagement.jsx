@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import BuildingCard from "./BuildingCard";
 import ManagerPanelInterface from "./ManagerPanelInterface";
@@ -13,11 +13,13 @@ import {
   Zap,
   Home
 } from "lucide-react";
+import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 export default function HubManagement() {
   const [edificioSelecionado, setEdificioSelecionado] = useState(null);
   const [selectedSector, setSelectedSector] = useState("all");
 
+  const {dados}  = useContext(CentraldeDadosContext)
   const brand = {
     cor1: "#350973", // Roxo Profundo
     cor2: "#6411D9", // Violeta Médio
@@ -34,10 +36,24 @@ export default function HubManagement() {
     { id: "energia", name: "Energia", icon: <Zap size={18} /> },
   ];
 
-  const filteredBuildings = useMemo(() => {
-    if (selectedSector === "all") return FORMULAS_EDIFICIOS;
-    return FORMULAS_EDIFICIOS.filter((e) => e.setor === selectedSector);
-  }, [selectedSector]);
+const nomespossuidos = useMemo(() => {
+  const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+  const nomes = new Set();
+  setores.forEach(setor => {
+    (dados[setor]?.edificios || [])
+      .filter(ed => ed.quantidade > 0)
+      .forEach(ed => nomes.add(ed.nome));
+  });
+  return nomes;
+}, [dados]);
+
+const filteredBuildings = useMemo(() => {
+  const possuidos = FORMULAS_EDIFICIOS.filter(e =>
+    nomespossuidos.has(e.nomeEdificio)
+  );
+  if (selectedSector === "all") return possuidos;
+  return possuidos.filter(e => e.setor === selectedSector);
+}, [selectedSector, nomespossuidos]);
 
   if (edificioSelecionado) {
     return (
@@ -53,7 +69,7 @@ export default function HubManagement() {
     <div className="h-[70vh] bg-[#6A00FF] rounded-[1rem]">
 
       {/* Container Principal: Glassmorphism Claro e Sóbrio */}
-      <div className="w-full justify-around bg-white/10 backdrop-blur-xl border border-white/20 rounded-[1rem] shadow-2xl overflow-hidden flex flex-col h-full">
+      <div className="w-full justify-between bg-white/10 backdrop-blur-xl border border-white/20 rounded-[1rem] shadow-2xl overflow-hidden flex flex-col h-full">
 
         {/* HEADER: Limpo e Profissional */}
         <div className="px-8 py-6 border-b border-white/10 bg-white/5 shrink-0">

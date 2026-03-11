@@ -66,6 +66,7 @@ import ManagerSellPanel from "./ManagerSellPanel.jsx";
 import HubSell from "./HubSell.jsx";
 import SalesQueuePanel from "./SalesQueuePanel.jsx";
 import SalesQueueCard from "./SalesQueueCard.jsx";
+import GerenciamentoHub from "./GerenciamentoHub.jsx";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -1393,16 +1394,16 @@ export default function Dashboard() {
               {ativo === "gerenciamento" && (
                 <div className="w-full h-full flex flex-col justify-between">
                   {/* <MicroModel /> */}
-                  <ProductionQueueCard/> 
-                  <ProductionQueuePanel />
-                  <ManagerPanelInterface />
+                  {/* <ProductionQueueCard/>  */}
+                  {/* <ProductionQueuePanel />
                    <HubManagement />
-                  <ButcherShopPanel />
                   <SalesQueuePanel/>
-                  <HubSell/>
-                  <SalesQueueCard/>
-
+                  <HubSell/> */}
+                  {/* <ManagerPanelInterface /> */}
+                  {/* <ButcherShopPanel /> */}
+                  {/* <SalesQueueCard/> */}
                    {/* <ManagerSellPanel /> */}
+                   <GerenciamentoHub/>
                 </div>
               )}
               {ativo === "mercado" && (

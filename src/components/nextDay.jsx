@@ -187,7 +187,7 @@ export function NextDay() {
     // atualizarDados("dia", novoDia);
     // console.log(dados.dia);
     // calcularFaturamento();
-    // buttonNextDayAudio();
+    buttonNextDayAudio();
     // processarTransacoesMercado();
     // processarContratosVenda()
     // processProductions();
@@ -204,7 +204,7 @@ export function NextDay() {
      console.log("faturamento calculado:", faturamento);
     // buttonNextDayAudio();
     processarTransacoesMercado();
-    // processProductions();
+    processProductions();
     processSellQueue(faturamento); // ← passa o faturamento junt
   };
 

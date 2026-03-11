@@ -11,8 +11,8 @@ const GameContext = createContext();
 export function GameProvider({ children }) {
     const liquidadoRefPersist = useRef(0);
 
-// Dentro do GameProvider, adicione:
-const { dados } = useContext(CentraldeDadosContext);
+    // Dentro do GameProvider, adicione:
+    const { dados } = useContext(CentraldeDadosContext);
     const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
         DadosEconomyGlobalContext
     );
@@ -144,15 +144,17 @@ const { dados } = useContext(CentraldeDadosContext);
         plantaçãoDeGrãos: {
             nome: "Plantação De Grãos",
             tipo: "dedicado",
-            capacidadePorEdificio: 3000,
+            capacidadePorEdificio: 100,
             categoriasPermitidas: "agrícolas secos",
         },
         fazendaAdministrativa: {
             nome: "Fazenda Administrativa",
             tipo: "dedicado",
-            capacidadePorEdificio: 3000,
+            capacidadePorEdificio: 50,
             categoriasPermitidas: "agrícolas secos",
         },
+
+        //////////////////////
         armazém: {
             nome: "Armazém",
             tipo: "variavel",
@@ -174,14 +176,14 @@ const { dados } = useContext(CentraldeDadosContext);
         plantaçãoDeEucalipto: {
             nome: "Plantação De Eucalipto",
             tipo: "dedicado",
-            capacidadePorEdificio: 3000,
+            capacidadePorEdificio: 400,
             categoriasPermitidas: "biomassa / orgânicos",
         },
 
         fazendaVacas: {
             nome: "Fazenda De Vacas",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 400,
             categoriasPermitidas: ["animais", "produtos manufaturados", "biomassa / orgânicos", "perecíveis"],
         },
         granjaDeAves: {
@@ -193,97 +195,103 @@ const { dados } = useContext(CentraldeDadosContext);
         criaçãoDeOvinos: {
             nome: "Criação De Ovinos",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 100,
             categoriasPermitidas: ["animais", "produtos manufaturados", "biomassa / orgânicos", "perecíveis"],
         },
         madeireira: {
             nome: "Madeireira",
             tipo: "dedicado",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 550,
             categoriasPermitidas: "biomassa / orgânicos",
         },
-        fábricaDeSmartphones: {
+        fábricaSmartphones: {
             nome: "Fábrica De Smartphones",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 1200,
             categoriasPermitidas: ["componentes eletrônicos", "bens de alto valor"],
         },
-        fábricaDeComputadores: {
+        fábricaComputadores: {
             nome: "Fábrica De Computadores",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["bens de alto valor", "componentes industriais"],
+            capacidadePorEdificio: 800,
+            categoriasPermitidas: ["componentes eletrônicos", "componentes industriais", "bens de alto valor"],
         },
-        fábricaDeConsolesDeJogos: {
+        fábricaConsoles: {
             nome: "Fábrica De Consoles De Jogos",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["bens de alto valor", "componentes industriais", "químicos"],
+            capacidadePorEdificio: 800,
+            categoriasPermitidas: ["componentes eletrônicos", "químicos", "bens de alto valor", "componentes industriais"],
         },
-        fábricaDeDispositivosVestíveis: {
+        fábricaDispositivosVestíveis: {
             nome: "Fábrica De Dispositivos Vestíveis",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["bens de alto valor", "componentes industriais", "químicos"],
+            capacidadePorEdificio: 500,
+            categoriasPermitidas: ["componentes eletrônicos", "químicos", "bens de alto valor", "componentes industriais"],
+        },
+        fábricaDeBaterias: {
+            nome: "Fábrica De Baterias",
+            tipo: "variavel",
+            capacidadePorEdificio: 1500,
+            categoriasPermitidas: ["minério", "componentes industriais", "componentes eletrônicos", "químicos"],
         },
         fábricaDeRações: {
             nome: "Fábrica De Rações",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 150,
             categoriasPermitidas: ["agrícolas secos", "biomassa / orgânicos"],
         },
-        FábricaDeEmbalagens: {
+        fábricaDeEmbalagens: {
             nome: "Fábrica De Embalagens",
-            tipo: "dedicado",
+            tipo: "variavel",
             capacidadePorEdificio: 50,
-            categoriasPermitidas: ["químicos", "produtos manufaturados"],
+            categoriasPermitidas: ["produtos manufaturados", "químicos"],
         },
         fábricaDeFertilizantes: {
             nome: "Fábrica De Fertilizantes",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
+            tipo: "dedicado",
+            capacidadePorEdificio: 1450,
             categoriasPermitidas: "biomassa / orgânicos",
         },
         fábricaTêxtil: {
             nome: "Fábrica Têxtil",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 1500,
             categoriasPermitidas: ["agrícolas secos", "químicos", "produtos manufaturados"],
         },
         fábricaDeCalçados: {
             nome: "Fábrica De Calçados",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 1200,
             categoriasPermitidas: ["químicos", "produtos manufaturados"],
         },
         fábricaDeRoupas: {
             nome: "Fábrica De Roupas",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 1500,
             categoriasPermitidas: ["produtos manufaturados"],
         },
         fábricaDeCelulose: {
             nome: "Fábrica De Celulose",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 1750,
             categoriasPermitidas: ["fluidos", "biomassa / orgânicos"],
         },
         fábricaDePapel: {
             nome: "Fábrica De Papel",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 1200,
             categoriasPermitidas: ["biomassa / orgânicos", "produtos manufaturados", "químicos"],
         },
         fábricaDeLivros: {
             nome: "Fábrica De Livros",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 1850,
             categoriasPermitidas: ["biomassa / orgânicos", "produtos manufaturados"],
         },
-        fábricaDeMedicamentos: {
+        fábrica_de_medicamentos: {
             nome: "Fábrica De Medicamentos",
             tipo: "dedicado",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 1500,
             categoriasPermitidas: "químicos",
         },
 
@@ -292,83 +300,83 @@ const { dados } = useContext(CentraldeDadosContext);
         // estou aqui
 
 
-        laboratórioFarmacêutico: {
+        fábrica_plásticos: {
+            nome: "Fábrica De Plásticos",
+            tipo: "dedicado",
+            capacidadePorEdificio: 1350,
+            categoriasPermitidas: "químicos",
+        },
+        laboratório_farmacêutico: {
             nome: "Laboratório Farmacêutico",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 150,
+            categoriasPermitidas: ["agrícolas secos", "químicos"],
         },
-        fábricaDePlásticos: {
-            nome: "Fábrica De Plásticos",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
-        },
-        fábricaDeQuímicosEspecializados: {
+        FábricaQuímicosEspecializados: {
             nome: "Fábrica De Químicos Especializados",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 650,
+            categoriasPermitidas: ["químicos", "produtos manufaturados", "componentes industriais", "minério"],
         },
         altoForno: {
             nome: "Alto-Forno",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 1500,
+            categoriasPermitidas: ["minério", "componentes industriais", "químicos"],
         },
         usinaSiderúrgica: {
             nome: "Usina Siderúrgica",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 1400,
+            categoriasPermitidas: ["componentes industriais", "químicos", "minério"],
         },
-        fundiçãoDeAlumínio: {
+        fundiçãoAlumínio: {
             nome: "Fundição De Alumínio",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 1300,
+            categoriasPermitidas: ["minério", "componentes industriais"],
         },
-        fábricaDeLigasMetálicas: {
+        fábricaLigasMetálicas: {
             nome: "Fábrica De Ligas Metálicas",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 1450,
+            categoriasPermitidas: ["minério", "componentes industriais", "químicos"],
         },
-        indústriaDeComponentesMecânicos: {
-            nome: "Indústria De Componentes Mecânicos",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
-        },
-        fábricaDeChapasMetálicas: {
+        fábricaChapasMetálicas: {
             nome: "Fábrica De Chapas Metálicas",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 1200,
+            categoriasPermitidas: ["componentes industriais", "minério"],
         },
-        fábricaDeEstruturasMetálicas: {
+        indústriaComponentesMecânicos: {
+            nome: "Indústria De Componentes Mecânicos",
+            tipo: "variavel",
+            capacidadePorEdificio: 1200,
+            categoriasPermitidas: ["componentes industriais", "químicos", "minério"],
+        },
+        fábricaEstruturasMetálicas: {
             nome: "Fábrica De Estruturas Metálicas",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 550,
+            categoriasPermitidas: ["componentes industriais", "químicos"],
         },
-        fábricaDePeçasAutomotivas: {
+        fábricaPeçasAutomotivas: {
             nome: "Fábrica De Peças Automotivas",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 550,
+            categoriasPermitidas: ["componentes industriais", "químicos", "componentes eletrônicos"],
         },
-        montadoraDeVeículosElétricos: {
+        montadoraVeículosElétricos: {
             nome: "Montadora De Veículos Elétricos",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 200,
+            categoriasPermitidas: ["componentes industriais", "veículos"],
         },
-        fábricaDeAutomóveis: {
+        fábricaAutomóveis: {
             nome: "Fábrica De Automóveis",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 350,
+            categoriasPermitidas: ["componentes industriais", "veículos"],
         },
         //    refinariaDeBiocombustíveis: {
         //         nome: "Refinaria De Biocombustíveis",
@@ -378,155 +386,214 @@ const { dados } = useContext(CentraldeDadosContext);
         //     },
         refinaria: {
             nome: "Refinaria",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            tipo: "dedicado",
+            capacidadePorEdificio: 1500,
+            categoriasPermitidas: "químicos",
         },
         biofábrica: {
             nome: "Biofábrica",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 100,
+            categoriasPermitidas: ["agrícolas secos", "químicos"],
         },
-        fábricaDeChips: {
-            nome: "Fábrica De Chips",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
-        },
-        fábricaDePlacasEletrônicas: {
-            nome: "Fábrica De Placas Eletrônicas",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
-        },
-        fábricaDeSemicondutores: {
+        fábricaSemicondutores: {
             nome: "Fábrica De Semicondutores",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 1200,
+            categoriasPermitidas: ["componentes industriais", "químicos", "minério"],
         },
-        fábricaDeEletrônicos: {
+        fábricaChips: {
+            nome: "Fábrica De Chips",
+            tipo: "variavel",
+            capacidadePorEdificio: 1500,
+            categoriasPermitidas: ["componentes industriais", "componentes eletrônicos", "minério"],
+        },
+        fábricaPlacasEletrônicas: {
+            nome: "Fábrica De Placas Eletrônicas",
+            tipo: "variavel",
+            capacidadePorEdificio: 1300,
+            categoriasPermitidas: ["componentes eletrônicos", "componentes industriais", "químicos"],
+        },
+        fábricaEletrônicos: {
             nome: "Fábrica De Eletrônicos",
             tipo: "variavel",
             capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            categoriasPermitidas: ["componentes eletrônicos", "químicos", "componentes industriais", "minério", "bens de alto valor"],
         },
-        fábricaDeRobôs: {
+        FábricaRobôs: {
             nome: "Fábrica De Robôs",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 400,
+            categoriasPermitidas: ["componentes industriais", "componentes eletrônicos"],
         },
-        fábricaDeMotores: {
+        fábricaMotores: {
             nome: "Fábrica De Motores",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 1750,
+            categoriasPermitidas: ["componentes industriais", "químicos"],
         },
-        fábricaDeFoguetes: {
-            nome: "Fábrica De Foguetes",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
-        },
-        fábricaDeAeronaves: {
+        fábricaAeronaves: {
             nome: "Fábrica De Aeronaves",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            capacidadePorEdificio: 600,
+            categoriasPermitidas: ["componentes industriais", "componentes eletrônicos", "aeronaves"],
+        },
+        fábricaFoguetes: {
+            nome: "Fábrica De Foguetes",
+            tipo: "variavel",
+            capacidadePorEdificio: 1000,
+            categoriasPermitidas: ["componentes eletrônicos", "componentes industriais", "aeronaves"],
         },
         estaleiro: {
             nome: "Estaleiro",
             tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
-        },
-        livraria: {
-            nome: "Livraria",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
-        },
-        mercado: {
-            nome: "Mercado",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 800,
             categoriasPermitidas: ["animais", "produtos manufaturados"],
         },
         açougue: {
             nome: "Açougue",
             tipo: "dedicado",
-            capacidadePorEdificio: 50,
+            capacidadePorEdificio: 50,     // ~500 kg de carne
             categoriasPermitidas: "perecíveis",
-        },
-        postoDeCombustíveis: {
-            nome: "Posto De Combustíveis",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
         },
         petshop: {
             nome: "Petshop",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            tipo: "dedicado",
+            capacidadePorEdificio: 50,     // ~500 sacas de ração
+            categoriasPermitidas: "biomassa / orgânicos",
         },
-        farmácia: {
-            nome: "Farmácia",
-            tipo: "variavel",
+        livraria: {
+            nome: "Livraria",
+            tipo: "dedicado",
+            capacidadePorEdificio: 250,    // ~50 livros
+            categoriasPermitidas: "produtos manufaturados",
+        },
+        mercado: {
+            nome: "Mercado",
+            tipo: "dedicado",
             capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            categoriasPermitidas: "biomassa / orgânicos",
+        },
+        postoDeCombustíveis: {
+            nome: "Posto De Combustíveis",
+            tipo: "dedicado",
+            capacidadePorEdificio: 250,    // ~50 litros de diesel
+            categoriasPermitidas: "químicos",
         },
         lojaDeCalçados: {
             nome: "Loja De Calçados",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            tipo: "dedicado",
+            capacidadePorEdificio: 250,    // ~50 pares
+            categoriasPermitidas: "produtos manufaturados",
         },
         lojaDeVestuário: {
             nome: "Loja De Vestuário",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            tipo: "dedicado",
+            capacidadePorEdificio: 250,    // ~50 peças
+            categoriasPermitidas: "produtos manufaturados",
         },
-        lojaDeGadgetsEWearables: {
-            nome: "Loja De Gadgets E Wearables",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+        farmácia: {
+            nome: "Farmácia",
+            tipo: "dedicado",
+            capacidadePorEdificio: 50,     // ~100 unidades de medicamento
+            categoriasPermitidas: "químicos",
         },
         lojaDeGames: {
             nome: "Loja De Games",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            tipo: "dedicado",
+            capacidadePorEdificio: 100,    // ~50 consoles
+            categoriasPermitidas: "bens de alto valor",
         },
         lojaDeCelulares: {
             nome: "Loja De Celulares",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            tipo: "dedicado",
+            capacidadePorEdificio: 100,    // ~50 phones
+            categoriasPermitidas: "bens de alto valor",
+        },
+        lojaDeGadgetsEWearables: {
+            nome: "Loja De Gadgets E Wearables",
+            tipo: "dedicado",
+            capacidadePorEdificio: 100,
+            categoriasPermitidas: "bens de alto valor",
         },
         lojaDeInformática: {
             nome: "Loja De Informática",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            tipo: "dedicado",
+            capacidadePorEdificio: 100,
+            categoriasPermitidas: "bens de alto valor",
         },
         lojaDeEletrônicos: {
             nome: "Loja De Eletrônicos",
-            tipo: "variavel",
-            capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            tipo: "dedicado",
+            capacidadePorEdificio: 100,
+            categoriasPermitidas: "bens de alto valor",
         },
         concessionáriaDeVeículos: {
             nome: "Concessionária De Veículos",
+            tipo: "dedicado",
+            capacidadePorEdificio: 300,    // exatamente 50 carros
+            categoriasPermitidas: "veículos",
+        },
+        fábricaTurbinasEólicas: {
+            nome: "Fábrica De Turbinas Eólicas",
+            tipo: "dedicado",
+            capacidadePorEdificio: 400,
+            categoriasPermitidas: "componentes industriais",
+        },
+        fábricaPainéisSolares: {
+            nome: "Fábrica De Painéis Solares",
+            tipo: "variavel",
+            capacidadePorEdificio: 400,
+            categoriasPermitidas: ["químicos", "componentes industriais"],
+        },
+        centroReciclagemBaterias: {
+            nome: "Centro De Reciclagem De Baterias",
+            tipo: "variavel",
+            capacidadePorEdificio: 600,
+            categoriasPermitidas: ["componentes industriais", "químicos", "minério"],
+        },
+        usinaSolar: {
+            nome: "Usina Solar",
             tipo: "variavel",
             capacidadePorEdificio: 50,
-            categoriasPermitidas: ["animais", "produtos manufaturados"],
+            categoriasPermitidas: "energia",
         },
-
+        parqueEólico: {
+            nome: "Parque Eólico",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: "energia",
+        },
+        usinaBiomassa: {
+            nome: "Usina De Biomassa",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: "energia",
+        },
+        usinaTermelétricaBiocombustíveis: {
+            nome: "Usina Termelétrica A Biocombustíveis",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: "energia",
+        },
+        usinaHidrelétrica: {
+            nome: "Usina Hidrelétrica",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: "energia",
+        },
+        usinaTermelétrica: {
+            nome: "Usina Termelétrica",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: "energia",
+        },
+        reatorNuclear: {
+            nome: "Reator Nuclear Convencional",
+            tipo: "variavel",
+            capacidadePorEdificio: 50,
+            categoriasPermitidas: "energia",
+        },
 
 
         //
@@ -535,134 +602,97 @@ const { dados } = useContext(CentraldeDadosContext);
         camaraFria: {
             nome: "Câmara Fria",
             tipo: "dedicado",
-            capacidadePorEdificio: 2000,
+            capacidadePorEdificio: 2500,    // 5000 un de carne (slotSize pequeno, volume alto)
             categoriasPermitidas: "perecíveis",
         },
-
         campoDeEstocagem: {
             nome: "Campo De Estocagem",
             tipo: "variavel",
-            capacidadePorEdificio: 1500,
-            categoriasPermitidas: [
-                "animais",
-                "biomassa / orgânicos",
-
-            ],
+            capacidadePorEdificio: 1500,    // 500 animais (vaca = slotSize 3)
+            categoriasPermitidas: ["animais", "biomassa / orgânicos"],
         },
-
         depositoDeResiduosOrganicos: {
             nome: "Depósito De Resíduos Orgânicos",
             tipo: "dedicado",
-            capacidadePorEdificio: 1800,
+            capacidadePorEdificio: 2500,    // 500 toras/cavacos
             categoriasPermitidas: "biomassa / orgânicos",
         },
-
-        // 🌲 RECURSOS NATURAIS / EXTRAÇÃO
         patioDeMineracao: {
             nome: "Pátio De Mineração",
             tipo: "dedicado",
-            capacidadePorEdificio: 2200,
+            capacidadePorEdificio: 3000,    // 500 toneladas de minério
             categoriasPermitidas: "minério",
         },
-
         armazemMateriaisBrutos: {
             nome: "Armazém De Materiais Brutos",
-            tipo: "dedicado",
-            capacidadePorEdificio: 2400,
-            categoriasPermitidas: "biomassa / orgânicos",
+            tipo: "variavel",
+            capacidadePorEdificio: 2000,
+            categoriasPermitidas: ["biomassa / orgânicos","componentes industriais"]
         },
-
-        // 🛢️ FLUIDOS / ENERGIA
         tanqueFluidos: {
             nome: "Tanque De Armazenamento De Fluidos",
             tipo: "variavel",
-            capacidadePorEdificio: 4000,
+            capacidadePorEdificio: 2500,    // 500 litros de petróleo/nafta
             categoriasPermitidas: ["fluidos", "químicos", "energia"],
         },
-
         centroColetaBiomassa: {
             nome: "Centro De Coleta De Biomassa",
             tipo: "dedicado",
-            capacidadePorEdificio: 2000,
+            capacidadePorEdificio: 2500,
             categoriasPermitidas: "biomassa / orgânicos",
         },
-
-        // ⚙️ INDÚSTRIA / MANUFATURA
         armazemIndustrial: {
             nome: "Armazém Industrial",
             tipo: "variavel",
-            capacidadePorEdificio: 3000,
-            categoriasPermitidas: [
-                "componentes industriais",
-                "componentes eletrônicos",
-            ],
+            capacidadePorEdificio: 3000,    // 500 lingotes/motores
+            categoriasPermitidas: ["componentes industriais", "componentes eletrônicos"],
         },
-
         containerModular: {
             nome: "Container Modular",
             tipo: "variavel",
-            capacidadePorEdificio: 1000,
-            categoriasPermitidas: [
-                "agrícolas secos",
-                "componentes industriais",
-                "produtos manufaturados",
-                "fluidos",
-            ],
+            capacidadePorEdificio: 2500,
+            categoriasPermitidas: ["agrícolas secos", "componentes industriais", "produtos manufaturados", "fluidos"],
         },
-
-        // 🚚 LOGÍSTICA / COMÉRCIO
         centroDistribuicao: {
             nome: "Centro De Distribuição",
             tipo: "dedicado",
-            capacidadePorEdificio: 3500,
+            capacidadePorEdificio: 2500,    // 500 caixas/bobinas/calçados
             categoriasPermitidas: "produtos manufaturados",
         },
-
         armazemLogistico: {
             nome: "Armazém Logístico",
             tipo: "variavel",
             capacidadePorEdificio: 2500,
-            categoriasPermitidas: [
-                "produtos manufaturados",
-                "bens de alto valor",
-            ],
+            categoriasPermitidas: ["produtos manufaturados", "bens de alto valor"],
         },
-
-        // 🚗 VEÍCULOS
         patioVeiculos: {
-            nome: " Pátio De Veículos",
+            nome: "Pátio De Veículos",
             tipo: "dedicado",
-            capacidadePorEdificio: 3000,
+            capacidadePorEdificio: 3000,    // 500 carros (slotSize 6)
             categoriasPermitidas: "veículos",
         },
-
         hangar: {
             nome: "Hangar",
             tipo: "dedicado",
-            capacidadePorEdificio: 5000,
+            capacidadePorEdificio: 3000,    // 500 aeronaves/navios
             categoriasPermitidas: "aeronaves",
         },
-
-        // 💾 TECNOLOGIA / DADOS
         dataCenter: {
             nome: "Data Center",
             tipo: "dedicado",
-            capacidadePorEdificio: 5000,
+            capacidadePorEdificio: 5000,    // fixo — produto digital não tem slotSize físico
             categoriasPermitidas: "produtos digitais",
         },
-
         servidorNuvem: {
             nome: "Servidor em Nuvem",
             tipo: "dedicado",
-            capacidadePorEdificio: 8000,
+            capacidadePorEdificio: 10000,   // tier acima do dataCenter
             categoriasPermitidas: "produtos digitais",
         },
-
-        // ☢️ ALTA TECNOLOGIA / RISCO
         armazemMateriaisSensiveis: {
             nome: "Armazém Especializado de Materiais Sensíveis",
             tipo: "dedicado",
-            capacidadePorEdificio: 1200,
+            capacidadePorEdificio: 5000,    // fixo — material de risco, capacidade controlada
             categoriasPermitidas: "materiais sensíveis",
         },
     };
@@ -750,45 +780,45 @@ const { dados } = useContext(CentraldeDadosContext);
     // };
 
 
-const storageQuantities = useMemo(() => {
-  if (!dados) return {};
+    const storageQuantities = useMemo(() => {
+        if (!dados) return {};
 
-  const result = {};
-  const setores = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
+        const result = {};
+        const setores = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
 
-  setores.forEach(setor => {
-    const edificios = dados?.[setor]?.edificios || [];
-    edificios.forEach(edificio => {
-      // Normaliza o nome para bater com a chave do storageProfiles
-      // Ex: "Câmara Fria" → "camaraFria"
-      const chave = Object.keys(storageProfiles).find(k =>
-        storageProfiles[k].nome === edificio.nome
-      );
-      if (chave) {
-        result[chave] = edificio.quantidade || 0;
-      }
-    });
-  });
+        setores.forEach(setor => {
+            const edificios = dados?.[setor]?.edificios || [];
+            edificios.forEach(edificio => {
+                // Normaliza o nome para bater com a chave do storageProfiles
+                // Ex: "Câmara Fria" → "camaraFria"
+                const chave = Object.keys(storageProfiles).find(k =>
+                    storageProfiles[k].nome === edificio.nome
+                );
+                if (chave) {
+                    result[chave] = edificio.quantidade || 0;
+                }
+            });
+        });
 
-  return result;
-}, [dados]);
+        return result;
+    }, [dados]);
 
 
 
     /* =========================
        ARMAZENAMENTOS
     ========================= */
-const storageBuildings = useMemo(() => {
-    return Object.entries(storageProfiles).map(([id, profile]) => {
-        const quantidade = storageQuantities[id] || 0;
-        return {
-            id,
-            ...profile,
-            quantidade,
-            capacidadeTotal: quantidade * profile.capacidadePorEdificio,
-        };
-    });
-}, [storageQuantities]);
+    const storageBuildings = useMemo(() => {
+        return Object.entries(storageProfiles).map(([id, profile]) => {
+            const quantidade = storageQuantities[id] || 0;
+            return {
+                id,
+                ...profile,
+                quantidade,
+                capacidadeTotal: quantidade * profile.capacidadePorEdificio,
+            };
+        });
+    }, [storageQuantities]);
 
 
     function processarTransacoesMercado() {

@@ -55,7 +55,7 @@ export const FORMULAS_EDIFICIOS = [
         },
         output: {
           soja: 20,
-          sojsementeSojaa: 8,
+          sementeSoja: 8,
         },
       },
       {
@@ -112,7 +112,7 @@ export const FORMULAS_EDIFICIOS = [
       {
         id: "abate_vacas",
         nome: "Abate",
-        capacidadePorEdificio: 100,
+        capacidadePorEdificio: 500,
         duracao: 20,
 
         input: {
@@ -160,7 +160,7 @@ export const FORMULAS_EDIFICIOS = [
       {
         id: "abate_aves",
         nome: "Abate",
-        capacidadePorEdificio: 100,
+        capacidadePorEdificio: 500,
         duracao: 20,
 
         input: {
@@ -189,7 +189,7 @@ export const FORMULAS_EDIFICIOS = [
       {
         id: "reproducao_ovinos",
         nome: "Reprodução",
-        capacidadePorEdificio: 100,
+        capacidadePorEdificio: 500,
         duracao: 40,
 
         input: {

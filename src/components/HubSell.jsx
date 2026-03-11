@@ -1,11 +1,11 @@
-import { useState, useMemo,useContext } from "react";
+import { useState, useMemo, useContext } from "react";
 import { SALES_EDIFICIOS } from "./salesFormulasConfig";
 import BuildingSellCard from "./BuildSellCard";
 import ManagerSellPanel from "./ManagerSellPanel";
 import { useGame } from "./GameContext";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import {
-  Factory,
+  ShoppingBag,
   LayoutDashboard,
   Globe,
   Wheat,
@@ -19,13 +19,8 @@ import {
 export default function HubSell() {
   const [edificioSelecionado, setEdificioSelecionado] = useState(null);
   const [selectedSector, setSelectedSector] = useState("all");
-const { contratosEdificios } = useGame();
-const { dados } = useContext(CentraldeDadosContext);
-  const brand = {
-    cor1: "#350973", // Roxo Profundo
-    cor2: "#6411D9", // Violeta Médio
-    cor3: "#6A00FF", // Roxo Elétrico (Base do seu app)
-  };
+  const { contratosEdificios } = useGame();
+  const { dados } = useContext(CentraldeDadosContext);
 
   const sectors = [
     { id: "all", name: "Todos", icon: <Globe size={18} /> },
@@ -37,36 +32,45 @@ const { dados } = useContext(CentraldeDadosContext);
     { id: "energia", name: "Energia", icon: <Zap size={18} /> },
   ];
 
-  const buildingsArray = useMemo(() => Object.values(SALES_EDIFICIOS), []);
+ 
 
-  const filteredBuildings = useMemo(() => {
-    if (selectedSector === "all") return buildingsArray;
-    return buildingsArray.filter(e => e.setor === selectedSector);
-  }, [selectedSector, buildingsArray]);
+const nomespossuidos = useMemo(() => {
+  const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+  const nomes = new Set();
+  setores.forEach(setor => {
+    (dados[setor]?.edificios || [])
+      .filter(ed => ed.quantidade > 0)
+      .forEach(ed => nomes.add(ed.nome));
+  });
+  return nomes;
+}, [dados]);
+
+// substitui os dois useMemos antigos (buildingsArray + filteredBuildings)
+const filteredBuildings = useMemo(() => {
+  const possuidos = SALES_EDIFICIOS.filter(e =>
+    nomespossuidos.has(e.nomeEdificio)
+  );
+  if (selectedSector === "all") return possuidos;
+  return possuidos.filter(e => e.setor === selectedSector);
+}, [selectedSector, nomespossuidos]);
 
   if (edificioSelecionado) {
     return (
-      <ManagerSellPanel // Use o nome correto do seu componente de painel
+      <ManagerSellPanel
         edificioId={edificioSelecionado}
         onBack={() => setEdificioSelecionado(null)}
       />
     );
   }
 
-
-
   return (
-    // Fundo alinhado com o roxo vibrante da sua interface
     <div className="h-[70vh] bg-[#6A00FF] rounded-[1rem]">
+      <div className="w-full justify-between bg-white/10 backdrop-blur-xl border border-white/20 rounded-[1rem] shadow-2xl overflow-hidden flex flex-col h-full">
 
-      {/* Container Principal: Glassmorphism Claro e Sóbrio */}
-      <div className="w-full justify-around bg-white/10 backdrop-blur-xl border border-white/20 rounded-[1rem] shadow-2xl overflow-hidden flex flex-col h-full">
-
-        {/* HEADER: Limpo e Profissional */}
-        <div className="px-3 py-2 border-b border-white/10 bg-white/5 shrink-0">
+        {/* HEADER — espelhado do HubManagement */}
+        <div className="px-8 py-6 border-b border-white/10 bg-white/5 shrink-0">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-center gap-4">
-
               <div>
                 <h1 className="text-[10px] md:text-xl font-bold text-white">
                   Hub de Vendas
@@ -77,7 +81,7 @@ const { dados } = useContext(CentraldeDadosContext);
               </div>
             </div>
 
-            {/* SELETOR DE SETORES (FILTRO) */}
+            {/* FILTRO — idêntico ao HubManagement */}
             <div className="flex flex-wrap gap-2 p-1 bg-black/5 rounded-2xl border border-white/10">
               {sectors.map((s) => (
                 <button
@@ -98,26 +102,42 @@ const { dados } = useContext(CentraldeDadosContext);
           </div>
         </div>
 
-        {/* ÁREA DE CONTEÚDO */}
+        {/* CONTEÚDO — grid 2 colunas igual ao HubManagement */}
         <div className="h-full overflow-y-auto p-6 scrollbar-custom">
-{filteredBuildings.map((edificio) => {
-  const entrada = contratosEdificios[edificio.edificioId];
-  const diasParaRenovar = entrada 
-    ? Math.max(0, entrada.validadeAte - dados.dia) 
-    : null;
+          {filteredBuildings.length > 0 ? (
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+              {filteredBuildings.map((edificio) => {
+                const entrada = contratosEdificios[edificio.edificioId];
+                const diasParaRenovar = entrada
+                  ? Math.max(0, entrada.validadeAte - dados.dia)
+                  : null;
 
-  return (
-    <BuildingSellCard
-      key={edificio.edificioId}
-      edificio={edificio}
-      onSelect={() => setEdificioSelecionado(edificio.edificioId)}
-      setor={edificio.setor}
-      isSelling={false}
-      diasParaRenovar={diasParaRenovar}
-    />
-  );
-})}
+                return (
+                  <BuildingSellCard
+                    key={edificio.edificioId}
+                    edificio={edificio}
+                    onSelect={() => setEdificioSelecionado(edificio.edificioId)}
+                    setor={edificio.setor}
+                    isSelling={false}
+                    diasParaRenovar={diasParaRenovar}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center text-white/40 space-y-4">
+              <ShoppingBag size={80} className="opacity-20" />
+              <p className="text-lg font-medium">Nenhum edifício neste setor.</p>
+              <button
+                onClick={() => setSelectedSector("all")}
+                className="text-white hover:underline font-bold text-sm tracking-widest uppercase"
+              >
+                Resetar Filtros
+              </button>
+            </div>
+          )}
         </div>
+
       </div>
     </div>
   );

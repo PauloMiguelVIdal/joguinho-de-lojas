@@ -2344,7 +2344,6 @@ export const productsCatalog = {
     categoriaFisica: "energia",
     slotSize: 1,
   },
-
 };
 
 
