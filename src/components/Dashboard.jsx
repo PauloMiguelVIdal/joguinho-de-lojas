@@ -191,7 +191,7 @@ export default function Dashboard() {
       case "comercio":
         return "Comercio";
       case "imobiliario":
-        return "Imobiliario";
+        return "imobiliario";
       case "energia":
         return "Energia";
       case "carteira":
