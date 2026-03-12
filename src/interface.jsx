@@ -85,7 +85,7 @@ function Interface() {
                             <TaxesYear />
                             <EconomyGlobal />
                             <RaffledBuildings />
-                            <UpgradeCards />
+                            {/* <UpgradeCards /> */}
                         </div>
                     </div>
 
