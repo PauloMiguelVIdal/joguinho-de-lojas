@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState,useMemo } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import PróximoImg from "../../public/outrasImagens/proximo.png";
 import Sorteio from "./Sorteio";
@@ -9,14 +9,25 @@ import useSound from "use-sound";
 import nextDayAudio from "../../public/sounds/nextDayAudio.mp3";
 import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useGame } from "../components/GameContext";
-import { productsCatalog } from "./ProductCatalog";
 
+import { productsCatalog } from "./ProductCatalog";
+import {useGame } from "../components/GameContext";
+import { salvarNoStorage } from "./usePersistencia";
 export function NextDay() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEco,atualizarVenda } = useContext(
     DadosEconomyGlobalContext
   );
+  const {  stock, productionQueue, sellQueue, salesContracts, contratosEdificios, marketTransactions } = useGame();
+
+
+const gameStateParaSalvar = useMemo(() => ({
+    stock,
+    productionQueue,
+    sellQueue,
+    contratosEdificios,
+  }), [stock, productionQueue, sellQueue, contratosEdificios]);
+
 
   const tooltipStyle = {
     backgroundColor: "#FFFFFF",
@@ -206,6 +217,7 @@ export function NextDay() {
     processarTransacoesMercado();
     processProductions();
     processSellQueue(faturamento); // ← passa o faturamento junt
+     salvarNoStorage(gameStateParaSalvar, dados, economiaSetores);
   };
 
 const calcularFaturamento = () => {

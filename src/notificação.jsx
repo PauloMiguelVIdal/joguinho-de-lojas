@@ -9,6 +9,155 @@ import { useHotkeys } from "react-hotkeys-hook";
 import terreno from "../public/outrasImagens/terreno.png"
 import imovelPeq from "../public/outrasImagens/lojaP.png"
 import passarDia from "../public/outrasImagens/proximo.png"
+import { AnimatePresence } from "framer-motion";
+
+export function ModalFalencia({ onConfirmar, onCancelar }) {
+  const [digitado, setDigitado] = useState("");
+  const confirmacaoTexto = "FALÊNCIA";
+  const podeConfirmar = digitado === confirmacaoTexto;
+
+  return (
+    <AnimatePresence>
+      <div style={{
+        position: "fixed", inset: 0, zIndex: 100,
+        background: "rgba(0,0,0,0.85)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+      }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85, y: 20 }}
+          animate={{ opacity: 1, scale: 1,    y: 0  }}
+          exit={{    opacity: 0, scale: 0.85, y: 20  }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          style={{
+            width: "min(420px, 92%)",
+            background: "linear-gradient(160deg, #0d0a1f, #1a0a1a)",
+            border: "1px solid rgba(220,38,38,0.4)",
+            borderRadius: 20,
+            padding: "36px 32px 32px",
+            boxShadow: "0 0 0 1px rgba(220,38,38,0.15), 0 30px 80px rgba(0,0,0,0.8)",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          {/* Linha vermelha topo */}
+          <div style={{
+            position: "absolute", top: 0, left: "50%",
+            transform: "translateX(-50%)",
+            width: 100, height: 2,
+            background: "linear-gradient(90deg, transparent, #dc2626, transparent)",
+          }} />
+
+          {/* Ícone */}
+          <div style={{
+            width: 56, height: 56, borderRadius: "50%",
+            background: "rgba(220,38,38,0.12)",
+            border: "1px solid rgba(220,38,38,0.3)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            margin: "0 auto 20px",
+            fontSize: 24,
+          }}>
+            📉
+          </div>
+
+          {/* Título */}
+          <h2 style={{
+            fontFamily: "serif", fontSize: 22, fontWeight: 900,
+            color: "#fff", textAlign: "center", marginBottom: 8,
+          }}>
+            Declarar <span style={{ color: "#dc2626" }}>Falência</span>
+          </h2>
+
+          {/* Subtítulo */}
+          <p style={{
+            fontSize: 13, color: "rgba(255,255,255,.4)",
+            textAlign: "center", lineHeight: 1.6, marginBottom: 24,
+          }}>
+            Esta ação é <strong style={{ color: "rgba(255,255,255,.6)" }}>irreversível</strong>.
+            Seu progresso será encerrado e o jogo reiniciará do início.
+          </p>
+
+          {/* Divisor */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: 10, marginBottom: 20,
+          }}>
+            <div style={{ flex: 1, height: 1, background: "rgba(220,38,38,0.2)" }} />
+            <span style={{ fontSize: 10, color: "rgba(255,255,255,.25)", letterSpacing: ".15em", textTransform: "uppercase" }}>
+              confirmação necessária
+            </span>
+            <div style={{ flex: 1, height: 1, background: "rgba(220,38,38,0.2)" }} />
+          </div>
+
+          {/* Input de confirmação */}
+          <p style={{
+            fontSize: 11, color: "rgba(255,255,255,.35)",
+            letterSpacing: ".1em", textTransform: "uppercase",
+            marginBottom: 8,
+          }}>
+            Digite <strong style={{ color: "rgba(220,38,38,.7)" }}>FALÊNCIA</strong> para confirmar
+          </p>
+          <input
+            type="text"
+            value={digitado}
+            onChange={e => setDigitado(e.target.value.toUpperCase())}
+            placeholder="FALÊNCIA"
+            style={{
+              width: "100%", height: 48, borderRadius: 10,
+              padding: "0 16px",
+              background: "rgba(220,38,38,0.08)",
+              border: `1px solid ${podeConfirmar ? "rgba(220,38,38,0.7)" : "rgba(220,38,38,0.25)"}`,
+              fontFamily: "inherit", fontSize: 15, fontWeight: 700,
+              color: podeConfirmar ? "#fca5a5" : "#fff",
+              outline: "none",
+              letterSpacing: ".08em",
+              transition: "border-color .2s, color .2s",
+              marginBottom: 20,
+              boxSizing: "border-box",
+            }}
+          />
+
+          {/* Botões */}
+          <div style={{ display: "flex", gap: 10 }}>
+            {/* Cancelar */}
+            <button
+              onClick={onCancelar}
+              style={{
+                flex: 1, height: 46, borderRadius: 10, border: "1px solid rgba(255,255,255,0.12)",
+                background: "rgba(255,255,255,0.05)",
+                color: "rgba(255,255,255,.6)", fontSize: 13, fontWeight: 700,
+                cursor: "pointer", letterSpacing: ".05em",
+                transition: "background .15s",
+              }}
+              onMouseEnter={e => e.target.style.background = "rgba(255,255,255,0.1)"}
+              onMouseLeave={e => e.target.style.background = "rgba(255,255,255,0.05)"}
+            >
+              Cancelar
+            </button>
+
+            {/* Confirmar */}
+            <button
+              onClick={podeConfirmar ? onConfirmar : undefined}
+              disabled={!podeConfirmar}
+              style={{
+                flex: 1, height: 46, borderRadius: 10, border: "none",
+                background: podeConfirmar
+                  ? "linear-gradient(135deg, #7f1d1d, #dc2626)"
+                  : "rgba(220,38,38,0.12)",
+                color: podeConfirmar ? "#fff" : "rgba(220,38,38,0.3)",
+                fontSize: 13, fontWeight: 700,
+                cursor: podeConfirmar ? "pointer" : "not-allowed",
+                letterSpacing: ".05em",
+                transition: "all .2s",
+                boxShadow: podeConfirmar ? "0 4px 20px rgba(220,38,38,0.4)" : "none",
+              }}
+            >
+              Declarar falência
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    </AnimatePresence>
+  );
+}
 export default function Notificação() {
   const [isNKeyDown, setIsNKeyDown] = useState(false);
   //   if (novoEventoSelecionado === "modalDespesas") {
@@ -469,6 +618,54 @@ export default function Notificação() {
       </div>
     );
   } else
+  // if (dados.modalFalencia.estadoModal) {
+  //   return (
+  //     <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">
+  //       <motion.div
+  //         initial={{ opacity: 0, scale: 0.8 }}
+  //         animate={{ opacity: 1, scale: 1 }}
+  //         exit={{ opacity: 0, scale: 0.8 }}
+  //         transition={{ duration: 0.3, ease: "easeOut" }}
+  //         className="w-[75vw] h-[75vh] bg-[#350973] rounded-[20px] z-20 relative"
+  //       >
+  //         <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
+  //          Passe para o próximo dia
+  //         </h1>
+  //         <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
+  //         <div>
+  //           <h2 className="text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight">
+  //          Agora que você possui um imóvel pequeno, passe para o próximo dia até que tenha dinheiro suficiente para que possa comprar um novo terreno e continuar expandindo os seus imóveis.
+  //           <br/>
+            
+  //           <br/>
+  //           <strong className="">PASSE O DIA</strong>
+  //           <br/>
+            
+  //           Para passar o dia é necessário clicar no botão:
+  //           <br/>
+            
+  //            <br/>
+  //           <div className="w-[100px] h-[100px] flex items-center justify-center rounded-[10px] bg-orange-700">
+              
+  //             <img className="w-[70%] h-[70%]" src={passarDia}/>
+  //             </div> 
+  //             *está localizado na barra superior da direita
+            
+  //            <br/>
+  //            <br/>
+            
+  //           </h2>
+  //         </div>
+  //         <button
+  //           className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+  //           onClick={fecharModalContinuarDias}
+  //         >
+  //           <h3>entendido</h3>
+  //         </button>
+  //       </motion.div>
+  //     </div>
+  //   );
+  // } else
   if (dados.modal.estadoModal) {
     return (
       <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">

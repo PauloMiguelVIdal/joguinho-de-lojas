@@ -145,6 +145,13 @@ cursor: pointer;
   background: rgba(147, 76, 255, 0.7);
 }
 
+@keyframes cardFloat {
+  0%   { opacity: 0;  transform: translateY(30px)  rotate(var(--r, 0deg)); }
+  10%  { opacity: .5; }
+  90%  { opacity: .5; }
+  100% { opacity: 0;  transform: translateY(-30px) rotate(calc(var(--r, 0deg) + 8deg)); }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

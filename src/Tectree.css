@@ -1,0 +1,27 @@
+.tech-tree-wrapper {
+  width: 100%;
+  height: 90vh; /* Ajuste para caber na sua tela */
+  background-color: #1a1a1a; /* Um fundo escuro fica ótimo para jogos */
+}
+
+/* Estilo do rótulo dos setores (Zonas) */
+.react-flow__node-group {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 15px;
+  pointer-events: none; /* Garante que o clique passe para o edifício abaixo */
+}
+
+/* Estilo padrão dos edifícios no mapa */
+.edificio-node {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+.edificio-node:hover {
+  transform: scale(1.05);
+  border-color: #555;
+}

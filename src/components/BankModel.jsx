@@ -1102,7 +1102,7 @@ const ListaContratosAtivos = () => {
         <div>
           <Tooltip style={tooltipStyle} id={`tooltip-faturado`} />
           <button
-            onClick={() =>{ setVision("mapa"), buttonCloseAudio()}}
+            onClick={() =>{ setVision("dashboard"), buttonCloseAudio()}}
             data-tooltip-id="tooltip-faturado"
             data-tooltip-html="Voltar"
             className="h-full w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"

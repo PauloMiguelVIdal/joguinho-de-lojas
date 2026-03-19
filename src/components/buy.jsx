@@ -496,7 +496,7 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
     return num.toString();
   };
   if (dados.dia > 269) {
-    if (vision !== "dashboard") {
+    if (dados.setorAtivo === 'carteira') {
       return <SidebarCard />;
     } if (setorAtual === "mercado") {
       return <SidebarStorage />;

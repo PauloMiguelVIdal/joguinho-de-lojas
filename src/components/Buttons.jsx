@@ -25,7 +25,8 @@ export default function Buttons() {
 
           {dados.dia >= 270 && (
             <div className="w-full flex justify-between">
-              <ToggleButton />
+              {/* <ToggleButton /> */}
+              
               <InfoPage />
               {/* <ButtonFinanace /> */}
             </div>

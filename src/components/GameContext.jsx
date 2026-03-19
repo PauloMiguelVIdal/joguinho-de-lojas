@@ -8,138 +8,7 @@ import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 const GameContext = createContext();
 
-export function GameProvider({ children }) {
-    const liquidadoRefPersist = useRef(0);
-
-    // Dentro do GameProvider, adicione:
-    const { dados } = useContext(CentraldeDadosContext);
-    const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
-        DadosEconomyGlobalContext
-    );
-
-
-    /* =========================
-       SISTEMA DE CONTRATOS
-    ========================= */
-
-    const [pendingSettlements, setPendingSettlements] = useState([]);
-
-    const [productionQueue, setProductionQueue] = useState([]);
-    const [sellQueue, setSellQueue] = useState([]);
-
-    const [salesContracts, setSalesContracts] = useState({});
-    const [contratosEdificios, setContratosEdificios] = useState({});
-
-    function getOuGerarContratos(edificioConfig, diaAtual, buildingCount = 1, level = 1) {
-        const id = edificioConfig.edificioId;
-        const existente = contratosEdificios[id];
-
-        if (existente && diaAtual < existente.validadeAte) {
-            return existente.contratos;
-        }
-
-        // marketPrices já é o objeto correto importado do TablePrice
-        const novosContratos = generateSalesContracts({
-            edificioConfig,
-            buildingCount,
-            level,
-            marketPrices, // ← objeto com preços reais (carneOvino: 180, etc.)
-            diaAtual,
-        });
-
-        const novaValidade = diaAtual + edificioConfig.periodoNovosContratos;
-
-        setContratosEdificios(prev => ({
-            ...prev,
-            [id]: { contratos: novosContratos, validadeAte: novaValidade }
-        }));
-
-        return novosContratos;
-    }
-
-    function acceptSalesContract(type, contract, removeProduct) {
-        setSalesContracts(prev => {
-            const current = prev[type];
-
-            if (current.active) return prev;
-
-            removeProduct(contract.productId, contract.quantidade);
-
-            return {
-                ...prev,
-                [type]: {
-                    active: {
-                        ...contract,
-                        diasRestantes: contract.diasTotais,
-                        status: "em_andamento",
-                    },
-                    available: [],
-                },
-            };
-        });
-    }
-
-    function setAvailableSalesContracts(type, contracts) {
-        setSalesContracts(prev => ({
-            ...prev,
-            [type]: {
-                ...prev[type],
-                available: contracts,
-            },
-        }));
-    }
-
-    function processarContratosVenda() {
-        setSalesContracts(prev => {
-            const next = structuredClone(prev);
-            const settlements = [];
-
-            Object.entries(next).forEach(([type, data]) => {
-                const contract = data.active;
-                if (!contract) return;
-
-                if (contract.diasRestantes > 1) {
-                    contract.diasRestantes -= 1;
-                } else {
-                    settlements.push(contract.valorTotal);
-                    data.active = null;
-                }
-            });
-
-            if (settlements.length > 0) {
-                setPendingSettlements(prev => [...prev, ...settlements]);
-            }
-
-            return next;
-        });
-    }
-
-    useEffect(() => {
-        if (pendingSettlements.length === 0) return;
-
-        const total = pendingSettlements.reduce((s, v) => s + v, 0);
-
-        atualizarEco("saldo", economiaSetores.saldo + total);
-
-        setPendingSettlements([]);
-    }, [pendingSettlements]);
-
-
-
-    /* =========================
-       ESTOQUE
-    ========================= */
-    const [stock, setStock] = useState({
-        // trigo: 1200,
-        // soja: 300,
-        // combustivel: 400,
-        // biomassa: 200,
-        // aviao: 1,
-    });
-
-    const [marketTransactions, setMarketTransactions] = useState([]);
-
-    const storageProfiles = {
+ export const storageProfiles = {
         // 🌱 AGRÍCOLA / BIOLÓGICO
         plantaçãoDeGrãos: {
             nome: "Plantação De Grãos",
@@ -684,9 +553,9 @@ export function GameProvider({ children }) {
             categoriasPermitidas: "produtos digitais",
         },
         servidorNuvem: {
-            nome: "Servidor em Nuvem",
+            nome: "Servidor Em Nuvem",
             tipo: "dedicado",
-            capacidadePorEdificio: 10000,   // tier acima do dataCenter
+            capacidadePorEdificio: 1000,   // tier acima do dataCenter
             categoriasPermitidas: "produtos digitais",
         },
         armazemMateriaisSensiveis: {
@@ -696,6 +565,139 @@ export function GameProvider({ children }) {
             categoriasPermitidas: "materiais sensíveis",
         },
     };
+
+export function GameProvider({ children }) {
+    const liquidadoRefPersist = useRef(0);
+
+    // Dentro do GameProvider, adicione:
+    const { dados } = useContext(CentraldeDadosContext);
+    const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
+        DadosEconomyGlobalContext
+    );
+
+
+    /* =========================
+       SISTEMA DE CONTRATOS
+    ========================= */
+
+    const [pendingSettlements, setPendingSettlements] = useState([]);
+
+    const [productionQueue, setProductionQueue] = useState([]);
+    const [sellQueue, setSellQueue] = useState([]);
+
+    const [salesContracts, setSalesContracts] = useState({});
+    const [contratosEdificios, setContratosEdificios] = useState({});
+
+    function getOuGerarContratos(edificioConfig, diaAtual, buildingCount = 1, level = 1) {
+        const id = edificioConfig.edificioId;
+        const existente = contratosEdificios[id];
+
+        if (existente && diaAtual < existente.validadeAte) {
+            return existente.contratos;
+        }
+
+        // marketPrices já é o objeto correto importado do TablePrice
+        const novosContratos = generateSalesContracts({
+            edificioConfig,
+            buildingCount,
+            level,
+            marketPrices, // ← objeto com preços reais (carneOvino: 180, etc.)
+            diaAtual,
+        });
+
+        const novaValidade = diaAtual + edificioConfig.periodoNovosContratos;
+
+        setContratosEdificios(prev => ({
+            ...prev,
+            [id]: { contratos: novosContratos, validadeAte: novaValidade }
+        }));
+
+        return novosContratos;
+    }
+
+    function acceptSalesContract(type, contract, removeProduct) {
+        setSalesContracts(prev => {
+            const current = prev[type];
+
+            if (current.active) return prev;
+
+            removeProduct(contract.productId, contract.quantidade);
+
+            return {
+                ...prev,
+                [type]: {
+                    active: {
+                        ...contract,
+                        diasRestantes: contract.diasTotais,
+                        status: "em_andamento",
+                    },
+                    available: [],
+                },
+            };
+        });
+    }
+
+    function setAvailableSalesContracts(type, contracts) {
+        setSalesContracts(prev => ({
+            ...prev,
+            [type]: {
+                ...prev[type],
+                available: contracts,
+            },
+        }));
+    }
+
+    function processarContratosVenda() {
+        setSalesContracts(prev => {
+            const next = structuredClone(prev);
+            const settlements = [];
+
+            Object.entries(next).forEach(([type, data]) => {
+                const contract = data.active;
+                if (!contract) return;
+
+                if (contract.diasRestantes > 1) {
+                    contract.diasRestantes -= 1;
+                } else {
+                    settlements.push(contract.valorTotal);
+                    data.active = null;
+                }
+            });
+
+            if (settlements.length > 0) {
+                setPendingSettlements(prev => [...prev, ...settlements]);
+            }
+
+            return next;
+        });
+    }
+
+    useEffect(() => {
+        if (pendingSettlements.length === 0) return;
+
+        const total = pendingSettlements.reduce((s, v) => s + v, 0);
+
+        atualizarEco("saldo", economiaSetores.saldo + total);
+
+        setPendingSettlements([]);
+    }, [pendingSettlements]);
+
+
+
+    /* =========================
+       ESTOQUE
+    ========================= */
+    const [stock, setStock] = useState({
+        // trigo: 1200,
+        // soja: 300,
+        // combustivel: 400,
+        // biomassa: 200,
+        // aviao: 1,
+    });
+
+    const [marketTransactions, setMarketTransactions] = useState([]);
+
+   
 
 
 
@@ -1634,7 +1636,7 @@ export function GameProvider({ children }) {
                 processSellQueue,
                 iniciarVendaComercial,
                 processarVendas,
-                getOuGerarContratos, contratosEdificios, sellQueue
+                getOuGerarContratos, contratosEdificios, sellQueue,storageProfiles
             }}
 
 

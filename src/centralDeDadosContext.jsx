@@ -1,9 +1,10 @@
 import React, { useState, createContext } from "react";
-
+import { carregarSalvo } from "./components/usePersistencia";
 const CentraldeDadosContext = createContext();
 
-const CentraldeDadosProvider = ({ children }) => {
-  const [dados, setDados] = useState({
+
+
+const dadosIniciais = {
     ofertas: [],
     inicioGame: {
       estadoModal: true,
@@ -2672,7 +2673,7 @@ const CentraldeDadosProvider = ({ children }) => {
             lojasM: 0,
             lojasG: 0,
           },
-          construçõesNecessárias: ["Silo"],
+          construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
             "Usina De Biomassa",
@@ -3498,7 +3499,7 @@ const CentraldeDadosProvider = ({ children }) => {
             licença: "Licença Global De Tecnologia",
             liberado: false,
           },
-          custoConstrucao: 110000,
+          custoConstrucao: 120000,
           quantidade: 0,
           finanças: {
             faturamentoUnitário: 4000,
@@ -3511,7 +3512,7 @@ const CentraldeDadosProvider = ({ children }) => {
             terrenos: 0,
             lojasP: 1,
             lojasM: 0,
-            lojasG: 0,
+            lojasG: 3,
           },
           construçõesNecessárias: [],
           licençasNecessárias: [],
@@ -3667,7 +3668,7 @@ const CentraldeDadosProvider = ({ children }) => {
             },
           ],
 
-          recursoDeConstrução: ["Servidor Em Nuvem"],
+          recursoDeConstrução: [],
           dependências: [],
           powerUp: {
             redCustoAtual: 0,
@@ -27554,7 +27555,19 @@ const CentraldeDadosProvider = ({ children }) => {
         },
       },
     },
-  });
+  };
+
+
+
+const CentraldeDadosProvider = ({ children }) => {
+  const salvo = carregarSalvo()
+
+  const [dados, setDados] = useState(salvo.central?? dadosIniciais)
+    
+    
+    
+
+ 
 
   const atualizarDados = (chave, novoValor) => {
     setDados((prevState) => ({

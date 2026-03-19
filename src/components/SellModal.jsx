@@ -26,12 +26,12 @@ import useSound from "use-sound";
 import payTerrain from "../../public/sounds/payTerrainAudio.mp3";
 
 export const SellModal = ({ setor, index, onClose }) => {
-  const { dados, atualizarDados, atualizarDadosProf,atualizarDadosProf2 } = useContext(CentraldeDadosContext);
+  const { dados, atualizarDados, atualizarDadosProf, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
   const [buttonPayTerrain] = useSound(payTerrain);
-    const [buttonCloseAudio] = useSound(closeAudio);
-  
+  const [buttonCloseAudio] = useSound(closeAudio);
+
 
   const setorAtivo = setor
 
@@ -48,9 +48,10 @@ export const SellModal = ({ setor, index, onClose }) => {
     setQuantidadeMarcador(quantidadeMarcador + 1)
   }
 
-if(quantidadeMarcador>qtdEd){
-  setQuantidadeMarcador(qtdEd)
-}
+  if (quantidadeMarcador > qtdEd) {
+    setQuantidadeMarcador(qtdEd)
+  }
+
 
 
   const diminuirQuantidadeMarcador = () => {
@@ -119,16 +120,26 @@ if(quantidadeMarcador>qtdEd){
   }
   const patrimônioAtual = calcularCustoEdificio(setorAtivo, index)
   const patrimônioDepreciado = (patrimônioAtual * (percSetor(economiaSetoresAtual) / 100)).toFixed(2);
-  
-  const venderEdificio = () => {
-    if(quantidadeMarcador > qtdEd){
-      alert("Quantidade a ser vendida é maior que a quantidade disponível.")
-      return
-    }
-    const novoValorQuantidadeEd  = qtdEd - quantidadeMarcador
-atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], novoValorQuantidadeEd);
-atualizarEco("saldo",economiaSetores.saldo + (patrimônioDepreciado * quantidadeMarcador))
+
+const venderEdificio = () => {
+  if (quantidadeMarcador > qtdEd) {
+    alert("Quantidade a ser vendida é maior que a quantidade disponível.")
+    return
   }
+
+  const novoValorQuantidadeEd = qtdEd - quantidadeMarcador
+
+  // Atualiza a quantidade do edifício
+  atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], novoValorQuantidadeEd);
+
+  // Atualiza o saldo
+  atualizarEco("saldo", economiaSetores.saldo + (patrimônioDepreciado * quantidadeMarcador))
+
+  // ✅ Fecha o modal automaticamente se vendeu tudo
+  if (novoValorQuantidadeEd === 0) {
+    onClose()
+  }
+}
 
 
   const formatarNumero = (num) => {
@@ -183,146 +194,147 @@ atualizarEco("saldo",economiaSetores.saldo + (patrimônioDepreciado * quantidade
     });
   };
   const setorInfo = setores.find(setor => setor.id === setorAtivo);
-const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
+  const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
 
-return (
-  <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90 ">
-    <motion.div
-      style={{
-        background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor4} 100%)`
-      }}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className="w-[85vw] h-[80vh] p-[20px] gap-[20px] rounded-[20px] flex flex-col items-center relative shadow-2xl"
-    >
-      {/* Botão Fechar */}
-      <button
-        className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
-        onClick={() => { onClose(); buttonCloseAudio() }}
+  return (
+    <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90 ">
+      <motion.div
+        style={{
+          background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor4} 100%)`
+        }}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="w-[85vw] h-[80vh] p-[20px] gap-[20px] rounded-[20px] flex flex-col items-center relative shadow-2xl"
       >
-        <img src={fechar} alt="Fechar" className="w-[60%]" />
-      </button>
-
-      {/* Cabeçalho */}
-      <div
-        style={{ backgroundColor: setorInfo.cor1 }}
-        className="flex shadow-xl justify-center items-center w-[100%] h-[15%] rounded-[20px] self-center"
-      >
-        <h1 className="text-center text-white text-[40px] fonteBold">
-          {dados[setorAtivo].edificios[index].nome}
-        </h1>
-      </div>
-
-      {/* Corpo - 2 Colunas */}
-      <div className="flex flex-1 w-full gap-6 mt-4">
-        {/* ESQUERDA */}
-        <div
-          style={{ backgroundColor: setorInfo.cor3, opacity: 0.85 }}
-          className="flex-1 rounded-[15px] p-6 text-white text-[22px] flex flex-col"
+        {/* Botão Fechar */}
+        <button
+          className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
+          onClick={() => { onClose(); buttonCloseAudio() }}
         >
-          {/* CardLocalization que você tinha adicionado */}
-        
+          <img src={fechar} alt="Fechar" className="w-[60%]" />
+        </button>
 
-          <p className="mb-6 leading-relaxed">
-            A economia do setor{" "}
-            <span className="fonteBold text-[#6A00FF]">{setor}</span> está{" "}
-            <span className="fonteBold">{economiaSetoresAtual}</span>.
-          </p>
-
-          <p className="mb-6 leading-relaxed">
-            O valor a ser pago será referente a{" "}
-            <span className="text-[#6A00FF] fonteBold">
-              {percSetor(economiaSetoresAtual)}%
-            </span>{" "}
-            do valor de mercado atual.
-          </p>
-
-          <div className="space-y-4">
-            <p>
-              Valor de mercado:{" "}
-              <span className="fonteBold">
-                {calcularCustoEdificio(setorAtivo, index)}
-              </span>
-            </p>
-            <p>
-              Valor ofertado:{" "}
-              <span className="fonteBold">{patrimônioDepreciado}</span>
-            </p>
-            <p>
-              Total:{" "}
-              <span className="fonteBold text-[#6A00FF]">
-                {patrimônioDepreciado * quantidadeMarcador}
-              </span>
-            </p>
-          </div>
+        {/* Cabeçalho */}
+        <div
+          style={{ backgroundColor: setorInfo.cor1 }}
+          className="flex shadow-xl justify-center items-center w-[100%] h-[15%] rounded-[20px] self-center"
+        >
+          <h1 className="text-center text-white text-[40px] fonteBold">
+            {dados[setorAtivo].edificios[index].nome}
+          </h1>
         </div>
 
-        {/* DIREITA */}
-        <div
-          style={{ backgroundColor: setorInfo.cor2, opacity: 0.85 }}
-          className="w-[260px] flex flex-col items-center justify-between rounded-[15px] p-6"
-        >
-            <div className="mb-6">{Localizador(dados[setorAtivo].edificios[index].nome)}</div>
-          {/* Marcador com cores originais */}
-          <Box display="flex" alignItems="center" className="mb-6">
-            <IconButton
-              onClick={diminuirQuantidadeMarcador}
-              sx={{
-                bgcolor: "#6411D9",
-                width: 36,
-                height: 36,
-                borderRadius: "8px",
-                "&:hover": { bgcolor: "#834EDB" }
-              }}
-            >
-              <img src={menos} width={16} height={16} />
-            </IconButton>
+        {/* Corpo - 2 Colunas */}
+        <div className="flex flex-1 w-full gap-6 mt-4">
+          {/* ESQUERDA */}
+          <div
+            style={{ backgroundColor: setorInfo.cor3, opacity: 0.85 }}
+            className="flex-1 rounded-[15px] p-6 text-white text-[22px] flex flex-col"
+          >
+            {/* CardLocalization que você tinha adicionado */}
 
-            <Box
-              sx={{
-                mx: 2,
-                bgcolor: "#350973",
-                width: 36,
-                height: 36,
-                borderRadius: "8px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Typography variant="body2" color="white" fontWeight="bold">
-                {quantidadeMarcador}
-              </Typography>
+
+            <p className="mb-6 leading-relaxed">
+              A economia do setor{" "}
+              <span className="fonteBold text-[#6A00FF]">{setor}</span> está{" "}
+              <span className="fonteBold">{economiaSetoresAtual}</span>.
+            </p>
+
+            <p className="mb-6 leading-relaxed">
+              O valor a ser pago será referente a{" "}
+              <span className="text-[#6A00FF] fonteBold">
+                {percSetor(economiaSetoresAtual)}%
+              </span>{" "}
+              do valor de mercado atual.
+            </p>
+
+            <div className="space-y-4">
+              <p>
+                Valor de mercado:{" "}
+                <span className="fonteBold">
+                  {calcularCustoEdificio(setorAtivo, index)}
+                </span>
+              </p>
+              <p>
+                Valor ofertado:{" "}
+                <span className="fonteBold">{patrimônioDepreciado}</span>
+              </p>
+              <p>
+                Total:{" "}
+                <span className="fonteBold text-[#6A00FF]">
+                  {patrimônioDepreciado * quantidadeMarcador}
+                </span>
+              </p>
+            </div>
+          </div>
+
+          {/* DIREITA */}
+          <div
+            style={{ backgroundColor: setorInfo.cor2, opacity: 0.85 }}
+            className="w-[260px] flex flex-col items-center justify-between rounded-[15px] p-6"
+          >
+            <div className="mb-6">
+  {Localizador(dados[setorAtivo].edificios[index].nome, null, index, setor)}              </div>
+            {/* Marcador com cores originais */}
+            <Box display="flex" alignItems="center" className="mb-6">
+              <IconButton
+                onClick={diminuirQuantidadeMarcador}
+                sx={{
+                  bgcolor: "#6411D9",
+                  width: 36,
+                  height: 36,
+                  borderRadius: "8px",
+                  "&:hover": { bgcolor: "#834EDB" }
+                }}
+              >
+                <img src={menos} width={16} height={16} />
+              </IconButton>
+
+              <Box
+                sx={{
+                  mx: 2,
+                  bgcolor: "#350973",
+                  width: 36,
+                  height: 36,
+                  borderRadius: "8px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Typography variant="body2" color="white" fontWeight="bold">
+                  {quantidadeMarcador}
+                </Typography>
+              </Box>
+
+              <IconButton
+                onClick={aumentarQuantidadeMarcador}
+                sx={{
+                  bgcolor: "#6411D9",
+                  width: 36,
+                  height: 36,
+                  borderRadius: "8px",
+                  "&:hover": { bgcolor: "#834EDB" }
+                }}
+              >
+                <img src={mais} width={16} height={16} />
+              </IconButton>
             </Box>
 
-            <IconButton
-              onClick={aumentarQuantidadeMarcador}
-              sx={{
-                bgcolor: "#6411D9",
-                width: 36,
-                height: 36,
-                borderRadius: "8px",
-                "&:hover": { bgcolor: "#834EDB" }
-              }}
+            {/* Botão Vender */}
+            <button
+              onClick={() => { venderEdificio(); buttonPayTerrain(); }}
+              className="w-full py-3 bg-gradient-to-r from-[#6411D9] to-[#934CFF] text-white rounded-[12px] fonteBold hover:scale-105 transition duration-300 shadow-md"
             >
-              <img src={mais} width={16} height={16} />
-            </IconButton>
-          </Box>
-
-          {/* Botão Vender */}
-          <button
-            onClick={() => { venderEdificio(); buttonPayTerrain(); }}
-            className="w-full py-3 bg-gradient-to-r from-[#6411D9] to-[#934CFF] text-white rounded-[12px] fonteBold hover:scale-105 transition duration-300 shadow-md"
-          >
-            Vender
-          </button>
+              Vender
+            </button>
+          </div>
         </div>
-      </div>
-    </motion.div>
-  </div>
-);
+      </motion.div>
+    </div>
+  );
 
 
 

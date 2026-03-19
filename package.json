@@ -21,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-hotkeys-hook": "^5.2.1",
     "react-tooltip": "^5.29.1",
+    "reactflow": "^11.11.4",
     "use-sound": "^5.0.0"
   },
   "devDependencies": {

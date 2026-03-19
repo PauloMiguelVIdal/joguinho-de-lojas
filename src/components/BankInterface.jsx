@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+import backButton from "../../public/outrasImagens/back-button.png";
+
 
 const BankInterface = () => {
   const [selectedInstallments, setSelectedInstallments] = useState(3);
@@ -29,14 +31,14 @@ const BankInterface = () => {
   const availableLoans = economiaSetores.availableLoans || {};
   const availableLoan =
     availableLoans[idContratoAtivo] ?? limiteEmprestimoAtual;
-    const patrimonio = economiaSetores.patrimonio;
+  const patrimonio = economiaSetores.patrimonio;
   const [investmentType, setInvestmentType] = useState("pos");
   const [investmentAmount, setInvestmentAmount] = useState(0);
   const [investmentDays, setInvestmentDays] = useState(90);
   const activeInvestments = economiaSetores.activeInvestments || [];
 
   const saldoBancario = economiaSetores.saldo;
-    const [showModal,setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const setVision = (newVision) => {
     atualizarDados("vision", {
       ...dados.vision,
@@ -96,7 +98,7 @@ const BankInterface = () => {
   };
 
 
-  
+
   // useEffect(() => {
   //   if (!activeLoan) {
   //     lastProcessedPaymentRef.current = 0;
@@ -172,7 +174,7 @@ const BankInterface = () => {
   const lastProcessedPaymentRef = useRef(0);
 
 
- const vencimento =
+  const vencimento =
     activeLoan?.proximoVencimento ??
     (activeLoan?.diaInicio
       ? activeLoan.diaInicio + 30 * (activeLoan.parcelaAtual ?? 1)
@@ -182,9 +184,9 @@ const BankInterface = () => {
     if (!activeLoans) return;
 
     Object.values(activeLoans).forEach((loan) => {
-  if(diaAtualJogo !==loan.proximoVencimento){
-    
-  }
+      if (diaAtualJogo !== loan.proximoVencimento) {
+
+      }
       if (diaAtualJogo === loan.proximoVencimento) {
         atualizarEco("despesasEmprestimo", {
           ...economiaSetores.despesas,
@@ -206,20 +208,20 @@ const BankInterface = () => {
 
     // Verifica se passou 120 dias desde a última atualização
     const diasDesdeUltimaAtualizacao = diaAtualJogo - ultimaAtualizacao;
-    
+
     if (diasDesdeUltimaAtualizacao >= 120) {
       const patrimonioAtual = economiaSetores.patrimonio || 0;
       const { novoLimite } = calcularProximoLimite(patrimonioAtual);
-      
+
       // Aplica o multiplicador do config
       const multiplicadorConfig = config.emprestimos[contrato1.emprestimo]?.mult || 1;
       const limiteAtualizado = novoLimite * multiplicadorConfig;
 
       // Atualiza o limite do contrato
-      const contratosAtualizados = Array.isArray(economiaSetores.contratosBancos) 
-        ? [...economiaSetores.contratosBancos] 
+      const contratosAtualizados = Array.isArray(economiaSetores.contratosBancos)
+        ? [...economiaSetores.contratosBancos]
         : [];
-      
+
       if (contratosAtualizados[idContratoAtivo]) {
         contratosAtualizados[idContratoAtivo] = {
           ...contratosAtualizados[idContratoAtivo],
@@ -247,141 +249,140 @@ const BankInterface = () => {
 
 
   const ModalEncerrarContrato = ({ isOpen, onClose, onConfirm, contrato, activeLoan, diaAtual }) => {
-  if (!isOpen || !contrato) return null;
+    if (!isOpen || !contrato) return null;
 
-  const validade = contrato.dataFim ?? 0;
-  const passouValidade = diaAtual > validade;
-  const possuiEmprestimo = !!activeLoan;
+    const validade = contrato.dataFim ?? 0;
+    const passouValidade = diaAtual > validade;
+    const possuiEmprestimo = !!activeLoan;
 
-  const podeEncerrar = passouValidade && !possuiEmprestimo;
-
-
+    const podeEncerrar = passouValidade && !possuiEmprestimo;
 
 
-  
-  return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in duration-300">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-red-600 to-red-700 p-6 text-white">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <AlertTriangle size={24} />
+
+
+
+    return (
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in duration-300">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-red-600 to-red-700 p-6 text-white">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                  <AlertTriangle size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold">Encerrar Contrato</h3>
+                  <p className="text-sm opacity-90">{contrato.bancoNome}</p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-xl font-bold">Encerrar Contrato</h3>
-                <p className="text-sm opacity-90">{contrato.bancoNome}</p>
+              <button
+                onClick={onClose}
+                className="hover:bg-white/20 rounded-full p-2 transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+          </div>
+
+          {/* Conteúdo */}
+          <div className="p-6 space-y-4">
+            {/* Informações do contrato */}
+            <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Cartão:</span>
+                <span className="font-semibold text-gray-800">{contrato.cartaoNome}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Validade:</span>
+                <span className={`font-semibold ${passouValidade ? 'text-red-600' : 'text-green-600'}`}>
+                  {passouValidade ? `Vencido (dia ${validade})` : `Dia ${validade}`}
+                </span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Empréstimo ativo:</span>
+                <span className={`font-semibold ${possuiEmprestimo ? 'text-orange-600' : 'text-green-600'}`}>
+                  {possuiEmprestimo ? 'Sim' : 'Não'}
+                </span>
               </div>
             </div>
+
+            {/* Validações */}
+            {!podeEncerrar && (
+              <div className="space-y-3">
+                {!passouValidade && (
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 flex gap-3">
+                    <AlertTriangle className="text-yellow-600 flex-shrink-0" size={20} />
+                    <div>
+                      <p className="text-sm font-semibold text-yellow-800">Contrato ainda não venceu</p>
+                      <p className="text-xs text-yellow-700 mt-1">
+                        Aguarde até o dia {validade} para encerrar o contrato.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {possuiEmprestimo && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex gap-3">
+                    <AlertTriangle className="text-red-600 flex-shrink-0" size={20} />
+                    <div>
+                      <p className="text-sm font-semibold text-red-800">Empréstimo ativo</p>
+                      <p className="text-xs text-red-700 mt-1">
+                        Quite o empréstimo antes de encerrar o contrato.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {podeEncerrar && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <p className="text-sm text-red-800 font-semibold mb-2">
+                  ⚠️ Atenção: Esta ação não pode ser desfeita!
+                </p>
+                <p className="text-xs text-red-700">
+                  Ao encerrar este contrato, você perderá:
+                </p>
+                <ul className="text-xs text-red-700 mt-2 space-y-1 ml-4 list-disc">
+                  <li>Acesso aos serviços bancários</li>
+                  <li>Limite de empréstimo disponível</li>
+                  <li>Investimentos ativos neste banco</li>
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="bg-gray-50 p-4 flex gap-3">
             <button
               onClick={onClose}
-              className="hover:bg-white/20 rounded-full p-2 transition-colors"
+              className="flex-1 py-3 px-4 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold transition-colors"
             >
-              <X size={20} />
+              Cancelar
+            </button>
+            <button
+              onClick={onConfirm}
+              disabled={!podeEncerrar}
+              className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${podeEncerrar
+                  ? 'bg-red-600 hover:bg-red-700 text-white'
+                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+            >
+              {podeEncerrar ? 'Encerrar Contrato' : 'Não Disponível'}
             </button>
           </div>
         </div>
-
-        {/* Conteúdo */}
-        <div className="p-6 space-y-4">
-          {/* Informações do contrato */}
-          <div className="bg-gray-50 rounded-lg p-4 space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Cartão:</span>
-              <span className="font-semibold text-gray-800">{contrato.cartaoNome}</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Validade:</span>
-              <span className={`font-semibold ${passouValidade ? 'text-red-600' : 'text-green-600'}`}>
-                {passouValidade ? `Vencido (dia ${validade})` : `Dia ${validade}`}
-              </span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Empréstimo ativo:</span>
-              <span className={`font-semibold ${possuiEmprestimo ? 'text-orange-600' : 'text-green-600'}`}>
-                {possuiEmprestimo ? 'Sim' : 'Não'}
-              </span>
-            </div>
-          </div>
-
-          {/* Validações */}
-          {!podeEncerrar && (
-            <div className="space-y-3">
-              {!passouValidade && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 flex gap-3">
-                  <AlertTriangle className="text-yellow-600 flex-shrink-0" size={20} />
-                  <div>
-                    <p className="text-sm font-semibold text-yellow-800">Contrato ainda não venceu</p>
-                    <p className="text-xs text-yellow-700 mt-1">
-                      Aguarde até o dia {validade} para encerrar o contrato.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {possuiEmprestimo && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex gap-3">
-                  <AlertTriangle className="text-red-600 flex-shrink-0" size={20} />
-                  <div>
-                    <p className="text-sm font-semibold text-red-800">Empréstimo ativo</p>
-                    <p className="text-xs text-red-700 mt-1">
-                      Quite o empréstimo antes de encerrar o contrato.
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {podeEncerrar && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <p className="text-sm text-red-800 font-semibold mb-2">
-                ⚠️ Atenção: Esta ação não pode ser desfeita!
-              </p>
-              <p className="text-xs text-red-700">
-                Ao encerrar este contrato, você perderá:
-              </p>
-              <ul className="text-xs text-red-700 mt-2 space-y-1 ml-4 list-disc">
-                <li>Acesso aos serviços bancários</li>
-                <li>Limite de empréstimo disponível</li>
-                <li>Investimentos ativos neste banco</li>
-              </ul>
-            </div>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="bg-gray-50 p-4 flex gap-3">
-          <button
-            onClick={onClose}
-            className="flex-1 py-3 px-4 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold transition-colors"
-          >
-            Cancelar
-          </button>
-          <button
-            onClick={onConfirm}
-            disabled={!podeEncerrar}
-            className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
-              podeEncerrar
-                ? 'bg-red-600 hover:bg-red-700 text-white'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            }`}
-          >
-            {podeEncerrar ? 'Encerrar Contrato' : 'Não Disponível'}
-          </button>
-        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
-const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
-  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
-  const { atualizarDados, dados } = useContext(CentraldeDadosContext);
-  const [showModal, setShowModal] = useState(false);
+  const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
+    const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+    const { atualizarDados, dados } = useContext(CentraldeDadosContext);
+    const [showModal, setShowModal] = useState(false);
 
-  const idContratoAtivo = economiaSetores.idContrato || 0;
+    const idContratoAtivo = economiaSetores.idContrato || 0;
 
 
   };
@@ -405,10 +406,10 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
   const proximoAumentoLimite = calcularProximoLimite(patrimonio);
 
 
-    const handleEncerrarContrato = () => {
+  const handleEncerrarContrato = () => {
     // CORREÇÃO: Manter como ARRAY
-    const contratosAtuais = Array.isArray(economiaSetores.contratosBancos) 
-      ? [...economiaSetores.contratosBancos] 
+    const contratosAtuais = Array.isArray(economiaSetores.contratosBancos)
+      ? [...economiaSetores.contratosBancos]
       : [];
 
     // Remove o contrato do índice específico (transforma em null)
@@ -774,7 +775,7 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
       style={{
         background: `conic-gradient(from 0deg, ${cartao.cor1}, ${cartao.cor2}, ${cartao.cor3}, ${cartao.cor4}, ${cartao.cor1})`,
       }}
-      // onClick={() => setSelectedCard(cartao.id)}
+    // onClick={() => setSelectedCard(cartao.id)}
     >
       {/* Triângulos geométricos animados apenas no hover */}
       <div className="absolute inset-0">
@@ -1034,7 +1035,7 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
       style={{
         background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 33%, ${cartao.cor3} 66%, ${cartao.cor4} 100%)`,
       }}
-      // onClick={() => setSelectedCard(cartao.id)}
+    // onClick={() => setSelectedCard(cartao.id)}
     >
       {/* Pattern de ondas geométricas animadas apenas no hover */}
       <div className="absolute inset-0 hover:animate-geometric-pulse">
@@ -1188,11 +1189,10 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
   const TabButton = ({ id, label, icon: Icon, active, onClick }) => (
     <button
       onClick={() => onClick(id)}
-      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
-        active
+      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${active
           ? "text-white shadow-lg"
           : "bg-gray-100 hover:bg-gray-200 text-gray-700"
-      }`}
+        }`}
       style={active ? { backgroundColor: contrato1.cor1 } : {}}
     >
       <Icon size={18} />
@@ -1208,13 +1208,30 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
       className="h-full w-full rounded-[20px] p-6"
     >
       <div className="w-full">
-        <header className="mb-8">
-          <h1
-            style={{ color: contrato1.cor1 }}
-            className="text-3xl font-bold text-white mb-2"
-          >
-            {contrato1.bancoNome}
-          </h1>
+        <header className="mb-8 flex justify-between">
+          <div>
+
+            <h1
+              style={{ color: contrato1.cor1 }}
+              className="text-3xl font-bold text-white mb-2"
+            >
+              {contrato1.bancoNome}
+            </h1>
+          </div>
+        
+
+          <div>
+           
+            <button
+              onClick={() => setVision('dashboard')}
+              data-tooltip-id="tooltip-faturado"
+              data-tooltip-html="Voltar"
+              className="h-full w-[50px] aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
+            >
+              <img className="w-[70%]" src={backButton} />
+            </button>
+        
+          </div>
         </header>
 
         <div className="flex flex-wrap gap-3 mb-8">
@@ -1243,9 +1260,9 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
         </div>
 
         {currentTab === "overview" && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="flex flex-col items-start space-y-4">
-              <div className="flex flex-col items-center justify-center ">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 scrollbar-custom">
+            <div className="flex flex-col items-start space-y-4 ">
+              <div className="flex flex-col items-center justify-center  ">
                 {contrato1 &&
                   renderCartao(contratoParaCartao(contrato1, dados))}
                 {/* <div style={{
@@ -1266,13 +1283,13 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                 </div> */}
               </div>
               <div
-                className="p-4 rounded-lg shadow-lg w-full"
+                className="p-4 rounded-lg shadow-lg w-full "
                 style={{
                   backgroundColor: "#f8f9fa",
                   borderLeft: `4px solid ${contrato1.cor3}`,
                 }}
               >
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-4 scrollbar-custom" >
                   <div
                     className="p-3 rounded-lg"
                     style={{ backgroundColor: contrato1.cor2 }}
@@ -1338,28 +1355,28 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
               </div>
               {/* Botão de encerrar contrato */}
               {contrato1 && (
- <>
-      <button
-        onClick={() => setShowModal(true)}
-        className="w-full py-3 mt-2 rounded-lg text-white font-semibold shadow-md transition-all duration-300 hover:scale-[1.02]"
-        style={{
-          backgroundColor: contrato1.cor3,
-          opacity: (diaAtualJogo > (contrato1.dataFim ?? 99999) && !activeLoan) ? 1 : 0.6,
-          cursor: (diaAtualJogo > (contrato1.dataFim ?? 99999) && !activeLoan) ? 'pointer' : 'not-allowed'
-        }}
-      >
-        Encerrar Contrato
-      </button>
+                <>
+                  <button
+                    onClick={() => setShowModal(true)}
+                    className="w-full py-3 mt-2 rounded-lg text-white font-semibold shadow-md transition-all duration-300 hover:scale-[1.02]"
+                    style={{
+                      backgroundColor: contrato1.cor3,
+                      opacity: (diaAtualJogo > (contrato1.dataFim ?? 99999) && !activeLoan) ? 1 : 0.6,
+                      cursor: (diaAtualJogo > (contrato1.dataFim ?? 99999) && !activeLoan) ? 'pointer' : 'not-allowed'
+                    }}
+                  >
+                    Encerrar Contrato
+                  </button>
 
-      <ModalEncerrarContrato
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        onConfirm={handleEncerrarContrato}
-        contrato={contrato1}
-        activeLoan={activeLoan}
-        diaAtual={diaAtualJogo}
-      />
-    </>
+                  <ModalEncerrarContrato
+                    isOpen={showModal}
+                    onClose={() => setShowModal(false)}
+                    onConfirm={handleEncerrarContrato}
+                    contrato={contrato1}
+                    activeLoan={activeLoan}
+                    diaAtual={diaAtualJogo}
+                  />
+                </>
 
 
               )}
@@ -1411,11 +1428,10 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                   <div className="flex justify-between text-xs">
                     <span className="text-gray-600">Rendimento:</span>
                     <span
-                      className={`font-semibold ${
-                        investmentData.rendimentoPos >= 0
+                      className={`font-semibold ${investmentData.rendimentoPos >= 0
                           ? "text-green-600"
                           : "text-red-600"
-                      }`}
+                        }`}
                     >
                       {investmentData.rendimentoPos >= 0 ? "+" : ""}
                       R${" "}
@@ -1476,11 +1492,10 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                   <div className="flex justify-between text-xs">
                     <span className="text-gray-600">Rendimento previsto:</span>
                     <span
-                      className={`font-semibold ${
-                        investmentData.rendimentoPre >= 0
+                      className={`font-semibold ${investmentData.rendimentoPre >= 0
                           ? "text-green-600"
                           : "text-gray-600"
-                      }`}
+                        }`}
                     >
                       {investmentData.rendimentoPre >= 0 ? "+" : ""}
                       R${" "}
@@ -1531,7 +1546,7 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
         )}
 
         {currentTab === "loan" && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl p-6 max-h-[65vh] overflow-y-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl p-6 max-h-[65vh] overflow-y-auto scrollbar-custom">
             <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
               <div className="flex items-center gap-3 mb-4">
                 <div
@@ -1591,16 +1606,15 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Número de Parcelas
                 </label>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2 scrollbar-custom">
                   {[3, 6, 12].map((option) => (
                     <button
                       key={option}
                       onClick={() => setSelectedInstallments(option)}
-                      className={`p-3 rounded-lg border-2 transition-colors font-semibold ${
-                        selectedInstallments === option
+                      className={`p-3 rounded-lg border-2 transition-colors font-semibold ${selectedInstallments === option
                           ? "text-white border-transparent"
                           : "text-gray-700 border-gray-300 hover:border-gray-400"
-                      }`}
+                        }`}
                       style={
                         selectedInstallments === option
                           ? { backgroundColor: contrato1.cor3 }
@@ -1616,11 +1630,10 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
 
               <button
                 onClick={handleRequestLoan}
-                className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${
-                  activeLoan || loanAmount <= 0
+                className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${activeLoan || loanAmount <= 0
                     ? "opacity-50 cursor-not-allowed"
                     : ""
-                }`}
+                  }`}
                 style={{ backgroundColor: contrato1.cor2 }}
                 disabled={activeLoan || loanAmount <= 0}
               >
@@ -1631,20 +1644,19 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
 
               <button
                 onClick={handlePayInstallment}
-                className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${
-                  !activeLoan ||
-                  diaAtualJogo < (activeLoan?.proximoVencimento ?? 0) ||
-                  (economiaSetores.saldo ?? 0) <
+                className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${!activeLoan ||
+                    diaAtualJogo < (activeLoan?.proximoVencimento ?? 0) ||
+                    (economiaSetores.saldo ?? 0) <
                     (activeLoan?.valorParcela ?? Infinity)
                     ? "opacity-50 cursor-not-allowed"
                     : ""
-                }`}
+                  }`}
                 style={{ backgroundColor: contrato1.cor2 }}
                 disabled={
                   !activeLoan ||
                   diaAtualJogo < (activeLoan?.proximoVencimento ?? 0) ||
                   (economiaSetores.saldo ?? 0) <
-                    (activeLoan?.valorParcela ?? Infinity)
+                  (activeLoan?.valorParcela ?? Infinity)
                 }
               >
                 Pagar parcela (R${" "}
@@ -1716,13 +1728,13 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                     </p>
                   </div>
 
-                  <div className="border rounded-lg overflow-hidden">
+                  <div className="border rounded-lg overflow-hidden scrollbar-custom">
                     <div className="bg-gray-50 px-4 py-2 border-b">
                       <h4 className="font-semibold text-gray-700">
                         Taxas por Parcelamento
                       </h4>
                     </div>
-                    <div className="divide-y">
+                    <div className="divide-y ">
                       {opcoesParcelamento.map((opcao) => (
                         <div
                           key={opcao.parcelas}
@@ -1803,7 +1815,7 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                         Cronograma de Pagamentos
                       </h4>
                     </div>
-                    <div className="divide-y max-h-48 overflow-y-auto">
+                    <div className="divide-y max-h-48 overflow-y-auto scrollbar-custom">
                       {Array.from({ length: activeLoan.parcelas }, (_, i) => {
                         const numeroParcela = i + 1;
                         const diaVencimento =
@@ -1815,23 +1827,21 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                         return (
                           <div
                             key={i}
-                            className={`p-3 flex justify-between items-center ${
-                              isProxima
+                            className={`p-3 flex justify-between items-center ${isProxima
                                 ? "bg-yellow-50"
                                 : isPaga
-                                ? "bg-green-50"
-                                : ""
-                            }`}
+                                  ? "bg-green-50"
+                                  : ""
+                              }`}
                           >
                             <div>
                               <p
-                                className={`font-medium ${
-                                  isPaga
+                                className={`font-medium ${isPaga
                                     ? "text-green-600"
                                     : isProxima
-                                    ? "text-yellow-600"
-                                    : "text-gray-800"
-                                }`}
+                                      ? "text-yellow-600"
+                                      : "text-gray-800"
+                                  }`}
                               >
                                 {numeroParcela}ª parcela{" "}
                                 {isPaga ? "✓" : isProxima ? "→" : ""}
@@ -1856,7 +1866,7 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                   </div>
 
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 text-sm">
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 gap-2 scrollbar-custom">
                       <div>
                         <p className="text-blue-600 text-xs">Valor Original</p>
                         <p className="font-semibold text-blue-800">
@@ -1904,7 +1914,7 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
         )}
 
         {currentTab === "investments" && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl p-6 max-h-[65vh] overflow-y-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl p-6 max-h-[65vh] overflow-y-auto scrollbar-custom">
             <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
               <div className="flex items-center gap-3 mb-4">
                 <div
@@ -1940,14 +1950,13 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Tipo de Investimento
                 </label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3 scrollbar-custom">
                   <button
                     onClick={() => setInvestmentType("pos")}
-                    className={`p-4 rounded-lg border-2 transition-all ${
-                      investmentType === "pos"
+                    className={`p-4 rounded-lg border-2 transition-all ${investmentType === "pos"
                         ? "text-white border-transparent"
                         : "text-gray-700 border-gray-300 hover:border-gray-400"
-                    }`}
+                      }`}
                     style={
                       investmentType === "pos"
                         ? { backgroundColor: contrato1.cor3 }
@@ -1961,11 +1970,10 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                   </button>
                   <button
                     onClick={() => setInvestmentType("pre")}
-                    className={`p-4 rounded-lg border-2 transition-all ${
-                      investmentType === "pre"
+                    className={`p-4 rounded-lg border-2 transition-all ${investmentType === "pre"
                         ? "text-white border-transparent"
                         : "text-gray-700 border-gray-300 hover:border-gray-400"
-                    }`}
+                      }`}
                     style={
                       investmentType === "pre"
                         ? { backgroundColor: contrato1.cor3 }
@@ -2004,7 +2012,7 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Prazo de Resgate
                   </label>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-3 gap-2 scrollbar-custom">
                     {[90, 180, 360].map((days) => {
                       const taxa = (
                         (getPreFixedReturn(1000, days) / 1000) *
@@ -2014,11 +2022,10 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                         <button
                           key={days}
                           onClick={() => setInvestmentDays(days)}
-                          className={`p-3 rounded-lg border-2 transition-colors ${
-                            investmentDays === days
+                          className={`p-3 rounded-lg border-2 transition-colors ${investmentDays === days
                               ? "text-white border-transparent"
                               : "text-gray-700 border-gray-300 hover:border-gray-400"
-                          }`}
+                            }`}
                           style={
                             investmentDays === days
                               ? { backgroundColor: contrato1.cor3 }
@@ -2044,12 +2051,12 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                 <p className="text-sm text-gray-600 mb-2">
                   {investmentType === "pos"
                     ? `Rendimento Mensal: ${(getPosTaxaMensal() * 100).toFixed(
-                        2
-                      )}%`
+                      2
+                    )}%`
                     : `Rendimento Total: ${(
-                        (getPreFixedReturn(1000, investmentDays) / 1000) *
-                        100
-                      ).toFixed(2)}%`}
+                      (getPreFixedReturn(1000, investmentDays) / 1000) *
+                      100
+                    ).toFixed(2)}%`}
                 </p>
                 <p
                   className="text-lg font-bold"
@@ -2058,13 +2065,13 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                   Retorno estimado: R${" "}
                   {investmentType === "pos"
                     ? (investmentAmount * getPosTaxaMensal()).toLocaleString(
-                        "pt-BR",
-                        { minimumFractionDigits: 2 }
-                      )
+                      "pt-BR",
+                      { minimumFractionDigits: 2 }
+                    )
                     : getPreFixedReturn(
-                        investmentAmount,
-                        investmentDays
-                      ).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                      investmentAmount,
+                      investmentDays
+                    ).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                 </p>
                 {investmentType === "pos" && (
                   <p className="text-xs text-gray-500 mt-1">
@@ -2080,11 +2087,10 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
 
               <button
                 onClick={handleInvest}
-                className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${
-                  investmentAmount <= 0 || investmentAmount > saldoBancario
+                className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${investmentAmount <= 0 || investmentAmount > saldoBancario
                     ? "opacity-50 cursor-not-allowed"
                     : ""
-                }`}
+                  }`}
                 style={{ backgroundColor: contrato1.cor3 }}
                 disabled={
                   investmentAmount <= 0 || investmentAmount > saldoBancario
@@ -2169,11 +2175,10 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Rendimento:</span>
                         <span
-                          className={`font-semibold ${
-                            percentualRendimento >= 0
+                          className={`font-semibold ${percentualRendimento >= 0
                               ? "text-blue-600"
                               : "text-red-600"
-                          }`}
+                            }`}
                         >
                           {percentualRendimento >= 0 ? "+" : ""}
                           {percentualRendimento.toFixed(2)}%
@@ -2183,9 +2188,8 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Juros ganhos:</span>
                         <span
-                          className={`font-semibold ${
-                            jurosGanhos >= 0 ? "text-green-600" : "text-red-600"
-                          }`}
+                          className={`font-semibold ${jurosGanhos >= 0 ? "text-green-600" : "text-red-600"
+                            }`}
                         >
                           {jurosGanhos >= 0 ? "+" : ""} R${" "}
                           {Math.abs(jurosGanhos).toLocaleString("pt-BR", {
@@ -2288,7 +2292,7 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
         )}
 
         {currentTab === "card" && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl p-6 max-h-[65vh] overflow-y-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl p-6 max-h-[65vh] overflow-y-auto scrollbar-custom">
             <div className="space-y-4">
               <div className="bg-gradient-to-br from-white/20 to-white/40 rounded-xl p-6 shadow-lg ">
                 <div className="flex flex-col items-center justify-center ">
@@ -2378,7 +2382,7 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                           width: `${Math.min(
                             (patrimonio /
                               proximoAumentoLimite.patrimonioNecessario) *
-                              100,
+                            100,
                             100
                           )}%`,
                           backgroundColor: contrato1.cor4,
@@ -2470,8 +2474,8 @@ const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
                           {cashbackData.tipo === "nenhum"
                             ? "Sem cashback"
                             : cashbackData.tipo === "todos"
-                            ? "Todas compras"
-                            : `Setor: ${cashbackData.setor}`}
+                              ? "Todas compras"
+                              : `Setor: ${cashbackData.setor}`}
                         </span>
                       </div>
                       <div className="flex justify-between">
