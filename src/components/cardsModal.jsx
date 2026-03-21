@@ -1412,7 +1412,7 @@ const CardModalBase = ({ index }) => {
                   data-tooltip-id="tooltip-faturado"
                   data-tooltip-html="Quantidade atual deste edifício na sua carteira"
                 >
-                  {quantidadeAtivoAtual > 0 && <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#fff" , display: "inline-block", flexShrink: 0 }} />}
+              
                   <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 14, fontWeight: 700, lineHeight: 1, color: quantidadeAtivoAtual > 0 ? "#fff"  : "#fff" }}>
                     {quantidadeAtivoAtual}
                   </span>

@@ -19,10 +19,10 @@ export default function GerenciamentoHub() {
       {/* FILA + TABS NA MESMA LINHA, MESMA ALTURA */}
       <div className="flex items-stretch gap-3">
         
-        <div className="flex-1 min-w-0">
+        {/* <div className="flex-1 min-w-0">
           {aba === "producao" && <ProductionQueuePanel />}
           {aba === "vendas"   && <SalesQueuePanel />}
-        </div>
+        </div> */}
 
         <div className="flex flex-row gap-1.5 bg-white/5 border border-white/10 rounded-2xl p-1.5 self-stretch items-center">
           {tabs.map(tab => (

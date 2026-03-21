@@ -27,6 +27,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import martelo from "../../public/outrasImagens/martelo.png";
 import LoanCarousel from "./LoanCarousel";
 import SidebarStorage from './SidebarStorage'
+import { SideInformations } from "./SideInformations";
 
 export default function Buy() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
@@ -498,6 +499,8 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
   if (dados.dia > 269) {
     if (dados.setorAtivo === 'carteira') {
       return <SidebarCard />;
+    } if (dados.setorAtivo === 'mercado'||dados.setorAtivo === 'estoque'||dados.setorAtivo === 'gerenciamento') {
+      return <SideInformations />;
     } if (setorAtual === "mercado") {
       return <SidebarStorage />;
     } else

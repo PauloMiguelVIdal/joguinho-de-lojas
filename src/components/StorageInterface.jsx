@@ -1,187 +1,346 @@
-import { useMemo, useContext } from "react";
+/**
+ * StorageInterface — área central da aba Estoque
+ *
+ * O que FICA AQUI (centro):
+ *   - Previsão de produção (detalhada, com slots e valor estimado)
+ *   - Inventário detalhado (com busca, scroll, valor total)
+ *
+ * O que FOI para o SideInformations (sidebar):
+ *   - Capacidade por categoria (resumo com barras)
+ *   - Alertas de overflow
+ *   - Inventário resumido (top 5 por valor)
+ */
+
+import { useMemo, useContext, useState } from "react";
 import { useGame } from "../components/GameContext";
 import { productsCatalog } from "../components/ProductCatalog";
 import { getMarketPrice } from "../components/TablePrice";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-import { Database, TrendingUp, Package, Building2, AlertTriangle } from "lucide-react";
+import { AlertTriangle, Package, TrendingUp, Search, X } from "lucide-react";
 
 export default function StorageInterface() {
   const {
     stock,
-    getCategoryStorageUI,
-    usedVariableStorage,
-    variableStorageTotal,
-    storageBuildings,
-    potentialCapacityByCategory,
-    getStockPredictionReport
+    getStockPredictionReport,
   } = useGame();
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
 
-  const categorias = useMemo(() => {
-    return [...new Set(Object.values(productsCatalog).map(p => p.categoriaFisica))];
-  }, []);
+  const [search, setSearch] = useState("");
 
-const edifícioStorage = ['Armazém','Silo','Campo De Estocagem','Armazém De Materiais Brutos','Pátio De Mineração','Servidor Em Nuvem','Data Center','Container Modular','Pátio De Veículos','Armazém Industrial','Câmara Fria','Centro De Distribuição','Armazém Logístico',' Pátio De Veículos','Hangar','Armazém Especializado de Materiais Sensíveis']
+  // ── Previsão de produção ────────────────────────────────────
+  const predictionReport = useMemo(
+    () => getStockPredictionReport(),
+    [stock, getStockPredictionReport]
+  );
 
-
+  // ── Inventário com busca ────────────────────────────────────
   const stockedProducts = useMemo(() => {
     return Object.entries(stock)
       .map(([id, qty]) => ({
-        id,
-        qty,
+        id, qty,
         product: productsCatalog[id],
+        valor: qty * getMarketPrice(id, economiaSetores),
       }))
-      .filter(p => p.product && p.qty > 0);
-  }, [stock]);
+      .filter((p) => {
+        if (!p.product || p.qty <= 0) return false;
+        if (!search) return true;
+        return p.product.nome.toLowerCase().includes(search.toLowerCase());
+      })
+      .sort((a, b) => b.valor - a.valor);
+  }, [stock, economiaSetores, search]);
 
-  const totalStockValue = useMemo(() => {
-    return stockedProducts.reduce((total, { id, qty }) => {
-      const price = getMarketPrice(id, economiaSetores);
-      return total + qty * price;
-    }, 0);
-  }, [stockedProducts, economiaSetores]);
+  const totalStockValue = useMemo(
+    () => stockedProducts.reduce((sum, { valor }) => sum + valor, 0),
+    [stockedProducts]
+  );
 
-  const predictionReport = useMemo(() => getStockPredictionReport(), [stock, getStockPredictionReport]);
-
-  const formatNumber = v => new Intl.NumberFormat("pt-BR").format(v);
-  const formatMoney = v => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
+  const formatNumber = (v) => new Intl.NumberFormat("pt-BR").format(v);
+  const formatMoney = (v) =>
+    new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
+  const fmtK = (v) => {
+    if (v >= 1e9) return (v / 1e9).toFixed(1) + "B";
+    if (v >= 1e6) return (v / 1e6).toFixed(1) + "M";
+    if (v >= 1e3) return (v / 1e3).toFixed(0) + "K";
+    return String(Math.round(v));
+  };
 
   return (
     <div
-      style={{ backgroundColor: "#6411D9" }}
-      className="h-full p-5 overflow-y-auto scrollbar-custom rounded-[20px] text-white animate-in fade-in duration-500"
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        background: "linear-gradient(180deg,#0d001f 0%,#060010 100%)",
+        borderRadius: 20,
+        overflow: "hidden",
+        color: "#fff",
+      }}
     >
-      <h2 className="text-xl font-black text-center mb-5 uppercase tracking-tighter">
-        Centro de Logística
-      </h2>
+      {/* ══ CABEÇALHO ══ */}
+      <div style={{
+        flexShrink: 0,
+        padding: "14px 18px 12px",
+        borderBottom: "1px solid rgba(255,255,255,.06)",
+        background: "rgba(0,0,0,.3)",
+        display: "flex", alignItems: "center", gap: 10,
+      }}>
+        <Package size={16} color="#FFD966" />
+        <h2 style={{
+          fontSize: 13, fontWeight: 900, textTransform: "uppercase",
+          letterSpacing: ".14em", color: "#fff",
+        }}>
+          Centro de Logística
+        </h2>
+        <span style={{
+          marginLeft: "auto", fontSize: 10, fontWeight: 700,
+          color: "rgba(255,255,255,.3)", letterSpacing: ".08em", textTransform: "uppercase",
+        }}>
+          {stockedProducts.length} produto{stockedProducts.length !== 1 ? "s" : ""} em estoque
+        </span>
+      </div>
 
-      {/* REDUZIDO DE space-y-6 PARA space-y-3 */}
-      <div className="space-y-3">
+      {/* ══ CONTEÚDO SCROLLÁVEL ══ */}
+      <div style={{
+        flex: 1, minHeight: 0,
+        overflowY: "auto", overflowX: "hidden",
+        scrollbarWidth: "thin",
+        scrollbarColor: "rgba(255,255,255,.07) transparent",
+        padding: "14px 16px",
+        display: "flex", flexDirection: "column", gap: 16,
+      }}>
 
-        {/* =========================
-            CAPACIDADE POR CATEGORIA
-        ========================= */}
-        <section className="bg-black/20 backdrop-blur-md border border-white/10 rounded-[1.2rem] p-4">
-          <div className="flex items-center gap-2 text-white/60 mb-3">
-            <Database size={14} />
-            <h3 className="font-bold uppercase tracking-widest text-[10px]">Capacidade</h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2">
-            {categorias.map(cat => {
-              const ui = getCategoryStorageUI(cat);
-              const potential = potentialCapacityByCategory[cat];
-              if (!potential) return null;
-
-              const usadoSlots = ui.usadoSlots ?? 0;
-              const capMaxSlots = (potential.dedicada ?? 0) + (potential.variavel ?? 0);
-              const percent = capMaxSlots > 0 ? Math.min((usadoSlots / capMaxSlots) * 100, 100) : 0;
-
-              return (
-                <div key={cat} className="space-y-1">
-                  <div className="flex justify-between text-[9px] font-bold uppercase text-white/70 px-1">
-                    <span>{cat}</span>
-                    <span>{usadoSlots.toFixed(1)} / {capMaxSlots}</span>
-                  </div>
-                  <div className="h-1.5 bg-black/40 rounded-full overflow-hidden border border-white/5">
-                    <div
-                      className={`h-full transition-all duration-500 ${percent > 90 ? "bg-red-500" : percent > 70 ? "bg-yellow-500" : "bg-emerald-500"}`}
-                      style={{ width: `${percent}%` }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-3 pt-2 border-t border-white/5 text-[9px] font-bold uppercase text-white/40 flex justify-between italic">
-            <span>Armazém Variável Geral</span>
-            <span className="text-white/70">{usedVariableStorage} / {variableStorageTotal} SLOTS</span>
-          </div>
-        </section>
-
-        {/* =========================
-            📈 PREVISÃO DE PRODUÇÃO (Gaps reduzidos)
-        ========================= */}
-        <section className="space-y-2">
-          {predictionReport.map(item => (
-            <div key={item.produtoId} className="bg-white/5 border border-white/10 rounded-xl p-3 flex flex-col gap-2">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <span className="text-xl">{item.icon}</span>
-                  <span className="font-black uppercase text-xs">{item.nome}</span>
-                </div>
-                <span className="bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded text-[9px] font-black">
-                  +{item.totalQtd}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 text-[9px] font-bold uppercase text-white/40">
-                <div className="bg-black/20 p-1.5 rounded-lg">
-                  <p className="text-white/30">Slots</p>
-                  <p className="text-white text-[10px]">{item.totalSlots}</p>
-                </div>
-                <div className="bg-black/20 p-1.5 rounded-lg text-right">
-                  <p className="text-white/30">Estimado</p>
-                  <p className="text-emerald-400 text-[10px]">{formatMoney(item.valorEstimado)}</p>
-                </div>
-              </div>
-
-              {item.excessoQtd > 0 && (
-                <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 p-1.5 rounded-lg text-red-400 text-[9px] font-bold uppercase">
-                  <AlertTriangle size={12} />
-                  <span>Perda de {item.excessoQtd} unid.</span>
-                </div>
-              )}
+        {/* ─────────────────────────────────────────────────────
+            SEÇÃO 1: PREVISÃO DE PRODUÇÃO
+        ───────────────────────────────────────────────────── */}
+        {predictionReport.length > 0 && (
+          <section>
+            <div style={{
+              display: "flex", alignItems: "center", gap: 7, marginBottom: 10,
+            }}>
+              <TrendingUp size={13} color="#60a5fa" />
+              <h3 style={{
+                fontSize: 10, fontWeight: 800, textTransform: "uppercase",
+                letterSpacing: ".12em", color: "rgba(255,255,255,.55)",
+              }}>
+                Previsão de Produção
+              </h3>
+              <span style={{
+                fontSize: 8, fontWeight: 700, padding: "1px 7px", borderRadius: 99,
+                background: "rgba(96,165,250,.15)", color: "#60a5fa",
+                border: "1px solid rgba(96,165,250,.25)",
+              }}>
+                {predictionReport.length} item{predictionReport.length !== 1 ? "s" : ""}
+              </span>
             </div>
-          ))}
-        </section>
 
-        {/* =========================
-            INVENTÁRIO ATUAL (Scroll Compacto)
-        ========================= */}
-        <section className="bg-black/20 backdrop-blur-md border border-white/10 rounded-[1.2rem] p-4 flex flex-col">
-          <div className="flex items-center gap-2 text-white/60 mb-3 flex-none">
-            <Package size={14} />
-            <h3 className="font-bold uppercase tracking-widest text-[10px]">Inventário</h3>
-          </div>
-
-          <div className="h-[300px] overflow-y-auto scrollbar-custom pr-2 space-y-1.5">
-            {stockedProducts.length === 0 ? (
-              <p className="text-[9px] text-white/30 uppercase text-center py-2 italic">Vazio</p>
-            ) : (
-              stockedProducts.map(({ id, qty, product }) => (
-                <div key={id} className="bg-white/5 border border-white/5 rounded-lg p-2 flex justify-between items-center hover:bg-white/10 transition-colors">
-                  <div className="flex items-center gap-2">
-                    <span className="w-8 h-8 bg-black/20 rounded-md flex items-center justify-center border border-white/10 text-lg">
-                      {product.icon}
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {predictionReport.map((item) => (
+                <div key={item.produtoId} style={{
+                  background: "rgba(255,255,255,.04)",
+                  border: "1px solid rgba(255,255,255,.08)",
+                  borderRadius: 12, padding: "12px 14px",
+                  display: "flex", flexDirection: "column", gap: 8,
+                }}>
+                  {/* topo: ícone + nome + badge qtd */}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <span style={{ fontSize: 22 }}>{item.icon}</span>
+                      <span style={{
+                        fontSize: 11, fontWeight: 800, textTransform: "uppercase",
+                        letterSpacing: ".04em",
+                      }}>
+                        {item.nome}
+                      </span>
+                    </div>
+                    <span style={{
+                      fontSize: 9, fontWeight: 900, padding: "3px 10px", borderRadius: 99,
+                      background: "rgba(96,165,250,.15)", color: "#60a5fa",
+                      border: "1px solid rgba(96,165,250,.22)",
+                    }}>
+                      +{item.totalQtd} previstos
                     </span>
-                    <div>
-                      <p className="font-black uppercase text-[10px] leading-none mb-0.5">{product.nome}</p>
-                      <p className="text-[8px] font-bold text-white/20 uppercase italic">
-                        {product.categoriaFisica}
+                  </div>
+
+                  {/* grid de métricas */}
+                  <div style={{
+                    display: "grid", gridTemplateColumns: "1fr 1fr",
+                    gap: 8,
+                  }}>
+                    <div style={{
+                      background: "rgba(0,0,0,.25)", borderRadius: 8, padding: "8px 10px",
+                    }}>
+                      <p style={{ fontSize: 8, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.3)", marginBottom: 3 }}>
+                        Slots necessários
+                      </p>
+                      <p style={{ fontSize: 15, fontWeight: 800, color: "#fff" }}>
+                        {item.totalSlots}
+                      </p>
+                    </div>
+                    <div style={{
+                      background: "rgba(0,0,0,.25)", borderRadius: 8, padding: "8px 10px",
+                      textAlign: "right",
+                    }}>
+                      <p style={{ fontSize: 8, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.3)", marginBottom: 3 }}>
+                        Valor estimado
+                      </p>
+                      <p style={{ fontSize: 15, fontWeight: 800, color: "#34d399" }}>
+                        {formatMoney(item.valorEstimado)}
                       </p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-black text-xs leading-none">
-                      {formatNumber(qty)} <span className="text-[8px] text-white/30 font-normal">{product.unidade}</span>
-                    </p>
-                    <p className="text-[9px] font-bold text-emerald-400/60">
-                      {formatMoney(qty * getMarketPrice(id, economiaSetores))}
-                    </p>
-                  </div>
+
+                  {/* alerta de excesso */}
+                  {item.excessoQtd > 0 && (
+                    <div style={{
+                      display: "flex", alignItems: "center", gap: 8,
+                      background: "rgba(239,68,68,.10)",
+                      border: "1px solid rgba(239,68,68,.22)",
+                      borderRadius: 8, padding: "6px 10px",
+                    }}>
+                      <AlertTriangle size={13} color="#ff4d4d" style={{ flexShrink: 0 }} />
+                      <span style={{ fontSize: 9, fontWeight: 800, color: "#ff4d4d", textTransform: "uppercase", letterSpacing: ".04em" }}>
+                        Perda de {item.excessoQtd} unid. — capacidade insuficiente
+                      </span>
+                    </div>
+                  )}
                 </div>
-              ))
-            )}
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ─────────────────────────────────────────────────────
+            SEÇÃO 2: INVENTÁRIO DETALHADO
+        ───────────────────────────────────────────────────── */}
+        <section style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
+          {/* cabeçalho com busca */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: 10, marginBottom: 10,
+            flexShrink: 0,
+          }}>
+            <Package size={13} color="#34d399" />
+            <h3 style={{
+              fontSize: 10, fontWeight: 800, textTransform: "uppercase",
+              letterSpacing: ".12em", color: "rgba(255,255,255,.55)",
+              flex: 1,
+            }}>
+              Inventário
+            </h3>
+
+            {/* busca inline */}
+            <div style={{
+              display: "flex", alignItems: "center", gap: 7,
+              background: "rgba(255,255,255,.06)",
+              border: "1px solid rgba(255,255,255,.09)",
+              borderRadius: 8, padding: "5px 10px",
+              width: 180,
+            }}>
+              <Search size={10} color="rgba(255,255,255,.3)" />
+              <input
+                type="text"
+                placeholder="Filtrar..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                style={{
+                  background: "transparent", border: "none", outline: "none",
+                  color: "#fff", fontSize: 10, fontWeight: 600,
+                  width: "100%", fontFamily: "inherit",
+                }}
+              />
+              {search && (
+                <button
+                  onClick={() => setSearch("")}
+                  style={{ background: "none", border: "none", cursor: "pointer", padding: 0, display: "flex" }}
+                >
+                  <X size={9} color="rgba(255,255,255,.35)" />
+                </button>
+              )}
+            </div>
           </div>
 
-          <div className="mt-3 pt-3 border-t border-white/10 flex justify-between items-center flex-none">
-            <span className="font-bold uppercase text-[9px] text-white/40 tracking-widest">Total Ativo</span>
-            <span className="font-black text-lg text-emerald-400 tracking-tighter">
+          {/* total */}
+          <div style={{
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            padding: "8px 12px", marginBottom: 8,
+            background: "rgba(52,211,153,.07)",
+            border: "1px solid rgba(52,211,153,.18)",
+            borderRadius: 10, flexShrink: 0,
+          }}>
+            <span style={{ fontSize: 9, fontWeight: 700, color: "rgba(255,255,255,.4)", textTransform: "uppercase", letterSpacing: ".08em" }}>
+              Valor total ativo
+            </span>
+            <span style={{ fontSize: 16, fontWeight: 900, color: "#34d399", letterSpacing: "-.01em" }}>
               {formatMoney(totalStockValue)}
             </span>
           </div>
+
+          {/* lista de produtos */}
+          {stockedProducts.length === 0 ? (
+            <div style={{
+              display: "flex", flexDirection: "column", alignItems: "center",
+              justifyContent: "center", flex: 1, gap: 8, opacity: 0.3,
+            }}>
+              <span style={{ fontSize: 28 }}>📦</span>
+              <p style={{ fontSize: 11, color: "#fff", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em" }}>
+                {search ? "Nenhum produto encontrado" : "Estoque vazio"}
+              </p>
+            </div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+              {stockedProducts.map(({ id, qty, product, valor }) => (
+                <div key={id} style={{
+                  display: "flex", alignItems: "center", gap: 10,
+                  background: "rgba(255,255,255,.04)",
+                  border: "1px solid rgba(255,255,255,.06)",
+                  borderRadius: 10, padding: "8px 12px",
+                  transition: "background .12s",
+                }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.07)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.04)"; }}
+                >
+                  {/* ícone */}
+                  <div style={{
+                    width: 36, height: 36, borderRadius: 8, flexShrink: 0,
+                    background: "rgba(0,0,0,.3)",
+                    border: "1px solid rgba(255,255,255,.09)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 18,
+                  }}>
+                    {product.icon}
+                  </div>
+
+                  {/* info */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{
+                      fontSize: 11, fontWeight: 800, color: "#fff",
+                      textTransform: "uppercase", letterSpacing: ".04em",
+                      whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                      marginBottom: 2,
+                    }}>
+                      {product.nome}
+                    </p>
+                    <p style={{ fontSize: 9, color: "rgba(255,255,255,.28)", fontWeight: 600 }}>
+                      {product.categoriaFisica}
+                      {product.unidade ? ` · ${product.unidade}` : ""}
+                    </p>
+                  </div>
+
+                  {/* quantidade */}
+                  <div style={{ textAlign: "right", flexShrink: 0 }}>
+                    <p style={{ fontSize: 14, fontWeight: 900, color: "#fff", lineHeight: 1 }}>
+                      {formatNumber(qty)}
+                      <span style={{ fontSize: 9, color: "rgba(255,255,255,.3)", fontWeight: 500, marginLeft: 3 }}>
+                        {product.unidade}
+                      </span>
+                    </p>
+                    <p style={{ fontSize: 10, fontWeight: 700, color: "#34d399", marginTop: 2 }}>
+                      {formatMoney(valor)}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
       </div>
     </div>

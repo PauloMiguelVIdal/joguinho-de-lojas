@@ -76,6 +76,9 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
 
   const setorAtivo = setor;
+  if (!dados[setorAtivo] || !dados[setorAtivo].edificios || !dados[setorAtivo].edificios[index]) {
+  return null;
+}
   const [changeAudio] = useSound(changeSectoryAudio);
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
@@ -146,6 +149,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   const handleShow = (id) => setVisibleId(id);
 
   const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+console.log("setor recebido:", setor, "| dados disponíveis:", Object.keys(dados));
 
   // ── DADOS DO EDIFÍCIO ──────────────────────────────────────
   const arrayConstResources = dados[setorAtivo]?.edificios[index]?.recursoDeConstrução;

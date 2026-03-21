@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { CardLocalization } from "./cardLocalization";
 
-export const Localizador = (edificioProcurado, abrirModalSell) => {
+export const Localizador = (edificioProcurado, abrirModalSell, idx, setor) => {
   const { dados } = useContext(CentraldeDadosContext);
 
   const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
@@ -21,6 +21,13 @@ export const Localizador = (edificioProcurado, abrirModalSell) => {
   const verificadorLocalizado = indice === -1 ? "não achou" : "achou";
 
   return (
-<CardLocalization index={indice} setor={setorEncontrado} abrirModalSell={abrirModalSell}/>
+<CardLocalization 
+
+      key={`${setor}-${idx}`}
+      index={idx}
+      setor={setor}
+      abrirModalSell={abrirModalSell}
+    />
+
   );
 };
