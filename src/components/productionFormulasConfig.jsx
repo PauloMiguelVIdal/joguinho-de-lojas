@@ -24,7 +24,7 @@ export const FORMULAS_EDIFICIOS = [
 
         output: {
           milho: 20,
-          sementeMilho: 8,
+          sementeMilho: 5,
         },
       },
       {
@@ -40,7 +40,7 @@ export const FORMULAS_EDIFICIOS = [
 
         output: {
           trigo: 20,
-          sementeTrigo: 8,
+          sementeTrigo: 5,
         },
       },
       {
@@ -55,7 +55,7 @@ export const FORMULAS_EDIFICIOS = [
         },
         output: {
           soja: 20,
-          sementeSoja: 8,
+          sementeSoja: 5,
         },
       },
       {
@@ -71,7 +71,7 @@ export const FORMULAS_EDIFICIOS = [
 
         output: {
           algodão: 20,
-          sementeAlgodão: 8,
+          sementeAlgodão: 5,
         },
       },
     ],
@@ -269,14 +269,14 @@ export const FORMULAS_EDIFICIOS = [
           arvoreNativa: 1,
         },
         output: {
-          arvoreNativa: 20,
+          toraNativa: 5,
         },
       },
     ],
   },
   {
-    edificioId: "madeireira",
-    nomeEdificio: "Madeireira",
+    edificioId: "serraria",
+    nomeEdificio: "Serraria",
     setor: "agricultura",
 
     maxAcoesSimultaneasPorNivel: {
@@ -367,7 +367,7 @@ export const FORMULAS_EDIFICIOS = [
     formulas: [
       {
         id: "ração_ovinos",
-        nome: "Produção Ração",
+        nome: "Produção Ração Ovinos",
         capacidadePorEdificio: 100,
         duracao: 30,
 
@@ -382,7 +382,7 @@ export const FORMULAS_EDIFICIOS = [
       },
       {
         id: "ração_porco",
-        nome: "Produção Ração",
+        nome: "Produção Ração Porco",
         capacidadePorEdificio: 100,
         duracao: 30,
         input: {
@@ -395,7 +395,7 @@ export const FORMULAS_EDIFICIOS = [
       },
       {
         id: "ração_vacas",
-        nome: "Produção Ração",
+        nome: "Produção Ração Vacas",
         capacidadePorEdificio: 100,
         duracao: 30,
 
@@ -410,7 +410,7 @@ export const FORMULAS_EDIFICIOS = [
       },
       {
         id: "ração_aves",
-        nome: "Produção Ração",
+        nome: "Produção Ração Aves",
         capacidadePorEdificio: 100,
         duracao: 30,
 
@@ -2995,192 +2995,192 @@ export const FORMULAS_EDIFICIOS = [
       },
     ],
   },
-  {
-    edificioId: "usinaSolar",
-    nomeEdificio: "Usina Solar",
-    setor: "energia",
-    maxAcoesSimultaneasPorNivel: {
-      1: 1,
-      2: 2,
-      3: 3,
-    },
+  // {
+  //   edificioId: "usinaSolar",
+  //   nomeEdificio: "Usina Solar",
+  //   setor: "energia",
+  //   maxAcoesSimultaneasPorNivel: {
+  //     1: 1,
+  //     2: 2,
+  //     3: 3,
+  //   },
 
-    formulas: [
-      {
-        id: "prodSolar",
-        nome: "Produção De Enegia Solar",
-        capacidadePorEdificio: 100,
-        duracao: 30,
+  //   formulas: [
+  //     {
+  //       id: "prodSolar",
+  //       nome: "Produção De Enegia Solar",
+  //       capacidadePorEdificio: 100,
+  //       duracao: 30,
 
-        input: {
+  //       input: {
 
-        },
+  //       },
 
-        output: {
-          energiaLimpa: 1
-        },
-      },
-    ],
-  },
-  {
-    edificioId: "parqueEólico",
-    nomeEdificio: "Parque Eólico",
-    setor: "energia",
-    maxAcoesSimultaneasPorNivel: {
-      1: 1,
-      2: 2,
-      3: 3,
-    },
+  //       output: {
+  //         energiaLimpa: 1
+  //       },
+  //     },
+  //   ],
+  // },
+  // {
+  //   edificioId: "parqueEólico",
+  //   nomeEdificio: "Parque Eólico",
+  //   setor: "energia",
+  //   maxAcoesSimultaneasPorNivel: {
+  //     1: 1,
+  //     2: 2,
+  //     3: 3,
+  //   },
 
-    formulas: [
-      {
-        id: "prodEólico",
-        nome: "Produção De Enegia Eólica",
-        capacidadePorEdificio: 100,
-        duracao: 30,
+  //   formulas: [
+  //     {
+  //       id: "prodEólico",
+  //       nome: "Produção De Enegia Eólica",
+  //       capacidadePorEdificio: 100,
+  //       duracao: 30,
 
-        input: {
+  //       input: {
 
-        },
+  //       },
 
-        output: {
-          energiaLimpa: 1
-        },
-      },
-    ],
-  },
-  {
-    edificioId: "usinaBiomassa",
-    nomeEdificio: "Usina De Biomassa",
-    setor: "energia",
-    maxAcoesSimultaneasPorNivel: {
-      1: 1,
-      2: 2,
-      3: 3,
-    },
+  //       output: {
+  //         energiaLimpa: 1
+  //       },
+  //     },
+  //   ],
+  // },
+  // {
+  //   edificioId: "usinaBiomassa",
+  //   nomeEdificio: "Usina De Biomassa",
+  //   setor: "energia",
+  //   maxAcoesSimultaneasPorNivel: {
+  //     1: 1,
+  //     2: 2,
+  //     3: 3,
+  //   },
 
-    formulas: [
-      {
-        id: "prodBiomassa",
-        nome: "Produção De Enegia Por Biomassa",
-        capacidadePorEdificio: 100,
-        duracao: 30,
+  //   formulas: [
+  //     {
+  //       id: "prodBiomassa",
+  //       nome: "Produção De Enegia Por Biomassa",
+  //       capacidadePorEdificio: 100,
+  //       duracao: 30,
 
-        input: {
+  //       input: {
 
-        },
+  //       },
 
-        output: {
-          energiaLimpa: 1
-        },
-      },
-    ],
-  },
-  {
-    edificioId: "usinaTermelétricaBiocombustíveis",
-    nomeEdificio: "Usina Termelétrica A Biocombustíveis",
-    setor: "energia",
-    maxAcoesSimultaneasPorNivel: {
-      1: 1,
-      2: 2,
-      3: 3,
-    },
+  //       output: {
+  //         energiaLimpa: 1
+  //       },
+  //     },
+  //   ],
+  // },
+  // {
+  //   edificioId: "usinaTermelétricaBiocombustíveis",
+  //   nomeEdificio: "Usina Termelétrica A Biocombustíveis",
+  //   setor: "energia",
+  //   maxAcoesSimultaneasPorNivel: {
+  //     1: 1,
+  //     2: 2,
+  //     3: 3,
+  //   },
 
-    formulas: [
-      {
-        id: "prodBiocombustíveis",
-        nome: "Produção De Enegia Por Biocombustíveis",
-        capacidadePorEdificio: 100,
-        duracao: 30,
+  //   formulas: [
+  //     {
+  //       id: "prodBiocombustíveis",
+  //       nome: "Produção De Enegia Por Biocombustíveis",
+  //       capacidadePorEdificio: 100,
+  //       duracao: 30,
 
-        input: {
+  //       input: {
 
-        },
+  //       },
 
-        output: {
-          energiaLimpa: 1
-        },
-      },
-    ],
-  },
-  {
-    edificioId: "usinaHidrelétrica",
-    nomeEdificio: "Usina Hidrelétrica",
-    setor: "energia",
-    maxAcoesSimultaneasPorNivel: {
-      1: 1,
-      2: 2,
-      3: 3,
-    },
+  //       output: {
+  //         energiaLimpa: 1
+  //       },
+  //     },
+  //   ],
+  // },
+  // {
+  //   edificioId: "usinaHidrelétrica",
+  //   nomeEdificio: "Usina Hidrelétrica",
+  //   setor: "energia",
+  //   maxAcoesSimultaneasPorNivel: {
+  //     1: 1,
+  //     2: 2,
+  //     3: 3,
+  //   },
 
-    formulas: [
-      {
-        id: "prodHidrelétrica",
-        nome: "Produção De Enegia Por Hidrelétrica",
-        capacidadePorEdificio: 100,
-        duracao: 30,
+  //   formulas: [
+  //     {
+  //       id: "prodHidrelétrica",
+  //       nome: "Produção De Enegia Por Hidrelétrica",
+  //       capacidadePorEdificio: 100,
+  //       duracao: 30,
 
-        input: {
+  //       input: {
 
-        },
+  //       },
 
-        output: {
-          energiaLimpa: 1
-        },
-      },
-    ],
-  },
-  {
-    edificioId: "usinaTermelétrica",
-    nomeEdificio: "Usina Termelétrica",
-    setor: "energia",
-    maxAcoesSimultaneasPorNivel: {
-      1: 1,
-      2: 2,
-      3: 3,
-    },
+  //       output: {
+  //         energiaLimpa: 1
+  //       },
+  //     },
+  //   ],
+  // },
+  // {
+  //   edificioId: "usinaTermelétrica",
+  //   nomeEdificio: "Usina Termelétrica",
+  //   setor: "energia",
+  //   maxAcoesSimultaneasPorNivel: {
+  //     1: 1,
+  //     2: 2,
+  //     3: 3,
+  //   },
 
-    formulas: [
-      {
-        id: "prodTermelétrica",
-        nome: "Produção De Enegia Por Termelétrica",
-        capacidadePorEdificio: 100,
-        duracao: 30,
+  //   formulas: [
+  //     {
+  //       id: "prodTermelétrica",
+  //       nome: "Produção De Enegia Por Termelétrica",
+  //       capacidadePorEdificio: 100,
+  //       duracao: 30,
 
-        input: {
+  //       input: {
 
-        },
+  //       },
 
-        output: {
-          energiaComum: 1
-        },
-      },
-    ],
-  },
-  {
-    edificioId: "reatorNuclear",
-    nomeEdificio: "Reator Nuclear Convencional",
-    setor: "energia",
-    maxAcoesSimultaneasPorNivel: {
-      1: 1,
-      2: 2,
-      3: 3,
-    },
-    formulas: [
-      {
-        id: "prodNuclear",
-        nome: "Produção De Enegia Por Nuclear",
-        capacidadePorEdificio: 100,
-        duracao: 30,
+  //       output: {
+  //         energiaComum: 1
+  //       },
+  //     },
+  //   ],
+  // },
+  // {
+  //   edificioId: "reatorNuclear",
+  //   nomeEdificio: "Reator Nuclear Convencional",
+  //   setor: "energia",
+  //   maxAcoesSimultaneasPorNivel: {
+  //     1: 1,
+  //     2: 2,
+  //     3: 3,
+  //   },
+  //   formulas: [
+  //     {
+  //       id: "prodNuclear",
+  //       nome: "Produção De Enegia Por Nuclear",
+  //       capacidadePorEdificio: 100,
+  //       duracao: 30,
 
-        input: {
+  //       input: {
 
-        },
+  //       },
 
-        output: {
-          energiaNuclear: 1
-        },
-      },
-    ],
-  },
+  //       output: {
+  //         energiaNuclear: 1
+  //       },
+  //     },
+  //   ],
+  // },
 ];

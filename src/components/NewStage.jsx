@@ -1,70 +1,76 @@
 import React, { useContext, useEffect, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-import { motion } from "framer-motion";
-import { use } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function NewStage() {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-
+  const { dados } = useContext(CentraldeDadosContext);
   const [modal, setModal] = useState(false);
-
-  //   const fecharModal = () => {
-  //     buttonCloseAudio();
-  //     atualizarDados("modal", { ...dados.modal, estadoModal: false });
-  //   };
 
   const fecharModal = () => {
     setModal(false);
   };
 
   useEffect(() => {
-    if (dados.dia === 271) {
+    // Abre o modal quando chegar no dia 270
+    if (dados.dia === 270) {
       setModal(true);
     }
   }, [dados.dia]);
 
-  if (modal) {
-    return (
-      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[55vw] h-[55vh] bg-[#350973] rounded-[20px] z-20 relative"
-        >
-          <h1 className="text-center  text-white p-[10px] text-[30px] fonteBold">
-            Parabéns, você chegou a um novo estágio do jogo
-          </h1>
-          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
-          <div>
-            <p className=" text-[#9E6CE5] text-[20px] mt-4 ml-[20px] mr-[20px]">
-              Faça com que a sua empresa alcance locais mais altos na hierárquia empresárial através de expansão da sua empresa através de licenças empresáriais.
-            </p>
-            <p className=" text-[#9E6CE5] text-[20px] mt-4 ml-[20px] mr-[20px]">
-              agora você terá disponibilidade de até 6 setores, nos quais cada
-              um tem uma ecônomia de setor própria. Além de mais de 150
-              edifícios diferentes para investir, tudo isso você terá acesso através das licenças de setor, por isso é necessário investir nelas!!!
-            </p>
-            <p className=" text-[#9E6CE5] text-[20px] mt-4 ml-[20px] mr-[20px]">
-              Apartir desse momento os seus edifícios de imóvel e terrenos não
-              geram mais receita, ou seja , apartir de agora eles são
-              componentes para a construção dos seus edifícios.
-            </p>
-            <p className=" text-[#9E6CE5] text-[20px] mt-4 ml-[20px] mr-[20px]">
-              Você terá acesso a oportunidade de gerenciamento ativo em
-              determinados edifícios, dessa forma poder tomar as rédeas do seu
-              negócio.
-            </p>
-          </div>
-          <button
-            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={fecharModal}
+  // Estilos baseados no seu modelo de referência
+  const containerStyle = "fixed inset-0 flex justify-center items-center z-[100] bg-black/90 backdrop-blur-sm select-none";
+  const modalStyle = "w-[60vw] max-w-[800px] bg-[#350973]/40 border border-white/10 p-10 rounded-[24px] relative overflow-hidden backdrop-blur-md";
+  const buttonStyle = "mt-8 px-10 py-3 bg-gradient-to-br from-laranja to-[#E56100] text-white text-xl font-bold rounded-full hover:scale-105 active:scale-95 transition-all mx-auto block";
+
+  return (
+    <AnimatePresence>
+      {modal && (
+        <div className={containerStyle}>
+          <motion.div 
+            initial={{ opacity: 0, y: 30, scale: 0.95 }} 
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            className={modalStyle}
           >
-            <h3>entendido</h3>
-          </button>
-        </motion.div>
-      </div>
-    );
-  }
+            {/* Header */}
+            <h1 className="text-center text-white text-3xl font-bold mb-2">
+              Novo Estágio Alcançado!
+            </h1>
+            <div className="w-1/2 h-[2px] bg-laranja/50 mx-auto mb-6" />
+
+            {/* Content */}
+            <div className="space-y-4 text-center">
+              <p className="text-white/90 text-lg font-medium leading-relaxed">
+                Parabéns, administrador! Sua empresa agora alcançou um novo patamar na hierarquia empresarial.
+              </p>
+              
+              <div className="grid grid-cols-1 gap-4 text-white/70 text-base font-light text-left bg-white/5 p-6 rounded-xl border border-white/5">
+                <p>
+                  🚀 <span className="text-laranja font-bold">Expansão:</span> Agora você tem disponibilidade de até <span className="text-white">6 setores</span> com economias próprias e mais de <span className="text-white">150 edifícios</span>.
+                </p>
+                <p>
+                  🏗️ <span className="text-laranja font-bold">Logística:</span> Imóveis e terrenos não geram mais receita direta; eles agora são <span className="text-white">componentes essenciais</span> para suas construções.
+                </p>
+                <p>
+                  🎮 <span className="text-laranja font-bold">Gestão Ativa:</span> Tome as rédeas do seu negócio através do gerenciamento direto em edifícios selecionados.
+                </p>
+              </div>
+
+              <p className="text-laranja/80 text-sm italic">
+                É necessário investir em licenças de setor para liberar o acesso!
+              </p>
+            </div>
+
+            {/* Footer Button */}
+            <button className={buttonStyle} onClick={fecharModal}>
+              Entendido
+            </button>
+
+            {/* Efeito visual de fundo (opcional, um brilho sutil) */}
+            <div className="absolute -top-24 -left-24 w-48 h-48 bg-laranja/10 rounded-full blur-3xl pointer-events-none" />
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
 }

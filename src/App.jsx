@@ -6,6 +6,7 @@ import Notificação from "./notificação";
 import telaCheia from "../public/outrasImagens//tela cheia.png";
 import reduzirTela from "../public/outrasImagens/reduzir tela.png";
 import { GameProvider } from "./components/GameContext";
+import { PipelineProvider } from "./components/PipelineContext";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -54,27 +55,30 @@ function App() {
   return (
     <CentraldeDadosProvider>
       <DadosEconomyGlobalProvider>
-      <GameProvider>
-        <div
-          ref={containerRef}
-          className="h-[100vh] w-[100vw] relative bg-gray-900"
-        >
-          {/* Botão de Tela Cheia */}
-          <button
-            onClick={toggleFullscreen}
-            className="absolute top-2 right-5 z-50"
-          >
-            <img
-              className="w-[30px] h-[30px]"
-              src={isFullscreen ? reduzirTela : telaCheia}
-              alt={isFullscreen ? "Sair da Tela Cheia" : "Tela Cheia"}
-            />
-          </button>
+        <GameProvider>
+          <PipelineProvider>
 
-          {/* Seu jogo */}
-          <Interface />
-        </div>
-     </GameProvider>
+            <div
+              ref={containerRef}
+              className="h-[100vh] w-[100vw] relative bg-gray-900"
+            >
+              {/* Botão de Tela Cheia */}
+              <button
+                onClick={toggleFullscreen}
+                className="absolute top-2 right-5 z-50"
+              >
+                <img
+                  className="w-[30px] h-[30px]"
+                  src={isFullscreen ? reduzirTela : telaCheia}
+                  alt={isFullscreen ? "Sair da Tela Cheia" : "Tela Cheia"}
+                />
+              </button>
+
+              {/* Seu jogo */}
+              <Interface />
+            </div>
+          </PipelineProvider>
+        </GameProvider>
       </DadosEconomyGlobalProvider>
     </CentraldeDadosProvider>
   );

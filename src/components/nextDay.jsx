@@ -9,7 +9,7 @@ import useSound from "use-sound";
 import nextDayAudio from "../../public/sounds/nextDayAudio.mp3";
 import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 import { useHotkeys } from "react-hotkeys-hook";
-
+import { usePipeline } from "./PipelineContext";
 import { productsCatalog } from "./ProductCatalog";
 import {useGame } from "../components/GameContext";
 import { salvarNoStorage } from "./usePersistencia";
@@ -20,13 +20,15 @@ export function NextDay() {
   );
   const {  stock, productionQueue, sellQueue, salesContracts, contratosEdificios, marketTransactions } = useGame();
 
+const { getPipelinesParaSalvar } = usePipeline();
 
 const gameStateParaSalvar = useMemo(() => ({
-    stock,
-    productionQueue,
-    sellQueue,
-    contratosEdificios,
-  }), [stock, productionQueue, sellQueue, contratosEdificios]);
+  stock,
+  productionQueue,
+  sellQueue,
+  contratosEdificios,
+  pipelines: getPipelinesParaSalvar(),   // ← adicionar
+}), [stock, productionQueue, sellQueue, contratosEdificios, getPipelinesParaSalvar]);
 
 
   const tooltipStyle = {
@@ -70,6 +72,8 @@ const gameStateParaSalvar = useMemo(() => ({
     }
   }, [dados.dia, executouAudio270]);
 
+const { executarPipelinesHoje } = usePipeline();
+
   useHotkeys(
     "d",
     () => {
@@ -80,6 +84,7 @@ const gameStateParaSalvar = useMemo(() => ({
         dados.modalDespesas.estadoModal ||
         dados.modalEconomiaGlobal.estadoModal ||
         dados.dia % 30 === 0 ||
+        dados.dia === 400 || // dia raffled builds
         isNKeyDown // 2. Se já estiver pressionada, ignora o auto-repeat
       )
         return;
@@ -216,6 +221,7 @@ const gameStateParaSalvar = useMemo(() => ({
     // buttonNextDayAudio();
     processarTransacoesMercado();
     processProductions();
+     executarPipelinesHoje();  
     processSellQueue(faturamento); // ← passa o faturamento junt
      salvarNoStorage(gameStateParaSalvar, dados, economiaSetores);
   };

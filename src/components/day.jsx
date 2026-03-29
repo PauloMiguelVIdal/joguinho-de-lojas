@@ -29,7 +29,7 @@ export default function Day() {
         data-tooltip-content="Esse é o dia atual do jogo"
         className="flex justify-between items-center w-full h-full pl-[10px] pr-[15px] rounded-[12px] bg-white"
       >
-        <h1 className="fonteBold text-[#350973] text-[20px]">Dia:</h1>
+        <h1 className="fonteBold text-[#350973] text-[20px] mr-[20px]">Dia</h1>
         <h1 className="fonteBold text-[#350973] text-[20px]">{dados.dia}</h1>
       </div>
 

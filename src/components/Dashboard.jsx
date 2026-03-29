@@ -9,7 +9,8 @@ import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
 import imobiliario from "../../public/outrasImagens/setores/imobiliario.png";
 import grafico from "../../public/outrasImagens/setores/grafico.png";
 import aiAssistent from "../../public/outrasImagens/setores/aiAssistent.png";
-import gerenciamento from "../../public/outrasImagens/setores/gerenciamento.png";
+// import gerenciamento from "../../public/outrasImagens/setores/gerenciamento.png";
+import gerenciamento from "../../public/outrasImagens/setores/gerenciamentoHub.png";
 import circularEconomia from "../../public/outrasImagens/circular-economy.png";
 import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png";
 import { CardModal } from "./cardsModal";
@@ -60,7 +61,8 @@ import ButcherShopPanel from '../components/ButcherShopPanel.jsx'
 import ManagerPanelInterface from "./ManagerPanelInterface.jsx";
 import HubManagement from "./HubManagement.jsx";
 import mercado from '../../public/outrasImagens/mercado.png'
-import estoque from '../../public/outrasImagens/estoque.png'
+// import ecossistema from '../../public/outrasImagens/ecossistema.png'
+import ecossistema from '../../public/outrasImagens/setores/ecossistema.png'
 import ProductionQueueCard from "./ProductionQueueCard.jsx";
 import ProductionQueuePanel from "./ProductionQueuePanel.jsx";
 import ManagerSellPanel from "./ManagerSellPanel.jsx";
@@ -72,7 +74,8 @@ import { CardLocalization } from "./cardLocalization";
 import Techtree from "./Techtree.jsx";
 import ProductionChainTree from "./ProductionChainTree";
 import EcosystemMap from "./EcosystemMap";
-
+import CadeiaProdutiva from "./CadeiaProdutiva.jsx";
+import AssistenteIA from "./AssinstentIA.jsx";
 // Na sidebar de setores, adiciona o botão:
 
 
@@ -111,17 +114,30 @@ export default function Dashboard() {
   const { economiaSetores, setEconomiaSetores } = useContext(
     DadosEconomyGlobalContext
   );
+  const [ativo, setAtivo] = useState("grafico");
 
-  
-  const [graficoView, setGraficoView] = useState('grafico'); // 'grafico' | 'techtree' | 'producao' | 'ecossistema'
-  
+  const [graficoView, setGraficoView] = useState('ecossistema'); // 'grafico' | 'techtree' | 'producao' | 'ecossistema'
+
+  // No topo do Dashboard, APÓS os outros useState:
   const snapshotDados = JSON.stringify(
-  ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"].map(s =>
-    (dados[s]?.edificios || []).map(ed => ({ nome: ed.nome, q: ed.quantidade }))
-  )
-);
-  
-  
+    ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"].map(s =>
+      (dados[s]?.edificios || []).map(ed => ({ nome: ed.nome, q: ed.quantidade }))
+    )
+  );
+
+  // Adicione este useEffect logo abaixo:
+  const [carteiraKey, setCarteiraKey] = useState(0);
+
+
+
+  useEffect(() => {
+    console.log("[Dashboard] snapshot mudou, ativo:", ativo, "carteiraKey antes:", carteiraKey);
+    if (ativo === "carteira") {
+      setCarteiraKey(prev => prev + 1);
+    }
+  }, [snapshotDados]);
+
+
   // { id: "ecossistema", img: ecossistemaImg, cor3: "#4C14A9", cor4: "#6411D9" }
 
   // {ativo === "ecossistema" && (
@@ -130,7 +146,7 @@ export default function Dashboard() {
   //   </div>
   // )}
 
-  const [ativo, setAtivo] = useState("grafico");
+
   const [modalSell, setModalSell] = useState(false);
   // const economiaSetor = dados[ativo].economiaSetor.estadoAtual
   // console.log(economiaSetor)
@@ -366,6 +382,15 @@ export default function Dashboard() {
       cor4: "#934CFF ",
     },
     {
+      id: "mercado",
+      corClasse: "bg-[#6A00FF]",
+      img: mercado,
+      cor1: "#6A00FF ",
+      cor2: "#6A00FF ",
+      cor3: "#6A00FF ",
+      cor4: "#6A00FF ",
+    },
+    {
       id: "gerenciamento",
       corClasse: "bg-[#934CFF]",
       img: gerenciamento,
@@ -384,18 +409,9 @@ export default function Dashboard() {
       cor4: "#6A00FF ",
     },
     {
-      id: "estoque",
+      id: "ecossistema",
       corClasse: "bg-[#6A00FF]",
-      img: estoque,
-      cor1: "#6A00FF ",
-      cor2: "#6A00FF ",
-      cor3: "#6A00FF ",
-      cor4: "#6A00FF ",
-    },
-    {
-      id: "mercado",
-      corClasse: "bg-[#6A00FF]",
-      img: mercado,
+      img: ecossistema,
       cor1: "#6A00FF ",
       cor2: "#6A00FF ",
       cor3: "#6A00FF ",
@@ -418,6 +434,8 @@ export default function Dashboard() {
         return "bg-[#006400]";
     }
   };
+
+
 
   const coresEdificiosGradiente = {
     terrenos: {
@@ -445,6 +463,8 @@ export default function Dashboard() {
       glow: "rgba(58, 14, 140, 0.3)",
     },
   };
+
+
 
   const createGradientEdificios = (ctx, edificio) => {
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
@@ -1102,44 +1122,75 @@ export default function Dashboard() {
     },
   };
 
-  const [licencaModal, setLicencaModal] = useState(false);
+
+  const [licencaModal, setLicencaModal] = useState({ open: false, scrollToIndex: null });
   const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
 
-  if (licencaModal === true) {
+  useEffect(() => {
+    const sinal = dados.abrirModalLicencas;
+    if (!sinal) return;
+    if (sinal.setor !== ativo) {
+      setAtivo(sinal.setor);
+      atualizarDadosProf2(["setorAtivo"], sinal.setor);
+    }
+    setLicencaModal({ open: true, scrollToIndex: sinal.scrollToIndex });
+  }, [dados.abrirModalLicencas?.timestamp]);
+
+  useEffect(() => {
+    if (!licencaModal.open) return;
+    if (licencaModal.scrollToIndex === null || licencaModal.scrollToIndex === undefined) return;
+    const timer = setTimeout(() => {
+      const el = document.getElementById(`licenca-item-${licencaModal.scrollToIndex}`);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [licencaModal.open, licencaModal.scrollToIndex]);
+
+
+
+
+
+  if (licencaModal.open === true) {
+
     return (
-      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90 ">
+      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90">
         <motion.div
           style={{ backgroundColor: setorAtivo.cor4 }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[80vw] h-[80vh] bg-[#F52623] p-[20px] gap-[20px] rounded-[10px] flex flex-col items-center relative "
+          className="w-[80vw] h-[80vh] bg-[#F52623] p-[20px] gap-[20px] rounded-[10px] flex flex-col items-center relative"
         >
           <button
             className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
-            onClick={() => {
-              setLicencaModal(false), buttonCloseAudio();
-            }}
+            onClick={() => { setLicencaModal({ open: false, scrollToIndex: null }); buttonCloseAudio(); }}
           >
             <img src={fechar} alt="Fechar" className="w-[60%]" />
           </button>
+
           <div
             style={{ backgroundColor: setorAtivo.cor1 }}
-            className="flex shadow-xl justify-center items-center w-[100%] h-[15%]  rounded-[20px] self-center "
+            className="flex shadow-xl justify-center items-center w-[100%] h-[15%] rounded-[20px] self-center"
           >
             <h1 className="text-center text-white text-[40px] fonteBold">
               Licenças - {ativo}
             </h1>
           </div>
-          <div className="overflow-y-visible overflow-x-hidden w-full scrollbar-custom ">
+
+          {/* Container com scroll e ref para ancoragem */}
+          <div className="overflow-y-auto overflow-x-hidden w-full scrollbar-custom flex-1">
             {dados[ativo].licençasSetor.map((e, index) => (
-              <LicenseModal
+              <div
                 key={index}
-                setor={ativo}
-                nomeLicença={e.nome}
-                index={index}
-              />
+                id={`licenca-item-${index}`}
+              >
+                <LicenseModal
+                  setor={ativo}
+                  nomeLicença={e.nome}
+                  index={index}
+                />
+              </div>
             ))}
           </div>
         </motion.div>
@@ -1244,11 +1295,12 @@ export default function Dashboard() {
                     (setor) =>
                       setor.id !== "carteira" &&
                       setor.id !== "gerenciamento" &&
-                      setor.id !== "grafico"
+                      setor.id !== "grafico" &&
+                      setor.id !== "mercado"
                   )
                   .map((setor) => {
                     // Verificamos se é o setor de gráfico para aplicar o gradiente
-                    const isGrafico = setor.id === "grafico";
+                    const isEcossistema = setor.id === "ecossistema";
 
                     return (
                       <div key={setor.id}>
@@ -1263,15 +1315,18 @@ export default function Dashboard() {
                           className={`
               w-[60px] h-[60px] rounded-[20px] flex items-center justify-center shadow-md
               active:scale-95 hover:scale-[1.05] transition
-              ${isGrafico
-                              ? "bg-gradient-to-br from-[#6A00FF] to-[#FF0000]"
-                              : `hover:bg-[${setor.cor3}]`
-                            }
+          
               ${ativo === setor.id ? "ring-1 ring-white scale-[1.1]" : ""}
             `}
                           // O style só deve aplicar backgroundColor se NÃO for gráfico
-                          style={!isGrafico ? { backgroundColor: setor.cor3 } : {}}
-                        >
+                          style={
+                            !isEcossistema
+                              ? { backgroundColor: setor.cor3 }
+                              : {
+                                background: "linear-gradient(135deg, #4CAF50 0%, #D45A00 25%, #4D4D4D 45%, #A31919 55%, #1A1A8C 75%, #A37F19 100%)"
+                              }
+                          }                        >
+
                           <img
                             src={setor.img}
                             alt={setor.id}
@@ -1290,11 +1345,13 @@ export default function Dashboard() {
                   .filter(
                     (setor) =>
                       setor.id === "carteira" ||
+                      setor.id === "mercado" ||
                       setor.id === "grafico" ||
                       setor.id === "gerenciamento"
                   )
                   .map((setor) => {
                     const isGrafico = setor.id === "grafico";
+
 
                     return (
                       <div key={setor.id}>
@@ -1380,10 +1437,12 @@ export default function Dashboard() {
 
               )}
 
+
               {ativo === "grafico" && (
                 <div className="w-full h-full flex flex-col gap-3">
+                  <AssistenteIA/>
 
-                  {/* ── SELETOR DE SUB-VIEW ── */}
+{/*                
                   <div style={{
                     display: 'flex', gap: 6, padding: '6px 8px',
                     background: 'rgba(0,0,0,.35)', borderRadius: 14,
@@ -1423,10 +1482,9 @@ export default function Dashboard() {
                     })}
                   </div>
 
-                  {/* ── CONTEÚDO DA SUB-VIEW ── */}
                   <div className="flex-1 w-full" style={{ minHeight: 0 }}>
 
-                    {/* Gráfico original */}
+          
                     {graficoView === 'grafico' && dados.dia <= 270 && (
                       <div className="w-full h-full p-4 flex items-center justify-center">
                         <div
@@ -1473,28 +1531,28 @@ export default function Dashboard() {
                       </div>
                     )}
 
-                    {/* TechTree */}
+                  
                     {graficoView === 'techtree' && (
                       <div className="w-full h-full">
                         <Techtree />
                       </div>
                     )}
 
-                    {/* Cadeia Produtiva */}
+               
                     {graficoView === 'producao' && (
                       <div className="w-full h-full">
                         <ProductionChainTree />
                       </div>
                     )}
 
-                    {/* Ecossistemas */}
+            
                     {graficoView === 'ecossistema' && (
                       <div className="w-full h-full">
                         <EcosystemMap />
                       </div>
                     )}
 
-                  </div>
+                  </div> */}
                 </div>
                 // <Map />
 
@@ -1552,9 +1610,10 @@ export default function Dashboard() {
                   <MarketplaceSystem />
                 </div>
               )}
-              {ativo === "estoque" && (
+              {ativo === "ecossistema" && (
                 <div className="w-full h-full">
-                  <StorageInterface />
+                  <CadeiaProdutiva />
+                  {/* <StorageInterface /> */}
                 </div>
               )}
               {ativo === "carteira" && (() => {
@@ -1569,30 +1628,117 @@ export default function Dashboard() {
                 };
                 const setoresNomes = { agricultura: "Agricultura", tecnologia: "Tecnologia", industria: "Indústria", comercio: "Comércio", imobiliario: "Imobiliário", energia: "Energia", todos: "Todos" };
 
-                const productions = ["Plantação De Grãos", "Fazenda De Vacas", "Plantação De Eucalipto", "Granja De Aves", "Criação De Ovinos", "Madeireira", "Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestíveis", "Fábrica De Rações", "Fábrica De Embalagens", "Fábrica De Fertilizantes", "Fábrica Têxtil", "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose", "Fábrica De Papel", "Fábrica De Livros", "Fábrica De Medicamentos", "Laboratório Farmacêutico", "Fábrica De Plásticos", "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas", "Indústria De Componentes Mecânicos", "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas", "Fábrica De Peças Automotivas", "Montadora De Veículos Elétricos", "Fábrica De Automóveis", "Refinaria", "Biofábrica", "Fábrica De Chips", "Fábrica De Placas Eletrônicas", "Fábrica De Semicondutores", "Fábrica De Robôs", "Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves", "Estaleiro", "Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias"];
+                const productions = ["Plantação De Grãos", "Fazenda De Vacas", "Plantação De Eucalipto", "Granja De Aves", "Criação De Ovinos", "Serraria", "Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestíveis", "Fábrica De Rações", "Fábrica De Embalagens", "Fábrica De Fertilizantes", "Fábrica Têxtil", "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose", "Fábrica De Papel", "Fábrica De Livros", "Fábrica De Medicamentos", "Laboratório Farmacêutico", "Fábrica De Plásticos", "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas", "Indústria De Componentes Mecânicos", "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas", "Fábrica De Peças Automotivas", "Montadora De Veículos Elétricos", "Fábrica De Automóveis", "Refinaria", "Biofábrica", "Fábrica De Chips", "Fábrica De Placas Eletrônicas", "Fábrica De Semicondutores", "Fábrica De Robôs", "Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves", "Estaleiro", "Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias"];
                 const sellFinal = ["Livraria", "Mercado", "Açougue", "Petshop", "Farmácia", "Loja De Calçados", "Loja De Vestuário", "Loja De Gadgets E Wearables", "Loja De Games", "Loja De Celulares", "Loja De Informática", "Loja De Eletrônicos", "Concessionária De Veículos"];
                 const edificiosDeArmazenamento = ["Armazém", "Silo", "Depósito De Resíduos Orgânicos", "Data Center", "Servidor Em Nuvem", "Armazém Logístico", "Centro De Distribuição", "Fábrica De Tanque De Armazenamento Biocombustível", "Centro De Coleta De Biomassa", "Campo De Estocagem", "Armazém De Materiais Brutos", "Câmara Fria", "Container Modular", "Pátio De Veículos", "Armazém Industrial", "Armazém De Materiais Sensíveis", "Hangar", "Pátio De Mineração"];
 
                 const getCategoria = (nome) => {
-                  if (edificiosDeArmazenamento.includes(nome)) return "estoque";
+                  if (edificiosDeArmazenamento.includes(nome)) return "ecossistema";
                   if (productions.includes(nome)) return "producao";
                   if (sellFinal.includes(nome)) return "venda";
                   return "passiva";
                 };
-                const categoriaLabel = { producao: "Produção", venda: "Venda", estoque: "Estoque", passiva: "Passiva" };
-                const categoriaColor = { producao: "#6411D9", venda: "#F27405", estoque: "#1A8C5A", passiva: "#555" };
+                const categoriaLabel = { producao: "Produção", venda: "Venda", ecossistema: "ecossistema", passiva: "Passiva" };
+                const categoriaColor = { producao: "#6411D9", venda: "#F27405", ecossistema: "#1A8C5A", passiva: "#555" };
 
-                const calcROI = (ed, setor) => {
-                  const fatu = (ed.finanças?.faturamentoUnitário || 0) * 30;
-                  const imp = fatu * (ed.finanças?.impostoSobreFatu || 0) + (ed.finanças?.impostoFixo || 0);
-                  const lucro = fatu - imp;
-                  const custoT = (ed.lojasNecessarias?.terrenos || 0) * (dados.terrenos?.preçoConstrução || 0)
-                    + (ed.lojasNecessarias?.lojasP || 0) * ((dados.lojasP?.preçoConstrução || 0) + (dados.lojasP?.quantidadeNecTerreno || 0) * (dados.terrenos?.preçoConstrução || 0))
-                    + (ed.lojasNecessarias?.lojasM || 0) * ((dados.lojasM?.preçoConstrução || 0) + (dados.lojasM?.quantidadeNecTerreno || 0) * (dados.terrenos?.preçoConstrução || 0))
-                    + (ed.lojasNecessarias?.lojasG || 0) * ((dados.lojasG?.preçoConstrução || 0) + (dados.lojasG?.quantidadeNecTerreno || 0) * (dados.terrenos?.preçoConstrução || 0))
-                    + (ed.custoConstrucao || 0);
-                  return custoT > 0 ? (lucro / custoT) * 100 : 0;
-                };
+const calcROI = (ed) => {
+  if (!ed || !dados) return 0;
+
+  try {
+    // ===== ECONOMIA =====
+    const fatorEconomico = {
+      recessão: 0.4,
+      declinio: 0.8,
+      estável: 1,
+      progressiva: 1.1,
+      aquecida: 1.25
+    }[economiaSetores] || 1;
+
+    // ===== POWER UP (SAFE) =====
+    const quantidadeAtual = ed.quantidade || 0;
+
+    const qtdMin2 = ed?.powerUp?.nível2?.quantidadeMínima ?? Infinity;
+    const qtdMin3 = ed?.powerUp?.nível3?.quantidadeMínima ?? Infinity;
+
+    const nivelPU =
+      quantidadeAtual >= qtdMin3 ? "powerUpNv3" :
+      quantidadeAtual >= qtdMin2 ? "powerUpNv2" :
+      "powerUpNv1";
+
+    let redCusto = 0;
+    let aumFatu = 0;
+
+    if (Array.isArray(ed?.RecebeMelhoraEficiencia)) {
+      ed.RecebeMelhoraEficiencia.forEach((rel) => {
+        let qtdOutro = 0;
+
+        for (const s of setoresArr) {
+          const lista = dados[s]?.edificios;
+          if (!Array.isArray(lista)) continue;
+
+          const found = lista.find(e => e.nome === rel.nome);
+          if (found) {
+            qtdOutro = found.quantidade || 0;
+            break;
+          }
+        }
+
+        if (qtdOutro > 0) {
+          redCusto +=
+            nivelPU === "powerUpNv1" ? rel?.redCusto?.nível1 || 0 :
+            nivelPU === "powerUpNv2" ? rel?.redCusto?.nível2 || 0 :
+            rel?.redCusto?.nível3 || 0;
+
+          aumFatu +=
+            nivelPU === "powerUpNv1" ? rel?.aumFatu?.nível1 || 0 :
+            nivelPU === "powerUpNv2" ? rel?.aumFatu?.nível2 || 0 :
+            rel?.aumFatu?.nível3 || 0;
+        }
+      });
+    }
+
+    // ===== FINANÇAS =====
+    const valorFatu = ed?.finanças?.faturamentoUnitário || 0;
+    const impostoFixo = ed?.finanças?.impostoFixo || 0;
+    const impostoFatu = ed?.finanças?.impostoSobreFatu || 0;
+
+    const valorFatuFinal = valorFatu * (1 + aumFatu / 100);
+    const impostoFixoFinal = impostoFixo * (1 - redCusto / 100);
+    const impostoFatuFinal = impostoFatu * (1 - redCusto / 100);
+
+    const fatuMensal = valorFatuFinal * 30 * fatorEconomico;
+    const impostoSobreFatuValor = fatuMensal * impostoFatuFinal;
+
+    const lucro = fatuMensal - impostoSobreFatuValor - impostoFixoFinal;
+
+    // ===== CUSTO BASE =====
+    const custoBase =
+      (ed?.lojasNecessarias?.terrenos || 0) * (dados?.terrenos?.preçoConstrução || 0) +
+      (ed?.lojasNecessarias?.lojasP || 0) * ((dados?.lojasP?.preçoConstrução || 0) + (dados?.lojasP?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
+      (ed?.lojasNecessarias?.lojasM || 0) * ((dados?.lojasM?.preçoConstrução || 0) + (dados?.lojasM?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
+      (ed?.lojasNecessarias?.lojasG || 0) * ((dados?.lojasG?.preçoConstrução || 0) + (dados?.lojasG?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0));
+
+    // ⚠️ IMPORTANTE: evitar recursão pesada no render
+    let custoRecursos = 0;
+    if (Array.isArray(ed?.recursoDeConstrução)) {
+      ed.recursoDeConstrução.forEach((nome) => {
+        try {
+          custoRecursos += calcularCustoRecurso(nome);
+        } catch {
+          custoRecursos += 0;
+        }
+      });
+    }
+
+    const custoTotal = custoBase + custoRecursos + (ed?.custoConstrucao || 0);
+
+    return custoTotal > 0 ? (lucro / custoTotal) * 100 : 0;
+
+  } catch (err) {
+    console.error("Erro no calcROI:", err);
+    return 0;
+  }
+};
 
                 let todosEdificios = [];
                 setoresArr.forEach(s => {
@@ -1625,7 +1771,21 @@ export default function Dashboard() {
 
                 const lucroLiquido = receitaMensalTotal - impostosTotais;
                 const setoresAtivosSet = new Set(todosEdificios.map(e => e.setor));
-                const edAtual = dadosCarteiraEdificios.quantidadeEdificiosAtual || 0;
+                const edAtual = setoresArr.reduce((total, s) =>
+                  total + (dados[s]?.edificios || []).reduce((sum, ed) =>
+                    sum + (ed.quantidade > 0 ? ed.quantidade : 0), 0)
+                  , 0);
+
+                const tiposUnicos = new Set(
+                  setoresArr.flatMap(s =>
+                    (dados[s]?.edificios || []).filter(ed => ed.quantidade > 0).map(ed => ed.nome)
+                  )
+                ).size;
+
+                const setoresComEdificios = setoresArr.filter(s =>
+                  (dados[s]?.edificios || []).some(ed => ed.quantidade > 0)
+                ).length;
+
                 const edMax = dadosCarteiraEdificios.quantidadeEdificiosMax || 1;
                 const percCapacidade = Math.min((edAtual / edMax) * 100, 100);
                 const corBarra = percCapacidade >= 90 ? "#ff4d4d" : percCapacidade >= 70 ? "#FFD700" : "#7aff9a";
@@ -1639,7 +1799,7 @@ export default function Dashboard() {
                 const btnInativo = { ...btnBase, background: "rgba(255,255,255,.06)", color: "rgba(255,255,255,.4)" };
 
                 return (
-                  <div className="flex-1 w-full rounded-[20px] flex flex-col gap-[10px]" style={{ minHeight: 0 }}>
+                  <div key={carteiraKey} className="flex-1 w-full rounded-[20px] flex flex-col gap-[10px]" style={{ minHeight: 0 }}>
                     <Tooltip style={tooltipStyle} id="tooltip-carteira" />
 
                     {/* ── HEADER ─────────────────────────────────────── */}
@@ -1682,11 +1842,11 @@ export default function Dashboard() {
                           className="h-full bg-laranja aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 cursor-pointer">
                           <img className="w-[70%]" src={bank} alt="Bancos" />
                         </button>
-                        <button onClick={() => { setBusinessLicenceModal(true); buttonOpenAudio(); }}
+                        {/* <button onClick={() => { setBusinessLicenceModal(true); buttonOpenAudio(); }}
                           data-tooltip-id="tooltip-carteira" data-tooltip-html="Licenças empresariais"
                           className="h-full bg-laranja aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 cursor-pointer">
                           <img className="w-[70%]" src={licença} />
-                        </button>
+                        </button> */}
                       </div>
                     </div>
 
@@ -1694,9 +1854,9 @@ export default function Dashboard() {
                     <div className="w-full flex gap-[10px]" style={{ height: 44 }}>
                       {[
                         { icon: limitar, tip: "Limite por tipo", val: String(dadosCarteiraEdificios.quantidadeUnicoMax) },
-                        { icon: setoresImg, tip: "Setores ativos", val: `${dadosCarteiraEdificios.quantidadeSetoresAtual}/${dadosCarteiraEdificios.quantidadeSetoresMax}` },
-                        { icon: diversidade, tip: "Tipos de edifícios", val: `${dadosCarteiraEdificios.quantidadeDiversosEdificiosAtual}/${dadosCarteiraEdificios.quantidadeDiversosEdificiosMax}` },
-                        { icon: soma, tip: "Total de edifícios", val: `${edAtual}/${edMax}` },
+                        { icon: setoresImg, tip: "Setores ativos", val: `${setoresComEdificios}/${dadosCarteiraEdificios.quantidadeSetoresMax}` },
+                        { icon: diversidade, tip: "Tipos de edifícios", val: `${tiposUnicos}/${dadosCarteiraEdificios.quantidadeDiversosEdificiosMax}` },
+                        { icon: soma, tip: "Total de edifícios", val: `${edAtual}/${dadosCarteiraEdificios.quantidadeEdificiosMax}` },
                       ].map(({ icon, tip, val }, i) => (
                         <div key={i} data-tooltip-id="tooltip-carteira" data-tooltip-html={tip}
                           style={{ backgroundColor: setorAtivo.cor3 }}
@@ -1779,7 +1939,7 @@ export default function Dashboard() {
                             <div key={`${setor}-${idx}`} style={{ position: "relative" }}>
                               {/* Badge ROI */}
                               <div style={{
-                                position: "absolute", top: -8, right: 10, zIndex: 10,
+                                position: "absolute", top: -8, right: 10, zIndex: 2,
                                 background: roi >= 10 ? "#1a4a1a" : roi >= 0 ? "#2a2a1a" : "#4a1a1a",
                                 border: `1px solid ${roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090"}`,
                                 borderRadius: 6, padding: "1px 8px", display: "flex", alignItems: "center", gap: 4,
@@ -1805,14 +1965,14 @@ export default function Dashboard() {
                         </div>
                       )}
                     </div>
-                      {modalSellOpen && (
-                        <SellModal
-                          setor={modalProps.setor}
-                          nomeLicença={modalProps.nomeLicença}
-                          index={modalProps.index}
-                          onClose={() => setModalSellOpen(false)}
-                        />
-                      )}
+                    {modalSellOpen && (
+                      <SellModal
+                        setor={modalProps.setor}
+                        nomeLicença={modalProps.nomeLicença}
+                        index={modalProps.index}
+                        onClose={() => setModalSellOpen(false)}
+                      />
+                    )}
 
                     {/* ── BARRA DE CAPACIDADE ────────────────────────── */}
                     <div style={{
@@ -1852,7 +2012,7 @@ export default function Dashboard() {
 
               {ativo !== "grafico" &&
                 ativo !== "mercado" &&
-                ativo !== "estoque" &&
+                ativo !== "ecossistema" &&
                 ativo !== "carteira" &&
                 ativo !== "gerenciamento" && (
                   <div className="flex-1 w-full rounded-[20px] flex flex-col justify-between h-full">
@@ -1928,9 +2088,8 @@ export default function Dashboard() {
                           data-tooltip-id="tooltip-terreno-aumentar"
                           data-tooltip-html="Abrir menu de licenças do setor"
                           style={{ backgroundColor: setorAtivo.cor3 }}
-                          onClick={() => {
-                            setLicencaModal(true), buttonOpenAudio();
-                          }}
+                          onClick={() => { setLicencaModal({ open: true, scrollToIndex: null }); buttonOpenAudio(); }}
+
                           className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 ease-in-out delay-[0.1s] cursor-pointer"
                         >
                           <img className="w-[70%]" src={licença} />

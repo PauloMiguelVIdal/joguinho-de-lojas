@@ -175,7 +175,7 @@ const UpgradeCards = () => {
     "Armazém",
     "Silo",
     "Depósito De Resíduos Orgânicos",
-    "Madeireira",
+    "Serraria",
     "Área Florestal",
     "Terreno De Mineração",
     "Plantação De Eucalipto",

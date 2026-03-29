@@ -15,7 +15,7 @@ const dadosIniciais = {
     fimGame: false,
     nomeEmpresa: "",
     animarCicloDia: null,
-    dia: 1000,
+    dia: 1,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -328,7 +328,7 @@ const dadosIniciais = {
           desc: "Autoriza a exploração sustentável de recursos naturais como madeira e ceulose em áreas designadas.",
           valor: 140000,
           edifíciosLiberados: [
-            "Madeireira",
+            "Serraria",
             "Área Florestal",
             "Armazém De Materiais Brutos",
           ],
@@ -753,8 +753,8 @@ const dadosIniciais = {
           custoConstrucao: 70000,
           quantidade: 0,
           finanças: {
-            faturamentoUnitário: -780,
-            impostoFixo: 480,
+            faturamentoUnitário: 4000,
+            impostoFixo: 50000,
             impostoSobreFatu: 0.07,
             rent: 32,
           },
@@ -825,7 +825,7 @@ const dadosIniciais = {
               aumFatu: { nível1: 5, nível2: 10, nível3: 16 },
             },
             {
-              nome: "Madeireira",
+              nome: "Serraria",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 13, nível3: 17 },
             },
@@ -1463,7 +1463,7 @@ const dadosIniciais = {
           licençasNecessárias: [],
           melhoraEficiencia: [
             "Fábrica De Celulose",
-            "Madeireira",
+            "Serraria",
             "Fábrica De Papel",
             "Granja De Aves",
             "Criação De Ovinos",
@@ -1488,7 +1488,7 @@ const dadosIniciais = {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Madeireira",
+              nome: "Serraria",
               redCusto: { nível1: 3, nível2: 5, nível3: 10 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2241,8 +2241,8 @@ const dadosIniciais = {
         },
 
         {
-          nome: "Madeireira",
-          nomeEditável: "Madeireira",
+          nome: "Serraria",
+          nomeEditável: "Serraria",
           desc: "Transforma madeira em insumo. Essencial para fábricas e construção.",
           licençaLiberado: {
             licença: "Licença De Madeira",
@@ -2363,7 +2363,7 @@ const dadosIniciais = {
           construçõesNecessárias: [],
           licençasNecessárias: [],
           melhoraEficiencia: [
-            "Madeireira",
+            "Serraria",
             "Plantação De Eucalipto",
             "Plantação De Plantas Medicinais",
           ],
@@ -2375,7 +2375,7 @@ const dadosIniciais = {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Madeireira",
+              nome: "Serraria",
               redCusto: { nível1: 7, nível2: 9, nível3: 18 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -2910,7 +2910,7 @@ const dadosIniciais = {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Madeireira",
+              nome: "Serraria",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 20, nível2: 27, nível3: 33 },
             },
@@ -8132,7 +8132,7 @@ const dadosIniciais = {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Madeireira",
+              nome: "Serraria",
               redCusto: { nível1: 7, nível2: 9, nível3: 18 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -9466,7 +9466,7 @@ const dadosIniciais = {
           ],
           RecebeMelhoraEficiencia: [
             {
-              nome: "Madeireira",
+              nome: "Serraria",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -19335,7 +19335,7 @@ const dadosIniciais = {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              nome: "Madeireira",
+              nome: "Serraria",
               redCusto: { nível1: 0, nível2: 1, nível3: 2 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -27459,7 +27459,7 @@ const dadosIniciais = {
         },
       },
     },
-    estoque: {
+    ecossistema: {
       economiaSetor: {
         estadoAtual: "estável",
       },

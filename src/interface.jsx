@@ -10,7 +10,7 @@ import Buy from "./components/buy.jsx";
 import Day from "./components/day.jsx";
 import { limparSalvo } from "./components/usePersistencia.js";
 import finishGame from '../public/outrasImagens/finish.png'
-
+import { LicenceModalBusiness } from "./components/licenseButton.jsx";
 
 
 // Componentes carregados sob demanda (lazy)
@@ -43,6 +43,8 @@ const MarketplaceSystem = lazy(() => import("./components/MarketInterface.jsx"))
 const MercadoGlobal = lazy(() => import("./components/TablePrice.jsx").then(m => ({ default: m.MercadoGlobal })));
 const ModalExcesso = lazy(() => import("./components/ModalExcesso.jsx"));
 const SidebarStorage = lazy(() => import("./components/SidebarStorage.jsx"));
+const SidebarFinancas = lazy(() => import("./components/SidebarFinancas.jsx"));
+
 import { ModalFalencia } from "./notificação.jsx";
 
 function Interface() {
@@ -58,7 +60,7 @@ function Interface() {
         });
     }
     return (
-        <Suspense fallback={<div className="w-screen h-screen bg-gray-900" />}>
+        <Suspense fallback={<div className="w-screen h-screen bg-gray-900 scrollbar-custom" />}>
             <div className="w-[100vw] bg-[#7317F3] h-[100vh] flex justify-around items-center">
                 {modalFalenciaOpen && (
                     <ModalFalencia
@@ -71,7 +73,7 @@ function Interface() {
                 )}
                 <NewStage />
                 <ModalExcesso />
-                <Achievements />
+                {/* <Achievements /> */}
                 <CardSpecials />
                 <InputName />
                 <Offers />
@@ -91,7 +93,7 @@ function Interface() {
                     <div className="grid col-start-1 col-end-9 row-start-2 row-end-11 h-full w-full ">
                         <Dashboard className="h-full" />
                     </div>
-                    <div className="grid col-start-1 col-end-9 row-1 w-full h-full">
+                    <div className="grid col-start-1 col-end-9 row-1 w-full h-full ">
                         <div className="grid gap-[10px] col-start-1 col-end-8 w-full place-items-center">
                             <Informations className="grid col-start-1 col-end-8" />
                         </div>
@@ -101,6 +103,7 @@ function Interface() {
                             <TaxesYear />
                             <EconomyGlobal />
                             <RaffledBuildings />
+                            <LicenceModalBusiness/>
                             <button
                                 onClick={() => setModalFalenciaOpen(true)}
                                 data-tooltip-id="saldo-tip"
@@ -120,7 +123,7 @@ function Interface() {
 
                     <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">
                     </div>
-                    <div className="grid col-start-9 col-end-11 row-start-1 row-end-3 ml-[10px]">
+                    <div className="grid col-start-9 col-end-11 row-start-1 row-end-2 ml-[10px]">
                         <Buttons />
                     </div>
                     {vision === "financas" && (
@@ -130,16 +133,8 @@ function Interface() {
                     )}
 
                     {vision !== "financas" && (
-                        <div className="col-start-9 col-end-11 row-start-3 row-end-11 grid grid-rows-[auto_auto_1fr] gap-4 p-2 overflow-y-auto">
-                            <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3">
-                                <Economys />
-                            </div>
-                            <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3">
-                                <Taxes />
-                            </div>
-                            <div className="w-full bg-white bg-opacity-10 rounded-2xl shadow-lg p-3 min-h-0 overflow-y-auto">
-                                <ActiveEvents />
-                            </div>
+                        <div className="col-start-9 col-end-11 row-start-2 pt-[30px] row-end-11 p-1 overflow-hidden ">
+                            <SidebarFinancas />
                         </div>
                     )}
                 </div>

@@ -14,7 +14,7 @@ import useSound from "use-sound";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import openAudio from "../../public/sounds/openAudio.mp3";
 
-import newStageAudio from "../../public/sounds/newStageAudio.mp3";  
+import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 
 const RaffledBuildings = () => {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
@@ -55,12 +55,12 @@ const RaffledBuildings = () => {
   };
 
   const TooltipPadrao = ({ id }) => (
-  <Tooltip
-    id={id}
-    style={tooltipStyle}
-    border="1px solid #350973"
-  />
-);
+    <Tooltip
+      id={id}
+      style={tooltipStyle}
+      border="1px solid #350973"
+    />
+  );
 
 
   // Arrays de rank
@@ -177,7 +177,7 @@ const RaffledBuildings = () => {
     "Armazém",
     "Silo",
     "Depósito De Resíduos Orgânicos",
-    "Madeireira",
+    "Serraria",
     "Área Florestal",
     "Terreno De Mineração",
     "Plantação De Eucalipto",
@@ -378,7 +378,7 @@ const RaffledBuildings = () => {
         "Fábrica De Estruturas Metálicas",
       ],
     },
-        {
+    {
       nome: "FashionStyle",
       descricao: "Torne-se líder no mercado de moda e vestuário",
       obrigatorios: [
@@ -388,7 +388,7 @@ const RaffledBuildings = () => {
         "Loja De Vestuário",
       ],
     },
-        {
+    {
       nome: "SpaceX", //certo
       descricao: "Se torne um empreendedor no ramo espacial",
       obrigatorios: [
@@ -397,7 +397,7 @@ const RaffledBuildings = () => {
         "Aeroporto",
       ],
     },
-        {
+    {
       nome: "TecnoAgro",
       descricao:
         "Implemente a agricultura 4.0 com pesquisa de ponta e automação",
@@ -412,7 +412,7 @@ const RaffledBuildings = () => {
         "Fazenda Administrativa",
       ],
     },
-        {
+    {
       nome: "Aço & Alumínio",
       descricao:
         "Monopolize a produção metalúrgica desde a mineração até a fabricação",
@@ -424,7 +424,7 @@ const RaffledBuildings = () => {
         "Terreno De Mineração",
       ],
     },
-        {
+    {
       nome: "HealthCare Brasil",
       descricao: "Controle a cadeia completa de saúde e farmácias",
       obrigatorios: [
@@ -489,7 +489,7 @@ const RaffledBuildings = () => {
         "Posto De Combustíveis",
       ],
     }, //limpo
-        {
+    {
       nome: "MetaVerse Inc",
       descricao: "Crie o império de entretenimento digital e realidade virtual",
       obrigatorios: [
@@ -529,7 +529,7 @@ const RaffledBuildings = () => {
         "Estação De Carregamento",
       ],
     },
-        {
+    {
       nome: "EcoPower", //certo
       descricao: "Lidere a transição para energias renováveis",
       obrigatorios: [
@@ -571,7 +571,7 @@ const RaffledBuildings = () => {
       obrigatorios: [
         "Fábrica De Celulose",
         "Fábrica De Papel",
-        "Madeireira",
+        "Serraria",
         "Área Florestal",
         "Plantação De Eucalipto",
         "Centro De Pesquisa Química",
@@ -594,13 +594,13 @@ const RaffledBuildings = () => {
         "Centro De Distribuição",
       ],
     },
-        {
+    {
       nome: "Home&Decor",
       descricao: "Domine o mercado de móveis e decoração para residências",
       obrigatorios: [
         "Loja De Móveis",
         "Fábrica De Móveis",
-        "Madeireira",
+        "Serraria",
         "Plantação De Eucalipto",
         "Escritório De Design De Interiores",
         "Centro De Distribuição",
@@ -650,10 +650,10 @@ const RaffledBuildings = () => {
 
     {
       nome: "Madeira & Papel", //certo
-      descricao: "Controle a cadeia completa de produção madeireira e de papel",
+      descricao: "Controle a cadeia completa de produção Serraria e de papel",
       obrigatorios: [
         "Plantação De Eucalipto",
-        "Madeireira",
+        "Serraria",
         "Área Florestal",
         "Fábrica De Celulose",
         "Fábrica De Papel",
@@ -720,7 +720,7 @@ const RaffledBuildings = () => {
         "Centro De Pesquisa Química",
       ],
     },
-        {
+    {
       nome: "Diamond Empire", //certo
       descricao:
         "Domine o mercado de joias luxuosas e mineração de pedras preciosas",
@@ -816,7 +816,7 @@ const RaffledBuildings = () => {
     );
   };
 
-  const fecharModal = () => {setIsModalObjOpen(false) };
+  const fecharModal = () => { setIsModalObjOpen(false) };
 
   // 🔹 Verificar se todos os objetivos foram concluídos
   const verificarConclusao = () => {
@@ -902,18 +902,18 @@ const RaffledBuildings = () => {
         {dados.dia >= 400 &&
 
           <button
-          onClick={() => { setIsModalObjOpen(true), buttonOpenAudio(); }}
-          data-tooltip-id="saldo-tip"
-          data-tooltip-content="Observe os objetivos do jogo"
-          className="bg-laranja min-h-[50px] hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center"
+            onClick={() => { setIsModalObjOpen(true), buttonOpenAudio(); }}
+            data-tooltip-id="saldo-tip"
+            data-tooltip-content="Observe os objetivos do jogo"
+            className="bg-laranja min-h-[50px] hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center"
           >
-          <img
-            className="w-[60%] max-w-[58px] aspect-square"
-            src={alvo}
-            alt="Economia"
+            <img
+              className="w-[60%] max-w-[58px] aspect-square"
+              src={alvo}
+              alt="Economia"
             />
-        </button>
-          }
+          </button>
+        }
         <TooltipPadrao
           id="saldo-tip"
           style={tooltipStyle}
@@ -952,7 +952,7 @@ const RaffledBuildings = () => {
                 {/* 🔹 Mostrar opções somente se nenhuma campanha foi selecionada */}
                 {!campanhaSelecionada &&
                   getRandomItems(Campanhas, 3).map((c, i) => {
-                    const extrasParaEstaCampanha = calcularExtras(c.nome); // 🔹 CALCULAR AQUI
+                    const extrasParaEstaCampanha = calcularExtras(c.nome);
 
                     return (
                       <motion.div
@@ -960,39 +960,58 @@ const RaffledBuildings = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4 }}
-                        className="flex flex-col md:flex-row items-center justify-between bg-[#2a0f50] rounded-2xl p-6 w-full max-w-[1600px]"
+                        className="flex flex-col md:flex-row items-center justify-between bg-[#1f0b3d]/80 border border-white/5 backdrop-blur-md rounded-3xl p-8 w-full max-w-[1600px] shadow-2xl mb-6"
                       >
-                        <div className="flex -space-x-6 h-[230px] mb-4 md:mb-0">
-                          {c.obrigatorios.map((nome, j) => (
-                            <div key={j} className="w-[90px] h-[120px]">
-                              {Localizador(nome)}
-                            </div>
-                          ))}
-                          <Plus
-                            color="#FFFFFF"
-                            className="z-50 relative left-[150px] top-[90px]"
-                            size={48}
-                          />
-                          <div className="relative left-[180px]">
-                            <MisteryCard quantidade={extrasParaEstaCampanha} />{" "}
-                            {/* 🔹 USAR VALOR CALCULADO */}
+                        {/* CONTAINER INLINE: Agora tudo flui horizontalmente */}
+                        <div className="flex flex-row flex-1 items-center justify-start overflow-visible py-4">
+
+                          {/* GRUPO DE SOBREPOSIÇÃO DAS CARTAS OBRIGATÓRIAS */}
+                          <div className="flex -space-x-[150px] items-center">
+                            {c.obrigatorios.map((nome, j) => (
+                              <motion.div
+                                key={j}
+                                className="w-[220px] h-[320px] relative transition-all"
+                                style={{ zIndex: j }}
+                                whileHover={{ zIndex: 50, y: -15, scale: 1.05 }}
+                              >
+                                {Localizador(nome)}
+                              </motion.div>
+                            ))}
+                          </div>
+
+                          {/* DIVISOR PLUS: Espaçamento ajustado para não ficar em cima da última carta */}
+                          <div className="flex items-center justify-center px-10 z-[60]">
+                            <Plus
+                              color="#F27405"
+                              className="drop-shadow-[0_0_10px_rgba(242,116,5,0.5)]"
+                              size={48}
+                              strokeWidth={3}
+                            />
+                          </div>
+
+                          {/* MISTERY CARD INLINE */}
+                          <div className="z-[60]">
+                            <MisteryCard quantidade={extrasParaEstaCampanha} />
                           </div>
                         </div>
 
-                        <div className="flex flex-col justify-evenly text-center md:text-left w-full md:w-[35%] gap-4">
-                          <div className="w-full py-2 px-4 rounded-xl bg-white/10 backdrop-blur-sm">
-                            <h2 className="text-2xl font-bold text-white">
+                        {/* PAINEL LATERAL DE INFO */}
+                        <div className="flex flex-col justify-center text-center md:text-left w-full md:w-[28%] gap-6 ml-10 border-l border-white/10 pl-10">
+                          <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                            <h2 className="text-2xl font-black text-white uppercase tracking-tighter italic">
                               {c.nome}
                             </h2>
                           </div>
 
-                          <p className="text-sm text-white">{c.descricao}</p>
+                          <p className="text-sm text-white/60 leading-relaxed font-medium">
+                            {c.descricao}
+                          </p>
 
                           <button
                             onClick={() => { gerarCampanha(c.nome); buttonNewStageAudio(); }}
-                            className="bg-gradient-to-r from-[#F27405] to-[#6A00FF] text-white px-6 py-2 rounded-xl font-bold hover:scale-105 transition-transform duration-200 shadow-md"
+                            className="bg-gradient-to-r from-[#F27405] to-[#6A00FF] text-white py-4 rounded-2xl font-bold text-sm hover:scale-[1.02] active:scale-95 transition-all shadow-lg uppercase tracking-widest"
                           >
-                            Selecionar
+                            Selecionar Campanha
                           </button>
                         </div>
                       </motion.div>
@@ -1004,58 +1023,82 @@ const RaffledBuildings = () => {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="flex flex-wrap gap-6 justify-center mt-4"
+                    className="flex flex-wrap gap-8 justify-center mt-6 pb-10"
                   >
                     {selectedItems.map((ed, i) => {
                       const setores = [
-                        "agricultura",
-                        "tecnologia",
-                        "comercio",
-                        "industria",
-                        "imobiliario",
-                        "energia",
+                        "agricultura", "tecnologia", "comercio",
+                        "industria", "imobiliario", "energia"
                       ];
+
                       let setorEncontrado = null;
                       let indice = -1;
 
                       for (const setor of setores) {
-                        indice = dados[setor].edificios.findIndex(
-                          (e) => e.nome === ed.nome
-                        );
+                        indice = dados[setor].edificios.findIndex((e) => e.nome === ed.nome);
                         if (indice !== -1) {
                           setorEncontrado = setor;
                           break;
                         }
                       }
 
-                      const quantidade =
-                        setorEncontrado && indice !== -1
-                          ? dados[setorEncontrado].edificios[indice].quantidade
-                          : 0;
+                      const quantidade = setorEncontrado && indice !== -1
+                        ? dados[setorEncontrado].edificios[indice].quantidade
+                        : 0;
 
-                      const gradienteDourado = `
-                    linear-gradient(45deg, #b8860b, #8b7500 25%, #daa520 50%, #cfa200 75%, #b8860b 100%),
-                    linear-gradient(135deg, #8b6914, #ffd700 25%, #bfa600 50%, #806000 75%, #b8860b 100%)
-                    `;
+                      // Gradiente Dourado mais refinado para quando completar o objetivo
+                      const gradienteConquistado = `linear-gradient(135deg, rgba(184, 134, 11, 0.9) 0%, rgba(218, 165, 32, 0.4) 50%, rgba(139, 117, 0, 0.9) 100%)`;
+
                       return (
                         <motion.div
                           key={i}
-                          initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                          initial={{ opacity: 0, y: 30, scale: 0.9 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
+                          whileHover={{ y: -10, transition: { duration: 0.2 } }}
                           transition={{
-                            delay: i * 0.1,
+                            delay: i * 0.05,
                             type: "spring",
-                            stiffness: 120,
+                            stiffness: 100,
                           }}
-                          className="w-[300px] h-[300px] p-2 rounded-xl flex items-center justify-center shadow-lg"
+                          // AJUSTE DE DIMENSÕES: 220px x 320px
+                          className={`relative w-[250px] h-[350px] p-[2px] rounded-[20px] flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500`}
                           style={{
-                            background:
-                              quantidade > 0 ? gradienteDourado : "#ffffff10",
-                            backgroundBlendMode:
-                              quantidade > 0 ? "overlay" : "normal",
+                            background: quantidade > 0
+                              ? gradienteConquistado
+                              : "rgba(255, 255, 255, 0.05)",
+                            border: quantidade > 0 ? "1px solid #FFD700" : "1px solid rgba(255,255,255,0.1)",
                           }}
                         >
-                          {Localizador(ed.nome)}
+                          {/* Efeito de Brilho para itens conquistados */}
+                          {quantidade > 0 && (
+                            <motion.div
+                              animate={{ opacity: [0.3, 0.6, 0.3] }}
+                              transition={{ repeat: Infinity, duration: 2 }}
+                              className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,215,0,0.2)_0%,transparent_70%)]"
+                            />
+                          )}
+
+                          {/* Overlay Escuro para itens NÃO conquistados (estilo bloqueado) */}
+                          {quantidade === 0 && (
+                            <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center p-4">
+                              <div className="bg-white/40 p-3 rounded-full mb-2">
+                                {/* Ícone opcional de cadeado ou interrogação aqui */}
+                                <span className="text-white/20 text-xs font-bold uppercase tracking-widest">Pendente</span>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Renderização da Carta Real */}
+                          <div className={`w-full h-full rounded-[18px] flex items-center justify-center overflow-hidden ${quantidade === 0 ? 'grayscale opacity-50' : 'grayscale-0 opacity-100'}`}>
+                            {Localizador(ed.nome)}
+                          </div>
+
+                          {/* Badge de Quantidade no topo */}
+                          {quantidade > 0 && (
+                            <div className="absolute top-3 right-3 z-20 bg-green-600 text-white text-[10px] font-black px-2 py-1 rounded-md shadow-lg border border-white/20">
+                              CONQUISTADO
+                            </div>
+                          )}
                         </motion.div>
                       );
                     })}

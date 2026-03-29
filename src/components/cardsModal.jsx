@@ -2,7 +2,10 @@ import React, { useEffect, useMemo, useCallback } from "react";
 import { useContext, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import porcem from "../../public/outrasImagens/simbolo-de-porcentagem.png";
-import gerenciamento from "../../public/outrasImagens/setores/gerenciamento.png";
+// import passive from "../../public/outrasImagens/sellContracts.png";
+import passive from "../../public/outrasImagens/rendaPassiva.png";
+import sell from "../../public/outrasImagens/sellContracts.png";
+
 import terrenoImg from "../../public/outrasImagens/terreno.png";
 import constNece from "../../public/outrasImagens/construção necessária.png";
 import PróximoImg from "../../public/outrasImagens/proximo.png";
@@ -41,7 +44,6 @@ import useSound from "use-sound";
 import purchaseEdifAudio from "../../public/sounds/purchaseEdifAudio.mp3";
 import estoque from "../../public/outrasImagens/estoque.png";
 import component from "../../public/outrasImagens/component.png";
-import bag from "../../public/outrasImagens/bag.png";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import { productsCatalog } from "./TablePrice";
 import { storageProfiles } from "./GameContext";
@@ -177,7 +179,7 @@ const _ImoveisECustoRow = ({ dados, setorAtivo, index, cor1, setorInfo, custoCon
   </div>
 );
 const _ImoveisSMartelo = ({ dados, setorAtivo, index, cor1, onClickLojas }) => (
-  <div 
+  <div
     style={{ width: "100%", height: "100%", borderRadius: 6, display: "flex", flexDirection: "column", justifyContent: "center", cursor: "pointer" }}
     onClick={onClickLojas}
     data-tooltip-id="tooltip-faturado"
@@ -187,7 +189,7 @@ const _ImoveisSMartelo = ({ dados, setorAtivo, index, cor1, onClickLojas }) => (
       Imóveis base
     </span>
     <div className="flex items-center">
-       <_ImoveisBaseIcons dados={dados} setorAtivo={setorAtivo} index={index} cor1={cor1} onClickLojas={onClickLojas} />
+      <_ImoveisBaseIcons dados={dados} setorAtivo={setorAtivo} index={index} cor1={cor1} onClickLojas={onClickLojas} />
     </div>
   </div>
 );
@@ -241,7 +243,7 @@ const CardModalBase = ({ index }) => {
 
   const productions = [
     "Plantação De Grãos", "Fazenda De Vacas", "Plantação De Eucalipto", "Granja De Aves", "Criação De Ovinos",
-    "Madeireira", "Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos",
+    "Serraria", "Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos",
     "Fábrica De Dispositivos Vestíveis", "Fábrica De Rações", "Fábrica De Embalagens", "Fábrica De Fertilizantes",
     "Fábrica Têxtil", "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose", "Fábrica De Papel",
     "Fábrica De Livros", "Fábrica De Medicamentos", "Laboratório Farmacêutico", "Fábrica De Plásticos",
@@ -259,7 +261,7 @@ const CardModalBase = ({ index }) => {
     "Loja De Eletrônicos", "Concessionária De Veículos",
   ];
 
-  const edificiosComGerenciamento = [];
+  const edificiosCompassive = [];
 
   const edificiosDeArmazenamento = [
     "Armazém", "Silo", "Depósito De Resíduos Orgânicos", "Data Center", "Servidor Em Nuvem", "Armazém Logístico",
@@ -336,7 +338,7 @@ const CardModalBase = ({ index }) => {
   const tooltipStyle = { backgroundColor: "#FFFFFF", color: "#350973", borderRadius: "6px", padding: "6px 10px", fontWeight: "600", fontSize: "14px", zIndex: 10 };
 
   const mapaEdificioParaSetor = {
-    "Plantação De Grãos": "agricultura", "Plantação De Vegetais": "agricultura", "Fazenda Administrativa": "agricultura", Pomares: "agricultura", "Cooperativa Agrícola": "agricultura", "Centro De Comércio De Plantações": "agricultura", "Fazenda De Vacas": "agricultura", "Granja De Aves": "agricultura", "Criação De Ovinos": "agricultura", Armazém: "agricultura", Silo: "agricultura", "Depósito De Resíduos Orgânicos": "agricultura", Madeireira: "agricultura", "Área Florestal": "agricultura", "Terreno De Mineração": "agricultura", "Plantação De Eucalipto": "agricultura", "Plantação De Plantas Medicinais": "agricultura",
+    "Plantação De Grãos": "agricultura", "Plantação De Vegetais": "agricultura", "Fazenda Administrativa": "agricultura", Pomares: "agricultura", "Cooperativa Agrícola": "agricultura", "Centro De Comércio De Plantações": "agricultura", "Fazenda De Vacas": "agricultura", "Granja De Aves": "agricultura", "Criação De Ovinos": "agricultura", Armazém: "agricultura", Silo: "agricultura", "Depósito De Resíduos Orgânicos": "agricultura", Serraria: "agricultura", "Área Florestal": "agricultura", "Terreno De Mineração": "agricultura", "Plantação De Eucalipto": "agricultura", "Plantação De Plantas Medicinais": "agricultura",
     "Fábrica De Móveis": "industria", "Fábrica De Ração": "industria", "Fábrica De Embalagem": "industria", "Fábrica De Fertilizante": "industria", "Fábrica De Bebidas": "industria", "Fábrica De Pães": "industria", "Fábrica Textil": "industria", "Fábrica De Calçados": "industria", "Fábrica De Roupas": "industria", "Fábrica De Celulose": "industria", "Fábrica De Papel": "industria", "Fábrica De Livros": "industria", "Fábrica De Medicamentos": "industria", "Laboratório Farmacêutico": "industria", "Fábrica De Plasticos": "industria", "Fábrica De Químicos Especializados": "industria", "Alto-Forno": "industria", "Usina Siderúrgica": "industria", "Fundição de Alumínio": "industria", "Fábrica De Ligas Metálicas": "industria", "Indústria De Componentes Mecânicos": "industria", "Fábrica De Chapas Metálicas": "industria", "Fábrica De Estruturas Metálicas": "industria", "Fábrica De Peças Automotivas": "industria", "Montadora De Veículos Elétricos": "industria", "Fábricas De Automóveis": "industria", "Refinaria de Biocombustíveis": "industria", Refinaria: "industria", Biofábrica: "industria", "Fábrica De Chips": "industria", "Fábrica De Placas Eletrônicas": "industria", "Fábrica De Semicondutores": "industria", "Fábrica De Eletrônicos": "industria", "Fábrica De Robôs": "industria", "Empresa De Automação Industrial": "industria", "Fábrica De Motores": "industria", "Fábrica De Foguetes": "industria", "Fábrica De Aeronaves": "industria", Estaleiro: "industria",
     Startup: "tecnologia", "Servidor Em Nuvem": "tecnologia", "Data Center": "tecnologia", "Empresa De Desenvolvimento De Software": "tecnologia", "Empresa De Telecomunicações": "tecnologia", "Plataforma De Redes Sociais": "tecnologia", "Marketplace Online": "tecnologia", "Plataforma De Streaming": "tecnologia", "Fábrica De Smartphones": "tecnologia", "Fábrica De Computadores": "tecnologia", "Fábrica De Consoles de Jogos": "tecnologia", "Fábrica De Dispositivos Vestiveis": "tecnologia", "Instituto De Tecnologia Alimentar ": "tecnologia", "Centro De Pesquisa Agrícola": "tecnologia", "Instituto de Biotecnologia": "tecnologia", "Laboratório De Nanotecnologia": "tecnologia", "Centro De Pesquisa Em Eletrônicos": "tecnologia", "Laboratório De Design De Produtos": "tecnologia", "Centro de Pesquisa Química": "tecnologia", "Centro De Pesquisa Em Fusão Nuclear": "tecnologia", "Laboratório De Novos Combustíveis": "tecnologia", "Centro De Pesquisa Aeroespacial": "tecnologia", "Centro de Engenharia Avançada ": "tecnologia", "Centro de Pesquisa em Materiais Avançados": "tecnologia", "Centro De Pesquisa Em Robótica": "tecnologia", "Centro De Pesquisa Em IA": "tecnologia",
     Feira: "comercio", "Loja De Móveis": "comercio", Restaurante: "comercio", Livraria: "comercio", Mercado: "comercio", Adega: "comercio", Padaria: "comercio", Açougue: "comercio", "Loja De Conveniência": "comercio", "Posto De Combustíveis": "comercio", "Redes De Fast-food": "comercio", Petshop: "comercio", Farmácia: "comercio", Cafeteria: "comercio", "Loja De Departamentos": "comercio", "Loja De Calçados": "comercio", "Loja De Vestuário": "comercio", "Loja de Gadgets e Wearables": "comercio", "Loja De Games": "comercio", "Loja De Celulares": "comercio", "Loja De Informática": "comercio", "Loja De Eletrônicos": "comercio", Joalheria: "comercio", "Concessionária De Veículos": "comercio", "Shopping Popular": "comercio", "Shopping Center": "comercio", "Centro De Transporte e Entrega": "comercio", "Centro De Distribuição": "comercio", "Armazém Logístico": "comercio", "Transporte Petrolífero": "comercio",
@@ -670,68 +672,151 @@ const CardModalBase = ({ index }) => {
     return `transparent`;
   };
   // ── MODAL POWER-UPS (inalterado) ──────────────────────────
-  if (modalPowerup === true) {
-    return (
-      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90">
-        <motion.div style={{ backgroundColor: setorInfo.cor4 }} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.3, ease: "easeOut" }} className="w-[80vw] h-[80vh] rounded-[10px] flex flex-col justify-around items-center relative">
-          <button className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95" onClick={fecharModalPowerUp}><img src={fechar} alt="Fechar" className="w-[60%]" /></button>
-          <div style={{ backgroundColor: setorInfo.cor1 }} className="flex w-[95%] text-[50px] fonteBold text-white h-[15%] rounded-[20px] justify-center items-center">{nomeAtual}</div>
-          <div style={{ backgroundColor: setorInfo.cor2 }} className="w-[95%] h-[75%] rounded-[20px] self-center">
-            <div style={{ backgroundColor: setorInfo.cor1 }} className="flex justify-around h-full rounded-[20px] w-full p-[5px]">
-              {["Fornece", "Recebe"].map((label, li) => {
-                const lista = li === 0 ? dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia : dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia;
-                const acRed = li === 0 ? acumuladorPowerUpRedCustoFornece : acumuladorPowerUpRedCustoRecebe;
-                const acAum = li === 0 ? acumuladorPowerUpAumFatuFornece : acumuladorPowerUpAumFatuRecebe;
-                return (
-                  <div key={label} className="w-[49%] h-full flex flex-col items-center justify-between">
-                    <div style={{ backgroundColor: setorInfo.cor2 }} className="w-full h-[15%] fonteBold text-white mt-[10px] pl-[10px] rounded-[10px] text-[40px]">{label}</div>
-                    <div className="w-full h-[70%] overflow-y-auto">
-                      <table className="w-full mt-[10px]">
-                        <thead><tr>
-                          <th style={{ backgroundColor: setorInfo.cor3 }} className="text-white rounded-[10px]">Red. custo</th>
-                          {["#8F5ADA", "#6411D9", "#350973"].map((bg) => (<th key={bg}><div style={{ backgroundColor: bg }} className="w-[40px] h-[40px] m-auto aspect-square rounded-[7px] flex items-center justify-center cursor-pointer"><img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} /></div></th>))}
-                          <th style={{ backgroundColor: setorInfo.cor3 }} className="text-white rounded-[10px]">Aumento fatu</th>
-                          {["#8F5ADA", "#6411D9", "#350973"].map((bg) => (<th key={bg + "a"}><div style={{ backgroundColor: bg }} className="w-[40px] h-[40px] m-auto aspect-square rounded-[7px] flex items-center justify-center cursor-pointer"><img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} /></div></th>))}
-                        </tr></thead>
-                        {lista.map((edM, i) => {
-                          let se = null, idx = -1;
-                          const qtd = (nome) => { for (const s of setoresArr) { se = s; idx = dados[s].edificios.findIndex((e) => e.nome === nome); if (idx !== -1) return dados[s].edificios[idx].quantidade; } return 0; };
-                          const qtdM = qtd(edM.nome), q = qtd(nomeAtual);
-                          const pu = q >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" : q >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" : "powerUpNv1";
-                          const cL = qtdM > 0 ? corPowerUp(pu) : corPadrão, lS = { background: cL };
-                          const b1 = cL === "#8F5ADA" ? corPowerUp("powerUpNv1") : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : pu === "powerUpNv3" ? corPowerUp("powerUpNv3") : corPadrão;
-                          const b2 = pu === "powerUpNv1" ? corPadrão : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
-                          const b3 = pu === "powerUpNv1" ? corPadrão : pu === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
-                          return (
-                            <tbody key={i} className="rounded-[2px]">
-                              <tr style={{ backgroundColor: setorInfo.cor4, borderColor: setorInfo.cor2 }} className="border-[1px] rounded-[2px]">
-                                <td style={lS} className="text-white pl-[5px]">{edM.nome}</td>
-                                <td style={{ backgroundColor: b1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edM.redCusto.nível1}</td>
-                                <td style={{ backgroundColor: b2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edM.redCusto.nível2}</td>
-                                <td style={{ backgroundColor: b3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edM.redCusto.nível3}</td>
-                                <td style={lS} className="text-white pl-[5px]">{edM.nome}</td>
-                                <td style={{ backgroundColor: b1, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edM.aumFatu.nível1}</td>
-                                <td style={{ backgroundColor: b2, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edM.aumFatu.nível2}</td>
-                                <td style={{ backgroundColor: b3, borderColor: setorInfo.cor2 }} className="text-center text-white border-[1px] border-white">{edM.aumFatu.nível3}</td>
-                              </tr>
-                            </tbody>
-                          );
-                        })}
-                      </table>
-                    </div>
-                    <div className="flex w-full h-[10%]"><div className="flex w-full justify-evenly">
-                      <div style={{ backgroundColor: setorInfo.cor2 }} className="flex w-[49%] rounded-[10px] items-end text-white self-center justify-center fonteBold text-[20px]">Redução total: {acRed}%</div>
-                      <div style={{ backgroundColor: setorInfo.cor2 }} className="flex w-[49%] rounded-[10px] items-end text-white self-center justify-center fonteBold text-[20px]">Aumento total: {acAum}%</div>
-                    </div></div>
+if (modalPowerup === true) {
+  return (
+    <div className="fixed inset-0 flex justify-center items-center z-[150] bg-black/90 backdrop-blur-sm">
+      <motion.div 
+        style={{ backgroundColor: setorInfo.cor1, borderColor: setorInfo.cor4 }} 
+        initial={{ opacity: 0, scale: 0.8 }} 
+        animate={{ opacity: 1, scale: 1 }} 
+        exit={{ opacity: 0, scale: 0.8 }} 
+        transition={{ duration: 0.3, ease: "easeOut" }} 
+        className="w-[90vw] h-[85vh] rounded-[24px] border-2 flex flex-col justify-between items-center relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+      >
+        {/* Botão Fechar - Estilo Premium */}
+        <button 
+          className="absolute top-4 right-4 w-[45px] h-[45px] flex justify-center items-center rounded-xl hover:scale-110 active:scale-95 transition-all z-10 shadow-lg" 
+          style={{ backgroundColor: setorInfo.cor4 }}
+          onClick={fecharModalPowerUp}
+        >
+          <img src={fechar} alt="Fechar" className="w-[50%]" />
+        </button>
+
+        {/* Header - Nome do Edifício */}
+        <div 
+          style={{ backgroundColor: setorInfo.cor2, borderColor: setorInfo.cor4 }} 
+          className="flex w-full h-[15%] border-b-2 text-[45px] fonteBold text-white justify-center items-center italic tracking-tighter shadow-xl"
+        >
+          {nomeAtual}
+        </div>
+
+        {/* Container Principal das Listas */}
+        <div className="flex-1 w-full p-6 overflow-hidden">
+          <div className="flex justify-around h-full w-full gap-4">
+            
+            {["Fornece", "Recebe"].map((label, li) => {
+              const lista = li === 0 ? dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia : dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia;
+              const acRed = li === 0 ? acumuladorPowerUpRedCustoFornece : acumuladorPowerUpRedCustoRecebe;
+              const acAum = li === 0 ? acumuladorPowerUpAumFatuFornece : acumuladorPowerUpAumFatuRecebe;
+              
+              return (
+                <div key={label} className="w-[49%] h-full flex flex-col items-center">
+                  {/* Subtítulo Fornece/Recebe */}
+                  <div 
+                    style={{ backgroundColor: setorInfo.cor2, borderColor: setorInfo.cor4 }} 
+                    className="w-full h-[10%] border-l-4 fonteBold text-white flex items-center pl-6 rounded-r-xl text-[30px] mb-4 uppercase tracking-widest shadow-md"
+                  >
+                    {label}
                   </div>
-                );
-              })}
-            </div>
+
+                  {/* Área da Tabela com Scroll */}
+                  <div className="w-full h-[75%] overflow-y-auto pr-2 scrollbar-premium">
+                    <table className="w-full border-separate border-spacing-y-2">
+                      <thead>
+                        <tr className="text-[11px] uppercase text-white/40 tracking-[0.2em]">
+                          <th className="text-left pl-4 pb-2 font-black">Ativo Sinergia</th>
+                          <th colSpan="3" className="pb-2 text-center" style={{ color: setorInfo.cor4 }}>Redução Custo</th>
+                          <th className="px-2 pb-2">|</th>
+                          <th colSpan="3" className="pb-2 text-center" style={{ color: setorInfo.cor4 }}>Aumento Fatu.</th>
+                        </tr>
+                      </thead>
+                      
+                      {lista.map((edM, i) => {
+                        let se = null, idx = -1;
+                        const qtd = (nome) => { 
+                          for (const s of setoresArr) { 
+                            se = s; 
+                            idx = dados[s].edificios.findIndex((e) => e.nome === nome); 
+                            if (idx !== -1) return { q: dados[s].edificios[idx].quantidade, setor: s }; 
+                          } return { q: 0, setor: "" }; 
+                        };
+
+                        const infoM = qtd(edM.nome);
+                        const infoBase = qtd(nomeAtual);
+                        const q = infoBase.q;
+                        
+                        // Lógica de cores e níveis
+                        const pu = q >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" : q >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" : "powerUpNv1";
+                        const cL = infoM.q > 0 ? corPowerUp(pu) : corPadrão;
+                        const b1 = cL === "#8F5ADA" ? corPowerUp("powerUpNv1") : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : pu === "powerUpNv3" ? corPowerUp("powerUpNv3") : corPadrão;
+                        const b2 = pu === "powerUpNv1" ? corPadrão : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
+                        const b3 = pu === "powerUpNv1" ? corPadrão : pu === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
+
+                        return (
+                          <tbody key={i}>
+                            <tr style={{ backgroundColor: "rgba(255,255,255,0.03)" }} className="group hover:bg-white/10 transition-all">
+                              {/* Nome + Imagem do Edifício */}
+                              <td style={{ borderLeft: `4px solid ${cL}` }} className="py-3 pl-2 rounded-l-xl">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 flex items-center justify-center bg-black/40 rounded-lg p-1 border border-white/5 shadow-inner">
+                                    <img 
+                                      src={getImageUrl(edM.nome)}
+                                      className="max-w-full max-h-full object-contain"
+                                      onError={(e) => e.target.src = PróximoImg} 
+                                    />
+                                  </div>
+                                  <span className="text-white text-[14px] fonteBold leading-tight">{edM.nome}</span>
+                                </div>
+                              </td>
+
+                              {/* Colunas de Redução */}
+                              <td style={{ backgroundColor: b1 }} className="text-center text-white text-[11px] border-r border-black/20 font-black italic">N1<br/>{edM.redCusto.nível1}%</td>
+                              <td style={{ backgroundColor: b2 }} className="text-center text-white text-[11px] border-r border-black/20 font-black italic">N2<br/>{edM.redCusto.nível2}%</td>
+                              <td style={{ backgroundColor: b3 }} className="text-center text-white text-[11px] rounded-r-none font-black italic">N3<br/>{edM.redCusto.nível3}%</td>
+                              
+                              <td className="w-2 bg-transparent"></td>
+
+                              {/* Colunas de Aumento */}
+                              <td style={{ backgroundColor: b1 }} className="text-center text-white text-[11px] border-r border-black/20 font-black italic">N1<br/>{edM.aumFatu.nível1}%</td>
+                              <td style={{ backgroundColor: b2 }} className="text-center text-white text-[11px] border-r border-black/20 font-black italic">N2<br/>{edM.aumFatu.nível2}%</td>
+                              <td style={{ backgroundColor: b3 }} className="text-center text-white text-[11px] rounded-r-xl font-black italic">N3<br/>{edM.aumFatu.nível3}%</td>
+                            </tr>
+                          </tbody>
+                        );
+                      })}
+                    </table>
+                  </div>
+
+                  {/* Rodapé da Coluna com Totais (Style Unificado para evitar erro Vite) */}
+                  <div className="w-full h-[12%] flex justify-between gap-3 mt-4">
+                    <div 
+                      style={{ backgroundColor: setorInfo.cor2, borderBottomColor: setorInfo.cor4 }} 
+                      className="flex-1 rounded-xl border-b-4 flex flex-col items-center justify-center text-white shadow-lg"
+                    >
+                      <span className="text-[10px] uppercase font-black opacity-40 tracking-tighter">Redução Total</span>
+                      <span className="text-[24px] fonteBold">-{acRed}%</span>
+                    </div>
+                    <div 
+                      style={{ backgroundColor: setorInfo.cor2, borderBottomColor: setorInfo.cor4 }} 
+                      className="flex-1 rounded-xl border-b-4 flex flex-col items-center justify-center text-white shadow-lg"
+                    >
+                      <span className="text-[10px] uppercase font-black opacity-40 tracking-tighter">Aumento Total</span>
+                      <span className="text-[24px] fonteBold">+{acAum}%</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
           </div>
-        </motion.div>
-      </div>
-    );
-  }
+        </div>
+        
+        {/* Detalhe visual inferior */}
+        <div className="w-full h-1" style={{ backgroundColor: setorInfo.cor4 }} />
+      </motion.div>
+    </div>
+  );
+}
 
   // ═══════════════════════════════════════════════════════════
   //  CARD PRINCIPAL  (altura 290px)
@@ -781,22 +866,185 @@ const CardModalBase = ({ index }) => {
             }}
           >
             {isProducao && <img src={component} className="w-[24px] opacity-90  " alt="" />}
-            {isVenda && <img src={bag} className="w-[24px] opacity-90" alt="" />}
+            {isVenda && <img src={sell} className="w-[24px] opacity-90" alt="" />}
             {isEstoque && <img src={estoque} className="w-[24px] opacity-90" alt="" />}
-            {isPassiva && <img src={gerenciamento} className="w-[24px] opacity-90" alt="" />}
+            {isPassiva && <img src={passive} className="w-[24px] opacity-90" alt="" />}
           </div>
         </div>
         {/* overlay licença */}
-        {dados[setorAtivo].edificios[index].licençaLiberado.liberado === false && (
-          <motion.div style={{ background: "transparent" }} className="w-[220px] h-[320px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective z-[2] cursor-pointer absolute" initial={{ scale: 1 }} transition={{ type: "spring", stiffness: 100, damping: 10 }}>
-            <div className="absolute inset-0 rounded-[20px] z-0" style={{ background: `linear-gradient(135deg,${setorInfo.cor1} 0%,${setorInfo.cor2} 70%,${setorInfo.cor4} 100%)`, opacity: 0.9 }} />
-            <motion.div className="relative flex justify-center items-center w-full h-full z-[2]" animate={{ rotateY: flipped ? 180 : 0 }} transition={{ duration: 0.5, ease: "easeInOut" }} style={{ transformStyle: "preserve-3d" }}>
-              <div style={{ backgroundColor: setorInfo.cor1 }} className="h-[40%] flex justify-center items-center aspect-square rounded-[20px] relative z-[2]">
-                <div style={{ backgroundColor: setorInfo.cor3 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-[2]"><div style={{ backgroundColor: setorInfo.cor1 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[20px] absolute z-[2]"><div style={{ backgroundColor: setorInfo.cor2 }} className="flex items-center justify-center h-[95%] aspect-square rounded-[30px] absolute z-[2]"><div style={{ background: `linear-gradient(135deg,${setorInfo.cor1} 0%,${setorInfo.cor4} 100%)` }} className="flex items-center justify-center h-[95%] aspect-square rounded-[60px] absolute z-[2] relative"><img className="h-[70%] aspect-square absolute" src={getImageUrl(dados[setorAtivo].edificios[index].licençaLiberado.licença)} alt="" /></div></div></div></div>
+
+        {dados[setorAtivo].edificios[index].licençaLiberado.liberado === false && (() => {
+          const nomeLicencaBlocking = dados[setorAtivo].edificios[index].licençaLiberado.licença;
+          const licencaObj = dados[setorAtivo].licençasSetor?.find(
+            (l) => l.edifíciosLiberados?.includes(nomeAtual)
+          );
+          const valorLicenca = licencaObj?.valor || 0;
+
+          const tN = dados[setorAtivo].edificios[index].lojasNecessarias?.terrenos || 0;
+          const pN = dados[setorAtivo].edificios[index].lojasNecessarias?.lojasP || 0;
+          const mN = dados[setorAtivo].edificios[index].lojasNecessarias?.lojasM || 0;
+          const gN = dados[setorAtivo].edificios[index].lojasNecessarias?.lojasG || 0;
+          const custoLojas =
+            tN * dados.terrenos.preçoConstrução +
+            pN * (dados.lojasP.preçoConstrução + dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
+            mN * (dados.lojasM.preçoConstrução + dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
+            gN * (dados.lojasG.preçoConstrução + dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução);
+          const custoConstruir = dados[setorAtivo].edificios[index].custoConstrucao || 0;
+          const custoTotal = valorLicenca + custoLojas + custoConstruir;
+          const temSaldo = economiaSetores.saldo >= custoTotal;
+
+          return (
+            <motion.div
+              style={{ background: "transparent" }}
+              className="w-[220px] h-[320px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective z-[2] cursor-pointer absolute"
+              initial={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 100, damping: 10 }}
+              onClick={() => {
+                const scrollIdx = dados[setorAtivo].licençasSetor?.findIndex(
+                  (l) => l.edifíciosLiberados?.includes(nomeAtual)
+                ) ?? 0;
+                atualizarDados("abrirModalLicencas", {
+                  setor: setorAtivo,
+                  scrollToIndex: scrollIdx,
+                  timestamp: Date.now()
+                });
+              }}
+            >
+              {/* Fundo base escuro — NÃO cobre a insígnia com gradiente */}
+              <div
+                className="absolute inset-0 rounded-[20px] z-0"
+                style={{
+                  background: `linear-gradient(160deg, ${setorInfo.cor1}F5 0%, ${setorInfo.cor2}EE 50%, ${setorInfo.cor1}F5 100%)`,
+                }}
+              />
+
+              {/* Borda pulsante verde quando tem saldo — indica "você pode comprar" */}
+            {/* Borda pulsante verde quando tem saldo — SUBSTITUIR por cores do setor */}
+{temSaldo && (
+  <>
+    <style>{`
+      @keyframes pulso-setor-${setorAtivo} {
+        0%   { box-shadow: 0 0 8px 2px ${setorInfo.cor4}88,  inset 0 0 8px 1px ${setorInfo.cor4}22; border-color: ${setorInfo.cor4}; }
+        50%  { box-shadow: 0 0 22px 6px ${setorInfo.cor4}CC, inset 0 0 16px 4px ${setorInfo.cor4}44; border-color: ${setorInfo.cor4}FF; }
+        100% { box-shadow: 0 0 8px 2px ${setorInfo.cor4}88,  inset 0 0 8px 1px ${setorInfo.cor4}22; border-color: ${setorInfo.cor4}; }
+      }
+    `}</style>
+    <div
+      className="absolute inset-0 rounded-[20px] z-0"
+      style={{
+        border: `2px solid ${setorInfo.cor4}`,
+        borderRadius: 20,
+        animation: `pulso-setor-${setorAtivo} 2s ease-in-out infinite`,
+      }}
+    />
+  </>
+)}
+
+{/* Borda discreta quando não tem saldo */}
+{!temSaldo && (
+  <div
+    className="absolute inset-0 rounded-[20px] z-0"
+    style={{
+      border: `1px solid ${setorInfo.cor3}55`,
+      borderRadius: 20,
+    }}
+  />
+)}
+
+              <div className="relative flex flex-col w-full h-full z-[2] py-2 px-3">
+
+                {/* ── TOPO: "Toque para ver licença" bem visível ── */}
+
+<div style={{
+  background: temSaldo ? `${setorInfo.cor4}22` : "rgba(0,0,0,.45)",
+  borderRadius: 8, padding: "6px 10px", marginBottom: 8,
+  border: `1px solid ${temSaldo ? setorInfo.cor4 + "55" : setorInfo.cor4 + "33"}`,
+  display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+}}>
+  <img src={licença} style={{ height: 14, opacity: 0.9 }} alt="" />
+  <span style={{
+    fontSize: 9, fontWeight: 800,
+    color: temSaldo ? setorInfo.cor4 : `${setorInfo.cor4}BB`,
+    textTransform: "uppercase", letterSpacing: ".1em",
+  }}>
+    {temSaldo ? "✓ Pode desbloquear" : "Toque para ver licença"}
+  </span>
+</div>
+
+                {/* ── INSÍGNIA centralizada — tamanho moderado ── */}
+                <div className="flex flex-col items-center justify-center flex-1 gap-2">
+                  <div
+                    style={{
+                      width: 80, height: 80,
+                      borderRadius: "50%",
+                      background: `conic-gradient(${setorInfo.cor4} 0%, ${setorInfo.cor3} 40%, ${setorInfo.cor2} 70%, ${setorInfo.cor4} 100%)`,
+                      padding: 3,
+                      boxShadow: temSaldo
+                        ? `0 0 20px 4px #7aff9a44`
+                        : `0 0 12px 3px ${setorInfo.cor4}44`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "100%", height: "100%", borderRadius: "50%",
+                        background: `radial-gradient(circle at 35% 35%, ${setorInfo.cor3} 0%, ${setorInfo.cor1} 70%)`,
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        border: `2px solid ${setorInfo.cor2}`,
+                      }}
+                    >
+                      <img
+                        src={getImageUrl(nomeLicencaBlocking)}
+                        alt=""
+                        style={{ width: "55%", height: "55%", objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,.6))" }}
+                      />
+                    </div>
+                  </div>
+
+                  <span style={{
+                    fontSize: 8, fontWeight: 700,
+                    color: `${setorInfo.cor4}AA`,
+                    textTransform: "uppercase", letterSpacing: ".1em",
+                    textAlign: "center",
+                  }}>
+                    Licença necessária
+                  </span>
+                </div>
+
+                {/* ── CUSTOS — total ocupa 60% à esquerda ── */}
+{/* Total — 60% largura, cores do setor */}
+<div style={{ display: "flex", alignItems: "stretch", gap: 4 }}>
+  <div style={{
+    width: "60%",
+    background: temSaldo ? `${setorInfo.cor3}22` : "rgba(255,96,96,.1)",
+    borderRadius: 7, padding: "5px 8px",
+    border: `1px solid ${temSaldo ? setorInfo.cor3 + "66" : "rgba(255,96,96,.3)"}`,
+    display: "flex", alignItems: "center", justifyContent: "space-between",
+    boxShadow: temSaldo ? `0 0 8px 1px ${setorInfo.cor4}44` : "none",
+  }}>
+    <div className="flex items-center gap-[4px]">
+      <img src={DolarImg} style={{ height: 10, opacity: 0.8 }} alt="" />
+      <span style={{
+        fontSize: 7.5, fontWeight: 700,
+        color: "rgba(255,255,255,.6)",
+        textTransform: "uppercase", letterSpacing: ".05em",
+      }}>
+        Total
+      </span>
+    </div>
+    <span style={{
+      fontFamily: "'Rajdhani',sans-serif", fontSize: 13, fontWeight: 800,
+      color: temSaldo ? setorInfo.cor4 : "#ff9090",
+    }}>
+      {formatarNumero(custoTotal)}
+    </span>
+  </div>
+  <div style={{ width: "40%" }} />
+</div>
               </div>
             </motion.div>
-          </motion.div>
-        )}
+          );
+        })()}
 
         {/* overlay sanção */}
         {((rentabilidade > 200 && quantidadeAtivoAtual === 1) || (rentabilidade >= 150 && rentabilidade < 200 && quantidadeAtivoAtual >= 3) || (rentabilidade >= 120 && rentabilidade < 150 && quantidadeAtivoAtual >= 5) || (rentabilidade >= 70 && rentabilidade < 120 && quantidadeAtivoAtual >= 10)) && (
@@ -1241,30 +1489,30 @@ const CardModalBase = ({ index }) => {
                             })()}
                           </span>
                         </div>
-<div
-    style={{ width: "30%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 6px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}
-    data-tooltip-id="tooltip-faturado"
-    data-tooltip-html="Custo de construção do edifício"
-  >
+                        <div
+                          style={{ width: "30%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 6px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}
+                          data-tooltip-id="tooltip-faturado"
+                          data-tooltip-html="Custo de construção do edifício"
+                        >
 
-    <div className="flex items-center gap-1">
-      <img src={ConstuirImg} style={{ height: 10, opacity: 0.6 }} alt="" />
-      <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 13, fontWeight: 700, color: "#fff", lineHeight: 1 }}>
-        {formatarNumero(dados[setorAtivo].edificios[index].custoConstrucao)}
-      </span>
-    </div>
-  </div>
+                          <div className="flex items-center gap-1">
+                            <img src={ConstuirImg} style={{ height: 10, opacity: 0.6 }} alt="" />
+                            <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 13, fontWeight: 700, color: "#fff", lineHeight: 1 }}>
+                              {formatarNumero(dados[setorAtivo].edificios[index].custoConstrucao)}
+                            </span>
+                          </div>
+                        </div>
                       </div>
 
 
                       {/* Linha 4: Imóveis Base (60%) | Recursos de Construção (40%) */}
                       <div className="flex gap-[4px]" style={{ minHeight: 38 }}>
                         <div style={{ width: "50%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 7px", display: "flex", flexDirection: "column", gap: 2, cursor: "pointer" }} onClick={onClickConstr}>
-                        <_ImoveisSMartelo
-                          dados={dados} setorAtivo={setorAtivo} index={index} cor1={setorInfo.cor1}
-                          setorInfo={setorInfo} custoConstrucao={dados[setorAtivo].edificios[index].custoConstrucao}
-                          formatarNumero={formatarNumero} onClickLojas={onClickLojas}
-                        />
+                          <_ImoveisSMartelo
+                            dados={dados} setorAtivo={setorAtivo} index={index} cor1={setorInfo.cor1}
+                            setorInfo={setorInfo} custoConstrucao={dados[setorAtivo].edificios[index].custoConstrucao}
+                            formatarNumero={formatarNumero} onClickLojas={onClickLojas}
+                          />
                         </div>
                         <div style={{ width: "50%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 7px", display: "flex", flexDirection: "column", gap: 2, cursor: "pointer" }} onClick={onClickConstr}>
                           <span style={{ fontSize: 6.5, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.3)" }}>Recursos</span>
@@ -1404,29 +1652,93 @@ const CardModalBase = ({ index }) => {
             )}
             {/* ══ FIM CORPO ══ */}
 
-            {/* ── FOOTER: Linha 6 — quantidade + botão comprar ── */}
-            <div className="w-full flex flex-col gap-[4px]">
-              <div className="flex gap-[5px] items-center" style={{ height: 24 }}>
-                <div
-                  style={{ height: 24, minWidth: 36, borderRadius: 7, background: quantidadeAtivoAtual > 0 ? "rgba(100,17,217,.2)" : "rgba(0,0,0,.28)", border: quantidadeAtivoAtual > 0 ? `1px solid ${corPowerUpAtual}` : "1px solid rgba(255,255,255,.12)", display: "flex", alignItems: "center", justifyContent: "center", gap: 3, padding: "0 7px", flexShrink: 0 }}
-                  data-tooltip-id="tooltip-faturado"
-                  data-tooltip-html="Quantidade atual deste edifício na sua carteira"
-                >
-              
-                  <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 14, fontWeight: 700, lineHeight: 1, color: quantidadeAtivoAtual > 0 ? "#fff"  : "#fff" }}>
-                    {quantidadeAtivoAtual}
-                  </span>
-                </div>
-                <button
-                  onClick={comprarCard}
-                  style={{ flex: 1, height: 24, borderRadius: 8, border: "none", fontFamily: "'Nunito',sans-serif", fontSize: 11, fontWeight: 700, cursor: podeComprar ? "pointer" : "not-allowed", color: "#fff", letterSpacing: ".04em", backgroundColor: podeComprar ? "#6411D9" : "#B0A7C0" }}
-                  className="fonteBold"
-                  title={!podeComprar ? motivo : ""}
-                >
-                  Comprar
-                </button>
-              </div>
-            </div>
+{/* ── FOOTER: quantidade | comprar | investimento ── */}
+<div className="w-full">
+  <div className="flex gap-[4px] items-stretch" style={{ height: 26 }}>
+
+    {/* Quantidade */}
+    <div
+      style={{
+        height: 26, minWidth: 32, borderRadius: 7,
+        background: quantidadeAtivoAtual > 0 ? "rgba(100,17,217,.2)" : "rgba(0,0,0,.28)",
+        border: quantidadeAtivoAtual > 0 ? `1px solid ${corPowerUpAtual}` : "1px solid rgba(255,255,255,.12)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "0 6px", flexShrink: 0,
+      }}
+      data-tooltip-id="tooltip-faturado"
+      data-tooltip-html="Quantidade atual deste edifício na sua carteira"
+    >
+      <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 14, fontWeight: 700, color: "#fff" }}>
+        {quantidadeAtivoAtual}
+      </span>
+    </div>
+
+    {/* Botão Comprar */}
+    <button
+      onClick={comprarCard}
+      style={{
+        flex: 1, height: 26, borderRadius: 8, border: "none",
+        fontFamily: "'Nunito',sans-serif", fontSize: 11, fontWeight: 700,
+        cursor: podeComprar ? "pointer" : "not-allowed", color: "#fff",
+        letterSpacing: ".04em",
+        backgroundColor: podeComprar ? "#6411D9" : "#B0A7C0",
+      }}
+      className="fonteBold"
+      title={!podeComprar ? motivo : ""}
+    >
+      Comprar
+    </button>
+
+    {/* Investimento — só mostra se desbloqueado e tem custo */}
+   {/* Investimento no footer — usa custoRecursos e custoConstrução já calculados no escopo */}
+{dados[setorAtivo].edificios[index].licençaLiberado.liberado !== false && (() => {
+  const tN = dados[setorAtivo].edificios[index].lojasNecessarias?.terrenos || 0;
+  const pN = dados[setorAtivo].edificios[index].lojasNecessarias?.lojasP || 0;
+  const mN = dados[setorAtivo].edificios[index].lojasNecessarias?.lojasM || 0;
+  const gN = dados[setorAtivo].edificios[index].lojasNecessarias?.lojasG || 0;
+  const tFalta = Math.max(0, tN - (dados.terrenos?.quantidade || 0));
+  const pFalta = Math.max(0, pN - (dados.lojasP?.quantidade || 0));
+  const mFalta = Math.max(0, mN - (dados.lojasM?.quantidade || 0));
+  const gFalta = Math.max(0, gN - (dados.lojasG?.quantidade || 0));
+  const custoImovelsFaltando =
+    tFalta * dados.terrenos.preçoConstrução +
+    pFalta * (dados.lojasP.preçoConstrução + dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
+    mFalta * (dados.lojasM.preçoConstrução + dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
+    gFalta * (dados.lojasG.preçoConstrução + dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução);
+
+  // custoConstrução e custoRecursos já estão calculados no escopo do componente
+  const custoTotalInvestimento = custoImovelsFaltando + custoRecursos + custoConstrução;
+
+  // Mostra sempre — mesmo que imoveis estejam ok, mostra custo de construção
+  const podePagar = economiaSetores.saldo >= custoTotalInvestimento;
+
+  return (
+    <div style={{
+      height: 26, borderRadius: 7, padding: "0 7px", flexShrink: 0,
+      background: podePagar ? `${setorInfo.cor3}22` : "rgba(255,96,96,.1)",
+      border: `1px solid ${podePagar ? setorInfo.cor3 + "55" : "rgba(255,96,96,.25)"}`,
+      display: "flex", alignItems: "center", gap: 4,
+      boxShadow: podePagar ? `0 0 8px 1px ${setorInfo.cor4}44` : "none",
+    }}>
+      <div style={{
+        width: 4, height: 4, borderRadius: "50%",
+        background: podePagar ? setorInfo.cor4 : "#ff6060",
+        flexShrink: 0,
+        boxShadow: `0 0 4px ${podePagar ? setorInfo.cor4 : "#ff6060"}`,
+      }} />
+      <span style={{
+        fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 800,
+        color: podePagar ? setorInfo.cor4 : "#ff9090",
+        whiteSpace: "nowrap",
+      }}>
+        {formatarNumero(custoTotalInvestimento)}
+      </span>
+    </div>
+  );
+})()}
+
+  </div>
+</div>
 
           </div>
         </div>
@@ -1683,7 +1995,7 @@ const CardModalBase = ({ index }) => {
             <div onClick={() => handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-start self-center gap-[6px]">
               <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between">
                 <div style={{ background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
-                  <img src={bag} className="h-[60%]" alt="" />
+                  <img src={sell} className="h-[60%]" alt="" />
                 </div>
                 <div className="flex p-[10px] justify-center items-center">
                   <h1 className="text-white fonteBold text-[12px]">Produtos à venda</h1>

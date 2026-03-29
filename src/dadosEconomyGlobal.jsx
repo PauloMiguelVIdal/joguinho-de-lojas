@@ -1,12 +1,16 @@
-import React, { createContext, useContext, useState } from "react";
-
+import React, { createContext, useContext, useState,useEffect } from "react";
+import { salvarNoStorage } from "./components/usePersistencia";
+import { carregarSalvo } from "./components/usePersistencia";
 // Criação do contexto
 const DadosEconomyGlobalContext = createContext();
 
+
 // Provedor do contexto
-const DadosEconomyGlobalProvider = ({ children }) => {
-  const [economiaSetores, setEconomiaSetores] = useState({
-    saldo: 10000000,
+
+
+  const estadoInicial={
+    
+    saldo: 100000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
@@ -272,7 +276,34 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       //   }
     },
       patrimonioGlobal: 0,
-  });
+  }
+
+const DadosEconomyGlobalProvider = ({ children }) => {
+
+
+const salvo = carregarSalvo();
+
+const [economiaSetores, setEconomiaSetores] = useState(salvo.economy?? estadoInicial);
+
+// () => {
+//   if (economy) {
+//     return {
+//       ...estadoInicial,         // seus defaults
+//       ...economy,               // sobrescreve com o save
+//       centralEdificios: {
+//         ...estadoInicial.centralEdificios,
+//         ...(economy.centralEdificios || {}),  // ✅ restaura porte
+//       },
+//       porteEmpresa: economy.porteEmpresa ?? estadoInicial.porteEmpresa, // ✅ restaura status
+//     };
+//   }
+//   return estadoInicial;
+// }
+
+
+
+
+
 
   const atualizarDadosEconomy = (caminho, novoValor) => {
     setEconomiaSetores((prevState) => {
@@ -498,10 +529,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     const novosTipos = jaExisteTipo ? nomesSet.size : nomesSet.size + 1;
 
     // atualiza centralEdificios
-    if (economiaSetores?.centralEdificios) {
-      economiaSetores.centralEdificios.quantidadeDiversosEdificiosAtual =
-        nomesSet.size;
-    }
+
 
     // console.log(
     //   "jaExisteTipo:",
@@ -524,10 +552,6 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     const novosTotalEdificios = totalEdificiosAtuais + 1; // compra adiciona 1 unidade
 
     // atualiza centralEdificios
-    if (economiaSetores?.centralEdificios) {
-      economiaSetores.centralEdificios.quantidadeEdificiosAtual =
-        totalEdificiosAtuais;
-    }
 
     // console.log(
     //   "totalEdificiosAtuais:",
@@ -547,37 +571,29 @@ const DadosEconomyGlobalProvider = ({ children }) => {
   };
 
   // Função para liberar o próximo nível
-  const liberaProximoNivel = () => {
-    setEconomiaSetores((prev) => {
-      const novoArray = prev.porteEmpresa.map((nivel, i) =>
-        i === index ? { ...nivel, status: true } : nivel
-      );
+// PROBLEMA: `index` não está definido no escopo de liberaProximoNivel
+const liberaProximoNivel = (index) => {   // ✅ recebe index
+  setEconomiaSetores((prev) => {
+    const novoArray = prev.porteEmpresa.map((nivel, i) =>
+      i === index ? { ...nivel, status: true } : nivel
+    );
 
-      const nivelAtual = novoArray[index];
+    const nivelAtual = novoArray[index];
 
-      return {
-        ...prev,
-        centralEdificios: {
-          ...prev.centralEdificios,
-          classificacaoPorteEmpresa:
-            nivelAtual.nome ?? prev.centralEdificios.classificacaoPorteEmpresa,
-          quantidadeUnicoMax:
-            prev.centralEdificios.quantidadeUnicoMax +
-            (nivelAtual.edificiosUnicosMax ?? 0),
-          quantidadeSetoresMax:
-            prev.centralEdificios.quantidadeSetoresMax +
-            (nivelAtual.qtdMaxSetores ?? 0),
-          quantidadeDiversosEdificiosMax:
-            prev.centralEdificios.quantidadeDiversosEdificiosMax +
-            (nivelAtual.qtdMaxDiversificar ?? 0),
-          quantidadeEdificiosMax:
-            prev.centralEdificios.quantidadeEdificiosMax +
-            (nivelAtual.totalMaxEdificios ?? 0),
-        },
-        porteEmpresa: novoArray,
-      };
-    });
-  };
+    return {
+      ...prev,
+      centralEdificios: {
+        ...prev.centralEdificios,
+        classificacaoPorteEmpresa: nivelAtual.nome ?? prev.centralEdificios.classificacaoPorteEmpresa,
+        quantidadeUnicoMax: nivelAtual.edificiosUnicosMax ?? prev.centralEdificios.quantidadeUnicoMax,
+        quantidadeSetoresMax: nivelAtual.qtdMaxSetores ?? prev.centralEdificios.quantidadeSetoresMax,
+        quantidadeDiversosEdificiosMax: nivelAtual.qtdMaxDiversificar ?? prev.centralEdificios.quantidadeDiversosEdificiosMax,
+        quantidadeEdificiosMax: nivelAtual.totalMaxEdificios ?? prev.centralEdificios.quantidadeEdificiosMax,
+      },
+      porteEmpresa: novoArray,
+    };
+  });
+};
 
 const atualizarEcoSafely = (chave, patch) => {
   setEconomiaSetores((prev) => {
@@ -612,6 +628,9 @@ const atualizarVenda = (chave, valor) => {
   }));
 };
 
+useEffect(() => {
+  salvarNoStorage(undefined, undefined, economiaSetores);
+}, [economiaSetores.centralEdificios.classificacaoPorteEmpresa]);
 
   const salvarContrato = (novoContrato) => {
     setContratos((prev) => [...prev, novoContrato]);

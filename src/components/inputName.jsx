@@ -6,31 +6,31 @@ import { Localizador } from "./localizador";
 // Lista de edifícios para espalhar no fundo
 // Substitua o array edificiosDecorativos por este, com mais cartas e níveis
 const edificiosDecorativos = [
-  { nome: "Plantação De Grãos",      pos: { left:"2%",   top:"8%",   rotate:"-15deg", delay:"0s",   duration:"18s", opacity:.5  }, nivel: 1 },
-  { nome: "Fábrica De Chips",        pos: { left:"10%",  top:"55%",  rotate:"8deg",   delay:"2s",   duration:"22s", opacity:.4  }, nivel: 3 },
-  { nome: "Alto-Forno",              pos: { left:"5%",   top:"75%",  rotate:"-6deg",  delay:"5s",   duration:"19s", opacity:.45 }, nivel: 2 },
-  { nome: "Mercado",                 pos: { left:"18%",  top:"18%",  rotate:"12deg",  delay:"1s",   duration:"24s", opacity:.35 }, nivel: 1 },
-  { nome: "Construtora",             pos: { left:"22%",  top:"72%",  rotate:"-10deg", delay:"7s",   duration:"20s", opacity:.45 }, nivel: 2 },
-  { nome: "Usina Solar",             pos: { left:"75%",  top:"12%",  rotate:"18deg",  delay:"3s",   duration:"21s", opacity:.4  }, nivel: 1 },
-  { nome: "Fazenda De Vacas",        pos: { left:"80%",  top:"60%",  rotate:"-12deg", delay:"6s",   duration:"17s", opacity:.5  }, nivel: 3 },
-  { nome: "Fábrica De Smartphones",  pos: { left:"87%",  top:"28%",  rotate:"5deg",   delay:"9s",   duration:"23s", opacity:.35 }, nivel: 2 },
-  { nome: "Usina Siderúrgica",       pos: { left:"68%",  top:"75%",  rotate:"-8deg",  delay:"4s",   duration:"20s", opacity:.45 }, nivel: 3 },
-  { nome: "Aeroporto",               pos: { left:"55%",  top:"6%",   rotate:"14deg",  delay:"8s",   duration:"25s", opacity:.35 }, nivel: 1 },
-  { nome: "Parque Eólico",           pos: { left:"38%",  top:"80%",  rotate:"-18deg", delay:"11s",  duration:"19s", opacity:.4  }, nivel: 2 },
-  { nome: "Fábrica De Robôs",        pos: { left:"91%",  top:"78%",  rotate:"7deg",   delay:"13s",  duration:"22s", opacity:.35 }, nivel: 3 },
-  // ── novas cartas ──
-  { nome: "Refinaria",               pos: { left:"30%",  top:"5%",   rotate:"-9deg",  delay:"3.5s", duration:"20s", opacity:.4  }, nivel: 3 },
-  { nome: "Fábrica De Foguetes",     pos: { left:"45%",  top:"82%",  rotate:"11deg",  delay:"6.5s", duration:"23s", opacity:.35 }, nivel: 2 },
-  { nome: "Shopping Center",         pos: { left:"60%",  top:"45%",  rotate:"-14deg", delay:"1.5s", duration:"21s", opacity:.3  }, nivel: 1 },
-  { nome: "Mineradora",              pos: { left:"14%",  top:"35%",  rotate:"6deg",   delay:"9.5s", duration:"18s", opacity:.4  }, nivel: 2 },
-  { nome: "Plataforma De Petróleo",  pos: { left:"50%",  top:"60%",  rotate:"-5deg",  delay:"4.5s", duration:"24s", opacity:.3  }, nivel: 3 },
-  { nome: "Data Center",             pos: { left:"72%",  top:"35%",  rotate:"16deg",  delay:"12s",  duration:"20s", opacity:.35 }, nivel: 1 },
-  { nome: "Usina Hidrelétrica",      pos: { left:"3%",   top:"42%",  rotate:"-20deg", delay:"7.5s", duration:"22s", opacity:.4  }, nivel: 2 },
-  { nome: "Fábrica De Automóveis",   pos: { left:"83%",  top:"10%",  rotate:"9deg",   delay:"2.5s", duration:"19s", opacity:.35 }, nivel: 3 },
-  { nome: "Porto",                   pos: { left:"25%",  top:"48%",  rotate:"-7deg",  delay:"10s",  duration:"26s", opacity:.3  }, nivel: 1 },
-  { nome: "Laboratório Farmacêutico",pos: { left:"58%",  top:"22%",  rotate:"13deg",  delay:"5.5s", duration:"21s", opacity:.35 }, nivel: 2 },
-  { nome: "Fábrica De Baterias",     pos: { left:"42%",  top:"15%",  rotate:"-11deg", delay:"14s",  duration:"18s", opacity:.4  }, nivel: 1 },
-  { nome: "Estaleiro",               pos: { left:"95%",  top:"50%",  rotate:"4deg",   delay:"8.5s", duration:"23s", opacity:.3  }, nivel: 3 },
+    { nome: "Plantação De Grãos", pos: { left: "2%", top: "8%", rotate: "-15deg", delay: "0s", duration: "18s", opacity: .5 }, nivel: 1 },
+    { nome: "Fábrica De Chips", pos: { left: "10%", top: "55%", rotate: "8deg", delay: "2s", duration: "22s", opacity: .4 }, nivel: 3 },
+    { nome: "Alto-Forno", pos: { left: "5%", top: "75%", rotate: "-6deg", delay: "5s", duration: "19s", opacity: .45 }, nivel: 2 },
+    { nome: "Mercado", pos: { left: "18%", top: "18%", rotate: "12deg", delay: "1s", duration: "24s", opacity: .35 }, nivel: 1 },
+    { nome: "Construtora", pos: { left: "22%", top: "72%", rotate: "-10deg", delay: "7s", duration: "20s", opacity: .45 }, nivel: 2 },
+    { nome: "Usina Solar", pos: { left: "75%", top: "12%", rotate: "18deg", delay: "3s", duration: "21s", opacity: .4 }, nivel: 1 },
+    { nome: "Fazenda De Vacas", pos: { left: "80%", top: "60%", rotate: "-12deg", delay: "6s", duration: "17s", opacity: .5 }, nivel: 3 },
+    { nome: "Fábrica De Smartphones", pos: { left: "87%", top: "28%", rotate: "5deg", delay: "9s", duration: "23s", opacity: .35 }, nivel: 2 },
+    { nome: "Usina Siderúrgica", pos: { left: "68%", top: "75%", rotate: "-8deg", delay: "4s", duration: "20s", opacity: .45 }, nivel: 3 },
+    { nome: "Aeroporto", pos: { left: "55%", top: "6%", rotate: "14deg", delay: "8s", duration: "25s", opacity: .35 }, nivel: 1 },
+    { nome: "Parque Eólico", pos: { left: "38%", top: "80%", rotate: "-18deg", delay: "11s", duration: "19s", opacity: .4 }, nivel: 2 },
+    { nome: "Fábrica De Robôs", pos: { left: "91%", top: "78%", rotate: "7deg", delay: "13s", duration: "22s", opacity: .35 }, nivel: 3 },
+    // ── novas cartas ──
+    { nome: "Refinaria", pos: { left: "30%", top: "5%", rotate: "-9deg", delay: "3.5s", duration: "20s", opacity: .4 }, nivel: 3 },
+    { nome: "Fábrica De Foguetes", pos: { left: "45%", top: "82%", rotate: "11deg", delay: "6.5s", duration: "23s", opacity: .35 }, nivel: 2 },
+    { nome: "Shopping Center", pos: { left: "60%", top: "45%", rotate: "-14deg", delay: "1.5s", duration: "21s", opacity: .3 }, nivel: 1 },
+    { nome: "Mineradora", pos: { left: "14%", top: "35%", rotate: "6deg", delay: "9.5s", duration: "18s", opacity: .4 }, nivel: 2 },
+    { nome: "Plataforma De Petróleo", pos: { left: "50%", top: "60%", rotate: "-5deg", delay: "4.5s", duration: "24s", opacity: .3 }, nivel: 3 },
+    { nome: "Data Center", pos: { left: "72%", top: "35%", rotate: "16deg", delay: "12s", duration: "20s", opacity: .35 }, nivel: 1 },
+    { nome: "Usina Hidrelétrica", pos: { left: "3%", top: "42%", rotate: "-20deg", delay: "7.5s", duration: "22s", opacity: .4 }, nivel: 2 },
+    { nome: "Fábrica De Automóveis", pos: { left: "83%", top: "10%", rotate: "9deg", delay: "2.5s", duration: "19s", opacity: .35 }, nivel: 3 },
+    { nome: "Porto", pos: { left: "25%", top: "48%", rotate: "-7deg", delay: "10s", duration: "26s", opacity: .3 }, nivel: 1 },
+    { nome: "Laboratório Farmacêutico", pos: { left: "58%", top: "22%", rotate: "13deg", delay: "5.5s", duration: "21s", opacity: .35 }, nivel: 2 },
+    { nome: "Fábrica De Baterias", pos: { left: "42%", top: "15%", rotate: "-11deg", delay: "14s", duration: "18s", opacity: .4 }, nivel: 1 },
+    { nome: "Estaleiro", pos: { left: "95%", top: "50%", rotate: "4deg", delay: "8.5s", duration: "23s", opacity: .3 }, nivel: 3 },
 ];
 
 const InputName = () => {
@@ -64,7 +64,7 @@ const InputName = () => {
     if (dados.inicioGame.estadoModal === true) {
         return (
             <div style={{
-                position: "fixed", inset: 0, zIndex: 50,
+                position: "fixed", inset: 0, zIndex: 40,
                 background: "#050510",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 overflow: "hidden",
@@ -83,8 +83,8 @@ const InputName = () => {
                 }} />
 
                 {/* ── CARTAS REAIS FLUTUANDO ── */}
-{/* ── KEYFRAMES ── */}
-<style>{`
+                {/* ── KEYFRAMES ── */}
+                <style>{`
   @keyframes cardFloatReal {
     0%   { opacity: 0;           transform: rotate(var(--r)) translateY(30px)  scale(0.52); }
     10%  { opacity: var(--op);   transform: rotate(var(--r)) translateY(0px)   scale(0.52); }
@@ -93,58 +93,58 @@ const InputName = () => {
   }
 `}</style>
 
-{edificiosDecorativos.map((ed, i) => {
-  // overlay visual por nível
-  const nivelOverlay = {
-    1: "transparent",
-    2: "rgba(100,17,217,0.35)",   // roxo — nível 2
-    3: "rgba(184,135,11,0.45)",   // dourado — nível 3
-  }[ed.nivel];
+                {edificiosDecorativos.map((ed, i) => {
+                    // overlay visual por nível
+                    const nivelOverlay = {
+                        1: "transparent",
+                        2: "rgba(100,17,217,0.35)",   // roxo — nível 2
+                        3: "rgba(184,135,11,0.45)",   // dourado — nível 3
+                    }[ed.nivel];
 
-  const nivelBorder = {
-    1: "none",
-    2: "2px solid rgba(143,90,218,0.6)",
-    3: "2px solid rgba(240,193,64,0.7)",
-  }[ed.nivel];
+                    const nivelBorder = {
+                        1: "none",
+                        2: "2px solid rgba(143,90,218,0.6)",
+                        3: "2px solid rgba(240,193,64,0.7)",
+                    }[ed.nivel];
 
-  const nivelGlow = {
-    1: "none",
-    2: "0 0 14px rgba(100,17,217,0.5)",
-    3: "0 0 18px rgba(240,193,64,0.55)",
-  }[ed.nivel];
+                    const nivelGlow = {
+                        1: "none",
+                        2: "0 0 14px rgba(100,17,217,0.5)",
+                        3: "0 0 18px rgba(240,193,64,0.55)",
+                    }[ed.nivel];
 
-  return (
-    <div
-      key={i}
-      style={{
-        position: "absolute",
-        left: ed.pos.left,
-        top: ed.pos.top,
-        pointerEvents: "none",
-        transformOrigin: "top left",
-        "--r": ed.pos.rotate,
-        "--op": ed.pos.opacity,
-        animation: `cardFloatReal ${ed.pos.duration} ease-in-out ${ed.pos.delay} infinite`,
-        // container para o overlay não cortar a carta
-        borderRadius: 20,
-        overflow: "visible",
-      }}
-    >
-      {/* overlay de nível por cima da carta */}
-      <div style={{
-        position: "absolute", inset: 0,
-        borderRadius: 20,
-        background: nivelOverlay,
-        border: nivelBorder,
-        boxShadow: nivelGlow,
-        zIndex: 5,
-        pointerEvents: "none",
-      }} />
+                    return (
+                        <div
+                            key={i}
+                            style={{
+                                position: "absolute",
+                                left: ed.pos.left,
+                                top: ed.pos.top,
+                                pointerEvents: "none",
+                                transformOrigin: "top left",
+                                "--r": ed.pos.rotate,
+                                "--op": ed.pos.opacity,
+                                animation: `cardFloatReal ${ed.pos.duration} ease-in-out ${ed.pos.delay} infinite`,
+                                // container para o overlay não cortar a carta
+                                borderRadius: 20,
+                                overflow: "visible",
+                            }}
+                        >
+                            {/* overlay de nível por cima da carta */}
+                            <div style={{
+                                position: "absolute", inset: 0,
+                                borderRadius: 20,
+                                background: nivelOverlay,
+                                border: nivelBorder,
+                                boxShadow: nivelGlow,
+                                zIndex: 5,
+                                pointerEvents: "none",
+                            }} />
 
-      {Localizador(ed.nome)}
-    </div>
-  );
-})}
+                            {Localizador(ed.nome)}
+                        </div>
+                    );
+                })}
                 {/* ── MODAL CENTRAL ── */}
                 <div style={{
                     position: "relative", zIndex: 10,
@@ -236,16 +236,16 @@ const InputName = () => {
                         </p>
                     </div>
 
-                    
+
                 </div>
 
-        
-  </div >
-);
+
+            </div >
+        );
     }
     else {
-    return null
-}
+        return null
+    }
 }
 
 export default InputName;

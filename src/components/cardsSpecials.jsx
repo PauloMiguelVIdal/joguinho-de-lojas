@@ -60,7 +60,7 @@ export const CardSpecials = () =>{
         "Fábrica De Calçados",
         "Fábrica De Roupas",
         "Fazenda De Vacas",
-        "Madeireira",
+        "Serraria",
         "Rede De Distribuição Elétrica",
         "Usina Solar",
         "Fábrica De Turbinas Eólicas",

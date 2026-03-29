@@ -67,8 +67,8 @@ const GameContext = createContext();
             capacidadePorEdificio: 100,
             categoriasPermitidas: ["animais", "produtos manufaturados", "biomassa / orgânicos", "perecíveis"],
         },
-        madeireira: {
-            nome: "Madeireira",
+        serraria: {
+            nome: "Serraria",
             tipo: "dedicado",
             capacidadePorEdificio: 550,
             categoriasPermitidas: "biomassa / orgânicos",
@@ -709,7 +709,7 @@ export function GameProvider({ children }) {
     //     fazendaVacas: 0,
     //     granjaDeAves: 0,
     //     criaçãoDeOvinos: 0,
-    //     madeireira: 0,
+    //     serraria: 0,
     //     fábricaDeSmartphones: 0,
     //     fábricaDeComputadores: 0,
     //     fábricaDeConsolesDeJogos: 0,

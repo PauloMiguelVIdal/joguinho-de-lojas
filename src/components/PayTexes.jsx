@@ -194,7 +194,7 @@ export default function PayTexes() {
     Armazém: "agricultura",
     Silo: "agricultura",
     "Depósito De Resíduos Orgânicos": "agricultura",
-    Madeireira: "agricultura",
+    Serraria: "agricultura",
     "Área Florestal": "agricultura",
     "Terreno De Mineração": "agricultura",
     "Plantação De Eucalipto": "agricultura",

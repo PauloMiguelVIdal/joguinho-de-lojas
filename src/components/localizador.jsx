@@ -10,24 +10,22 @@ export const Localizador = (edificioProcurado, abrirModalSell, idx, setor) => {
   let setorEncontrado = null;
   let indice = -1;
 
-  for (const setor of setores) {
-    indice = dados[setor].edificios.findIndex(ed => ed.nome === edificioProcurado);
+  for (const s of setores) {
+    indice = dados[s].edificios.findIndex(ed => ed.nome === edificioProcurado);
     if (indice !== -1) {
-      setorEncontrado = setor;
+      setorEncontrado = s;
       break;
     }
   }
 
-  const verificadorLocalizado = indice === -1 ? "não achou" : "achou";
+  if (indice === -1 || !setorEncontrado) return null;
 
   return (
-<CardLocalization 
-
-      key={`${setor}-${idx}`}
-      index={idx}
-      setor={setor}
-      abrirModalSell={abrirModalSell}
+    <CardLocalization
+      key={`${setorEncontrado}-${indice}`}
+      index={indice}
+      setor={setorEncontrado}
+      abrirModalSell={abrirModalSell || (() => {})}
     />
-
   );
 };

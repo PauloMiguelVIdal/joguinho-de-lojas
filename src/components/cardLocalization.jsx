@@ -14,7 +14,7 @@ import industria from "../../public/outrasImagens/setores/industria.png";
 import imobiliario from "../../public/outrasImagens/setores/imobiliario.png";
 import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
 import grafico from "../../public/outrasImagens/setores/grafico.png";
-import gerenciamento from "../../public/outrasImagens/setores/gerenciamento.png";
+import passive from "../../public/outrasImagens/rendaPassiva.png";
 import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png";
 import { motion } from "framer-motion";
 import LojaPImg from "../../public/outrasImagens/lojaP.png";
@@ -35,7 +35,7 @@ import { createPortal } from "react-dom";
 import useSound from "use-sound";
 import estoque from "../../public/outrasImagens/estoque.png";
 import component from "../../public/outrasImagens/component.png";
-import bag from "../../public/outrasImagens/bag.png";
+import sell from "../../public/outrasImagens/sellContracts.png";
 import editar from "../../public/outrasImagens/editar.png";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import { productsCatalog } from "./TablePrice";
@@ -66,6 +66,21 @@ const iconsCatArmazenamento = [
   { categoria: "produtos digitais", icon: "💾" },
   { categoria: "materiais sensíveis", icon: "⚠️" }
 ];
+// const [ativo, setAtivo] = useState("grafico");
+// // if setor carteira e quantidade maior que 0 poder clicar else desativar ir até o edifício 
+// const goCardPanel = () =>{
+//   setAtivo('gerenciamento')
+//         <ManagerPanelInterface
+//           edificioId={edificioSelecionado}
+//           onBack={() => setEdificioSelecionado(null)}
+//         />
+
+//                              setAtivo(setor.id);
+//                             changeAudio();
+//                             atualizarDadosProf2(["setorAtivo"], setor.id);
+// }
+
+
 
 const storageIconMap = Object.fromEntries(
   iconsCatArmazenamento.map(item => [item.categoria, item.icon])
@@ -100,7 +115,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   // ── CATEGORIA ─────────────────────────────────────────────
   const productions = [
     "Plantação De Grãos", "Fazenda De Vacas", "Plantação De Eucalipto", "Granja De Aves", "Criação De Ovinos",
-    "Madeireira", "Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos",
+    "Serraria", "Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos",
     "Fábrica De Dispositivos Vestíveis", "Fábrica De Rações", "Fábrica De Embalagens", "Fábrica De Fertilizantes",
     "Fábrica Têxtil", "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose", "Fábrica De Papel",
     "Fábrica De Livros", "Fábrica De Medicamentos", "Laboratório Farmacêutico", "Fábrica De Plásticos",
@@ -483,13 +498,13 @@ console.log("setor recebido:", setor, "| dados disponíveis:", Object.keys(dados
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Badge categoria */}
-        <div className="absolute bottom-0 right-0 w-[50px] h-[50px] z-20 flex items-center justify-center rounded-tl-2xl rounded-br-2xl">
+        <div className="absolute bottom-0 right-0 w-[50px] h-[50px] z-20 flex items-center justify-center rounded-tl-2xl rounded-br-2xl" >
           <div className="absolute inset-0 rounded-tl-2xl rounded-br-2xl" style={{ backgroundColor: setorInfo.cor3, filter: "brightness(0.8)", boxShadow: "-2px -2px 10px rgba(0,0,0,0.3)" }} />
           <div className="w-[50px] h-[50px] flex items-center justify-center rounded-tl-2xl rounded-br-2xl" style={{ backgroundColor: "rgba(0,0,0,0.2)", backdropFilter: "blur(4px)" }}>
             {isProducao && <img src={component} className="w-[24px] opacity-90" alt="" />}
-            {isVenda && <img src={bag} className="w-[24px] opacity-90" alt="" />}
+            {isVenda && <img src={sell} className="w-[24px] opacity-90" alt="" />}
             {isEstoque && <img src={estoque} className="w-[24px] opacity-90" alt="" />}
-            {isPassiva && <img src={gerenciamento} className="w-[24px] opacity-90" alt="" />}
+            {isPassiva && <img src={passive} className="w-[24px] opacity-90" alt="" />}
           </div>
         </div>
 
@@ -545,7 +560,7 @@ console.log("setor recebido:", setor, "| dados disponíveis:", Object.keys(dados
                 <div style={{ flex: 1, background: "rgba(0,0,0,.28)", borderRadius: 7, padding: "5px 8px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                   <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>Fatu. mensal</div>
                   <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 15, fontWeight: 700, color: "#fff", lineHeight: 1 }}>
-                    {formatarNumero(fatuMensal)}
+                    {formatarNumero(fatuMensal)} 
                   </div>
                 </div>
                 <div style={{ flex: 0.7, background: "rgba(0,0,0,.28)", borderRadius: 7, padding: "5px 6px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
@@ -654,7 +669,7 @@ console.log("setor recebido:", setor, "| dados disponíveis:", Object.keys(dados
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 3, padding: "0 7px", flexShrink: 0
                 }}>
                   {quantidadeAtivo > 0 && <span style={{ width: 5, height: 5, borderRadius: "50%", background: corPowerUpAtual, display: "inline-block" }} />}
-                  <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 14, fontWeight: 700, color: quantidadeAtivo > 0 ? corPowerUpAtual : "#fff" }}>
+                  <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 14, fontWeight: 700, color: quantidadeAtivo > 0 ? "#fff" : "#fff" }}>
                     {quantidadeAtivo}
                   </span>
                 </div>

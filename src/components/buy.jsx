@@ -499,7 +499,7 @@ if(dados.dia===1 && dados.terrenos.quantidade === 0){
   if (dados.dia > 269) {
     if (dados.setorAtivo === 'carteira') {
       return <SidebarCard />;
-    } if (dados.setorAtivo === 'mercado'||dados.setorAtivo === 'estoque'||dados.setorAtivo === 'gerenciamento') {
+    } if (dados.setorAtivo === 'mercado'||dados.setorAtivo === 'estoque'||dados.setorAtivo === 'gerenciamento'||dados.setorAtivo === 'ecossistema') {
       return <SideInformations />;
     } if (setorAtual === "mercado") {
       return <SidebarStorage />;

@@ -149,7 +149,7 @@ export const productsCatalog = {
     unidade: "kg",
     setor: "agricultura",
     categoriaFisica: "biomassa / orgânicos",
-    slotSize: 20,
+    slotSize: 0.2,
   },
 
   couroPremium: {
@@ -174,8 +174,8 @@ export const productsCatalog = {
 
 
   arvoreEucalipto: {
-    id: "eucalipto",
-    nome: "Eucalipto",
+    id: "arvoreEucalipto",
+    nome: "Arvore De Eucalipto",
     icon: "🌳",
     unidade: "arvore",
     setor: "agricultura",
@@ -2317,33 +2317,33 @@ export const productsCatalog = {
     categoriaFisica: "bens de alto valor",
     slotSize: 5,
   },
-  energiaLimpa: {
-    id: "energiaLimpa",
-    nome: "Energia Limpa",
-    icon: "⚡",
-    unidade: "MWh",
-    setor: "energia",
-    categoriaFisica: "energia",
-    slotSize: 1,
-  },
-  energiaComum: {
-    id: "energiaLimpa",
-    nome: "Energia Limpa",
-    icon: "⚡",
-    unidade: "MWh",
-    setor: "energia",
-    categoriaFisica: "energia",
-    slotSize: 1,
-  },
-  energiaNuclear: {
-    id: "energiaLimpa",
-    nome: "Energia Limpa",
-    icon: "⚡",
-    unidade: "MWh",
-    setor: "energia",
-    categoriaFisica: "energia",
-    slotSize: 1,
-  },
+  // energiaLimpa: {
+  //   id: "energiaLimpa",
+  //   nome: "Energia Limpa",
+  //   icon: "⚡",
+  //   unidade: "MWh",
+  //   setor: "energia",
+  //   categoriaFisica: "energia",
+  //   slotSize: 1,
+  // },
+  // energiaComum: {
+  //   id: "energiaLimpa",
+  //   nome: "Energia Limpa",
+  //   icon: "⚡",
+  //   unidade: "MWh",
+  //   setor: "energia",
+  //   categoriaFisica: "energia",
+  //   slotSize: 1,
+  // },
+  // energiaNuclear: {
+  //   id: "energiaLimpa",
+  //   nome: "Energia Limpa",
+  //   icon: "⚡",
+  //   unidade: "MWh",
+  //   setor: "energia",
+  //   categoriaFisica: "energia",
+  //   slotSize: 1,
+  // },
 };
 
 
@@ -2590,9 +2590,9 @@ export const marketPrices = {
   turbinaEólica: 650000,
   softwareSimples: 400,
   relogioLuxo: 400,
-  energiaLimpa: 450,
-  energiaComum: 250,
-  energiaNuclear: 180,
+  // energiaLimpa: 450,
+  // energiaComum: 250,
+  // energiaNuclear: 180,
 };
 
 

@@ -1,54 +1,39 @@
 import React, { useContext, useEffect } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import circularEconomia from "../../public/outrasImagens/circular-economy.png";
-import agricultura from "../../public/outrasImagens/setores/agricultura.png";
-import tecnologia from "../../public/outrasImagens/setores/tecnologia.png";
-import comercio from "../../public/outrasImagens/setores/comercio.png";
-import industria from "../../public/outrasImagens/setores/industria.png";
-import imobiliario from "../../public/outrasImagens/setores/imobiliario.png";
-import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
 import Converter from "./Converter";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 
-
 export default function EconomyGlobal() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, setEconomiaSetores, atualizarDadosEconomy, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, atualizarDadosEconomy, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
   const estadosEconômicos = ["recessão", "declinio", "estável", "progressiva", "aquecida"];
   const economiaAtual = economiaSetores.economiaGlobal;
   const setores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"];
 
-    const tooltipStyle = {
-    backgroundColor: "#FFFFFF",
-    color: "#350973",
-    borderRadius: "6px",
-    padding: "6px 10px",
+  // Tooltip com estilo Premium (Fundo escuro e borda laranja)
+  const tooltipStyle = {
+    backgroundColor: "#1a053d",
+    color: "#FFFFFF",
+    borderRadius: "8px",
+    border: "1px solid #FF8A00",
+    padding: "10px",
     fontWeight: "600",
-    fontSize: "14px",
+    fontSize: "13px",
+    zIndex: 100
   };
   
   const TooltipPadrao = ({ id }) => (
     <Tooltip
       id={id}
       style={tooltipStyle}
-      border="1px solid #350973"
     />
   );
 
-
-  const imagensSetores = {
-    agricultura,
-    tecnologia,
-    industria,
-    comercio,
-    imobiliario,
-    energia
-  };
-
-  // Mapeia o estado da economia para uma cor
+  // Cores de status agora com opacidade para não "gritar" sobre o gradiente
   const corClasse = {
     "recessão": "bg-[#FF0000]",
     "declinio": "bg-[#FF8000]",
@@ -57,62 +42,28 @@ export default function EconomyGlobal() {
     "aquecida": "bg-[#006400]",
   }[economiaAtual] || "bg-black";
 
-  // Seleciona aleatoriamente um item da lista
+
+
+
   const selecionarItem = (lista) => lista[Math.floor(Math.random() * lista.length)];
   let somaEconomias = 0;
-  // Converte o estado da economia em um valor numérico
   const valorEconomico = (estado) =>
     ({ recessão: -2, declinio: -1, estável: 0, progressiva: 1, aquecida: 2 }[estado] ?? 0);
 
-
-
-
-
-  // Altera a economia global a cada 90 dias
   useEffect(() => {
-    // if (dados.dia % 90 === 0 && dados.dia >269) {
-
-
-
-    //   // const novaEconomia = resultadoEconomia(somaEconomias);
-
-    //   // atualizarDados('modalEconomiaGlobal', {
-    //   //   ...dados.modalEconomiaGlobal,
-    //   //   estadoModal: true
-    //   // });
-
-
-    //   // atualizarDados("economiaGlobal", novaEconomia);
-    //   // console.log("useEffect chamado5! Economia:", novaEconomia);
-    // }
-
     if (dados.dia % 90 === 0 && dados.dia <= 269) {
       const novaEconomia = selecionarItem(estadosEconômicos);
-      atualizarDados('modalEconomiaGlobal', {
-        ...dados.modalEconomiaGlobal,
-        estadoModal: true
-      });
+      atualizarDados('modalEconomiaGlobal', { ...dados.modalEconomiaGlobal, estadoModal: true });
       atualizarEco("economiaGlobal", novaEconomia);
-      console.log("useEffect chamado5! Economia:", novaEconomia);
     }
   }, [dados.dia]);
 
-  // Sorteia e atualiza a economia dos setores + soma
   useEffect(() => {
-    if (dados.dia % 90 === 0
-      && dados.dia >= 270
-    ) {
-
+    if (dados.dia % 90 === 0 && dados.dia >= 270) {
       setores.forEach((setor) => {
         const novaEconomia = selecionarItem(estadosEconômicos);
-
-        // Atualiza a economia do setor
         atualizarDadosEconomy([setor, "economiaSetor", "estadoAtual"], novaEconomia);
-        console.log("Economia setor sorteada:", setor, novaEconomia);
-
-        // Soma os valores
         somaEconomias += valorEconomico(novaEconomia);
-
         const decidirEconomiaSetor = () => {
           if (somaEconomias < -5) return "recessão";
           if (somaEconomias < -2) return "declinio";
@@ -120,72 +71,45 @@ export default function EconomyGlobal() {
           if (somaEconomias < 5) return "progressiva";
           return "aquecida";
         }
-
-
-
-
-
-
-        // console.log("essa é a soma" ,somaEconomias)
-
         const novaEconomiaGlobal = decidirEconomiaSetor();
-        // console.log(novaEconomiaGlobal, "Teste")
-        atualizarDados('modalEconomiaGlobal', {
-          ...dados.modalEconomiaGlobal,
-          estadoModal: true
-        });
-
-        //  console.log("essa é a economia global", novaEconomiaGlobal)
+        atualizarDados('modalEconomiaGlobal', { ...dados.modalEconomiaGlobal, estadoModal: true });
         atualizarEco("economiaGlobal", novaEconomiaGlobal);
-        // console.log("useEffect chamado5! Economia global:", novaEconomiaGlobal);
-
-
       });
-
-      // console.log("Soma total das economias dos setores:", somaEconomias);
     }
   }, [dados.dia]);
 
-  // Calcula dias restantes até a próxima mudança de economia
   useEffect(() => {
-    const calcularProximoDia = (n) => {
-      return (n % 90 === 0 ? 0 : 90 - (n % 90));
-    };
-    const proximoDia = calcularProximoDia(dados.dia);
-    atualizarDados("proximaEconomia", proximoDia);
-    // console.log("useEffect chamado6! Dias até próxima economia:", proximoDia);
+    const calcularProximoDia = (n) => (n % 90 === 0 ? 0 : 90 - (n % 90));
+    atualizarDados("proximaEconomia", calcularProximoDia(dados.dia));
   }, [dados.dia]);
 
   return (
-    <div className="flex max-h-[50px] w-[100%] bg-white rounded-[10px]">
+    // Removido o bg-white e aplicado o Gradiente Roxo com Borda
+    <div className="flex max-h-[50px] w-full bg-gradient-to-r from-[#350973] to-[#6411D9] border border-white/20 rounded-[10px] overflow-hidden shadow-lg">
       <Converter />
-      <div className={`${corClasse} min-h-[50px] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center`}>
+      
+      {/* Indicador de Cor do Status com efeito de brilho suave */}
+      <div className={`${corClasse} min-w-[50px] aspect-square flex items-center justify-center border-r border-white/10 shadow-[inset_0_0_10px_rgba(0,0,0,0.3)]`}>
         <img
           data-tooltip-id="economia-tip"
-          data-tooltip-html={`Esse é a economia global atual do jogo, <b>${economiaAtual}</b> <br/> <br/>    <div>
-      <p>A categoria de novos eventos varia de acordo com a economia global:</p>
-      <ul style={{ marginLeft: "15px", marginTop: "5px" }}>
-        <li><b>Recessão:</b> 35% de eventos benéficos, 65% de eventos prejudiciais</li>
-        <li><b>Declínio:</b> 45% de eventos benéficos, 55% de eventos prejudiciais</li>
-        <li><b>Estável:</b> 50% de eventos benéficos, 50% de eventos prejudiciais</li>
-        <li><b>Progressiva:</b> 55% de eventos benéficos, 45% de eventos prejudiciais</li>
-        <li><b>Aquecida:</b> 65% de eventos benéficos, 35% de eventos prejudiciais</li>
-      </ul>
-    </div>`} className="w-[60%] max-w-[58px] aspect-square"
+          data-tooltip-html={`Economia Global: <b>${economiaAtual.toUpperCase()}</b> <br/><br/> Variação de eventos conforme o status.`} 
+          className="w-[28px] h-[28px] brightness-0 invert opacity-90"
           src={circularEconomia}
           alt="Economia"
         />
-        <TooltipPadrao style={tooltipStyle} id="economia-tip" />
-
+        <TooltipPadrao id="economia-tip" />
       </div>
+
+      {/* Contador de Dias com Texto Branco para contraste no Roxo */}
       <div
         data-tooltip-id="economiaData-tip"
-        data-tooltip-content="Esse é o número de dias restantes para a próxima mudança na economia global"
-        className="flex justify-center items-center w-full">
-        <h2 className="text-[#350973] text-[20px] fonteBold">{dados.proximaEconomia}</h2>
-        <TooltipPadrao style={tooltipStyle} id="economiaData-tip" />
-
-
+        data-tooltip-content="Dias restantes para a próxima mudança econômica"
+        className="flex justify-center items-center w-full bg-black/10"
+      >
+        <h2 className="text-white text-[22px] fonteBold drop-shadow-md">
+            {dados.proximaEconomia}
+        </h2>
+        <TooltipPadrao id="economiaData-tip" />
       </div>
     </div>
   );
