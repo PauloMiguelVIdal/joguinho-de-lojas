@@ -17,9 +17,9 @@ export default function Buttons() {
         <div className="flex flex-col gap-[10px]">
           <PayTexes />
 
+          <Business />
           {dados.dia < 270 && (
             <div className="w-full flex justify-around">
-              <Business />
             </div>
           )}
 
@@ -27,7 +27,7 @@ export default function Buttons() {
             <div className="w-full flex justify-between">
               {/* <ToggleButton /> */}
               
-              <InfoPage />
+              {/* <InfoPage /> */}
               {/* <ButtonFinanace /> */}
             </div>
           )}

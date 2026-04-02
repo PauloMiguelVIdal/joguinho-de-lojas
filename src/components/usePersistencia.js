@@ -95,14 +95,14 @@ export function carregarSalvo() {
     const temSave = game !== null || central !== null || economy !== null;
 
     if (!temSave) {
-        console.log("[Persistencia] Nenhum save encontrado — iniciando novo jogo");
+        // console.log("[Persistencia] Nenhum save encontrado — iniciando novo jogo");
     } else {
-        console.log("[Persistencia] Save carregado:", {
-            game:      game !== null,
-            central:   central !== null,
-            economy:   economy !== null,
-            pipelines: pipelines !== null,
-        });
+        // console.log("[Persistencia] Save carregado:", {
+        //     game:      game !== null,
+        //     central:   central !== null,
+        //     economy:   economy !== null,
+        //     pipelines: pipelines !== null,
+        // });
     }
 
     return { game, central, economy, pipelines };

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState,useMemo } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import PróximoImg from "../../public/outrasImagens/proximo.png";
 import Sorteio from "./Sorteio";
@@ -11,24 +11,24 @@ import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 import { useHotkeys } from "react-hotkeys-hook";
 import { usePipeline } from "./PipelineContext";
 import { productsCatalog } from "./ProductCatalog";
-import {useGame } from "../components/GameContext";
+import { useGame } from "../components/GameContext";
 import { salvarNoStorage } from "./usePersistencia";
 export function NextDay() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-  const { economiaSetores, setEconomiaSetores, atualizarEco,atualizarVenda } = useContext(
+  const { economiaSetores, setEconomiaSetores, atualizarEco, atualizarVenda } = useContext(
     DadosEconomyGlobalContext
   );
-  const {  stock, productionQueue, sellQueue, salesContracts, contratosEdificios, marketTransactions } = useGame();
+  const { stock, productionQueue, sellQueue, salesContracts, contratosEdificios, marketTransactions } = useGame();
 
-const { getPipelinesParaSalvar } = usePipeline();
+  const { getPipelinesParaSalvar } = usePipeline();
 
-const gameStateParaSalvar = useMemo(() => ({
-  stock,
-  productionQueue,
-  sellQueue,
-  contratosEdificios,
-  pipelines: getPipelinesParaSalvar(),   // ← adicionar
-}), [stock, productionQueue, sellQueue, contratosEdificios, getPipelinesParaSalvar]);
+  const gameStateParaSalvar = useMemo(() => ({
+    stock,
+    productionQueue,
+    sellQueue,
+    contratosEdificios,
+    // ← adicionar
+  }), [stock, productionQueue, sellQueue, contratosEdificios, getPipelinesParaSalvar]);
 
 
   const tooltipStyle = {
@@ -72,7 +72,7 @@ const gameStateParaSalvar = useMemo(() => ({
     }
   }, [dados.dia, executouAudio270]);
 
-const { executarPipelinesHoje } = usePipeline();
+  const { executarPipelinesHoje } = usePipeline();
 
   useHotkeys(
     "d",
@@ -213,24 +213,34 @@ const { executarPipelinesHoje } = usePipeline();
     // processSellQueue();
 
 
-        const novoDia = dados.dia + 1;
+    const novoDia = dados.dia + 1;
     atualizarDados("dia", novoDia);
-    
+
     const faturamento = calcularFaturamento(); // ← agora retorna o valor
-     console.log("faturamento calculado:", faturamento);
+    console.log("faturamento calculado:", faturamento);
     // buttonNextDayAudio();
     processarTransacoesMercado();
     processProductions();
-     executarPipelinesHoje();  
+    executarPipelinesHoje();
     processSellQueue(faturamento); // ← passa o faturamento junt
-     salvarNoStorage(gameStateParaSalvar, dados, economiaSetores);
+salvarNoStorage(
+    gameStateParaSalvar,
+    dados,
+    economiaSetores,
+    getPipelinesParaSalvar()   // ← 4º argumento
+);
   };
 
-const calcularFaturamento = () => {
+  const calcularFaturamento = () => {
     let faturamentoDiario = 0;
 
     const novasLojas = todasLojas.map((loja) => {
-      const valorUnitário = dados[loja].faturamentoUnitárioPadrão;
+
+
+
+
+
+      const valorUnitário = dados.dia >= 270 ? 0 : dados[loja].faturamentoUnitárioPadrão 
       const valorVariável = parseFloat(
         (valorUnitário * (1 + (Math.random() * 0.6 - 0.3))).toFixed(2)
       );
@@ -250,10 +260,12 @@ const calcularFaturamento = () => {
           const custoTerreno = dados.terrenos.preçoConstrução;
           const custoTotalLoja = quantidadeLojas * precoConstrucao + quantidadeTerrenosNec * custoTerreno;
           patrimonio += custoTotalLoja;
+          atualizarDados('faturamentoUnitário',
+            dados[loja].faturamentoUnitário = 0
+          )
         });
         faturamentoDiario += patrimonio * 0.1;
       }
-
       return {
         ...dados[loja],
         faturamentoUnitário: valorVariável,
@@ -282,7 +294,7 @@ const calcularFaturamento = () => {
     });
 
     return faturamentoDiario; // ← retorna em vez de setar
-};
+  };
 
   // Função para capturar a tecla espaço
   // const handleKeyDown = (event) => {

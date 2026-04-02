@@ -8,6 +8,25 @@ import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 const GameContext = createContext();
 
+export const CUSTO_POR_SLOT = {
+  "agrícolas secos":          10,
+  "biomassa / orgânicos":     10,
+  "minério":                   8,
+  "perecíveis":               28,
+  "componentes industriais":  15,
+  "componentes eletrônicos":  22,
+  "químicos":                 18,
+  "fluidos":                  12,
+  "veículos":                 32,
+  "aeronaves":                45,
+  "bens de alto valor":       25,
+  "produtos manufaturados":   12,
+  "produtos digitais":         5,
+  "materiais sensíveis":      38,
+  "energia":                  10,
+  "animais":                  14,
+};
+
  export const storageProfiles = {
         // 🌱 AGRÍCOLA / BIOLÓGICO
         plantaçãoDeGrãos: {
@@ -565,10 +584,290 @@ const GameContext = createContext();
             categoriasPermitidas: "materiais sensíveis",
         },
     };
+    
+export function calcularCustoArmazenamentoMensal(categoria, slotsUsados) {
+    const custoPorSlot = CUSTO_POR_SLOT[categoria] ?? 15;
+    return Math.round(slotsUsados * custoPorSlot);
+}
+
+export function calcularCustoArmazenamentoTotal(stock, productsCatalog) {
+    const porCategoria = {};
+    let total = 0;
+ 
+    Object.entries(stock).forEach(([id, qty]) => {
+        if (!qty || qty <= 0) return;
+        const product = productsCatalog[id];
+        if (!product) return;
+ 
+        const categoria = product.categoriaFisica;
+        const slots = qty * (product.slotSize ?? 1);
+        const custo = calcularCustoArmazenamentoMensal(categoria, slots);
+ 
+        porCategoria[categoria] = (porCategoria[categoria] ?? 0) + custo;
+        total += custo;
+    });
+ 
+    return { porCategoria, total };
+}
+
+export function calcularCustoArmazem(profile) {
+    const cats = Array.isArray(profile.categoriasPermitidas)
+        ? profile.categoriasPermitidas
+        : [profile.categoriasPermitidas];
+ 
+    const custoMedioPorSlot =
+        cats.reduce((s, c) => s + (CUSTO_POR_SLOT[c] ?? 15), 0) / cats.length;
+ 
+    const penalidade =
+        cats.length === 1 ? 1.0
+        : cats.length === 2 ? 1.15
+        : 1.35;
+ 
+    return Math.round(profile.capacidadePorEdificio * custoMedioPorSlot * penalidade);
+}
+
+export function calcularManutencaoArmazem(profile) {
+    const custoTotal = calcularCustoArmazem(profile);
+    const cats = Array.isArray(profile.categoriasPermitidas)
+        ? profile.categoriasPermitidas
+        : [profile.categoriasPermitidas];
+ 
+    const caro = cats.some(c =>
+        ["perecíveis", "materiais sensíveis", "aeronaves"].includes(c)
+    );
+ 
+    const taxa = caro ? 0.025 : 0.015;
+    return Math.round(custoTotal * taxa);
+}
+
+export function calcularSlotsNecessariosCadeia(steps, productsCatalogRef, FORMULAS_EDIFICIOS_REF) {
+    const result = {};
+
+    steps.forEach(step => {
+        if (step.tipo !== "producao" || !step.formulaId) return;
+
+        let formula = null;
+        for (const ed of (FORMULAS_EDIFICIOS_REF || [])) {
+            const f = ed.formulas?.find(f => f.id === step.formulaId);
+            if (f) { formula = f; break; }
+        }
+        if (!formula) return;
+
+        const mult = step.quantidade || 1;
+        [...Object.entries(formula.input || {}), ...Object.entries(formula.output || {})].forEach(([pid, qtd]) => {
+            const prod = productsCatalogRef[pid];
+            if (!prod?.categoriaFisica) return;
+            const cat = prod.categoriaFisica;
+            const slots = qtd * mult * (prod.slotSize || 1);
+
+            if (!result[cat]) result[cat] = { slots: 0, produtos: [] };
+            result[cat].slots += slots;
+            result[cat].produtos.push({ pid, nome: prod.nome, icon: prod.icon, qtd: qtd * mult, slotSize: prod.slotSize || 1 });
+        });
+    });
+
+    return result;
+}
+
+export function calcularStorageGlobal(dados) {
+    const result = {};
+    const SETORES_JOGO = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
+
+    SETORES_JOGO.forEach(setor => {
+        (dados?.[setor]?.edificios || []).forEach(ed => {
+            if (!ed.quantidade || ed.quantidade < 1) return;
+
+            const perfil = Object.values(storageProfiles).find(p => p.nome === ed.nome);
+            if (!perfil) return;
+
+            const cap = perfil.capacidadePorEdificio || 0;
+            const cats = Array.isArray(perfil.categoriasPermitidas)
+                ? perfil.categoriasPermitidas
+                : perfil.categoriasPermitidas ? [perfil.categoriasPermitidas] : [];
+
+            cats.forEach(cat => {
+                if (!result[cat]) result[cat] = { total: 0, dedicada: 0, variavel: 0, edificios: [] };
+
+                const capTotal = cap * ed.quantidade;
+                result[cat].total += capTotal;
+                if (perfil.tipo === "dedicado") result[cat].dedicada += capTotal;
+                else result[cat].variavel += capTotal;
+
+                const jaExiste = result[cat].edificios.find(e => e.nome === ed.nome);
+                if (!jaExiste) {
+                    result[cat].edificios.push({ nome: ed.nome, qtd: ed.quantidade, capPorEd: cap, tipo: perfil.tipo });
+                } else {
+                    jaExiste.qtd = ed.quantidade;
+                }
+            });
+        });
+    });
+
+    return result;
+}
+
+export function calcularCustoStorageCadeia(slotsNecessarios, dados) {
+    const storageGlobal = calcularStorageGlobal(dados);
+    let custoMensalCadeia = 0;
+    const detalhePorCategoria = {};
+
+    Object.entries(slotsNecessarios).forEach(([cat, info]) => {
+        const slots = info?.slots || 0;
+        const produtos = info?.produtos || []; // ✅ IMPORTANTE
+
+        const globalCat = storageGlobal[cat] || { total: 0, edificios: [] };
+        const capDisp = globalCat.total;
+        const proporcao = capDisp > 0 ? Math.min(1, slots / capDisp) : 0;
+
+        const custoCatTotal = (globalCat.edificios || []).reduce((soma, ed) => {
+            const perfil = Object.values(storageProfiles).find(p => p.nome === ed.nome);
+            if (!perfil) return soma;
+            return soma + calcularCustoArmazem(perfil) * (ed.qtd || 1);
+        }, 0);
+
+        const custoProportional = Math.round(custoCatTotal * proporcao);
+        custoMensalCadeia += custoProportional;
+
+        detalhePorCategoria[cat] = {
+            slots,
+            produtos, // ✅ AGORA EXISTE
+            capDisp,
+            proporcao: parseFloat((proporcao * 100).toFixed(1)),
+            ok: capDisp >= slots,
+            falta: Math.max(0, slots - capDisp),
+            custoCatTotal: Math.round(custoCatTotal),
+            custoProportional,
+            edificios: globalCat.edificios || [],
+        };
+    });
+
+    const gargalos = Object.entries(detalhePorCategoria)
+        .filter(([, d]) => !d.ok)
+        .map(([cat, d]) => ({ cat, ...d }));
+
+    return { custoMensalCadeia: Math.round(custoMensalCadeia), detalhePorCategoria, gargalos, storageGlobal };
+}
+
+export function calcularStoragePorCadeia(steps, dados, productsCatalog) {
+    // 1. Calcula quantos slots cada categoria precisa para esta cadeia
+    const slotsNecessarios = {}; // categoria → { slots, produtos }
+
+    steps.forEach(step => {
+        if (step.tipo !== "producao" || !step.formulaId) return;
+
+        // Resolve fórmula pelo id
+        const FORMULAS_EDIFICIOS_LOCAL = (() => {
+            try { return require ? require("./productionFormulasConfig").FORMULAS_EDIFICIOS : []; } catch { return []; }
+        })();
+
+        // Lookup direto via FORMULAS_EDIFICIOS (importado no GameContext via uso)
+        // Vamos usar apenas productsCatalog que já temos como parâmetro
+    });
+
+    // 2. Capacidade global disponível por categoria
+    const storageGlobal = calcularStorageGlobal(dados);
+
+    // 3. Para cada categoria necessária, identifica edifícios que contribuem
+    const edificiosPorCategoria = {}; // categoria → [{nome, qtd, capPorEd, tipo, capTotal}]
+
+    Object.entries(slotsNecessarios).forEach(([cat]) => {
+        const info = storageGlobal[cat];
+        if (!info) { edificiosPorCategoria[cat] = []; return; }
+        edificiosPorCategoria[cat] = info.edificios;
+    });
+
+    // 4. Custo mensal dos edifícios que contribuem (proporcional ao uso)
+    let custoMensalCadeia = 0;
+    const detalheCusto = {};
+
+    Object.entries(slotsNecessarios).forEach(([cat, { slots }]) => {
+        const capDisp = storageGlobal[cat]?.total || 0;
+        const proporcao = capDisp > 0 ? Math.min(1, slots / capDisp) : 0;
+        const custoCatTotal = (storageGlobal[cat]?.edificios || []).reduce((soma, ed) => {
+            const perfil = Object.values(storageProfiles).find(p => p.nome === ed.nome);
+            if (!perfil) return soma;
+            return soma + calcularCustoArmazem(perfil) * ed.qtd;
+        }, 0);
+        const custoProportional = Math.round(custoCatTotal * proporcao);
+        custoMensalCadeia += custoProportional;
+        detalheCusto[cat] = {
+            slotsNec: slots,
+            capDisp,
+            proporcao: (proporcao * 100).toFixed(1),
+            custoTotal: custoCatTotal,
+            custoProportional,
+            edificios: storageGlobal[cat]?.edificios || [],
+        };
+    });
+
+    // 5. Gargalos
+    const gargalos = Object.entries(slotsNecessarios)
+        .filter(([cat, { slots }]) => (storageGlobal[cat]?.total || 0) < slots)
+        .map(([cat, { slots }]) => ({ cat, slotsNec: slots, capDisp: storageGlobal[cat]?.total || 0 }));
+
+    return {
+        slotsNecessarios,
+        storageGlobal,
+        edificiosPorCategoria,
+        custoMensalCadeia,
+        detalheCusto,
+        gargalos,
+    };
+}
+
+export function calcularStorageAgregadoCadeias(pipelines, dados, productsCatalog, FORMULAS_EDIFICIOS) {
+    const agregado = {}; // categoria → { slotsTotal, pipelines }
+    const storageGlobal = calcularStorageGlobal(dados);
+
+    pipelines.forEach(pipeline => {
+        if (!pipeline.steps) return;
+
+        pipeline.steps.forEach(step => {
+            if (step.tipo !== "producao" || !step.formulaId) return;
+
+            let formula = null;
+            for (const ed of FORMULAS_EDIFICIOS) {
+                const f = ed.formulas?.find(f => f.id === step.formulaId);
+                if (f) { formula = f; break; }
+            }
+            if (!formula) return;
+
+            const mult = step.quantidade || 1;
+
+            [...Object.entries(formula.input || {}), ...Object.entries(formula.output || {})].forEach(([pid, qtd]) => {
+                const prod = productsCatalog[pid];
+                if (!prod?.categoriaFisica) return;
+                const cat = prod.categoriaFisica;
+                const slots = qtd * mult * (prod.slotSize || 1);
+
+                if (!agregado[cat]) agregado[cat] = { slotsTotal: 0, capDisp: storageGlobal[cat]?.total || 0, pipelines: [] };
+                agregado[cat].slotsTotal += slots;
+
+                const jaExiste = agregado[cat].pipelines.find(p => p.id === pipeline.id);
+                if (!jaExiste) {
+                    agregado[cat].pipelines.push({ id: pipeline.id, nome: pipeline.nome || "Pipeline", slots });
+                } else {
+                    jaExiste.slots += slots;
+                }
+            });
+        });
+    });
+
+    // Calcula sobrando/faltando
+    Object.keys(agregado).forEach(cat => {
+        const a = agregado[cat];
+        a.sobrando = Math.max(0, a.capDisp - a.slotsTotal);
+        a.faltando = Math.max(0, a.slotsTotal - a.capDisp);
+        a.ok = a.faltando === 0;
+    });
+
+    return { agregado, storageGlobal };
+}
+
 
 export function GameProvider({ children }) {
     const liquidadoRefPersist = useRef(0);
-
+ const outputsPendentesRef = useRef([]);
     // Dentro do GameProvider, adicione:
     const { dados } = useContext(CentraldeDadosContext);
     const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
@@ -1170,6 +1469,7 @@ export function GameProvider({ children }) {
 
 
     function startProduction({ formula, quantidade, buildingCount }) {
+            console.log("[startProduction] chamado →", formula.id, "| queue atual:", productionQueue.map(p => p.formulaId));
         const active = getActiveProductionsByFormula(formula.id);
         const maxAllowed = getMaxProductionByBuilding({
             formulaId: formula.id,
@@ -1213,6 +1513,8 @@ export function GameProvider({ children }) {
         return true;
     }
 
+
+    
     // Substitua sua função processProductions por esta no useGame
     function processarFilaUnificada() {
         setProductionQueue(prev => {
@@ -1254,31 +1556,42 @@ export function GameProvider({ children }) {
 
     // GameContext.jsx
 
-    function startSale(contrato) {
-        if (!contrato) return;
+function startSale(contrato) {
+    if (!contrato) return;
 
+    setSellQueue(prev => {
         // Impede duplicata pelo mesmo id
-        setSellQueue(prev => {
-            const jaExiste = prev.some(v => v.id === contrato.id);
-            if (jaExiste) return prev;
+        if (prev.some(v => v.id === contrato.id)) return prev;
 
-            const novaVenda = {
-                id: contrato.id,
-                formulaId: contrato.formulaId,
-                produto: contrato.productId,
-                quantidade: contrato.quantidade,
-                valorTotal: contrato.valorTotal,
-                diasRestantes: contrato.prazoDias,
-                duracaoInicial: contrato.prazoDias,
-                tipo: "venda"
+        const novaVenda = {
+            id: contrato.id,
+            formulaId: contrato.formulaId,
+            produto: contrato.productId,
+            produtoId: contrato.productId,   // ← garante ambos os campos
+            quantidade: contrato.quantidade,
+            valorTotal: contrato.valorTotal,
+            diasRestantes: contrato.prazoDias,
+            duracaoInicial: contrato.prazoDias,
+            tipo: "venda"
+        };
+
+        // Remove do estoque dentro do mesmo ciclo de estado
+        setStock(prevStock => {
+            const atual = prevStock[contrato.productId] || 0;
+            if (atual < contrato.quantidade) {
+                console.warn(`[startSale] Estoque insuficiente: ${atual} < ${contrato.quantidade}`);
+                return prevStock; // não remove se não tem estoque
+            }
+            return {
+                ...prevStock,
+                [contrato.productId]: atual - contrato.quantidade,
             };
-
-            removeProduct(contrato.productId, contrato.quantidade);
-            return [...prev, novaVenda];
         });
 
-        console.log(`✅ Contrato fechado! Aguardando ${contrato.prazoDias} dias para receber $${contrato.valorTotal}`);
-    }
+        console.log(`✅ Contrato fechado: ${contrato.quantidade}x ${contrato.productId} — R$${contrato.valorTotal} em ${contrato.prazoDias}d`);
+        return [...prev, novaVenda];
+    });
+}
 
     const processarVendas = () => {
         setSellQueue(prev => {
@@ -1305,25 +1618,39 @@ export function GameProvider({ children }) {
 
 
 
-    function processProductions() {
-        setProductionQueue(prev => {
-            const next = [];
 
-            prev.forEach(prod => {
-                if (prod.diasRestantes > 1) {
-                    next.push({ ...prod, diasRestantes: prod.diasRestantes - 1 });
-                } else {
-                    Object.entries(prod.output).forEach(([produto, qtd]) => {
-                        addProduct(produto, qtd);
-                    });
-                }
-            });
+function processProductions() {
+    outputsPendentesRef.current = []; // limpa antes
 
-            return next;
+    setProductionQueue(prev => {
+        const next = [];
+        const outputs = [];
+
+        prev.forEach(prod => {
+            if (prod.diasRestantes > 1) {
+                next.push({ ...prod, diasRestantes: prod.diasRestantes - 1 });
+            } else {
+                outputs.push(prod.output || {});
+            }
         });
 
-        return true;
-    }
+        outputsPendentesRef.current = outputs; // salva na ref
+        return next;
+    });
+
+    // Aplica o estoque usando a ref — fora do setter da fila
+    setStock(prevStock => {
+        const novoStock = { ...prevStock };
+        outputsPendentesRef.current.forEach(output => {
+            Object.entries(output).forEach(([produtoId, qtd]) => {
+                novoStock[produtoId] = (novoStock[produtoId] || 0) + qtd;
+            });
+        });
+        return novoStock;
+    });
+
+    return true;
+}
 
     function processSell() {
         setProductionQueue(prev => {

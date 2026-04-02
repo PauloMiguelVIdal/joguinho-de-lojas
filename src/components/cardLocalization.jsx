@@ -164,7 +164,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   const handleShow = (id) => setVisibleId(id);
 
   const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-console.log("setor recebido:", setor, "| dados disponíveis:", Object.keys(dados));
+// console.log("setor recebido:", setor, "| dados disponíveis:", Object.keys(dados));
 
   // ── DADOS DO EDIFÍCIO ──────────────────────────────────────
   const arrayConstResources = dados[setorAtivo]?.edificios[index]?.recursoDeConstrução;
