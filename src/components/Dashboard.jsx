@@ -77,7 +77,7 @@ import EcosystemMap from "./EcosystemMap";
 import CadeiaProdutiva from "./CadeiaProdutiva.jsx";
 import AssistenteIA from "./AssinstentIA.jsx";
 // Na sidebar de setores, adiciona o botão:
-
+import MapWorld from "./MapWorld.jsx";
 
 // No render:
 
@@ -1440,9 +1440,9 @@ export default function Dashboard() {
 
               {ativo === "grafico" && (
                 <div className="w-full h-full flex flex-col gap-3">
-                  <AssistenteIA/>
+                  <AssistenteIA />
 
-{/*                
+                  {/*                
                   <div style={{
                     display: 'flex', gap: 6, padding: '6px 8px',
                     background: 'rgba(0,0,0,.35)', borderRadius: 14,
@@ -1641,104 +1641,104 @@ export default function Dashboard() {
                 const categoriaLabel = { producao: "Produção", venda: "Venda", ecossistema: "ecossistema", passiva: "Passiva" };
                 const categoriaColor = { producao: "#6411D9", venda: "#F27405", ecossistema: "#1A8C5A", passiva: "#555" };
 
-const calcROI = (ed) => {
-  if (!ed || !dados) return 0;
+                const calcROI = (ed) => {
+                  if (!ed || !dados) return 0;
 
-  try {
-    // ===== ECONOMIA =====
-    const fatorEconomico = {
-      recessão: 0.4,
-      declinio: 0.8,
-      estável: 1,
-      progressiva: 1.1,
-      aquecida: 1.25
-    }[economiaSetores] || 1;
+                  try {
+                    // ===== ECONOMIA =====
+                    const fatorEconomico = {
+                      recessão: 0.4,
+                      declinio: 0.8,
+                      estável: 1,
+                      progressiva: 1.1,
+                      aquecida: 1.25
+                    }[economiaSetores] || 1;
 
-    // ===== POWER UP (SAFE) =====
-    const quantidadeAtual = ed.quantidade || 0;
+                    // ===== POWER UP (SAFE) =====
+                    const quantidadeAtual = ed.quantidade || 0;
 
-    const qtdMin2 = ed?.powerUp?.nível2?.quantidadeMínima ?? Infinity;
-    const qtdMin3 = ed?.powerUp?.nível3?.quantidadeMínima ?? Infinity;
+                    const qtdMin2 = ed?.powerUp?.nível2?.quantidadeMínima ?? Infinity;
+                    const qtdMin3 = ed?.powerUp?.nível3?.quantidadeMínima ?? Infinity;
 
-    const nivelPU =
-      quantidadeAtual >= qtdMin3 ? "powerUpNv3" :
-      quantidadeAtual >= qtdMin2 ? "powerUpNv2" :
-      "powerUpNv1";
+                    const nivelPU =
+                      quantidadeAtual >= qtdMin3 ? "powerUpNv3" :
+                        quantidadeAtual >= qtdMin2 ? "powerUpNv2" :
+                          "powerUpNv1";
 
-    let redCusto = 0;
-    let aumFatu = 0;
+                    let redCusto = 0;
+                    let aumFatu = 0;
 
-    if (Array.isArray(ed?.RecebeMelhoraEficiencia)) {
-      ed.RecebeMelhoraEficiencia.forEach((rel) => {
-        let qtdOutro = 0;
+                    if (Array.isArray(ed?.RecebeMelhoraEficiencia)) {
+                      ed.RecebeMelhoraEficiencia.forEach((rel) => {
+                        let qtdOutro = 0;
 
-        for (const s of setoresArr) {
-          const lista = dados[s]?.edificios;
-          if (!Array.isArray(lista)) continue;
+                        for (const s of setoresArr) {
+                          const lista = dados[s]?.edificios;
+                          if (!Array.isArray(lista)) continue;
 
-          const found = lista.find(e => e.nome === rel.nome);
-          if (found) {
-            qtdOutro = found.quantidade || 0;
-            break;
-          }
-        }
+                          const found = lista.find(e => e.nome === rel.nome);
+                          if (found) {
+                            qtdOutro = found.quantidade || 0;
+                            break;
+                          }
+                        }
 
-        if (qtdOutro > 0) {
-          redCusto +=
-            nivelPU === "powerUpNv1" ? rel?.redCusto?.nível1 || 0 :
-            nivelPU === "powerUpNv2" ? rel?.redCusto?.nível2 || 0 :
-            rel?.redCusto?.nível3 || 0;
+                        if (qtdOutro > 0) {
+                          redCusto +=
+                            nivelPU === "powerUpNv1" ? rel?.redCusto?.nível1 || 0 :
+                              nivelPU === "powerUpNv2" ? rel?.redCusto?.nível2 || 0 :
+                                rel?.redCusto?.nível3 || 0;
 
-          aumFatu +=
-            nivelPU === "powerUpNv1" ? rel?.aumFatu?.nível1 || 0 :
-            nivelPU === "powerUpNv2" ? rel?.aumFatu?.nível2 || 0 :
-            rel?.aumFatu?.nível3 || 0;
-        }
-      });
-    }
+                          aumFatu +=
+                            nivelPU === "powerUpNv1" ? rel?.aumFatu?.nível1 || 0 :
+                              nivelPU === "powerUpNv2" ? rel?.aumFatu?.nível2 || 0 :
+                                rel?.aumFatu?.nível3 || 0;
+                        }
+                      });
+                    }
 
-    // ===== FINANÇAS =====
-    const valorFatu = ed?.finanças?.faturamentoUnitário || 0;
-    const impostoFixo = ed?.finanças?.impostoFixo || 0;
-    const impostoFatu = ed?.finanças?.impostoSobreFatu || 0;
+                    // ===== FINANÇAS =====
+                    const valorFatu = ed?.finanças?.faturamentoUnitário || 0;
+                    const impostoFixo = ed?.finanças?.impostoFixo || 0;
+                    const impostoFatu = ed?.finanças?.impostoSobreFatu || 0;
 
-    const valorFatuFinal = valorFatu * (1 + aumFatu / 100);
-    const impostoFixoFinal = impostoFixo * (1 - redCusto / 100);
-    const impostoFatuFinal = impostoFatu * (1 - redCusto / 100);
+                    const valorFatuFinal = valorFatu * (1 + aumFatu / 100);
+                    const impostoFixoFinal = impostoFixo * (1 - redCusto / 100);
+                    const impostoFatuFinal = impostoFatu * (1 - redCusto / 100);
 
-    const fatuMensal = valorFatuFinal * 30 * fatorEconomico;
-    const impostoSobreFatuValor = fatuMensal * impostoFatuFinal;
+                    const fatuMensal = valorFatuFinal * 30 * fatorEconomico;
+                    const impostoSobreFatuValor = fatuMensal * impostoFatuFinal;
 
-    const lucro = fatuMensal - impostoSobreFatuValor - impostoFixoFinal;
+                    const lucro = fatuMensal - impostoSobreFatuValor - impostoFixoFinal;
 
-    // ===== CUSTO BASE =====
-    const custoBase =
-      (ed?.lojasNecessarias?.terrenos || 0) * (dados?.terrenos?.preçoConstrução || 0) +
-      (ed?.lojasNecessarias?.lojasP || 0) * ((dados?.lojasP?.preçoConstrução || 0) + (dados?.lojasP?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
-      (ed?.lojasNecessarias?.lojasM || 0) * ((dados?.lojasM?.preçoConstrução || 0) + (dados?.lojasM?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
-      (ed?.lojasNecessarias?.lojasG || 0) * ((dados?.lojasG?.preçoConstrução || 0) + (dados?.lojasG?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0));
+                    // ===== CUSTO BASE =====
+                    const custoBase =
+                      (ed?.lojasNecessarias?.terrenos || 0) * (dados?.terrenos?.preçoConstrução || 0) +
+                      (ed?.lojasNecessarias?.lojasP || 0) * ((dados?.lojasP?.preçoConstrução || 0) + (dados?.lojasP?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
+                      (ed?.lojasNecessarias?.lojasM || 0) * ((dados?.lojasM?.preçoConstrução || 0) + (dados?.lojasM?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
+                      (ed?.lojasNecessarias?.lojasG || 0) * ((dados?.lojasG?.preçoConstrução || 0) + (dados?.lojasG?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0));
 
-    // ⚠️ IMPORTANTE: evitar recursão pesada no render
-    let custoRecursos = 0;
-    if (Array.isArray(ed?.recursoDeConstrução)) {
-      ed.recursoDeConstrução.forEach((nome) => {
-        try {
-          custoRecursos += calcularCustoRecurso(nome);
-        } catch {
-          custoRecursos += 0;
-        }
-      });
-    }
+                    // ⚠️ IMPORTANTE: evitar recursão pesada no render
+                    let custoRecursos = 0;
+                    if (Array.isArray(ed?.recursoDeConstrução)) {
+                      ed.recursoDeConstrução.forEach((nome) => {
+                        try {
+                          custoRecursos += calcularCustoRecurso(nome);
+                        } catch {
+                          custoRecursos += 0;
+                        }
+                      });
+                    }
 
-    const custoTotal = custoBase + custoRecursos + (ed?.custoConstrucao || 0);
+                    const custoTotal = custoBase + custoRecursos + (ed?.custoConstrucao || 0);
 
-    return custoTotal > 0 ? (lucro / custoTotal) * 100 : 0;
+                    return custoTotal > 0 ? (lucro / custoTotal) * 100 : 0;
 
-  } catch (err) {
-    console.error("Erro no calcROI:", err);
-    return 0;
-  }
-};
+                  } catch (err) {
+                    console.error("Erro no calcROI:", err);
+                    return 0;
+                  }
+                };
 
                 let todosEdificios = [];
                 setoresArr.forEach(s => {
@@ -2178,6 +2178,14 @@ const calcROI = (ed) => {
   if (vision === "mapa") {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">
+
+        <MapWorld />
+      </div>
+    )
+  }
+  if (vision === "outro") {
+    return (
+      <div className="w-full h-full border-[#350973] rounded-[20px] flex">
         <div className="w-full flex-1 p-4 flex flex-col">
           <div className="flex-1 w-full rounded-[20px] flex flex-col">
             <motion.div
@@ -2247,7 +2255,8 @@ const calcROI = (ed) => {
                   />
                 </button>
               </div>
-              {/* <div className="absolute bottom-4 left-4 z-[10] flex flex-col gap-2">
+            </motion.div>
+            {/* <div className="absolute bottom-4 left-4 z-[10] flex flex-col gap-2">
 
                 <button
                   onClick={() => setVision("dashboard")}
@@ -2263,7 +2272,7 @@ const calcROI = (ed) => {
                 </button>
 
               </div> */}
-              {/* <div className="absolute opacity-[90] bottom-4 right-4 z-[10] flex flex-col gap-2">
+            {/* <div className="absolute opacity-[90] bottom-4 right-4 z-[10] flex flex-col gap-2">
 
                 <button
                   onClick={() => setAtivo("grafico")} // Corrigido: setAtivo em vez de setorAtivo
@@ -2278,7 +2287,7 @@ const calcROI = (ed) => {
                   />
                 </button>
               </div> */}
-            </motion.div>
+
           </div>
         </div>
       </div>
