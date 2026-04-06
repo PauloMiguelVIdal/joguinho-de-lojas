@@ -10,7 +10,7 @@ import * as THREE from 'three'
 import { CentraldeDadosContext } from '../centralDeDadosContext'
 import { DadosEconomyGlobalContext } from '../dadosEconomyGlobal'
 import { BuildingModel } from './BuildingModel'
-import { resolverModeloSede } from './BuildingModels'
+import { resolverModeloSede } from './buildingModels'
 
 const HEX_SIZE = 0.6
 
@@ -127,27 +127,19 @@ const HexBaseSede = () => {
   return (
     <group>
       {/* Corpo — levemente mais alto que os normais */}
+      {/* Corpo extrudado — igual ao HexBase normal */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} castShadow receiveShadow>
         <extrudeGeometry args={[shape, {
-          depth: 0.26,
-          bevelEnabled: true,
-          bevelThickness: 0.025,
-          bevelSize: 0.018,
-          bevelSegments: 3,
+          depth: 0.2, bevelEnabled: true,
+          bevelThickness: 0.02, bevelSize: 0.015, bevelSegments: 2,
         }]} />
-        <meshStandardMaterial color="#3d5e22" roughness={0.85} metalness={0.05} />
+        <meshStandardMaterial color="#4a7230" roughness={0.9} metalness={0} />
       </mesh>
 
-      {/* Topo — grama mais clara para destacar */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.26, 0]} receiveShadow>
+      {/* Topo grama */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.2, 0]} receiveShadow>
         <shapeGeometry args={[shape]} />
-        <meshStandardMaterial color="#72c052" roughness={0.75} metalness={0} />
-      </mesh>
-
-      {/* Anel dourado — identidade visual da sede */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.27, 0]}>
-        <ringGeometry args={[HEX_SIZE * 0.87, HEX_SIZE * 0.99, 6]} />
-        <meshBasicMaterial color="#F2C94C" transparent opacity={0.9} />
+        <meshStandardMaterial color="#5a9e44" roughness={0.8} metalness={0} />
       </mesh>
     </group>
   )
@@ -155,44 +147,31 @@ const HexBaseSede = () => {
 
 // ─────────────────────────────────────────────────────────────
 //  TileSede — tile central fixo em q=0, r=0
+//  Usa o mesmo BuildingModel dos outros tiles, com o nome
+//  de edifício mapeado por porte em EDIFICIO_SEDE_POR_PORTE
 // ─────────────────────────────────────────────────────────────
+
+// Mapeamento porte → nome de edifício cadastrado em EDIFICIO_PARA_MODELO
+
+
 const TileSede = ({ nomeEmpresa, porte, tagsVisiveis }) => {
   const config = useMemo(() => resolverModeloSede(porte), [porte])
 
   return (
     <group position={[0, 0, 0]}>
       <HexBaseSede />
-
-      {/* Modelo 3D da sede — usa BuildingModel mas com config direta */}
-      <group position={[0, 0.28, 0]}>
-        <React.Suspense fallback={null}>
-          <SedeModeloLoader config={config} />
-        </React.Suspense>
-      </group>
-
+      <BuildingModel
+        nomeEdificio={null}
+        corFallback="#888888"
+        posicaoBase={[0, 0.22, 0]}
+        _overrideConfig={config}
+      />
       <SedeTag
         nomeEmpresa={nomeEmpresa}
         porte={porte}
         tagsVisiveis={tagsVisiveis}
       />
     </group>
-  )
-}
-
-// Loader interno da sede (evita depender do hook de verificação de arquivo
-// já que este é um tile especial que sempre deve ter um fallback digno)
-const SedeModeloLoader = ({ config }) => {
-  // Reutiliza o componente BuildingModel mas passando a config de sede
-  // O nome especial '__sede__' nunca vai mapear para nenhum modelo real,
-  // então usamos o corFallback dourado e forçamos via posicaoBase
-  return (
-    <BuildingModel
-      nomeEdificio={`__sede_${config.arquivo}__`}
-      corFallback="#F2C94C"
-      posicaoBase={[0, 0, 0]}
-      // Passa config de override — BuildingModel aceita isso como prop extra
-      _overrideConfig={config}
-    />
   )
 }
 

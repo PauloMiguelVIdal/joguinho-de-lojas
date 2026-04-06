@@ -233,8 +233,8 @@ function ModeloLoader({ config, corFallback }) {
 //    corFallback   → cor hex para o fallback (cor do setor)
 //    posicaoBase   → [x, y, z] posição no grupo pai
 // ─────────────────────────────────────────────────────────────
-export function BuildingModel({ nomeEdificio, corFallback = '#888888', posicaoBase = [0, 0, 0] }) {
-  const config = resolverModelo(nomeEdificio)
+export function BuildingModel({ nomeEdificio, corFallback = '#888888', posicaoBase = [0, 0, 0], _overrideConfig = null    }) {
+  const config = _overrideConfig ?? resolverModelo(nomeEdificio)
 
   // 🔹 SIMPLES
   if (config.tipo === 'simples') {
