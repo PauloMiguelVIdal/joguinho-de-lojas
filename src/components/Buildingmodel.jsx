@@ -1,21 +1,14 @@
 // ============================================================
 //  BuildingModel.jsx
-//  Tenta carregar o modelo na ordem:
-//    1. arquivo.glb
-//    2. arquivo.gltf  (fallback automático)
-//    3. caixinha colorida (se nenhum existir)
 // ============================================================
-
 
 import React, { useMemo, useState, useEffect, Component } from 'react'
 import { useGLTF, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 import { resolverModelo } from './buildingModels'
 
-
 // ─────────────────────────────────────────────────────────────
 //  Cache de disponibilidade
-//  { [path]: 'unknown' | 'ok' | 'missing' }
 // ─────────────────────────────────────────────────────────────
 const glbCache = {}
 
@@ -30,23 +23,19 @@ async function checarArquivo(path) {
   return glbCache[path]
 }
 
-// Hook que resolve qual caminho usar: .glb → .gltf → null
-// Retorna: { path: string|null, status: 'loading'|'ready'|'missing' }
 function useResolverCaminho(arquivoBase) {
-  // arquivoBase = config.glbPath, ex: "/models/kenney-city/building-type-m.glb"
-  // Deriva os dois caminhos possíveis
   const caminhos = useMemo(() => {
+    if (!arquivoBase) return []
     const semExt = arquivoBase.replace(/\.(glb|gltf)$/i, '')
     return [semExt + '.glb', semExt + '.gltf']
   }, [arquivoBase])
 
   const [resultado, setResultado] = useState(() => {
-    // Resposta imediata se já está em cache
+    if (!arquivoBase || caminhos.length === 0) return { path: null, status: 'missing' }
     for (const p of caminhos) {
       if (glbCache[p] === 'ok')      return { path: p,    status: 'ready'   }
       if (glbCache[p] === 'missing') continue
     }
-    // Se todos em cache como missing
     if (caminhos.every(p => glbCache[p] === 'missing')) {
       return { path: null, status: 'missing' }
     }
@@ -54,6 +43,11 @@ function useResolverCaminho(arquivoBase) {
   })
 
   useEffect(() => {
+    if (!arquivoBase || caminhos.length === 0) {
+      setResultado({ path: null, status: 'missing' })
+      return
+    }
+
     let cancelled = false
 
     async function resolver() {
@@ -68,15 +62,14 @@ function useResolverCaminho(arquivoBase) {
       if (!cancelled) setResultado({ path: null, status: 'missing' })
     }
 
-    // Só faz fetch se ainda não resolvido
     if (resultado.status === 'loading') resolver()
-  }, [caminhos])
+  }, [caminhos, arquivoBase])
 
   return resultado
 }
 
 // ─────────────────────────────────────────────────────────────
-//  ErrorBoundary — captura erros de useGLTF/useTexture
+//  ErrorBoundary
 // ─────────────────────────────────────────────────────────────
 class ModelErrorBoundary extends Component {
   constructor(props) {
@@ -117,7 +110,7 @@ export function ModeloFallback({ cor = '#888888' }) {
 // ─────────────────────────────────────────────────────────────
 //  Loader COM colormap
 // ─────────────────────────────────────────────────────────────
-function ModeloComColormap({ glbPath, colormap, escalaVec, posY, rotacao, corTint }) {
+function ModeloComColormap({ glbPath, colormap, escalaVec, posY, rotacao, rotacaoCorrecao, corTint }) {
   const { scene } = useGLTF(glbPath)
   const textura   = useTexture(colormap)
 
@@ -145,8 +138,12 @@ function ModeloComColormap({ glbPath, colormap, escalaVec, posY, rotacao, corTin
   return (
     <primitive
       object={clonado}
-      position={[0, posY, 0]}
-      rotation={[0, rotacao, 0]}
+      position={[0, posY ?? 0, 0]}
+      rotation={[
+        rotacaoCorrecao?.[0] ?? 0,
+        (rotacaoCorrecao?.[1] ?? 0) + (rotacao ?? 0),
+        rotacaoCorrecao?.[2] ?? 0,
+      ]}
       scale={escalaVec}
     />
   )
@@ -155,7 +152,7 @@ function ModeloComColormap({ glbPath, colormap, escalaVec, posY, rotacao, corTin
 // ─────────────────────────────────────────────────────────────
 //  Loader SEM colormap
 // ─────────────────────────────────────────────────────────────
-function ModeloSemColormap({ glbPath, escalaVec, posY, rotacao, corTint }) {
+function ModeloSemColormap({ glbPath, escalaVec, posY, rotacao, rotacaoCorrecao, corTint }) {
   const { scene } = useGLTF(glbPath)
 
   const clonado = useMemo(() => {
@@ -177,28 +174,29 @@ function ModeloSemColormap({ glbPath, escalaVec, posY, rotacao, corTint }) {
   return (
     <primitive
       object={clonado}
-      position={[0, posY, 0]}
-      rotation={[0, rotacao, 0]}
+      position={[0, posY ?? 0, 0]}
+      rotation={[
+        rotacaoCorrecao?.[0] ?? 0,
+        (rotacaoCorrecao?.[1] ?? 0) + (rotacao ?? 0),
+        rotacaoCorrecao?.[2] ?? 0,
+      ]}
       scale={escalaVec}
     />
   )
 }
 
 // ─────────────────────────────────────────────────────────────
-//  Loader interno — aguarda resolução glb/gltf
+//  Loader interno
 // ─────────────────────────────────────────────────────────────
 function ModeloLoader({ config, corFallback }) {
-  const { path, status } = useResolverCaminho(config.glbPath)
+  const { path, status } = useResolverCaminho(config?.glbPath ?? null)
 
   const fallbackEl = <ModeloFallback cor={corFallback} />
 
-  // Ainda verificando qual arquivo existe
+  if (!config?.glbPath) return fallbackEl
   if (status === 'loading') return fallbackEl
-
-  // Nenhum arquivo encontrado
   if (status === 'missing' || !path) return fallbackEl
 
-  // Arquivo encontrado → carrega com proteção dupla
   return (
     <ModelErrorBoundary fallback={fallbackEl}>
       <React.Suspense fallback={fallbackEl}>
@@ -209,6 +207,7 @@ function ModeloLoader({ config, corFallback }) {
             escalaVec={config.escalaVec}
             posY={config.posY}
             rotacao={config.rotacao}
+            rotacaoCorrecao={config.rotacaoCorrecao} // 👈 AQUI
             corTint={config.corTint}
           />
         ) : (
@@ -217,6 +216,7 @@ function ModeloLoader({ config, corFallback }) {
             escalaVec={config.escalaVec}
             posY={config.posY}
             rotacao={config.rotacao}
+            rotacaoCorrecao={config.rotacaoCorrecao} // 👈 AQUI
             corTint={config.corTint}
           />
         )}
@@ -224,20 +224,25 @@ function ModeloLoader({ config, corFallback }) {
     </ModelErrorBoundary>
   )
 }
-
 // ─────────────────────────────────────────────────────────────
 //  COMPONENTE PÚBLICO
 //
 //  Props:
-//    nomeEdificio  → string exata do edificio
-//    corFallback   → cor hex para o fallback (cor do setor)
-//    posicaoBase   → [x, y, z] posição no grupo pai
+//    nomeEdificio      → string exata do edifício (ou null)
+//    corFallback       → cor hex para o fallback
+//    posicaoBase       → [x, y, z] posição no grupo pai
+//    _overrideConfig   → config completa já resolvida (sede)
+//    _overrideModeloId → ID numérico direto de MODELOS
+//                        (satélites de cluster)
 // ─────────────────────────────────────────────────────────────
-export function BuildingModel({ nomeEdificio, corFallback = '#888888', posicaoBase = [0, 0, 0], _overrideConfig = null    }) {
-  const config = _overrideConfig ?? resolverModelo(nomeEdificio)
+export function BuildingModel({ nomeEdificio, corFallback = '#888888', posicaoBase = [0, 0, 0], _overrideConfig = null, _overrideModeloId = null }) {
+  const config = _overrideConfig
+    ?? (_overrideModeloId != null ? resolverModelo(null, _overrideModeloId) : null)
+    ?? resolverModelo(nomeEdificio)
+
 
   // 🔹 SIMPLES
-  if (config.tipo === 'simples') {
+  if (config?.tipo === 'simples') {
     return (
       <group position={posicaoBase}>
         <ModeloLoader config={config} corFallback={corFallback} />
@@ -246,15 +251,15 @@ export function BuildingModel({ nomeEdificio, corFallback = '#888888', posicaoBa
   }
 
   // 🔥 COMPOSTO
-  if (config.tipo === 'composto') {
+  if (config?.tipo === 'composto') {
     return (
       <group position={posicaoBase}>
         {config.partes.map((parte, i) => (
           <group
             key={i}
             position={parte.offset}
-            rotation={[0, parte.rotacaoExtra, 0]}
-            scale={parte.escalaVec.map(v => v * parte.escalaExtra)}
+            rotation={[0, parte.rotacaoExtra ?? 0, 0]}
+            scale={parte.escalaVec.map(v => v * (parte.escalaExtra ?? 1))}
           >
             <ModeloLoader config={parte} corFallback={corFallback} />
           </group>
@@ -263,5 +268,10 @@ export function BuildingModel({ nomeEdificio, corFallback = '#888888', posicaoBa
     )
   }
 
-  return null
+  // Config inválida ou tipo desconhecido → fallback
+  return (
+    <group position={posicaoBase}>
+      <ModeloFallback cor={corFallback} />
+    </group>
+  )
 }

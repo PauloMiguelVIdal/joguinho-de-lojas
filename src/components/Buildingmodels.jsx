@@ -18,7 +18,7 @@ export const PACOTES = {
     basePath: '/models/kenney_nature-kit/GLTF format/',
     colormap: null,
   },
-  'kenney survival kit': {
+  'kenney_survival-kit': {
     label: 'kenney survival kit',
     basePath: '/models/kenney_survival-kit/GLB format/',
     colormap: '/models/kenney_survival-kit/GLB format/Textures/colormap.png',
@@ -73,6 +73,17 @@ export const PACOTES = {
     basePath: '/models/kenney_city-kit-suburban_20/GLB format/',
     colormap: '/models/kenney_city-kit-suburban_20/GLB format/Textures/colormap.png'
   },
+  'kenney_space-station-kit': {
+    label: 'kenney space station kit',
+    basePath: '/models/kenney_space-station-kit/GLB format/',
+    colormap: '/models/kenney_space-station-kit/GLB format/Textures/colormap.png'
+  },
+  'kenney_city-kit-roads': {
+    label: 'kenney city kit roads',
+    basePath: '/models/kenney_city-kit-roads/GLB format/',
+    colormap: '/models/kenney_city-kit-roads/GLB format/Textures/colormap.png'
+
+  },
   'kenney_furniture-kit': {
     label: 'kenney_furniture-kit',
     basePath: '/models/kenney_furniture-kit/GLTF format/',
@@ -83,6 +94,7 @@ export const PACOTES = {
     basePath: '/models/kenney_racing-kit/GLTF format/',
     colormap: null
   },
+
   'custom': {
     label: 'Custom',
     basePath: '/models/custom/',
@@ -216,15 +228,7 @@ export const MODELOS = {
     corTint: [0.6, 0.9, 0.4],
   },
   // ── ID 14 — celeiro simples (ANTES estava duplicado com eucalipto) ──
-  14: {
-    label: 'celeiro',
-    pacote: 'kenney_hexagon-kit',
-    arquivo: 'building-mine.glb',
-    escala: [1, 1, 1],
-    posY: -0.15,
-    rotacao: 0,
-    corTint: [0.6, 0.9, 0.4],
-  },
+
   15: {
     label: 'serraria',
     pacote: 'kenney_hexagon-kit',
@@ -677,6 +681,7 @@ export const MODELOS = {
     rotacao: 0,
     corTint: [1.0, 0.0, 0.0],
   },
+
   98: {
     label: 'comercio',
     pacote: 'kenney_city-kit-commercial_2.1',
@@ -733,7 +738,7 @@ export const MODELOS = {
   },
   104: {
     label: 'barril',
-    pacote: 'kenney survival kit',
+    pacote: 'kenney_survival-kit',
     arquivo: 'barrel.glb',
     escala: [1, 1, 1],
     posY: 0,
@@ -749,7 +754,7 @@ export const MODELOS = {
     rotacao: 0,
     corTint: null,
   },
-   106: {
+  106: {
     label: 'caminhão',
     pacote: 'kenney_car-kit',
     arquivo: 'delivery.glb',
@@ -758,7 +763,261 @@ export const MODELOS = {
     rotacao: 0,
     corTint: null,
   },
-  
+
+  107: {
+    label: 'návio cargueiro',
+    pacote: 'kenney_watercraft-pack',
+    arquivo: 'ship-cargo-c',
+    escala: 0.5,
+    posY: 0.0,
+    rotacao: 0,
+    corTint: null,
+  },
+  108: {
+    label: 'barrils',
+    pacote: 'kenney_space-kit',
+    arquivo: 'barrels.glb',
+    escala: 2,
+    posY: 4.0,
+    rotacao: 0,
+    corTint: null,
+  },
+  109: {
+    label: 'comerc-i',
+    pacote: 'kenney_city-kit-commercial_2.1',
+    arquivo: 'building-k',
+    escala: 1,
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  110: {
+    label: 'comerc-i',
+    pacote: 'kenney_city-kit-commercial_2.1',
+    arquivo: 'low-detail-building-wide-a',
+    escala: 1,
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  111: {
+    label: 'base imobiliário',
+    pacote: 'kenney_hexagon-kit',
+    arquivo: 'sand.glb',
+    escala: [1, 1, 1],
+    posY: -0.15,
+    rotacao: 0,
+    corTint: [0.0, 0.0, 0.5],
+  },
+
+  112: {
+    label: 'camara',
+    pacote: 'kenney_city-kit-suburban_20',
+    arquivo: 'building-type-n.glb',
+    escala: [1, 1, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  113: {
+    label: 'camara',
+    pacote: 'kenney_city-kit-suburban_20',
+    arquivo: 'building-type-k.glb',
+    escala: [1, 1, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  114: {
+    label: 'camara',
+    pacote: 'kenney_city-kit-suburban_20',
+    arquivo: 'building-type-c.glb',
+    escala: [1, 1, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  115: {
+    label: 'camara',
+    pacote: 'kenney_city-kit-suburban_20',
+    arquivo: 'building-type-f.glb',
+    escala: [1, 1, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  116: {
+    label: 'construtora',
+    pacote: 'kenney_city-kit-commercial_2.1',
+    arquivo: 'low-detail-building-wide-b.glb',
+    escala: [1, 1, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  117: {
+    label: 'camara',
+    pacote: 'kenney_city-kit-suburban_20',
+    arquivo: 'building-type-u.glb',
+    escala: [1, 1, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  118: {
+    label: 'camara',
+    pacote: 'kenney_city-kit-suburban_20',
+    arquivo: 'building-type-s.glb',
+    escala: [1, 1, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  119: {
+    label: 'camara',
+    pacote: 'kenney_city-kit-commercial_2.1',
+    arquivo: 'building-skyscraper-e.glb',
+    escala: 0.7,
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  120: {
+    label: 'camara',
+    pacote: 'kenney_city-kit-commercial_2.1',
+    arquivo: 'building-skyscraper-e.glb',
+    escala: [1, 1, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  121: {
+    label: 'camara',
+    pacote: 'kenney_city-kit-commercial_2.1',
+    arquivo: 'building-skyscraper-e.glb',
+    escala: [1, 1, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  122: {
+    label: 'hangar large',
+    pacote: 'kenney_space-kit',
+    arquivo: 'hangar_largeB.glb',
+    escala: [1, 1, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  123: {
+    label: 'hangar large',
+    pacote: 'kenney_watercraft-pack',
+    arquivo: 'ship-ocean-liner.glb',
+    escala: [1, 1, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  124: {
+    label: 'mina',
+    pacote: 'kenney_hexagon-kit',
+    arquivo: 'building-mine.glb',
+    escala: [1, 1, 1],
+    posY: -0.15,
+    rotacao: 0,
+    corTint: [0.6, 0.9, 0.4],
+  },
+  125: {
+    label: 'celeiro',
+    pacote: 'kenney_hexagon-kit',
+    arquivo: 'sand-rocks.glb',
+    escala: [1, 1, 1],
+    posY: -0.15,
+    rotacao: 0,
+    corTint: [0.0, 0.0, 0.5],
+  },
+  126: {
+    label: 'base energia',
+    pacote: 'kenney_hexagon-kit',
+    arquivo: 'sand.glb',
+    escala: [1, 1, 1],
+    posY: -0.15,
+    rotacao: 0,
+    corTint: [0.5, 0.5, 0.0],
+  },
+  127: {
+    label: 'base energia',
+    pacote: 'kenney_hexagon-kit',
+    arquivo: 'sand.glb',
+    escala: [1, 1, 1],
+    posY: -0.15,
+    rotacao: 0,
+    corTint: [0.5, 0.5, 0.0],
+  },
+  128: {
+    label: 'carregador elétrico',
+    pacote: 'kenney_space-station-kit',
+    arquivo: 'computer.glb',
+    escala: [1, 1, 1],
+    posY: -0.15,
+    rotacao: 0,
+    corTint: null,
+  },
+  129: {
+    label: 'carregador consultoria',
+    pacote: 'kenney_city-kit-commercial_2.1',
+    arquivo: 'building-a.glb',
+    escala: [1, 1, 1],
+    posY: -0.15,
+    rotacao: 0,
+    corTint: null,
+  },
+  130: {
+    label: 'consultoria',
+    pacote: 'kenney_city-kit-commercial_2.1',
+    arquivo: 'building-j.glb',
+    escala: 1, posY: 0, rotacao: 1.5, corTint: null,
+  },
+  131: {
+    label: 'pá eólica',
+    pacote: 'kenney_furniture-kit',
+    arquivo: 'ceilingFan.glb',
+    escala: 1, posY: 0, rotacao: 1.5, corTint: null,
+  },
+  132: {
+    label: 'pá eólica',
+    pacote: 'kenney_furniture-kit',
+    arquivo: 'ceilingFan.glb',
+    escala: 2, posY: 3, rotacaoCorrecao: [Math.PI / 2, 0, 0], corTint: null,
+  },
+  133: {
+    label: 'pá eólica',
+    pacote: 'kenney_fantasy-town-kit_2.0',
+    arquivo: 'blade.glb',
+    escala: 1, posY: 0, rotacao: 1.5, corTint: null,
+  },
+  134: {
+    label: 'agua',
+    pacote: 'kenney_hexagon-kit',
+    arquivo: 'water.glb',
+    escala: 1, posY: -0.06, rotacao: 0, corTint: null,
+  },
+  135: {
+    label: 'agua + barragem',
+    pacote: 'kenney_hexagon-kit',
+    arquivo: 'water.glb',
+    escala: 1, posY: -0.06, rotacao: 0, corTint: null,
+  },
+
+  136: {
+    label: 'barragem',
+    pacote: 'kenney_nature-kit',
+    arquivo: 'cliff_stone',
+    escala: [2.25, 1, 1], posY: -0.06, rotacao: 1.29, corTint: null,
+  },
+
+
+
   // ── Primitivos / plantas ──────────────────────────────────
   180: {
     label: 'plantação grama',
@@ -810,26 +1069,66 @@ export const MODELOS = {
     corTint: [0.1, 0.9, 0.4],
     tipo: 'simples',
   },
-  187: {
-    label: 'arvore eucalipto',
-    pacote: 'kenney_nature-kit',
-    arquivo: 'tree_tall.glb',
-    escala: 0.7,
-    posY: 0,
+  188: {
+    label: 'caminhão',
+    pacote: 'kenney_car-kit',
+    arquivo: 'garbage-truck.glb',
+    escala: 0.5,
+    posY: 0.0,
     rotacao: 0,
-    corTint: [0.1, 0.9, 0.4],
-    tipo: 'simples',
+    corTint: null,
   },
-  400: {
-    label: 'silo',
+  189: {
+    label: 'caminhão',
     pacote: 'kenney_space-kit',
-    arquivo: 'hangar_roundA.glb',
-    escala: [1, 1.5, 1],
+    arquivo: 'machine_barrelLarge.glb',
+    escala: 0.5,
+    posY: 0.0,
+    rotacao: 0,
+    corTint: null,
+  },
+  190: {
+    label: 'caminhão',
+    pacote: 'kenney_space-kit',
+    arquivo: 'machine_barrelLarge.glb',
+    escala: 0.5,
+    posY: 0.0,
+    rotacao: 0,
+    corTint: null,
+  },
+  191: {
+    label: 'Armazém e',
+    pacote: 'kenney_city-kit-industrial_1.0',
+    arquivo: 'chimney-medium.glb',
+    escala: 1,
     posY: 0,
     rotacao: 0,
-    corTint: [0.5, 0.5, 0.5],
-    tipo: 'simples',
+    corTint: null,
   },
+  192: {
+    label: 'Armazém e',
+    pacote: 'kenney_city-kit-industrial_1.0',
+    arquivo: 'chimney-large.glb',
+    escala: 1,
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  193:{
+    label: 'pomar',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 2, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 3, offset: [-0.2, 0.05, 0.0], escala: 0.50, rotacao: Math.PI / 0.4 },
+      { modeloId: 3, offset: [0.7, 0.05, 0.0], escala: 0.50, rotacao: Math.PI / 0.4 },
+      { modeloId: 3, offset: [-0.1, 0.05, 0.2], escala: 0.50, rotacao: Math.PI / 0.35 },
+      { modeloId: 3, offset: [0.35, 0.05, -0.6], escala: 0.50, rotacao: Math.PI / 0.354 },
+      { modeloId: 3, offset: [0.13, 0.05, 0.18], escala: 0.50, rotacao: Math.PI / 0.315 },
+      { modeloId: 3, offset: [-0.30, 0.05, -0.60], escala: 0.50, rotacao: Math.PI / 0.315 },
+    
+    ]
+  },
+
 
   // ── Compostos ─────────────────────────────────────────────
   8: {
@@ -1141,9 +1440,9 @@ export const MODELOS = {
     tipo: 'composto',
     partes: [
       { modeloId: 97, offset: [0, 0, 0], escala: 1, rotacao: 0 },
-      { modeloId: 100, offset: [-0.0, 0.05, 0.1], escala: 0.4, rotacao:  -1.6 },
-      { modeloId: 100, offset: [-0.0, 0.05, -0.12], escala: 0.4, rotacao:  -1.6 },
-      { modeloId: 100, offset: [-0.0, 0.05, -0.34], escala: 0.4, rotacao:  -1.6 }
+      { modeloId: 100, offset: [-0.0, 0.05, 0.1], escala: 0.4, rotacao: -1.6 },
+      { modeloId: 100, offset: [-0.0, 0.05, -0.12], escala: 0.4, rotacao: -1.6 },
+      { modeloId: 100, offset: [-0.0, 0.05, -0.34], escala: 0.4, rotacao: -1.6 }
     ]
   },
   479: {
@@ -1151,9 +1450,9 @@ export const MODELOS = {
     tipo: 'composto',
     partes: [
       { modeloId: 97, offset: [0, 0, 0], escala: 1, rotacao: 0 },
-      { modeloId: 100, offset: [-0.0, 0.05, 0.1], escala: 0.4, rotacao:  -1.6 },
-      { modeloId: 100, offset: [-0.0, 0.05, -0.12], escala: 0.4, rotacao:  -1.6 },
-      { modeloId: 100, offset: [-0.0, 0.05, -0.34], escala: 0.4, rotacao:  -1.6 }
+      { modeloId: 100, offset: [-0.0, 0.05, 0.1], escala: 0.4, rotacao: -1.6 },
+      { modeloId: 100, offset: [-0.0, 0.05, -0.12], escala: 0.4, rotacao: -1.6 },
+      { modeloId: 100, offset: [-0.0, 0.05, -0.34], escala: 0.4, rotacao: -1.6 }
     ]
   },
   480: {
@@ -1161,7 +1460,7 @@ export const MODELOS = {
     tipo: 'composto',
     partes: [
       { modeloId: 97, offset: [0, 0, 0], escala: 1, rotacao: 0 },
-      { modeloId: 101, offset: [0, 0.05, 0], escala: 0.4, rotacao: Math.PI / -0.66},
+      { modeloId: 101, offset: [0, 0.05, 0], escala: 0.4, rotacao: Math.PI / -0.66 },
     ]
   },
   481: {
@@ -1169,7 +1468,7 @@ export const MODELOS = {
     tipo: 'composto',
     partes: [
       { modeloId: 97, offset: [0, 0, 0], escala: 1, rotacao: 0 },
-      { modeloId: 102, offset: [0, 0.05, 0], escala: 0.4, rotacao: Math.PI / -0.66},
+      { modeloId: 102, offset: [0, 0.05, 0], escala: 0.4, rotacao: Math.PI / -0.66 },
     ]
   },
   482: {
@@ -1177,10 +1476,10 @@ export const MODELOS = {
     tipo: 'composto',
     partes: [
       { modeloId: 97, offset: [0, 0, 0], escala: 1, rotacao: 0 },
-      { modeloId: 103, offset: [-0.24, 0.05, 0], escala: 0.4, rotacao: Math.PI / -0.4},
-      { modeloId: 104, offset: [-0.06, 0.05, 0.4], escala: 0.4, rotacao: Math.PI / -0.4},
-      { modeloId: 104, offset: [-0.14, 0.05, 0.2], escala: 0.4, rotacao: Math.PI / -0.4},
-      { modeloId: 104, offset: [0.1, 0.05, 0.34], escala: 0.4, rotacao: Math.PI / -0.4},
+      { modeloId: 103, offset: [-0.24, 0.05, 0], escala: 0.4, rotacao: Math.PI / -0.4 },
+      { modeloId: 104, offset: [-0.06, 0.05, 0.4], escala: 0.4, rotacao: Math.PI / -0.4 },
+      { modeloId: 104, offset: [-0.14, 0.05, 0.2], escala: 0.4, rotacao: Math.PI / -0.4 },
+      { modeloId: 104, offset: [0.1, 0.05, 0.34], escala: 0.4, rotacao: Math.PI / -0.4 },
     ]
   },
   483: {
@@ -1188,12 +1487,770 @@ export const MODELOS = {
     tipo: 'composto',
     partes: [
       { modeloId: 97, offset: [0, 0, 0], escala: 1, rotacao: 0 },
-      { modeloId: 105, offset: [-0.24, 0.05, 0], escala: 0.4, rotacao: Math.PI / -0.4},
-      { modeloId: 106, offset: [-0.06, 0.05, 0.4], escala: 0.4, rotacao: Math.PI / -0.4},
-    
+      { modeloId: 105, offset: [-0.24, 0.05, 0], escala: 0.4, rotacao: Math.PI / -0.4 },
+      { modeloId: 106, offset: [-0.06, 0.05, 0.4], escala: 0.4, rotacao: Math.PI / -0.4 },
+
+    ]
+  },
+  484: {
+    label: 'patio com armazém',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 97, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 68, offset: [0, 0.05, 0.0], escala: 0.40, rotacao: 90 },
+    ]
+  },
+  485: {
+    label: 'tranporte petro',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 97, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 107, offset: [0, 0.05, 0.0], escala: 0.40, rotacao: 90 },
+      // { modeloId: 104, offset: [-0.06, 0.05, 0.6], escala: 0.4, rotacao: Math.PI / -0.4},
+      { modeloId: 104, offset: [-0.14, 0.05, 0.1], escala: 0.4, rotacao: Math.PI / -0.4 },
+      { modeloId: 104, offset: [-0.29, 0.05, 0.1], escala: 0.4, rotacao: Math.PI / -0.4 },
+      // { modeloId: 104, offset: [0.1, 0.05, 0.34], escala: 0.4, rotacao: Math.PI / -0.4},
+    ]
+  },
+  486: {
+    label: 'shopping pop',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 97, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 92, offset: [0, 0.05, 0.0], escala: 0.40, rotacao: -30 },
+
+    ]
+  },
+  487: {
+    label: 'shopping top',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 97, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 109, offset: [0, 0.05, 0.0], escala: 0.40, rotacao: -30 },
+      // { modeloId: 104, offset: [-0.06, 0.05, 0.6], escala: 0.4, rotacao: Math.PI / -0.4},
+
+    ]
+  },
+  488: {
+    label: 'shopping top',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 112, offset: [0, 0.05, 0.0], escala: 0.40, rotacao: -30 },
+      // { modeloId: 104, offset: [-0.06, 0.05, 0.6], escala: 0.4, rotacao: Math.PI / -0.4},
+
+    ]
+  },
+  489: {
+    label: 'restaurante',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 112, offset: [-0.0, 0.05, 0.0], escala: 0.4, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  490: {
+    label: 'cartorio',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 99, offset: [-0.0, 0.05, 0.0], escala: 0.4, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  491: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 113, offset: [-0.0, 0.05, 0.0], escala: 0.4, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  492: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 114, offset: [-0.0, 0.05, 0.0], escala: 0.4, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  493: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 115, offset: [-0.0, 0.05, 0.0], escala: 0.4, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  494: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 116, offset: [-0.0, 0.05, 0.0], escala: 0.4, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  495: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 117, offset: [-0.0, 0.05, 0.0], escala: 0.4, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  496: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 118, offset: [-0.0, 0.05, 0.0], escala: 0.4, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  497: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 119, offset: [-0.0, 0.05, 0.0], escala: 0.01, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  498: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 120, offset: [-0.0, 0.05, 0.0], escala: 0.4, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  499: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 121, offset: [-0.0, 0.05, 0.0], escala: 0.4, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  500: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 122, offset: [-0.3, 0.05, 0.4], escala: 0.2, rotacao: Math.PI / -0.66 },
+      // { modeloId: 94, offset: [-0.3, 0.05, 0.4], escala: 0.2, rotacao: Math.PI / -0.66 },
+
+    ]
+  },
+  501: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 78, offset: [-0.50, 0.05, 0.7], escala: 0.35, rotacao: 26.7 },
+    ]
+  },
+  502: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 123, offset: [-0.0, 0.05, 0.0], escala: 0.03, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  503: {
+    label: 'terraplanagem',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0.001, 0], escala: 1, rotacao: 0 },
+      { modeloId: 124, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+    ]
+  },
+  504: {
+    label: 'tranporte petro',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 107, offset: [0, 0.05, 0.0], escala: 0.40, rotacao: 90 },
+      // { modeloId: 104, offset: [-0.06, 0.05, 0.6], escala: 0.4, rotacao: Math.PI / -0.4},
+      { modeloId: 104, offset: [-0.14, 0.05, 0.1], escala: 0.4, rotacao: Math.PI / -0.4 },
+      { modeloId: 104, offset: [-0.29, 0.05, 0.1], escala: 0.4, rotacao: Math.PI / -0.4 },
+      // { modeloId: 104, offset: [0.1, 0.05, 0.34], escala: 0.4, rotacao: Math.PI / -0.4},
+    ]
+  },
+  505: {
+    label: 'arm logistico',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 125, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      // { modeloId: 105, offset: [-0.24, 0.05, 0], escala: 0.4, rotacao: Math.PI / -0.4 },
+      { modeloId: 188, offset: [-0.06, 0.05, 0.4], escala: 0.4, rotacao: Math.PI / -0.4 },
+
+    ]
+  },
+  506: {
+    label: 'arm logistico',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+
+      { modeloId: 189, offset: [-1.45, 0.05, -1.1], escala: 3, rotacao: 0 },
+    ]
+  },
+  507: {
+    label: 'arm logistico',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 127, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 189, offset: [-1.45, 0.05, -1.1], escala: 3, rotacao: 0 },
+
+    ]
+  },
+  508: {
+    label: 'arm logistico',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 127, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 128, offset: [0.3, 0.1, 0.2], escala: 0.3, rotacao: 4.6 },
+      { modeloId: 128, offset: [0.3, 0.1, -0.2], escala: 0.3, rotacao: 4.6 },
+      { modeloId: 128, offset: [0.3, 0.1, -0], escala: 0.3, rotacao: 4.6 },
+      { modeloId: 128, offset: [0, 0.1, -0.4], escala: 0.3, rotacao: 4.6 },
+      { modeloId: 128, offset: [0, 0.1, 0.4], escala: 0.3, rotacao: 4.6 },
+
+    ]
+  },
+  509: {
+    label: 'arm logistico',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 127, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 71, offset: [0.0, 0.1, 0.0], escala: 0.4, rotacao: 26.7 },
+    ]
+  },
+  510: {
+    label: 'arm logistico',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 127, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 130, offset: [0.0, 0.1, 0.0], escala: 0.4, rotacao: 0 },
+    ]
+  },
+  511: {
+    label: 'arm logistico',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 127, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 105, offset: [0.0, 0.1, 0.0], escala: 0.4, rotacao: 26.7 },
+    ]
+  },
+  // 512: {
+  //   label: 'arm logistico',
+  //   tipo: 'composto',
+  //   partes: [
+  //     { modeloId: 127, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+  //     { modeloId: 72, offset: [0.0, 0.1, 0.0], escala: 0.4, rotacao: 26.7 },
+  //   ]
+  // },
+  // 513: {
+  //   label: 'Porto',
+  //   tamanho: 7,          // ← ativa o cluster
+  //   tipo: 'composto',
+  //   partes: [            // modelo do hex CENTRAL
+  //     { modeloId: 65, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+  //     { modeloId: 84, offset: [0, 0.05, 0], escala: 0.1, rotacao: 4.6 },
+  //   ],
+  //   satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+  //     { modeloId: 134 },  // vizinho 0: container
+  //     { modeloId: 134 },  // vizinho 1: container
+  //     { modeloId: 134 },  // vizinho 2: pátio
+  //     { modeloId: 134 },  // vizinho 3: pátio
+  //     { modeloId: 84 },  // vizinho 4: navio
+  //     { modeloId: 134 },  // vizinho 5: pátio
+  //   ]
+  // },
+
+  // 514: {
+  //   label: 'arm logistico',
+  //   tipo: 'composto',
+  //   partes: [
+  //     { modeloId: 127, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+  //     { modeloId: 133, offset: [0.0, 0.1, 0.0], escala: 0.8, rotacao: 90 },
+  //   ]
+  // },
+  //   515: {
+  //   label: 'Porto',
+  //   tamanho: 7,          // ← ativa o cluster
+  //   tipo: 'composto',
+  //   partes: [            // modelo do hex CENTRAL
+  //     { modeloId: 65, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+  //     { modeloId: 134, offset: [0, 0.05, 0], escala: 0.1, rotacao: 4.6 },
+  //   ],
+  //   satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+  //     { modeloId: 134 },  // vizinho 0: container
+  //     { modeloId: 134 },  // vizinho 1: container
+  //     { modeloId: 134 },  // vizinho 2: pátio
+  //     { modeloId: 134 },  // vizinho 3: pátio
+  //     { modeloId: 84 },  // vizinho 4: navio
+  //     { modeloId: 134 },  // vizinho 5: pátio
+  //   ]
+  // },
+
+  516: {
+    label: 'arm logistico',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 134, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 136, offset: [-0.12, 0.1, -0.4], escala: 0.4, rotacao: 30.44 },
+    ]
+  },
+  517: {
+    label: 'usina',
+    tamanho: 7,          // ← ativa o cluster
+    tipo: 'composto',
+    partes: [            // modelo do hex CENTRAL
+      { modeloId: 134, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 136, offset: [-0.12, 0.1, -0.4], escala: 0.4, rotacao: 30.44 },
+    ],
+    satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+      { modeloId: 516 },  // vizinho 5: pátio
+      { modeloId: 134 },  // vizinho 0: container
+      { modeloId: 518 },  // vizinho 1: container
+      { modeloId: 516 },  // vizinho 3: pátio
+      { modeloId: 134 },  // vizinho 2: pátio
+      { modeloId: 134 },  // vizinho 4: navio
+    ]
+  },
+  518: {
+    label: 'arm logistico',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 130, offset: [-0.0, 0.1, -0.0], escala: 0.4, rotacao: 0 },
+    ]
+  },
+
+  519: {
+    label: 'usina termelétrica combustíveis',
+    tamanho: 7,          // ← ativa o cluster
+    tipo: 'composto',
+    partes: [            // modelo do hex CENTRAL
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 72, offset: [0, 0.05, 0], escala: 0.40, rotacao: 26.7 },],
+    satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+      { modeloId: 520 },  // vizinho 0: container
+      { modeloId: 520 },  // vizinho 1: container
+      { modeloId: 521 },  // vizinho 5: pátio
+      { modeloId: 126 },  // vizinho 2: pátio
+      { modeloId: 126 },  // vizinho 4: navio
+      { modeloId: 521 },  // vizinho 3: pátio
+    ]
+  },
+  520: {
+    label: 'tanque fluidos',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 189, offset: [-1.45, 0.05, -1.1], escala: 3, rotacao: 0 },
+    ]
+  },
+  521: {
+    label: 'tanque fluidos',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 191, offset: [0, 0.05, 0], escala: 1, rotacao: 0 },
+    ]
+  },
+  522: {
+    label: 'tanque fluidos',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 72, offset: [0, 0.05, 0], escala: 1, rotacao: 0 },
+    ]
+  },
+  523: {
+    label: 'usina termelétrica combustíveis',
+    tamanho: 7,          // ← ativa o cluster
+    tipo: 'composto',
+    partes: [            // modelo do hex CENTRAL
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 72, offset: [0, 0.05, 0], escala: 0.40, rotacao: 26.7 },],
+    satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+      { modeloId: 521 },  // vizinho 0: container
+      { modeloId: 521 },  // vizinho 1: container
+      { modeloId: 521 },  // vizinho 5: pátio
+      { modeloId: 126 },  // vizinho 2: pátio
+      { modeloId: 126 },  // vizinho 4: navio
+      { modeloId: 521 },  // vizinho 3: pátio
+    ]
+  },
+  524: {
+    label: 'chamine nuclaer',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 192, offset: [0, 0.05, 0], escala: 1, rotacao: 0 },
+    ]
+  },
+  525: {
+    label: 'edifício pesquisa',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 130, offset: [0.0, 0.1, 0.0], escala: 0.4, rotacao: 0 },
+    ]
+  },
+  526: {
+    label: 'reator central',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 527, offset: [0.0, 0.1, 0.0], escala: 0.4, rotacao: 0 },
+    ]
+  },
+  528: {
+    label: 'reator central',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 105, offset: [-0.24, 0.05, 0], escala: 0.4, rotacao: Math.PI / -0.4 },
+    ]
+  },
+  527: {
+    label: 'react',
+    pacote: 'kenney_space-kit',
+    arquivo: 'hangar_roundA.glb',
+    escala: [1, 1.3, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: [0.5, 0.5, 0.5],
+    tipo: 'simples',
+  },
+  529: {
+    label: 'usina termelétrica combustíveis',
+    tamanho: 7,          // ← ativa o cluster
+    tipo: 'composto',
+    partes: [            // modelo do hex CENTRAL
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 527, offset: [-0.45, 0.05, 0.60], escala: 0.3, rotacao: Math.PI / 0.4 },],
+    satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+      { modeloId: 525 },  // topo 
+      { modeloId: 524 },  // topo esquerda
+      { modeloId: 524 },  //baixo esqueda
+      { modeloId: 528 },  //baixo 
+      { modeloId: 528 }, //baixo direita
+      { modeloId: 524 }, //topo direita
+    ]
+  },
+  530: {
+    label: 'usina termelétrica combustíveis',
+    tamanho: 7,          // ← ativa o cluster
+    tipo: 'composto',
+    partes: [            // modelo do hex CENTRAL
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 527, offset: [-0.45, 0.05, 0.60], escala: 0.3, rotacao: Math.PI / 0.4 },],
+    satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+      { modeloId: 524 },  // topo 
+      { modeloId: 524 },   // topo esquerda
+      { modeloId: 524 },  // 
+      { modeloId: 525 }, //baixo 
+      { modeloId: 525 }, //baixo direita
+      { modeloId: 524 },
+    ]
+  },
+  531: {
+    label: 'pista',
+    pacote: 'kenney_city-kit-roads',
+    arquivo: 'road-crossing.glb',
+    escala: [1, 1.3, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: [0.5, 0.5, 0.5],
+    tipo: 'simples',
+  },
+  532: {
+    label: 'pista completa',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 531, offset: [-0.24, 0.05, 0], escala: 0.5, rotacao: Math.PI / 0.1 },
+      { modeloId: 531, offset: [0.25, 0.05, 0], escala: 0.5, rotacao: Math.PI / 0.1 },
+    ]
+  },
+  533: {
+    label: 'usina termelétrica combustíveis',
+    tamanho: 7,          // ← ativa o cluster
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 531, offset: [-0.24, 0.05, 0], escala: 0.5, rotacao: Math.PI / 0.1 },
+      { modeloId: 531, offset: [0.25, 0.05, 0], escala: 0.5, rotacao: Math.PI / 0.1 },
+    ],
+    satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+      { modeloId: 532 },  // topo 
+      { modeloId: 534 },   // topo esquerda
+      { modeloId: 501 },  // baixo esquerda
+      { modeloId: 532 }, //baixo 
+      { modeloId: 500 }, //baixo direita
+      { modeloId: 500 },  //topo direita
+    ]
+  },
+  534: {
+    label: 'pista completa',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 103, offset: [-0.24, 0.05, 0], escala: 0.4, rotacao: Math.PI / -0.4 },
+      { modeloId: 536, offset: [-0.4, 0.05, 0.8], escala: 0.4, rotacao: 2 },
+    ]
+  },
+  535: {
+    label: 'pista',
+    pacote: 'kenney_city-kit-roads',
+    arquivo: 'road-crossing.glb',
+    escala: [1, 1.3, 1],
+    posY: 0,
+    rotacao: 0,
+    corTint: [0.5, 0.5, 0.5],
+    tipo: 'simples',
+  },
+  536: {
+    label: 'satelite',
+    pacote: 'kenney_space-kit',
+    arquivo: 'satelliteDish_large',
+    escala: 1,
+    posY: 0,
+    rotacao: 0,
+    corTint: null,
+  },
+  537: {
+    label: 'usina termelétrica combustíveis',
+    tamanho: 7,          // ← ativa o cluster
+    tipo: 'composto',
+    partes: [
+      { modeloId: 134, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 123, offset: [0.25, 0.05, 0], escala: 0.1, rotacao: 1.5 },
+    ],
+    satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+      { modeloId: 134 },  // topo 
+      { modeloId: 534 },   // topo esquerda
+      { modeloId: 111 },  // baixo esquerda
+      { modeloId: 134 }, //baixo 
+      { modeloId: 134 }, //baixo direita
+      { modeloId: 134 },  //topo direita
+    ]
+  },
+  538: {
+    label: 'usina termelétrica combustíveis',
+    tamanho: 7,          // ← ativa o cluster
+    tipo: 'composto',
+    partes: [
+      { modeloId: 134, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 123, offset: [0.25, 0.05, 0], escala: 0.1, rotacao: 1.5 },
+    ],
+    satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+      { modeloId: 134 },  // topo 
+      { modeloId: 540 },   // topo esquerda
+      { modeloId: 540 },  // baixo esquerda
+      { modeloId: 134 }, //baixo 
+      { modeloId: 539 }, //baixo direita
+      { modeloId: 539 },  //topo direita
+    ]
+  },
+  539: {
+    label: 'fábrica a + terreno',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 65, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 71, offset: [0, 0.05, 0], escala: 0.40, rotacao: 0 },
+    ]
+  },
+
+  540: {
+    label: 'fábrica a + terreno',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 65, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 71, offset: [0, 0.05, 0], escala: 0.40, rotacao: 15.7 },
+    ]
+  },
+  541: {
+    label: 'usina termelétrica combustíveis',
+    tamanho: 7,          // ← ativa o cluster
+    tipo: 'composto',
+    partes: [
+      { modeloId: 65, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 531, offset: [-0.24, 0.05, 0], escala: 0.5, rotacao: Math.PI / 0.1 },
+      { modeloId: 531, offset: [0.25, 0.05, 0], escala: 0.5, rotacao: Math.PI / 0.1 },
+    ],
+    satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+      { modeloId: 459 },  // topo 
+      { modeloId: 543 },   // topo esquerda
+      { modeloId: 543 },  // baixo esquerda
+      { modeloId: 544 }, //baixo 
+      { modeloId: 542 }, //baixo direita
+      { modeloId: 542 },  //topo direita
+    ]
+  },
+
+  542: {
+    label: 'fábrica a + terreno',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 65, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 122, offset: [-0.3, 0.05, 0.4], escala: 0.2, rotacao: Math.PI / -0.66 },
+    ]
+  },
+  543: {
+    label: 'fábrica a + terreno',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 65, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 78, offset: [-0.50, 0.05, 0.7], escala: 0.35, rotacao: 26.7 },
+    ]
+  },
+  544: {
+    label: 'pista completa',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 65, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 531, offset: [-0.24, 0.05, 0], escala: 0.5, rotacao: Math.PI / 0.1 },
+      { modeloId: 531, offset: [0.25, 0.05, 0], escala: 0.5, rotacao: Math.PI / 0.1 },
+    ]
+  },
+  545: {
+    label: 'pista completa',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 65, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 531, offset: [-0.24, 0.05, 0], escala: 0.5, rotacao: Math.PI / 0.1 },
+      { modeloId: 531, offset: [0.25, 0.05, 0], escala: 0.5, rotacao: Math.PI / 0.1 },
+    ]
+  },
+
+  546: {
+    label: 'usina termelétrica combustíveis',
+    tamanho: 7,          // ← ativa o cluster
+    tipo: 'composto',
+    partes: [
+      { modeloId: 65, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 68, offset: [0, 0.05, 0.0], escala: 0.40, rotacao: 90 },
+    ],
+    satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+      { modeloId: 459 },  // topo 
+      { modeloId: 459 },   // topo esquerda
+      { modeloId: 467 },  // baixo esquerda
+      { modeloId: 456 }, //baixo 
+      { modeloId: 467 }, //baixo direita
+      { modeloId: 459 },  //topo direita
+    ]
+  },
+
+  547: {
+    label: 'fábrica a + terreno',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 548, offset: [0, 0.05, 0], escala: 0.40, rotacao: 26.7 },
+      { modeloId: 548, offset: [0.25, 0.05, 0], escala: 0.40, rotacao: 26.7 },
+      { modeloId: 548, offset: [-0.3, 0.05, 0], escala: 0.40, rotacao: 26.7 },
+    ]
+  },
+  548: {
+    label: 'Armazém várias chaminés2',
+    pacote: 'kenney_city-kit-industrial_1.0',
+    arquivo: 'building-p.glb',
+    escala: 1,
+    posY: -0.5,
+    rotacao: 0,
+    corTint: null,
+  },
+  549: {
+    label: 'usina termelétrica combustíveis',
+    tamanho: 7,          // ← ativa o cluster
+    tipo: 'composto',
+    partes: [
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 71, offset: [0, 0.05, 0], escala: 0.40, rotacao: 26.7 },
+    ],
+    satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+      { modeloId: 547 },  // topo 
+      { modeloId: 547 },   // topo esquerda
+      { modeloId: 547 },  // baixo esquerda
+      { modeloId: 547 }, //baixo 
+      { modeloId: 547 }, //baixo direita
+      { modeloId: 547 },  //topo direita
+    ]
+  },
+  550: {
+    label: 'usina termelétrica combustíveis',
+    tamanho: 7,          // ← ativa o cluster
+    tipo: 'composto',
+    partes: [
+      { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 71, offset: [0, 0.05, 0], escala: 0.40, rotacao: 26.7 },
+    ],
+    satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
+      { modeloId: 547 },  // topo 
+      { modeloId: 547 },   // topo esquerda
+      { modeloId: 547 },  // baixo esquerda
+      { modeloId: 547 }, //baixo 
+      { modeloId: 547 }, //baixo direita
+      { modeloId: 547 },  //topo direita
+    ]
+  },
+  551: {
+    label: 'Armazém várias chaminés2',
+    pacote: 'kenney_city-kit-industrial_1.0',
+    arquivo: 'building-p.glb',
+    escala: 1,
+    posY: -0.5,
+    rotacao: 0,
+    corTint: null,
+  },
+  552: {
+    label: 'pá eólica',
+    pacote: 'kenney_furniture-kit',
+    arquivo: 'ceilingFan.glb',
+    escala: 2, posY: 3, rotacaoCorrecao: [Math.PI / 2, 0, 0], corTint: null,
+  },
+  553: {
+    label: 'pá eólica',
+    pacote: 'kenney_furniture-kit',
+    arquivo: 'floorHalf.glb',
+    escala: [0.8, 4, 0.8], posY: 1.5, rotacaoCorrecao: [Math.PI / 2, 0, 0], corTint: null,
+  },
+  553: {
+    label: 'pá eólica',
+    pacote: 'kenney_furniture-kit',
+    arquivo: 'floorHalf.glb',
+    escala: [0.8, 4, 0.8],
+    posY: 1.5,
+    rotacaoCorrecao: [0, 0, Math.PI / 2], // 🔥 eixo correto
+    corTint: null,
+  },
+
+  554: {
+    label: 'criação de ovinos',
+    pacote: 'kenney_hexagon-kit',
+    arquivo: 'building-sheep.glb',
+    escala: 1,  posY: -0.15, corTint: null,
+  },
+
+  555: {
+    label: 'criação de ovinos',
+    pacote: 'kenney_hexagon-kit',
+    arquivo: 'building-sheep.glb',
+    escala: 1,  posY: -0.15, corTint: null,
+  },
+    556: {
+    label: 'fábrica a + terreno',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 111, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 119, offset: [0, 0, 0], escala: 1, rotacao: 1.6},
     ]
   },
 }
+
 
 // ─────────────────────────────────────────────────────────────
 //  SEÇÃO 3 — MAPEAMENTO edifício → modelo
@@ -1209,10 +2266,10 @@ export const EDIFICIO_PARA_MODELO = {
   'Silo': 401,
   'Plantação De Eucalipto': 16,   // ← era 14, agora aponta para ID 16 (eucalipto composto)
   'Plantação De Plantas Medicinais': 10,
-  'Campo De Estocagem': 2,
+  'Campo De Estocagem': 193,
   'Fazenda De Vacas': 404,
   'Granja De Aves': 405,
-  'Criação De Ovinos': 10,
+  'Criação De Ovinos': 554,
   'Serraria': 15,
   'Área Florestal': 87,
   'Armazém De Materiais Brutos': 450,
@@ -1262,9 +2319,9 @@ export const EDIFICIO_PARA_MODELO = {
   "Fábrica De Robôs": 460,
   "Empresa De Automação Industrial": 465,
   "Fábrica De Motores": 459,
-  "Fábrica De Foguetes": 467,
-  "Fábrica De Aeronaves": 466,
-  "Estaleiro": 468,
+  "Fábrica De Foguetes": 546,
+  "Fábrica De Aeronaves": 541,
+  "Estaleiro": 538,
 
   // ── Tecnologia ────────────────────────────────────────────
   "Startup": 470,
@@ -1303,12 +2360,12 @@ export const EDIFICIO_PARA_MODELO = {
   "Padaria": 477,
   "Açougue": 477,
   "Câmara Fria": 478,
-  "Petshop": 477, 
-  "Farmácia": 477, 
+  "Petshop": 477,
+  "Farmácia": 477,
   "Cafeteria": 477,
   "Livraria": 477,
-   "Mercado": 480, 
-   "Adega": 481,
+  "Mercado": 480,
+  "Adega": 481,
   "Loja De Conveniência": 481,
   "Posto De Combustíveis": 482,
   "Rede De Fast-Food": 475,
@@ -1319,16 +2376,64 @@ export const EDIFICIO_PARA_MODELO = {
   "Loja De Games": 475,
   "Loja De Celulares": 475,
   "Loja De Informática": 475,
-  "Centro De Transporte E Entrega": 475,
+  "Centro De Transporte E Entrega": 483,
   "Centro De Distribuição": 483,
-  "Armazém Logístico": 456,
-  "Transporte Petrolífero": 475,
-  "Loja De Eletrônicos": 475,
+  "Armazém Logístico": 484,
+  "Transporte Petrolífero": 485,
+  "Loja De Eletrônicos": 481,
   "Joalheria": 480,
-  "Concessionária De Veículos": 475,
-  "Shopping Popular": 475,
-  "Shopping Center": 475
-  }
+  "Concessionária De Veículos": 484,
+  "Shopping Popular": 486,
+  "Shopping Center": 487,
+
+
+
+
+  "Cartório E Licenças": 490,
+  "Terraplanagem E Pavimentação": 491,
+  "Construtora De Pequenas Obras": 489,
+  "Escritório De Design De Interiores": 493,
+  "Escritório De Arquitetura": 491,
+  "Consultoria Em Engenharia Civil": 492,
+  "Construtora": 494,
+  "Imobiliária Residencial": 495,
+  "Imobiliária Comercial": 496,
+  "Construtora De Infraestruturas": 498,
+  "Mega Mercado": 499,
+  "Prédio De Alto Padrão": 556,
+  "Hangar": 500,
+  "Aeroporto": 533,
+  "Porto": 537,
+  "Mineradora": 503,
+  "Mineradora Radioativa": 503,
+  "Mineradora De Pedras Preciosas": 503,
+  "Centro De Coleta De Biomassa": 505,
+  "Tanque De Armazenamento De Fluidos": 506,
+  "Plataforma De Petróleo": 504,
+
+
+
+  "Subestação De Energia": 134,
+  "Rede De Distribuição Elétrica": 517,
+  "Usina Solar": 513,
+  "Fábrica De Turbinas Eólicas": 515,
+  "Fábrica De Painéis Solares": 504,
+  "Fábrica De Baterias": 504,
+  "Empresa De Comércio Energético": 511,
+  "Empresa De Consultoria Energética": 511,
+  "Estação De Carregamento": 508,
+  "Centro De Pesquisa Energética": 510,
+  "Centro De Reciclagem De Baterias": 511,
+  "Centro De Pesquisa Em Energias Renováveis": 510,
+  "Usina Termelétrica A Biocombustíveis": 519,
+  "Usina De Biomassa": 512,
+  "Usina Hidrelétrica": 517,
+  "Parque Eólico": 514,
+  "Usina Termelétrica": 523,
+  "Armazém De Materiais Sensíveis": 547,
+  "Reator Nuclear Convencional": 529,
+  "Usina De Fusão Nuclear": 530,
+}
 
 // ─────────────────────────────────────────────────────────────
 //  MODELOS_SEDE — edifício central por porte
@@ -1435,8 +2540,12 @@ export function resolverModeloSede(classificacaoPorte) {
 //  HELPER — resolve config completa de um edifício pelo nome
 // ─────────────────────────────────────────────────────────────
 
-export function resolverModelo(nomeEdificio) {
-  const modeloId = EDIFICIO_PARA_MODELO[nomeEdificio] ?? 1
+
+// DEPOIS:
+export function resolverModelo(nomeEdificio, idDireto = null) {
+  const modeloId = idDireto
+    ?? EDIFICIO_PARA_MODELO[nomeEdificio]
+    ?? 1
   const modelo = MODELOS[modeloId] ?? MODELOS[1]
 
   // COMPOSTO
