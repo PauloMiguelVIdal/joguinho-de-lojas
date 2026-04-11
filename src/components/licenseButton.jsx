@@ -25,7 +25,7 @@ export const LicenceModalBusiness = () => {
         {
             id: "carteira",
             corClasse: "bg-[#934CFF]",
-            cor1: "#350973 ",
+            cor1: "#360974 ",
             cor2: "#4C14A9 ",
             cor3: "#6A00FF ",
             cor4: "#934CFF ",
