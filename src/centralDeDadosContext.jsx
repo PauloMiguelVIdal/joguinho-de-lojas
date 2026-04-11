@@ -1,5 +1,6 @@
 import React, { useState, createContext } from "react";
 import { carregarSalvo } from "./components/usePersistencia";
+import { produce } from "immer";
 const CentraldeDadosContext = createContext();
 
 
@@ -27576,74 +27577,94 @@ const CentraldeDadosProvider = ({ children }) => {
     }));
   };
 
-  const atualizarDadosProf = (caminho, novoValor) => {
-    setDados((prevState) => {
-      const novosDados = JSON.parse(JSON.stringify(prevState)); // cópia profunda
-      let ref = novosDados[dados.setorAtivo];
+  const atualizarDadosProf = (caminho, novoValor, debug = false) => {
+ setDados(prev =>
+    produce(prev, draft => {
+      let ref = draft;
 
       for (let i = 0; i < caminho.length - 1; i++) {
-        ref = ref[caminho[i]];
-      }
-
-      ref[caminho[caminho.length - 1]] = novoValor;
-
-      return {
-        ...prevState,
-        [dados.setorAtivo]: novosDados[dados.setorAtivo],
-      };
-    });
-  };
-
-  const atualizarDadosProf2 = (caminho, novoValor) => {
-    setDados((prevState) => {
-      const novosDados = JSON.parse(JSON.stringify(prevState)); // cópia profunda
-      let ref = novosDados;
-
-      for (let i = 0; i < caminho.length - 1; i++) {
-        if (!ref[caminho[i]]) {
-          console.error(
-            `Caminho inválido em atualizarDadosProf2: ${caminho[i]} está undefined no passo ${i}`
-          );
-          return prevState; // Não faz nada e evita quebrar o app
+        if (debug) {
+          console.log(`Ref antes do passo ${i}:`, ref);
+          console.log(`Acessando chave:`, caminho[i]);
         }
-        ref = ref[caminho[i]];
-      }
 
-      ref[caminho[caminho.length - 1]] = novoValor;
-
-      return novosDados;
-    });
-  };
-
-  const atualizarDadosProf3 = (caminho, novoValor) => {
-    setDados((prevState) => {
-      const novosDados = JSON.parse(JSON.stringify(prevState)); // cópia profunda
-      let ref = novosDados;
-
-      for (let i = 0; i < caminho.length - 1; i++) {
-        console.log(`Ref antes do passo ${i}:`, ref);
-        console.log(`Acessando chave:`, caminho[i]);
-
-        if (ref === undefined || ref === null) {
-          console.warn(
-            `❌ ERRO: ref é undefined na etapa ${i}, chave: ${caminho[i]}`
-          );
-          console.warn(`CAMINHO COMPLETO:`, caminho);
-          return prevState; // não altera nada
+        if (ref[caminho[i]] === undefined) {
+          console.warn(`❌ Caminho inválido: ${caminho[i]}`);
+          return;
         }
 
         ref = ref[caminho[i]];
       }
 
       const ultimaChave = caminho[caminho.length - 1];
-      console.log(
-        `🔧 Atualizando chave final '${ultimaChave}' com valor:`,
-        novoValor
-      );
-      ref[ultimaChave] = novoValor;
 
-      return novosDados;
-    });
+      if (debug) {
+        console.log(`🔧 Atualizando '${ultimaChave}' com:`, novoValor);
+      }
+
+      ref[ultimaChave] = novoValor;
+    })
+  );
+  };
+
+  const atualizarDadosProf2 = (caminho, novoValor, debug = false) => {
+    setDados(prev =>
+    produce(prev, draft => {
+      let ref = draft;
+
+      for (let i = 0; i < caminho.length - 1; i++) {
+        if (debug) {
+          console.log(`Ref antes do passo ${i}:`, ref);
+          console.log(`Acessando chave:`, caminho[i]);
+        }
+
+        if (ref[caminho[i]] === undefined) {
+          console.warn(`❌ Caminho inválido: ${caminho[i]}`);
+          return;
+        }
+
+        ref = ref[caminho[i]];
+      }
+
+      const ultimaChave = caminho[caminho.length - 1];
+
+      if (debug) {
+        console.log(`🔧 Atualizando '${ultimaChave}' com:`, novoValor);
+      }
+
+      ref[ultimaChave] = novoValor;
+    })
+  );
+  };
+
+  const atualizarDadosProf3 = (caminho, novoValor, debug = false) => {
+    setDados(prev =>
+    produce(prev, draft => {
+      let ref = draft;
+
+      for (let i = 0; i < caminho.length - 1; i++) {
+        if (debug) {
+          console.log(`Ref antes do passo ${i}:`, ref);
+          console.log(`Acessando chave:`, caminho[i]);
+        }
+
+        if (ref[caminho[i]] === undefined) {
+          console.warn(`❌ Caminho inválido: ${caminho[i]}`);
+          return;
+        }
+
+        ref = ref[caminho[i]];
+      }
+
+      const ultimaChave = caminho[caminho.length - 1];
+
+      if (debug) {
+        console.log(`🔧 Atualizando '${ultimaChave}' com:`, novoValor);
+      }
+
+      ref[ultimaChave] = novoValor;
+    })
+  );
   };
 
   const atualizarDadosVariados = (chave, novoValor) => {

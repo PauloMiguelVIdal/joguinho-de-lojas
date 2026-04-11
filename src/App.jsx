@@ -63,10 +63,10 @@ function App() {
               className="h-[100vh] w-[100vw] relative bg-gray-900"
             >
               {/* Botão de Tela Cheia */}
-              <button
-                onClick={toggleFullscreen}
-                className="absolute top-2 right-5 z-50"
-              >
+          <button
+  onClick={toggleFullscreen}
+  className="absolute top-2 right-5 z-[9999]"
+>
                 <img
                   className="w-[30px] h-[30px]"
                   src={isFullscreen ? reduzirTela : telaCheia}

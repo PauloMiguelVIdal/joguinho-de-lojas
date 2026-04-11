@@ -8,30 +8,27 @@ import {InfoPage} from "./Info";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 export default function Buttons() {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  const { dados } = useContext(CentraldeDadosContext);
 
   return (
-    <div className="flex items-center w-full rounded-[20px] h-full">
-      <div className="flex place-content-around items-center h-full gap-[10px] w-[100%]">
+    <div className="flex items-center w-full h-full mr-[50px]">
+      <div className="flex items-center gap-[10px] w-full">
+
         <NextDay />
-        <div className="flex flex-col gap-[10px]">
-          <PayTexes />
 
-          {/* <Business /> */}
-          {dados.dia < 270 && (
-            <div className="w-full flex justify-around">
-            </div>
-          )}
+        <PayTexes />
 
-          {dados.dia >= 270 && (
-            <div className="w-full flex justify-between">
-              <ToggleButton />
-              
-              {/* <InfoPage /> */}
-              {/* <ButtonFinanace /> */}
-            </div>
-          )}
-        </div>
+        {dados.dia < 270 && (
+          <Business />
+        )}
+
+        {dados.dia >= 270 && (
+          <>
+            <Business />
+            <InfoPage />
+          </>
+        )}
+
       </div>
     </div>
   );

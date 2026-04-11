@@ -640,25 +640,25 @@ const novoArrayFatuSetorHistory = [...arrayFatuSetorHistory, faturamentoTotalSet
 
 
   return (
-    <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative">
-      <div className="flex justify-center items-center w-full">
+    <div className="flex justify-center items-center bg-[#6411D9] w-full rounded-[10px] relative">
+      <div className="flex justify-center items-center w-[50px]">
         <h2 className="text-white text-[20px] fonteBold">
           {dados.despesas.proximoPagamento}
         </h2>
       </div>
-      <button
-        data-tooltip-id="tooltip-despesas"
-        data-tooltip-html={tooltipText}
-        className="w-[50%] min-h-[50px] aspect-square bg-[#F4CCB6] rounded-[10px] flex items-center justify-center"
-        style={{ backgroundColor: diaPag ? "#F27405" : "#ebac75ff" }}
-        onClick={realizarPag}
-      >
-        <img className="h-[70%] min-w-[20px] aspect-square" src={despesasImg} />
-      </button>
+  <button
+    data-tooltip-id="tooltip-despesas"
+    data-tooltip-html={tooltipText}
+    className="h-[50px] aspect-square rounded-[10px] flex items-center justify-center"
+    style={{ backgroundColor: diaPag ? "#F27405" : "#ebac75ff" }}
+    onClick={realizarPag}
+  >
+    <img className="h-[70%] aspect-square" src={despesasImg} />
+  </button>
 
       {/* Badge vermelho ou verde */}
       {dados.dia % 30 === 0 && (
-        <div className="absolute bottom-[-5px] right-[-5px] bg-[#]">
+      <div className="absolute bottom-[-5px] right-[-5px]">
           <span className="relative flex size-3">
             <span
               className={`absolute inline-flex h-full w-full animate-ping rounded-full ${

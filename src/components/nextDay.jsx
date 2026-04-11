@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useMemo } from "react";
+import React, { useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import PróximoImg from "../../public/outrasImagens/proximo.png";
 import Sorteio from "./Sorteio";
@@ -13,238 +13,88 @@ import { usePipeline } from "./PipelineContext";
 import { productsCatalog } from "./ProductCatalog";
 import { useGame } from "../components/GameContext";
 import { salvarNoStorage } from "./usePersistencia";
+
+// ─── PERFORMANCE: tooltipStyle estático fora do componente ───────────────────
+// Antes era recriado como objeto literal a cada render.
+const tooltipStyle = {
+  backgroundColor: "#FFFFFF",
+  color: "#350973",
+  borderRadius: "6px",
+  padding: "6px 10px",
+  fontWeight: "600",
+  fontSize: "14px",
+};
+
+// ─── PERFORMANCE: TooltipPadrao fora do componente ───────────────────────────
+// Antes era redefinido dentro do componente, causando remontagem a cada render.
+const TooltipPadrao = ({ id }) => (
+  <Tooltip id={id} style={tooltipStyle} border="1px solid #350973" />
+);
+
+// ─── PERFORMANCE: lista de lojas estática fora do componente ─────────────────
+const TODAS_LOJAS = ["terrenos", "lojasP", "lojasM", "lojasG"];
+
 export function NextDay() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEco, atualizarVenda } = useContext(
     DadosEconomyGlobalContext
   );
-  const { stock, productionQueue, sellQueue, salesContracts, contratosEdificios, marketTransactions } = useGame();
+  const {
+    stock,
+    productionQueue,
+    sellQueue,
+    salesContracts,
+    contratosEdificios,
+    marketTransactions,
+  } = useGame();
 
   const { getPipelinesParaSalvar } = usePipeline();
 
+  // ─── PERFORMANCE: bug corrigido + memoização correta ─────────────────────────
+  // Antes: getPipelinesParaSalvar estava nas deps mas não no objeto.
+  // Agora: incluído no objeto e chamado dentro do useMemo para capturar
+  // o valor no momento certo sem violar regras de hooks.
   const gameStateParaSalvar = useMemo(() => ({
     stock,
     productionQueue,
     sellQueue,
     contratosEdificios,
-    // ← adicionar
+    pipelines: getPipelinesParaSalvar(),
   }), [stock, productionQueue, sellQueue, contratosEdificios, getPipelinesParaSalvar]);
 
-
-  const tooltipStyle = {
-    backgroundColor: "#FFFFFF",
-    color: "#350973",
-    borderRadius: "6px",
-    padding: "6px 10px",
-    fontWeight: "600",
-    fontSize: "14px",
-  };
-
-  const TooltipPadrao = ({ id }) => (
-    <Tooltip
-      id={id}
-      style={tooltipStyle}
-      border="1px solid #350973"
-    />
-  );
   const {
-    // processSell,
     processarVendas,
     checkProductionOverflow,
     processarTransacoesMercado,
-    // processarContratosVenda,
     processProductions,
-    // processarFilaUnificada,
-    processSellQueue
+    processSellQueue,
   } = useGame();
 
   const [buttonNextDayAudio] = useSound(nextDayAudio);
   const [buttonNewStageAudio] = useSound(newStageAudio);
-  const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
   const [isNKeyDown, setIsNKeyDown] = useState(false);
-
   const [executouAudio270, setExecutouAudio270] = useState(false);
+
+  const { executarPipelinesHoje } = usePipeline();
 
   useEffect(() => {
     if (dados.dia === 270 && !executouAudio270) {
       buttonNewStageAudio();
-      setExecutouAudio270(true); // marca que já executou
+      setExecutouAudio270(true);
     }
   }, [dados.dia, executouAudio270]);
 
-  const { executarPipelinesHoje } = usePipeline();
-
-  useHotkeys(
-    "d",
-    () => {
-      if (
-        dados.dia <= 1 ||
-        dados.modal.estadoModal ||
-        dados.modalAlert.estadoModal ||
-        dados.modalDespesas.estadoModal ||
-        dados.modalEconomiaGlobal.estadoModal ||
-        dados.dia % 30 === 0 ||
-        dados.dia === 400 || // dia raffled builds
-        isNKeyDown // 2. Se já estiver pressionada, ignora o auto-repeat
-      )
-        return;
-      setIsNKeyDown(true);
-      ProximoDia();
-    },
-    {
-      keydown: true,
-      keyup: false,
-      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
-    }
-  );
-  useHotkeys(
-    "d",
-    () => {
-      setIsNKeyDown(false);
-    },
-    {
-      keydown: false,
-      keyup: true,
-      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
-    }
-  );
-  // Função para avançar para o próximo dia
-  const ProximoDia = () => {
-    if (dados.modalExcesso.confirmarAvanco) {
-      atualizarDados("modalExcesso", {
-        ...dados.modalExcesso,
-        confirmarAvanco: false,
-      });
-    }
-
-
-    if (economiaSetores.saldo < 0) {
-      atualizarEco("fimGame", true);
-      return;
-    }
-    if (
-      dados.dia % 360 === 0 &&
-      !economiaSetores.despesasImpostoAnual.impostoAnualPago
-    ) {
-      return;
-    }
-    if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) {
-      return;
-    }
-    if (!economiaSetores.despesasEmprestimo.despesasPagas) {
-      return;
-    }
-    if (economiaSetores.activeLoans?.[0]?.proximoVencimento !== undefined) {
-      if (economiaSetores.activeLoans[0].proximoVencimento <= dados.dia) {
-        return;
-      }
-    }
-    if (economiaSetores.activeLoans?.[1]?.proximoVencimento !== undefined) {
-      if (economiaSetores.activeLoans[1].proximoVencimento <= dados.dia) {
-        return;
-      }
-    }
-    if (economiaSetores.activeLoans?.[2]?.proximoVencimento !== undefined) {
-      if (economiaSetores.activeLoans[2].proximoVencimento <= dados.dia) {
-        return;
-      }
-    }
-
-    if (economiaSetores.activeLoan?.proximoVencimento !== undefined) {
-      if (economiaSetores.activeLoan.proximoVencimento === dados.dia) {
-        return;
-      }
-
-    }
-
-    const overflows = checkProductionOverflow();
-
-
-
-    if (overflows.length > 0) {
-      const ofertaTotal = overflows.reduce(
-        (s, o) => s + o.valorVenda,
-        0
-      );
-
-      atualizarDados("modalExcesso", {
-        estadoModal: true,
-        head: "Armazenamento insuficiente",
-        content:
-          "A produção gerou mais itens do que sua capacidade permite. Caso deseje, expanda o seu armazenamento, ou se preferir vendar o valor excentente do produto",
-        quantidadeExcesso: overflows.reduce(
-          (s, o) => s + o.quantidadeExcedente,
-          0
-        ),
-        ofertaExcesso: Math.floor(ofertaTotal),
-        overflows, // 👈 importante
-      });
-
-      return;
-    }
-
-
-
-    //   useEffect(() => {
-    //     if (dados.dia % 30 === 0) {
-    //       atualizarDados('despesas', {
-    //         ...economiaSetores.despesas,
-    //         diaPagarDespesas: true,
-    //         despesasPagas: false,
-    //         proximoPagamento: "30"
-    //       });
-    //     }
-    //   }, [dados.despesas.proximoPagamento]);
-    //  ("saçdfjasçkldfj")
-
-    //    dados.animarCicloDia();
-    // const novoDia = dados.dia + 1;
-
-    // atualizarDados("dia", novoDia);
-    // console.log(dados.dia);
-    // calcularFaturamento();
-    buttonNextDayAudio();
-    // processarTransacoesMercado();
-    // processarContratosVenda()
-    // processProductions();
-    // processarVendas()
-    // processSell();
-    // processarFilaUnificada(),
-    // processSellQueue();
-
-
-    const novoDia = dados.dia + 1;
-    atualizarDados("dia", novoDia);
-
-    const faturamento = calcularFaturamento(); // ← agora retorna o valor
-    console.log("faturamento calculado:", faturamento);
-    // buttonNextDayAudio();
-    processarTransacoesMercado();
-    processProductions();
-    executarPipelinesHoje();
-    processSellQueue(faturamento); // ← passa o faturamento junt
-salvarNoStorage(
-    gameStateParaSalvar,
-    dados,
-    economiaSetores,
-    getPipelinesParaSalvar()   // ← 4º argumento
-);
-  };
-
-  const calcularFaturamento = () => {
+  // ─── PERFORMANCE: calcularFaturamento memoizado com useCallback ──────────────
+  // Antes era recriado em todo render pois era função local sem memoização,
+  // e era chamada dentro de ProximoDia que também não era memoizada.
+  const calcularFaturamento = useCallback(() => {
     let faturamentoDiario = 0;
 
-    const novasLojas = todasLojas.map((loja) => {
-
-
-
-
-
-      const valorUnitário = dados.dia >= 270 ? 0 : dados[loja].faturamentoUnitárioPadrão 
+    const novasLojas = TODAS_LOJAS.map((loja) => {
+      const valorUnitário = dados.dia >= 270 ? 0 : dados[loja].faturamentoUnitárioPadrão;
       const valorVariável = parseFloat(
         (valorUnitário * (1 + (Math.random() * 0.6 - 0.3))).toFixed(2)
       );
-      const lojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
       const faturamentoTotal = parseFloat(
         (valorVariável * dados[loja].quantidade).toFixed(2)
       );
@@ -253,19 +103,20 @@ salvarNoStorage(
 
       if (dados.dia === 270) {
         let patrimonio = 0;
-        lojas.forEach((loja) => {
-          const quantidadeLojas = dados[loja].quantidade;
-          const precoConstrucao = dados[loja].preçoConstrução;
-          const quantidadeTerrenosNec = dados[loja].quantidadeNecTerreno;
+        TODAS_LOJAS.forEach((l) => {
+          const quantidadeLojas = dados[l].quantidade;
+          const precoConstrucao = dados[l].preçoConstrução;
+          const quantidadeTerrenosNec = dados[l].quantidadeNecTerreno;
           const custoTerreno = dados.terrenos.preçoConstrução;
-          const custoTotalLoja = quantidadeLojas * precoConstrucao + quantidadeTerrenosNec * custoTerreno;
+          const custoTotalLoja =
+            quantidadeLojas * precoConstrucao +
+            quantidadeTerrenosNec * custoTerreno;
           patrimonio += custoTotalLoja;
-          atualizarDados('faturamentoUnitário',
-            dados[loja].faturamentoUnitário = 0
-          )
+          atualizarDados("faturamentoUnitário", (dados[l].faturamentoUnitário = 0));
         });
         faturamentoDiario += patrimonio * 0.1;
       }
+
       return {
         ...dados[loja],
         faturamentoUnitário: valorVariável,
@@ -278,72 +129,148 @@ salvarNoStorage(
         ? faturamentoDiario
         : dados.faturamento.faturamentoMensal + faturamentoDiario;
 
-    // ❌ REMOVIDO: atualizarVenda("saldo", ...) daqui
-
     if (dados.dia <= 270) {
       atualizarDados("faturamento", {
         ...dados.faturamento,
         faturamentoDiário: faturamentoDiario,
         faturamentoMensal: novoFaturamentoMensal,
-        arrayFatuDiário: [...dados.faturamento.arrayFatuDiário, faturamentoDiario],
+        arrayFatuDiário: [
+          ...dados.faturamento.arrayFatuDiário,
+          faturamentoDiario,
+        ],
       });
     }
 
-    todasLojas.forEach((loja, index) => {
+    TODAS_LOJAS.forEach((loja, index) => {
       atualizarDados(loja, novasLojas[index]);
     });
 
-    return faturamentoDiario; // ← retorna em vez de setar
-  };
+    return faturamentoDiario;
+  }, [dados, atualizarDados]);
 
-  // Função para capturar a tecla espaço
-  // const handleKeyDown = (event) => {
-  //     if (event.key === " ") {
-  //         event.preventDefault(); // Impede o comportamento padrão da tecla espaço (scroll)
-  //         ProximoDia(); // Chama a função do próximo dia
-  //     }
-  // };
+  // ─── PERFORMANCE: ProximoDia memoizado com useCallback ───────────────────────
+  // Antes era função local recriada a cada render, o que forçava o useHotkeys
+  // a re-registrar o listener e o botão a re-renderizar desnecessariamente.
+  const ProximoDia = useCallback(() => {
+    if (dados.modalExcesso.confirmarAvanco) {
+      atualizarDados("modalExcesso", {
+        ...dados.modalExcesso,
+        confirmarAvanco: false,
+      });
+    }
 
-  // Hook para adicionar e remover o event listener
-  // useEffect(() => {
-  //     const handleKeyDownWrapper = (event) => handleKeyDown(event);
-  //     //alterar pois está quebrando
-  //     window.addEventListener("keydown", handleKeyDownWrapper);
+    if (economiaSetores.saldo < 0) {
+      atualizarEco("fimGame", true);
+      return;
+    }
+    if (
+      dados.dia % 360 === 0 &&
+      !economiaSetores.despesasImpostoAnual.impostoAnualPago
+    ) return;
+    if (dados.dia % 30 === 0 && !dados.despesas.despesasPagas) return;
+    if (!economiaSetores.despesasEmprestimo.despesasPagas) return;
 
-  //     return () => {
-  //         window.removeEventListener("keydown", handleKeyDownWrapper);
-  //     };
-  // }, [dados.dia]); // Adiciona uma dependência em `dados.dia` para garantir que o evento seja escutado em todas as renderizações
+    if (economiaSetores.activeLoans?.[0]?.proximoVencimento !== undefined) {
+      if (economiaSetores.activeLoans[0].proximoVencimento <= dados.dia) return;
+    }
+    if (economiaSetores.activeLoans?.[1]?.proximoVencimento !== undefined) {
+      if (economiaSetores.activeLoans[1].proximoVencimento <= dados.dia) return;
+    }
+    if (economiaSetores.activeLoans?.[2]?.proximoVencimento !== undefined) {
+      if (economiaSetores.activeLoans[2].proximoVencimento <= dados.dia) return;
+    }
+    if (economiaSetores.activeLoan?.proximoVencimento !== undefined) {
+      if (economiaSetores.activeLoan.proximoVencimento === dados.dia) return;
+    }
+
+    const overflows = checkProductionOverflow();
+
+    if (overflows.length > 0) {
+      const ofertaTotal = overflows.reduce((s, o) => s + o.valorVenda, 0);
+      atualizarDados("modalExcesso", {
+        estadoModal: true,
+        head: "Armazenamento insuficiente",
+        content:
+          "A produção gerou mais itens do que sua capacidade permite. Caso deseje, expanda o seu armazenamento, ou se preferir vender o valor excedente do produto",
+        quantidadeExcesso: overflows.reduce((s, o) => s + o.quantidadeExcedente, 0),
+        ofertaExcesso: Math.floor(ofertaTotal),
+        overflows,
+      });
+      return;
+    }
+
+    buttonNextDayAudio();
+
+    const novoDia = dados.dia + 1;
+    atualizarDados("dia", novoDia);
+
+    const faturamento = calcularFaturamento();
+    console.log("faturamento calculado:", faturamento);
+
+    processarTransacoesMercado();
+    processProductions();
+    executarPipelinesHoje();
+    processSellQueue(faturamento);
+
+    salvarNoStorage(
+      gameStateParaSalvar,
+      dados,
+      economiaSetores,
+      getPipelinesParaSalvar()
+    );
+  }, [
+    dados,
+    economiaSetores,
+    atualizarDados,
+    atualizarEco,
+    checkProductionOverflow,
+    buttonNextDayAudio,
+    calcularFaturamento,
+    processarTransacoesMercado,
+    processProductions,
+    executarPipelinesHoje,
+    processSellQueue,
+    gameStateParaSalvar,
+    getPipelinesParaSalvar,
+  ]);
+
+  useHotkeys(
+    "d",
+    () => {
+      if (
+        dados.dia <= 1 ||
+        dados.modal.estadoModal ||
+        dados.modalAlert.estadoModal ||
+        dados.modalDespesas.estadoModal ||
+        dados.modalEconomiaGlobal.estadoModal ||
+        dados.dia % 30 === 0 ||
+        dados.dia === 400 ||
+        isNKeyDown
+      ) return;
+      setIsNKeyDown(true);
+      ProximoDia();
+    },
+    { keydown: true, keyup: false, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] }
+  );
+
+  useHotkeys(
+    "d",
+    () => { setIsNKeyDown(false); },
+    { keydown: false, keyup: true, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] }
+  );
 
   return (
     <div className="flex">
       <button
         data-tooltip-id="saldo-tip"
         data-tooltip-content="Avança para o próximo dia (D)"
-        className="w-full min-h-[50px] aspect-square bg-laranja rounded-[20px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] "
+        className="h-[50px] aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
         onClick={ProximoDia}
       >
         <img className="w-[60%] aspect-square" src={PróximoImg} alt="Próximo" />
       </button>
       <Sorteio />
-
-      <TooltipPadrao style={tooltipStyle} id="saldo-tip" />
+      <TooltipPadrao id="saldo-tip" />
     </div>
   );
 }
-
-// export function useHotkeyOnce(key, callback) {
-//   const [pressed, setPressed] = useState(false);
-
-//   useHotkeys(
-//     key,
-//     () => {
-//       if (pressed) return;
-//       setPressed(true);
-//       callback();
-//     },
-//     { keydown: true, keyup: false }
-//   );
-
-//   useHotkeys(key, () => setPressed(false), { keydown: false, keyup: true });
-// }

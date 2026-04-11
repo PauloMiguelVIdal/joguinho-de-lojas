@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState,useEffect } from "react";
 import { salvarNoStorage } from "./components/usePersistencia";
 import { carregarSalvo } from "./components/usePersistencia";
+import { produce } from "immer";
+
+
 // Criação do contexto
 const DadosEconomyGlobalContext = createContext();
 
@@ -10,7 +13,7 @@ const DadosEconomyGlobalContext = createContext();
 
   const estadoInicial={
     
-    saldo: 1000000000000,
+    saldo: 10000000000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
@@ -305,26 +308,28 @@ const [economiaSetores, setEconomiaSetores] = useState(salvo.economy?? estadoIni
 
 
 
-  const atualizarDadosEconomy = (caminho, novoValor) => {
-    setEconomiaSetores((prevState) => {
-      const novosDados = JSON.parse(JSON.stringify(prevState)); // cópia profunda
-      let ref = novosDados;
+const atualizarDadosEconomy = (caminho, novoValor) => {
+  setEconomiaSetores(prev =>
+    produce(prev, draft => {
+      let ref = draft;
 
       for (let i = 0; i < caminho.length - 1; i++) {
-        if (!ref[caminho[i]]) {
+        const chave = caminho[i];
+
+        if (!(chave in ref)) {
           console.error(
-            `Caminho inválido em atualizarDadosProf2: ${caminho[i]} está undefined no passo ${i}`
+            `Caminho inválido em atualizarDadosEconomy: ${chave} no passo ${i}`
           );
-          return prevState;
+          return;
         }
-        ref = ref[caminho[i]];
+
+        ref = ref[chave];
       }
 
       ref[caminho[caminho.length - 1]] = novoValor;
-
-      return novosDados;
-    });
-  };
+    })
+  );
+};
 
   const atualizarEco = (chave, novoValor) => {
     setEconomiaSetores((prevState) => ({
@@ -343,79 +348,60 @@ const [economiaSetores, setEconomiaSetores] = useState(salvo.economy?? estadoIni
     }));
   };
 
-  const atualizarEcoProf = (caminho, novoValor) => {
-    setEconomiaSetores((prevState) => {
-      const novosDados = JSON.parse(JSON.stringify(prevState)); // cópia profunda
-      let ref = novosDados;
+const atualizarEcoProf = (caminho, novoValor) => {
+  setEconomiaSetores(prev =>
+    produce(prev, draft => {
+      let ref = draft;
 
       for (let i = 0; i < caminho.length - 1; i++) {
-        // console.log(`Ref antes do passo ${i}:`, ref);
-        // console.log(`Acessando chave:`, caminho[i]);
-
         if (ref === undefined || ref === null) {
-          // console.warn(`❌ ERRO: ref é undefined na etapa ${i}, chave: ${caminho[i]}`);
-          // console.warn(`CAMINHO COMPLETO:`, caminho);
-          return prevState; // não altera nada
+          return;
         }
 
         ref = ref[caminho[i]];
       }
 
       const ultimaChave = caminho[caminho.length - 1];
-      // console.log(`🔧 Atualizando chave final '${ultimaChave}' com valor:`, novoValor);
       ref[ultimaChave] = novoValor;
+    })
+  );
+};
 
-      return novosDados;
-    });
-  };
+const atualizarEcoProfSeguro = (caminho, valorOuFunc) => {
+  if (!Array.isArray(caminho) || caminho.length === 0) {
+    console.warn("❌ Caminho inválido:", caminho);
+    return;
+  }
 
-  const atualizarEcoProfSeguro = (caminho, valorOuFunc) => {
-    if (!Array.isArray(caminho) || caminho.length === 0) {
-      console.warn(
-        "❌ Caminho inválido passado para atualizarEcoProfSeguro:",
-        caminho
-      );
-      return;
-    }
-
-    atualizarEcoProf((prevState) => {
-      const novosDados = JSON.parse(JSON.stringify(prevState));
-      let ref = novosDados;
+  setEconomiaSetores(prev =>
+    produce(prev, draft => {
+      let ref = draft;
 
       for (let i = 0; i < caminho.length - 1; i++) {
         const chave = caminho[i];
+
         if (chave === undefined || chave === null) {
-          console.warn(
-            "❌ Chave indefinida no caminho em atualizarEcoProfSeguro:",
-            caminho,
-            "passo",
-            i
-          );
-          return prevState;
+          console.warn("❌ Chave inválida:", caminho);
+          return;
         }
-        if (!ref[chave]) ref[chave] = {}; // cria objeto se não existir
+
+        if (!(chave in ref)) {
+          ref[chave] = {}; // 🔥 mantém comportamento antigo
+        }
+
         ref = ref[chave];
       }
 
       const ultimaChave = caminho[caminho.length - 1];
-      if (ultimaChave === undefined || ultimaChave === null) {
-        console.warn(
-          "❌ Última chave indefinida em atualizarEcoProfSeguro:",
-          caminho
-        );
-        return prevState;
-      }
 
       if (typeof valorOuFunc === "function") {
-        ref[ultimaChave] = valorOuFunc(ref[ultimaChave] || {});
+        ref[ultimaChave] = valorOuFunc(ref[ultimaChave]);
       } else {
         ref[ultimaChave] = valorOuFunc;
       }
-
-      // console.log("🔧 Atualização segura:", caminho, "->", ref[ultimaChave]);
-      return novosDados;
-    });
-  };
+    })
+  );
+};
 
   // dentro do provider do contexto
   // dentro do DadosEconomyGlobalProvider
@@ -596,28 +582,24 @@ const liberaProximoNivel = (index) => {   // ✅ recebe index
 };
 
 const atualizarEcoSafely = (chave, patch) => {
-  setEconomiaSetores((prev) => {
-    const prevItem = prev?.[chave] || {};
-    const prevEco = prevItem?.economiaSetor || {};
+  setEconomiaSetores(prev =>
+    produce(prev, draft => {
+      const prevItem = draft?.[chave] || {};
+      const prevEco = prevItem?.economiaSetor || {};
 
-    // determina o patch real
-    const patchObj =
-      typeof patch === "function" ? patch(prevEco, prevItem, prev) : patch || {};
+      const patchObj =
+        typeof patch === "function"
+          ? patch(prevEco, prevItem, draft)
+          : patch || {};
 
-    // ✅ CORREÇÃO: Merge profundo do economiaSetor
-    const novoEconomiaSetor = { 
-      ...prevEco, 
-      ...patchObj 
-    };
+      if (!draft[chave]) draft[chave] = {};
 
-    return {
-      ...prev,
-      [chave]: { 
-        ...prevItem, 
-        economiaSetor: novoEconomiaSetor 
-      },
-    };
-  });
+      draft[chave].economiaSetor = {
+        ...prevEco,
+        ...patchObj,
+      };
+    })
+  );
 };
 
 const atualizarVenda = (chave, valor) => {

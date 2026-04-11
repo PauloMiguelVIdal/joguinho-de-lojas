@@ -1154,7 +1154,7 @@ export const MODELOS = {
     tipo: 'composto',
     partes: [
       { modeloId: 2, offset: [0, 0, 0], escala: 1, rotacao: 0 },
-      { modeloId: 400, offset: [-0.31, 0.05, 0.4], escala: 0.2, rotacao: Math.PI / 0.4 },
+      { modeloId: 527, offset: [-0.31, 0.05, 0.4], escala: 0.2, rotacao: Math.PI / 0.4 },
     ]
   },
   404: {

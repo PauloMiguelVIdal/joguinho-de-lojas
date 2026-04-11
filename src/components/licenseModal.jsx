@@ -46,11 +46,11 @@ export const LicenseModal = ({ setor, nomeLicença, index }) => {
     buttonUpInterpriseAudio();
     setUnlockAnim(true);
     setTimeout(() => setUnlockAnim(false), 1200);
-    atualizarDadosProf(["licençasSetor", index, "status"], true);
+    atualizarDadosProf([setor,"licençasSetor", index, "status"], true);
     licenca.edifíciosLiberados.forEach((nomeEd) => {
       const indice = dados[setor].edificios.findIndex((ed) => ed.nome === nomeEd);
       if (indice === -1) return;
-      atualizarDadosProf(["edificios", indice, "licençaLiberado"], {
+      atualizarDadosProf([setor,"edificios", indice, "licençaLiberado"], {
         ...dados[setor].edificios[indice].licençaLiberado,
         liberado: true,
       });

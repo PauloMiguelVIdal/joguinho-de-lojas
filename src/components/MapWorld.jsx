@@ -636,7 +636,7 @@ const DynamicLights = ({ dayProgress }) => {
 // ─────────────────────────────────────────────────────────────
 const TagsToggle = ({ ativo, onClick }) => (
   <button onClick={onClick} title={ativo ? 'Ocultar etiquetas' : 'Mostrar etiquetas'} style={{
-    position: 'absolute', top: 12, left: 12, zIndex: 10,
+position: 'absolute', bottom: 120, left: '65% ', transform: 'translateX(-50%)', zIndex:10,
     display: 'flex', alignItems: 'center', gap: 7, padding: '6px 13px',
     borderRadius: 10,
     border: ativo ? '1px solid rgba(199,159,255,0.5)' : '1px solid rgba(255,255,255,0.15)',
@@ -702,7 +702,7 @@ const InfoPanel = ({ building, onMove, onClose }) => {
   const cfg = SETOR_CONFIG[building.setor] || { cor1: '#111', cor3: '#555', cor4: '#888', label: '?' }
   return (
     <div style={{
-      position: 'absolute', bottom: 22, left: '50%', transform: 'translateX(-50%)',
+      position: 'absolute', bottom: 110, left: '50%', transform: 'translateX(-50%)',
       background: 'linear-gradient(135deg,rgba(12,8,28,0.97),rgba(26,14,58,0.97))',
       border: `1px solid ${cfg.cor4}55`,
       boxShadow: `0 4px 28px rgba(0,0,0,0.65), 0 0 14px ${cfg.cor3}22`,
@@ -986,7 +986,7 @@ export default function MapWorld() {
 
   // ── Render ──────────────────────────────────────────────────
   return (
-    <div style={{ width: '100%', height: '100%', position: 'relative', borderRadius: '20px', overflow: 'hidden' }}>
+    <div className='top-[90px]' style={{ width: '100%', height: '100%', position: 'relative', borderRadius: '20px', overflow: 'hidden' }}>
       <TagsToggle ativo={tagsVisiveis} onClick={() => setTagsVisiveis(v => !v)} />
       <MapStats totalTiles={hexGrid.length} ocupados={ocupados} />
       {/* <PassarDiaBtn onClick={passarDia} disabled={isTransitioning} /> */}
@@ -1002,7 +1002,7 @@ export default function MapWorld() {
         />
       )}
 
-      <Canvas shadows camera={{ position: [18, 18, 18], fov: 20 }}>
+      <Canvas frameloop="demand" shadows camera={{ position: [18, 18, 18], fov: 20 }}>
         {/* ── Fundo do céu (esfera grande, sutil) ── */}
         <WorldBackground dayProgress={dayProgress} />
 

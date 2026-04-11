@@ -40,8 +40,7 @@ export const LicenceModalBusiness = () => {
     // 2. RETORNO DO MODAL (Quando aberto)
     if (businessLicenceModal === true) {
         return (
-            <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90 ">
-                <motion.div
+<div className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center">               <motion.div
                     style={{ backgroundColor: setorCarteira.cor4 }}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
