@@ -4,7 +4,14 @@ import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import { generateSalesContracts } from "./salesContractsConfig";
 import { marketPrices } from "./TablePrice";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL, LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 const GameContext = createContext();
 
@@ -669,12 +676,12 @@ export function calcularSlotsNecessariosCadeia(steps, productsCatalogRef, FORMUL
     return result;
 }
 
-export function calcularStorageGlobal(dados) {
+export function calcularStorageGlobal(EDIFICIOS_BASE_DINAMICOS) {
     const result = {};
     const SETORES_JOGO = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
 
     SETORES_JOGO.forEach(setor => {
-        (dados?.[setor]?.edificios || []).forEach(ed => {
+        (EDIFICIOS_BASE_DINAMICOS?.[setor]?.edificios || []).forEach(ed => {
             if (!ed.quantidade || ed.quantidade < 1) return;
 
             const perfil = Object.values(storageProfiles).find(p => p.nome === ed.nome);
@@ -706,8 +713,8 @@ export function calcularStorageGlobal(dados) {
     return result;
 }
 
-export function calcularCustoStorageCadeia(slotsNecessarios, dados) {
-    const storageGlobal = calcularStorageGlobal(dados);
+export function calcularCustoStorageCadeia(slotsNecessarios, EDIFICIOS_BASE_DINAMICOS) {
+    const storageGlobal = calcularStorageGlobal(EDIFICIOS_BASE_DINAMICOS);
     let custoMensalCadeia = 0;
     const detalhePorCategoria = {};
 
@@ -748,7 +755,7 @@ export function calcularCustoStorageCadeia(slotsNecessarios, dados) {
     return { custoMensalCadeia: Math.round(custoMensalCadeia), detalhePorCategoria, gargalos, storageGlobal };
 }
 
-export function calcularStoragePorCadeia(steps, dados, productsCatalog) {
+export function calcularStoragePorCadeia(steps, EDIFICIOS_BASE_DINAMICOS, productsCatalog) {
     // 1. Calcula quantos slots cada categoria precisa para esta cadeia
     const slotsNecessarios = {}; // categoria → { slots, produtos }
 
@@ -765,7 +772,7 @@ export function calcularStoragePorCadeia(steps, dados, productsCatalog) {
     });
 
     // 2. Capacidade global disponível por categoria
-    const storageGlobal = calcularStorageGlobal(dados);
+    const storageGlobal = calcularStorageGlobal(EDIFICIOS_BASE_DINAMICOS);
 
     // 3. Para cada categoria necessária, identifica edifícios que contribuem
     const edificiosPorCategoria = {}; // categoria → [{nome, qtd, capPorEd, tipo, capTotal}]
@@ -815,9 +822,9 @@ export function calcularStoragePorCadeia(steps, dados, productsCatalog) {
     };
 }
 
-export function calcularStorageAgregadoCadeias(pipelines, dados, productsCatalog, FORMULAS_EDIFICIOS) {
+export function calcularStorageAgregadoCadeias(pipelines, EDIFICIOS_BASE_DINAMICOS, productsCatalog, FORMULAS_EDIFICIOS) {
     const agregado = {}; // categoria → { slotsTotal, pipelines }
-    const storageGlobal = calcularStorageGlobal(dados);
+    const storageGlobal = calcularStorageGlobal(EDIFICIOS_BASE_DINAMICOS);
 
     pipelines.forEach(pipeline => {
         if (!pipeline.steps) return;
@@ -869,7 +876,7 @@ export function GameProvider({ children }) {
     const liquidadoRefPersist = useRef(0);
  const outputsPendentesRef = useRef([]);
     // Dentro do GameProvider, adicione:
-    const { dados } = useContext(CentraldeDadosContext);
+    // const { dados } = useContext(CentraldeDadosContext);
     const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
         DadosEconomyGlobalContext
     );
@@ -1081,29 +1088,29 @@ export function GameProvider({ children }) {
     // };
 
 
-    const storageQuantities = useMemo(() => {
-        if (!dados) return {};
+const storageQuantities = useMemo(() => {
+    if (!EDIFICIOS_BASE_DINAMICOS) return {};
 
-        const result = {};
-        const setores = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
+    const result = {};
+    const setores = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
 
-        setores.forEach(setor => {
-            const edificios = dados?.[setor]?.edificios || [];
-            edificios.forEach(edificio => {
-                // Normaliza o nome para bater com a chave do storageProfiles
-                // Ex: "Câmara Fria" → "camaraFria"
-                const chave = Object.keys(storageProfiles).find(k =>
-                    storageProfiles[k].nome === edificio.nome
-                );
-                if (chave) {
-                    result[chave] = edificio.quantidade || 0;
-                }
-            });
+    setores.forEach(setor => {
+        const edificiosQtd = EDIFICIOS_BASE_DINAMICOS?.[setor]?.edificios || [];
+        const edificiosNome = EDIFICIOS_FINAIS_ESTATICOS?.[setor]?.edificios || [];
+
+        edificiosNome.forEach((edificio, index) => {
+            const chave = Object.keys(storageProfiles).find(k =>
+                storageProfiles[k].nome === edificio.nome
+            );
+
+            if (chave) {
+                result[chave] = edificiosQtd[index]?.quantidade || 0;
+            }
         });
+    });
 
-        return result;
-    }, [dados]);
-
+    return result;
+}, [EDIFICIOS_BASE_DINAMICOS]);
 
 
     /* =========================

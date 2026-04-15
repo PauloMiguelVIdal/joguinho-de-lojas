@@ -1,6 +1,13 @@
 import { useContext, useMemo } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 
 const SETORES = [
   "agricultura",
@@ -12,10 +19,10 @@ const SETORES = [
 ];
 
 export function useBuildingFromFormula(formula) {
-  const { dados } = useContext(CentraldeDadosContext);
+  // const { dados } = useContext(CentraldeDadosContext);
 
   return useMemo(() => {
-    if (!formula || !dados) {
+    if (!formula || !EDIFICIOS_FINAIS_DINAMICOS_INICIAL) {
       return {
         setor: null,
         quantidadeAtiva: 0,
@@ -42,7 +49,7 @@ export function useBuildingFromFormula(formula) {
 
     const setor = edificioConfig.setor;
 
-    const edificiosSetor = dados?.[setor]?.edificios || [];
+    const edificiosSetor = EDIFICIOS_FINAIS_ESTATICOS?.[setor]?.edificios || [];
 
     const edificioReal = edificiosSetor.find(
       ed => ed.nome === edificioConfig.nomeEdificio
@@ -108,5 +115,5 @@ export function useBuildingFromFormula(formula) {
       edificio: edificioReal,
       maxAcoesSimultaneas,
     };
-  }, [dados, formula]);
+  }, [EDIFICIOS_FINAIS_DINAMICOS_INICIAL, formula]);
 }

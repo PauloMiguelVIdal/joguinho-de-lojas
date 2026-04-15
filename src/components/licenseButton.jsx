@@ -1,5 +1,5 @@
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import React from "react";
 import { useContext, useState } from "react";
 import expandir from '../../public/outrasImagens/expandir business.png'
@@ -8,18 +8,27 @@ import { motion } from "framer-motion";
 import fechar from "../../public/outrasImagens/fechar.png";
 import openAudio from "../../public/sounds/openAudio.mp3";
 import useSound from "use-sound";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 
 export const LicenceModalBusiness = () => {
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-    const { dados, atualizarDadosProf2, atualizarDados } = useContext(
-        CentraldeDadosContext
-    );
+    // const { dados, atualizarDadosProf2, atualizarDados } = useContext(
+    //     CentraldeDadosContext
+    // );
+
+     const dia = useCentralStore((s) => s.dia);
     const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
     const [buttonOpenAudio] = useSound(openAudio);
     const [ativo, setAtivo] = useState("carteira");
 
     // 1. TRAVA DE DIA: Se for antes do dia 270, o componente não renderiza nada
-    if (dados.dia < 270) return null;
+    if (dia < 270) return null;
 
     const setores = [
         {

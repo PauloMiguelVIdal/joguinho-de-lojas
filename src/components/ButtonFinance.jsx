@@ -2,18 +2,16 @@ import { useState, useContext,useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import mapa from "../../public/outrasImagens/maps.png";
 import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 export default function ButtonFinance({ corClasse }) {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const [toggled, setToggled] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
+
   const setVision = (newVision) => {
-    atualizarDados("vision", {
-      ...dados.vision,
-      visionAtual: newVision,
-    });
+    atualizarDados("vision", { visionAtual: newVision });
   };
 
 

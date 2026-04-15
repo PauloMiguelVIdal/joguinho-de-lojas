@@ -2,6 +2,13 @@ import { useState, useMemo, useContext } from "react";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import BuildingCard from "./BuildingCard";
 import ManagerPanelInterface from "./ManagerPanelInterface";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 import {
   Factory,
   LayoutDashboard,
@@ -13,13 +20,14 @@ import {
   Zap,
   Home
 } from "lucide-react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 export default function HubManagement() {
   const [edificioSelecionado, setEdificioSelecionado] = useState(null);
   const [selectedSector, setSelectedSector] = useState("all");
+  const edificiosFinais = useCentralStore((s) => s.edificiosFinais);
 
-  const {dados}  = useContext(CentraldeDadosContext)
+  // const {dados}  = useContext(CentraldeDadosContext)
   const brand = {
     cor1: "#350973", // Roxo Profundo
     cor2: "#6411D9", // Violeta Médio
@@ -39,13 +47,20 @@ export default function HubManagement() {
 const nomespossuidos = useMemo(() => {
   const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
   const nomes = new Set();
+
   setores.forEach(setor => {
-    (dados[setor]?.edificios || [])
-      .filter(ed => ed.quantidade > 0)
-      .forEach(ed => nomes.add(ed.nome));
+    const dinamicos = edificiosFinais[setor]?.edificios || [];
+    const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+
+    dinamicos.forEach((edDin, index) => {
+      if ((edDin.quantidade ?? 0) <= 0) return;
+      const edEst = estaticos[index];
+      if (edEst?.nome) nomes.add(edEst.nome);
+    });
   });
+
   return nomes;
-}, [dados]);
+}, [edificiosFinais]);
 
 const filteredBuildings = useMemo(() => {
   const possuidos = FORMULAS_EDIFICIOS.filter(e =>

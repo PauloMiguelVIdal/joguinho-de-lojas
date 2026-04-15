@@ -7,11 +7,22 @@ import { Canvas } from '@react-three/fiber'
 import { ContactShadows, OrbitControls, Html } from '@react-three/drei'
 import { defineHex, Grid, spiral } from 'honeycomb-grid'
 import * as THREE from 'three'
-import { CentraldeDadosContext } from '../centralDeDadosContext'
+// import { CentraldeDadosContext } from '../centralDeDadosContext'
 import { DadosEconomyGlobalContext } from '../dadosEconomyGlobal'
 import { BuildingModel } from './BuildingModel'
 import { resolverModeloSede, MODELOS, EDIFICIO_PARA_MODELO } from './buildingModels'
 import { useFrame } from '@react-three/fiber'
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
+
+
+
+
 const HEX_SIZE = 0.6
 
 const hexToWorld = (hex, size) => ({
@@ -751,12 +762,13 @@ const InfoPanel = ({ building, onMove, onClose }) => {
 //  MAIN
 // ─────────────────────────────────────────────────────────────
 export default function MapWorld() {
-  const { dados }          = useContext(CentraldeDadosContext)
+  // const { dados }          = useContext(CentraldeDadosContext)
   const { economiaSetores } = useContext(DadosEconomyGlobalContext)
+  const edificiosDinamicos = useCentralStore((s) => s.edificiosFinais);
 
   const SETORES = ['agricultura', 'tecnologia', 'comercio', 'industria', 'imobiliario', 'energia']
 
-  const nomeEmpresa = dados?.inicioGame?.nomeEmpresa || ''
+  const nomeEmpresa = useCentralStore((s) => s.inicioGame.nomeEmpresa);
   const porte       = economiaSetores?.centralEdificios?.classificacaoPorteEmpresa || 'Micro Empresa'
 
   // ── Estado do ciclo de dia ──────────────────────────────────
@@ -813,24 +825,40 @@ export default function MapWorld() {
   // )
 
   // ── Edifícios ativos ────────────────────────────────────────
-  const snapshotKey = SETORES.map(s =>
-    (dados[s]?.edificios || []).map(e => `${e.nome}:${e.quantidade}`).join(',')
-  ).join('|')
+const snapshotKey = SETORES.map(s =>
+  (edificiosDinamicos?.[s]?.edificios || [])
+    .map((e, i) => `${i}:${e.quantidade}`)
+    .join(',')
+).join('|');
 
-  const edificiosAtivos = useMemo(() => {
-    const lista = []
-    SETORES.forEach(setor => {
-      ;(dados[setor]?.edificios || []).forEach(ed => {
-        if (ed.quantidade > 0) lista.push({
-          id: `${setor}-${ed.nome}`,
-          nome: ed.nome, setor,
-          quantidade: ed.quantidade,
-          ehCluster: edificioEhCluster(ed.nome),
-        })
-      })
-    })
-    return lista
-  }, [snapshotKey])
+const edificiosAtivos = useMemo(() => {
+  const lista = [];
+
+  SETORES.forEach(setor => {
+    const listaDinamica = edificiosDinamicos?.[setor]?.edificios || [];
+    const listaEstatica = EDIFICIOS_FINAIS_ESTATICOS?.[setor]?.edificios || [];
+
+    listaDinamica.forEach((edDin, idx) => {
+      const qtd = edDin.quantidade || 0;
+
+      if (qtd > 0) {
+        const edEst = listaEstatica[idx];
+
+        if (!edEst) return; // segurança extra
+
+        lista.push({
+          id: `${setor}-${idx}`, // 🔥 index é a chave
+          nome: edEst.nome,      // 🔥 vem do estático
+          setor,
+          quantidade: qtd,       // 🔥 vem do dinâmico
+          ehCluster: edificioEhCluster(edEst.nome),
+        });
+      }
+    });
+  });
+
+  return lista;
+}, [snapshotKey]);
 
   const hexGrid = useMemo(() => {
     const Tile = defineHex({ dimensions: HEX_SIZE, orientation: 'pointy' })

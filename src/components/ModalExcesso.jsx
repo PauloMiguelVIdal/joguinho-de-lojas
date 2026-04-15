@@ -1,19 +1,27 @@
 import { motion } from "framer-motion";
 import { useContext } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { useGame } from "../components/GameContext";
 import { productsCatalog, getMarketPrice } from "./TablePrice";
-import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-
+// import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 
 
 export default function ModalExcesso() {
-  const { dados, atualizarDados, setDados } = useContext(CentraldeDadosContext);
-  const { modalExcesso } = dados;
+  // const { dados, atualizarDados, setDados } = useContext(CentraldeDadosContext);
+  // const { modalExcesso } = dados;
   const { resolveProductionOverflowBySelling, processProductions } = useGame();
+  const modalExcesso = useCentralStore((s) => s.modalExcesso);
 
   if (!modalExcesso.estadoModal) return null;
-
+  const dia = useCentralStore((s) => s.dia);
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
 
 const venderExcesso = () => {
   processProductions(); // 🔥 liquida produção
@@ -29,7 +37,7 @@ const venderExcesso = () => {
 
     const fecharModalExcesso = () => {
 
-    atualizarDados("modalExcesso", { ...dados.modalExcesso, estadoModal: false });
+    atualizarDados("modalExcesso", { ...modalExcesso, estadoModal: false });
 
   };
 

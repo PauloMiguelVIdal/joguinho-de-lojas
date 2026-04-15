@@ -1,12 +1,19 @@
 import React, { useContext, useState } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-
+import { useCentralStore } from "../stores/useCentralStore";
 export const ModalBank = ({ banco }) => {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEco } = useContext(
     DadosEconomyGlobalContext
   );
+  const nomeEmpresa = useCentralStore((s) => s.inicioGame.nomeEmpresa);
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const dia = useCentralStore((s) => s.dia);
+  const vision = useCentralStore((s) => s.vision?.visionAtual ?? "dashboard");
+
+
+
 
   const [selectedCard, setSelectedCard] = useState(null);
   const [relationshipDays, setRelationshipDays] = useState(90);
@@ -40,10 +47,7 @@ export const ModalBank = ({ banco }) => {
   const patrimonio = economiaSetores.patrimonio || 0;
 
   const setVision = (newVision) => {
-    atualizarDados("vision", {
-      ...dados.vision,
-      visionAtual: newVision,
-    });
+    atualizarDados("vision", { visionAtual: newVision });
   };
 
   const config = {
@@ -164,8 +168,8 @@ export const ModalBank = ({ banco }) => {
         tipo: cartaoSelecionado.cashback,
         setor: cartaoSelecionado.setorCashback || null,
       },
-      dataInicio: dados.dia,
-      dataFim: dados.dia + relationshipDays,
+      dataInicio: dia,
+      dataFim: dia + relationshipDays,
     };
 
     salvarContrato(contrato);
@@ -354,7 +358,7 @@ export const ModalBank = ({ banco }) => {
           <div>
             <div className="text-xs opacity-90 mb-1">EMPRESA</div>
             <div className="text-sm font-bold">
-              {dados.inicioGame.nomeEmpresa}
+              {nomeEmpresa}
             </div>
           </div>
           <div className="text-right">
@@ -441,7 +445,7 @@ export const ModalBank = ({ banco }) => {
           <div>
             <div className="text-xs opacity-90 mb-1">EMPRESA</div>
             <div className="text-sm font-bold">
-              {dados.inicioGame.nomeEmpresa}
+              {nomeEmpresa}
             </div>
           </div>
           <div className="text-right">
@@ -524,7 +528,7 @@ export const ModalBank = ({ banco }) => {
         <div>
           <div className="text-xs opacity-75 mb-1">EMPRESA</div>
           <div className="text-sm font-medium">
-            {dados.inicioGame.nomeEmpresa}
+            {nomeEmpresa}
           </div>
         </div>
         <div className="text-right">
@@ -623,7 +627,7 @@ export const ModalBank = ({ banco }) => {
             <div>
               <div className="text-xs opacity-70">EMPRESA</div>
               <div className="text-sm font-medium">
-                {dados.inicioGame.nomeEmpresa}
+                {nomeEmpresa}
               </div>
             </div>
             <div className="text-right">
@@ -718,7 +722,7 @@ export const ModalBank = ({ banco }) => {
           <div>
             <div className="text-xs opacity-90 mb-1">EMPRESA</div>
             <div className="text-sm font-bold">
-              {dados.inicioGame.nomeEmpresa}
+              {nomeEmpresa}
             </div>
           </div>
           <div className="text-right">

@@ -1,13 +1,19 @@
 
 import { createContext, useContext, useState, useCallback, useMemo } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { useGame } from "./GameContext";
 import { executarTodosPipelines, calcularROIPipeline, identificarProdutosSemVazao } from "./pipelineExecutor";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import { SALES_EDIFICIOS } from "./salesFormulasConfig";
 import { marketPrices } from "./TablePrice";
-
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL, LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+    EDIFICIOS_FINAIS_ESTATICOS,
+    LICENCAS_ESTATICAS,
+    EDIFICIOS_BASE_ESTATICOS,
+    LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 const PipelineContext = createContext();
 
 function gerarId() {
@@ -32,19 +38,19 @@ function criarStepPadrao(tipo, buildingName = "") {
                 condicaoThreshold: 0,
                 prioridadeInsumo: "so_armazem",
             };
-case "venda":
-    return {
-        ...base,
-        formulaId: "",
-        quantidade: 1,
-        condicaoThreshold: 0,
-        estrategiaVenda: "maior_margem",
-        prioridadeInsumo: "so_armazem",
-        produtoId: "",
-        // ── NOVOS ──
-        atenderTodosContratos: false,
-        filtrarProduto: null,
-    };
+        case "venda":
+            return {
+                ...base,
+                formulaId: "",
+                quantidade: 1,
+                condicaoThreshold: 0,
+                estrategiaVenda: "maior_margem",
+                prioridadeInsumo: "so_armazem",
+                produtoId: "",
+                // ── NOVOS ──
+                atenderTodosContratos: false,
+                filtrarProduto: null,
+            };
         case "mercado_compra":
             return {
                 ...base,
@@ -86,7 +92,9 @@ function criarPipelinePadrao() {
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
 export function PipelineProvider({ children }) {
-    const { dados } = useContext(CentraldeDadosContext);
+    // const { dados } = useContext(CentraldeDadosContext);
+  const dia = useCentralStore((s) => s.dia);
+const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
     const { economiaSetores, setEconomiaSetores } = useContext(DadosEconomyGlobalContext);
     const {
         stock,
@@ -204,13 +212,13 @@ export function PipelineProvider({ children }) {
         const novoLog = [];
         console.log("[Pipeline] aplicarAcoes — total:", acoes.length, acoes);
 
-    console.group(`[aplicarAcoes] processando ${acoes.length} ação(ões)`);
-    acoes.forEach((a, i) => console.log(`  [${i}] ${a.tipo}`, 
-        a.tipo === "INICIAR_VENDA_CONTRATO" ? { produto: a.contrato?.productId, qtd: a.contrato?.quantidade, valor: a.contrato?.valorTotal, formulaId: a.contrato?.formulaId } :
-        a.tipo === "INICIAR_PRODUCAO"       ? { building: a.buildingName, formulaId: a.formulaId, qtd: a.quantidade } :
-        a.tipo === "COMPRAR_MERCADO"        ? { produto: a.produtoId, qtd: a.quantidade, valor: a.valorTotal } :
-        a
-    ))
+        console.group(`[aplicarAcoes] processando ${acoes.length} ação(ões)`);
+        acoes.forEach((a, i) => console.log(`  [${i}] ${a.tipo}`,
+            a.tipo === "INICIAR_VENDA_CONTRATO" ? { produto: a.contrato?.productId, qtd: a.contrato?.quantidade, valor: a.contrato?.valorTotal, formulaId: a.contrato?.formulaId } :
+                a.tipo === "INICIAR_PRODUCAO" ? { building: a.buildingName, formulaId: a.formulaId, qtd: a.quantidade } :
+                    a.tipo === "COMPRAR_MERCADO" ? { produto: a.produtoId, qtd: a.quantidade, valor: a.valorTotal } :
+                        a
+        ))
 
 
         for (const acao of acoes) {
@@ -230,8 +238,14 @@ export function PipelineProvider({ children }) {
                     const SETORES_JOGO = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
                     let buildingCount = 1;
                     for (const setor of SETORES_JOGO) {
-                        const ed = dados?.[setor]?.edificios?.find(e => e.nome === acao.buildingName);
-                        if (ed?.quantidade) { buildingCount = ed.quantidade; break; }
+                        const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+                        const dinamicos = state.edificiosFinais[setor]?.edificios || [];
+
+                        const index = estaticos.findIndex(e => e.nome === acao.buildingName);
+                        if (index === -1) continue;
+
+                        const quantidade = dinamicos[index]?.quantidade ?? 0;
+                        if (quantidade > 0) { buildingCount = quantidade; break; }
                     }
 
                     const ok = startProduction({
@@ -269,15 +283,15 @@ export function PipelineProvider({ children }) {
                 }
 
                 case "INICIAR_VENDA_CONTRATO": {
-                        if (!acao.contrato) { console.warn("[aplicarAcoes] INICIAR_VENDA_CONTRATO sem contrato!"); break; }
-    console.log("[aplicarAcoes] chamando startSale com:", {
-        id: acao.contrato.id,
-        productId: acao.contrato.productId,
-        quantidade: acao.contrato.quantidade,
-        valorTotal: acao.contrato.valorTotal,
-        formulaId: acao.contrato.formulaId,
-        estoqueAtual: stock[acao.contrato.productId] ?? "❓ sem acesso ao stock aqui",
-    });
+                    if (!acao.contrato) { console.warn("[aplicarAcoes] INICIAR_VENDA_CONTRATO sem contrato!"); break; }
+                    console.log("[aplicarAcoes] chamando startSale com:", {
+                        id: acao.contrato.id,
+                        productId: acao.contrato.productId,
+                        quantidade: acao.contrato.quantidade,
+                        valorTotal: acao.contrato.valorTotal,
+                        formulaId: acao.contrato.formulaId,
+                        estoqueAtual: stock[acao.contrato.productId] ?? "❓ sem acesso ao stock aqui",
+                    });
                     // Usa startSale do GameContext — assina o contrato e enfileira o pagamento
                     if (!acao.contrato) break;
                     console.log("[Pipeline] Assinando contrato automático:", acao.contrato);
@@ -390,47 +404,47 @@ export function PipelineProvider({ children }) {
     //   executarPipelinesHoje();   // ← aqui
     //   processSellQueue(faturamento);
 
-const executarPipelinesHoje = useCallback(() => {
-    const pipelinesAtivos = pipelines.filter(p => p.ativo);
+    const executarPipelinesHoje = useCallback(() => {
+        const pipelinesAtivos = pipelines.filter(p => p.ativo);
 
-    // ── DEBUG ──────────────────────────────────────────────────────────────
-    console.group(`[executarPipelinesHoje] dia ${dados?.dia} | ativos: ${pipelinesAtivos.length}/${pipelines.length}`);
-    console.log("saldo disponível:", economiaSetores?.saldo);
-    console.log("stock não-zero:", Object.fromEntries(Object.entries(stock || {}).filter(([,v]) => v > 0)));
-    console.log("sellQueue:", (sellQueue || []).map(v => ({ id: v.id, produto: v.produto || v.produtoId, qtd: v.quantidade, diasRestantes: v.diasRestantes })));
-    console.log("productionQueue:", (productionQueue || []).map(p => ({ formulaId: p.formulaId, qtd: p.quantidade, diasRestantes: p.diasRestantes })));
-    console.log("marketTransactions:", (marketTransactions || []).map(t => ({ tipo: t.tipo, pid: t.produtoId, qtd: t.quantidade, dias: t.diasRestantes })));
-    console.log("getOuGerarContratos disponível:", typeof getOuGerarContratos === "function");
-    // ───────────────────────────────────────────────────────────────────────
+        // ── DEBUG ──────────────────────────────────────────────────────────────
+        console.group(`[executarPipelinesHoje] dia ${dia} | ativos: ${pipelinesAtivos.length}/${pipelines.length}`);
+        console.log("saldo disponível:", economiaSetores?.saldo);
+        console.log("stock não-zero:", Object.fromEntries(Object.entries(stock || {}).filter(([, v]) => v > 0)));
+        console.log("sellQueue:", (sellQueue || []).map(v => ({ id: v.id, produto: v.produto || v.produtoId, qtd: v.quantidade, diasRestantes: v.diasRestantes })));
+        console.log("productionQueue:", (productionQueue || []).map(p => ({ formulaId: p.formulaId, qtd: p.quantidade, diasRestantes: p.diasRestantes })));
+        console.log("marketTransactions:", (marketTransactions || []).map(t => ({ tipo: t.tipo, pid: t.produtoId, qtd: t.quantidade, dias: t.diasRestantes })));
+        console.log("getOuGerarContratos disponível:", typeof getOuGerarContratos === "function");
+        // ───────────────────────────────────────────────────────────────────────
 
-    if (pipelinesAtivos.length === 0) { console.log("nenhum pipeline ativo"); console.groupEnd(); return; }
+        if (pipelinesAtivos.length === 0) { console.log("nenhum pipeline ativo"); console.groupEnd(); return; }
 
-    const gameState = {
-        stock,
-        productionQueue,
-        dados,
-        economiaGlobal: dados?.economiaGlobal || "estável",
-        economiaSetores: economiaSetores || {},
-        saldo: economiaSetores?.saldo || 0,
-        contratosEdificios: contratosEdificios || {},
-        getOuGerarContratos: getOuGerarContratos || (() => []),
-        diaAtual: dados?.dia || 0,
-        marketTransactions: [...(marketTransactions || [])],
-        sellQueue: sellQueue || [],
-    };
+        const gameState = {
+            stock,
+            productionQueue,
+           
+            economiaGlobal: economiaGlobal || "estável",
+            economiaSetores: economiaSetores || {},
+            saldo: economiaSetores?.saldo || 0,
+            contratosEdificios: contratosEdificios || {},
+            getOuGerarContratos: getOuGerarContratos || (() => []),
+            diaAtual: dia || 0,
+            marketTransactions: [...(marketTransactions || [])],
+            sellQueue: sellQueue || [],
+        };
 
-    // ── DEBUG ──
-    console.log("gameState.saldo:", gameState.saldo, "| gameState.diaAtual:", gameState.diaAtual);
-    console.log("gameState.getOuGerarContratos é função?", typeof gameState.getOuGerarContratos === "function");
+        // ── DEBUG ──
+        console.log("gameState.saldo:", gameState.saldo, "| gameState.diaAtual:", gameState.diaAtual);
+        console.log("gameState.getOuGerarContratos é função?", typeof gameState.getOuGerarContratos === "function");
 
-    const acoes = executarTodosPipelines(pipelinesAtivos, gameState);
+        const acoes = executarTodosPipelines(pipelinesAtivos, gameState);
 
-    // ── DEBUG ──
-    console.log(`[executarPipelinesHoje] total ações: ${acoes.length}`);
-    console.groupEnd();
+        // ── DEBUG ──
+        console.log(`[executarPipelinesHoje] total ações: ${acoes.length}`);
+        console.groupEnd();
 
-    if (acoes.length > 0) aplicarAcoes(acoes);
-}, [pipelines, stock, productionQueue, dados, economiaSetores, contratosEdificios, getOuGerarContratos, marketTransactions, sellQueue, aplicarAcoes]);
+        if (acoes.length > 0) aplicarAcoes(acoes);
+    }, [pipelines, stock, productionQueue, economiaSetores, contratosEdificios, getOuGerarContratos, marketTransactions, sellQueue, aplicarAcoes]);
 
     // ─── Dados derivados para a UI ────────────────────────────────────────────
 

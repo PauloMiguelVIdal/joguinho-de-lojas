@@ -1932,7 +1932,7 @@ export const MODELOS = {
       { modeloId: 126, offset: [0, 0, 0], escala: 1, rotacao: 0 },
       { modeloId: 527, offset: [-0.45, 0.05, 0.60], escala: 0.3, rotacao: Math.PI / 0.4 },],
     satelites: [         // um por vizinho, na ordem dos HEX_DIRECTIONS
-      { modeloId: 525 },  // topo 
+      { modeloId: 525 },   // topo 
       { modeloId: 524 },  // topo esquerda
       { modeloId: 524 },  //baixo esqueda
       { modeloId: 528 },  //baixo 

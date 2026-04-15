@@ -1,15 +1,23 @@
 import React, { useState, useContext } from 'react';
 import { ChevronLeft, ChevronRight, DollarSign, Calendar, CreditCard, AlertCircle } from 'lucide-react';
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
+
 
 const LoanCarousel = () => {
-  const { dados } = useContext(CentraldeDadosContext);
+  // const { dados } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
   
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const diaAtualJogo = dados.dia || 1000;
+  const dia              = useCentralStore((s) => s.dia);
+  const diaAtualJogo = dia || 1000;
   const saldoAtual = economiaSetores?.saldo ?? 0;
   const contratosBancos = economiaSetores?.contratosBancos || [];
   const activeLoans = economiaSetores?.activeLoans || {};

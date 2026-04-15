@@ -11,7 +11,7 @@ import {
     calcularStorageGlobal, calcularSlotsNecessariosCadeia, calcularCustoStorageCadeia,
     calcularStorageAgregadoCadeias
 } from "./GameContext";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import { SALES_EDIFICIOS } from "./salesFormulasConfig";
@@ -59,15 +59,21 @@ const fmt = (n) => {
     return `R$${Math.round(n)}`;
 };
 
-function getEdsTipo(dados, tipo) {
+function getEdsTipo(edificiosBase, edificiosFinais, tipo) {
     const r = [];
     SETORES.forEach(s => {
-        (dados[s]?.edificios || []).forEach(ed => {
-            if (!ed.quantidade || ed.quantidade < 1) return;
-            const eP = FORMULAS_EDIFICIOS.some(e => e.nomeEdificio === ed.nome);
-            const eV = SALES_EDIFICIOS.some(e => e.nomeEdificio === ed.nome);
+        const estaticos = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
+        const dinamicos = edificiosFinais[s]?.edificios || [];
+
+        dinamicos.forEach((edDin, index) => {
+            if ((edDin.quantidade ?? 0) < 1) return;
+            const edEst = estaticos[index];
+            if (!edEst) return;
+
+            const eP = FORMULAS_EDIFICIOS.some(e => e.nomeEdificio === edEst.nome);
+            const eV = SALES_EDIFICIOS.some(e => e.nomeEdificio === edEst.nome);
             if (tipo === "producao" ? eP : tipo === "venda" ? eV : false)
-                r.push({ ...ed, setor: s });
+                r.push({ ...edEst, quantidade: edDin.quantidade, setor: s });
         });
     });
     return r;
@@ -198,32 +204,38 @@ function calcularSlotsNecessarios(steps) {
 }
 
 // Calcula custo de imposto e faturamento esperado dos edifícios da cadeia
-function calcularCustosEdificios(steps, dados) {
+function calcularCustosEdificios(steps, edificiosFinais) {
     let impostoFixoTotal = 0;
     let faturamentoEsperado = 0;
     const SETORES_JOGO = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
 
-    // Impostos e faturamento dos edifícios DIRETAMENTE na cadeia (produção e venda)
     steps.forEach(step => {
         if (!step.buildingName || step.buildingName === "Mercado Global") return;
-        SETORES_JOGO.forEach(s => {
-            const ed = dados[s]?.edificios?.find(e => e.nome === step.buildingName);
-            if (!ed || !ed.quantidade) return;
 
-            const custoFixo = ed.finanças?.impostoFixo || 0;
-            const fatUnit = ed.finanças?.faturamentoUnitário || 0;
-            const fat30 = fatUnit * ed.quantidade * 30;
+        for (const s of SETORES_JOGO) {
+            const estaticos = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
+            const dinamicos = edificiosFinais[s]?.edificios || [];
+            const index = estaticos.findIndex(e => e.nome === step.buildingName);
+            if (index === -1) continue;
+
+            const quantidade = dinamicos[index]?.quantidade ?? 0;
+            if (!quantidade) continue;
+
+            const edEst = estaticos[index];
+            const custoFixo = edEst.finanças?.impostoFixo || 0;
+            const fatUnit = edEst.finanças?.faturamentoUnitário || 0;
+            const fat30 = fatUnit * quantidade * 30;
 
             faturamentoEsperado += fat30;
-            impostoFixoTotal += (ed.finanças?.impostoSobreFatu || 0) * fat30;
-            impostoFixoTotal += custoFixo * ed.quantidade;
-        });
+            impostoFixoTotal += (edEst.finanças?.impostoSobreFatu || 0) * fat30;
+            impostoFixoTotal += custoFixo * quantidade;
+            break;
+        }
     });
 
     return {
         impostoFixoTotal: Math.round(impostoFixoTotal),
         faturamentoEsperado: Math.round(faturamentoEsperado),
-        // mantido por compatibilidade mas não mais usado no cálculo principal
         custoArmazenamentoNecessario: 0,
     };
 }
@@ -632,23 +644,23 @@ function stepParaNó(step, index, capArm, stock) {
 
 // ─── Painel Calculadora (lateral da lista e revisão) ─────────────────────────
 
-function PainelCalculadora({ steps, stock, dados }) {
+function PainelCalculadora({ steps, stock }) {
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-
+    const edificiosFinais = useCentralStore(s => s.edificiosFinais);
     const custoStorageCadeia = useMemo(() => {
-        if (!dados) return { custoMensalCadeia: 0, detalhePorCategoria: {}, gargalos: [] };
+        if (!edificiosFinais) return { custoMensalCadeia: 0, detalhePorCategoria: {}, gargalos: [] };
         const slotsNecMap = calcularSlotsNecessariosCadeia(steps, productsCatalog, FORMULAS_EDIFICIOS);
-        return calcularCustoStorageCadeia(slotsNecMap, dados);
-    }, [steps, dados]);
+        return calcularCustoStorageCadeia(slotsNecMap, edificiosFinais);
+    }, [steps, edificiosFinais]);
 
     const calc = useMemo(
-        () => calcularCadeia(steps, stock, economiaSetores, dados),
-        [steps, stock, economiaSetores, dados]
+        () => calcularCadeia(steps, stock, economiaSetores, edificiosFinais),
+        [steps, stock, economiaSetores, edificiosFinais]
     );
 
     const custos = useMemo(
-        () => dados ? calcularCustosEdificios(steps, dados) : { impostoFixoTotal: 0, faturamentoEsperado: 0, custoArmazenamentoNecessario: 0 },
-        [steps, dados]
+        () => calcularCustosEdificios(steps, edificiosFinais),
+        [steps, edificiosFinais]
     );
 
     const metricas = useMemo(() => {
@@ -672,10 +684,13 @@ function PainelCalculadora({ steps, stock, dados }) {
 
             nomesUnicos.forEach(nome => {
                 SETORES_JOGO.forEach(s => {
-                    const ed = dados[s]?.edificios?.find(e => e.nome === nome);
-                    if (!ed) return;
-
-                    impostoArmazens += (ed.finanças?.impostoFixo || 0) * (ed.quantidade || 1);
+                    const estaticos = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
+                    const dinamicos = edificiosFinais[s]?.edificios || [];
+                    const index = estaticos.findIndex(e => e.nome === nome);
+                    if (index === -1) return;
+                    const quantidade = dinamicos[index]?.quantidade ?? 0;
+                    if (!quantidade) return;
+                    impostoArmazens += (estaticos[index].finanças?.impostoFixo || 0) * quantidade;
                 });
             });
         }
@@ -710,7 +725,30 @@ function PainelCalculadora({ steps, stock, dados }) {
     }, [calc, custos, custoStorageCadeia, steps, dados]);
 
     const slotsNec = useMemo(() => calcularSlotsNecessariosCadeia(steps, productsCatalog, FORMULAS_EDIFICIOS), [steps]);
-    const capArm = useMemo(() => dados ? calcularStorageGlobal(dados) : {}, [dados]);
+    const capArm = useMemo(() => {
+        const resultado = {};
+        const SETORES_JOGO = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
+
+        SETORES_JOGO.forEach(setor => {
+            const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+            const dinamicos = edificiosFinais[setor]?.edificios || [];
+
+            dinamicos.forEach((edDin, index) => {
+                if ((edDin.quantidade ?? 0) < 1) return;
+                const edEst = estaticos[index];
+                if (!edEst) return;
+
+                // passa o objeto combinado (nome do estático + quantidade do dinâmico)
+                // para calcularStorageGlobal processar corretamente
+                const edCombinado = { ...edEst, quantidade: edDin.quantidade };
+                // insere no formato que calcularStorageGlobal espera
+                if (!resultado[setor]) resultado[setor] = { edificios: [] };
+                resultado[setor].edificios.push(edCombinado);
+            });
+        });
+
+        return calcularStorageGlobal(resultado);
+    }, [edificiosFinais]);
 
     const analiseArm = useMemo(() => {
         return Object.entries(slotsNec).map(([cat, { slots, produtos }]) => {
@@ -1022,7 +1060,7 @@ function MetricCard({ icon, label, value, color, tooltip }) {
 // ─── PAINEL DE CONFIGURAÇÃO DO NÓ ────────────────────────────────────────────
 
 function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
-    const { dados } = useContext(CentraldeDadosContext);
+    // const { dados } = useContext(CentraldeDadosContext);
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
     const { contratosEdificios, getOuGerarContratos, stock: stockLocal } = useGame();
 
@@ -1227,9 +1265,10 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
 
                 {/* Seleção de fórmula de VENDA — mostra contratos reais disponíveis */}
                 {formulasVenda.length > 0 && (() => {
+                    const dia = useCentralStore((s) => s.dia);
                     const salesEd = SALES_EDIFICIOS.find(e => e.nomeEdificio === stepData.buildingName);
                     const contratos = salesEd && getOuGerarContratos
-                        ? getOuGerarContratos(salesEd, dados?.dia || 0)
+                        ? getOuGerarContratos(salesEd, dia || 0)
                         : [];
 
                     return (
@@ -1343,8 +1382,12 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                     let qtdEdificios = 1;
                     if (stepData.buildingName) {
                         for (const s of SETORES_JOGO) {
-                            const ed = dados?.[s]?.edificios?.find(e => e.nome === stepData.buildingName);
-                            if (ed?.quantidade) { qtdEdificios = ed.quantidade; break; }
+                            const estaticos = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
+                            const dinamicos = edificiosFinais[s]?.edificios || [];
+                            const index = estaticos.findIndex(e => e.nome === stepData.buildingName);
+                            if (index === -1) continue;
+                            const quantidade = dinamicos[index]?.quantidade ?? 0;
+                            if (quantidade > 0) { qtdEdificios = quantidade; break; }
                         }
                     }
 
@@ -1537,9 +1580,35 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
 
 // ─── Footer do canvas — resumo de armazenamento de toda a cadeia ────────────
 
-function FooterCanvas({ steps, dados }) {
+function FooterCanvas({ steps }) {
+    const edificiosFinais = useCentralStore(s => s.edificiosFinais);
+
     const slotsNec = useMemo(() => calcularSlotsNecessarios(steps), [steps]);
-    const capArm = useMemo(() => dados ? calcularStorageGlobal(dados) : {}, [dados]);
+    const capArm = useMemo(() => {
+        const resultado = {};
+        const SETORES_JOGO = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
+
+        SETORES_JOGO.forEach(setor => {
+            const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+            const dinamicos = edificiosFinais[setor]?.edificios || [];
+
+            dinamicos.forEach((edDin, index) => {
+                if ((edDin.quantidade ?? 0) < 1) return;
+                const edEst = estaticos[index];
+                if (!edEst) return;
+
+                // passa o objeto combinado (nome do estático + quantidade do dinâmico)
+                // para calcularStorageGlobal processar corretamente
+                const edCombinado = { ...edEst, quantidade: edDin.quantidade };
+                // insere no formato que calcularStorageGlobal espera
+                if (!resultado[setor]) resultado[setor] = { edificios: [] };
+                resultado[setor].edificios.push(edCombinado);
+            });
+        });
+
+        return calcularStorageGlobal(resultado);
+    }, [edificiosFinais]);
+
 
     const categorias = useMemo(() => {
         return Object.entries(slotsNec).map(([cat, { slots }]) => {
@@ -1599,9 +1668,7 @@ function FooterCanvas({ steps, dados }) {
 
 function EditorCanvas({ pipelineId, onSalvar }) {
     const { pipelines, adicionarStep, removerStep, atualizarStep, salvarEdges } = usePipeline();
-    const { dados } = useContext(CentraldeDadosContext);
     const { stock } = useGame();
-
     const pipeline = pipelines.find(p => p.id === pipelineId);
 
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -1610,7 +1677,25 @@ function EditorCanvas({ pipelineId, onSalvar }) {
     const [addAberto, setAddAberto] = useState(false);
 
     // Calcula capacidade de armazenamento para passar aos nós
-    const capArm = useMemo(() => dados ? calcularStorageGlobal(dados) : {}, [dados]);
+    const capArm = useMemo(() => {
+        const resultado = {};
+        const SETORES_JOGO = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
+
+        SETORES_JOGO.forEach(setor => {
+            const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+            const dinamicos = edificiosFinais[setor]?.edificios || [];
+
+            dinamicos.forEach((edDin, index) => {
+                if ((edDin.quantidade ?? 0) < 1) return;
+                const edEst = estaticos[index];
+                if (!edEst) return;
+                if (!resultado[setor]) resultado[setor] = { edificios: [] };
+                resultado[setor].edificios.push({ ...edEst, quantidade: edDin.quantidade });
+            });
+        });
+
+        return calcularStorageGlobal(resultado);
+    }, [edificiosFinais]);
 
     // Reconstrói nodes a partir dos steps do contexto — inclui dados de gargalo
     useEffect(() => {
@@ -1654,9 +1739,16 @@ function EditorCanvas({ pipelineId, onSalvar }) {
     }
 
     const stepSelecionado = pipeline?.steps?.find(s => s.id === nóSel) || null;
+    const edificiosFinais = useCentralStore(s => s.edificiosFinais);
 
-    const edsP = useMemo(() => getEdsTipo(dados, "producao"), [dados]);
-    const edsV = useMemo(() => getEdsTipo(dados, "venda"), [dados]);
+    const edsP = useMemo(
+        () => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "producao"),
+        [edificiosFinais]
+    );
+    const edsV = useMemo(
+        () => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "venda"),
+        [edificiosFinais]
+    );
 
     if (!pipeline) return <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", background: C.bg, color: C.muted }}>Pipeline não encontrado.</div>;
 
@@ -1754,7 +1846,7 @@ function EditorCanvas({ pipelineId, onSalvar }) {
                 </ReactFlow>
 
                 {/* Footer: resumo de armazenamento da cadeia inteira */}
-                <FooterCanvas steps={pipeline?.steps || []} dados={dados} />
+                <FooterCanvas steps={pipeline?.steps || []} />
             </div>
 
             {/* Painel lateral de configuração — posição absoluta para scroll correto */}
@@ -1784,10 +1876,11 @@ const OBJETIVOS = [
 ];
 
 function EtapaObjetivo({ onProximo }) {
-    const { dados } = useContext(CentraldeDadosContext);
+    const edificiosFinais = useCentralStore(s => s.edificiosFinais);
     const { stock } = useGame();
-    const temVenda = getEdsTipo(dados, "venda").length > 0;
-    const temProducao = getEdsTipo(dados, "producao").length > 0;
+
+    const temVenda = getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "venda").length > 0;
+    const temProducao = getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "producao").length > 0;
     const temEstoque = Object.values(stock).some(v => v > 10);
     const hab = (obj) => {
         if (obj.requerId === "venda") return temVenda;
@@ -1832,21 +1925,23 @@ function EtapaObjetivo({ onProximo }) {
 // ─── ETAPA 1a — Contratos de venda ───────────────────────────────────────────
 
 function EtapaContratoVenda({ onProximo, onVoltar }) {
-    const { dados } = useContext(CentraldeDadosContext);
+    // const { dados } = useContext(CentraldeDadosContext);
     const { contratosEdificios, getOuGerarContratos, stock, startSale } = useGame();
     const [edSel, setEdSel] = useState(null);
     const [contratoSel, setContratoSel] = useState(null);
     const [criarCadeia, setCriarCadeia] = useState(null);
     const [produtoAlvo, setProdutoAlvo] = useState(null); // "fixo" | "qualquer"
     const [modoAtendimento, setModoAtendimento] = useState(null); // "um" | "todos"
-
-    const edsVenda = getEdsTipo(dados, "venda");
-    const contratos = useMemo(() => {
+    const dia = useCentralStore((s) => s.dia);
+    const edsVenda = useMemo(
+        () => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "venda"),
+        [edificiosFinais]
+    ); const contratos = useMemo(() => {
         if (!edSel) return [];
         const conf = SALES_EDIFICIOS.find(e => e.nomeEdificio === edSel.nome);
         if (!conf) return [];
-        return getOuGerarContratos(conf, dados.dia, edSel.quantidade || 1, 1);
-    }, [edSel, dados.dia, contratosEdificios]);
+        return getOuGerarContratos(conf, dia, edSel.quantidade || 1, 1);
+    }, [edSel, dia, contratosEdificios]);
 
     const temPreReq = useMemo(() => contratoSel && (stock[contratoSel.productId] || 0) >= contratoSel.quantidade, [contratoSel, stock]);
 
@@ -2056,8 +2151,19 @@ function EtapaContratoVenda({ onProximo, onVoltar }) {
 // ─── ETAPA 1b — Arbitragem de mercado ───────────────────────────────────────
 
 function EtapaArbitragem({ onProximo, onVoltar }) {
+    const edificiosFinais = useCentralStore(s => s.edificiosFinais);
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-    const { dados } = useContext(CentraldeDadosContext);
+
+    const comEdificio = analise.filter(op => {
+        const ed = getEdsTipo(dados, "producao").find(e => e.nome === op.edificioCompra);
+        return ed && ed.quantidade > 0;
+    });
+    const semEdificio = analise.filter(op => {
+        const ed = getEdsTipo(dados, "producao").find(e => e.nome === op.edificioCompra);
+        return !ed || !ed.quantidade;
+    });
+
+    // const { dados } = useContext(CentraldeDadosContext);
     const [opSel, setOpSel] = useState(null);
 
     // Usa analisarArbitragem do executor — lógica corrigida:
@@ -2209,10 +2315,13 @@ function EtapaArbitragem({ onProximo, onVoltar }) {
 }
 
 function EtapaProducaoVenda({ objetivo, onProximo, onVoltar }) {
-    const { dados } = useContext(CentraldeDadosContext);
+    const edificiosFinais = useCentralStore(s => s.edificiosFinais);
     const { stock } = useGame();
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-    const edsProducao = useMemo(() => getEdsTipo(dados, "producao"), [dados]);
+    const edsProducao = useMemo(
+        () => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "producao"),
+        [edificiosFinais]
+    );
     const produtosEstoque = useMemo(() => Object.entries(stock).filter(([, q]) => q > 5).map(([id, q]) => ({ id, q, ...productsCatalog[id] })).filter(p => p.nome).sort((a, b) => b.q - a.q), [stock]);
     const [edSel, setEdSel] = useState(null);
     const [formulaSel, setFormulaSel] = useState(null);
@@ -2300,7 +2409,8 @@ function EtapaProducaoVenda({ objetivo, onProximo, onVoltar }) {
 function EtapaRevisao({ pipelineId, onAtivo, onVoltar }) {
     const { pipelines, togglePipeline, atualizarPipeline } = usePipeline();
     const { stock } = useGame();
-    const { dados } = useContext(CentraldeDadosContext);
+    // const { dados } = useContext(CentraldeDadosContext);
+    const edificiosFinais = useCentralStore(s => s.edificiosFinais);
     const pipeline = pipelines.find(p => p.id === pipelineId);
     const [nome, setNome] = useState(pipeline?.nome || "Novo Pipeline");
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
@@ -2321,7 +2431,7 @@ function EtapaRevisao({ pipelineId, onAtivo, onVoltar }) {
                 <input value={nome} onChange={e => { setNome(e.target.value); atualizarPipeline(pipelineId, { nome: e.target.value }); }} style={{ ...inputStyle, fontSize: 15, fontWeight: 700, padding: "8px 12px" }} />
             </div>
 
-            <PainelCalculadora steps={pipeline.steps || []} stock={stock} dados={dados} />
+            <PainelCalculadora steps={pipeline.steps || []} stock={stock} />
 
             {/* Mínimo para iniciar */}
             {Object.keys(minimoInsumos).length > 0 && (
@@ -2548,11 +2658,8 @@ function calcularMinimoParaIniciar(steps) {
 
 // ─── Gera cadeia recomendada completa baseada nos edifícios do jogador ────────
 
-function gerarCadeiaRecomendada(dados) {
-    const edsProducao = getEdsTipo(dados, "producao");
-    const edsVenda = getEdsTipo(dados, "venda");
+function gerarCadeiaRecomendada(edsProducao, edsVenda) {
     if (edsProducao.length === 0 || edsVenda.length === 0) return null;
-
     // Encontra pares produção → venda com maior sinergia
     let melhorCadeia = null;
     let melhorScore = 0;
@@ -2592,7 +2699,8 @@ function gerarCadeiaRecomendada(dados) {
 export default function CadeiaProdutiva() {
     const { criarPipelineComSteps, pipelines, removerPipeline, togglePipeline, produtosSemVazao } = usePipeline();
     const { stock } = useGame();
-    const { dados } = useContext(CentraldeDadosContext);
+    // const { dados } = useContext(CentraldeDadosContext);
+    const edificiosFinais = useCentralStore(s => s.edificiosFinais);
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
     const [etapa, setEtapa] = useState("lista");
     const [objetivo, setObjetivo] = useState(null);
@@ -2600,7 +2708,8 @@ export default function CadeiaProdutiva() {
     const [modalRemover, setModalRemover] = useState(false);
     const [pipelineParaRemover, setPipelineParaRemover] = useState(null);
     function iniciarNovo() { setEtapa("objetivo"); setObjetivo(null); setPipelineId(null); }
-
+    const edsP = useMemo(() => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "producao"), [edificiosFinais]);
+    const edsV = useMemo(() => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "venda"), [edificiosFinais]);
 
 
 
@@ -2774,7 +2883,7 @@ export default function CadeiaProdutiva() {
                     </div>
                     <div style={{ display: "flex", gap: 8 }}>
                         <button onClick={() => {
-                            const rec = gerarCadeiaRecomendada(dados);
+                            const rec = gerarCadeiaRecomendada(edsP, edsV);
                             if (!rec) { alert("Construa edifícios de produção e venda para receber recomendações."); return; }
                             const steps = gerarStepsDoConfig({ objetivo: "contrato_venda", edificioVenda: rec.edVenda, contrato: { productId: rec.formulaVenda.produto, quantidade: rec.formula.capacidadePorEdificio || 1, valorTotal: (marketPrices[rec.formulaVenda.produto] || 0) * (rec.formula.capacidadePorEdificio || 1), prazoDias: 30, margemAplicada: rec.formulaVenda.margemBase || 0 }, criarCadeia: true }, economiaSetores);
                             const id = criarPipelineComSteps(steps, rec.nome);
@@ -2789,12 +2898,26 @@ export default function CadeiaProdutiva() {
                 {(() => {
                     const storageAgregado = calcularStorageAgregadoCadeias(
                         pipelines.filter(p => p.ativo),
-                        dados,
+                        EDIFICIOS_FINAIS_ESTATICOS,
                         productsCatalog,
                         FORMULAS_EDIFICIOS
                     );
 
-                    const storageGlobal = calcularStorageGlobal(dados);
+                    const storageGlobal = useMemo(() => {
+                        const resultado = {};
+                        SETORES.forEach(setor => {
+                            const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+                            const dinamicos = edificiosFinais[setor]?.edificios || [];
+                            dinamicos.forEach((edDin, index) => {
+                                if ((edDin.quantidade ?? 0) < 1) return;
+                                const edEst = estaticos[index];
+                                if (!edEst) return;
+                                if (!resultado[setor]) resultado[setor] = { edificios: [] };
+                                resultado[setor].edificios.push({ ...edEst, quantidade: edDin.quantidade });
+                            });
+                        });
+                        return calcularStorageGlobal(resultado);
+                    }, [edificiosFinais]);
 
                     // ✅ AQUI
                     const agregado = storageAgregado.agregado || {};
@@ -2904,7 +3027,7 @@ export default function CadeiaProdutiva() {
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
 
                         {pipelines.map(p => {
-                            const calc = calcularCadeia(p.steps || [], stock, economiaSetores, dados);
+                            const calc = calcularCadeia(p.steps || [], stock, economiaSetores, edificiosFinais);
                             const viavel = calc.lucro > 0;
                             const steps = p.steps || [];
                             const primeiro = steps[0];

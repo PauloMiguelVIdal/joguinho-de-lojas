@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useCallback } from "react";
 import { useContext, useState } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import porcem from "../../public/outrasImagens/simbolo-de-porcentagem.png";
 import terrenoImg from "../../public/outrasImagens/terreno.png";
 import constNece from "../../public/outrasImagens/construção necessária.png";
@@ -45,7 +45,13 @@ import changeSectoryAudio from "../../public/sounds/changeSectoryAudio.mp3";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import openAudio from "../../public/sounds/openAudio.mp3";
 import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3";
-
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL, LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 const getImageUrl = (nome) => `/imagens/${nome}.png`;
 
 const iconsCatArmazenamento = [
@@ -80,7 +86,32 @@ const iconsCatArmazenamento = [
 //                             atualizarDadosProf2(["setorAtivo"], setor.id);
 // }
 
+export function calcularCustoRecursoGlobal(nomeRecurso) {
+  for (const setor of setoresArr) {
+    const edEst = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios?.find(e => e.nome === nomeRecurso);
 
+    if (edEst) {
+      let total = edEst.custoConstrucao || 0;
+
+      const t = edEst.lojasNecessarias?.terrenos ?? 0;
+      const p = edEst.lojasNecessarias?.lojasP ?? 0;
+      const m = edEst.lojasNecessarias?.lojasM ?? 0;
+      const g = edEst.lojasNecessarias?.lojasG ?? 0;
+
+      total += t * tPC + p * (pPC + tQNT * tPC) + m * (mPC + mQNT * tPC) + g * (gPC + gQNT * tPC);
+
+      if (edEst.recursoDeConstrução?.length) {
+        edEst.recursoDeConstrução.forEach(sub => {
+          total += calcularCustoRecursoGlobal(sub);
+        });
+      }
+
+      return total;
+    }
+  }
+
+  return 0;
+}
 
 const storageIconMap = Object.fromEntries(
   iconsCatArmazenamento.map(item => [item.categoria, item.icon])
@@ -88,12 +119,23 @@ const storageIconMap = Object.fromEntries(
 
 export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-  const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
+  const algumModalAberto = useCentralStore((s) => s.algumModalAberto);
+
+  const edificioDinamico = useCentralStore(
+    (s) => s.edificiosFinais[setor]?.edificios?.[index]
+  );
+
+  const edificioEstatico = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios?.[index];
+
+  const edificiosBase = useCentralStore((s) => s.edificiosBase);
+
+  const edificiosBaseEstáticos = EDIFICIOS_BASE_ESTATICOS
 
   const setorAtivo = setor;
-  if (!dados[setorAtivo] || !dados[setorAtivo].edificios || !dados[setorAtivo].edificios[index]) {
-  return null;
-}
+  if (!EDIFICIOS_FINAIS_ESTATICOS[setorAtivo] || !EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios || !EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[index]) {
+    return null;
+  }
   const [changeAudio] = useSound(changeSectoryAudio);
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
@@ -110,7 +152,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   ];
 
   const setorInfo = setores.find((s) => s.id === setorAtivo);
-  const nomeAtivo = dados[setorAtivo]?.edificios[index]?.nome;
+  const nomeAtivo = EDIFICIOS_FINAIS_ESTATICOS[setorAtivo]?.edificios[index]?.nome;
 
   // ── CATEGORIA ─────────────────────────────────────────────
   const productions = [
@@ -164,14 +206,14 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   const handleShow = (id) => setVisibleId(id);
 
   const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-// console.log("setor recebido:", setor, "| dados disponíveis:", Object.keys(dados));
+  // console.log("setor recebido:", setor, "| dados disponíveis:", Object.keys(dados));
 
   // ── DADOS DO EDIFÍCIO ──────────────────────────────────────
-  const arrayConstResources = dados[setorAtivo]?.edificios[index]?.recursoDeConstrução;
-  const arrayConstNece = dados[setorAtivo]?.edificios[index]?.construçõesNecessárias;
-  const quantidadeAtivo = dados[setorAtivo].edificios[index].quantidade;
-  const quantidadeMinimaPowerUpNv2 = dados[setorAtivo].edificios[index].powerUp.nível2.quantidadeMínima;
-  const quantidadeMinimaPowerUpNv3 = dados[setorAtivo].edificios[index].powerUp.nível3.quantidadeMínima;
+  const arrayConstResources = EDIFICIOS_FINAIS_ESTATICOS?.recursoDeConstrução;
+  const arrayConstNece = EDIFICIOS_FINAIS_ESTATICOS?.construçõesNecessárias;
+  const quantidadeAtivo = edificioDinamico?.quantidade ?? 0;
+  const quantidadeMinimaPowerUpNv2 = EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[index].powerUp.nível2.quantidadeMínima;
+  const quantidadeMinimaPowerUpNv3 = EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[index].powerUp.nível3.quantidadeMínima;
   const corPadrão = { backgroundColor: setorInfo.cor2 };
 
   const corPowerUp = (pu) => {
@@ -186,62 +228,41 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   const powerUpSelecionado = quantidadeAtivo >= quantidadeMinimaPowerUpNv3
     ? "powerUpNv3"
     : quantidadeAtivo >= quantidadeMinimaPowerUpNv2
-    ? "powerUpNv2"
-    : "powerUpNv1";
+      ? "powerUpNv2"
+      : "powerUpNv1";
 
   const corPowerUpAtual = corPowerUp(powerUpSelecionado);
 
   // ── FINANÇAS ───────────────────────────────────────────────
   const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
   const fatorEconomico = { recessão: 0.4, declinio: 0.8, estável: 1, progressiva: 1.1, aquecida: 1.25 }[economiaSetor];
-  const valorFatu = dados[setorAtivo].edificios[index].finanças.faturamentoUnitário;
-  const valorImpostoFixo = dados[setorAtivo].edificios[index].finanças.impostoFixo;
-  const impostoSobreFatu = dados[setorAtivo].edificios[index].finanças.impostoSobreFatu;
-  const custoConstrução = dados[setorAtivo].edificios[index].custoConstrucao;
+  const valorFatu = edificioEstatico?.finanças?.faturamentoUnitário
+  const valorImpostoFixo = edificioEstatico?.finanças.impostoFixo;
+  const impostoSobreFatu = edificioEstatico?.finanças.impostoSobreFatu;
+  const custoConstrução = edificioEstatico?.custoConstrucao;
 
   const impostoSobreFatuFinal = impostoSobreFatu - impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100);
   const valorFatuFinal = valorFatu + valorFatu * (acumuladorPowerUpAumFatuRecebe / 100);
   const valorImpostoFixoFinal = valorImpostoFixo - valorImpostoFixo * (acumuladorPowerUpRedCustoRecebe / 100);
 
-  const quantidadeTerrenosNec = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos;
-  const quantidadeLojasPNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP;
-  const quantidadeLojasMNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasM;
-  const quantidadeLojasGNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasG;
+  const quantidadeTerrenosNec = edificioEstatico.lojasNecessarias.terrenos;
+  const quantidadeLojasPNec = edificioEstatico.lojasNecessarias.lojasP;
+  const quantidadeLojasMNec = edificioEstatico.lojasNecessarias.lojasM;
+  const quantidadeLojasGNec = edificioEstatico.lojasNecessarias.lojasG;
 
   const CustoTotalSomadoLojas =
-    quantidadeTerrenosNec * dados.terrenos.preçoConstrução +
-    quantidadeLojasPNec * (dados.lojasP.preçoConstrução + dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
-    quantidadeLojasMNec * (dados.lojasM.preçoConstrução + dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
-    quantidadeLojasGNec * (dados.lojasG.preçoConstrução + dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução);
+    quantidadeTerrenosNec * edificiosBaseEstáticos.terrenos.preçoConstrução +
+    quantidadeLojasPNec * (edificiosBaseEstáticos.lojasP.preçoConstrução + edificiosBaseEstáticos.lojasP.quantidadeNecTerreno * edificiosBase.terrenos.preçoConstrução) +
+    quantidadeLojasMNec * (edificiosBaseEstáticos.lojasM.preçoConstrução + edificiosBaseEstáticos.lojasM.quantidadeNecTerreno * edificiosBase.terrenos.preçoConstrução) +
+    quantidadeLojasGNec * (edificiosBaseEstáticos.lojasG.preçoConstrução + edificiosBaseEstáticos.lojasG.quantidadeNecTerreno * edificiosBase.terrenos.preçoConstrução);
 
-  function calcularCustoRecurso(nomeRecurso, nivel = 1) {
-    for (const s of setoresArr) {
-      const ed = dados[s]?.edificios?.find((e) => e.nome === nomeRecurso);
-      if (ed) {
-        const c = ed.custoConstrucao || 0;
-        const tN = ed.lojasNecessarias.terrenos || 0;
-        const pN = ed.lojasNecessarias.lojasP || 0;
-        const mN = ed.lojasNecessarias.lojasM || 0;
-        const gN = ed.lojasNecessarias.lojasG || 0;
-        let total = c
-          + tN * dados.terrenos.preçoConstrução
-          + pN * (dados.lojasP.preçoConstrução + dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-          + mN * (dados.lojasM.preçoConstrução + dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-          + gN * (dados.lojasG.preçoConstrução + dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução);
-        if (Array.isArray(ed.recursoDeConstrução) && ed.recursoDeConstrução.length > 0) {
-          ed.recursoDeConstrução.forEach((sub) => { total += calcularCustoRecurso(sub, nivel + 1); });
-        }
-        return total;
-      }
-    }
-    return 0;
-  }
+
 
   const custoRecursos = useMemo(() => {
     let total = 0;
-    arrayConstResources?.forEach((nome) => { total += calcularCustoRecurso(nome); });
+    arrayConstResources?.forEach((nome) => { total += calcularCustoRecursoGlobal(nome); });
     return total;
-  }, [arrayConstResources, dados.terrenos.preçoConstrução, dados.lojasP.preçoConstrução, dados.lojasM.preçoConstrução, dados.lojasG.preçoConstrução]);
+  }, [arrayConstResources, edificiosBase.terrenos.preçoConstrução, edificiosBase.lojasP.preçoConstrução, edificiosBase.lojasM.preçoConstrução, edificiosBase.lojasG.preçoConstrução]);
 
   const fatuMensal = valorFatuFinal * 30 * fatorEconomico;
   const valorImpostoSobreFatuCalc = fatuMensal * impostoSobreFatuFinal;
@@ -258,72 +279,146 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   };
 
   const booleanPreReq = useCallback((nomeEd) => {
+    const { edificiosFinais } = useCentralStore.getState();
+
     for (const s of setoresArr) {
-      const idx = dados[s].edificios.findIndex((ed) => ed.nome === nomeEd);
-      if (idx !== -1) return dados[s].edificios[idx].quantidade > 0;
+      const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex(e => e.nome === nomeEd) ?? -1;
+
+      if (idx !== -1) {
+        return (edificiosFinais[s]?.edificios?.[idx]?.quantidade ?? 0) > 0;
+      }
     }
+
     return false;
-  }, [dados]);
+  }, []);
 
   // ── POWERUP ACUMULADORES ───────────────────────────────────
   useEffect(() => {
     let r = 0, a = 0;
-    dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia.forEach((ed) => {
-      const qtd = (nome) => {
-        for (const s of setoresArr) {
-          const idx = dados[s].edificios.findIndex((e) => e.nome === nome);
-          if (idx !== -1) return dados[s].edificios[idx].quantidade;
+
+    const lista = EDIFICIOS_FINAIS_ESTATICOS[setorAtivo]?.edificios || [];
+    const edificioAtual = lista[index];
+
+    if (!edificioAtual) return;
+
+    const qtd = (nome) => {
+      for (const s of setoresArr) {
+        const listaEstatica = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
+        const listaDinamica = edificiosFinais[s]?.edificios || [];
+
+        const idx = listaEstatica.findIndex((e) => e.nome === nome);
+
+        if (idx !== -1 && listaDinamica[idx]) {
+          return listaDinamica[idx].quantidade || 0;
         }
-        return 0;
-      };
-      const qtdM = qtd(ed.nome), q = qtd(nomeAtivo);
-      const pu = q >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" : q >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" : "powerUpNv1";
+      }
+      return 0;
+    };
+
+    edificioAtual.ForneceMelhoraEficiencia.forEach((ed) => {
+      const qtdM = qtd(ed.nome);
+      const q = qtd(nomeAtivo);
+
+      const pu =
+        q >= quantidadeMinimaPowerUpNv3
+          ? "powerUpNv3"
+          : q >= quantidadeMinimaPowerUpNv2
+            ? "powerUpNv2"
+            : "powerUpNv1";
+
       if (qtdM > 0) {
-        r += pu === "powerUpNv1" ? ed.redCusto.nível1 : pu === "powerUpNv2" ? ed.redCusto.nível2 : ed.redCusto.nível3;
-        a += pu === "powerUpNv1" ? ed.aumFatu.nível1 : pu === "powerUpNv2" ? ed.aumFatu.nível2 : ed.aumFatu.nível3;
+        r +=
+          pu === "powerUpNv1"
+            ? ed.redCusto.nível1
+            : pu === "powerUpNv2"
+              ? ed.redCusto.nível2
+              : ed.redCusto.nível3;
+
+        a +=
+          pu === "powerUpNv1"
+            ? ed.aumFatu.nível1
+            : pu === "powerUpNv2"
+              ? ed.aumFatu.nível2
+              : ed.aumFatu.nível3;
       }
     });
+
     setAcumuladorPowerUpRedCustoFornece(r);
     setAcumuladorPowerUpAumFatuFornece(a);
-  }, [dados, setorAtivo, index]);
+  }, [setorAtivo, index, EDIFICIOS_FINAIS_DINAMICOS_INICIAL]);
+
+  const edificiosFinais = useCentralStore((state) => state.edificiosFinais);
 
   useEffect(() => {
     let r = 0, a = 0;
-    dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia.forEach((ed) => {
-      const qtd = (nome) => {
-        for (const s of setoresArr) {
-          const idx = dados[s].edificios.findIndex((e) => e.nome === nome);
-          if (idx !== -1) return dados[s].edificios[idx].quantidade;
+
+    const lista = EDIFICIOS_FINAIS_ESTATICOS[setorAtivo]?.edificios || [];
+    const edificioAtual = lista[index];
+
+    if (!edificioAtual) return;
+
+    const qtd = (nome) => {
+      for (const s of setoresArr) {
+        const listaEstatica = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
+        const listaDinamica = edificiosFinais[s]?.edificios || [];
+
+        const idx = listaEstatica.findIndex((e) => e.nome === nome);
+
+        if (idx !== -1 && listaDinamica[idx]) {
+          return listaDinamica[idx].quantidade || 0;
         }
-        return 0;
-      };
-      const qtdM = qtd(ed.nome), q = qtd(nomeAtivo);
-      const pu = q >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" : q >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" : "powerUpNv1";
+      }
+      return 0;
+    };
+
+    edificioAtual.RecebeMelhoraEficiencia.forEach((ed) => {
+      const qtdM = qtd(ed.nome);
+      const q = qtd(nomeAtivo);
+
+      const pu =
+        q >= quantidadeMinimaPowerUpNv3
+          ? "powerUpNv3"
+          : q >= quantidadeMinimaPowerUpNv2
+            ? "powerUpNv2"
+            : "powerUpNv1";
+
       if (qtdM > 0) {
-        r += pu === "powerUpNv1" ? ed.redCusto.nível1 : pu === "powerUpNv2" ? ed.redCusto.nível2 : ed.redCusto.nível3;
-        a += pu === "powerUpNv1" ? ed.aumFatu.nível1 : pu === "powerUpNv2" ? ed.aumFatu.nível2 : ed.aumFatu.nível3;
+        r +=
+          pu === "powerUpNv1"
+            ? ed.redCusto.nível1
+            : pu === "powerUpNv2"
+              ? ed.redCusto.nível2
+              : ed.redCusto.nível3;
+
+        a +=
+          pu === "powerUpNv1"
+            ? ed.aumFatu.nível1
+            : pu === "powerUpNv2"
+              ? ed.aumFatu.nível2
+              : ed.aumFatu.nível3;
       }
     });
+
     setAcumuladorPowerUpRedCustoRecebe(r);
     setAcumuladorPowerUpAumFatuRecebe(a);
-  }, [dados, setorAtivo, index]);
+  }, [setorAtivo, index, edificiosFinais]);
 
   // ── EDITAR NOME ────────────────────────────────────────────
-  function abrirModal({ index, setor }) {
-    atualizarDados("modalEditável", { ...dados.modalEditável, estadoModal: true, index, setor });
-  }
+  // function abrirModal({ index, setor }) {
+  //   atualizarDados("modalEditável", { ...dados.modalEditável, estadoModal: true, index, setor });
+  // }
 
-  function editarNomeEditavel() {
-    if (inputNome) {
-      const indexModificar = dados.modalEditável.index;
-      const setorModificar = dados.modalEditável.setor;
-      atualizarDadosProf2([setorModificar, "edificios", indexModificar, "nomeEditável"], inputNome);
-      atualizarDados("modalEditável", { ...dados.modalEditável, estadoModal: false });
-      setInputNome("");
-    } else {
-      alert("Campo não preenchido");
-    }
-  }
+  // function editarNomeEditavel() {
+  //   if (inputNome) {
+  //     const indexModificar = dados.modalEditável.index;
+  //     const setorModificar = dados.modalEditável.setor;
+  //     atualizarDadosProf2([setorModificar, "edificios", indexModificar, "nomeEditável"], inputNome);
+  //     atualizarDados("modalEditável", { ...dados.modalEditável, estadoModal: false });
+  //     setInputNome("");
+  //   } else {
+  //     alert("Campo não preenchido");
+  //   }
+  // }
 
   // ── TOOLTIP CUSTOM ─────────────────────────────────────────
   function TooltipCustom({ text, children }) {
@@ -405,7 +500,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
           <div style={{ backgroundColor: setorInfo.cor2 }} className="w-[95%] h-[75%] rounded-[20px] self-center">
             <div style={{ backgroundColor: setorInfo.cor1 }} className="flex justify-around h-full rounded-[20px] w-full p-[5px]">
               {["Fornece", "Recebe"].map((label, li) => {
-                const lista = li === 0 ? dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia : dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia;
+                const lista = li === 0 ? EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[index].ForneceMelhoraEficiencia : EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[index].RecebeMelhoraEficiencia;
                 const acRed = li === 0 ? acumuladorPowerUpRedCustoFornece : acumuladorPowerUpRedCustoRecebe;
                 const acAum = li === 0 ? acumuladorPowerUpAumFatuFornece : acumuladorPowerUpAumFatuRecebe;
                 return (
@@ -420,7 +515,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                           {["#8F5ADA", "#6411D9", "#350973"].map((bg) => (<th key={bg + "a"}><div style={{ backgroundColor: bg }} className="w-[40px] h-[40px] m-auto aspect-square rounded-[7px] flex items-center justify-center cursor-pointer"><img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} /></div></th>))}
                         </tr></thead>
                         {lista.map((edM, i) => {
-                          const qtd = (nome) => { for (const s of setoresArr) { const idx = dados[s].edificios.findIndex((e) => e.nome === nome); if (idx !== -1) return dados[s].edificios[idx].quantidade; } return 0; };
+                          const qtd = (nome) => { for (const s of setoresArr) { const idx = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[s].edificios.findIndex((e) => e.nome === nome); if (idx !== -1) return EDIFICIOS_FINAIS_DINAMICOS_INICIAL[s].edificios[idx].quantidade; } return 0; };
                           const qtdM = qtd(edM.nome), q = qtd(nomeAtivo);
                           const pu = q >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" : q >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" : "powerUpNv1";
                           const cL = qtdM > 0 ? corPowerUp(pu) : corPadrão;
@@ -462,23 +557,23 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   }
 
   // ── MODAL EDITAR NOME ──────────────────────────────────────
-  if (dados.modalEditável.estadoModal) {
-    return (
-      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] fixed inset-0 select-none">
-        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.3, ease: "easeOut" }} className="w-[550px] h-[200px] bg-[#350973] rounded-[20px] z-20 flex-col flex justify-between">
-          <button className="bg-laranja relative top-[-20px] right-[-530px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95" onClick={() => { buttonCloseAudio(); atualizarDados("modalEditável", { ...dados.modalEditável, estadoModal: false }); }}>
-            <img src={fechar} alt="" className="w-[60%]" />
-          </button>
-          <h2 className="text-white text-center text-[25px] fonteBold mt-[20px]">Qual o novo nome do edifício?</h2>
-          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
-          <div className="flex justify-center w-full items-center">
-            <input type="text" placeholder="Nome edifício" onChange={(e) => setInputNome(e.target.value.toUpperCase())} value={inputNome} className="placeholder:text-white text-white placeholder:opacity-70 z-50 text-[25px] fonteBold w-[100%] pl-[15px] h-[60px] bg-[#290064] bg-opacity-[90%] rounded-[17.50px]" />
-            <button onClick={editarNomeEditavel} className="flex justify-center items-center h-[60px] w-[60px] ml-[10px] aspect-square text-[20px] fonteBold bg-laranja rounded-[20px] text-white hover:scale-105 hover:bg-orange-600 z-50">✓</button>
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
+  // if (dados.modalEditável.estadoModal) {
+  //   return (
+  //     <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] fixed inset-0 select-none">
+  //       <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.3, ease: "easeOut" }} className="w-[550px] h-[200px] bg-[#350973] rounded-[20px] z-20 flex-col flex justify-between">
+  //         <button className="bg-laranja relative top-[-20px] right-[-530px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95" onClick={() => { buttonCloseAudio(); atualizarDados("modalEditável", { ...dados.modalEditável, estadoModal: false }); }}>
+  //           <img src={fechar} alt="" className="w-[60%]" />
+  //         </button>
+  //         <h2 className="text-white text-center text-[25px] fonteBold mt-[20px]">Qual o novo nome do edifício?</h2>
+  //         <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
+  //         <div className="flex justify-center w-full items-center">
+  //           <input type="text" placeholder="Nome edifício" onChange={(e) => setInputNome(e.target.value.toUpperCase())} value={inputNome} className="placeholder:text-white text-white placeholder:opacity-70 z-50 text-[25px] fonteBold w-[100%] pl-[15px] h-[60px] bg-[#290064] bg-opacity-[90%] rounded-[17.50px]" />
+  //           <button onClick={editarNomeEditavel} className="flex justify-center items-center h-[60px] w-[60px] ml-[10px] aspect-square text-[20px] fonteBold bg-laranja rounded-[20px] text-white hover:scale-105 hover:bg-orange-600 z-50">✓</button>
+  //         </div>
+  //       </motion.div>
+  //     </div>
+  //   );
+  // }
 
   // ═══════════════════════════════════════════════════════════
   //  CARD PRINCIPAL
@@ -524,7 +619,9 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
               </div>
               <div className="flex p-[6px] justify-center items-center flex-1">
                 <h1 className="text-white fonteBold text-center text-[10px] leading-tight">
-                  {dados[setorAtivo].edificios[index].nomeEditável || nomeAtivo}
+                  {
+                    // dados[setorAtivo].edificios[index].nomeEditável || 
+                    nomeAtivo}
                 </h1>
               </div>
               {/* <button
@@ -560,7 +657,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                 <div style={{ flex: 1, background: "rgba(0,0,0,.28)", borderRadius: 7, padding: "5px 8px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                   <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>Fatu. mensal</div>
                   <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 15, fontWeight: 700, color: "#fff", lineHeight: 1 }}>
-                    {formatarNumero(fatuMensal)} 
+                    {formatarNumero(fatuMensal)}
                   </div>
                 </div>
                 <div style={{ flex: 0.7, background: "rgba(0,0,0,.28)", borderRadius: 7, padding: "5px 6px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
@@ -576,8 +673,8 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                     background: powerUpSelecionado === "powerUpNv3"
                       ? "linear-gradient(135deg,#7a5500,#FFD700)"
                       : powerUpSelecionado === "powerUpNv2"
-                      ? "linear-gradient(135deg,#350973,#8F5ADA)"
-                      : `linear-gradient(135deg,${setorInfo.cor2},${setorInfo.cor3})`,
+                        ? "linear-gradient(135deg,#350973,#8F5ADA)"
+                        : `linear-gradient(135deg,${setorInfo.cor2},${setorInfo.cor3})`,
                     display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2
                   }}
                   onClick={() => { handleShow("powerUp"); handleFlip(); }}
@@ -609,7 +706,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                       { img: LojaMImg, key: "lojasM" },
                       { img: LojaGImg, key: "lojasG" },
                     ].map(({ img, key }) => {
-                      const nec = dados[setorAtivo].edificios[index].lojasNecessarias[key];
+                      const nec = EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[index].lojasNecessarias[key];
                       if (!nec) return null;
                       return (
                         <div key={key} style={{ width: 22, height: 22, borderRadius: 4, background: setorInfo.cor1, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -719,7 +816,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                           <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
                         </div>
                         <div className="flex justify-center items-center w-full">
-                          <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[index].powerUp[nv].quantidadeMínima}</h2>
+                          <h2 className="text-white text-[10px] fonteBold">{EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[index].powerUp[nv].quantidadeMínima}</h2>
                         </div>
                       </div>
                     ))}
@@ -727,7 +824,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
                 </div>
               </div>
               <div style={{ backgroundColor: setorInfo.cor2 }} className="h-[50%] w-full rounded-[10px] flex flex-col items-center justify-around">
-                <p className="text-white text-[10px] h-[65%] p-[5px]">{dados[setorAtivo].edificios[index].desc}</p>
+                <p className="text-white text-[10px] h-[65%] p-[5px]">{EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[index].desc}</p>
                 <button onClick={openModalPowerUps} className="w-[85%] h-[25%] z-50 text-white text-[10px] bg-[#6411D9] rounded-[10px] hover:scale-[1.10] duration-300 ease-in-out">
                   Todos power ups
                 </button>
@@ -791,12 +888,12 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
               </div>
               <div className="w-full flex-1 flex flex-col gap-2 overflow-y-auto pr-1 scrollbar-custom">
                 {[
-                  { img: terrenoImg, key: "terrenos", qtdAtual: dados.terrenos.quantidade },
-                  { img: LojaPImg, key: "lojasP", qtdAtual: dados.lojasP.quantidade },
-                  { img: LojaMImg, key: "lojasM", qtdAtual: dados.lojasM.quantidade },
-                  { img: LojaGImg, key: "lojasG", qtdAtual: dados.lojasG.quantidade },
+                  { img: terrenoImg, key: "terrenos", qtdAtual: EDIFICIOS_BASE_DINAMICOS.terrenos.quantidade },
+                  { img: LojaPImg, key: "lojasP", qtdAtual: EDIFICIOS_BASE_DINAMICOS.lojasP.quantidade },
+                  { img: LojaMImg, key: "lojasM", qtdAtual: EDIFICIOS_BASE_DINAMICOS.lojasM.quantidade },
+                  { img: LojaGImg, key: "lojasG", qtdAtual: EDIFICIOS_BASE_DINAMICOS.lojasG.quantidade },
                 ].map(({ img, key, qtdAtual }) => {
-                  const necessarios = dados[setorAtivo].edificios[index].lojasNecessarias[key];
+                  const necessarios = EDIFICIOS_BASE_DINAMICOS[setorAtivo].edificios[index].lojasNecessarias[key];
                   const temSuficiente = qtdAtual >= necessarios;
                   return (
                     <div key={key} className="w-full h-[65px] flex items-center gap-3 bg-black/20 p-2 rounded-xl border border-white/5 shrink-0">

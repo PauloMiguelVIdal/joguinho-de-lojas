@@ -1,6 +1,6 @@
 // Interface.jsx — refatorado com camadas independentes
 import React, { useContext, lazy, Suspense, useState } from "react";
-import { CentraldeDadosContext } from "./centralDeDadosContext.jsx";
+// import { CentraldeDadosContext } from "./centralDeDadosContext.jsx";
 
 import Notificação from "./notificação.jsx";
 import Informations from "./components/Informations.jsx";
@@ -11,6 +11,16 @@ import Day from "./components/day.jsx";
 import { limparSalvo } from "./components/usePersistencia.js";
 import finishGame from '../public/outrasImagens/finish.png'
 import { LicenceModalBusiness } from "./components/licenseButton.jsx";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "./stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "./stores/dadosEstáticos.js";
+
+
+
 
 const PayTexes = lazy(() => import("./components/PayTexes.jsx"));
 const ButtonChange = lazy(() => import("./components/ButtonChange.jsx"));
@@ -64,7 +74,9 @@ const IconToggle = ({ aberto, horizontal = false }) => (
 )
 
 function Interface() {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext)
+  // const { dados, atualizarDados } = useContext(CentraldeDadosContext)
+  const vision = useCentralStore((s) => s.vision?.visionAtual ?? "dashboard");
+
   const [modalFalenciaOpen, setModalFalenciaOpen] = useState(false);
 
   // ── Visibilidade das camadas ──────────────────────────────
@@ -72,12 +84,11 @@ function Interface() {
   const [dashboardAberto, setDashboardAberto]   = useState(true);
   const [sidebarDirAberta, setSidebarDirAberta] = useState(true);
 
-  const vision = dados.vision.visionAtual
-  const setorAtivo = dados.setorAtivo
+  // const setorAtivo = dados.setorAtivo
 
-  const setVision = (newVision) => {
-    atualizarDados("vision", { ...dados.vision, visionAtual: newVision });
-  }
+  // const setVision = (newVision) => {
+  //   atualizarDados("vision", { ...dados.vision, visionAtual: newVision });
+  // }
 
   // Altura da topbar para que as outras camadas não fiquem atrás dela
   const TOP_H = 64; // px — ajuste se a sua Informations tiver altura diferente
@@ -113,7 +124,7 @@ function Interface() {
       <InputName />
       <Offers />
       <Events />
-      <Employees />
+      {/* <Employees /> */}
       <Notificação />
       <ModalAlert />
       <ModalPerson />

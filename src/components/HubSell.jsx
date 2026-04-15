@@ -3,7 +3,16 @@ import { SALES_EDIFICIOS } from "./salesFormulasConfig";
 import BuildingSellCard from "./BuildSellCard";
 import ManagerSellPanel from "./ManagerSellPanel";
 import { useGame } from "./GameContext";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
+
+
 import {
   ShoppingBag,
   LayoutDashboard,
@@ -20,8 +29,8 @@ export default function HubSell() {
   const [edificioSelecionado, setEdificioSelecionado] = useState(null);
   const [selectedSector, setSelectedSector] = useState("all");
   const { contratosEdificios } = useGame();
-  const { dados } = useContext(CentraldeDadosContext);
-
+  // const { dados } = useContext(CentraldeDadosContext);
+  const dia = useCentralStore((s) => s.dia);
   const sectors = [
     { id: "all", name: "Todos", icon: <Globe size={18} /> },
     { id: "agricultura", name: "Agricultura", icon: <Wheat size={18} /> },
@@ -37,13 +46,20 @@ export default function HubSell() {
 const nomespossuidos = useMemo(() => {
   const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
   const nomes = new Set();
+
   setores.forEach(setor => {
-    (dados[setor]?.edificios || [])
-      .filter(ed => ed.quantidade > 0)
-      .forEach(ed => nomes.add(ed.nome));
+    const dinamicos = edificiosFinais[setor]?.edificios || [];
+    const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+
+    dinamicos.forEach((edDin, index) => {
+      if ((edDin.quantidade ?? 0) <= 0) return;
+      const edEst = estaticos[index];
+      if (edEst?.nome) nomes.add(edEst.nome);
+    });
   });
+
   return nomes;
-}, [dados]);
+}, [edificiosFinais]);
 
 // substitui os dois useMemos antigos (buildingsArray + filteredBuildings)
 const filteredBuildings = useMemo(() => {
@@ -109,7 +125,7 @@ const filteredBuildings = useMemo(() => {
               {filteredBuildings.map((edificio) => {
                 const entrada = contratosEdificios[edificio.edificioId];
                 const diasParaRenovar = entrada
-                  ? Math.max(0, entrada.validadeAte - dados.dia)
+                  ? Math.max(0, entrada.validadeAte - dia)
                   : null;
 
                 return (

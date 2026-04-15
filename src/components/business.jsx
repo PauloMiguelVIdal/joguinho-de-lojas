@@ -1,41 +1,56 @@
 import React, { useEffect, useContext } from "react";
 import acordo from "../../public/outrasImagens/negocios-internacionais.png";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 // Tooltip
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
+
 
 export default function Business() {
-    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
-    const abrirModal = () => {
-        if (dados.dia < 30) return;
-        atualizarDados('modalOfertas', { ...dados.modalOfertas, estadoModal: true });
-    };
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const dia = useCentralStore((s) => s.dia);
+  const modalOfertas = useCentralStore((s) => s.modalOfertas);
+  const modalDespesas = useCentralStore((s) => s.modalDespesas);
+  const botãoOfertas = useCentralStore((s) => s.botãoOfertas);
+  const proximaOferta = useCentralStore((s) => s.proximaOferta);
 
-    const abrirModalNotificado = () => {
-        if (dados.dia < 30) return;
-        atualizarDados('modalOfertas', { ...dados.modalOfertas, estadoModal: true });
-        atualizarDados("botãoOfertas", "btnNormal");
-    };
+  const abrirModal = () => {
+    if (dia < 30) return;
+    atualizarDados('modalOfertas', { ...modalOfertas, estadoModal: true });
+  };
 
-    useEffect(() => {
-        const proximoDiaChegar = (n) => ((n % 30 === 0 ? n : n + (30 - (n % 30))) - dados.dia);
-        const proximoDia = proximoDiaChegar(dados.dia);
-        atualizarDados("proximaOferta", proximoDia);
-    }, [dados.dia]);
+  const abrirModalNotificado = () => {
+    if (dia < 30) return;
+    atualizarDados('modalOfertas', { ...modalOfertas, estadoModal: true });
+    atualizarDados("botãoOfertas", "btnNormal");
+  };
 
-    useEffect(() => {
-        atualizarDados("botãoOfertas", "btnNoti");
-        if (dados.dia < 30) atualizarDados("botãoOfertas", "btnNormal");
-    }, [dados.modalDespesas.estadoModal]);
+  useEffect(() => {
+    const proximoDiaChegar = (n) => ((n % 30 === 0 ? n : n + (30 - (n % 30))) - dia);
+    const proximoDia = proximoDiaChegar(dia);
+    atualizarDados("proximaOferta", proximoDia);
+  }, [dia]);
+
+  useEffect(() => {
+    atualizarDados("botãoOfertas", "btnNoti");
+    if (dia < 30) atualizarDados("botãoOfertas", "btnNormal");
+  }, [modalDespesas]);
 
   const tooltipContent =
-    dados.dia < 30
+    dia < 30
       ? "Ofertas disponíveis a partir do dia 30"
-      : dados.botãoOfertas === "btnNoti"
-      ? `Clique para abrir as ofertas <br/><br/>
+      : botãoOfertas === "btnNoti"
+        ? `Clique para abrir as ofertas <br/><br/>
         <div>
           <p>Depreciação conforme economia:</p>
           <ul style="margin-left:10px;">
@@ -46,7 +61,7 @@ export default function Business() {
             <li><b>Aquecida:</b> 1% - 5%</li>
           </ul>
         </div>`
-      : "Clique para abrir as ofertas";
+        : "Clique para abrir as ofertas";
 
 
   return (
@@ -54,11 +69,11 @@ export default function Business() {
       {/* 🔘 BOTÃO PADRÃO */}
       <button
         data-tooltip-id="ofertas-tip"
-        {...(dados.botãoOfertas === "btnNoti"
+        {...(botãoOfertas === "btnNoti"
           ? { "data-tooltip-html": tooltipContent }
           : { "data-tooltip-content": tooltipContent })}
         onClick={
-          dados.botãoOfertas === "btnNoti"
+          botãoOfertas === "btnNoti"
             ? abrirModalNotificado
             : abrirModal
         }
@@ -66,10 +81,9 @@ export default function Business() {
           h-[50px] aspect-square rounded-[10px]
           flex items-center justify-center
           transition-all duration-200
-          ${
-            dados.dia < 30
-              ? "bg-[#F4CCB6]"
-              : "bg-laranja hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+          ${dia < 30
+            ? "bg-[#F4CCB6]"
+            : "bg-laranja hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
           }
         `}
       >
@@ -77,7 +91,7 @@ export default function Business() {
       </button>
 
       {/* 🔔 BADGE (notificação) */}
-      {dados.botãoOfertas === "btnNoti" && dados.dia >= 30 && (
+      {botãoOfertas === "btnNoti" && dia >= 30 && (
         <div className="absolute bottom-[-2px] right-[-2px]">
           <span className="relative flex size-3">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
@@ -87,9 +101,9 @@ export default function Business() {
       )}
 
       {/* ⏱️ CONTADOR (pequeno, opcional mas recomendado) */}
-      {dados.dia < 30 && (
+      {dia < 30 && (
         <div className="absolute -top-2 -right-2 bg-[#290064] text-white text-[10px] px-1 rounded">
-          {dados.proximaOferta}
+          {proximaOferta}
         </div>
       )}
 

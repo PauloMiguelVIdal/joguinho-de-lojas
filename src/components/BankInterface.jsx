@@ -8,23 +8,30 @@ import {
   Wallet,
   X, AlertTriangle
 } from "lucide-react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import backButton from "../../public/outrasImagens/back-button.png";
+import { useCentralStore } from "../stores/useCentralStore";
 
 
 const BankInterface = () => {
   const [selectedInstallments, setSelectedInstallments] = useState(3);
   const [currentTab, setCurrentTab] = useState("overview");
   const [loanAmount, setLoanAmount] = useState(0);
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEco, atualizarEcoCallback } = useContext(
     DadosEconomyGlobalContext
   );
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const dia = useCentralStore((s) => s.dia);
+  const vision = useCentralStore((s) => s.vision?.visionAtual ?? "dashboard");
+  const nomeEmpresa = useCentralStore((s) => s.inicioGame.nomeEmpresa);
+
+
   const constratoSelecionado = economiaSetores.idContrato;
   const idContratoAtivo = economiaSetores.idContrato || 0;
   const contrato1 = economiaSetores.contratosBancos[idContratoAtivo];
-  const diaAtualJogo = dados.dia || 1000;
+  const diaAtualJogo = dia || 1000;
   const activeLoans = economiaSetores.activeLoans || {};
   const activeLoan = activeLoans[idContratoAtivo] || null;
   const limiteEmprestimoAtual = contrato1.limiteEmprestimo;
@@ -40,11 +47,9 @@ const BankInterface = () => {
   const saldoBancario = economiaSetores.saldo;
   const [showModal, setShowModal] = useState(false)
   const setVision = (newVision) => {
-    atualizarDados("vision", {
-      ...dados.vision,
-      visionAtual: newVision,
-    });
+    atualizarDados("vision", { visionAtual: newVision });
   };
+
 
   if (!contrato1) {
     return (
@@ -365,8 +370,8 @@ const BankInterface = () => {
               onClick={onConfirm}
               disabled={!podeEncerrar}
               className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${podeEncerrar
-                  ? 'bg-red-600 hover:bg-red-700 text-white'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                ? 'bg-red-600 hover:bg-red-700 text-white'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
             >
               {podeEncerrar ? 'Encerrar Contrato' : 'Não Disponível'}
@@ -379,7 +384,7 @@ const BankInterface = () => {
 
   const BotaoEncerrarContrato = ({ contrato, activeLoan, diaAtualJogo }) => {
     const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
-    const { atualizarDados, dados } = useContext(CentraldeDadosContext);
+    // const { atualizarDados, dados } = useContext(CentraldeDadosContext);
     const [showModal, setShowModal] = useState(false);
 
     const idContratoAtivo = economiaSetores.idContrato || 0;
@@ -506,7 +511,7 @@ const BankInterface = () => {
     // } else {
     //   setActiveInvestments(investimentosAtualizados);
     // }
-  }, [dados.dia]);
+  }, [dia]);
 
   const calcularMultiplicadorJuros = (nivelJuros, parcelas) => {
     const multiplicadores = {
@@ -744,7 +749,7 @@ const BankInterface = () => {
     );
   };
 
-  const contratoParaCartao = (contrato, dados) => ({
+  const contratoParaCartao = (contrato, nomeEmpresa) => ({
     id: contrato.cartaoId,
     banco: contrato.bancoNome,
     design: contrato.design,
@@ -755,12 +760,12 @@ const BankInterface = () => {
     numeroCard: contrato.numeroCard,
     cartaoNome: contrato.cartaoNome,
     validade: contrato.dataFim ? `até ${contrato.dataFim}` : "-",
-    empresa: dados?.inicioGame?.nomeEmpresa ?? "Minha Empresa",
+    empresa: nomeEmpresa ?? "Minha Empresa",
   });
 
   const cardData = {
     number: contrato1.numeroCard,
-    holder: dados.inicioGame.nomeEmpresa,
+    holder: nomeEmpresa,
     expiry: contrato1.dataFim,
     limit: 50000,
     available: 12350,
@@ -817,7 +822,7 @@ const BankInterface = () => {
           <div>
             <div className="text-xs opacity-90 mb-1">EMPRESA</div>
             <div className="text-sm font-bold">
-              {dados.inicioGame.nomeEmpresa}
+              {nomeEmpresa}
             </div>
           </div>
           <div className="text-right">
@@ -900,7 +905,7 @@ const BankInterface = () => {
         <div>
           <div className="text-xs opacity-75 mb-1">EMPRESA</div>
           <div className="text-sm font-medium">
-            {dados.inicioGame.nomeEmpresa}
+            {nomeEmpresa}
           </div>
         </div>
         <div className="text-right">
@@ -999,7 +1004,7 @@ const BankInterface = () => {
             <div>
               <div className="text-xs opacity-70">EMPRESA</div>
               <div className="text-sm font-medium">
-                {dados.inicioGame.nomeEmpresa}
+                {nomeEmpresa}
               </div>
             </div>
             <div className="text-right">
@@ -1094,7 +1099,7 @@ const BankInterface = () => {
           <div>
             <div className="text-xs opacity-90 mb-1">EMPRESA</div>
             <div className="text-sm font-bold">
-              {dados.inicioGame.nomeEmpresa}
+              {nomeEmpresa}
             </div>
           </div>
           <div className="text-right">
@@ -1190,8 +1195,8 @@ const BankInterface = () => {
     <button
       onClick={() => onClick(id)}
       className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${active
-          ? "text-white shadow-lg"
-          : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+        ? "text-white shadow-lg"
+        : "bg-gray-100 hover:bg-gray-200 text-gray-700"
         }`}
       style={active ? { backgroundColor: contrato1.cor1 } : {}}
     >
@@ -1218,10 +1223,10 @@ const BankInterface = () => {
               {contrato1.bancoNome}
             </h1>
           </div>
-        
+
 
           <div>
-           
+
             <button
               onClick={() => setVision('dashboard')}
               data-tooltip-id="tooltip-faturado"
@@ -1230,7 +1235,7 @@ const BankInterface = () => {
             >
               <img className="w-[70%]" src={backButton} />
             </button>
-        
+
           </div>
         </header>
 
@@ -1264,7 +1269,7 @@ const BankInterface = () => {
             <div className="flex flex-col items-start space-y-4 ">
               <div className="flex flex-col items-center justify-center  ">
                 {contrato1 &&
-                  renderCartao(contratoParaCartao(contrato1, dados))}
+                  renderCartao(contratoParaCartao(contrato1))}
                 {/* <div style={{
                   background: `linear-gradient(135deg, ${contrato1.cor3}, ${contrato1.cor2}, ${contrato1.cor4})`
                 }} className="bg-white rounded-xl p-4 shadow-lg w-full mt-6 ">
@@ -1429,8 +1434,8 @@ const BankInterface = () => {
                     <span className="text-gray-600">Rendimento:</span>
                     <span
                       className={`font-semibold ${investmentData.rendimentoPos >= 0
-                          ? "text-green-600"
-                          : "text-red-600"
+                        ? "text-green-600"
+                        : "text-red-600"
                         }`}
                     >
                       {investmentData.rendimentoPos >= 0 ? "+" : ""}
@@ -1493,8 +1498,8 @@ const BankInterface = () => {
                     <span className="text-gray-600">Rendimento previsto:</span>
                     <span
                       className={`font-semibold ${investmentData.rendimentoPre >= 0
-                          ? "text-green-600"
-                          : "text-gray-600"
+                        ? "text-green-600"
+                        : "text-gray-600"
                         }`}
                     >
                       {investmentData.rendimentoPre >= 0 ? "+" : ""}
@@ -1612,8 +1617,8 @@ const BankInterface = () => {
                       key={option}
                       onClick={() => setSelectedInstallments(option)}
                       className={`p-3 rounded-lg border-2 transition-colors font-semibold ${selectedInstallments === option
-                          ? "text-white border-transparent"
-                          : "text-gray-700 border-gray-300 hover:border-gray-400"
+                        ? "text-white border-transparent"
+                        : "text-gray-700 border-gray-300 hover:border-gray-400"
                         }`}
                       style={
                         selectedInstallments === option
@@ -1631,8 +1636,8 @@ const BankInterface = () => {
               <button
                 onClick={handleRequestLoan}
                 className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${activeLoan || loanAmount <= 0
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
                   }`}
                 style={{ backgroundColor: contrato1.cor2 }}
                 disabled={activeLoan || loanAmount <= 0}
@@ -1645,11 +1650,11 @@ const BankInterface = () => {
               <button
                 onClick={handlePayInstallment}
                 className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${!activeLoan ||
-                    diaAtualJogo < (activeLoan?.proximoVencimento ?? 0) ||
-                    (economiaSetores.saldo ?? 0) <
-                    (activeLoan?.valorParcela ?? Infinity)
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
+                  diaAtualJogo < (activeLoan?.proximoVencimento ?? 0) ||
+                  (economiaSetores.saldo ?? 0) <
+                  (activeLoan?.valorParcela ?? Infinity)
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
                   }`}
                 style={{ backgroundColor: contrato1.cor2 }}
                 disabled={
@@ -1828,19 +1833,19 @@ const BankInterface = () => {
                           <div
                             key={i}
                             className={`p-3 flex justify-between items-center ${isProxima
-                                ? "bg-yellow-50"
-                                : isPaga
-                                  ? "bg-green-50"
-                                  : ""
+                              ? "bg-yellow-50"
+                              : isPaga
+                                ? "bg-green-50"
+                                : ""
                               }`}
                           >
                             <div>
                               <p
                                 className={`font-medium ${isPaga
-                                    ? "text-green-600"
-                                    : isProxima
-                                      ? "text-yellow-600"
-                                      : "text-gray-800"
+                                  ? "text-green-600"
+                                  : isProxima
+                                    ? "text-yellow-600"
+                                    : "text-gray-800"
                                   }`}
                               >
                                 {numeroParcela}ª parcela{" "}
@@ -1954,8 +1959,8 @@ const BankInterface = () => {
                   <button
                     onClick={() => setInvestmentType("pos")}
                     className={`p-4 rounded-lg border-2 transition-all ${investmentType === "pos"
-                        ? "text-white border-transparent"
-                        : "text-gray-700 border-gray-300 hover:border-gray-400"
+                      ? "text-white border-transparent"
+                      : "text-gray-700 border-gray-300 hover:border-gray-400"
                       }`}
                     style={
                       investmentType === "pos"
@@ -1971,8 +1976,8 @@ const BankInterface = () => {
                   <button
                     onClick={() => setInvestmentType("pre")}
                     className={`p-4 rounded-lg border-2 transition-all ${investmentType === "pre"
-                        ? "text-white border-transparent"
-                        : "text-gray-700 border-gray-300 hover:border-gray-400"
+                      ? "text-white border-transparent"
+                      : "text-gray-700 border-gray-300 hover:border-gray-400"
                       }`}
                     style={
                       investmentType === "pre"
@@ -2023,8 +2028,8 @@ const BankInterface = () => {
                           key={days}
                           onClick={() => setInvestmentDays(days)}
                           className={`p-3 rounded-lg border-2 transition-colors ${investmentDays === days
-                              ? "text-white border-transparent"
-                              : "text-gray-700 border-gray-300 hover:border-gray-400"
+                            ? "text-white border-transparent"
+                            : "text-gray-700 border-gray-300 hover:border-gray-400"
                             }`}
                           style={
                             investmentDays === days
@@ -2088,8 +2093,8 @@ const BankInterface = () => {
               <button
                 onClick={handleInvest}
                 className={`w-full text-white py-3 rounded-lg font-semibold transition-colors ${investmentAmount <= 0 || investmentAmount > saldoBancario
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
                   }`}
                 style={{ backgroundColor: contrato1.cor3 }}
                 disabled={
@@ -2176,8 +2181,8 @@ const BankInterface = () => {
                         <span className="text-gray-600">Rendimento:</span>
                         <span
                           className={`font-semibold ${percentualRendimento >= 0
-                              ? "text-blue-600"
-                              : "text-red-600"
+                            ? "text-blue-600"
+                            : "text-red-600"
                             }`}
                         >
                           {percentualRendimento >= 0 ? "+" : ""}
@@ -2297,7 +2302,7 @@ const BankInterface = () => {
               <div className="bg-gradient-to-br from-white/20 to-white/40 rounded-xl p-6 shadow-lg ">
                 <div className="flex flex-col items-center justify-center ">
                   {contrato1 &&
-                    renderCartao(contratoParaCartao(contrato1, dados))}
+                    renderCartao(contratoParaCartao(contrato1))}
                   <div
                     style={{
                       background: `linear-gradient(135deg, ${contrato1.cor3}, ${contrato1.cor2}, ${contrato1.cor4})`,

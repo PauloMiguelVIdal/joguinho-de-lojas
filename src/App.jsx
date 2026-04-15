@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { CentraldeDadosProvider } from "./centralDeDadosContext";
+// import { CentraldeDadosProvider } from "./centralDeDadosContext";
 import Interface from "./interface";
 import { DadosEconomyGlobalProvider } from "./dadosEconomyGlobal";
 import Notificação from "./notificação";
@@ -53,7 +53,7 @@ function App() {
   }, []);
 
   return (
-    <CentraldeDadosProvider>
+    // <CentraldeDadosProvider>
       <DadosEconomyGlobalProvider>
         <GameProvider>
           <PipelineProvider>
@@ -80,7 +80,7 @@ function App() {
           </PipelineProvider>
         </GameProvider>
       </DadosEconomyGlobalProvider>
-    </CentraldeDadosProvider>
+    // </CentraldeDadosProvider>
   );
 }
 

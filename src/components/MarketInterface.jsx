@@ -3,10 +3,16 @@ import { ShoppingCart, DollarSign, Zap, Search, X } from "lucide-react";
 import { productsCatalog } from "./ProductCatalog";
 import { getMarketPrice } from "./TablePrice";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { useGame } from "./GameContext";
 import QuantityModal from "./QuantityModal";
-
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 // ─────────────────────────────────────────────────────────────
 //  UTILITÁRIOS
 // ─────────────────────────────────────────────────────────────
@@ -28,27 +34,40 @@ const SECTORS = [
 // ─────────────────────────────────────────────────────────────
 //  IDs VINCULADOS AOS EDIFÍCIOS ATIVOS
 // ─────────────────────────────────────────────────────────────
-function useLinkedProductIds(dados) {
+function useLinkedProductIds() {
+  const edificiosFinais = useCentralStore(s => s.edificiosFinais);
+
   return useMemo(() => {
     const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
     const ids = new Set();
+
     setoresArr.forEach((setor) => {
-      (dados[setor]?.edificios || []).forEach((ed) => {
-        if (ed.quantidade <= 0) return;
-        (ed.produz || []).forEach((id) => ids.add(id));
-        (ed.consome || []).forEach((id) => ids.add(id));
-        (ed.vende || []).forEach((id) => ids.add(id));
+      const dinamicos = edificiosFinais[setor]?.edificios || [];
+      const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+
+      dinamicos.forEach((edDin, index) => {
+        if ((edDin.quantidade ?? 0) <= 0) return; // pula logo, sem acessar estático
+
+        const edEst = estaticos[index];
+        if (!edEst) return;
+
+        (edEst.produz || []).forEach((id) => ids.add(id));
+        (edEst.consome || []).forEach((id) => ids.add(id));
+        (edEst.vende || []).forEach((id) => ids.add(id));
+
+        // lookup por nome no catálogo
         Object.values(productsCatalog).forEach((p) => {
           if (
-            p.edificioProdutor === ed.nome ||
-            p.edificioVendedor === ed.nome ||
-            p.nomeEdificio === ed.nome
+            p.edificioProdutor === edEst.nome ||
+            p.edificioVendedor === edEst.nome ||
+            p.nomeEdificio    === edEst.nome
           ) ids.add(p.id);
         });
       });
     });
+
     return ids;
-  }, [dados]);
+  }, [edificiosFinais]);
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -159,7 +178,7 @@ function ProductRow({ product, mode, onAction, canBuy, isLinked }) {
 // ─────────────────────────────────────────────────────────────
 export default function MarketplaceSystem() {
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
-  const { dados } = useContext(CentraldeDadosContext);
+  // const { dados } = useContext(CentraldeDadosContext);
   const {
     stock, removeProduct, canAddProduct,
     marketTransactions, setMarketTransactions,
@@ -176,7 +195,7 @@ export default function MarketplaceSystem() {
   // ref para medir a altura dos headers
   const headerRef = React.useRef(null);
 
-  const linkedIds = useLinkedProductIds(dados);
+  const linkedIds = useLinkedProductIds();
 
   const products = useMemo(() => {
     return Object.values(productsCatalog)

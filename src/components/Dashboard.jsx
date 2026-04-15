@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState, useMemo, useCallback } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { Line } from "react-chartjs-2";
 import agricultura from "../../public/outrasImagens/setores/agricultura.png";
 import tecnologia from "../../public/outrasImagens/setores/tecnologia.png";
@@ -29,7 +29,7 @@ import soma from "../../public/outrasImagens/Soma.png";
 import setoresImg from "../../public/outrasImagens/setores.png";
 import diversidade from "../../public/outrasImagens/diversidade.png";
 import { SellModal } from "./SellModal";
-import Map from "../Map";
+// import Map from "../Map";
 import { Tooltip } from "react-tooltip";
 import solo from "../../public/outrasImagens/solo.png";
 import buildBusiness from "../../public/outrasImagens/business.png";
@@ -46,7 +46,7 @@ import CreditCard from "./CreditCard";
 import bank from "../../public/outrasImagens/bank.png";
 import BankDetailsInterface from "./BankModel";
 import BankInterface from "./BankInterface.jsx";
-import MicroModel from "./MicroModel.jsx";
+// import MicroModel from "./MicroModel.jsx";
 import CorporateFinanceInterface from "./FinançasDashboard.jsx";
 import useSound from "use-sound";
 import changeSectoryAudio from "../../public/sounds/changeSectoryAudio.mp3";
@@ -55,7 +55,7 @@ import openAudio from "../../public/sounds/openAudio.mp3";
 import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3";
 import MarketplaceSystem from "./MarketInterface.jsx";
 import StorageInterface from "./StorageInterface.jsx";
-import ButcherShopPanel from '../components/ButcherShopPanel.jsx'
+// import ButcherShopPanel from '../components/ButcherShopPanel.jsx'
 import ManagerPanelInterface from "./ManagerPanelInterface.jsx";
 import HubManagement from "./HubManagement.jsx";
 import mercado from '../../public/outrasImagens/mercado.png'
@@ -68,12 +68,20 @@ import SalesQueuePanel from "./SalesQueuePanel.jsx";
 import SalesQueueCard from "./SalesQueueCard.jsx";
 import GerenciamentoHub from "./GerenciamentoHub.jsx";
 import { CardLocalization } from "./cardLocalization";
-import Techtree from "./Techtree.jsx";
-import ProductionChainTree from "./ProductionChainTree";
-import EcosystemMap from "./EcosystemMap";
+// import Techtree from "./Techtree.jsx";
+// import ProductionChainTree from "./ProductionChainTree";
+// import EcosystemMap from "./EcosystemMap";
 import CadeiaProdutiva from "./CadeiaProdutiva.jsx";
 import AssistenteIA from "./AssinstentIA.jsx";
 import MapWorld from "./MapWorld.jsx";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
+
 
 import {
   Chart as ChartJS,
@@ -278,27 +286,34 @@ function TooltipInterno({ text, children }) {
 }
 
 export default function Dashboard() {
-  const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores } = useContext(DadosEconomyGlobalContext);
-  const [ativo, setAtivo] = useState("grafico");
+  const [ativo, setAtivo] = useState("agricultura");
   const [graficoView, setGraficoView] = useState('ecossistema');
+  const setorAtivoDados = useCentralStore((s) => s.setorAtivo);
+  const edificiosFinais = useCentralStore((s) => s.edificiosFinais);
+  const licençasStatus = useCentralStore((s) => s.licençasStatus);
+  const edificioBase = useCentralStore((s) => s.edificiosBase);
+  const dia = useCentralStore((s) => s.dia);
+  const vision = useCentralStore((s) => s.vision?.visionAtual ?? "dashboard");
+  const abrirModalLicencasSinal = useCentralStore((s) => s.abrirModalLicencas);
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const atualizarLote = useCentralStore((s) => s.atualizarLote);
+
 
   // ─── PERFORMANCE: snapshotDados memoizado ────────────────────────────────────
   // Antes era JSON.stringify pesado recalculado em TODO render do Dashboard.
   // Agora só recalcula quando os arrays de edificios de algum setor mudam.
   const snapshotDados = useMemo(() => JSON.stringify(
     SETORES_ARR.map(s =>
-      (dados[s]?.edificios || []).map(ed => ({ nome: ed.nome, q: ed.quantidade }))
+      (EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || []).map((ed, idx) => ({
+        nome: ed.nome,
+        q: edificiosFinais[s]?.[idx]?.quantidade ?? 0,
+      }))
     )
-  ), [
-    dados.agricultura?.edificios,
-    dados.tecnologia?.edificios,
-    dados.comercio?.edificios,
-    dados.industria?.edificios,
-    dados.imobiliario?.edificios,
-    dados.energia?.edificios,
-  ]);
+  ), [edificiosFinais]);
 
+  
   const [carteiraKey, setCarteiraKey] = useState(0);
 
   useEffect(() => {
@@ -307,9 +322,10 @@ export default function Dashboard() {
     }
   }, [snapshotDados]);
 
+
+
   const [modalSell, setModalSell] = useState(false);
   const patrimonioTotal = economiaSetores.patrimonio;
-  const vision = dados.vision.visionAtual;
   const [changeAudio] = useSound(changeSectoryAudio);
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
@@ -318,19 +334,22 @@ export default function Dashboard() {
   const [carteiraFiltroSetor, setCarteiraFiltroSetor] = useState("todos");
 
   const setVision = (newVision) => {
-    atualizarDados("vision", { ...dados.vision, visionAtual: newVision });
+    atualizarDados("vision", { visionAtual: newVision });
   };
   const abrirMapa = () => setVision("mapa");
   const abrirBanco = () => setVision("bank");
+
+  const atualizarDadosProf2 = (caminho, valor) =>
+    useCentralStore.getState().atualizarDadosProf(caminho, valor);
 
   const [modalSellOpen, setModalSellOpen] = useState(false);
   const [modalProps, setModalProps] = useState({ setor: "", nomeLicença: "", index: 0 });
 
   useEffect(() => {
-    if (dados.dia >= 270) {
+    if (dia >= 270) {
       if (ativo === "carteira") return;
     }
-  }, [dados.dia]);
+  }, [dia]);
 
   const abrirModalSell = (setor, index) => {
     setModalProps({ setor, index });
@@ -354,9 +373,9 @@ export default function Dashboard() {
     });
   };
 
-  useEffect(() => {
-    atualizarDados("animarCicloDia", animarCicloDia);
-  }, [dados.dia]);
+  // useEffect(() => {
+  //   atualizarDados("animarCicloDia", animarCicloDia);
+  // }, [dia]);
 
   // ─── PERFORMANCE: helpers de gráfico fora de useEffect, usando constantes ───
   const createGradientEdificios = useCallback((ctx, edificio) => {
@@ -381,15 +400,15 @@ export default function Dashboard() {
   // Os useEffect de gráfico agora dependem destes memos em vez de objetos inteiros,
   // evitando recriação do gráfico quando outras partes de dados.terrenos mudam.
   const arraysFatuEdificios = useMemo(() => ({
-    terrenos: dados.terrenos?.arrayFatu,
-    lojasP: dados.lojasP?.arrayFatu,
-    lojasM: dados.lojasM?.arrayFatu,
-    lojasG: dados.lojasG?.arrayFatu,
+    terrenos: edificioBase.terrenos?.arrayFatu,
+    lojasP: edificioBase.lojasP?.arrayFatu,
+    lojasM: edificioBase.lojasM?.arrayFatu,
+    lojasG: edificioBase.lojasG?.arrayFatu,
   }), [
-    dados.terrenos?.arrayFatu,
-    dados.lojasP?.arrayFatu,
-    dados.lojasM?.arrayFatu,
-    dados.lojasG?.arrayFatu,
+    edificioBase.terrenos?.arrayFatu,
+    edificioBase.lojasP?.arrayFatu,
+    edificioBase.lojasM?.arrayFatu,
+    edificioBase.lojasG?.arrayFatu,
   ]);
 
   const arraysFatuSetores = useMemo(() => (
@@ -408,7 +427,7 @@ export default function Dashboard() {
 
   // ─── PERFORMANCE: useEffect de gráfico de edificios com deps precisas ────────
   useEffect(() => {
-    if (ativo === "grafico" && dados.dia <= 270 && chartRefEdificios.current) {
+    if (ativo === "grafico" && dia <= 270 && chartRefEdificios.current) {
       const ctx = chartRefEdificios.current.getContext("2d");
 
       const datasetsEdificios = ["terrenos", "lojasP", "lojasM", "lojasG"].map(
@@ -432,7 +451,7 @@ export default function Dashboard() {
         }
       );
 
-      const dadosDia = (arraysFatuEdificios.terrenos || []).map((_, i) => i + 1);
+      const dadosDia = (edificioBase.terrenos?.arrayFatu || []).map((_, i) => i + 1);
 
       const configEdificios = {
         type: "line",
@@ -502,7 +521,7 @@ export default function Dashboard() {
 
   // ─── PERFORMANCE: useEffect de gráfico de setores com deps precisas ──────────
   useEffect(() => {
-    if (ativo === "grafico" && dados.dia > 270 && chartRefSetores.current) {
+    if (ativo === "grafico" && dia > 270 && chartRefSetores.current) {
       const ctx = chartRefSetores.current.getContext("2d");
 
       const dadosDiaSetores = (arraysFatuSetores[0] || []).map((_, i) => i + 270);
@@ -592,30 +611,39 @@ export default function Dashboard() {
     };
   }, [ativo, arraysFatuSetores, createGradient]);
 
-  const alterarEconomiaSetor = () => {
-    atualizarDadosProf2([ativo, "economiaSetor", "estadoAtual"], "recessão");
-  };
+  // const alterarEconomiaSetor = () => {
+  //   atualizarDadosProf2([ativo, "economiaSetor", "estadoAtual"], "recessão");
+  // };
 
   const setorAtivo = SETORES.find((setor) => setor.id === ativo);
   const setorCarteira = SETORES.find((setor) => setor.id === "carteira");
   const setorGerenciamento = SETORES.find((setor) => setor.id === "gerenciamento");
 
   const corClasse = setorAtivo ? setorAtivo.corClasse : "bg-[#358Q973]";
-  const setorDados = dados[ativo];
-  const licençaComprada = setorDados.licençaGlobal.comprado;
-  const licenciaValor = setorDados.licençaGlobal.valor;
+  // const setorDados = dados[ativo];
+
+  const licenciaValor = LICENCAS_ESTATICAS_GLOBAIS[ativo].valor;
 
   const licençasNecessárias = ["Silo", "Plantação De Legumes"];
   const arrayLicenseNece = licençasNecessárias;
 
-  const dadosDia = dados.terrenos.arrayFatu.map((_, index) => index + 1);
-  const dadosFatu = dados.faturamento.arrayFatuDiário.map((_, index) => index + 1);
+  // const dadosDia  = (edificioBase.terrenos?.arrayFatu || []).map((_, i) => i + 1);
+  //   const dadosFatu = dados.faturamento.arrayFatuDiário.map((_, index) => index + 1);
+
+
+  const licençaGlobalStatus = licençasStatus[ativo]?.global ?? false;  // ajuste a chave conforme seu estado inicial
+  const licençaComprada = true;
+
+
+
 
   // ─── PERFORMANCE: calcROI memoizado com useCallback ──────────────────────────
   // Antes era uma função inline recriada dentro do bloco de render da carteira,
   // causando recalculo completo em qualquer re-render do Dashboard.
   const calcROI = useCallback((ed) => {
-    if (!ed || !dados) return 0;
+    if (!ed
+      // || !dados
+    ) return 0;
     try {
       const fatorEconomico = {
         recessão: 0.4, declinio: 0.8, estável: 1, progressiva: 1.1, aquecida: 1.25,
@@ -633,10 +661,8 @@ export default function Dashboard() {
         ed.RecebeMelhoraEficiencia.forEach((rel) => {
           let qtdOutro = 0;
           for (const s of SETORES_ARR) {
-            const lista = dados[s]?.edificios;
-            if (!Array.isArray(lista)) continue;
-            const found = lista.find(e => e.nome === rel.nome);
-            if (found) { qtdOutro = found.quantidade || 0; break; }
+            const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex(e => e.nome === rel.nome) ?? -1;
+            if (idx !== -1) { qtdOutro = edificiosFinais[s]?.[idx]?.quantidade ?? 0; break; }
           }
           if (qtdOutro > 0) {
             redCusto += nivelPU === "powerUpNv1" ? rel?.redCusto?.nível1 || 0 : nivelPU === "powerUpNv2" ? rel?.redCusto?.nível2 || 0 : rel?.redCusto?.nível3 || 0;
@@ -656,10 +682,10 @@ export default function Dashboard() {
       const lucro = fatuMensal - impostoSobreFatuValor - impostoFixoFinal;
 
       const custoBase =
-        (ed?.lojasNecessarias?.terrenos || 0) * (dados?.terrenos?.preçoConstrução || 0) +
-        (ed?.lojasNecessarias?.lojasP || 0) * ((dados?.lojasP?.preçoConstrução || 0) + (dados?.lojasP?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
-        (ed?.lojasNecessarias?.lojasM || 0) * ((dados?.lojasM?.preçoConstrução || 0) + (dados?.lojasM?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
-        (ed?.lojasNecessarias?.lojasG || 0) * ((dados?.lojasG?.preçoConstrução || 0) + (dados?.lojasG?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0));
+        (EDIFICIOS_BASE_ESTATICOS?.terrenos.quantidadeNecTerreno || 0) * (EDIFICIOS_BASE_DINAMICOS?.terrenos?.preçoConstrução || 0) +
+        (EDIFICIOS_BASE_ESTATICOS?.lojasP.quantidadeNecTerreno || 0) * ((EDIFICIOS_BASE_DINAMICOS?.lojasP?.preçoConstrução || 0) + (EDIFICIOS_BASE_ESTATICOS?.lojasP?.quantidadeNecTerreno || 0) * (EDIFICIOS_BASE_DINAMICOS?.terrenos?.preçoConstrução || 0)) +
+        (EDIFICIOS_BASE_ESTATICOS?.lojasM.quantidadeNecTerreno || 0) * ((EDIFICIOS_BASE_DINAMICOS?.lojasM?.preçoConstrução || 0) + (EDIFICIOS_BASE_ESTATICOS?.lojasM?.quantidadeNecTerreno || 0) * (EDIFICIOS_BASE_DINAMICOS?.terrenos?.preçoConstrução || 0)) +
+        (EDIFICIOS_BASE_ESTATICOS?.lojasG.quantidadeNecTerreno || 0) * ((EDIFICIOS_BASE_DINAMICOS?.lojasG?.preçoConstrução || 0) + (EDIFICIOS_BASE_ESTATICOS?.lojasG?.quantidadeNecTerreno || 0) * (EDIFICIOS_BASE_DINAMICOS?.terrenos?.preçoConstrução || 0));
 
       let custoRecursos = 0;
       if (Array.isArray(ed?.recursoDeConstrução)) {
@@ -674,38 +700,49 @@ export default function Dashboard() {
       console.error("Erro no calcROI:", err);
       return 0;
     }
-  }, [dados, economiaSetores]);
+  }, [economiaSetores]);
 
   // ─── PERFORMANCE: todosEdificios memoizado ───────────────────────────────────
   // Antes era recalculado inline em cada render da carteira.
   const todosEdificiosBase = useMemo(() => {
     let lista = [];
-    SETORES_ARR.forEach(s => {
-      dados[s]?.edificios?.forEach((ed, idx) => {
-        if (ed.quantidade > 0) {
-          lista.push({ ed, idx, setor: s, roi: calcROI(ed), categoria: getCategoria(ed.nome) });
+    SETORES_ARR.forEach((s) => {
+      (edificiosFinais[s]?.edificios || []).forEach((ed, idx) => {
+        const qtd = edificiosFinais[s]?.edificios[idx]?.quantidade ?? 0;
+        // const teste = edificiosFinais.agricultura?.[4]?.quantidade ?? 0;
+        console.log()
+        if (qtd > 0) {
+          lista.push({
+            ed: { ...ed, quantidade: qtd },  // merge estático + quantidade dinâmica
+            idx,
+            setor: s,
+            roi: calcROI({ ...ed, quantidade: qtd }),
+            categoria: getCategoria(ed.nome),
+          });
         }
       });
     });
     return lista;
-  }, [dados, calcROI]);
+  }, [edificiosFinais, calcROI]);
 
   // ─── PERFORMANCE: totais financeiros memoizados ──────────────────────────────
   const totaisFinanceiros = useMemo(() => {
     let receitaMensalTotal = 0;
     let impostosTotais = 0;
-    SETORES_ARR.forEach(s => {
-      dados[s]?.edificios?.forEach(ed => {
-        if (ed.quantidade > 0) {
-          const fatu = (ed.finanças?.faturamentoUnitário || 0) * 30 * ed.quantidade;
-          const imp = fatu * (ed.finanças?.impostoSobreFatu || 0) + (ed.finanças?.impostoFixo || 0) * ed.quantidade;
+    SETORES_ARR.forEach((s) => {
+      (EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || []).forEach((ed, idx) => {
+        const qtd = edificiosFinais[s]?.[idx]?.quantidade ?? 0;
+        if (qtd > 0) {
+          const fatu = (ed.finanças?.faturamentoUnitário || 0) * 30 * qtd;
+          const imp = fatu * (ed.finanças?.impostoSobreFatu || 0)
+            + (ed.finanças?.impostoFixo || 0) * qtd;
           receitaMensalTotal += fatu;
           impostosTotais += imp;
         }
       });
     });
     return { receitaMensalTotal, impostosTotais, lucroLiquido: receitaMensalTotal - impostosTotais };
-  }, [dados]);
+  }, [edificiosFinais]);
 
   const formatarNumero = (num) => {
     if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
@@ -743,14 +780,14 @@ export default function Dashboard() {
   const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
 
   useEffect(() => {
-    const sinal = dados.abrirModalLicencas;
+    const sinal = abrirModalLicencasSinal;
     if (!sinal) return;
     if (sinal.setor !== ativo) {
       setAtivo(sinal.setor);
       atualizarDadosProf2(["setorAtivo"], sinal.setor);
     }
     setLicencaModal({ open: true, scrollToIndex: sinal.scrollToIndex });
-  }, [dados.abrirModalLicencas?.timestamp]);
+  }, [abrirModalLicencasSinal?.timestamp]);
 
   useEffect(() => {
     if (!licencaModal.open) return;
@@ -763,23 +800,35 @@ export default function Dashboard() {
   }, [licencaModal.open, licencaModal.scrollToIndex]);
 
   const LiberarLicença = () => {
-    if (economiaSetores.saldo >= licenciaValor) {
-      if (licençaComprada) {
-        return alert("Licença já comprada.");
-      } else {
-        const novoSaldo = economiaSetores.saldo - licenciaValor;
-        atualizarDados("saldo", novoSaldo);
-        atualizarDadosProf2([ativo, "licençaGlobal", "comprado"], true);
-        arrayLicenseNece.forEach((licenca) => {
-          const licençaIndex = dados[ativo].licençasSetor.findIndex((l) => l.nome === licenca);
-          if (licençaIndex !== -1) {
-            atualizarDadosProf2([ativo, "licençasSetor", licençaIndex, "status"], true);
-          }
-        });
-      }
-    } else {
-      alert("Saldo insuficiente para comprar a licença.");
+    const INDICE_LICENCA_GLOBAL = -1
+    if (licençaComprada) {
+      return alert("Licença já comprada.");
+    } else if (economiaSetores.saldo < licenciaValor) return alert("Saldo insuficiente.");
+    else {
+      const lote = [
+        // Marca licença global como comprada
+        [["licençasStatus", ativo, "global"], true],
+      ];
+
+      // atualizarDados("saldo", novoSaldo);
+console.log(lote)
+console.log(licenciaValor)
+console.log(ativo)
+      atualizarLote(lote);
+      atualizarEco("saldo", economiaSetores.saldo - licenciaValor);
+
+      // atualizarDadosProf2([ativo, "licençaGlobal", "comprado"], true);
+
+      // arrayLicenseNece.forEach((licenca) => {
+      //   const licençaIndex = dados[ativo].licençasSetor.findIndex((l) => l.nome === licenca);
+      //   if (licençaIndex !== -1) {
+      //     atualizarDadosProf2([ativo, "licençasSetor", licençaIndex, "status"], true);
+      //   }
+      // });
     }
+    //  {
+    //   alert("Saldo insuficiente para comprar a licença.");
+    // }
   };
 
   if (licencaModal.open === true) {
@@ -806,11 +855,11 @@ export default function Dashboard() {
             <h1 className="text-center text-white text-[40px] fonteBold">Licenças - {ativo}</h1>
           </div>
           <div className="overflow-y-auto overflow-x-hidden w-full scrollbar-custom flex-1">
-            {dados[ativo].licençasSetor.map((e, index) => (
-              <div key={index} id={`licenca-item-${index}`}>
-                <LicenseModal setor={ativo} nomeLicença={e.nome} index={index} />
-              </div>
-            ))}
+            {
+              (LICENCAS_ESTATICAS[ativo] || []).map((e, index) => (
+                <LicenseModal key={index} setor={ativo} nomeLicença={e.nome} index={index} />
+              ))
+            }
           </div>
         </motion.div>
       </div>
@@ -854,9 +903,9 @@ export default function Dashboard() {
     return (
       <div className={`${corClasse} w-full h-full border-[#350973] rounded-[20px] flex justify-between`}>
         {/* Sidebar */}
-        {dados.dia >= 270 && (
+        {dia >= 270 && (
           <div className="w-[80px] ml-[10px] h-[calc(100%-20px)] bg-[#350973] rounded-[12px] p-[0px] flex self-center flex-col ">
-            <div className={`w-[80px] h-full pb-[20px] pt-[20px] flex flex-col justify-between items-center shadow-md transition-opacity duration-500 ${dados.dia >= 270 ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+            <div className={`w-[80px] h-full pb-[20px] pt-[20px] flex flex-col justify-between items-center shadow-md transition-opacity duration-500 ${dia >= 270 ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
               <Tooltip style={tooltipStyleGlobal} id={`tooltip-faturado`} />
 
               <div className="flex flex-col h-full gap-3">
@@ -905,11 +954,11 @@ export default function Dashboard() {
         )}
 
         {/* Dashboard principal */}
-        <div className={`h-full rounded-[0px] items-center justify-center transition-all rounded-[40px] duration-300 bg-[${setorAtivo.cor2}] ${dados.dia >= 270 ? "w-[calc(100%-100px)]" : "w-[calc(100%)]"}`}>
+        <div className={`h-full rounded-[0px] items-center justify-center transition-all rounded-[40px] duration-300 bg-[${setorAtivo.cor2}] ${dia >= 270 ? "w-[calc(100%-100px)]" : "w-[calc(100%)]"}`}>
           {licençaComprada ? (
             <div className="w-full h-full p-4 flex flex-col" style={{ minHeight: 0, overflow: "hidden" }}>
 
-              {ativo === "grafico" && dados.dia <= 270 && (
+              {ativo === "grafico" && dia <= 270 && (
                 <div className="w-full h-full p-6 flex items-center justify-center">
                   <div
                     className="w-full h-full rounded-2xl p-6 shadow-2xl relative overflow-hidden"
@@ -956,6 +1005,7 @@ export default function Dashboard() {
 
                 // ─── usa todosEdificiosBase memoizado e aplica filtro/ordem ──────
                 let todosEdificios = [...todosEdificiosBase];
+                console.log(todosEdificiosBase)
                 if (carteiraFiltroSetor !== "todos") {
                   todosEdificios = todosEdificios.filter(e => e.setor === carteiraFiltroSetor);
                 }
@@ -971,16 +1021,16 @@ export default function Dashboard() {
                 const setoresAtivosSet = new Set(todosEdificiosBase.map(e => e.setor));
 
                 const edAtual = SETORES_ARR.reduce((total, s) =>
-                  total + (dados[s]?.edificios || []).reduce((sum, ed) => sum + (ed.quantidade > 0 ? ed.quantidade : 0), 0), 0);
+                  total + (EDIFICIOS_FINAIS_DINAMICOS_INICIAL[s]?.edificios || []).reduce((sum, ed) => sum + (ed.quantidade > 0 ? ed.quantidade : 0), 0), 0);
 
                 const tiposUnicos = new Set(
                   SETORES_ARR.flatMap(s =>
-                    (dados[s]?.edificios || []).filter(ed => ed.quantidade > 0).map(ed => ed.nome)
+                    (EDIFICIOS_FINAIS_DINAMICOS_INICIAL[s]?.edificios || []).filter(ed => ed.quantidade > 0).map(ed => ed.nome)
                   )
                 ).size;
 
                 const setoresComEdificios = SETORES_ARR.filter(s =>
-                  (dados[s]?.edificios || []).some(ed => ed.quantidade > 0)
+                  (EDIFICIOS_FINAIS_DINAMICOS_INICIAL[s]?.edificios || []).some(ed => ed.quantidade > 0)
                 ).length;
 
                 const edMax = dadosCarteiraEdificios.quantidadeEdificiosMax || 1;
@@ -1195,7 +1245,7 @@ export default function Dashboard() {
                     className="flex-1 overflow-y-auto mt-4 scrollbar-custom h-[calc(100%-50px)] rounded-[10px]"
                   >
                     <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
-                      {dados[ativo].edificios.map((_, index) => (
+                      {(EDIFICIOS_FINAIS_ESTATICOS[ativo]?.edificios || []).map((_, index) => (
                         <CardModal key={index} index={index} />
                       ))}
                     </div>

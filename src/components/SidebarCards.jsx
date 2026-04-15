@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import LoanCarousel from "./LoanCarousel";
 
 // ── Helpers ───────────────────────────────────────────────
 const fmt = (num) => {
   if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
-  if (num >= 1e9)  return (num / 1e9).toFixed(1).replace(".0", "") + "B";
-  if (num >= 1e6)  return (num / 1e6).toFixed(1).replace(".0", "") + "M";
-  if (num >= 1e3)  return (num / 1e3).toFixed(1).replace(".0", "") + "K";
+  if (num >= 1e9) return (num / 1e9).toFixed(1).replace(".0", "") + "B";
+  if (num >= 1e6) return (num / 1e6).toFixed(1).replace(".0", "") + "M";
+  if (num >= 1e3) return (num / 1e3).toFixed(1).replace(".0", "") + "K";
   return String(num);
 };
 
@@ -215,13 +215,16 @@ const SlotBloqueado = ({ index }) => {
 // COMPONENTE PRINCIPAL
 // ═══════════════════════════════════════════════════════════
 const SidebarCards = () => {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const nomeEmpresa = useCentralStore((s) => s.inicioGame.nomeEmpresa);
 
   const contratos = economiaSetores?.contratosBancos || [];
   const [selectedCard, setSelectedCard] = useState(null);
+  const vision = useCentralStore((s) => s.vision);
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
 
-  const setVision = (v) => atualizarDados("vision", { ...dados.vision, visionAtual: v });
+  const setVision = (v) => atualizarDados("vision", { ...vision, visionAtual: v });
 
   const getSlotsLiberados = () => {
     const porte = economiaSetores.porteEmpresa || [];
@@ -247,18 +250,18 @@ const SidebarCards = () => {
     const props = {
       cartao, selected: selectedCard === cartao.id,
       onClick: () => { setSelectedCard(cartao.id); abrirBanco(cartao.id); },
-      nomeEmpresa: dados.inicioGame.nomeEmpresa,
+      nomeEmpresa: nomeEmpresa,
     };
     switch (cartao.design) {
-      case "geometric-chaos":    return <GeometricChaosCard   {...props} />;
-      case "triangular-fusion":  return <TriangularFusionCard  {...props} />;
-      case "moderno":            return <CardModerno           {...props} />;
-      case "wave-patterns":      return <WavePatternsCard      {...props} />;
-      default:                   return <CardClassico          {...props} />;
+      case "geometric-chaos": return <GeometricChaosCard   {...props} />;
+      case "triangular-fusion": return <TriangularFusionCard  {...props} />;
+      case "moderno": return <CardModerno           {...props} />;
+      case "wave-patterns": return <WavePatternsCard      {...props} />;
+      default: return <CardClassico          {...props} />;
     }
   };
 
-  const nomeEmpresa = dados.inicioGame.nomeEmpresa || "Empresa";
+  // const nomeEmpresa = dados.inicioGame.nomeEmpresa || "Empresa";
 
   return (
     <div style={{

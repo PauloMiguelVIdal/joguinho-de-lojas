@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { Localizador } from "./localizador"; // Se o localizador for o que gera o CardLocalization
 import { CardLocalization } from "./cardLocalization"; // Importe direto se for o caso
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
@@ -8,6 +8,13 @@ import { X, DollarSign, TrendingDown, Plus, Minus, Check, AlertCircle } from "lu
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import useSound from "use-sound";
 import payTerrain from "../../public/sounds/payTerrainAudio.mp3";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL, LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 
 export const SellModal = ({ setor, index, onClose }) => {
   const { dados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
@@ -18,14 +25,15 @@ export const SellModal = ({ setor, index, onClose }) => {
 
   const setorAtivo = setor;
   const economiaSetoresAtual = economiaSetores[setor].economiaSetor.estadoAtual;
-  const base = dados[setorAtivo].edificios[index];
-  const qtdEd = base.quantidade;
+  const base = EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[index];
+  const baseqtd = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setorAtivo].edificios[index];
+  const qtdEd = baseqtd.quantidade;
 
   const [quantidadeMarcador, setQuantidadeMarcador] = useState(1);
 
   // --- MANTENHA SUA FUNÇÃO DE CÁLCULO ORIGINAL AQUI ---
   function calcularCustoEdificio(setorAtivo, index, nivel = 1) {
-    const base = dados[setorAtivo].edificios[index];
+    const base = EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[index];
     if (!base) return 0;
     const custoConstrucaoRecurso = base.custoConstrucao || 0;
     const quantidadeTerrenosNec = base.lojasNecessarias?.terrenos || 0;

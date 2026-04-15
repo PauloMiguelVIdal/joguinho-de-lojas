@@ -1,7 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
-import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+import { useCentralStore } from "../stores/useCentralStore";
 import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png";
 import limitar from "../../public/outrasImagens/limite.png";
 import soma from "../../public/outrasImagens/Soma.png";
@@ -12,16 +11,16 @@ import useSound from "use-sound";
 
 // Paleta roxa fixa para licenças empresariais
 const COR = {
-  bg:      "#0d0820",
-  c1:      "#1a0d40",
-  c2:      "#2d1470",
-  c3:      "#4C14A9",
-  c4:      "#7B2FFF",
-  c5:      "#934CFF",
-  gold:    "#FFD700",
-  goldD:   "#b8870b",
-  text:    "#e8d8ff",
-  muted:   "rgba(200,170,255,.45)",
+  bg: "#0d0820",
+  c1: "#1a0d40",
+  c2: "#2d1470",
+  c3: "#4C14A9",
+  c4: "#7B2FFF",
+  c5: "#934CFF",
+  gold: "#FFD700",
+  goldD: "#b8870b",
+  text: "#e8d8ff",
+  muted: "rgba(200,170,255,.45)",
 };
 
 // Ícone de cadeado animado
@@ -114,7 +113,7 @@ function Metrica({ icon, label, value, highlight, desc }) {
 }
 
 export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
-  const { dados } = useContext(CentraldeDadosContext);
+  // const { dados } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores } = useContext(DadosEconomyGlobalContext);
   const [buttonUpInterpriseAudio] = useSound(upInterpriseAudio);
   const [unlocking, setUnlocking] = useState(false);
@@ -140,36 +139,39 @@ export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
 
   const formatarNumero = (num) => {
     if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
-    if (num >= 1e9)  return (num / 1e9).toFixed(1).replace(".0", "") + "B";
-    if (num >= 1e6)  return (num / 1e6).toFixed(1).replace(".0", "") + "M";
-    if (num >= 1e3)  return (num / 1e3).toFixed(1).replace(".0", "") + "K";
+    if (num >= 1e9) return (num / 1e9).toFixed(1).replace(".0", "") + "B";
+    if (num >= 1e6) return (num / 1e6).toFixed(1).replace(".0", "") + "M";
+    if (num >= 1e3) return (num / 1e3).toFixed(1).replace(".0", "") + "K";
     return String(num);
   };
 
   const comprarLicenca = () => {
     if (!podeComprar) return;
+
     buttonUpInterpriseAudio();
     setUnlocking(true);
     setTimeout(() => setUnlocking(false), 1400);
 
-    setEconomiaSetores(prev => {
-      const novoArray = prev.porteEmpresa.map((n, i) =>
-        i === index ? { ...n, status: true } : n
-      );
-      const nivel = novoArray[index];
-      return {
-        ...prev,
-        saldo: prev.saldo - nivel.custoUpgrade,
-        centralEdificios: {
-          ...prev.centralEdificios,
-          classificacaoPorteEmpresa: nivel.nome,
-          quantidadeUnicoMax: nivel.edificiosUnicosMax,
-          quantidadeSetoresMax: nivel.qtdMaxSetores,
-          quantidadeDiversosEdificiosMax: nivel.qtdMaxDiversificar,
-          quantidadeEdificiosMax: nivel.totalMaxEdificios,
-        },
-        porteEmpresa: novoArray,
-      };
+    const prev = economiaSetores;
+
+    const novoArray = prev.porteEmpresa.map((n, i) =>
+      i === index ? { ...n, status: true } : n
+    );
+
+    const nivel = novoArray[index];
+
+    setEconomiaSetores({
+      ...prev,
+      saldo: prev.saldo - nivel.custoUpgrade,
+      centralEdificios: {
+        ...prev.centralEdificios,
+        classificacaoPorteEmpresa: nivel.nome,
+        quantidadeUnicoMax: nivel.edificiosUnicosMax,
+        quantidadeSetoresMax: nivel.qtdMaxSetores,
+        quantidadeDiversosEdificiosMax: nivel.qtdMaxDiversificar,
+        quantidadeEdificiosMax: nivel.totalMaxEdificios,
+      },
+      porteEmpresa: novoArray,
     });
   };
 
@@ -177,14 +179,14 @@ export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
   const cardBg = jaComprado
     ? `linear-gradient(135deg, ${COR.c1}EE 0%, ${COR.c2}88 100%)`
     : bloqueadoPorOrdem
-    ? `linear-gradient(135deg, #0a0a14 0%, #12101e 100%)`
-    : `linear-gradient(135deg, ${COR.c1} 0%, ${COR.c2}CC 50%, ${COR.c3}22 100%)`;
+      ? `linear-gradient(135deg, #0a0a14 0%, #12101e 100%)`
+      : `linear-gradient(135deg, ${COR.c1} 0%, ${COR.c2}CC 50%, ${COR.c3}22 100%)`;
 
   const cardBorder = jaComprado
     ? `1.5px solid ${COR.c5}66`
     : bloqueadoPorOrdem
-    ? `1.5px solid rgba(255,255,255,.06)`
-    : `1.5px solid ${COR.c4}55`;
+      ? `1.5px solid rgba(255,255,255,.06)`
+      : `1.5px solid ${COR.c4}55`;
 
   return (
     <div className="w-full pb-[20px]">
@@ -200,8 +202,8 @@ export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
           boxShadow: jaComprado
             ? `0 4px 24px ${COR.c3}44`
             : bloqueadoPorOrdem
-            ? "none"
-            : `0 8px 32px ${COR.c3}66`,
+              ? "none"
+              : `0 8px 32px ${COR.c3}66`,
           position: "relative",
           filter: bloqueadoPorOrdem ? "brightness(0.55)" : "none",
           transition: "filter .3s",
@@ -222,8 +224,8 @@ export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
           background: jaComprado
             ? `linear-gradient(90deg, ${COR.c2} 0%, ${COR.c3}88 100%)`
             : bloqueadoPorOrdem
-            ? "rgba(255,255,255,.04)"
-            : `linear-gradient(90deg, ${COR.c2} 0%, ${COR.c3} 100%)`,
+              ? "rgba(255,255,255,.04)"
+              : `linear-gradient(90deg, ${COR.c2} 0%, ${COR.c3} 100%)`,
           borderBottom: `1px solid ${COR.c4}33`,
           padding: "12px 18px",
           display: "flex", alignItems: "center", gap: 14,
@@ -248,8 +250,8 @@ export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
                 background: jaComprado
                   ? `${COR.c5}33`
                   : bloqueadoPorOrdem
-                  ? "rgba(255,255,255,.06)"
-                  : `${COR.c4}33`,
+                    ? "rgba(255,255,255,.06)"
+                    : `${COR.c4}33`,
                 color: jaComprado ? COR.c5 : bloqueadoPorOrdem ? "rgba(255,255,255,.3)" : COR.c5,
                 border: `1px solid ${jaComprado ? COR.c5 + "55" : bloqueadoPorOrdem ? "rgba(255,255,255,.1)" : COR.c4 + "44"}`,
               }}>
@@ -301,8 +303,8 @@ export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
                 background: jaComprado
                   ? "rgba(255,255,255,.06)"
                   : podeComprar
-                  ? `linear-gradient(135deg, ${COR.c3}, ${COR.c5})`
-                  : "rgba(255,255,255,.06)",
+                    ? `linear-gradient(135deg, ${COR.c3}, ${COR.c5})`
+                    : "rgba(255,255,255,.06)",
                 color: jaComprado ? "rgba(255,255,255,.3)" : podeComprar ? "#fff" : "rgba(255,255,255,.2)",
                 boxShadow: podeComprar ? `0 4px 16px ${COR.c5}55` : "none",
                 transition: "all .2s",
@@ -370,37 +372,37 @@ export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
             </div>
 
             {/* Grid de métricas */}
-{/* Grid de métricas */}
-<div style={{ display: "flex", gap: 8, marginTop: 4 }}>
-  <Metrica
-    icon={limitar}
-    label="Máx por tipo"
-    value={nivelEmpresa.edificiosUnicosMax}
-    highlight={false}
-    desc={`Você pode ter no máximo ${nivelEmpresa.edificiosUnicosMax} unidade${nivelEmpresa.edificiosUnicosMax !== 1 ? "s" : ""} do mesmo edifício. Acima disso, a compra será bloqueada.`}
-  />
-  <Metrica
-    icon={setoresImg}
-    label="Setores"
-    value={nivelEmpresa.qtdMaxSetores}
-    highlight={false}
-    desc={`Você pode operar em até ${nivelEmpresa.qtdMaxSetores} setor${nivelEmpresa.qtdMaxSetores !== 1 ? "es" : ""} simultaneamente. Diversifique com sabedoria.`}
-  />
-  <Metrica
-    icon={diversidade}
-    label="Tipos únicos"
-    value={nivelEmpresa.qtdMaxDiversificar}
-    highlight={false}
-    desc={`Limite de ${nivelEmpresa.qtdMaxDiversificar} tipo${nivelEmpresa.qtdMaxDiversificar !== 1 ? "s" : ""} diferentes de edifícios na sua carteira. Quanto maior, mais estratégias disponíveis.`}
-  />
-  <Metrica
-    icon={soma}
-    label="Total edif."
-    value={nivelEmpresa.totalMaxEdificios}
-    highlight={true}
-    desc={`Capacidade total de ${nivelEmpresa.totalMaxEdificios} edifício${nivelEmpresa.totalMaxEdificios !== 1 ? "s" : ""} no seu portfólio. Este é o limite absoluto da sua empresa neste nível.`}
-  />
-</div>
+            {/* Grid de métricas */}
+            <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
+              <Metrica
+                icon={limitar}
+                label="Máx por tipo"
+                value={nivelEmpresa.edificiosUnicosMax}
+                highlight={false}
+                desc={`Você pode ter no máximo ${nivelEmpresa.edificiosUnicosMax} unidade${nivelEmpresa.edificiosUnicosMax !== 1 ? "s" : ""} do mesmo edifício. Acima disso, a compra será bloqueada.`}
+              />
+              <Metrica
+                icon={setoresImg}
+                label="Setores"
+                value={nivelEmpresa.qtdMaxSetores}
+                highlight={false}
+                desc={`Você pode operar em até ${nivelEmpresa.qtdMaxSetores} setor${nivelEmpresa.qtdMaxSetores !== 1 ? "es" : ""} simultaneamente. Diversifique com sabedoria.`}
+              />
+              <Metrica
+                icon={diversidade}
+                label="Tipos únicos"
+                value={nivelEmpresa.qtdMaxDiversificar}
+                highlight={false}
+                desc={`Limite de ${nivelEmpresa.qtdMaxDiversificar} tipo${nivelEmpresa.qtdMaxDiversificar !== 1 ? "s" : ""} diferentes de edifícios na sua carteira. Quanto maior, mais estratégias disponíveis.`}
+              />
+              <Metrica
+                icon={soma}
+                label="Total edif."
+                value={nivelEmpresa.totalMaxEdificios}
+                highlight={true}
+                desc={`Capacidade total de ${nivelEmpresa.totalMaxEdificios} edifício${nivelEmpresa.totalMaxEdificios !== 1 ? "s" : ""} no seu portfólio. Este é o limite absoluto da sua empresa neste nível.`}
+              />
+            </div>
 
             {/* Sequência obrigatória */}
             {bloqueadoPorOrdem && (
@@ -475,8 +477,8 @@ export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
                       background: n.status
                         ? `linear-gradient(135deg, ${COR.c4}, ${COR.c5})`
                         : i === index
-                        ? `${COR.c4}55`
-                        : "rgba(255,255,255,.1)",
+                          ? `${COR.c4}55`
+                          : "rgba(255,255,255,.1)",
                       boxShadow: n.status ? `0 0 8px ${COR.c5}66` : "none",
                     }} />
                     <span style={{
@@ -517,8 +519,8 @@ export const BusinessLicence = ({ setor, nomeLicenca, index }) => {
                   background: jaComprado
                     ? "rgba(255,255,255,.06)"
                     : podeComprar
-                    ? `linear-gradient(135deg, ${COR.c3}, ${COR.c5})`
-                    : "rgba(255,255,255,.06)",
+                      ? `linear-gradient(135deg, ${COR.c3}, ${COR.c5})`
+                      : "rgba(255,255,255,.06)",
                   color: jaComprado ? "rgba(255,255,255,.3)" : podeComprar ? "#fff" : "rgba(255,255,255,.2)",
                   boxShadow: podeComprar ? `0 4px 14px ${COR.c5}44` : "none",
                   transition: "all .2s",

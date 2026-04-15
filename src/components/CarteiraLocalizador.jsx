@@ -1,22 +1,24 @@
 import React, { useContext, useMemo, useEffect } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { Localizador } from "./localizador";
+import { useCentralStore } from "../stores/useCentralStore";
+import { EDIFICIOS_FINAIS_ESTATICOS } from "../stores/dadosEstáticos";
 
 export const CarteiraLocalizador = ({ abrirModalSell, setorFiltro }) => {
-  const { dados } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+
+  const edificiosDinamicos = useCentralStore((s) => s.edificiosFinais);
 
   const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
   
-  // ✅ "todos" ou undefined/null = sem filtro
   const setoresParaRenderizar = (setorFiltro && setorFiltro !== "todos")
     ? setoresArr.filter(s => s === setorFiltro)
     : setoresArr;
 
+  // 🔥 snapshot agora usa o DINÂMICO
   const snapshot = JSON.stringify(
     setoresArr.map(s =>
-      (dados[s]?.edificios || []).map((ed, i) => ({ i, q: ed.quantidade }))
+      (edificiosDinamicos?.[s]?.edificios || []).map((ed, i) => ({ i, q: ed.quantidade }))
     )
   );
 
@@ -24,25 +26,34 @@ export const CarteiraLocalizador = ({ abrirModalSell, setorFiltro }) => {
     const carteiraTemp = [];
     const filtrados = [];
 
-    // ✅ carteiraArr sempre percorre TODOS os setores (para sincronizar carteira global corretamente)
     setoresArr.forEach((setor) => {
       const ativos = [];
-      (dados[setor]?.edificios || []).forEach((ed, idx) => {
-        if (ed.quantidade > 0) {
-          ativos.push(ed);
-          // ✅ só adiciona ao visual se passar no filtro
+
+      const listaEstatica = EDIFICIOS_FINAIS_ESTATICOS?.[setor]?.edificios || [];
+      const listaDinamica = edificiosDinamicos?.[setor]?.edificios || [];
+
+      listaEstatica.forEach((edEst, idx) => {
+        const qtd = listaDinamica[idx]?.quantidade || 0;
+
+        if (qtd > 0) {
+          ativos.push({
+            ...edEst,
+            quantidade: qtd
+          });
+
           if (setoresParaRenderizar.includes(setor)) {
             filtrados.push({ idx, setor });
           }
         }
       });
+
       carteiraTemp.push(ativos);
     });
 
     return { carteiraArr: carteiraTemp, edificiosFiltrados: filtrados };
-  }, [snapshot, setorFiltro]);
+  }, [snapshot, setorFiltro, edificiosDinamicos]);
 
-  // Sincroniza carteira global
+  // 🔄 sincroniza carteira global
   useEffect(() => {
     const carteiraAtual = economiaSetores.carteira?.carteiraAtual || [];
     if (JSON.stringify(carteiraAtual) !== JSON.stringify(carteiraArr)) {
@@ -76,7 +87,7 @@ export const CarteiraLocalizador = ({ abrirModalSell, setorFiltro }) => {
       {edificiosFiltrados.map(({ idx, setor }) => (
         <React.Fragment key={`${setor}-${idx}`}>
           {Localizador(
-            dados[setor].edificios[idx].nome,
+            EDIFICIOS_FINAIS_ESTATICOS[setor].edificios[idx].nome,
             abrirModalSell,
             idx,
             setor

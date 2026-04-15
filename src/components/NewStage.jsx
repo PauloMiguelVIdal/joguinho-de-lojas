@@ -1,21 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 export default function NewStage() {
-  const { dados } = useContext(CentraldeDadosContext);
+  // const { dados } = useContext(CentraldeDadosContext);
   const [modal, setModal] = useState(false);
 
   const fecharModal = () => {
     setModal(false);
   };
 
+  const dia = useCentralStore((s) => s.dia);
+
+
   useEffect(() => {
     // Abre o modal quando chegar no dia 270
-    if (dados.dia === 270) {
+    if (dia === 270) {
       setModal(true);
     }
-  }, [dados.dia]);
+  }, [dia]);
 
   // Estilos baseados no seu modelo de referência
   const containerStyle = "fixed inset-0 flex justify-center items-center z-[100] bg-black/90 backdrop-blur-sm select-none";

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import agricultura from "../../public/outrasImagens/setores/agricultura.png";
 import tecnologia from "../../public/outrasImagens/setores/tecnologia.png";
 import comercio from "../../public/outrasImagens/setores/comercio.png";
@@ -8,9 +8,16 @@ import imobiliario from "../../public/outrasImagens/setores/imobiliario.png";
 import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
 import grafico from "../../public/outrasImagens/setores/grafico.png";
 
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL, LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 
 export default function LicenseNec() {
-  const { dados, AtualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, AtualizarDados } = useContext(CentraldeDadosContext);
 
 
 
@@ -28,12 +35,15 @@ export default function LicenseNec() {
 
   //   const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
 const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
-  const setorAtivo = dados.setorAtivo
+  const setorAtivo = useCentralStore.getState()
   const setorInfo = setores.find(setor => setor.id === setorAtivo);
   console.log(setorInfo)
 
 
-  const edificio = { nome: dados[setorAtivo].edificios[0].nome, licenseNece: dados[setorAtivo].edificios[0].licençasNecessárias };
+  const edificio = 
+  { nome: EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[0].nome, 
+    licenseNece: EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[0].licençasNecessárias 
+  };
   const arrayLicenseNece = edificio.licenseNece
 
 

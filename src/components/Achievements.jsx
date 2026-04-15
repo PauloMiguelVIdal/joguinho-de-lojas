@@ -5,13 +5,14 @@ import LojaPImg from "../../public/outrasImagens/lojaP.png"
 import LojaMImg from "../../public/outrasImagens/lojaM.png"
 import LojaGImg from "../../public/outrasImagens/lojaG.png"
 import { motion } from "framer-motion";
-
+import { useCentralStore } from "../stores/useCentralStore";
 export const Achievements = () => {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   // if (CentraldeDadosContext.lojasP.quantidade === 10) {
   //     alert("parabens 10 lojas")
   // }
-
+const setModalAtivo = useCentralStore((s) => s.setModalAtivo);
+const limparModalAtivo = useCentralStore((s) => s.limparModalAtivo);
 
   //achievements
   //const modalAchievements = () =>{
@@ -73,14 +74,16 @@ if(dados.modalAchievements.conquista===undefined) return;
         }
       });
 
-      if (!dados.modalAchievements.estadoModal) {
-        atualizarDados("modalAchievements", {
-          ...dados.modalAchievements, 
-          estadoModal: true, 
-          lojaConquistada: lojaSelecionada, 
-          conquista: conquistaSelecionada
-        });
-      }
+if (!dados.modalAchievements.estadoModal) {
+  atualizarDados("modalAchievements", {
+    ...dados.modalAchievements, 
+    estadoModal: true, 
+    lojaConquistada: lojaSelecionada, 
+    conquista: conquistaSelecionada
+  });
+
+  setModalAtivo("modalAchievements"); // 👈 ADICIONAR
+}
 
       break; // Para no primeiro que atingir a condição
     }
@@ -96,18 +99,14 @@ if(dados.modalAchievements.conquista===undefined) return;
 
 
   useEffect(() => {
-    if (dados.modalAchievements.estadoModal) {
-      const timer = setTimeout(() => {
-        atualizarDados("modalAchievements", { 
-          ...dados.modalAchievements, 
-          estadoModal: false, 
-          lojaConquistada: null, // 🔹 Reseta a loja conquistada
-          conquista: null 
-        });
-      }, 5000);
-      
-      return () => clearTimeout(timer);
-    }
+    atualizarDados("modalAchievements", { 
+  ...dados.modalAchievements, 
+  estadoModal: false, 
+  lojaConquistada: null,
+  conquista: null 
+});
+
+limparModalAtivo(); // 👈 ADICIONAR
   }, [dados.modalAchievements.estadoModal]);
   
 

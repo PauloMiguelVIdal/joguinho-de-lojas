@@ -9,8 +9,8 @@ import { productsCatalog } from "./ProductCatalog";
 import { getMarketPrice } from "./TablePrice";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import { SALES_EDIFICIOS } from "./salesFormulasConfig";
-import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { BestBuy } from "./BestBuy";
 // ─────────────────────────────────────────────────────────────
 //  UTILITÁRIOS
@@ -532,7 +532,7 @@ export function SideInformations() {
     marketTransactions,
   } = useGame();
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-  const { dados } = useContext(CentraldeDadosContext);
+  // const { dados } = useContext(CentraldeDadosContext);
 
   const predictionReport = useMemo(() => getStockPredictionReport(), [stock]);
 

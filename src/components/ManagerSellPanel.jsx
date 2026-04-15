@@ -5,11 +5,21 @@ import { SALES_EDIFICIOS } from "./salesFormulasConfig";
 import SellCard from "./SellCard";
 import { ArrowLeft, Box, Factory } from "lucide-react";
 import { generateSalesContracts } from "./salesContractsConfig";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
+
 
 export default function ManagerSellPanel({ edificioId, onBack }) {
   const { stock,contratosEdificios, getOuGerarContratos  } = useGame();
-const { dados } = useContext(CentraldeDadosContext);
+// const { dados } = useContext(CentraldeDadosContext);
+  const edificiosFinais = useCentralStore((s) => s.edificiosFinais);
+  const dia = useCentralStore((s) => s.dia);
 
   // 1. AJUSTE VITAL: Localizar o edifício dentro do Array usando .find()
   const edificioConfig = useMemo(() =>
@@ -18,8 +28,8 @@ const { dados } = useContext(CentraldeDadosContext);
 
   const contratos = useMemo(() => {
     if (!edificioConfig) return [];
-    return getOuGerarContratos(edificioConfig, dados.dia);
-  }, [edificioConfig, dados.dia, contratosEdificios[edificioId]]);
+    return getOuGerarContratos(edificioConfig, dia);
+  }, [edificioConfig, dia, contratosEdificios[edificioId]]);
 
 
   // Busca ou gera contratos — SEM useEffect, SEM useState local
@@ -27,8 +37,8 @@ const { dados } = useContext(CentraldeDadosContext);
   const diasParaRenovar = useMemo(() => {
     const entrada = contratosEdificios[edificioId];
     if (!entrada) return 0;
-    return Math.max(0, entrada.validadeAte - dados.dia);
-  }, [contratosEdificios, edificioId, dados.dia]);
+    return Math.max(0, entrada.validadeAte - dia);
+  }, [contratosEdificios, edificioId, dia]);
 
   const setores = [
     { id: "agricultura", cor1: "#003816", cor3: "#0C9123", cor4: "#4CAF50" },

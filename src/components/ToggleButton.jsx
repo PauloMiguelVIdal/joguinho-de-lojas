@@ -2,37 +2,39 @@ import React, { useContext, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import mapa from "../../public/outrasImagens/maps.png";
 import computador from "../../public/outrasImagens/computer-screen.png";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import useSound from 'use-sound';
 import visionAudio from "../../public/sounds/visionAudio.mp3"
 export default function ToggleButton({ corClasse }) {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const vision = useCentralStore((s) => s.vision);
 
   const [toggled, setToggled] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [buttonVisionAudio] = useSound(visionAudio)
+
+
+
   const setVision = (newVision) => {
-    atualizarDados("vision", {
-      ...dados.vision,
-      visionAtual: newVision,
-    });
+    atualizarDados("vision", { visionAtual: newVision });
   };
 
 useEffect(()=>{
-  if(dados.vision.
+  if(vision.
     visionAtual==="mapa" && toggled==="dashbord"){
       setToggled("mapa")
      setIsAnimating(true)
     }
     else{
-        if(dados.vision.
+        if(vision.
     visionAtual==="dashbord" && toggled==="mapa"){
       setToggled("dashbord")
      setIsAnimating(true)
     }
     }
   }
-),[dados.vision.
+),[vision.
       visionAtual]
 
       const funcMudar = () =>{

@@ -1,18 +1,20 @@
 import React, { useState, useRef, useContext } from "react";
 import { X, CreditCard } from 'lucide-react';
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { ModalBank } from "../components/ModalBank.jsx";
 import maps from "../../public/outrasImagens/maps.png";
 import backButton from "../../public/outrasImagens/back-button.png";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import useSound from "use-sound";
+import { useCentralStore } from "../stores/useCentralStore";
 
 const BankSelection = () => {
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-  const { dados, atualizarDadosProf2, atualizarDados } = useContext(
-    CentraldeDadosContext
-  );
+  // const { dados, atualizarDadosProf2, atualizarDados } = useContext(
+  //   CentraldeDadosContext
+  // );
+    const atualizarDados = useCentralStore((s) => s.atualizarDados);
   const [selectedBank, setSelectedBank] = useState(null);
 
   const [banksModal, setBanksModal] = useState(false);
@@ -103,10 +105,7 @@ const ListaContratosAtivos = () => {
 
 
   const setVision = (newVision) => {
-    atualizarDados("vision", {
-      ...dados.vision,
-      visionAtual: newVision,
-    });
+    atualizarDados("vision", { visionAtual: newVision });
   };
   function Tooltip({ text, children }) {
     const [show, setShow] = useState(false);

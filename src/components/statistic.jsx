@@ -1,46 +1,76 @@
-import React, {useContext } from 'react';
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { useMemo } from "react";
+import { useCentralStore } from "../stores/useCentralStore";
 
-export const Statistic = () =>{
- const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+export const Statistic = () => {
+  // ── Seletores granulares ─────────────────────────
+  const terrenos = useCentralStore((s) => s.edificiosBase.terrenos);
+  const lojasP   = useCentralStore((s) => s.edificiosBase.lojasP);
+  const lojasM   = useCentralStore((s) => s.edificiosBase.lojasM);
+  const lojasG   = useCentralStore((s) => s.edificiosBase.lojasG);
 
+  // ── Cálculo memoizado ────────────────────────────
+  return useMemo(() => {
+    // ───────── TERRENOS ─────────
+    const custosTerrenos =
+      terrenos.preçoConstrução * 2;
 
- 
+    const lucrosTerrenos =
+      terrenos.faturamentoUnitárioPadrão * 30;
 
-const custosTerrenos = (dados.terrenos.preçoConstrução) + (dados.terrenos.preçoConstrução)   
-const lucrosTerrenos = (dados.terrenos.faturamentoUnitárioPadrão * 30 )
-const impostosTerrenos = (lucrosTerrenos * dados.terrenos.impostoSobreFaturamento) + (dados.terrenos.impostoFixo) 
-const resultadoTerrenos = (((lucrosTerrenos  - impostosTerrenos) /  custosTerrenos) * 100)
+    const impostosTerrenos =
+      lucrosTerrenos * terrenos.impostoSobreFaturamento +
+      terrenos.impostoFixo;
 
+    const resultadoTerrenos =
+      ((lucrosTerrenos - impostosTerrenos) / custosTerrenos) * 100;
 
+    // ───────── LOJAS P ─────────
+    const custosLojasP =
+      lojasP.preçoConstrução + terrenos.preçoConstrução;
 
-const custosLojasP = (dados.lojasP.preçoConstrução) + (dados.terrenos.preçoConstrução)   
-const lucrosLojasP = (dados.lojasP.faturamentoUnitárioPadrão * 30 )
-const impostosLojasp = (lucrosLojasP * dados.lojasP.impostoSobreFaturamento) + (dados.lojasP.impostoFixo) 
-const resultadoLojasP = (((lucrosLojasP  - impostosLojasp) /  custosLojasP) * 100)
+    const lucrosLojasP =
+      lojasP.faturamentoUnitárioPadrão * 30;
 
-const custosLojasM = (dados.lojasM.preçoConstrução) + (2 * dados.terrenos.preçoConstrução)   
-const lucrosLojasM = (dados.lojasM.faturamentoUnitárioPadrão * 30 )
-const impostosLojasM = (lucrosLojasM * dados.lojasM.impostoSobreFaturamento) + (dados.lojasM.impostoFixo) 
-const resultadoLojasM = (((lucrosLojasM  - impostosLojasM) /  custosLojasM) * 100)
+    const impostosLojasP =
+      lucrosLojasP * lojasP.impostoSobreFaturamento +
+      lojasP.impostoFixo;
 
-const custosLojasG = (dados.lojasG.preçoConstrução) + (3 * dados.terrenos.preçoConstrução)   
-const lucrosLojasG = (dados.lojasG.faturamentoUnitárioPadrão * 30 )
-const impostosLojasG = (lucrosLojasG * dados.lojasG.impostoSobreFaturamento) + (dados.lojasG.impostoFixo) 
-const resultadoLojasG = (((lucrosLojasG  - impostosLojasG) /  custosLojasG) * 100)
+    const resultadoLojasP =
+      ((lucrosLojasP - impostosLojasP) / custosLojasP) * 100;
 
+    // ───────── LOJAS M ─────────
+    const custosLojasM =
+      lojasM.preçoConstrução + 2 * terrenos.preçoConstrução;
 
+    const lucrosLojasM =
+      lojasM.faturamentoUnitárioPadrão * 30;
 
-return{
-    resultadoTerrenos,
-    resultadoLojasP,
-    resultadoLojasM,
-    resultadoLojasG
-}
-   
+    const impostosLojasM =
+      lucrosLojasM * lojasM.impostoSobreFaturamento +
+      lojasM.impostoFixo;
 
-   
+    const resultadoLojasM =
+      ((lucrosLojasM - impostosLojasM) / custosLojasM) * 100;
 
+    // ───────── LOJAS G ─────────
+    const custosLojasG =
+      lojasG.preçoConstrução + 3 * terrenos.preçoConstrução;
 
-}
+    const lucrosLojasG =
+      lojasG.faturamentoUnitárioPadrão * 30;
 
+    const impostosLojasG =
+      lucrosLojasG * lojasG.impostoSobreFaturamento +
+      lojasG.impostoFixo;
+
+    const resultadoLojasG =
+      ((lucrosLojasG - impostosLojasG) / custosLojasG) * 100;
+
+    return {
+      resultadoTerrenos,
+      resultadoLojasP,
+      resultadoLojasM,
+      resultadoLojasG,
+    };
+  }, [terrenos, lojasP, lojasM, lojasG]);
+};

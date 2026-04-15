@@ -1,5 +1,4 @@
 import React, { useContext, useState, useCallback, useMemo } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
 import terrenoImg from "../../public/outrasImagens/terreno.png";
 import LojaPImg from "../../public/outrasImagens/lojaP.png";
 import LojaMImg from "../../public/outrasImagens/lojaM.png";
@@ -25,20 +24,31 @@ import martelo from "../../public/outrasImagens/martelo.png";
 import LoanCarousel from "./LoanCarousel";
 import SidebarStorage from './SidebarStorage';
 import { SideInformations } from "./SideInformations";
+import { EDIFICIOS_BASE_ESTATICOS } from "../stores/dadosEstáticos";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
 
-// ─── PERFORMANCE: GradientBox fora do componente ─────────────────────────────
-// Este é o fix mais impactante do arquivo. styled() dentro de um componente
-// gera uma nova classe CSS a cada render, forçando o MUI a remontar todos
-// os elementos que usam GradientBox — causando flicker e lentidão visível.
-// Movendo para o nível do módulo, a classe é criada uma única vez.
+// ─── Dados estáticos dos imóveis base — nunca mudam ──────────────────────────
+// quantidadeNecTerreno e preçoConstrução ficam aqui, não no slice dinâmico.
+const T_PRECO  = EDIFICIOS_BASE_DINAMICOS.terrenos.preçoConstrução; // 40000
+const P_PRECO  = EDIFICIOS_BASE_DINAMICOS.lojasP.preçoConstrução;   // 50000
+const M_PRECO  = EDIFICIOS_BASE_DINAMICOS.lojasM.preçoConstrução;   // 100000
+const G_PRECO  = EDIFICIOS_BASE_DINAMICOS.lojasG.preçoConstrução;   // 240000
+const P_NEC_T  = EDIFICIOS_BASE_ESTATICOS.lojasP.quantidadeNecTerreno; // 1
+const M_NEC_T  = EDIFICIOS_BASE_ESTATICOS.lojasM.quantidadeNecTerreno; // 2
+const G_NEC_T  = EDIFICIOS_BASE_ESTATICOS.lojasG.quantidadeNecTerreno; // 3
+
+console.log(T_PRECO)
+console.log(P_PRECO)
+console.log(M_PRECO)
+console.log(G_PRECO)
+
+// ─── GradientBox — fora do componente para não gerar nova classe por render ───
 const GradientBox = styled(Box)({
   background: "linear-gradient(to left, #F27405, #F27405)",
   borderRadius: 5,
   padding: 8,
 });
 
-// ─── PERFORMANCE: tooltipStyle e TooltipPadrao fora do componente ─────────────
-// Objeto literal e componente recriados a cada render — custo desnecessário.
 const tooltipStyle = {
   backgroundColor: "#FFFFFF",
   color: "#350973",
@@ -52,19 +62,15 @@ const TooltipPadrao = ({ id }) => (
   <Tooltip id={id} style={tooltipStyle} border="1px solid #350973" />
 );
 
-// ─── PERFORMANCE: formatarNumero fora do componente ──────────────────────────
-// Função pura sem dependências — não precisa viver dentro do componente.
 const formatarNumero = (num) => {
+  if (!num || isNaN(num)) return "0";
   if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
-  if (num >= 1e9) return (num / 1e9).toFixed(1).replace(".0", "") + "B";
-  if (num >= 1e6) return (num / 1e6).toFixed(1).replace(".0", "") + "M";
-  if (num >= 1e3) return (num / 1e3).toFixed(1).replace(".0", "") + "K";
+  if (num >= 1e9)  return (num / 1e9).toFixed(1).replace(".0", "") + "B";
+  if (num >= 1e6)  return (num / 1e6).toFixed(1).replace(".0", "") + "M";
+  if (num >= 1e3)  return (num / 1e3).toFixed(1).replace(".0", "") + "K";
   return num.toString();
 };
 
-// ─── PERFORMANCE: getBotaoCompraStyle fora do componente ─────────────────────
-// Já era exportada, mas estava sendo recalculada inline em cada render.
-// Mantida aqui junto com o restante das constantes do módulo.
 export function getBotaoCompraStyle({ podeComprar }) {
   return {
     backgroundColor: podeComprar ? "#F27405" : "#ebac75ff",
@@ -79,37 +85,47 @@ export function getBotaoCompraStyle({ podeComprar }) {
 }
 
 export default function Buy() {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const [isNKeyDown, setIsNKeyDown] = useState(false);
-  const vision = dados.vision.visionAtual;
-  const setorAtual = dados.setorAtual;
 
-  const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
-    DadosEconomyGlobalContext
-  );
+  // ── Zustand — seletores granulares (só o dinâmico) ────────────────────────
+  const vision     = useCentralStore((s) => s.vision?.visionAtual ?? "dashboard");
+  const dia        = useCentralStore((s) => s.dia);
+  const setorAtivo = useCentralStore((s) => s.setorAtivo);
+  const algumModalAberto = useCentralStore((s) => s.algumModalAberto);
+  const atualizarDados   = useCentralStore((s) => s.atualizarDados);
+  const atualizarLote    = useCentralStore((s) => s.atualizarLote);
+
+  // Quantidades dinâmicas — único dado que muda em runtime
+  const qtdTerrenos = useCentralStore((s) => s.edificiosBase.terrenos.quantidade);
+  const qtdLojasP   = useCentralStore((s) => s.edificiosBase.lojasP.quantidade);
+  const qtdLojasM   = useCentralStore((s) => s.edificiosBase.lojasM.quantidade);
+  const qtdLojasG   = useCentralStore((s) => s.edificiosBase.lojasG.quantidade);
+
+  // Faturamentos (para exibição no rodapé dos cards)
+  const fatuTerrenos = useCentralStore((s) => s.edificiosBase.terrenos.faturamentoTotal ?? 0);
+  const fatuLojasP   = useCentralStore((s) => s.edificiosBase.lojasP.faturamentoTotal ?? 0);
+  const fatuLojasM   = useCentralStore((s) => s.edificiosBase.lojasM.faturamentoTotal ?? 0);
+  const fatuLojasG   = useCentralStore((s) => s.edificiosBase.lojasG.faturamentoTotal ?? 0);
+
+  // ── Economy Context ───────────────────────────────────────────────────────
+  const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const saldo = economiaSetores.saldo;
 
   const activeLoan = economiaSetores.activeLoan || null;
 
   const [buttonConstructAudio] = useSound(constructorAudio);
-  const [buttonAlertAudio] = useSound(alertAudio);
-  const [buttonPayTerrain] = useSound(payTerrain);
-  const [buttonQtdAudio] = useSound(qtdAudio);
+  const [buttonAlertAudio]     = useSound(alertAudio);
+  const [buttonPayTerrain]     = useSound(payTerrain);
+  const [buttonQtdAudio]       = useSound(qtdAudio);
 
-  const {
-    resultadoTerrenos,
-    resultadoLojasP,
-    resultadoLojasM,
-    resultadoLojasG,
-  } = Statistic();
+  const { resultadoTerrenos, resultadoLojasP, resultadoLojasM, resultadoLojasG } = Statistic();
 
   const [quantidadeTerrenos, setQuantidadeTerrenos] = useState(1);
-  const [quantidadeLojasP, setQuantidadeLojasP] = useState(1);
-  const [quantidadeLojasM, setQuantidadeLojasM] = useState(1);
-  const [quantidadeLojasG, setQuantidadeLojasG] = useState(1);
+  const [quantidadeLojasP,   setQuantidadeLojasP]   = useState(1);
+  const [quantidadeLojasM,   setQuantidadeLojasM]   = useState(1);
+  const [quantidadeLojasG,   setQuantidadeLojasG]   = useState(1);
 
-  // ─── PERFORMANCE: handlers de quantidade memoizados ──────────────────────────
-  // Antes eram funções anônimas recriadas a cada render, forçando re-render
-  // de todos os IconButtons que as recebiam como prop onClick.
+  // ── Handlers de quantidade ────────────────────────────────────────────────
   const AumentarQuantidadeTerrenos = useCallback(() => { buttonQtdAudio(); setQuantidadeTerrenos(q => q + 1); }, [buttonQtdAudio]);
   const DiminuirQuantidadeTerrenos  = useCallback(() => { buttonQtdAudio(); setQuantidadeTerrenos(q => Math.max(1, q - 1)); }, [buttonQtdAudio]);
   const AumentarQuantidadeLojasP    = useCallback(() => { buttonQtdAudio(); setQuantidadeLojasP(q => q + 1); }, [buttonQtdAudio]);
@@ -119,350 +135,302 @@ export default function Buy() {
   const AumentarQuantidadeLojasG    = useCallback(() => { buttonQtdAudio(); setQuantidadeLojasG(q => q + 1); }, [buttonQtdAudio]);
   const DiminuirQuantidadeLojasG    = useCallback(() => { buttonQtdAudio(); setQuantidadeLojasG(q => Math.max(1, q - 1)); }, [buttonQtdAudio]);
 
-  // ─── PERFORMANCE: flags de compra memoizadas ─────────────────────────────────
-  // Antes eram expressões recalculadas inline no JSX a cada render.
-  const podeComprarTerreno = useMemo(() =>
-    dados.terrenos.quantidade >= dados.terrenos.quantidadeNecTerreno * quantidadeTerrenos &&
-    economiaSetores.saldo >= dados.terrenos.preçoConstrução * quantidadeTerrenos,
-    [dados.terrenos.quantidade, dados.terrenos.quantidadeNecTerreno, dados.terrenos.preçoConstrução, economiaSetores.saldo, quantidadeTerrenos]
+  // ── Flags de compra — usam constantes estáticas, não o slice dinâmico ────
+  const podeComprarTerreno = useMemo(
+    () => saldo >= T_PRECO * quantidadeTerrenos,
+    [saldo, quantidadeTerrenos]
   );
 
-  const podeComprarLojaP = useMemo(() =>
-    dados.terrenos.quantidade >= dados.lojasP.quantidadeNecTerreno * quantidadeLojasP &&
-    economiaSetores.saldo >= dados.lojasP.preçoConstrução * quantidadeLojasP,
-    [dados.terrenos.quantidade, dados.lojasP.quantidadeNecTerreno, dados.lojasP.preçoConstrução, economiaSetores.saldo, quantidadeLojasP]
+  const podeComprarLojaP = useMemo(
+    () => qtdTerrenos >= P_NEC_T * quantidadeLojasP && saldo >= P_PRECO * quantidadeLojasP,
+    [qtdTerrenos, quantidadeLojasP, saldo]
   );
 
-  const podeComprarLojaM = useMemo(() =>
-    dados.terrenos.quantidade >= dados.lojasM.quantidadeNecTerreno * quantidadeLojasM &&
-    economiaSetores.saldo >= dados.lojasM.preçoConstrução * quantidadeLojasM,
-    [dados.terrenos.quantidade, dados.lojasM.quantidadeNecTerreno, dados.lojasM.preçoConstrução, economiaSetores.saldo, quantidadeLojasM]
+  const podeComprarLojaM = useMemo(
+    () => qtdTerrenos >= M_NEC_T * quantidadeLojasM && saldo >= M_PRECO * quantidadeLojasM,
+    [qtdTerrenos, quantidadeLojasM, saldo]
   );
 
-  const podeComprarLojaG = useMemo(() =>
-    dados.terrenos.quantidade >= dados.lojasG.quantidadeNecTerreno * quantidadeLojasG &&
-    economiaSetores.saldo >= dados.lojasG.preçoConstrução * quantidadeLojasG,
-    [dados.terrenos.quantidade, dados.lojasG.quantidadeNecTerreno, dados.lojasG.preçoConstrução, economiaSetores.saldo, quantidadeLojasG]
+  const podeComprarLojaG = useMemo(
+    () => qtdTerrenos >= G_NEC_T * quantidadeLojasG && saldo >= G_PRECO * quantidadeLojasG,
+    [qtdTerrenos, quantidadeLojasG, saldo]
   );
 
-  // ─── PERFORMANCE: funções de compra memoizadas com useCallback ───────────────
-  // Antes eram funções locais recriadas a cada render, forçando re-render
-  // dos botões de compra mesmo quando nada relevante havia mudado.
+  // ── Funções de compra ─────────────────────────────────────────────────────
   const ComprarTerreno = useCallback(() => {
-    if (economiaSetores.saldo < dados.terrenos.preçoConstrução * quantidadeTerrenos) {
+    const custo = T_PRECO * quantidadeTerrenos;
+    if (saldo < custo) {
       buttonAlertAudio();
-      atualizarDados("modalAlert", {
-        ...dados.modalAlert,
-        estadoModal: true,
-        head: "Você não tem Saldo suficiente",
-        content: "Junte maior quantidade de saldo para realizar essa ação.",
-      });
+      atualizarDados("modalAlert", { estadoModal: true, head: "Saldo insuficiente", content: "Junte mais saldo." });
       return;
-    }
-    if (dados.dia === 1 && dados.terrenos.quantidade === 0) {
-      atualizarDados("modalCompraTerrenos", { ...dados.modalInicio, estadoModal: true });
     }
     buttonPayTerrain();
-    atualizarDados("terrenos", {
-      ...dados.terrenos,
-      quantidade: dados.terrenos.quantidade + quantidadeTerrenos,
-    });
-    atualizarEco("saldo", economiaSetores.saldo - dados.terrenos.preçoConstrução * quantidadeTerrenos);
-  }, [dados, economiaSetores.saldo, quantidadeTerrenos, atualizarDados, atualizarEco, buttonAlertAudio, buttonPayTerrain]);
+    atualizarLote([
+      [["edificiosBase", "terrenos", "quantidade"], qtdTerrenos + quantidadeTerrenos],
+    ]);
+    atualizarEco("saldo", saldo - custo);
+  }, [qtdTerrenos, quantidadeTerrenos, saldo]);
 
   const ComprarLojaP = useCallback(() => {
-    if (dados.terrenos.quantidade < dados.lojasP.quantidadeNecTerreno * quantidadeLojasP) {
+    const custo      = P_PRECO * quantidadeLojasP;
+    const terrenosNec = P_NEC_T * quantidadeLojasP;
+    if (qtdTerrenos < terrenosNec) {
       buttonAlertAudio();
-      atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: "Você não tem Terrenos suficiente", content: "Compre Terreno, suficiente para construir o que deseja." });
+      atualizarDados("modalAlert", { estadoModal: true, head: "Terrenos insuficientes", content: "Compre mais terrenos." });
       return;
     }
-    if (economiaSetores.saldo < dados.lojasP.preçoConstrução * quantidadeLojasP) {
+    if (saldo < custo) {
       buttonAlertAudio();
-      atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: "Você não tem Saldo suficiente", content: "Junte maior quantidade de saldo para realizar essa ação." });
+      atualizarDados("modalAlert", { estadoModal: true, head: "Saldo insuficiente", content: "Junte mais saldo." });
       return;
-    }
-    if (dados.dia === 1) {
-      atualizarDados("modalContinuarDias", { ...dados.modalInicio, estadoModal: true });
     }
     buttonConstructAudio();
-    atualizarDados("lojasP", { ...dados.lojasP, quantidade: dados.lojasP.quantidade + quantidadeLojasP });
-    atualizarDados("terrenos", { ...dados.terrenos, quantidade: dados.terrenos.quantidade - dados.lojasP.quantidadeNecTerreno * quantidadeLojasP });
-    atualizarEco("saldo", economiaSetores.saldo - dados.lojasP.preçoConstrução * quantidadeLojasP);
-  }, [dados, economiaSetores.saldo, quantidadeLojasP, atualizarDados, atualizarEco, buttonAlertAudio, buttonConstructAudio]);
+    atualizarLote([
+      [["edificiosBase", "lojasP",   "quantidade"], qtdLojasP   + quantidadeLojasP],
+      [["edificiosBase", "terrenos", "quantidade"], qtdTerrenos - terrenosNec],
+    ]);
+    atualizarEco("saldo", saldo - custo);
+  }, [qtdTerrenos, qtdLojasP, quantidadeLojasP, saldo]);
 
   const ComprarLojaM = useCallback(() => {
-    if (dados.terrenos.quantidade < dados.lojasM.quantidadeNecTerreno * quantidadeLojasM) {
+    const custo      = M_PRECO * quantidadeLojasM;
+    const terrenosNec = M_NEC_T * quantidadeLojasM;
+    if (qtdTerrenos < terrenosNec) {
       buttonAlertAudio();
-      atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: "Você não tem Terrenos suficiente", content: "Compre Terreno, suficiente para construir o que deseja." });
+      atualizarDados("modalAlert", { estadoModal: true, head: "Terrenos insuficientes", content: "Compre mais terrenos." });
       return;
     }
-    if (economiaSetores.saldo < dados.lojasM.preçoConstrução * quantidadeLojasM) {
+    if (saldo < custo) {
       buttonAlertAudio();
-      atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: "Você não tem Saldo suficiente", content: "Junte maior quantidade de saldo para realizar essa ação." });
+      atualizarDados("modalAlert", { estadoModal: true, head: "Saldo insuficiente", content: "Junte mais saldo." });
       return;
     }
     buttonConstructAudio();
-    atualizarDados("lojasM", { ...dados.lojasM, quantidade: dados.lojasM.quantidade + quantidadeLojasM });
-    atualizarDados("terrenos", { ...dados.terrenos, quantidade: dados.terrenos.quantidade - dados.lojasM.quantidadeNecTerreno * quantidadeLojasM });
-    atualizarEco("saldo", economiaSetores.saldo - dados.lojasM.preçoConstrução * quantidadeLojasM);
-  }, [dados, economiaSetores.saldo, quantidadeLojasM, atualizarDados, atualizarEco, buttonAlertAudio, buttonConstructAudio]);
+    atualizarLote([
+      [["edificiosBase", "lojasM",   "quantidade"], qtdLojasM   + quantidadeLojasM],
+      [["edificiosBase", "terrenos", "quantidade"], qtdTerrenos - terrenosNec],
+    ]);
+    atualizarEco("saldo", saldo - custo);
+  }, [qtdTerrenos, qtdLojasM, quantidadeLojasM, saldo]);
 
   const ComprarLojaG = useCallback(() => {
-    if (dados.terrenos.quantidade < dados.lojasG.quantidadeNecTerreno * quantidadeLojasG) {
+    const custo      = G_PRECO * quantidadeLojasG;
+    const terrenosNec = G_NEC_T * quantidadeLojasG;
+    if (qtdTerrenos < terrenosNec) {
       buttonAlertAudio();
-      atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: "Você não tem Terrenos suficiente", content: "Compre Terreno, suficiente para construir o que deseja." });
+      atualizarDados("modalAlert", { estadoModal: true, head: "Terrenos insuficientes", content: "Compre mais terrenos." });
       return;
     }
-    if (economiaSetores.saldo < dados.lojasG.preçoConstrução * quantidadeLojasG) {
+    if (saldo < custo) {
       buttonAlertAudio();
-      atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: "Você não tem Saldo suficiente", content: "Junte maior quantidade de saldo para realizar essa ação." });
+      atualizarDados("modalAlert", { estadoModal: true, head: "Saldo insuficiente", content: "Junte mais saldo." });
       return;
     }
     buttonConstructAudio();
-    atualizarDados("lojasG", { ...dados.lojasG, quantidade: dados.lojasG.quantidade + quantidadeLojasG });
-    atualizarDados("terrenos", { ...dados.terrenos, quantidade: dados.terrenos.quantidade - dados.lojasG.quantidadeNecTerreno * quantidadeLojasG });
-    atualizarEco("saldo", economiaSetores.saldo - dados.lojasG.preçoConstrução * quantidadeLojasG);
-  }, [dados, economiaSetores.saldo, quantidadeLojasG, atualizarDados, atualizarEco, buttonAlertAudio, buttonConstructAudio]);
+    atualizarLote([
+      [["edificiosBase", "lojasG",   "quantidade"], qtdLojasG   + quantidadeLojasG],
+      [["edificiosBase", "terrenos", "quantidade"], qtdTerrenos - terrenosNec],
+    ]);
+    atualizarEco("saldo", saldo - custo);
+  }, [qtdTerrenos, qtdLojasG, quantidadeLojasG, saldo]);
 
-  // ─── Hotkeys ─────────────────────────────────────────────────────────────────
-  const hotkeyGuard = dados.dia <= 1 || dados.modal.estadoModal || dados.modalAlert.estadoModal || dados.modalDespesas.estadoModal || dados.modalEconomiaGlobal.estadoModal;
+  // ── Hotkeys ───────────────────────────────────────────────────────────────
+  const hotkeyGuard = dia <= 1 || algumModalAberto?.();
 
-  useHotkeys("q", () => { if (hotkeyGuard || isNKeyDown) return; setIsNKeyDown(true); ComprarTerreno(); }, { keydown: true, keyup: false, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] });
-  useHotkeys("q", () => { setIsNKeyDown(false); }, { keydown: false, keyup: true, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] });
+  useHotkeys("q", () => { if (hotkeyGuard || isNKeyDown) return; setIsNKeyDown(true); ComprarTerreno(); }, { keydown: true,  keyup: false, enableOnTags: ["INPUT","TEXTAREA","SELECT"] });
+  useHotkeys("q", () => { setIsNKeyDown(false); },                                                         { keydown: false, keyup: true,  enableOnTags: ["INPUT","TEXTAREA","SELECT"] });
+  useHotkeys("w", () => { if (hotkeyGuard || isNKeyDown) return; setIsNKeyDown(true); ComprarLojaP(); },   { keydown: true,  keyup: false, enableOnTags: ["INPUT","TEXTAREA","SELECT"] });
+  useHotkeys("w", () => { setIsNKeyDown(false); },                                                         { keydown: false, keyup: true,  enableOnTags: ["INPUT","TEXTAREA","SELECT"] });
+  useHotkeys("e", () => { if (hotkeyGuard || isNKeyDown) return; setIsNKeyDown(true); ComprarLojaM(); },   { keydown: true,  keyup: false, enableOnTags: ["INPUT","TEXTAREA","SELECT"] });
+  useHotkeys("e", () => { setIsNKeyDown(false); },                                                         { keydown: false, keyup: true,  enableOnTags: ["INPUT","TEXTAREA","SELECT"] });
+  useHotkeys("r", () => { if (hotkeyGuard || isNKeyDown) return; setIsNKeyDown(true); ComprarLojaG(); },   { keydown: true,  keyup: false, enableOnTags: ["INPUT","TEXTAREA","SELECT"] });
+  useHotkeys("r", () => { setIsNKeyDown(false); },                                                         { keydown: false, keyup: true,  enableOnTags: ["INPUT","TEXTAREA","SELECT"] });
 
-  useHotkeys("w", () => { if (hotkeyGuard || isNKeyDown) return; setIsNKeyDown(true); ComprarLojaP(); }, { keydown: true, keyup: false, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] });
-  useHotkeys("w", () => { setIsNKeyDown(false); }, { keydown: false, keyup: true, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] });
-
-  useHotkeys("e", () => { if (hotkeyGuard || isNKeyDown) return; setIsNKeyDown(true); ComprarLojaM(); }, { keydown: true, keyup: false, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] });
-  useHotkeys("e", () => { setIsNKeyDown(false); }, { keydown: false, keyup: true, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] });
-
-  useHotkeys("r", () => { if (hotkeyGuard || isNKeyDown) return; setIsNKeyDown(true); ComprarLojaG(); }, { keydown: true, keyup: false, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] });
-  useHotkeys("r", () => { setIsNKeyDown(false); }, { keydown: false, keyup: true, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] });
-
-  // ─── Roteamento pós dia 269 ───────────────────────────────────────────────────
-  if (dados.dia > 269) {
-    if (dados.setorAtivo === 'carteira') return <SidebarCard />;
-    if (dados.setorAtivo === 'mercado' || dados.setorAtivo === 'estoque' || dados.setorAtivo === 'gerenciamento' || dados.setorAtivo === 'ecossistema') return <SideInformations />;
-    if (setorAtual === "mercado") return <SidebarStorage />;
+  // ── Roteamento pós dia 269 ────────────────────────────────────────────────
+  if (dia > 269) {
+    if (setorAtivo === "carteira") return <SidebarCard />;
+    if (["mercado","estoque","gerenciamento","ecossistema"].includes(setorAtivo)) return <SideInformations />;
 
     return (
       <div className="flex justify-between h-full pt-10 pb-10 flex-col w-full">
         <div className="flex justify-around flex-col w-full">
 
-          {/* ===================== TERRENOS ===================== */}
-          <Paper elevation={6} sx={{ display: "flex", flexDirection: "column", p: 2, bgcolor: "#290064", borderRadius: "20px", mb: 2, maxWidth: 400, maxHeight: 350, position: "relative", width: { xs: "90vw", sm: "60vw", md: "30vw", lg: "20vw" } }}>
-            <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
-              <Box sx={{ flexGrow: 1, mr: 2, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          {/* ── TERRENOS ── */}
+          <Paper elevation={6} sx={{ display:"flex",flexDirection:"column",p:2,bgcolor:"#290064",borderRadius:"20px",mb:2,maxWidth:400,maxHeight:350,position:"relative",width:{xs:"90vw",sm:"60vw",md:"30vw",lg:"20vw"} }}>
+            <Box sx={{ flexGrow:1,display:"flex",flexDirection:"row" }}>
+              <Box sx={{ flexGrow:1,mr:2,display:"flex",flexDirection:"column",justifyContent:"space-between" }}>
                 <Box className="flex justify-between">
                   <GradientBox className="w-[70%]">
                     <Typography variant="subtitle1" color="white" fontWeight="bold" className="pl-[5px]">Terreno</Typography>
                   </GradientBox>
-                  <Box className="w-[25%] bg-[#6411D9]" data-tooltip-id="tooltip-terreno-posse" data-tooltip-html="Quantidade total que você já possui desse imóvel" sx={{ bgcolor: "#6411D9", borderRadius: "10px", border: "2px solid #F27405", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <Typography variant="subtitle1" color="white" fontWeight="bold" className="text-center">{dados.terrenos.quantidade}</Typography>
+                  <Box className="w-[25%] bg-[#6411D9]" data-tooltip-id="tooltip-terreno-posse" data-tooltip-html="Quantidade total que você já possui desse imóvel" sx={{ bgcolor:"#6411D9",borderRadius:"10px",border:"2px solid #F27405",display:"flex",justifyContent:"center",alignItems:"center" }}>
+                    <Typography variant="subtitle1" color="white" fontWeight="bold" className="text-center">{qtdTerrenos}</Typography>
                   </Box>
                 </Box>
-                <Box className="flex justify-between" sx={{ mt: 0.5 }}>
-                  <Box className="w-[50%]" data-tooltip-id="tooltip-terreno-preco" data-tooltip-html="Custo total para comprar um terreno" mt={0.5} sx={{ bgcolor: "#6411D9", borderRadius: "2px", display: "flex", justifyContent: "space-between", alignItems: "center", px: 1, py: 0.25 }}>
+                <Box className="flex justify-between" sx={{ mt:0.5 }}>
+                  <Box className="w-[50%]" data-tooltip-id="tooltip-terreno-preco" data-tooltip-html="Custo para comprar um terreno" mt={0.5} sx={{ bgcolor:"#6411D9",borderRadius:"2px",display:"flex",justifyContent:"space-between",alignItems:"center",px:1,py:0.25 }}>
                     <img className="w-4" src={DolarImg} alt="" />
-                    <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(dados.terrenos.preçoConstrução)}</Typography>
+                    <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(T_PRECO)}</Typography>
                   </Box>
                   <Box display="flex" alignItems="center" mt={0.5}>
                     <Box data-tooltip-id="tooltip-terreno-diminuir" data-tooltip-html="Diminuir quantidade">
-                      <IconButton onClick={DiminuirQuantidadeTerrenos} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
+                      <IconButton onClick={DiminuirQuantidadeTerrenos} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}>
                         <img src={menos} width={12} height={12} />
                       </IconButton>
                     </Box>
-                    <Box data-tooltip-id="tooltip-terreno-quantidade" data-tooltip-html="Quantidade selecionada" sx={{ mx: 1, bgcolor: "#350973", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, display: "flex", justifyContent: "center", alignItems: "center" }}>
-                      <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>{quantidadeTerrenos}</Typography>
+                    <Box data-tooltip-id="tooltip-terreno-quantidade" data-tooltip-html="Quantidade selecionada" sx={{ mx:1,bgcolor:"#350973",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},display:"flex",justifyContent:"center",alignItems:"center" }}>
+                      <Typography color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>{quantidadeTerrenos}</Typography>
                     </Box>
                     <Box data-tooltip-id="tooltip-terreno-aumentar" data-tooltip-html="Aumentar quantidade">
-                      <IconButton onClick={AumentarQuantidadeTerrenos} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
+                      <IconButton onClick={AumentarQuantidadeTerrenos} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}>
                         <img src={mais} width={12} height={12} />
                       </IconButton>
                     </Box>
                   </Box>
                 </Box>
               </Box>
-              <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
-                <Box data-tooltip-id="tooltip-terreno-comprar" data-tooltip-html={`<div><p>Comprar terreno (Q)</p><p style="margin-top:4px;">Dependendo do imóvel que você for construir, você <br/> vai precisar de um número mínimo de terrenos.</p><p style="margin-top:4px;"><b>Imóvel pequeno</b> - 1 terreno.<br/><b>Imóvel médio</b> - 2 terrenos.<br/><b>Imóvel grande</b> - 3 terrenos.</p></div>`}>
-                  <Box style={getBotaoCompraStyle({ podeComprar: podeComprarTerreno })} sx={{ flexGrow: 1, aspectRatio: "1", borderRadius: "10px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <IconButton onClick={ComprarTerreno} sx={{ width: { xs: 60, sm: 80 }, height: { xs: 60, sm: 80 }, borderRadius: "10px", "&:hover": { transform: "scale(1.05)" }, "&:active": { transform: "scale(0.95)" } }}>
-                      <img src={terrenoImg} alt="terreno" style={{ width: "60%", height: "60%" }} />
+              <Box sx={{ display:"flex",flexDirection:"column",justifyContent:"space-around" }}>
+                <Box data-tooltip-id="tooltip-terreno-comprar" data-tooltip-html="Comprar terreno (Q)">
+                  <Box style={getBotaoCompraStyle({ podeComprar: podeComprarTerreno })} sx={{ flexGrow:1,aspectRatio:"1",borderRadius:"10px",display:"flex",justifyContent:"center",alignItems:"center" }}>
+                    <IconButton onClick={ComprarTerreno} sx={{ width:{xs:60,sm:80},height:{xs:60,sm:80},borderRadius:"10px","&:hover":{transform:"scale(1.05)"},"&:active":{transform:"scale(0.95)"} }}>
+                      <img src={terrenoImg} alt="terreno" style={{ width:"60%",height:"60%" }} />
                     </IconButton>
                   </Box>
                 </Box>
               </Box>
             </Box>
-            <TooltipPadrao id="tooltip-terreno-tipo" />
-            <TooltipPadrao id="tooltip-terreno-preco" />
-            <TooltipPadrao id="tooltip-terreno-total" />
-            <TooltipPadrao id="tooltip-terreno-comprar" />
-            <TooltipPadrao id="tooltip-terreno-diminuir" />
-            <TooltipPadrao id="tooltip-terreno-quantidade" />
-            <TooltipPadrao id="tooltip-terreno-aumentar" />
-            <TooltipPadrao id="tooltip-terreno-posse" />
+            <TooltipPadrao id="tooltip-terreno-preco" /><TooltipPadrao id="tooltip-terreno-comprar" />
+            <TooltipPadrao id="tooltip-terreno-diminuir" /><TooltipPadrao id="tooltip-terreno-quantidade" />
+            <TooltipPadrao id="tooltip-terreno-aumentar" /><TooltipPadrao id="tooltip-terreno-posse" />
           </Paper>
 
-          {/* ===================== LOJAS PEQUENAS ===================== */}
-          <Paper elevation={6} sx={{ display: "flex", flexDirection: "column", p: 2, bgcolor: "#290064", borderRadius: "20px", mb: 2, maxWidth: 400, position: "relative", width: { xs: "90vw", sm: "60vw", md: "30vw", lg: "20vw" } }}>
-            <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
-              <Box sx={{ flexGrow: 1, mr: 2, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          {/* ── LOJAS PEQUENAS ── */}
+          <Paper elevation={6} sx={{ display:"flex",flexDirection:"column",p:2,bgcolor:"#290064",borderRadius:"20px",mb:2,maxWidth:400,position:"relative",width:{xs:"90vw",sm:"60vw",md:"30vw",lg:"20vw"} }}>
+            <Box sx={{ flexGrow:1,display:"flex",flexDirection:"row" }}>
+              <Box sx={{ flexGrow:1,mr:2,display:"flex",flexDirection:"column",justifyContent:"space-between" }}>
                 <Box className="flex justify-between">
                   <GradientBox className="w-[70%]">
                     <Typography variant="subtitle1" color="white" fontWeight="bold" className="pl-[5px]">Imóvel Pequeno</Typography>
                   </GradientBox>
-                  <Box className="w-[25%] bg-[#6411D9]" data-tooltip-id="tooltip-lojap-posse" data-tooltip-html="Quantidade total que você já possui desse imóvel" sx={{ bgcolor: "#6411D9", borderRadius: "10px", border: "2px solid #F27405", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <Typography variant="subtitle1" color="white" fontWeight="bold" className="text-center">{dados.lojasP.quantidade}</Typography>
+                  <Box className="w-[25%] bg-[#6411D9]" data-tooltip-id="tooltip-lojap-posse" data-tooltip-html="Quantidade total que você já possui" sx={{ bgcolor:"#6411D9",borderRadius:"10px",border:"2px solid #F27405",display:"flex",justifyContent:"center",alignItems:"center" }}>
+                    <Typography variant="subtitle1" color="white" fontWeight="bold" className="text-center">{qtdLojasP}</Typography>
                   </Box>
                 </Box>
-                <Box className="flex justify-between" sx={{ mt: 0.5 }}>
-                  <Box className="w-[50%]" data-tooltip-id="tooltip-lojap-preco" data-tooltip-html="Custo total para construir um imóvel pequeno no terreno" mt={0.5} sx={{ bgcolor: "#6411D9", borderRadius: "2px", display: "flex", justifyContent: "space-between", alignItems: "center", px: 1, py: 0.25 }}>
+                <Box className="flex justify-between" sx={{ mt:0.5 }}>
+                  <Box className="w-[50%]" data-tooltip-id="tooltip-lojap-preco" data-tooltip-html={`Custo de construção. Requer ${P_NEC_T} terreno(s)`} mt={0.5} sx={{ bgcolor:"#6411D9",borderRadius:"2px",display:"flex",justifyContent:"space-between",alignItems:"center",px:1,py:0.25 }}>
                     <img className="w-4" src={martelo} alt="" />
-                    <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(dados.lojasP.preçoConstrução * quantidadeLojasP)}</Typography>
+                    <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(P_PRECO * quantidadeLojasP)}</Typography>
                   </Box>
                   <Box display="flex" alignItems="center" mt={0.5}>
-                    <Box data-tooltip-id="tooltip-lojap-diminuir" data-tooltip-html="Diminuir quantidade">
-                      <IconButton onClick={DiminuirQuantidadeLojasP} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
-                        <img src={menos} width={12} height={12} />
-                      </IconButton>
+                    <IconButton onClick={DiminuirQuantidadeLojasP} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}>
+                      <img src={menos} width={12} height={12} />
+                    </IconButton>
+                    <Box sx={{ mx:1,bgcolor:"#350973",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},display:"flex",justifyContent:"center",alignItems:"center" }}>
+                      <Typography color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>{quantidadeLojasP}</Typography>
                     </Box>
-                    <Box data-tooltip-id="tooltip-lojap-quantidade" data-tooltip-html="Quantidade selecionada" sx={{ mx: 1, bgcolor: "#350973", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, display: "flex", justifyContent: "center", alignItems: "center" }}>
-                      <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>{quantidadeLojasP}</Typography>
-                    </Box>
-                    <Box data-tooltip-id="tooltip-lojap-aumentar" data-tooltip-html="Aumentar quantidade">
-                      <IconButton onClick={AumentarQuantidadeLojasP} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
-                        <img src={mais} width={12} height={12} />
-                      </IconButton>
-                    </Box>
+                    <IconButton onClick={AumentarQuantidadeLojasP} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}>
+                      <img src={mais} width={12} height={12} />
+                    </IconButton>
                   </Box>
                 </Box>
               </Box>
-              <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
-                <Box data-tooltip-id="tooltip-lojap-comprar" data-tooltip-html={`<div><p>Comprar imóvel pequeno (W)</p><p style="margin-top:4px;">Precisa de 1 terreno.</p></div>`}>
-                  <Box style={getBotaoCompraStyle({ podeComprar: podeComprarLojaP })} sx={{ flexGrow: 1, aspectRatio: "1", borderRadius: "10px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <IconButton onClick={ComprarLojaP} sx={{ width: { xs: 60, sm: 80 }, height: { xs: 60, sm: 80 }, borderRadius: "10px", "&:hover": { transform: "scale(1.05)" }, "&:active": { transform: "scale(0.95)" } }}>
-                      <img src={LojaPImg} alt="loja pequena" style={{ width: "60%", height: "60%" }} />
+              <Box sx={{ display:"flex",flexDirection:"column",justifyContent:"space-around" }}>
+                <Box data-tooltip-id="tooltip-lojap-comprar" data-tooltip-html={`<div><p>Comprar imóvel pequeno (W)</p><p>Precisa de ${P_NEC_T} terreno(s).</p></div>`}>
+                  <Box style={getBotaoCompraStyle({ podeComprar: podeComprarLojaP })} sx={{ flexGrow:1,aspectRatio:"1",borderRadius:"10px",display:"flex",justifyContent:"center",alignItems:"center" }}>
+                    <IconButton onClick={ComprarLojaP} sx={{ width:{xs:60,sm:80},height:{xs:60,sm:80},borderRadius:"10px","&:hover":{transform:"scale(1.05)"},"&:active":{transform:"scale(0.95)"} }}>
+                      <img src={LojaPImg} alt="loja pequena" style={{ width:"60%",height:"60%" }} />
                     </IconButton>
                   </Box>
                 </Box>
               </Box>
             </Box>
-            <TooltipPadrao id="tooltip-lojap-tipo" />
-            <TooltipPadrao id="tooltip-lojap-preco" />
-            <TooltipPadrao id="tooltip-lojap-total" />
-            <TooltipPadrao id="tooltip-lojap-comprar" />
-            <TooltipPadrao id="tooltip-lojap-diminuir" />
-            <TooltipPadrao id="tooltip-lojap-quantidade" />
-            <TooltipPadrao id="tooltip-lojap-aumentar" />
-            <TooltipPadrao id="tooltip-lojap-posse" />
+            <TooltipPadrao id="tooltip-lojap-preco" /><TooltipPadrao id="tooltip-lojap-comprar" /><TooltipPadrao id="tooltip-lojap-posse" />
           </Paper>
 
-          {/* ===================== LOJAS MÉDIAS ===================== */}
-          <Paper elevation={6} sx={{ display: "flex", flexDirection: "column", p: 2, bgcolor: "#290064", borderRadius: "20px", mb: 2, maxWidth: 400, position: "relative", width: { xs: "90vw", sm: "60vw", md: "30vw", lg: "20vw" } }}>
-            <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
-              <Box sx={{ flexGrow: 1, mr: 2, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          {/* ── LOJAS MÉDIAS ── */}
+          <Paper elevation={6} sx={{ display:"flex",flexDirection:"column",p:2,bgcolor:"#290064",borderRadius:"20px",mb:2,maxWidth:400,position:"relative",width:{xs:"90vw",sm:"60vw",md:"30vw",lg:"20vw"} }}>
+            <Box sx={{ flexGrow:1,display:"flex",flexDirection:"row" }}>
+              <Box sx={{ flexGrow:1,mr:2,display:"flex",flexDirection:"column",justifyContent:"space-between" }}>
                 <Box className="flex justify-between">
                   <GradientBox className="w-[70%]">
                     <Typography variant="subtitle1" color="white" fontWeight="bold" className="pl-[5px]">Imóvel Médio</Typography>
                   </GradientBox>
-                  <Box className="w-[25%] bg-[#6411D9]" data-tooltip-id="tooltip-lojam-posse" data-tooltip-html="Quantidade total que você já possui desse imóvel" sx={{ bgcolor: "#6411D9", borderRadius: "10px", border: "2px solid #F27405", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <Typography variant="subtitle1" color="white" fontWeight="bold" className="text-center">{dados.lojasM.quantidade}</Typography>
+                  <Box className="w-[25%] bg-[#6411D9]" data-tooltip-id="tooltip-lojam-posse" data-tooltip-html="Quantidade total que você já possui" sx={{ bgcolor:"#6411D9",borderRadius:"10px",border:"2px solid #F27405",display:"flex",justifyContent:"center",alignItems:"center" }}>
+                    <Typography variant="subtitle1" color="white" fontWeight="bold" className="text-center">{qtdLojasM}</Typography>
                   </Box>
                 </Box>
-                <Box className="flex justify-between" sx={{ mt: 0.5 }} data-tooltip-id="tooltip-lojam-preco" data-tooltip-html="Custo total para construção de imóvel médio">
-                  <Box className="w-[50%]" mt={0.5} sx={{ bgcolor: "#6411D9", borderRadius: "2px", display: "flex", justifyContent: "space-between", alignItems: "center", px: 1, py: 0.25 }}>
+                <Box className="flex justify-between" sx={{ mt:0.5 }}>
+                  <Box className="w-[50%]" data-tooltip-id="tooltip-lojam-preco" data-tooltip-html={`Custo de construção. Requer ${M_NEC_T} terrenos`} mt={0.5} sx={{ bgcolor:"#6411D9",borderRadius:"2px",display:"flex",justifyContent:"space-between",alignItems:"center",px:1,py:0.25 }}>
                     <img className="w-4" src={martelo} alt="" />
-                    <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(dados.lojasM.preçoConstrução * quantidadeLojasM)}</Typography>
+                    <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(M_PRECO * quantidadeLojasM)}</Typography>
                   </Box>
                   <Box display="flex" alignItems="center" mt={0.5}>
-                    <Box data-tooltip-id="tooltip-lojam-diminuir" data-tooltip-html="Diminuir quantidade">
-                      <IconButton onClick={DiminuirQuantidadeLojasM} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
-                        <img src={menos} width={12} height={12} />
-                      </IconButton>
+                    <IconButton onClick={DiminuirQuantidadeLojasM} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}>
+                      <img src={menos} width={12} height={12} />
+                    </IconButton>
+                    <Box sx={{ mx:1,bgcolor:"#350973",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},display:"flex",justifyContent:"center",alignItems:"center" }}>
+                      <Typography color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>{quantidadeLojasM}</Typography>
                     </Box>
-                    <Box data-tooltip-id="tooltip-lojam-quantidade" data-tooltip-html="Quantidade selecionada" sx={{ mx: 1, bgcolor: "#350973", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, display: "flex", justifyContent: "center", alignItems: "center" }}>
-                      <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>{quantidadeLojasM}</Typography>
-                    </Box>
-                    <Box data-tooltip-id="tooltip-lojam-aumentar" data-tooltip-html="Aumentar quantidade">
-                      <IconButton onClick={AumentarQuantidadeLojasM} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
-                        <img src={mais} width={12} height={12} />
-                      </IconButton>
-                    </Box>
+                    <IconButton onClick={AumentarQuantidadeLojasM} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}>
+                      <img src={mais} width={12} height={12} />
+                    </IconButton>
                   </Box>
                 </Box>
               </Box>
-              <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
-                <Box data-tooltip-id="tooltip-lojam-comprar" data-tooltip-html={`<div><p>Comprar imóvel médio (E)</p><p style="margin-top:4px;">Precisa de 2 terrenos para construir.</p></div>`}>
-                  <Box style={getBotaoCompraStyle({ podeComprar: podeComprarLojaM })} sx={{ flexGrow: 1, aspectRatio: "1", borderRadius: "10px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <IconButton onClick={ComprarLojaM} sx={{ width: { xs: 60, sm: 80 }, height: { xs: 60, sm: 80 }, borderRadius: "10px", "&:hover": { transform: "scale(1.05)" }, "&:active": { transform: "scale(0.95)" } }}>
-                      <img src={LojaMImg} alt="loja média" style={{ width: "60%", height: "60%" }} />
+              <Box sx={{ display:"flex",flexDirection:"column",justifyContent:"space-around" }}>
+                <Box data-tooltip-id="tooltip-lojam-comprar" data-tooltip-html={`<div><p>Comprar imóvel médio (E)</p><p>Precisa de ${M_NEC_T} terrenos.</p></div>`}>
+                  <Box style={getBotaoCompraStyle({ podeComprar: podeComprarLojaM })} sx={{ flexGrow:1,aspectRatio:"1",borderRadius:"10px",display:"flex",justifyContent:"center",alignItems:"center" }}>
+                    <IconButton onClick={ComprarLojaM} sx={{ width:{xs:60,sm:80},height:{xs:60,sm:80},borderRadius:"10px","&:hover":{transform:"scale(1.05)"},"&:active":{transform:"scale(0.95)"} }}>
+                      <img src={LojaMImg} alt="loja média" style={{ width:"60%",height:"60%" }} />
                     </IconButton>
                   </Box>
                 </Box>
               </Box>
             </Box>
-            <TooltipPadrao id="tooltip-lojam-tipo" />
-            <TooltipPadrao id="tooltip-lojam-preco" />
-            <TooltipPadrao id="tooltip-lojam-total" />
-            <TooltipPadrao id="tooltip-lojam-comprar" />
-            <TooltipPadrao id="tooltip-lojam-diminuir" />
-            <TooltipPadrao id="tooltip-lojam-quantidade" />
-            <TooltipPadrao id="tooltip-lojam-aumentar" />
-            <TooltipPadrao id="tooltip-lojam-posse" />
+            <TooltipPadrao id="tooltip-lojam-preco" /><TooltipPadrao id="tooltip-lojam-comprar" /><TooltipPadrao id="tooltip-lojam-posse" />
           </Paper>
 
-          {/* ===================== LOJAS GRANDES ===================== */}
-          <Paper elevation={6} sx={{ display: "flex", flexDirection: "column", p: 2, bgcolor: "#290064", borderRadius: "20px", mb: 2, maxWidth: 400, position: "relative", width: { xs: "90vw", sm: "60vw", md: "30vw", lg: "20vw" } }}>
-            <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
-              <Box sx={{ flexGrow: 1, mr: 2, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          {/* ── LOJAS GRANDES ── */}
+          <Paper elevation={6} sx={{ display:"flex",flexDirection:"column",p:2,bgcolor:"#290064",borderRadius:"20px",mb:2,maxWidth:400,position:"relative",width:{xs:"90vw",sm:"60vw",md:"30vw",lg:"20vw"} }}>
+            <Box sx={{ flexGrow:1,display:"flex",flexDirection:"row" }}>
+              <Box sx={{ flexGrow:1,mr:2,display:"flex",flexDirection:"column",justifyContent:"space-between" }}>
                 <Box className="flex justify-between">
                   <GradientBox className="w-[70%]">
                     <Typography variant="subtitle1" color="white" fontWeight="bold" className="pl-[5px]">Imóvel Grande</Typography>
                   </GradientBox>
-                  <Box className="w-[25%] bg-[#6411D9]" data-tooltip-id="tooltip-lojag-posse" data-tooltip-html="Quantidade total que você já possui desse imóvel" sx={{ bgcolor: "#6411D9", borderRadius: "10px", border: "2px solid #F27405", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <Typography variant="subtitle1" color="white" fontWeight="bold" className="text-center">{dados.lojasG.quantidade}</Typography>
+                  <Box className="w-[25%] bg-[#6411D9]" data-tooltip-id="tooltip-lojag-posse" data-tooltip-html="Quantidade total que você já possui" sx={{ bgcolor:"#6411D9",borderRadius:"10px",border:"2px solid #F27405",display:"flex",justifyContent:"center",alignItems:"center" }}>
+                    <Typography variant="subtitle1" color="white" fontWeight="bold" className="text-center">{qtdLojasG}</Typography>
                   </Box>
                 </Box>
-                <Box className="flex justify-between" sx={{ mt: 0.5 }} data-tooltip-id="tooltip-lojag-preco" data-tooltip-html="Custo total para construção de imóvel grande">
-                  <Box className="w-[50%]" mt={0.5} sx={{ bgcolor: "#6411D9", borderRadius: "2px", display: "flex", justifyContent: "space-between", alignItems: "center", px: 1, py: 0.25 }}>
+                <Box className="flex justify-between" sx={{ mt:0.5 }}>
+                  <Box className="w-[50%]" data-tooltip-id="tooltip-lojag-preco" data-tooltip-html={`Custo de construção. Requer ${G_NEC_T} terrenos`} mt={0.5} sx={{ bgcolor:"#6411D9",borderRadius:"2px",display:"flex",justifyContent:"space-between",alignItems:"center",px:1,py:0.25 }}>
                     <img className="w-4" src={martelo} alt="" />
-                    <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(dados.lojasG.preçoConstrução * quantidadeLojasG)}</Typography>
+                    <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(G_PRECO * quantidadeLojasG)}</Typography>
                   </Box>
                   <Box display="flex" alignItems="center" mt={0.5}>
-                    <Box data-tooltip-id="tooltip-lojag-diminuir" data-tooltip-html="Diminuir quantidade">
-                      <IconButton onClick={DiminuirQuantidadeLojasG} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
-                        <img src={menos} width={12} height={12} />
-                      </IconButton>
+                    <IconButton onClick={DiminuirQuantidadeLojasG} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}>
+                      <img src={menos} width={12} height={12} />
+                    </IconButton>
+                    <Box sx={{ mx:1,bgcolor:"#350973",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},display:"flex",justifyContent:"center",alignItems:"center" }}>
+                      <Typography color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>{quantidadeLojasG}</Typography>
                     </Box>
-                    <Box data-tooltip-id="tooltip-lojag-quantidade" data-tooltip-html="Quantidade selecionada" sx={{ mx: 1, bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, display: "flex", justifyContent: "center", alignItems: "center" }}>
-                      <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>{quantidadeLojasG}</Typography>
-                    </Box>
-                    <Box data-tooltip-id="tooltip-lojag-aumentar" data-tooltip-html="Aumentar quantidade">
-                      <IconButton onClick={AumentarQuantidadeLojasG} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
-                        <img src={mais} width={12} height={12} />
-                      </IconButton>
-                    </Box>
+                    <IconButton onClick={AumentarQuantidadeLojasG} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}>
+                      <img src={mais} width={12} height={12} />
+                    </IconButton>
                   </Box>
                 </Box>
               </Box>
-              <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
-                <Box data-tooltip-id="tooltip-lojag-comprar" data-tooltip-html={`<div><p>Comprar imóvel grande (R)</p><p style="margin-top:4px;">Precisa de 3 terrenos para construir.</p></div>`}>
-                  <Box style={getBotaoCompraStyle({ podeComprar: podeComprarLojaG })} sx={{ flexGrow: 1, aspectRatio: "1", borderRadius: "10px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <IconButton onClick={ComprarLojaG} sx={{ width: { xs: 60, sm: 80 }, height: { xs: 60, sm: 80 }, borderRadius: "10px", "&:hover": { transform: "scale(1.05)" }, "&:active": { transform: "scale(0.95)" } }}>
-                      <img src={LojaGImg} alt="loja grande" style={{ width: "60%", height: "60%" }} />
+              <Box sx={{ display:"flex",flexDirection:"column",justifyContent:"space-around" }}>
+                <Box data-tooltip-id="tooltip-lojag-comprar" data-tooltip-html={`<div><p>Comprar imóvel grande (R)</p><p>Precisa de ${G_NEC_T} terrenos.</p></div>`}>
+                  <Box style={getBotaoCompraStyle({ podeComprar: podeComprarLojaG })} sx={{ flexGrow:1,aspectRatio:"1",borderRadius:"10px",display:"flex",justifyContent:"center",alignItems:"center" }}>
+                    <IconButton onClick={ComprarLojaG} sx={{ width:{xs:60,sm:80},height:{xs:60,sm:80},borderRadius:"10px","&:hover":{transform:"scale(1.05)"},"&:active":{transform:"scale(0.95)"} }}>
+                      <img src={LojaGImg} alt="loja grande" style={{ width:"60%",height:"60%" }} />
                     </IconButton>
                   </Box>
                 </Box>
               </Box>
             </Box>
-            <TooltipPadrao id="tooltip-lojag-tipo" />
-            <TooltipPadrao id="tooltip-lojag-preco" />
-            <TooltipPadrao id="tooltip-lojag-total" />
-            <TooltipPadrao id="tooltip-lojag-comprar" />
-            <TooltipPadrao id="tooltip-lojag-diminuir" />
-            <TooltipPadrao id="tooltip-lojag-quantidade" />
-            <TooltipPadrao id="tooltip-lojag-aumentar" />
-            <TooltipPadrao id="tooltip-lojag-posse" />
+            <TooltipPadrao id="tooltip-lojag-preco" /><TooltipPadrao id="tooltip-lojag-comprar" /><TooltipPadrao id="tooltip-lojag-posse" />
           </Paper>
         </div>
         <LoanCarousel />
@@ -470,258 +438,200 @@ export default function Buy() {
     );
   }
 
-  // ─── Render pré-dia 270 ───────────────────────────────────────────────────────
+  // ── Render pré-dia 270 ────────────────────────────────────────────────────
   return (
     <div className="flex justify-around flex-col w-full">
 
-      {/* ===================== TERRENOS ===================== */}
-      <Paper elevation={6} sx={{ display: "flex", flexDirection: "column", p: 2, bgcolor: "#290064", borderRadius: "20px", mb: 2, minHeight: "20vh", maxWidth: 400, position: "relative", width: { xs: "90vw", sm: "60vw", md: "30vw", lg: "20vw" } }}>
-        <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
-          <Box sx={{ flexGrow: 1, mr: 2, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+      {/* ── TERRENOS pré-270 ── */}
+      <Paper elevation={6} sx={{ display:"flex",flexDirection:"column",p:2,bgcolor:"#290064",borderRadius:"20px",mb:2,minHeight:"20vh",maxWidth:400,position:"relative",width:{xs:"90vw",sm:"60vw",md:"30vw",lg:"20vw"} }}>
+        <Box sx={{ flexGrow:1,display:"flex",flexDirection:"row" }}>
+          <Box sx={{ flexGrow:1,mr:2,display:"flex",flexDirection:"column",justifyContent:"space-between" }}>
             <GradientBox>
               <Typography variant="subtitle1" color="white" fontWeight="bold">Terreno</Typography>
             </GradientBox>
-            <Box sx={{ mt: 0.5, ml: 2.5 }} data-tooltip-id="tooltip-terreno-preco" data-tooltip-html="Preço unitário para comprar um terreno">
-              <Box sx={{ bgcolor: "#6411D9", borderRadius: "2px", display: "flex", justifyContent: "space-between", alignItems: "center", px: 1, py: 0.25 }}>
+            <Box sx={{ mt:0.5,ml:2.5 }} data-tooltip-id="tooltip-terreno-preco" data-tooltip-html="Preço unitário para comprar um terreno">
+              <Box sx={{ bgcolor:"#6411D9",borderRadius:"2px",display:"flex",justifyContent:"space-between",alignItems:"center",px:1,py:0.25 }}>
                 <Typography variant="subtitle1" color="white" fontWeight="bold">Valor</Typography>
-                <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(dados.terrenos.preçoConstrução)}</Typography>
+                <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(T_PRECO)}</Typography>
               </Box>
             </Box>
-            <Box sx={{ mt: 0.5, ml: 2.5 }} data-tooltip-id="tooltip-terreno-total" data-tooltip-html="Custo total considerando a quantidade escolhida">
-              <Box sx={{ bgcolor: "#350973", borderRadius: "5px", height: { xs: 24, sm: 28 }, display: "flex", justifyContent: "space-between", alignItems: "center", px: 1 }}>
-                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>Valor total</Typography>
-                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>{formatarNumero(dados.terrenos.preçoConstrução * quantidadeTerrenos)}</Typography>
+            <Box sx={{ mt:0.5,ml:2.5 }} data-tooltip-id="tooltip-terreno-total" data-tooltip-html="Custo total considerando a quantidade escolhida">
+              <Box sx={{ bgcolor:"#350973",borderRadius:"5px",height:{xs:24,sm:28},display:"flex",justifyContent:"space-between",alignItems:"center",px:1 }}>
+                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>Valor total</Typography>
+                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>{formatarNumero(T_PRECO * quantidadeTerrenos)}</Typography>
               </Box>
             </Box>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
-            <Box data-tooltip-id="tooltip-terreno-comprar" data-tooltip-html={`<div class="z-[100]"><p>Comprar terreno (Q)</p><p style="margin-top:4px;">Dependendo do imóvel que você for</br> construir, você vai precisar de </br> um número mínimo de terrenos:</p><p style="margin-top:4px;"><b>Imóvel pequeno</b> - 1 terreno<br/><b>Imóvel médio</b> - 2 terrenos<br/><b>Imóvel grande</b> - 3 terrenos</p></div>`}>
-              <Box style={getBotaoCompraStyle({ podeComprar: podeComprarTerreno })} sx={{ flexGrow: 1, aspectRatio: "1", borderRadius: "10px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <IconButton onClick={ComprarTerreno} sx={{ width: { xs: 60, sm: 80 }, height: { xs: 60, sm: 80 }, borderRadius: "10px", "&:hover": { transform: "scale(1.05)" }, "&:active": { transform: "scale(0.95)" } }}>
-                  <img src={terrenoImg} alt="terreno" style={{ width: "60%", height: "60%" }} />
+          <Box sx={{ display:"flex",flexDirection:"column",justifyContent:"space-around" }}>
+            <Box data-tooltip-id="tooltip-terreno-comprar" data-tooltip-html="Comprar terreno (Q)">
+              <Box style={getBotaoCompraStyle({ podeComprar: podeComprarTerreno })} sx={{ flexGrow:1,aspectRatio:"1",borderRadius:"10px",display:"flex",justifyContent:"center",alignItems:"center" }}>
+                <IconButton onClick={ComprarTerreno} sx={{ width:{xs:60,sm:80},height:{xs:60,sm:80},borderRadius:"10px","&:hover":{transform:"scale(1.05)"},"&:active":{transform:"scale(0.95)"} }}>
+                  <img src={terrenoImg} alt="terreno" style={{ width:"60%",height:"60%" }} />
                 </IconButton>
               </Box>
             </Box>
             <Box display="flex" alignItems="center" mt={0.5}>
               <Box data-tooltip-id="tooltip-terreno-diminuir" data-tooltip-html="Diminuir quantidade">
-                <IconButton onClick={DiminuirQuantidadeTerrenos} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
+                <IconButton onClick={DiminuirQuantidadeTerrenos} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}>
                   <img src={menos} width={12} height={12} />
                 </IconButton>
               </Box>
-              <Box data-tooltip-id="tooltip-terreno-quantidade" data-tooltip-html="Quantidade selecionada" sx={{ mx: 1, bgcolor: "#350973", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>{quantidadeTerrenos}</Typography>
+              <Box data-tooltip-id="tooltip-terreno-quantidade" data-tooltip-html="Quantidade selecionada" sx={{ mx:1,bgcolor:"#350973",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},display:"flex",justifyContent:"center",alignItems:"center" }}>
+                <Typography color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>{quantidadeTerrenos}</Typography>
               </Box>
               <Box data-tooltip-id="tooltip-terreno-aumentar" data-tooltip-html="Aumentar quantidade">
-                <IconButton onClick={AumentarQuantidadeTerrenos} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
+                <IconButton onClick={AumentarQuantidadeTerrenos} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}>
                   <img src={mais} width={12} height={12} />
                 </IconButton>
               </Box>
             </Box>
           </Box>
         </Box>
-        <GradientBox sx={{ borderRadius: "20px", display: "flex", justifyContent: "space-between", alignItems: "center", px: 2, mt: 1, minHeight: 40 }}>
+        <GradientBox sx={{ borderRadius:"20px",display:"flex",justifyContent:"space-between",alignItems:"center",px:2,mt:1,minHeight:40 }}>
           <Box data-tooltip-id="tooltip-terreno-faturamento" data-tooltip-html="Valor faturado no dia anterior" display="flex" alignItems="center">
             <img src={DolarImg} width={16} height={16} />
-            <Typography variant="body1" color="white" fontWeight="bold" ml={1}>{dados.terrenos.faturamentoTotal.toLocaleString("pt-BR")}</Typography>
+            <Typography variant="body1" color="white" fontWeight="bold" ml={1}>{(fatuTerrenos || 0).toLocaleString("pt-BR")}</Typography>
           </Box>
-          <Box data-tooltip-id="tooltip-terreno-rentabilidade" data-tooltip-html="Rentabilidade atual dos terrenos" display="flex" alignItems="center">
-            <Typography variant="body1" color="white" fontWeight="bold" mr={1}>{resultadoTerrenos.toFixed(2)}</Typography>
+          <Box data-tooltip-id="tooltip-terreno-rentabilidade" data-tooltip-html="Rentabilidade atual" display="flex" alignItems="center">
+            <Typography variant="body1" color="white" fontWeight="bold" mr={1}>{(resultadoTerrenos || 0).toFixed(2)}</Typography>
             <img src={porcem} width={14} height={14} />
           </Box>
         </GradientBox>
-        <Box data-tooltip-id="tooltip-terreno-posse" data-tooltip-html="Quantidade total que você já possui desse imóvel" sx={{ bgcolor: "#6411D9", width: { xs: 40, sm: 48 }, height: { xs: 40, sm: 48 }, borderRadius: "10px", border: "2px solid #F27405", position: "absolute", left: { xs: -20, sm: -24 }, top: "50%", transform: "translateY(-50%)", display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 16 }}>{dados.terrenos.quantidade}</Typography>
+        <Box data-tooltip-id="tooltip-terreno-posse" data-tooltip-html="Quantidade que você possui" sx={{ bgcolor:"#6411D9",width:{xs:40,sm:48},height:{xs:40,sm:48},borderRadius:"10px",border:"2px solid #F27405",position:"absolute",left:{xs:-20,sm:-24},top:"50%",transform:"translateY(-50%)",display:"flex",justifyContent:"center",alignItems:"center" }}>
+          <Typography color="white" fontWeight="bold" fontSize={{xs:12,sm:16}}>{qtdTerrenos}</Typography>
         </Box>
-        <TooltipPadrao id="tooltip-terreno-tipo" /><TooltipPadrao id="tooltip-terreno-preco" /><TooltipPadrao id="tooltip-terreno-total" />
-        <TooltipPadrao id="tooltip-terreno-comprar" /><TooltipPadrao id="tooltip-terreno-diminuir" /><TooltipPadrao id="tooltip-terreno-quantidade" />
-        <TooltipPadrao id="tooltip-terreno-aumentar" /><TooltipPadrao id="tooltip-terreno-faturamento" /><TooltipPadrao id="tooltip-terreno-rentabilidade" />
-        <TooltipPadrao id="tooltip-terreno-posse" />
+        <TooltipPadrao id="tooltip-terreno-preco" /><TooltipPadrao id="tooltip-terreno-total" /><TooltipPadrao id="tooltip-terreno-comprar" />
+        <TooltipPadrao id="tooltip-terreno-diminuir" /><TooltipPadrao id="tooltip-terreno-quantidade" /><TooltipPadrao id="tooltip-terreno-aumentar" />
+        <TooltipPadrao id="tooltip-terreno-faturamento" /><TooltipPadrao id="tooltip-terreno-rentabilidade" /><TooltipPadrao id="tooltip-terreno-posse" />
       </Paper>
 
-      {/* ===================== LOJAS PEQUENAS ===================== */}
-      <Paper elevation={6} sx={{ display: "flex", flexDirection: "column", p: 2, bgcolor: "#290064", borderRadius: "20px", mb: 2, minHeight: "20vh", maxWidth: 400, position: "relative", width: { xs: "90vw", sm: "60vw", md: "30vw", lg: "20vw" } }}>
-        <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
-          <Box sx={{ flexGrow: 1, mr: 2, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+      {/* ── LOJAS PEQUENAS pré-270 ── */}
+      <Paper elevation={6} sx={{ display:"flex",flexDirection:"column",p:2,bgcolor:"#290064",borderRadius:"20px",mb:2,minHeight:"20vh",maxWidth:400,position:"relative",width:{xs:"90vw",sm:"60vw",md:"30vw",lg:"20vw"} }}>
+        <Box sx={{ flexGrow:1,display:"flex",flexDirection:"row" }}>
+          <Box sx={{ flexGrow:1,mr:2,display:"flex",flexDirection:"column",justifyContent:"space-between" }}>
             <GradientBox><Typography variant="subtitle1" color="white" fontWeight="bold">Imóvel Pequeno</Typography></GradientBox>
-            <Box sx={{ mt: 0.5, ml: 2.5 }} data-tooltip-id="tooltip-lojap-preco" data-tooltip-html="Preço unitário para construir um imóvel pequeno no terreno">
-              <Box sx={{ bgcolor: "#6411D9", borderRadius: "2px", display: "flex", justifyContent: "space-between", alignItems: "center", px: 1, py: 0.25 }}>
+            <Box sx={{ mt:0.5,ml:2.5 }} data-tooltip-id="tooltip-lojap-preco" data-tooltip-html={`Construção. Requer ${P_NEC_T} terreno`}>
+              <Box sx={{ bgcolor:"#6411D9",borderRadius:"2px",display:"flex",justifyContent:"space-between",alignItems:"center",px:1,py:0.25 }}>
                 <Typography variant="subtitle1" color="white" fontWeight="bold">Construção</Typography>
-                <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(dados.lojasP.preçoConstrução)}</Typography>
+                <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(P_PRECO)}</Typography>
               </Box>
             </Box>
-            <Box sx={{ mt: 0.5, ml: 2.5 }} data-tooltip-id="tooltip-lojap-total" data-tooltip-html="Custo total considerando a quantidade escolhida">
-              <Box sx={{ bgcolor: "#350973", borderRadius: "5px", height: { xs: 24, sm: 28 }, display: "flex", justifyContent: "space-between", alignItems: "center", px: 1 }}>
-                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>Valor total</Typography>
-                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>{formatarNumero(dados.lojasP.preçoConstrução * quantidadeLojasP)}</Typography>
+            <Box sx={{ mt:0.5,ml:2.5 }} data-tooltip-id="tooltip-lojap-total" data-tooltip-html="Custo total considerando a quantidade">
+              <Box sx={{ bgcolor:"#350973",borderRadius:"5px",height:{xs:24,sm:28},display:"flex",justifyContent:"space-between",alignItems:"center",px:1 }}>
+                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>Valor total</Typography>
+                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>{formatarNumero(P_PRECO * quantidadeLojasP)}</Typography>
               </Box>
             </Box>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
-            <Box data-tooltip-id="tooltip-lojap-comprar" data-tooltip-html="<div><p>Comprar imóvel pequeno (W)</p><p style='margin-top:4px;'>Precisa de um terreno para poder construir em cima dele</p></div>">
-              <Box style={getBotaoCompraStyle({ podeComprar: podeComprarLojaP })} sx={{ flexGrow: 1, aspectRatio: "1", borderRadius: "10px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <IconButton onClick={ComprarLojaP} sx={{ width: { xs: 60, sm: 80 }, height: { xs: 60, sm: 80 }, borderRadius: "10px", "&:hover": { transform: "scale(1.05)" }, "&:active": { transform: "scale(0.95)" } }}>
-                  <img src={LojaPImg} alt="loja pequena" style={{ width: "60%", height: "60%" }} />
+          <Box sx={{ display:"flex",flexDirection:"column",justifyContent:"space-around" }}>
+            <Box data-tooltip-id="tooltip-lojap-comprar" data-tooltip-html={`Comprar imóvel pequeno (W). Requer ${P_NEC_T} terreno.`}>
+              <Box style={getBotaoCompraStyle({ podeComprar: podeComprarLojaP })} sx={{ flexGrow:1,aspectRatio:"1",borderRadius:"10px",display:"flex",justifyContent:"center",alignItems:"center" }}>
+                <IconButton onClick={ComprarLojaP} sx={{ width:{xs:60,sm:80},height:{xs:60,sm:80},borderRadius:"10px","&:hover":{transform:"scale(1.05)"},"&:active":{transform:"scale(0.95)"} }}>
+                  <img src={LojaPImg} alt="loja pequena" style={{ width:"60%",height:"60%" }} />
                 </IconButton>
               </Box>
             </Box>
             <Box display="flex" alignItems="center" mt={0.5}>
-              <Box data-tooltip-id="tooltip-lojap-diminuir" data-tooltip-html="Diminuir quantidade">
-                <IconButton onClick={DiminuirQuantidadeLojasP} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
-                  <img src={menos} width={12} height={12} />
-                </IconButton>
-              </Box>
-              <Box data-tooltip-id="tooltip-lojap-quantidade" data-tooltip-html="Quantidade selecionada" sx={{ mx: 1, bgcolor: "#350973", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>{quantidadeLojasP}</Typography>
-              </Box>
-              <Box data-tooltip-id="tooltip-lojap-aumentar" data-tooltip-html="Aumentar quantidade">
-                <IconButton onClick={AumentarQuantidadeLojasP} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
-                  <img src={mais} width={12} height={12} />
-                </IconButton>
-              </Box>
+              <IconButton onClick={DiminuirQuantidadeLojasP} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}><img src={menos} width={12} height={12} /></IconButton>
+              <Box sx={{ mx:1,bgcolor:"#350973",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},display:"flex",justifyContent:"center",alignItems:"center" }}><Typography color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>{quantidadeLojasP}</Typography></Box>
+              <IconButton onClick={AumentarQuantidadeLojasP} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}><img src={mais} width={12} height={12} /></IconButton>
             </Box>
           </Box>
         </Box>
-        <GradientBox sx={{ borderRadius: "20px", display: "flex", justifyContent: "space-between", alignItems: "center", px: 2, mt: 1, minHeight: 40 }}>
-          <Box data-tooltip-id="tooltip-lojap-faturamento" data-tooltip-html="Valor faturado no dia anterior" display="flex" alignItems="center">
-            <img src={DolarImg} width={16} height={16} />
-            <Typography variant="body1" color="white" fontWeight="bold" ml={1}>{dados.lojasP.faturamentoTotal.toLocaleString("pt-BR")}</Typography>
-          </Box>
-          <Box data-tooltip-id="tooltip-lojap-rentabilidade" data-tooltip-html="Rentabilidade atual do imóvel pequeno" display="flex" alignItems="center">
-            <Typography variant="body1" color="white" fontWeight="bold" mr={1}>{resultadoLojasP.toFixed(2)}</Typography>
-            <img src={porcem} width={14} height={14} />
-          </Box>
+        <GradientBox sx={{ borderRadius:"20px",display:"flex",justifyContent:"space-between",alignItems:"center",px:2,mt:1,minHeight:40 }}>
+          <Box display="flex" alignItems="center"><img src={DolarImg} width={16} height={16} /><Typography variant="body1" color="white" fontWeight="bold" ml={1}>{(fatuLojasP || 0).toLocaleString("pt-BR")}</Typography></Box>
+          <Box display="flex" alignItems="center"><Typography variant="body1" color="white" fontWeight="bold" mr={1}>{(resultadoLojasP || 0).toFixed(2)}</Typography><img src={porcem} width={14} height={14} /></Box>
         </GradientBox>
-        <Box data-tooltip-id="tooltip-lojap-posse" data-tooltip-html="Quantidade total que você já possui desse imóvel" sx={{ bgcolor: "#6411D9", width: { xs: 40, sm: 48 }, height: { xs: 40, sm: 48 }, borderRadius: "10px", border: "2px solid #F27405", position: "absolute", left: { xs: -20, sm: -24 }, top: "50%", transform: "translateY(-50%)", display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 16 }}>{dados.lojasP.quantidade}</Typography>
+        <Box sx={{ bgcolor:"#6411D9",width:{xs:40,sm:48},height:{xs:40,sm:48},borderRadius:"10px",border:"2px solid #F27405",position:"absolute",left:{xs:-20,sm:-24},top:"50%",transform:"translateY(-50%)",display:"flex",justifyContent:"center",alignItems:"center" }}>
+          <Typography color="white" fontWeight="bold" fontSize={{xs:12,sm:16}}>{qtdLojasP}</Typography>
         </Box>
-        <TooltipPadrao id="tooltip-lojap-tipo" /><TooltipPadrao id="tooltip-lojap-preco" /><TooltipPadrao id="tooltip-lojap-total" />
-        <TooltipPadrao id="tooltip-lojap-comprar" /><TooltipPadrao id="tooltip-lojap-diminuir" /><TooltipPadrao id="tooltip-lojap-quantidade" />
-        <TooltipPadrao id="tooltip-lojap-aumentar" /><TooltipPadrao id="tooltip-lojap-faturamento" /><TooltipPadrao id="tooltip-lojap-rentabilidade" />
-        <TooltipPadrao id="tooltip-lojap-posse" />
+        <TooltipPadrao id="tooltip-lojap-preco" /><TooltipPadrao id="tooltip-lojap-total" /><TooltipPadrao id="tooltip-lojap-comprar" />
       </Paper>
 
-      {/* ===================== LOJAS MÉDIAS ===================== */}
-      <Paper elevation={6} sx={{ display: "flex", flexDirection: "column", p: 2, bgcolor: "#290064", borderRadius: "20px", mb: 2, minHeight: "20vh", maxWidth: 400, position: "relative", width: { xs: "90vw", sm: "60vw", md: "30vw", lg: "20vw" } }}>
-        <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
-          <Box sx={{ flexGrow: 1, mr: 2, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+      {/* ── LOJAS MÉDIAS pré-270 ── */}
+      <Paper elevation={6} sx={{ display:"flex",flexDirection:"column",p:2,bgcolor:"#290064",borderRadius:"20px",mb:2,minHeight:"20vh",maxWidth:400,position:"relative",width:{xs:"90vw",sm:"60vw",md:"30vw",lg:"20vw"} }}>
+        <Box sx={{ flexGrow:1,display:"flex",flexDirection:"row" }}>
+          <Box sx={{ flexGrow:1,mr:2,display:"flex",flexDirection:"column",justifyContent:"space-between" }}>
             <GradientBox><Typography variant="subtitle1" color="white" fontWeight="bold">Imóvel Médio</Typography></GradientBox>
-            <Box sx={{ mt: 0.5, ml: 2.5 }} data-tooltip-id="tooltip-lojam-preco" data-tooltip-html="Preço unitário para construir um imóvel médio no terreno">
-              <Box sx={{ bgcolor: "#6411D9", borderRadius: "2px", display: "flex", justifyContent: "space-between", alignItems: "center", px: 1, py: 0.25 }}>
+            <Box sx={{ mt:0.5,ml:2.5 }} data-tooltip-id="tooltip-lojam-preco" data-tooltip-html={`Construção. Requer ${M_NEC_T} terrenos`}>
+              <Box sx={{ bgcolor:"#6411D9",borderRadius:"2px",display:"flex",justifyContent:"space-between",alignItems:"center",px:1,py:0.25 }}>
                 <Typography variant="subtitle1" color="white" fontWeight="bold">Construção</Typography>
-                <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(dados.lojasM.preçoConstrução)}</Typography>
+                <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(M_PRECO)}</Typography>
               </Box>
             </Box>
-            <Box sx={{ mt: 0.5, ml: 2.5 }} data-tooltip-id="tooltip-lojam-total" data-tooltip-html="Custo total considerando a quantidade escolhida">
-              <Box sx={{ bgcolor: "#350973", borderRadius: "5px", height: { xs: 24, sm: 28 }, display: "flex", justifyContent: "space-between", alignItems: "center", px: 1 }}>
-                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>Valor total</Typography>
-                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>{formatarNumero(dados.lojasM.preçoConstrução * quantidadeLojasM)}</Typography>
+            <Box sx={{ mt:0.5,ml:2.5 }} data-tooltip-id="tooltip-lojam-total" data-tooltip-html="Custo total">
+              <Box sx={{ bgcolor:"#350973",borderRadius:"5px",height:{xs:24,sm:28},display:"flex",justifyContent:"space-between",alignItems:"center",px:1 }}>
+                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>Valor total</Typography>
+                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>{formatarNumero(M_PRECO * quantidadeLojasM)}</Typography>
               </Box>
             </Box>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
-            <Box data-tooltip-id="tooltip-lojam-comprar" data-tooltip-html="<div><p>Comprar imóvel médio (E)</p><p style='margin-top:4px;'>Precisa de dois terrenos ou mais para construir</p></div>">
-              <Box style={getBotaoCompraStyle({ podeComprar: podeComprarLojaM })} sx={{ flexGrow: 1, aspectRatio: "1", borderRadius: "10px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <IconButton onClick={ComprarLojaM} sx={{ width: { xs: 60, sm: 80 }, height: { xs: 60, sm: 80 }, borderRadius: "10px", "&:hover": { transform: "scale(1.05)" }, "&:active": { transform: "scale(0.95)" } }}>
-                  <img src={LojaMImg} alt="loja média" style={{ width: "60%", height: "60%" }} />
+          <Box sx={{ display:"flex",flexDirection:"column",justifyContent:"space-around" }}>
+            <Box data-tooltip-id="tooltip-lojam-comprar" data-tooltip-html={`Comprar imóvel médio (E). Requer ${M_NEC_T} terrenos.`}>
+              <Box style={getBotaoCompraStyle({ podeComprar: podeComprarLojaM })} sx={{ flexGrow:1,aspectRatio:"1",borderRadius:"10px",display:"flex",justifyContent:"center",alignItems:"center" }}>
+                <IconButton onClick={ComprarLojaM} sx={{ width:{xs:60,sm:80},height:{xs:60,sm:80},borderRadius:"10px","&:hover":{transform:"scale(1.05)"},"&:active":{transform:"scale(0.95)"} }}>
+                  <img src={LojaMImg} alt="loja média" style={{ width:"60%",height:"60%" }} />
                 </IconButton>
               </Box>
             </Box>
             <Box display="flex" alignItems="center" mt={0.5}>
-              <Box data-tooltip-id="tooltip-lojam-diminuir" data-tooltip-html="Diminuir quantidade">
-                <IconButton onClick={DiminuirQuantidadeLojasM} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
-                  <img src={menos} width={12} height={12} />
-                </IconButton>
-              </Box>
-              <Box data-tooltip-id="tooltip-lojam-quantidade" data-tooltip-html="Quantidade selecionada" sx={{ mx: 1, bgcolor: "#350973", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>{quantidadeLojasM}</Typography>
-              </Box>
-              <Box data-tooltip-id="tooltip-lojam-aumentar" data-tooltip-html="Aumentar quantidade">
-                <IconButton onClick={AumentarQuantidadeLojasM} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
-                  <img src={mais} width={12} height={12} />
-                </IconButton>
-              </Box>
+              <IconButton onClick={DiminuirQuantidadeLojasM} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}><img src={menos} width={12} height={12} /></IconButton>
+              <Box sx={{ mx:1,bgcolor:"#350973",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},display:"flex",justifyContent:"center",alignItems:"center" }}><Typography color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>{quantidadeLojasM}</Typography></Box>
+              <IconButton onClick={AumentarQuantidadeLojasM} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}><img src={mais} width={12} height={12} /></IconButton>
             </Box>
           </Box>
         </Box>
-        <GradientBox sx={{ borderRadius: "20px", display: "flex", justifyContent: "space-between", alignItems: "center", px: 2, mt: 1, minHeight: 40 }}>
-          <Box data-tooltip-id="tooltip-lojam-faturamento" data-tooltip-html="Valor faturado no dia anterior" display="flex" alignItems="center">
-            <img src={DolarImg} width={16} height={16} />
-            <Typography variant="body1" color="white" fontWeight="bold" ml={1}>{dados.lojasM.faturamentoTotal.toLocaleString("pt-BR")}</Typography>
-          </Box>
-          <Box data-tooltip-id="tooltip-lojam-rentabilidade" data-tooltip-html="Rentabilidade atual do imóvel médio" display="flex" alignItems="center">
-            <Typography variant="body1" color="white" fontWeight="bold" mr={1}>{resultadoLojasM.toFixed(2)}</Typography>
-            <img src={porcem} width={14} height={14} />
-          </Box>
+        <GradientBox sx={{ borderRadius:"20px",display:"flex",justifyContent:"space-between",alignItems:"center",px:2,mt:1,minHeight:40 }}>
+          <Box display="flex" alignItems="center"><img src={DolarImg} width={16} height={16} /><Typography variant="body1" color="white" fontWeight="bold" ml={1}>{(fatuLojasM || 0).toLocaleString("pt-BR")}</Typography></Box>
+          <Box display="flex" alignItems="center"><Typography variant="body1" color="white" fontWeight="bold" mr={1}>{(resultadoLojasM || 0).toFixed(2)}</Typography><img src={porcem} width={14} height={14} /></Box>
         </GradientBox>
-        <Box data-tooltip-id="tooltip-lojam-posse" data-tooltip-html="Quantidade total que você já possui desse imóvel" sx={{ bgcolor: "#6411D9", width: { xs: 40, sm: 48 }, height: { xs: 40, sm: 48 }, borderRadius: "10px", border: "2px solid #F27405", position: "absolute", left: { xs: -20, sm: -24 }, top: "50%", transform: "translateY(-50%)", display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 16 }}>{dados.lojasM.quantidade}</Typography>
+        <Box sx={{ bgcolor:"#6411D9",width:{xs:40,sm:48},height:{xs:40,sm:48},borderRadius:"10px",border:"2px solid #F27405",position:"absolute",left:{xs:-20,sm:-24},top:"50%",transform:"translateY(-50%)",display:"flex",justifyContent:"center",alignItems:"center" }}>
+          <Typography color="white" fontWeight="bold" fontSize={{xs:12,sm:16}}>{qtdLojasM}</Typography>
         </Box>
-        <TooltipPadrao id="tooltip-lojam-tipo" /><TooltipPadrao id="tooltip-lojam-preco" /><TooltipPadrao id="tooltip-lojam-total" />
-        <TooltipPadrao id="tooltip-lojam-comprar" /><TooltipPadrao id="tooltip-lojam-diminuir" /><TooltipPadrao id="tooltip-lojam-quantidade" />
-        <TooltipPadrao id="tooltip-lojam-aumentar" /><TooltipPadrao id="tooltip-lojam-faturamento" /><TooltipPadrao id="tooltip-lojam-rentabilidade" />
-        <TooltipPadrao id="tooltip-lojam-posse" />
+        <TooltipPadrao id="tooltip-lojam-preco" /><TooltipPadrao id="tooltip-lojam-total" /><TooltipPadrao id="tooltip-lojam-comprar" />
       </Paper>
 
-      {/* ===================== LOJAS GRANDES ===================== */}
-      <Paper elevation={6} sx={{ display: "flex", flexDirection: "column", p: 2, bgcolor: "#290064", borderRadius: "20px", mb: 2, minHeight: "20vh", maxWidth: 400, position: "relative", width: { xs: "90vw", sm: "60vw", md: "30vw", lg: "20vw" } }}>
-        <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
-          <Box sx={{ flexGrow: 1, mr: 2, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+      {/* ── LOJAS GRANDES pré-270 ── */}
+      <Paper elevation={6} sx={{ display:"flex",flexDirection:"column",p:2,bgcolor:"#290064",borderRadius:"20px",mb:2,minHeight:"20vh",maxWidth:400,position:"relative",width:{xs:"90vw",sm:"60vw",md:"30vw",lg:"20vw"} }}>
+        <Box sx={{ flexGrow:1,display:"flex",flexDirection:"row" }}>
+          <Box sx={{ flexGrow:1,mr:2,display:"flex",flexDirection:"column",justifyContent:"space-between" }}>
             <GradientBox><Typography variant="subtitle1" color="white" fontWeight="bold">Imóvel Grande</Typography></GradientBox>
-            <Box sx={{ mt: 0.5, ml: 2.5 }} data-tooltip-id="tooltip-lojag-preco" data-tooltip-html="Preço unitário para construir um imóvel grande no terreno">
-              <Box sx={{ bgcolor: "#6411D9", borderRadius: "2px", display: "flex", justifyContent: "space-between", alignItems: "center", px: 1, py: 0.25 }}>
+            <Box sx={{ mt:0.5,ml:2.5 }} data-tooltip-id="tooltip-lojag-preco" data-tooltip-html={`Construção. Requer ${G_NEC_T} terrenos`}>
+              <Box sx={{ bgcolor:"#6411D9",borderRadius:"2px",display:"flex",justifyContent:"space-between",alignItems:"center",px:1,py:0.25 }}>
                 <Typography variant="subtitle1" color="white" fontWeight="bold">Construção</Typography>
-                <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(dados.lojasG.preçoConstrução)}</Typography>
+                <Typography variant="subtitle1" color="white" fontWeight="bold">{formatarNumero(G_PRECO)}</Typography>
               </Box>
             </Box>
-            <Box sx={{ mt: 0.5, ml: 2.5 }} data-tooltip-id="tooltip-lojag-total" data-tooltip-html="Custo total considerando a quantidade escolhida">
-              <Box sx={{ bgcolor: "#350973", borderRadius: "5px", height: { xs: 24, sm: 28 }, display: "flex", justifyContent: "space-between", alignItems: "center", px: 1 }}>
-                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>Valor total</Typography>
-                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>{formatarNumero(dados.lojasG.preçoConstrução * quantidadeLojasG)}</Typography>
+            <Box sx={{ mt:0.5,ml:2.5 }} data-tooltip-id="tooltip-lojag-total" data-tooltip-html="Custo total">
+              <Box sx={{ bgcolor:"#350973",borderRadius:"5px",height:{xs:24,sm:28},display:"flex",justifyContent:"space-between",alignItems:"center",px:1 }}>
+                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>Valor total</Typography>
+                <Typography variant="body2" color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>{formatarNumero(G_PRECO * quantidadeLojasG)}</Typography>
               </Box>
             </Box>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
-            <Box data-tooltip-id="tooltip-lojag-comprar" data-tooltip-html="<div><p>Comprar imóvel grande (R)</p><p style='margin-top:4px;'>Precisa de três terrenos ou mais para construir</p></div>">
-              <Box style={getBotaoCompraStyle({ podeComprar: podeComprarLojaG })} sx={{ flexGrow: 1, aspectRatio: "1", borderRadius: "10px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <IconButton onClick={ComprarLojaG} sx={{ width: { xs: 60, sm: 80 }, height: { xs: 60, sm: 80 }, borderRadius: "10px", "&:hover": { transform: "scale(1.05)" }, "&:active": { transform: "scale(0.95)" } }}>
-                  <img src={LojaGImg} alt="loja grande" style={{ width: "60%", height: "60%" }} />
+          <Box sx={{ display:"flex",flexDirection:"column",justifyContent:"space-around" }}>
+            <Box data-tooltip-id="tooltip-lojag-comprar" data-tooltip-html={`Comprar imóvel grande (R). Requer ${G_NEC_T} terrenos.`}>
+              <Box style={getBotaoCompraStyle({ podeComprar: podeComprarLojaG })} sx={{ flexGrow:1,aspectRatio:"1",borderRadius:"10px",display:"flex",justifyContent:"center",alignItems:"center" }}>
+                <IconButton onClick={ComprarLojaG} sx={{ width:{xs:60,sm:80},height:{xs:60,sm:80},borderRadius:"10px","&:hover":{transform:"scale(1.05)"},"&:active":{transform:"scale(0.95)"} }}>
+                  <img src={LojaGImg} alt="loja grande" style={{ width:"60%",height:"60%" }} />
                 </IconButton>
               </Box>
             </Box>
             <Box display="flex" alignItems="center" mt={0.5}>
-              <Box data-tooltip-id="tooltip-lojag-diminuir" data-tooltip-html="Diminuir quantidade">
-                <IconButton onClick={DiminuirQuantidadeLojasG} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
-                  <img src={menos} width={12} height={12} />
-                </IconButton>
-              </Box>
-              <Box data-tooltip-id="tooltip-lojag-quantidade" data-tooltip-html="Quantidade selecionada" sx={{ mx: 1, bgcolor: "#350973", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 14 }}>{quantidadeLojasG}</Typography>
-              </Box>
-              <Box data-tooltip-id="tooltip-lojag-aumentar" data-tooltip-html="Aumentar quantidade">
-                <IconButton onClick={AumentarQuantidadeLojasG} sx={{ bgcolor: "#6411D9", width: { xs: 24, sm: 28 }, height: { xs: 24, sm: 28 }, borderRadius: { xs: "4px", sm: "5px" }, "&:hover": { bgcolor: "#834EDB" } }}>
-                  <img src={mais} width={12} height={12} />
-                </IconButton>
-              </Box>
+              <IconButton onClick={DiminuirQuantidadeLojasG} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}><img src={menos} width={12} height={12} /></IconButton>
+              <Box sx={{ mx:1,bgcolor:"#350973",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},display:"flex",justifyContent:"center",alignItems:"center" }}><Typography color="white" fontWeight="bold" fontSize={{xs:12,sm:14}}>{quantidadeLojasG}</Typography></Box>
+              <IconButton onClick={AumentarQuantidadeLojasG} sx={{ bgcolor:"#6411D9",width:{xs:24,sm:28},height:{xs:24,sm:28},borderRadius:{xs:"4px",sm:"5px"},"&:hover":{bgcolor:"#834EDB"} }}><img src={mais} width={12} height={12} /></IconButton>
             </Box>
           </Box>
         </Box>
-        <GradientBox sx={{ borderRadius: "20px", display: "flex", justifyContent: "space-between", alignItems: "center", px: 2, mt: 1, minHeight: 40 }}>
-          <Box data-tooltip-id="tooltip-lojag-faturamento" data-tooltip-html="Valor faturado no dia anterior" display="flex" alignItems="center">
-            <img src={DolarImg} width={16} height={16} />
-            <Typography variant="body1" color="white" fontWeight="bold" ml={1}>{dados.lojasG.faturamentoTotal.toLocaleString("pt-BR")}</Typography>
-          </Box>
-          <Box data-tooltip-id="tooltip-lojag-rentabilidade" data-tooltip-html="Rentabilidade atual do imóvel grande" display="flex" alignItems="center">
-            <Typography variant="body1" color="white" fontWeight="bold" mr={1}>{resultadoLojasG.toFixed(2)}</Typography>
-            <img src={porcem} width={14} height={14} />
-          </Box>
+        <GradientBox sx={{ borderRadius:"20px",display:"flex",justifyContent:"space-between",alignItems:"center",px:2,mt:1,minHeight:40 }}>
+          <Box display="flex" alignItems="center"><img src={DolarImg} width={16} height={16} /><Typography variant="body1" color="white" fontWeight="bold" ml={1}>{(fatuLojasG || 0).toLocaleString("pt-BR")}</Typography></Box>
+          <Box display="flex" alignItems="center"><Typography variant="body1" color="white" fontWeight="bold" mr={1}>{(resultadoLojasG || 0).toFixed(2)}</Typography><img src={porcem} width={14} height={14} /></Box>
         </GradientBox>
-        <Box data-tooltip-id="tooltip-lojag-posse" data-tooltip-html="Quantidade total que você já possui desse imóvel" sx={{ bgcolor: "#6411D9", width: { xs: 40, sm: 48 }, height: { xs: 40, sm: 48 }, borderRadius: "10px", border: "2px solid #F27405", position: "absolute", left: { xs: -20, sm: -24 }, top: "50%", transform: "translateY(-50%)", display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <Typography color="white" fontWeight="bold" fontSize={{ xs: 12, sm: 16 }}>{dados.lojasG.quantidade}</Typography>
+        <Box sx={{ bgcolor:"#6411D9",width:{xs:40,sm:48},height:{xs:40,sm:48},borderRadius:"10px",border:"2px solid #F27405",position:"absolute",left:{xs:-20,sm:-24},top:"50%",transform:"translateY(-50%)",display:"flex",justifyContent:"center",alignItems:"center" }}>
+          <Typography color="white" fontWeight="bold" fontSize={{xs:12,sm:16}}>{qtdLojasG}</Typography>
         </Box>
-        <TooltipPadrao id="tooltip-lojag-tipo" /><TooltipPadrao id="tooltip-lojag-preco" /><TooltipPadrao id="tooltip-lojag-total" />
-        <TooltipPadrao id="tooltip-lojag-comprar" /><TooltipPadrao id="tooltip-lojag-diminuir" /><TooltipPadrao id="tooltip-lojag-quantidade" />
-        <TooltipPadrao id="tooltip-lojag-aumentar" /><TooltipPadrao id="tooltip-lojag-faturamento" /><TooltipPadrao id="tooltip-lojag-rentabilidade" />
-        <TooltipPadrao id="tooltip-lojag-posse" />
+        <TooltipPadrao id="tooltip-lojag-preco" /><TooltipPadrao id="tooltip-lojag-total" /><TooltipPadrao id="tooltip-lojag-comprar" />
       </Paper>
     </div>
   );

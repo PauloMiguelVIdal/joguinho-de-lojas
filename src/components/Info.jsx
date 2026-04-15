@@ -2,17 +2,27 @@ import { Info } from "lucide-react";
 import React from "react";
 import { useContext } from "react";
 import useSound from "use-sound";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import openAudio from "../../public/sounds/openAudio.mp3"
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
+
 
 export function InfoPage() {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
   const [buttonOpenAudio] = useSound(openAudio);
+const modalAjuda = useCentralStore((s) => s.modalAjuda);
+
 
   const activeModal = () => {
     atualizarDados("modalAjuda", {
-      ...dados.modalAjuda,
+      ...modalAjuda,
       estadoModal: true,
     });
     buttonOpenAudio()
