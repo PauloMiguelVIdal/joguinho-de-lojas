@@ -809,7 +809,7 @@ export default function Dashboard() {
         // Marca licença global como comprada
         [["licençasStatus", ativo, "global"], true],
       ];
-
+// setor edificio index licençaLiberado true
       // atualizarDados("saldo", novoSaldo);
 console.log(lote)
 console.log(licenciaValor)

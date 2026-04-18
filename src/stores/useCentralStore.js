@@ -1028,28 +1028,28 @@ const estadoInicial = {
     itensSorteados: [],
 
     // ── Modais ────────────────────────────────────────────────────────────────
-// ── Modais ────────────────────────────────────────────────────────────────
-modal: { estadoModal: false, head: "", content: "" },
-modalEditável: { estadoModal: false, head: "", content: "" },
-modalAlert: { estadoModal: false, head: "", content: "" },
-modalAjuda: { estadoModal: false, head: "", content: "" },
-modalObjetivos: { estadoModal: false, head: "", content: "" },
-modalDespesas: { estadoModal: false, head: "", content: "" },
-modalEconomiaGlobal: { estadoModal: false, head: "", content: "" },
-modalOfertas: { estadoModal: false },
-modalAchievements: { estadoModal: false, lojaConquistada: "", conquista: 0 },
-modalPerson: { estadoModal: false, texto: "", tipo: "pensamento" },
+    // ── Modais ────────────────────────────────────────────────────────────────
+    modal: { estadoModal: false, head: "", content: "" },
+    modalEditável: { estadoModal: false, head: "", content: "" },
+    modalAlert: { estadoModal: false, head: "", content: "" },
+    modalAjuda: { estadoModal: false, head: "", content: "" },
+    modalObjetivos: { estadoModal: false, head: "", content: "" },
+    modalDespesas: { estadoModal: false, head: "", content: "" },
+    modalEconomiaGlobal: { estadoModal: false, head: "", content: "" },
+    modalOfertas: { estadoModal: false },
+    modalAchievements: { estadoModal: false, lojaConquistada: "", conquista: 0 },
+    modalPerson: { estadoModal: false, texto: "", tipo: "pensamento" },
 
-// 👉 ADICIONE ESSES 3 (ESSENCIAL)
-modalInicio: { estadoModal: false },
-modalCompraTerrenos: { estadoModal: false },
-modalContinuarDias: { estadoModal: false },
+    // 👉 ADICIONE ESSES 3 (ESSENCIAL)
+    modalInicio: { estadoModal: false },
+    modalCompraTerrenos: { estadoModal: false },
+    modalContinuarDias: { estadoModal: false },
 
-modalExcesso: {
-    estadoModal: false, confirmarAvanco: false,
-    head: "Armazenamento insuficiente", content: "",
-    quantidadeExcesso: 0, ofertaExcesso: 0,
-},
+    modalExcesso: {
+        estadoModal: false, confirmarAvanco: false,
+        head: "Armazenamento insuficiente", content: "",
+        quantidadeExcesso: 0, ofertaExcesso: 0,
+    },
     despesas: {
         diaPagarDespesas: false,
         despesasPagas: true,
@@ -1092,6 +1092,44 @@ modalExcesso: {
 // ─── Store ────────────────────────────────────────────────────────────────────
 const salvo = carregarSalvo()
 
+
+console.log("edificiosFinais carregado:", JSON.stringify(salvo.central?.edificiosFinais?.agricultura))
+console.log("licençasStatus carregado:", JSON.stringify(salvo.central?.licençasStatus?.agricultura))
+
+// Migração de compatibilidade — corrige saves antigos
+if (salvo.central) {
+  // edificiosFinais: converte array direto para { edificios: [] } e completa índices faltando
+  for (const setor of Object.keys(EDIFICIOS_FINAIS_DINAMICOS_INICIAL)) {
+    const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor].edificios;
+    const salvoSetor = salvo.central.edificiosFinais?.[setor];
+
+    if (Array.isArray(salvoSetor)) {
+      // estrutura velha era array direto
+      salvo.central.edificiosFinais[setor] = { edificios: salvoSetor };
+    }
+
+    const atual = salvo.central.edificiosFinais?.[setor]?.edificios ?? [];
+    if (atual.length < inicial.length) {
+      salvo.central.edificiosFinais[setor].edificios = [
+        ...atual,
+        ...inicial.slice(atual.length),
+      ];
+    }
+  }
+
+  // licençasStatus: completa arrays menores que o inicial
+  for (const setor of Object.keys(LICENCAS_STATUS_INICIAL)) {
+    const inicial = LICENCAS_STATUS_INICIAL[setor];
+    const atual   = salvo.central.licençasStatus?.[setor] ?? [];
+    if (atual.length < inicial.length) {
+      salvo.central.licençasStatus[setor] = [
+        ...atual,
+        ...inicial.slice(atual.length),
+      ];
+    }
+  }
+}
+
 export const useCentralStore = create(
     immer(
         persist(
@@ -1099,28 +1137,28 @@ export const useCentralStore = create(
                 // Estado inicial (save sobrescreve se existir)
                 ...(salvo.central ?? estadoInicial),
 
-algumModalAberto: () => {
-    const state = useCentralStore.getState();
-    
-    // Lista de todos os seus objetos de modal
-    const modais = [
-        "modal", "modalEditável", "modalAlert", "modalAjuda", 
-        "modalObjetivos", "modalDespesas", "modalEconomiaGlobal", 
-        "modalOfertas", "modalAchievements", "modalPerson", 
-        "modalExcesso", "modalInicio", "modalCompraTerrenos", 
-        "modalContinuarDias"
-    ];
+                algumModalAberto: () => {
+                    const state = useCentralStore.getState();
 
-    // Encontra qual modal está com estadoModal: true
-    const modalAberto = modais.find(key => state[key]?.estadoModal === true);
+                    // Lista de todos os seus objetos de modal
+                    const modais = [
+                        "modal", "modalEditável", "modalAlert", "modalAjuda",
+                        "modalObjetivos", "modalDespesas", "modalEconomiaGlobal",
+                        "modalOfertas", "modalAchievements", "modalPerson",
+                        "modalExcesso", "modalInicio", "modalCompraTerrenos",
+                        "modalContinuarDias"
+                    ];
 
-    if (modalAberto) {
-        console.warn(`⚠️ Bloqueio de dia: O modal "${modalAberto}" está aberto.`);
-        return true;
-    }
+                    // Encontra qual modal está com estadoModal: true
+                    const modalAberto = modais.find(key => state[key]?.estadoModal === true);
 
-    return false;
-},
+                    if (modalAberto) {
+                        console.warn(`⚠️ Bloqueio de dia: O modal "${modalAberto}" está aberto.`);
+                        return true;
+                    }
+
+                    return false;
+                },
                 // ── Atualizadores ───────────────────────────────────────────────────
 
                 // Atualiza uma chave de primeiro nível

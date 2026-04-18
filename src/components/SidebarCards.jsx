@@ -3,15 +3,13 @@ import { motion, AnimatePresence } from "framer-motion";
 // import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import LoanCarousel from "./LoanCarousel";
-
-// ── Helpers ───────────────────────────────────────────────
-const fmt = (num) => {
-  if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
-  if (num >= 1e9) return (num / 1e9).toFixed(1).replace(".0", "") + "B";
-  if (num >= 1e6) return (num / 1e6).toFixed(1).replace(".0", "") + "M";
-  if (num >= 1e3) return (num / 1e3).toFixed(1).replace(".0", "") + "K";
-  return String(num);
-};
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 
 // ═══════════════════════════════════════════════════════════
 // CARTÕES DE CRÉDITO — variantes de design

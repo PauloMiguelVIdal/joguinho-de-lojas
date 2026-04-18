@@ -1,10 +1,20 @@
 import React, { useContext } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 
 const Card = ({ loja, quantidade, depreciação, valor, estado, index }) => {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDados } = useContext(CentraldeDadosContext);
     const { economiaSetores, setEconomiaSetores, atualizarEco} = useContext(DadosEconomyGlobalContext);
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const edificioBase = useCentralStore((s) => s.edificiosBase);
+  const ofertas = useCentralStore((s) => s.ofertas);
 
   const conversorTodasLojas = (selecionarLoja) => {
     switch (selecionarLoja) {
@@ -20,18 +30,18 @@ const Card = ({ loja, quantidade, depreciação, valor, estado, index }) => {
 
   const vender = () => {
 
-    if (dados[lojaConvertida].quantidade < quantidade) {
+    if (edificioBase[lojaConvertida].quantidade < quantidade) {
       return alert("você não tem quantidade suficiente para fazer essa negociação")
     }
     atualizarEco("saldo", economiaSetores.saldo + valor);
 
     atualizarDados(lojaConvertida, {
-      ...dados[lojaConvertida],
-      quantidade: dados[lojaConvertida].quantidade - quantidade,
+      ...edificioBase[lojaConvertida],
+      quantidade: edificioBase[lojaConvertida].quantidade - quantidade,
     });
 
 
-    const novasOfertas = dados.ofertas.map((oferta, i) =>
+    const novasOfertas = ofertas.map((oferta, i) =>
       i === index ? { ...oferta, estado: false } : oferta
     );
 

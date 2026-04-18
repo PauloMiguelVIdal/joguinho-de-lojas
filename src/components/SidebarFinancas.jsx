@@ -2,7 +2,7 @@ import React, { useContext, useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
-import { CentraldeDadosContext }      from "../centralDeDadosContext";
+// import { CentraldeDadosContext }      from "../centralDeDadosContext";
 import { useGame }                    from "./GameContext";
 import { productsCatalog }            from "./ProductCatalog";
 import { motion } from "framer-motion";
@@ -19,6 +19,13 @@ import "react-tooltip/dist/react-tooltip.css";
 import { BusinessLicence } from "./BusinessLicence";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
  import fechar from "../../public/outrasImagens/fechar.png";
+ import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+ import {
+   EDIFICIOS_FINAIS_ESTATICOS,
+   LICENCAS_ESTATICAS,
+   EDIFICIOS_BASE_ESTATICOS,
+   LICENCAS_ESTATICAS_GLOBAIS,
+ } from "../stores/dadosEstáticos";
     const setores = [
         {
             id: "carteira",
@@ -72,6 +79,7 @@ const fmtBRL = (n) => {
     if (abs >= 1e3) return `${s}R$${(abs/1e3).toFixed(0)}K`;
     return `${s}R$${Math.round(abs)}`;
 };
+  
 
 // ─── Seção colapsável (mesma do SideInformations) ────────────────────────────
 
@@ -138,7 +146,16 @@ function Bar({ value, max, color = "#FFD966" }) {
 
 // ─── 1. Economia dos setores ──────────────────────────────────────────────────
 
-function SecaoEconomia({ economiaSetores, dia }) {
+function SecaoEconomia({ economiaSetores }) {
+const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const faturamento = useCentralStore((s) => s.faturamento);
+  const dia = useCentralStore((s) => s.dia);
+  const eventoAtual = useCentralStore((s) => s.eventoAtual);
+
+
+
+
+
     if (dia < 270) return null;
 
     return (
@@ -198,8 +215,13 @@ function SecaoEconomia({ economiaSetores, dia }) {
 
 // ─── 2. Financeiro mensal ─────────────────────────────────────────────────────
 
-function SecaoFinancas({ dados, economiaSetores }) {
-    const fat      = dados.faturamento?.faturamentoMensal || 0;
+function SecaoFinancas({ economiaSetores }) {
+   const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const faturamento = useCentralStore((s) => s.faturamento);
+  const dia = useCentralStore((s) => s.dia);
+  const eventoAtual = useCentralStore((s) => s.eventoAtual);
+   
+    const fat      = faturamento?.faturamentoMensal || 0;
     const imp      = economiaSetores.imposto?.impostoMensal || 0;
     const lucro    = fat - imp;
     const impAnual = economiaSetores.valorImpostoAnual || 0;
@@ -208,7 +230,7 @@ function SecaoFinancas({ dados, economiaSetores }) {
         { label: "Faturamento",   value: fmtBRL(fat),    color: "#34d399", sign: "+" },
         { label: "Despesas",      value: fmtBRL(imp),    color: "#f87171", sign: "−" },
         { label: "Lucro líquido", value: fmtBRL(lucro),  color: lucro >= 0 ? "#a78bfa" : "#fb923c", sign: "=" },
-        ...(dados.dia > 270 ? [{ label: "Imposto anual", value: fmtBRL(impAnual), color: "#fbbf24", sign: "★" }] : []),
+        ...(dia > 270 ? [{ label: "Imposto anual", value: fmtBRL(impAnual), color: "#fbbf24", sign: "★" }] : []),
     ];
 
     return (
@@ -245,6 +267,10 @@ function SecaoFinancas({ dados, economiaSetores }) {
 // ─── 3. Armazenamento (idêntico ao SideInformations, sem props externos) ──────
 
 function SecaoArmazenamento() {
+    const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const faturamento = useCentralStore((s) => s.faturamento);
+  const dia = useCentralStore((s) => s.dia);
+  const eventoAtual = useCentralStore((s) => s.eventoAtual);
     const {
         getCategoryStorageUI,
         potentialCapacityByCategory,
@@ -325,8 +351,12 @@ function SecaoArmazenamento() {
 
 // ─── 4. Evento ativo ──────────────────────────────────────────────────────────
 
-function SecaoEvento({ dados }) {
-    const ev = dados.eventoAtual;
+function SecaoEvento() {
+    const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const faturamento = useCentralStore((s) => s.faturamento);
+  const dia = useCentralStore((s) => s.dia);
+  const eventoAtual = useCentralStore((s) => s.eventoAtual);
+    const ev = eventoAtual;
 
     if (!ev?.eventoAtivo) {
         return (
@@ -345,7 +375,7 @@ function SecaoEvento({ dados }) {
     }
 
     const setor = ev.departamento || ev.setorSelecionado || ev.lojaSelecionada || "—";
-    const diasRestantes = Math.max(0, (ev.diaFinal || 0) - dados.dia);
+    const diasRestantes = Math.max(0, (ev.diaFinal || 0) - dia);
     const titulo = ev.title || "";
     const isBom  = /crescimento|aquecid|imposto|progress/i.test(titulo);
     const cor    = isBom ? "#34d399" : "#f87171";
@@ -409,6 +439,7 @@ function SecaoEvento({ dados }) {
 }
 
 const AlertaExpansao = ({ setBusinessLicenceModal }) => {
+    
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
     
     const edMax = economiaSetores.centralEdificios?.quantidadeEdificiosMax || 1;
@@ -468,8 +499,12 @@ const AlertaExpansao = ({ setBusinessLicenceModal }) => {
 // ─── COMPONENTE PRINCIPAL ─────────────────────────────────────────────────────
 
 export default function SidebarFinancas() {
+    const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const faturamento = useCentralStore((s) => s.faturamento);
+  const dia = useCentralStore((s) => s.dia);
+  const eventoAtual = useCentralStore((s) => s.eventoAtual);
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-    const { dados } = useContext(CentraldeDadosContext);
+    // const { dados } = useContext(CentraldeDadosContext);
     const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
   const [ativo, setAtivo] = useState("carteira");
     const setorCarteira = setores.find((setor) => setor.id === "carteira");
@@ -523,10 +558,10 @@ export default function SidebarFinancas() {
             display: "flex", flexDirection: "column", height: "100%", gap: 7, padding: "2px 2px 8px",
              overflowX: "hidden", scrollbarWidth: "thin"
         }}>
-            <SecaoEconomia economiaSetores={economiaSetores} dia={dados.dia} />
-            <SecaoFinancas dados={dados} economiaSetores={economiaSetores} />
+            <SecaoEconomia economiaSetores={economiaSetores} />
+            <SecaoFinancas  economiaSetores={economiaSetores} />
             <SecaoArmazenamento />
-            <SecaoEvento dados={dados} />
+            <SecaoEvento />
             <AlertaExpansao setBusinessLicenceModal={setBusinessLicenceModal} />
         </div>
     );

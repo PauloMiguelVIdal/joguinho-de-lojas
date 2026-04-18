@@ -248,7 +248,7 @@ export default function Sorteio() {
 
 
 
-    if (selecionarDepartamentoFinal === "imposto anual" && dados.dia >= 269) {
+    if (selecionarDepartamentoFinal === "imposto anual" && dia >= 269) {
       atualizarEcoProf(
         [setorSelecionado, "economiaSetor", "percImpostoAnualAtual"],
         novoValorImposto

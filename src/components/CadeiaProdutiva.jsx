@@ -18,6 +18,14 @@ import { SALES_EDIFICIOS } from "./salesFormulasConfig";
 import { productsCatalog, marketPrices, getMarketPrice } from "./TablePrice";
 import { analisarArbitragem } from "./pipelineExecutor";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
+
 // ─── Tokens ───────────────────────────────────────────────────────────────────
 const edificiosDeArmazenamento = [
     "Armazém", "Silo", "Depósito De Resíduos Orgânicos", "Data Center", "Servidor Em Nuvem", "Armazém Logístico",

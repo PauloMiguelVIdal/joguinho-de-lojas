@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import fechar from "../../public/outrasImagens/fechar.png";
 import { Localizador } from "./localizador";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import alvo from "../../public/outrasImagens/alvo.png";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
@@ -15,9 +15,17 @@ import closeAudio from "../../public/sounds/closeAudio.mp3";
 import openAudio from "../../public/sounds/openAudio.mp3";
 
 import newStageAudio from "../../public/sounds/newStageAudio.mp3";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
+
 
 const RaffledBuildings = () => {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const [ModalObjOpen, setIsModalObjOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [campanhaSelecionada, setCampanhaSelecionada] = useState(null);
@@ -27,14 +35,17 @@ const RaffledBuildings = () => {
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
   const [buttonNewStageAudio] = useSound(newStageAudio);
+  const dia = useCentralStore((s) => s.dia);
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const edificiosFinais = useCentralStore((s) => s.edificiosFinais);
 
   useEffect(() => {
-    if (dados.dia === 400) {
+    if (dia === 400) {
       setIsModalObjOpen(true);
       buttonOpenAudio();
       buttonNewStageAudio();
     }
-  }, [dados.dia]);
+  }, [dia]);
 
   const setoresArr = [
     "agricultura",
@@ -796,7 +807,7 @@ const RaffledBuildings = () => {
     const objetosSelecionados = nomesFinais
       .map((nome) => {
         for (const setor of setoresArr) {
-          const edificio = dados[setor]?.edificios?.find(
+          const edificio = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios?.find(
             (ed) => ed.nome === nome
           );
           if (edificio) return edificio;
@@ -819,32 +830,39 @@ const RaffledBuildings = () => {
   const fecharModal = () => { setIsModalObjOpen(false) };
 
   // 🔹 Verificar se todos os objetivos foram concluídos
-  const verificarConclusao = () => {
-    if (!campanhaSelecionada || selectedItems.length === 0) return false;
+const verificarConclusao = () => {
+  if (!campanhaSelecionada || selectedItems.length === 0) return false;
 
-    const todosCompletos = selectedItems.every((ed) => {
-      const setores = [
-        "agricultura",
-        "tecnologia",
-        "comercio",
-        "industria",
-        "imobiliario",
-        "energia",
-      ];
+  const setores = [
+    "agricultura",
+    "tecnologia",
+    "comercio",
+    "industria",
+    "imobiliario",
+    "energia",
+  ];
 
-      for (const setor of setores) {
-        const edificio = dados[setor]?.edificios?.find(
-          (e) => e.nome === ed.nome
-        );
-        if (edificio && edificio.quantidade > 0) {
-          return true;
-        }
+  const todosCompletos = selectedItems.every((ed) => {
+    for (const setor of setores) {
+      const listaEst = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+
+      // 🔍 pega o índice no estático
+      const index = listaEst.findIndex((e) => e.nome === ed.nome);
+
+      if (index !== -1) {
+        // 🔥 usa o índice no dinâmico
+        const qtd =
+          EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor]?.edificios?.[index]
+            ?.quantidade || 0;
+
+        if (qtd > 0) return true;
       }
-      return false;
-    });
+    }
+    return false;
+  });
 
-    return todosCompletos;
-  };
+  return todosCompletos;
+};
 
   // 🔹 useEffect para verificar conclusão automaticamente
   useEffect(() => {
@@ -855,7 +873,7 @@ const RaffledBuildings = () => {
         setModalConclusao(true);
       }
     }
-  }, [dados, campanhaSelecionada, selectedItems, objetivoConcluido]);
+  }, [campanhaSelecionada, selectedItems, objetivoConcluido]);
 
   const continuarJogo = () => {
     setModalConclusao(false);
@@ -869,9 +887,9 @@ const RaffledBuildings = () => {
     /* 🎉 MODAL DE CONCLUSÃO */
   }
 
-  if (dados.dia < 270) return null;
+  if (dia < 270) return null;
 
-  if (dados.dia >= 270) {
+  if (dia >= 270) {
     // 🔹 Função para calcular extras de uma campanha específica
     const calcularExtras = (campanhaNome) => {
       const campanha = Campanhas.find((c) => c.nome === campanhaNome);
@@ -899,7 +917,7 @@ const RaffledBuildings = () => {
 
     return (
       <div>
-        {dados.dia >= 400 &&
+        {dia >= 400 &&
 
           <button
             onClick={() => { setIsModalObjOpen(true), buttonOpenAudio(); }}
@@ -1025,83 +1043,87 @@ const RaffledBuildings = () => {
                     animate={{ opacity: 1 }}
                     className="flex flex-wrap gap-8 justify-center mt-6 pb-10"
                   >
-                    {selectedItems.map((ed, i) => {
-                      const setores = [
-                        "agricultura", "tecnologia", "comercio",
-                        "industria", "imobiliario", "energia"
-                      ];
 
-                      let setorEncontrado = null;
-                      let indice = -1;
 
-                      for (const setor of setores) {
-                        indice = dados[setor].edificios.findIndex((e) => e.nome === ed.nome);
-                        if (indice !== -1) {
-                          setorEncontrado = setor;
-                          break;
-                        }
-                      }
+{selectedItems.map((ed, i) => {
+  const setores = [
+    "agricultura", "tecnologia", "comercio",
+    "industria", "imobiliario", "energia"
+  ];
 
-                      const quantidade = setorEncontrado && indice !== -1
-                        ? dados[setorEncontrado].edificios[indice].quantidade
-                        : 0;
+  let setorEncontrado = null;
+  let indice = -1;
 
-                      // Gradiente Dourado mais refinado para quando completar o objetivo
-                      const gradienteConquistado = `linear-gradient(135deg, rgba(184, 134, 11, 0.9) 0%, rgba(218, 165, 32, 0.4) 50%, rgba(139, 117, 0, 0.9) 100%)`;
+  for (const setor of setores) {
+    const listaEst = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
 
-                      return (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          whileHover={{ y: -10, transition: { duration: 0.2 } }}
-                          transition={{
-                            delay: i * 0.05,
-                            type: "spring",
-                            stiffness: 100,
-                          }}
-                          // AJUSTE DE DIMENSÕES: 220px x 320px
-                          className={`relative w-[250px] h-[350px] p-[2px] rounded-[20px] flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500`}
-                          style={{
-                            background: quantidade > 0
-                              ? gradienteConquistado
-                              : "rgba(255, 255, 255, 0.05)",
-                            border: quantidade > 0 ? "1px solid #FFD700" : "1px solid rgba(255,255,255,0.1)",
-                          }}
-                        >
-                          {/* Efeito de Brilho para itens conquistados */}
-                          {quantidade > 0 && (
-                            <motion.div
-                              animate={{ opacity: [0.3, 0.6, 0.3] }}
-                              transition={{ repeat: Infinity, duration: 2 }}
-                              className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,215,0,0.2)_0%,transparent_70%)]"
-                            />
-                          )}
+    indice = listaEst.findIndex((e) => e.nome === ed.nome);
 
-                          {/* Overlay Escuro para itens NÃO conquistados (estilo bloqueado) */}
-                          {quantidade === 0 && (
-                            <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center p-4">
-                              <div className="bg-white/40 p-3 rounded-full mb-2">
-                                {/* Ícone opcional de cadeado ou interrogação aqui */}
-                                <span className="text-white/20 text-xs font-bold uppercase tracking-widest">Pendente</span>
-                              </div>
-                            </div>
-                          )}
+    if (indice !== -1) {
+      setorEncontrado = setor;
+      break;
+    }
+  }
 
-                          {/* Renderização da Carta Real */}
-                          <div className={`w-full h-full rounded-[18px] flex items-center justify-center overflow-hidden ${quantidade === 0 ? 'grayscale opacity-50' : 'grayscale-0 opacity-100'}`}>
-                            {Localizador(ed.nome)}
-                          </div>
+  const quantidade =
+    setorEncontrado && indice !== -1
+      ? edificiosFinais[setorEncontrado]?.edificios?.[indice]?.quantidade || 0
+      : 0;
 
-                          {/* Badge de Quantidade no topo */}
-                          {quantidade > 0 && (
-                            <div className="absolute top-3 right-3 z-20 bg-green-600 text-white text-[10px] font-black px-2 py-1 rounded-md shadow-lg border border-white/20">
-                              CONQUISTADO
-                            </div>
-                          )}
-                        </motion.div>
-                      );
-                    })}
+  const gradienteConquistado = `linear-gradient(135deg, rgba(184, 134, 11, 0.9) 0%, rgba(218, 165, 32, 0.4) 50%, rgba(139, 117, 0, 0.9) 100%)`;
+
+  return (
+    <motion.div
+      key={i}
+      initial={{ opacity: 0, y: 30, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      whileHover={{ y: -10, transition: { duration: 0.2 } }}
+      transition={{
+        delay: i * 0.05,
+        type: "spring",
+        stiffness: 100,
+      }}
+      className={`relative w-[250px] h-[350px] p-[2px] rounded-[20px] flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500`}
+      style={{
+        background: quantidade > 0
+          ? gradienteConquistado
+          : "rgba(255, 255, 255, 0.05)",
+        border: quantidade > 0
+          ? "1px solid #FFD700"
+          : "1px solid rgba(255,255,255,0.1)",
+      }}
+    >
+
+      {quantidade > 0 && (
+        <motion.div
+          animate={{ opacity: [0.3, 0.6, 0.3] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+          className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,215,0,0.2)_0%,transparent_70%)]"
+        />
+      )}
+
+      {quantidade === 0 && (
+        <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center p-4">
+          <div className="bg-white/40 p-3 rounded-full mb-2">
+            <span className="text-white/20 text-xs font-bold uppercase tracking-widest">
+              Pendente
+            </span>
+          </div>
+        </div>
+      )}
+
+      <div className={`w-full h-full rounded-[18px] flex items-center justify-center overflow-hidden ${quantidade === 0 ? 'grayscale opacity-50' : 'grayscale-0 opacity-100'}`}>
+        {Localizador(ed.nome)}
+      </div>
+
+      {quantidade > 0 && (
+        <div className="absolute top-3 right-3 z-20 bg-green-600 text-white text-[10px] font-black px-2 py-1 rounded-md shadow-lg border border-white/20">
+          CONQUISTADO
+        </div>
+      )}
+    </motion.div>
+  );
+})}
                   </motion.div>
                 )}
               </div>

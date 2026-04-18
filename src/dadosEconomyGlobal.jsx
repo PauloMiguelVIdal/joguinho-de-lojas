@@ -13,7 +13,7 @@ const DadosEconomyGlobalContext = createContext();
 
   const estadoInicial={
     
-    saldo: 10000000000,
+    saldo: 1000000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,

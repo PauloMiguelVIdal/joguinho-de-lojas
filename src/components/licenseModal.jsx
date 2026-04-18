@@ -1,6 +1,6 @@
 import React, { useContext, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useCentralStore } from "../stores/useCentralStore";
+import { useCentralStore,EDIFICIOS_FINAIS_DINAMICOS_INICIAL } from "../stores/useCentralStore";
 import { EDIFICIOS_BASE_ESTATICOS, EDIFICIOS_FINAIS_ESTATICOS, LICENCAS_ESTATICAS } from "../stores/dadosEstáticos";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { Localizador } from "./localizador";
@@ -11,41 +11,43 @@ import useSound from "use-sound";
 
 const SETORES_INFO = [
   { id: "agricultura", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50" },
-  { id: "tecnologia",  cor1: "#A64B00", cor2: "#D45A00", cor3: "#FF6F00", cor4: "#FF8C42" },
-  { id: "industria",   cor1: "#1A1A1A", cor2: "#4D4D4D", cor3: "#808080", cor4: "#B3B3B3" },
-  { id: "comercio",    cor1: "#660000", cor2: "#A31919", cor3: "#E60000", cor4: "#FF4D4D" },
+  { id: "tecnologia", cor1: "#A64B00", cor2: "#D45A00", cor3: "#FF6F00", cor4: "#FF8C42" },
+  { id: "industria", cor1: "#1A1A1A", cor2: "#4D4D4D", cor3: "#808080", cor4: "#B3B3B3" },
+  { id: "comercio", cor1: "#660000", cor2: "#A31919", cor3: "#E60000", cor4: "#FF4D4D" },
   { id: "imobiliario", cor1: "#000066", cor2: "#1A1A8C", cor3: "#3333CC", cor4: "#6666FF" },
-  { id: "energia",     cor1: "#665200", cor2: "#A37F19", cor3: "#E6B800", cor4: "#FFD966" },
+  { id: "energia", cor1: "#665200", cor2: "#A37F19", cor3: "#E6B800", cor4: "#FFD966" },
 ];
+
 
 const SETORES_IDS = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
 export const LicenseModal = ({ setor, nomeLicença, index }) => {
   // ── Zustand ───────────────────────────────────────────────
-  const edificiosFinais  = useCentralStore((s) => s.edificiosFinais);
-  const licençasStatus   = useCentralStore((s) => s.licençasStatus);
-  const edificioBase     = useCentralStore((s) => s.edificiosBase);
-  const atualizarLote    = useCentralStore((s) => s.atualizarLote);
-
+  const edificiosFinais = useCentralStore((s) => s.edificiosFinais);
+  const licençasStatus = useCentralStore((s) => s.licençasStatus);
+  const edificioBase = useCentralStore((s) => s.edificiosBase);
+  const atualizarLote = useCentralStore((s) => s.atualizarLote);
+  const atualizarEdificio = useCentralStore((s) => s.atualizarEdificio);
+  const atualizarLicença = useCentralStore((s) => s.atualizarLicença);
   // ── Economy Context (inalterado) ──────────────────────────
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
   const [buttonUpInterpriseAudio] = useSound(upInterpriseAudio);
   const [unlockAnim, setUnlockAnim] = useState(false);
 
-  const setorInfo  = SETORES_INFO.find((s) => s.id === setor);
+  const setorInfo = SETORES_INFO.find((s) => s.id === setor);
 
   // Licença — estático para desc/valor/edifíciosLiberados, dinâmico para status
   const licencaEstatica = LICENCAS_ESTATICAS[setor]?.[index];
-  const jaComprado      = licençasStatus[setor]?.[index]?.status === true;
-  const podeComprar     = economiaSetores.saldo >= (licencaEstatica?.valor ?? 0);
-  const qtdCards        = licencaEstatica?.edifíciosLiberados?.length ?? 0;
+  const jaComprado = licençasStatus[setor]?.[index]?.status === true;
+  const podeComprar = economiaSetores.saldo >= (licencaEstatica?.valor ?? 0);
+  const qtdCards = licencaEstatica?.edifíciosLiberados?.length ?? 0;
 
   const formatarNumero = (num) => {
     if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
-    if (num >= 1e9)  return (num / 1e9).toFixed(1).replace(".0", "") + "B";
-    if (num >= 1e6)  return (num / 1e6).toFixed(1).replace(".0", "") + "M";
-    if (num >= 1e3)  return (num / 1e3).toFixed(1).replace(".0", "") + "K";
+    if (num >= 1e9) return (num / 1e9).toFixed(1).replace(".0", "") + "B";
+    if (num >= 1e6) return (num / 1e6).toFixed(1).replace(".0", "") + "M";
+    if (num >= 1e3) return (num / 1e3).toFixed(1).replace(".0", "") + "K";
     return String(num);
   };
 
@@ -58,27 +60,37 @@ export const LicenseModal = ({ setor, nomeLicença, index }) => {
     setUnlockAnim(true);
     setTimeout(() => setUnlockAnim(false), 1200);
 
-    // Montar lote: status da licença + liberado de cada edifício
-    const lote = [
-      [["licençasStatus", setor, index, "status"], true],
-    ];
 
+    console.log("tamanho dinâmico agricultura:", EDIFICIOS_FINAIS_DINAMICOS_INICIAL["agricultura"]?.edificios?.length);
+    console.log("tamanho estático agricultura:", EDIFICIOS_FINAIS_ESTATICOS["agricultura"]?.edificios?.length);
+    // 1. Marca a licença como comprada
+    atualizarLicença(setor, Number(index), true);
+
+    // 2. Libera cada edifício pelo índice correto
     (licencaEstatica.edifíciosLiberados || []).forEach((nomeEd) => {
-      const idx = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios?.findIndex((e) => e.nome === nomeEd) ?? -1;
-      if (idx !== -1) {
-        lote.push([["edificiosFinais", setor, "edificios", idx, "licençaLiberado", "liberado"], true]);
-      }
-    });
+      const idx = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios?.findIndex(
+        (e) => e.nome === nomeEd
+      ) ?? -1;
+      if (idx === -1) return;
 
-    atualizarLote(lote);
+      // ✅ Verifica se o índice existe no array dinâmico antes de gravar
+      const existeNoDinamico = !!edificiosFinais[setor]?.edificios?.[idx];
+      if (!existeNoDinamico) {
+        console.warn(`⚠️ Índice ${idx} (${nomeEd}) não existe no array dinâmico de ${setor}`);
+        return;
+      }
+
+      atualizarEdificio(setor, idx, { licençaLiberado: { liberado: true } });
+    });
+    // 3. Desconta o saldo
     atualizarEco("saldo", economiaSetores.saldo - licencaEstatica.valor);
   };
 
   // ── HELPERS de custo (usa estáticos + dinâmico de quantidade) ──
-  const tPC  = EDIFICIOS_BASE_ESTATICOS.terrenos.preçoConstrução;
-  const pPC  = EDIFICIOS_BASE_ESTATICOS.lojasP.preçoConstrução;
-  const mPC  = EDIFICIOS_BASE_ESTATICOS.lojasM.preçoConstrução;
-  const gPC  = EDIFICIOS_BASE_ESTATICOS.lojasG.preçoConstrução;
+  const tPC = EDIFICIOS_BASE_ESTATICOS.terrenos.preçoConstrução;
+  const pPC = EDIFICIOS_BASE_ESTATICOS.lojasP.preçoConstrução;
+  const mPC = EDIFICIOS_BASE_ESTATICOS.lojasM.preçoConstrução;
+  const gPC = EDIFICIOS_BASE_ESTATICOS.lojasG.preçoConstrução;
   const tQNT = EDIFICIOS_BASE_ESTATICOS.lojasP.quantidadeNecTerreno;
   const mQNT = EDIFICIOS_BASE_ESTATICOS.lojasM.quantidadeNecTerreno;
   const gQNT = EDIFICIOS_BASE_ESTATICOS.lojasG.quantidadeNecTerreno;
@@ -94,16 +106,16 @@ export const LicenseModal = ({ setor, nomeLicença, index }) => {
   const getQuantidade = (nome) => {
     for (const s of SETORES_IDS) {
       const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex((e) => e.nome === nome) ?? -1;
-      if (idx !== -1) return edificiosFinais[s]?.[idx]?.quantidade ?? 0;
+      if (idx !== -1) return edificiosFinais[s]?.edificios?.[idx]?.quantidade ?? 0;
     }
     return 0;
   };
 
   const custoLojas = (ed) => {
     const tN = ed.lojasNecessarias?.terrenos || 0;
-    const pN = ed.lojasNecessarias?.lojasP   || 0;
-    const mN = ed.lojasNecessarias?.lojasM   || 0;
-    const gN = ed.lojasNecessarias?.lojasG   || 0;
+    const pN = ed.lojasNecessarias?.lojasP || 0;
+    const mN = ed.lojasNecessarias?.lojasM || 0;
+    const gN = ed.lojasNecessarias?.lojasG || 0;
     return (
       tN * tPC +
       pN * (pPC + tQNT * tPC) +
@@ -152,23 +164,23 @@ export const LicenseModal = ({ setor, nomeLicença, index }) => {
       const adicionarLicenca = (nomeReq, setorReq) => {
         const edReq = encontrarEdificioEstatico(nomeReq);
         if (!edReq) return;
-const liberado =
-  edificiosFinais[setorReq]?.edificios?.[edReq.idx]?.licençaLiberado?.liberado ?? true;        if (!liberado) {
-          const lic = encontrarLicencaDoEdificio(nomeReq, setorReq);
-          if (lic && !lic.status) {
-            const jaAdicionada = licencasFaltando.find(
-              (l) => l.licencaNome === lic.licencaNome && l.setorLicenca === lic.setorLicenca
-            );
-            if (!jaAdicionada) licencasFaltando.push(lic);
+        const liberado =
+          edificiosFinais[setorReq]?.edificios?.[edReq.idx]?.licençaLiberado?.liberado ?? true; if (!liberado) {
+            const lic = encontrarLicencaDoEdificio(nomeReq, setorReq);
+            if (lic && !lic.status) {
+              const jaAdicionada = licencasFaltando.find(
+                (l) => l.licencaNome === lic.licencaNome && l.setorLicenca === lic.setorLicenca
+              );
+              if (!jaAdicionada) licencasFaltando.push(lic);
+            }
           }
-        }
       };
 
       // Imóveis base — só o que falta
       const tFalta = Math.max(0, (ed.lojasNecessarias?.terrenos || 0) - edificioBase.terrenos.quantidade);
-      const pFalta = Math.max(0, (ed.lojasNecessarias?.lojasP   || 0) - edificioBase.lojasP.quantidade);
-      const mFalta = Math.max(0, (ed.lojasNecessarias?.lojasM   || 0) - edificioBase.lojasM.quantidade);
-      const gFalta = Math.max(0, (ed.lojasNecessarias?.lojasG   || 0) - edificioBase.lojasG.quantidade);
+      const pFalta = Math.max(0, (ed.lojasNecessarias?.lojasP || 0) - edificioBase.lojasP.quantidade);
+      const mFalta = Math.max(0, (ed.lojasNecessarias?.lojasM || 0) - edificioBase.lojasM.quantidade);
+      const gFalta = Math.max(0, (ed.lojasNecessarias?.lojasG || 0) - edificioBase.lojasG.quantidade);
       custoTotal +=
         tFalta * tPC +
         pFalta * (pPC + tQNT * tPC) +
@@ -206,7 +218,7 @@ const liberado =
         jaTemEdificio: false,
       };
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     edificiosFinais,
     licençasStatus,

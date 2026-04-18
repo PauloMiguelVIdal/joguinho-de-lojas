@@ -88,23 +88,62 @@ export function salvarNoStorage(gameState, centralState, economyState, pipelines
  */
 export function carregarSalvo() {
     const game      = safeParse(safeGet(KEYS.game),      null);
-    const central   = safeParse(safeGet(KEYS.central),   null);
+    let   central   = safeParse(safeGet(KEYS.central),   null);
     const economy   = safeParse(safeGet(KEYS.economy),   null);
     const pipelines = safeParse(safeGet(KEYS.pipelines), null);
 
-    const temSave = game !== null || central !== null || economy !== null;
+    // ── Migração de saves antigos ────────────────────────────
+    if (central) {
+        // edificiosFinais: corrige estrutura velha (array direto → { edificios: [] })
+        // e completa índices faltando
+        if (central.edificiosFinais) {
+            const { EDIFICIOS_FINAIS_DINAMICOS_INICIAL } = require('./useCentralStore');
+            
+            for (const setor of Object.keys(EDIFICIOS_FINAIS_DINAMICOS_INICIAL)) {
+                const inicial    = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor].edificios;
+                const salvoSetor = central.edificiosFinais[setor];
 
-    if (!temSave) {
-        // console.log("[Persistencia] Nenhum save encontrado — iniciando novo jogo");
-    } else {
-        // console.log("[Persistencia] Save carregado:", {
-        //     game:      game !== null,
-        //     central:   central !== null,
-        //     economy:   economy !== null,
-        //     pipelines: pipelines !== null,
-        // });
+                // Estrutura velha era array direto
+                if (Array.isArray(salvoSetor)) {
+                    central.edificiosFinais[setor] = { edificios: salvoSetor };
+                }
+
+                // Se não existe de jeito nenhum, inicializa
+                if (!central.edificiosFinais[setor]?.edificios) {
+                    central.edificiosFinais[setor] = { edificios: [...inicial] };
+                }
+
+                // Completa índices faltando
+                const atual = central.edificiosFinais[setor].edificios;
+                if (atual.length < inicial.length) {
+                    central.edificiosFinais[setor].edificios = [
+                        ...atual,
+                        ...inicial.slice(atual.length),
+                    ];
+                }
+            }
+        }
+
+        // licençasStatus: completa arrays menores que o inicial
+        if (central.licençasStatus) {
+            const { LICENCAS_STATUS_INICIAL } = require('./useCentralStore');
+
+            for (const setor of Object.keys(LICENCAS_STATUS_INICIAL)) {
+                const inicial = LICENCAS_STATUS_INICIAL[setor];
+                if (!central.licençasStatus[setor]) {
+                    central.licençasStatus[setor] = [...inicial];
+                } else if (central.licençasStatus[setor].length < inicial.length) {
+                    central.licençasStatus[setor] = [
+                        ...central.licençasStatus[setor],
+                        ...inicial.slice(central.licençasStatus[setor].length),
+                    ];
+                }
+            }
+        }
     }
+    // ────────────────────────────────────────────────────────
 
+    const temSave = game !== null || central !== null || economy !== null;
     return { game, central, economy, pipelines };
 }
 

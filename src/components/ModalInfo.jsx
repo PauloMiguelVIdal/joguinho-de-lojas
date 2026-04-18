@@ -1,21 +1,32 @@
 import { useContext, React, useState } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { motion, AnimatePresence } from "framer-motion";
 import fechar from "../../public/outrasImagens/fechar.png";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import useSound from "use-sound";
 import imgTeste from "../../public/imagens/Armazém.png";
 import { SquaresIntersect } from "lucide-react";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 
 const ModalInfo = ({ isOpen, message }) => {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
+
+    const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const modalAjuda = useCentralStore((s) => s.modalAjuda);
+  
   const [buttonCloseAudio] = useSound(closeAudio);
 
   const fecharModalInfo = () => {
     buttonCloseAudio();
     atualizarDados("modalAjuda", {
-      ...dados.modalAjuda,
+      ...modalAjuda,
       estadoModal: false,
     });
   };
@@ -492,7 +503,7 @@ texto:"🏭 ECONOMIA DE SETORES\n\nA Economia de Setor define o faturamento fina
     },
   };
 
-  if (dados.modalAjuda.estadoModal) {
+  if (modalAjuda.estadoModal) {
     return (
       <div className="flex h-screen absolute z-[40] w-screen bg-black/70 backdrop-blur-sm">
         <motion.div

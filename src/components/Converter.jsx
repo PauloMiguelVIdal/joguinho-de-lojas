@@ -1,42 +1,47 @@
-import React from "react";
-import { useState, useContext } from "react";
-import { useEffect } from "react";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { useEffect, useContext } from "react";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-
+import { useCentralStore } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_BASE_ESTATICOS
+} from "../stores/dadosEstáticos";
 
 export default function Converter() {
-    const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext)
-    const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
+  const dia = useCentralStore((s) => s.dia);
+  const edificiosBase = useCentralStore((s) => s.edificiosBase);
 
-    // console.log(patrimonio)
-    const lojas = ["terrenos", "lojasP", "lojasM", "lojasG"]
+  const lojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
 
+  useEffect(() => {
+    if (dia !== 270) return;
 
-    useEffect(() => {
-        if (dados.dia === 270) {
-          let patrimonio = 0;
-      
-          lojas.forEach(loja => {
-            const quantidadeLojas = dados[loja].quantidade;
-            const precoConstrucao = dados[loja].preçoConstrução;
-      
-            const quantidadeTerrenosNec = dados[loja].quantidadeNecTerreno;
-            const custoTerreno = dados.terrenos.preçoConstrução;
-      
-            const custoTotalLoja = quantidadeLojas * precoConstrucao + quantidadeTerrenosNec * custoTerreno;
-            patrimonio += custoTotalLoja;
-            console.log(patrimonio)
-          });
-      
-          
-          // const patrimonioTotal = patrimonio + economiaSetores.saldo;
-      
-          atualizarEco("saldo", economiaSetores.saldo + patrimonio);
-           // uma única atualização
-           console.log(patrimonio)
-        }
-      }, [dados.dia]);
-      
+    let patrimonio = 0;
+
+    lojas.forEach((loja) => {
+      const dadosDin = edificiosBase[loja];
+      const dadosEst = EDIFICIOS_BASE_ESTATICOS[loja];
+
+      if (!dadosDin || !dadosEst) return;
+
+      const quantidade = dadosDin.quantidade;
+      const precoConstrucao = dadosDin.preçoConstrução;
+
+      // 🔥 Agora vem do estático
+      const terrenosNec = dadosEst.quantidadeNecTerreno;
+
+      // 🔥 Terreno vem do dinâmico (preço atual)
+      const custoTerreno = edificiosBase.terrenos.preçoConstrução;
+
+      const custoTotal =
+        quantidade * precoConstrucao +
+        quantidade * terrenosNec * custoTerreno;
+
+      patrimonio += custoTotal;
+    });
+
+    atualizarEco("saldo", economiaSetores.saldo + patrimonio);
+
+    console.log("💰 Patrimônio convertido:", patrimonio);
+  }, [dia]);
 }

@@ -1,33 +1,46 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { CentraldeDadosContext } from '../centralDeDadosContext';
+// import { CentraldeDadosContext } from '../centralDeDadosContext';
 import { use } from 'react';
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import {
+  EDIFICIOS_FINAIS_ESTATICOS,
+  LICENCAS_ESTATICAS,
+  EDIFICIOS_BASE_ESTATICOS,
+  LICENCAS_ESTATICAS_GLOBAIS,
+} from "../stores/dadosEstáticos";
 
 function Events() {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const [sorteioAtivo, setSorteioAtivo] = useState(false);
+  const eventoAtual      = useCentralStore((s) => s.eventoAtual);
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const dia = useCentralStore((s) => s.dia);
+
+
+
 
   useEffect(() => {
-    if (dados.eventoAtual.eventoAtivo === true) {
+    if (eventoAtual.eventoAtivo === true) {
       atualizarDados("chanceNovoEvento", 0)
       // console.log("testando useEffect")
       // console.log(dados.chanceNovoEvento)
-    } else if (dados.dia > 2 && dados.dia < 270) {
+    } else if (dia > 2 && dia < 270) {
       atualizarDados("chanceNovoEvento", 20)
     }
-    else if (dados.dia > 270) {
+    else if (dia > 270) {
       atualizarDados("chanceNovoEvento", 10)
     }
-  }, [dados.eventoAtual])
+  }, [eventoAtual])
 
 
 
   //descomentar par fim dom jogo
 
   useEffect(() => {
-    if (dados.dia === 2) {
+    if (dia === 2) {
       atualizarDados("chanceNovoEvento", 20)
     }
-  }, [dados.dia])
+  }, [dia])
 
 
 
@@ -54,14 +67,14 @@ function Events() {
   //se o evento atual for mudaddo ele verifica se está verdadeiro e ai modificado a chance
 
   useEffect(() => {
-    if (dados.dia === dados.eventoAtual.diaFinal) {
-      atualizarDados("eventoAtual", { ...dados.eventoAtual, eventoAtivo: false })
+    if (dia === eventoAtual.diaFinal) {
+      atualizarDados("eventoAtual", { ...eventoAtual, eventoAtivo: false })
       atualizarDados("chanceNovoEvento", 20)
     }
     // console.log("use effect chamado")
     // console.log(dados.eventoAtual.eventoAtivo)
   }
-    , [dados.dia])
+    , [dia])
   //atualiza a chance de acontecer um evento quando não se tem nenhum evento ativo
 
   function nãoRodarLoop() {
