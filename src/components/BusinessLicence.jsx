@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCentralStore } from "../stores/useCentralStore";
 import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png";
@@ -8,7 +8,7 @@ import setoresImg from "../../public/outrasImagens/setores.png";
 import diversidade from "../../public/outrasImagens/diversidade.png";
 import upInterpriseAudio from "../../public/sounds/upInterpriseAudio.mp3";
 import useSound from "use-sound";
-
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 // Paleta roxa fixa para licenças empresariais
 const COR = {
   bg: "#0d0820",

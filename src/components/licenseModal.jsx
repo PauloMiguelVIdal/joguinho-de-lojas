@@ -1,6 +1,6 @@
-import React, { useContext, useState, useMemo } from "react";
+import React, { useContext, useState, useMemo,useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useCentralStore,EDIFICIOS_FINAIS_DINAMICOS_INICIAL } from "../stores/useCentralStore";
+import { useCentralStore, EDIFICIOS_FINAIS_DINAMICOS_INICIAL } from "../stores/useCentralStore";
 import { EDIFICIOS_BASE_ESTATICOS, EDIFICIOS_FINAIS_ESTATICOS, LICENCAS_ESTATICAS } from "../stores/dadosEstáticos";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { Localizador } from "./localizador";
@@ -31,6 +31,7 @@ export const LicenseModal = ({ setor, nomeLicença, index }) => {
   const atualizarLicença = useCentralStore((s) => s.atualizarLicença);
   // ── Economy Context (inalterado) ──────────────────────────
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+const garantirEstruturaSetor = useCentralStore((s) => s.garantirEstruturaSetor)
 
   const [buttonUpInterpriseAudio] = useSound(upInterpriseAudio);
   const [unlockAnim, setUnlockAnim] = useState(false);
@@ -55,6 +56,7 @@ export const LicenseModal = ({ setor, nomeLicença, index }) => {
 
   // ── comprarLicença — grava no Zustand ────────────────────
   const comprarLicença = () => {
+    
     if (jaComprado || !podeComprar || !licencaEstatica) return;
     buttonUpInterpriseAudio();
     setUnlockAnim(true);
@@ -79,12 +81,28 @@ export const LicenseModal = ({ setor, nomeLicença, index }) => {
         console.warn(`⚠️ Índice ${idx} (${nomeEd}) não existe no array dinâmico de ${setor}`);
         return;
       }
-
+console.group(`🔑 comprarLicença [${setor}] - ${nomeLicença}`)
+console.log('edifíciosLiberados:', licencaEstatica.edifíciosLiberados)
+licencaEstatica.edifíciosLiberados.forEach((nomeEd) => {
+    const idx = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios?.findIndex(e => e.nome === nomeEd) ?? -1
+    const existeNoDinamico = !!edificiosFinais[setor]?.edificios?.[idx]
+    console.log(`  "${nomeEd}" → idx estático: ${idx} | existe no dinâmico: ${existeNoDinamico}`)
+    if (idx !== -1 && !existeNoDinamico) {
+        console.warn(`  ⚠️ MISMATCH: índice ${idx} existe no estático mas não no dinâmico`)
+        console.log(`  tamanho dinâmico atual:`, edificiosFinais[setor]?.edificios?.length)
+        console.log(`  tamanho estático:`, EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios?.length)
+    }
+})
+console.groupEnd()
       atualizarEdificio(setor, idx, { licençaLiberado: { liberado: true } });
     });
     // 3. Desconta o saldo
     atualizarEco("saldo", economiaSetores.saldo - licencaEstatica.valor);
   };
+
+  useEffect(() => {
+    garantirEstruturaSetor(setor)
+}, [setor])
 
   // ── HELPERS de custo (usa estáticos + dinâmico de quantidade) ──
   const tPC = EDIFICIOS_BASE_ESTATICOS.terrenos.preçoConstrução;

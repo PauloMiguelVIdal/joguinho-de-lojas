@@ -16,6 +16,8 @@ import {
 export function InfoPage() {
   // const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
+    const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  
   const [buttonOpenAudio] = useSound(openAudio);
 const modalAjuda = useCentralStore((s) => s.modalAjuda);
 

@@ -1011,7 +1011,7 @@ export const LICENCAS_STATUS_INICIAL = {
 
 
 
-const estadoInicial = {
+export const estadoInicial = {
     // ── UI / controle ────────────────────────────────────────────────────────
     inicioGame: { estadoModal: true, nomeEmpresa: "" },
     nomeEmpresa: "",
@@ -1073,6 +1073,7 @@ const estadoInicial = {
     // ── Edifícios dinâmicos ───────────────────────────────────────────────────
     edificiosBase: EDIFICIOS_BASE_DINAMICOS,
     edificiosFinais: EDIFICIOS_FINAIS_DINAMICOS_INICIAL,
+
     licençasStatus: LICENCAS_STATUS_INICIAL,
     licençasGlobais: {
         agricultura: false,
@@ -1092,50 +1093,112 @@ const estadoInicial = {
 // ─── Store ────────────────────────────────────────────────────────────────────
 const salvo = carregarSalvo()
 
-
+console.log("antes da migração:", salvo.central?.edificiosFinais?.agricultura)
 console.log("edificiosFinais carregado:", JSON.stringify(salvo.central?.edificiosFinais?.agricultura))
 console.log("licençasStatus carregado:", JSON.stringify(salvo.central?.licençasStatus?.agricultura))
 
 // Migração de compatibilidade — corrige saves antigos
-if (salvo.central) {
-  // edificiosFinais: converte array direto para { edificios: [] } e completa índices faltando
-  for (const setor of Object.keys(EDIFICIOS_FINAIS_DINAMICOS_INICIAL)) {
-    const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor].edificios;
-    const salvoSetor = salvo.central.edificiosFinais?.[setor];
+// if (salvo.central) {
+//     // edificiosFinais: converte array direto para { edificios: [] } e completa índices faltando
+//     for (const setor of Object.keys(EDIFICIOS_FINAIS_DINAMICOS_INICIAL)) {
+//         const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor].edificios;
+//         const salvoSetor = salvo.central.edificiosFinais?.[setor];
 
-    if (Array.isArray(salvoSetor)) {
-      // estrutura velha era array direto
-      salvo.central.edificiosFinais[setor] = { edificios: salvoSetor };
-    }
+//         if (Array.isArray(salvoSetor)) {
+//             // estrutura velha era array direto
+//             salvo.central.edificiosFinais[setor] = { edificios: salvoSetor };
+//         }
 
-    const atual = salvo.central.edificiosFinais?.[setor]?.edificios ?? [];
-    if (atual.length < inicial.length) {
-      salvo.central.edificiosFinais[setor].edificios = [
-        ...atual,
-        ...inicial.slice(atual.length),
-      ];
-    }
-  }
+//         const atual = salvo.central.edificiosFinais?.[setor]?.edificios ?? [];
+//         if (atual.length < inicial.length) {
+//             salvo.central.edificiosFinais[setor].edificios = [
+//                 ...atual,
+//                 ...inicial.slice(atual.length),
+//             ];
+//         }
+//     }
 
-  // licençasStatus: completa arrays menores que o inicial
-  for (const setor of Object.keys(LICENCAS_STATUS_INICIAL)) {
-    const inicial = LICENCAS_STATUS_INICIAL[setor];
-    const atual   = salvo.central.licençasStatus?.[setor] ?? [];
-    if (atual.length < inicial.length) {
-      salvo.central.licençasStatus[setor] = [
-        ...atual,
-        ...inicial.slice(atual.length),
-      ];
+//     // licençasStatus: completa arrays menores que o inicial
+//     for (const setor of Object.keys(LICENCAS_STATUS_INICIAL)) {
+//         const inicial = LICENCAS_STATUS_INICIAL[setor];
+//         const atual = salvo.central.licençasStatus?.[setor] ?? [];
+//         if (atual.length < inicial.length) {
+//             salvo.central.licençasStatus[setor] = [
+//                 ...atual,
+//                 ...inicial.slice(atual.length),
+//             ];
+//         }
+//     }
+// }
+
+// if (salvo.central?.edificiosFinais) {
+//     const ef = salvo.central.edificiosFinais
+//     for (const setor of Object.keys(EDIFICIOS_FINAIS_DINAMICOS_INICIAL)) {
+//         const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor].edificios
+
+//         // Array direto vazio ou com dados → converte para { edificios: [] }
+//         if (Array.isArray(ef[setor])) {
+//             ef[setor] = { edificios: ef[setor].length > 0 ? ef[setor] : [...inicial] }
+//         }
+
+//         if (!ef[setor]?.edificios) {
+//             ef[setor] = { edificios: [...inicial] }
+//         }
+
+//         const atual = ef[setor].edificios
+//         if (atual.length < inicial.length) {
+//             ef[setor].edificios = [...atual, ...inicial.slice(atual.length)]
+//         }
+//     }
+// }
+
+// if (salvo.central?.licençasStatus) {
+//     const ls = salvo.central.licençasStatus
+//     for (const setor of Object.keys(LICENCAS_STATUS_INICIAL)) {
+//         const inicial = LICENCAS_STATUS_INICIAL[setor]
+//         if (!ls[setor])
+//             ls[setor] = [...inicial]
+//         else if (ls[setor].length < inicial.length)
+//             ls[setor] = [...ls[setor], ...inicial.slice(ls[setor].length)]
+//     }
+// }
+const rawSalvo = localStorage.getItem('central-dados')
+const parsedSalvo = rawSalvo ? JSON.parse(rawSalvo) : null
+console.group('💾 localStorage na inicialização')
+console.log('tem save?', !!parsedSalvo)
+if (parsedSalvo?.state?.edificiosFinais) {
+    const setores = Object.keys(parsedSalvo.state.edificiosFinais)
+    for (const setor of setores) {
+        const eds = parsedSalvo.state.edificiosFinais[setor]?.edificios
+        console.log(`[${setor}] edificios:`, Array.isArray(eds) ? `array[${eds.length}]` : eds)
+        if (Array.isArray(eds) && eds.length > 0) console.log(`  → primeiro item:`, eds[0])
     }
-  }
+} else {
+    console.warn('edificiosFinais não encontrado no save')
 }
+console.groupEnd()
+
+
+console.group('🔍 CONFLITO DE CHAVES')
+console.log('econoGame_centralDados (carregarSalvo):',
+    JSON.parse(localStorage.getItem('econoGame_centralDados') ?? 'null')?.edificiosFinais?.agricultura
+)
+console.log('central-dados (persist Zustand):',
+    JSON.parse(localStorage.getItem('central-dados') ?? 'null')?.state?.edificiosFinais?.agricultura
+)
+console.log('salvo.central após migração manual:',
+    salvo.central?.edificiosFinais?.agricultura
+)
+console.groupEnd()
+
 
 export const useCentralStore = create(
     immer(
         persist(
             (set) => ({
-                // Estado inicial (save sobrescreve se existir)
-                ...(salvo.central ?? estadoInicial),
+                ...estadoInicial,
+
+
 
                 algumModalAberto: () => {
                     const state = useCentralStore.getState();
@@ -1159,17 +1222,24 @@ export const useCentralStore = create(
 
                     return false;
                 },
-                // ── Atualizadores ───────────────────────────────────────────────────
 
-                // Atualiza uma chave de primeiro nível
-                // uso: atualizarDados('nomeEmpresa', 'Acme')
                 atualizarDados: (chave, novoValor) =>
-                    set((state) => { state[chave] = novoValor }),
+                    set((state) => {
+                        // ← ADICIONE ISTO
+                        if (chave === 'edificiosFinais') {
+                            console.error('🚨 atualizarDados chamado com edificiosFinais!', novoValor)
+                            console.trace('stack trace:')
+                        }
+                        state[chave] = novoValor
+                    }),
 
-                // Atualiza via caminho profundo (array de chaves)
-                // uso: atualizarDadosProf(['edificiosBase','lojasP','quantidade'], 5)
                 atualizarDadosProf: (caminho, novoValor) =>
                     set((state) => {
+                        // ← ADICIONE ISTO
+                        if (caminho[0] === 'edificiosFinais') {
+                            console.error('🚨 atualizarDadosProf em edificiosFinais:', caminho, novoValor)
+                            console.trace('stack trace:')
+                        }
                         let ref = state
                         for (let i = 0; i < caminho.length - 1; i++) {
                             if (ref[caminho[i]] === undefined) {
@@ -1181,9 +1251,6 @@ export const useCentralStore = create(
                         ref[caminho[caminho.length - 1]] = novoValor
                     }),
 
-                // Atualiza múltiplos caminhos de uma vez — evita renders encadeados
-                // uso: atualizarLote([ [caminho1, valor1], [caminho2, valor2] ])
-                // atualizarLote — substitua o atual por esta versão que valida array vs objeto:
                 atualizarLote: (atualizacoes) =>
                     set((state) => {
                         for (const [caminho, novoValor] of atualizacoes) {
@@ -1196,43 +1263,145 @@ export const useCentralStore = create(
                                     valido = false
                                     break
                                 }
-                                // Immer: array só aceita índices numéricos, objeto aceita string
                                 if (Array.isArray(ref[chave]) && typeof caminho[i + 1] === 'string' && isNaN(Number(caminho[i + 1]))) {
-                                    console.warn(`❌ Tentativa de usar chave string "${caminho[i + 1]}" em array. Use objeto no estado.`)
+                                    console.warn(`❌ Tentativa de usar chave string "${caminho[i + 1]}" em array.`)
                                     valido = false
                                     break
                                 }
                                 ref = ref[chave]
                             }
-                            if (valido) {
-                                ref[caminho[caminho.length - 1]] = novoValor
-                            }
+                            if (valido) ref[caminho[caminho.length - 1]] = novoValor
                         }
                     }),
 
+atualizarEdificio: (setor, index, patch) =>
+    set((state) => {
+        const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor]?.edificios
+        const atual = state.edificiosFinais[setor]?.edificios
 
-                // Atualiza um edifício final dinâmico por setor + índice
-                // uso: atualizarEdificio('agricultura', 0, { quantidade: 3 })
-                atualizarEdificio: (setor, index, patch) =>
-                    set((state) => {
-                        Object.assign(state.edificiosFinais[setor].edificios[index], patch)
-                    }),
+        if (!atual || atual.length === 0) {
+            console.warn(`⚠️ atualizarEdificio: reconstruindo [${setor}]`)
+            state.edificiosFinais[setor] = {
+                edificios: inicial.map(e => ({ ...e }))
+            }
+        } else if (atual.length < inicial.length) {
+            // Completa sem destruir o que já existe
+            for (let i = atual.length; i < inicial.length; i++) {
+                state.edificiosFinais[setor].edificios.push({ ...inicial[i] })
+            }
+        }
 
-                // Atualiza status de licença por setor + índice
+        if (!state.edificiosFinais[setor].edificios[index]) {
+            console.warn(`⚠️ Índice ${index} ainda não existe após reconstrução`)
+            return
+        }
+
+        Object.assign(state.edificiosFinais[setor].edificios[index], patch)
+    }),
+
+garantirEstruturaSetor: (setor) =>
+    set((state) => {
+        const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor]
+        if (!inicial) return
+
+        // Já existe e tem o tamanho certo — não faz nada
+        const atual = state.edificiosFinais[setor]?.edificios
+        if (Array.isArray(atual) && atual.length === inicial.edificios.length) return
+
+        console.log(`🏗️ garantirEstruturaSetor: inicializando [${setor}]`)
+
+        if (!atual || atual.length === 0) {
+            // Cria do zero
+            state.edificiosFinais[setor] = {
+                edificios: inicial.edificios.map(e => ({ ...e }))
+            }
+        } else {
+            // Completa os índices faltando
+            const faltando = inicial.edificios.slice(atual.length).map(e => ({ ...e }))
+            state.edificiosFinais[setor].edificios.push(...faltando)
+        }
+    }),
+
                 atualizarLicença: (setor, index, status) =>
                     set((state) => {
+                        if (!state.licençasStatus[setor]?.[index]) {
+                            console.warn(`licençasStatus[${setor}][${index}] não existe`)
+                            return
+                        }
                         state.licençasStatus[setor][index].status = status
                     }),
             }),
             {
-                name: 'central-dados',          // chave no localStorage
-                partialize: (state) => {        // persiste só o dinâmico
+                name: 'central-dados',
+                version: 1, // ← incremente ao mudar estrutura
+
+                migrate: (persistedState, version) => {
+                    // version 0 = saves antigos sem esta chave de versão
+                    if (version < 1) {
+                        console.log('[persist] Migrando save v0 → v1: reconstruindo edificiosFinais')
+                        const setores = Object.keys(EDIFICIOS_FINAIS_DINAMICOS_INICIAL)
+                        if (!persistedState.edificiosFinais) {
+                            persistedState.edificiosFinais = {}
+                        }
+                        for (const setor of setores) {
+                            const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor].edificios
+                            const salvo = persistedState.edificiosFinais[setor]?.edificios
+                            persistedState.edificiosFinais[setor] = {
+                                edificios: inicial.map((ed, i) => ({
+                                    ...ed,
+                                    ...(salvo?.[i] ?? {}),
+                                }))
+                            }
+                        }
+                    }
+                    return persistedState
+                },
+
+                merge: (persistedState, currentState) => {
+                    // Merge base
+                    const merged = { ...currentState, ...persistedState }
+
+                    // Garante integridade de edificiosFinais para cada setor
+                    const setores = Object.keys(EDIFICIOS_FINAIS_DINAMICOS_INICIAL)
+                    for (const setor of setores) {
+                        const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor].edificios
+                        const salvo = persistedState?.edificiosFinais?.[setor]?.edificios
+
+                        // Reconstrói se: não existe, está vazio, ou tamanho diverge
+                        if (!salvo || salvo.length !== inicial.length) {
+                            if (!merged.edificiosFinais) merged.edificiosFinais = {}
+                            merged.edificiosFinais[setor] = {
+                                edificios: inicial.map((ed, i) => ({
+                                    ...ed,
+                                    ...(salvo?.[i] ?? {}),
+                                }))
+                            }
+                        }
+                    }
+
+                    return merged
+                },
+
+                partialize: (state) => {
                     const { atualizarDados, atualizarDadosProf,
                         atualizarLote, atualizarEdificio,
-                        atualizarLicença, ...rest } = state
+                        atualizarLicença, algumModalAberto, ...rest } = state
                     return rest
                 },
             }
         )
     )
 )
+
+console.group('🔬 ESTADO REAL NO MOMENTO DO CREATE')
+const estadoAtualDoStore = useCentralStore?.getState?.()
+console.log('store já existe?', !!estadoAtualDoStore)
+
+// Varre TODAS as chaves do localStorage
+console.log('todas as chaves no localStorage:')
+for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i)
+    const raw = localStorage.getItem(key)
+    console.log(`  "${key}" → ${raw?.length} chars, preview: ${raw?.slice(0, 80)}`)
+}
+console.groupEnd()

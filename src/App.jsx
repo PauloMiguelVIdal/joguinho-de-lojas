@@ -30,7 +30,13 @@ ChartJS.register(
   Legend
 );
 
+
+
+
+
 function App() {
+
+  
   const containerRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 

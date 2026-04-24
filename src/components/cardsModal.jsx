@@ -217,6 +217,7 @@ const CardModalBase = ({ index }) => {
   const edificioEstatico = EDIFICIOS_FINAIS_ESTATICOS[setorAtivo]?.edificios[index];
  const edificioDinamico = edificiosDin?.edificios?.[index];// { liberado, quantidade, powerUp }
 
+
   // ── Economia do setor (Context permanece) ────────────────
   const economiaSetor = economiaSetores[setorAtivo]?.economiaSetor?.estadoAtual ?? "estável";
 
@@ -295,7 +296,7 @@ const CardModalBase = ({ index }) => {
   // ── Derivações dinâmicas ──────────────────────────────────
   const quantidadeAtivoAtual = edificioDinamico?.quantidade ?? 0;
   const liberado = edificioDinamico?.licençaLiberado?.liberado ?? false;
-
+console.log(liberado)
   // ── PowerUp ───────────────────────────────────────────────
   const corPowerUp = (pu) => {
     switch (pu) {
