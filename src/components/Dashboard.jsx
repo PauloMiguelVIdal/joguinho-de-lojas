@@ -72,7 +72,7 @@ import SalesQueueCard from "./SalesQueueCard.jsx";
 import GerenciamentoHub from "./GerenciamentoHub.jsx";
 import { CardLocalization } from "./cardLocalization";
 import Techtree from "./Techtree.jsx";
-import ProductionChainTree from "./ProductionChainTree";
+import ProductionChainTree from "./ProductionChainTree.jsx";
 import EcosystemMap from "./EcosystemMap";
 import CadeiaProdutiva from "./CadeiaProdutiva.jsx";
 import AssistenteIA from "./AssinstentIA.jsx";
