@@ -1192,205 +1192,190 @@ console.log('salvo.central após migração manual:',
 console.groupEnd()
 
 
+let ultimoEdificiosFinais = null
+
+function logSeEdificiosFinaisMudou(prevState, nextState, actionName = 'set') {
+  const antes = prevState?.edificiosFinais
+  const depois = nextState?.edificiosFinais
+  if (JSON.stringify(antes) !== JSON.stringify(depois)) {
+    console.group(`🔁 [${actionName}] edificiosFinais modificado`)
+    console.log('📤 antes:', antes)
+    console.log('📥 depois:', depois)
+    console.trace('📍 Rastreamento da modificação')
+    console.groupEnd()
+    ultimoEdificiosFinais = depois
+  }
+}
+
+// ─── Store com logging ────────────────────────────────────────────
 export const useCentralStore = create(
-    immer(
-        persist(
-            (set) => ({
-                ...estadoInicial,
-
-
-
-                algumModalAberto: () => {
-                    const state = useCentralStore.getState();
-
-                    // Lista de todos os seus objetos de modal
-                    const modais = [
-                        "modal", "modalEditável", "modalAlert", "modalAjuda",
-                        "modalObjetivos", "modalDespesas", "modalEconomiaGlobal",
-                        "modalOfertas", "modalAchievements", "modalPerson",
-                        "modalExcesso", "modalInicio", "modalCompraTerrenos",
-                        "modalContinuarDias"
-                    ];
-
-                    // Encontra qual modal está com estadoModal: true
-                    const modalAberto = modais.find(key => state[key]?.estadoModal === true);
-
-                    if (modalAberto) {
-                        console.warn(`⚠️ Bloqueio de dia: O modal "${modalAberto}" está aberto.`);
-                        return true;
-                    }
-
-                    return false;
-                },
-
-                atualizarDados: (chave, novoValor) =>
-                    set((state) => {
-                        // ← ADICIONE ISTO
-                        if (chave === 'edificiosFinais') {
-                            console.error('🚨 atualizarDados chamado com edificiosFinais!', novoValor)
-                            console.trace('stack trace:')
-                        }
-                        state[chave] = novoValor
-                    }),
-
-                atualizarDadosProf: (caminho, novoValor) =>
-                    set((state) => {
-                        // ← ADICIONE ISTO
-                        if (caminho[0] === 'edificiosFinais') {
-                            console.error('🚨 atualizarDadosProf em edificiosFinais:', caminho, novoValor)
-                            console.trace('stack trace:')
-                        }
-                        let ref = state
-                        for (let i = 0; i < caminho.length - 1; i++) {
-                            if (ref[caminho[i]] === undefined) {
-                                console.warn(`❌ Caminho inválido em: ${caminho[i]}`)
-                                return
-                            }
-                            ref = ref[caminho[i]]
-                        }
-                        ref[caminho[caminho.length - 1]] = novoValor
-                    }),
-
-                atualizarLote: (atualizacoes) =>
-                    set((state) => {
-                        for (const [caminho, novoValor] of atualizacoes) {
-                            let ref = state
-                            let valido = true
-                            for (let i = 0; i < caminho.length - 1; i++) {
-                                const chave = caminho[i]
-                                if (ref[chave] === undefined || ref[chave] === null) {
-                                    console.warn(`❌ Caminho inválido em: ${chave}`)
-                                    valido = false
-                                    break
-                                }
-                                if (Array.isArray(ref[chave]) && typeof caminho[i + 1] === 'string' && isNaN(Number(caminho[i + 1]))) {
-                                    console.warn(`❌ Tentativa de usar chave string "${caminho[i + 1]}" em array.`)
-                                    valido = false
-                                    break
-                                }
-                                ref = ref[chave]
-                            }
-                            if (valido) ref[caminho[caminho.length - 1]] = novoValor
-                        }
-                    }),
-
-atualizarEdificio: (setor, index, patch) =>
-    set((state) => {
-        const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor]?.edificios
-        const atual = state.edificiosFinais[setor]?.edificios
-
-        if (!atual || atual.length === 0) {
-            console.warn(`⚠️ atualizarEdificio: reconstruindo [${setor}]`)
-            state.edificiosFinais[setor] = {
-                edificios: inicial.map(e => ({ ...e }))
-            }
-        } else if (atual.length < inicial.length) {
-            // Completa sem destruir o que já existe
-            for (let i = atual.length; i < inicial.length; i++) {
-                state.edificiosFinais[setor].edificios.push({ ...inicial[i] })
-            }
+  immer(
+    persist(
+      (set, get) => {
+        // Wrapper que intercepta todas as mudanças
+        const setComLog = (fn, actionName = 'set') => {
+          const antes = get()
+          set(fn)
+          const depois = get()
+          logSeEdificiosFinaisMudou(antes, depois, actionName)
         }
 
-        if (!state.edificiosFinais[setor].edificios[index]) {
-            console.warn(`⚠️ Índice ${index} ainda não existe após reconstrução`)
-            return
+        return {
+          ...estadoInicial,   // estado inicial puro
+
+          // ─── Ações com logging ──────────────────────────────────────
+          atualizarDados: (chave, novoValor) =>
+            setComLog((state) => {
+              state[chave] = novoValor
+            }, `atualizarDados("${chave}")`),
+
+          atualizarDadosProf: (caminho, novoValor) =>
+            setComLog((state) => {
+              let ref = state
+              for (let i = 0; i < caminho.length - 1; i++) {
+                if (ref[caminho[i]] === undefined) {
+                  console.warn(`❌ Caminho inválido em: ${caminho[i]}`)
+                  return
+                }
+                ref = ref[caminho[i]]
+              }
+              ref[caminho[caminho.length - 1]] = novoValor
+            }, `atualizarDadosProf(${caminho.join('.')})`),
+
+          atualizarLote: (atualizacoes) =>
+            setComLog((state) => {
+              for (const [caminho, novoValor] of atualizacoes) {
+                let ref = state
+                let valido = true
+                for (let i = 0; i < caminho.length - 1; i++) {
+                  const chave = caminho[i]
+                  if (ref[chave] === undefined || ref[chave] === null) {
+                    console.warn(`❌ Caminho inválido em: ${chave}`)
+                    valido = false
+                    break
+                  }
+                  ref = ref[chave]
+                }
+                if (valido) ref[caminho[caminho.length - 1]] = novoValor
+              }
+            }, 'atualizarLote'),
+
+          atualizarEdificio: (setor, index, patch) =>
+            setComLog((state) => {
+              const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor]?.edificios
+              const atual = state.edificiosFinais[setor]?.edificios
+
+              if (!atual || atual.length === 0) {
+                console.warn(`⚠️ atualizarEdificio: reconstruindo [${setor}]`)
+                state.edificiosFinais[setor] = {
+                  edificios: inicial.map(e => ({ ...e }))
+                }
+              } else if (atual.length < inicial.length) {
+                for (let i = atual.length; i < inicial.length; i++) {
+                  state.edificiosFinais[setor].edificios.push({ ...inicial[i] })
+                }
+              }
+
+              if (!state.edificiosFinais[setor].edificios[index]) {
+                console.warn(`⚠️ Índice ${index} ainda não existe após reconstrução`)
+                return
+              }
+
+              Object.assign(state.edificiosFinais[setor].edificios[index], patch)
+            }, `atualizarEdificio(${setor}, ${index})`),
+
+          garantirEstruturaSetor: (setor) =>
+            setComLog((state) => {
+              const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor]
+              if (!inicial) return
+
+              const atual = state.edificiosFinais[setor]?.edificios
+              if (Array.isArray(atual) && atual.length === inicial.edificios.length) return
+
+              console.log(`🏗️ garantirEstruturaSetor: inicializando [${setor}]`)
+              if (!atual || atual.length === 0) {
+                state.edificiosFinais[setor] = {
+                  edificios: inicial.edificios.map(e => ({ ...e }))
+                }
+              } else {
+                const faltando = inicial.edificios.slice(atual.length).map(e => ({ ...e }))
+                state.edificiosFinais[setor].edificios.push(...faltando)
+              }
+            }, `garantirEstruturaSetor(${setor})`),
+
+          atualizarLicença: (setor, index, status) =>
+            setComLog((state) => {
+              if (!state.licençasStatus[setor]?.[index]) {
+                console.warn(`licençasStatus[${setor}][${index}] não existe`)
+                return
+              }
+              state.licençasStatus[setor][index].status = status
+            }, `atualizarLicença(${setor}, ${index})`),
+
+          algumModalAberto: () => {
+            const state = get()
+            const modais = [
+              "modal", "modalEditável", "modalAlert", "modalAjuda",
+              "modalObjetivos", "modalDespesas", "modalEconomiaGlobal",
+              "modalOfertas", "modalAchievements", "modalPerson",
+              "modalExcesso", "modalInicio", "modalCompraTerrenos",
+              "modalContinuarDias"
+            ]
+            return modais.some(key => state[key]?.estadoModal === true)
+          },
         }
-
-        Object.assign(state.edificiosFinais[setor].edificios[index], patch)
-    }),
-
-garantirEstruturaSetor: (setor) =>
-    set((state) => {
-        const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor]
-        if (!inicial) return
-
-        // Já existe e tem o tamanho certo — não faz nada
-        const atual = state.edificiosFinais[setor]?.edificios
-        if (Array.isArray(atual) && atual.length === inicial.edificios.length) return
-
-        console.log(`🏗️ garantirEstruturaSetor: inicializando [${setor}]`)
-
-        if (!atual || atual.length === 0) {
-            // Cria do zero
-            state.edificiosFinais[setor] = {
-                edificios: inicial.edificios.map(e => ({ ...e }))
+      },
+      {
+        name: 'central-dados',
+        version: 1,
+        migrate: (persistedState, version) => {
+          if (version < 1) {
+            console.log('[persist] Migrando save v0 → v1: reconstruindo edificiosFinais')
+            const setores = Object.keys(EDIFICIOS_FINAIS_DINAMICOS_INICIAL)
+            if (!persistedState.edificiosFinais) persistedState.edificiosFinais = {}
+            for (const setor of setores) {
+              const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor].edificios
+              const salvo = persistedState.edificiosFinais[setor]?.edificios
+              persistedState.edificiosFinais[setor] = {
+                edificios: inicial.map((ed, i) => ({
+                  ...ed,
+                  ...(salvo?.[i] ?? {}),
+                }))
+              }
             }
-        } else {
-            // Completa os índices faltando
-            const faltando = inicial.edificios.slice(atual.length).map(e => ({ ...e }))
-            state.edificiosFinais[setor].edificios.push(...faltando)
+          }
+          return persistedState
+        },
+        merge: (persistedState, currentState) => {
+          const merged = { ...currentState, ...persistedState }
+          const setores = Object.keys(EDIFICIOS_FINAIS_DINAMICOS_INICIAL)
+          for (const setor of setores) {
+            const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor].edificios
+            const salvo = persistedState?.edificiosFinais?.[setor]?.edificios
+            if (!salvo || salvo.length !== inicial.length) {
+              if (!merged.edificiosFinais) merged.edificiosFinais = {}
+              merged.edificiosFinais[setor] = {
+                edificios: inicial.map((ed, i) => ({
+                  ...ed,
+                  ...(salvo?.[i] ?? {}),
+                }))
+              }
+            }
+          }
+          return merged
+        },
+        partialize: (state) => {
+          // Remove funções do estado persistido
+          const { 
+            atualizarDados, atualizarDadosProf, atualizarLote,
+            atualizarEdificio, garantirEstruturaSetor, atualizarLicença,
+            algumModalAberto, ...rest 
+          } = state
+          return rest
         }
-    }),
-
-                atualizarLicença: (setor, index, status) =>
-                    set((state) => {
-                        if (!state.licençasStatus[setor]?.[index]) {
-                            console.warn(`licençasStatus[${setor}][${index}] não existe`)
-                            return
-                        }
-                        state.licençasStatus[setor][index].status = status
-                    }),
-            }),
-            {
-                name: 'central-dados',
-                version: 1, // ← incremente ao mudar estrutura
-
-                migrate: (persistedState, version) => {
-                    // version 0 = saves antigos sem esta chave de versão
-                    if (version < 1) {
-                        console.log('[persist] Migrando save v0 → v1: reconstruindo edificiosFinais')
-                        const setores = Object.keys(EDIFICIOS_FINAIS_DINAMICOS_INICIAL)
-                        if (!persistedState.edificiosFinais) {
-                            persistedState.edificiosFinais = {}
-                        }
-                        for (const setor of setores) {
-                            const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor].edificios
-                            const salvo = persistedState.edificiosFinais[setor]?.edificios
-                            persistedState.edificiosFinais[setor] = {
-                                edificios: inicial.map((ed, i) => ({
-                                    ...ed,
-                                    ...(salvo?.[i] ?? {}),
-                                }))
-                            }
-                        }
-                    }
-                    return persistedState
-                },
-
-                merge: (persistedState, currentState) => {
-                    // Merge base
-                    const merged = { ...currentState, ...persistedState }
-
-                    // Garante integridade de edificiosFinais para cada setor
-                    const setores = Object.keys(EDIFICIOS_FINAIS_DINAMICOS_INICIAL)
-                    for (const setor of setores) {
-                        const inicial = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setor].edificios
-                        const salvo = persistedState?.edificiosFinais?.[setor]?.edificios
-
-                        // Reconstrói se: não existe, está vazio, ou tamanho diverge
-                        if (!salvo || salvo.length !== inicial.length) {
-                            if (!merged.edificiosFinais) merged.edificiosFinais = {}
-                            merged.edificiosFinais[setor] = {
-                                edificios: inicial.map((ed, i) => ({
-                                    ...ed,
-                                    ...(salvo?.[i] ?? {}),
-                                }))
-                            }
-                        }
-                    }
-
-                    return merged
-                },
-
-                partialize: (state) => {
-                    const { atualizarDados, atualizarDadosProf,
-                        atualizarLote, atualizarEdificio,
-                        atualizarLicença, algumModalAberto, ...rest } = state
-                    return rest
-                },
-            }
-        )
+      }
     )
+  )
 )
 
 console.group('🔬 ESTADO REAL NO MOMENTO DO CREATE')

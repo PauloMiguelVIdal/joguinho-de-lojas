@@ -296,7 +296,7 @@ const CardModalBase = ({ index }) => {
   // ── Derivações dinâmicas ──────────────────────────────────
   const quantidadeAtivoAtual = edificioDinamico?.quantidade ?? 0;
   const liberado = edificioDinamico?.licençaLiberado?.liberado ?? false;
-console.log(liberado)
+// console.log(liberado)
   // ── PowerUp ───────────────────────────────────────────────
   const corPowerUp = (pu) => {
     switch (pu) {
@@ -975,9 +975,17 @@ console.log(liberado)
                       <div style={{ flex: "0 0 65%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: semRequisitosEmbaixo ? "8px 10px" : "5px 8px", display: "flex", flexDirection: "column", gap: semRequisitosEmbaixo ? 5 : 3, justifyContent: "center" }}>
                         <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "rgba(255,255,255,.38)" }}>Expande arm. de</div>
                         <div className="flex gap-[4px] flex-wrap items-center">
-                          {categorias.length > 0 ? categorias.map((cat, idx) => (
+                          {categorias.length > 0  ? categorias.map((cat, idx) => (
                             <div key={idx} title={cat} style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", borderRadius: 4, width: semRequisitosEmbaixo ? 28 : 17, height: semRequisitosEmbaixo ? 28 : 17, fontSize: semRequisitosEmbaixo ? 14 : 10, transition: "all 0.2s ease" }}>{storageIconMap[cat] || "📦"}</div>
-                          )) : <span style={{ fontSize: 7, color: "rgba(255,255,255,.2)" }}>—</span>}
+                          )) : <span style={{ fontSize: 7, color: "rgba(255,255,255,.2)" }}>—</span>
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          }
                         </div>
                       </div>
                       <div style={{ flex: "0 0 35%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "5px 4px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }} data-tooltip-id="tooltip-faturado" data-tooltip-html="Slots de armazenamento adicionados">
@@ -1101,7 +1109,7 @@ console.log(liberado)
                         const perfil = storageProfiles[bk];
                         if (!perfil) return <span style={{ fontSize: 7, color: "rgba(255,255,255,.2)" }}>Nenhum perfil</span>;
                         const cats   = Array.isArray(perfil.categoriasPermitidas) ? perfil.categoriasPermitidas : [perfil.categoriasPermitidas];
-                        return cats.map((cat, idx) => (<div key={idx} title={cat} style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.12)", borderRadius: 5, width: 40, height: 40, fontSize: 14 }}>{storageIconMap[cat] || "📦"}</div>));
+                        return cats.map((cat, idx) => (<div key={idx} title={cat} style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.12)", borderRadius: 5, width: 26, height: 26, fontSize: 14 }}>{storageIconMap[cat] || "📦"}</div>));
                       })()}
                     </div>
                   </div>

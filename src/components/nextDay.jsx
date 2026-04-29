@@ -35,7 +35,7 @@ const TODAS_LOJAS = ["terrenos", "lojasP", "lojasM", "lojasG"];
 
 export function NextDay() {
   // ── Zustand ──
- const dia = useCentralStore((s) => s.dia);  
+  const dia = useCentralStore((s) => s.dia);
 
   const atualizarDados = useCentralStore((s) => s.atualizarDados);
   const atualizarLote = useCentralStore((s) => s.atualizarLote);
@@ -61,12 +61,12 @@ export function NextDay() {
   const [executouAudio270, setExecutouAudio270] = useState(false);
 
   // ─── AUDIO 270 ─────────────────────────────────────
-useEffect(() => {
-  if (dia === 270 && !executouAudio270) {
-    buttonNewStageAudio();
-    setExecutouAudio270(true);
-  }
-}, [dia, executouAudio270]); // ← usa o `dia` do seletor reativo, não getState()
+  useEffect(() => {
+    if (dia === 270 && !executouAudio270) {
+      buttonNewStageAudio();
+      setExecutouAudio270(true);
+    }
+  }, [dia, executouAudio270]); // ← usa o `dia` do seletor reativo, não getState()
 
   // ─── FATURAMENTO ───────────────────────────────────
   const calcularFaturamento = useCallback(() => {
@@ -161,27 +161,27 @@ useEffect(() => {
     }
 
     // ── OVERFLOW ─────────────────────────────────────
-    const overflows = checkProductionOverflow();
+    // const overflows = checkProductionOverflow();
 
-    if (overflows.length > 0) {
-      console.log("⛔ Bloqueado: overflow de produção", overflows);
+    // if (overflows.length > 0) {
+    //   console.log("⛔ Bloqueado: overflow de produção", overflows);
 
-      const ofertaTotal = overflows.reduce((s, o) => s + o.valorVenda, 0);
+    //   const ofertaTotal = overflows.reduce((s, o) => s + o.valorVenda, 0);
 
-      atualizarDados("modalExcesso", {
-        estadoModal: true,
-        head: "Armazenamento insuficiente",
-        content: "A produção excedeu sua capacidade.",
-        quantidadeExcesso: overflows.reduce(
-          (s, o) => s + o.quantidadeExcedente,
-          0
-        ),
-        ofertaExcesso: Math.floor(ofertaTotal),
-        overflows,
-      });
+    //   atualizarDados("modalExcesso", {
+    //     estadoModal: true,
+    //     head: "Armazenamento insuficiente",
+    //     content: "A produção excedeu sua capacidade.",
+    //     quantidadeExcesso: overflows.reduce(
+    //       (s, o) => s + o.quantidadeExcedente,
+    //       0
+    //     ),
+    //     ofertaExcesso: Math.floor(ofertaTotal),
+    //     overflows,
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
     // ── EXECUÇÃO ─────────────────────────────────────
     console.log("✅ Avançando dia");
@@ -194,18 +194,17 @@ useEffect(() => {
     const faturamento = calcularFaturamento();
     console.log("💰 Faturamento do dia:", faturamento);
 
-    processarTransacoesMercado();
-    processProductions();
-    executarPipelinesHoje();
-    processSellQueue(faturamento);
+    // processarTransacoesMercado();
+    // processProductions();
+    // executarPipelinesHoje();
+    // processSellQueue(faturamento);
 
-    salvarNoStorage(
-      {
-        pipelines: getPipelinesParaSalvar(),
-      },
-      useCentralStore.getState(),
-      economiaSetores
-    );
+salvarNoStorage(
+  undefined,               // gameState → NÃO salva o central
+  undefined,               // centralState → NÃO salva
+  economiaSetores,         // mantém economia salva pelo método antigo
+  getPipelinesParaSalvar() // mantém pipelines salvo pelo método antigo
+);
   }, [
     atualizarDados,
     economiaSetores,

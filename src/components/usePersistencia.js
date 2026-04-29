@@ -1,32 +1,32 @@
-  function migrarCentralAntigo(central) {
-    // se já está no formato novo → não faz nada
-    if (central.edificiosFinais) return central;
+//   function migrarCentralAntigo(central) {
+//     // se já está no formato novo → não faz nada
+//     if (central.edificiosFinais) return central;
 
-    // formato antigo detectado
-    if (Array.isArray(central.edificios)) {
-        console.log("[MIGRAÇÃO] Convertendo estrutura antiga → nova");
+//     // formato antigo detectado
+//     if (Array.isArray(central.edificios)) {
+//         console.log("[MIGRAÇÃO] Convertendo estrutura antiga → nova");
 
-        return {
-            ...central,
-            edificiosFinais: {
-                agricultura: central.edificios,
-                tecnologia: [],
-                industria: [],
-                comercio: [],
-                imobiliario: [],
-                energia: []
-            }
-        };
-    }
+//         return {
+//             ...central,
+//             edificiosFinais: {
+//                 agricultura: central.edificios,
+//                 tecnologia: [],
+//                 industria: [],
+//                 comercio: [],
+//                 imobiliario: [],
+//                 energia: []
+//             }
+//         };
+//     }
 
-    return central;
-}
+//     return central;
+// }
   
   
   
   const estadoInicialEconomy={
     
-    saldo: 1000000,
+    saldo: 1000000000000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
@@ -44,7 +44,7 @@
       proximoPagamento: "30",
     },
     centralEdificios: {
-      classificacaoPorteEmpresa: "Micro Empresa",
+      classificacaoPorteEmpresa: "Mega Holding",
       quantidadeUnicoMax: 3,
       quantidadeSetoresMax: 2,
       quantidadeDiversosEdificiosMax: 5,
@@ -1383,23 +1383,24 @@ const estadoInicial = {
 
 const KEYS = {
     game:     "econoGame_gameState",
-    central:  "econoGame_central-dados",
+    central:  "central: econoGame_central_old",
+
     economy:  "econoGame_economy",
     pipelines:"econoGame_pipelines",
 };
 
 
-function mergeDeep(target, source) {
-    for (const key in source) {
-        if (
-            source[key] instanceof Object &&
-            key in target
-        ) {
-            Object.assign(source[key], mergeDeep(target[key], source[key]));
-        }
-    }
-    return { ...target, ...source };
-}
+// function mergeDeep(target, source) {
+//     for (const key in source) {
+//         if (
+//             source[key] instanceof Object &&
+//             key in target
+//         ) {
+//             Object.assign(source[key], mergeDeep(target[key], source[key]));
+//         }
+//     }
+//     return { ...target, ...source };
+// }
 // ─── Helpers seguros ──────────────────────────────────────────────────────────
 
 function safeParse(raw, fallback = null) {
@@ -1463,17 +1464,15 @@ function safeRemove(key) {
  * Todos os parâmetros são opcionais — só salva o que for fornecido.
  */
 export function salvarNoStorage(gameState, centralState, economyState, pipelinesState) {
-    if (gameState  !== undefined) safeSet(KEYS.game,      gameState);
-    if (centralState !== undefined) safeSet(KEYS.central,  centralState);
-    if (economyState !== undefined) safeSet(KEYS.economy,  economyState);
-    if (pipelinesState !== undefined) safeSet(KEYS.pipelines, pipelinesState);
-
-    console.log("[Persistencia] Estado salvo:", {
-        game:      gameState !== undefined,
-        central:   centralState !== undefined,
-        economy:   economyState !== undefined,
-        pipelines: pipelinesState !== undefined,
-    });
+  // Evita salvar um gameState corrompido (sem a estrutura esperada)
+  if (gameState && typeof gameState === 'object' && gameState.edificiosFinais) {
+    safeSet(KEYS.game, gameState);
+  } else if (gameState !== undefined) {
+    console.warn("[Persistencia] gameState inválido, não salvo", gameState);
+  }
+//   if (centralState !== undefined) safeSet(KEYS.central, centralState);
+  if (economyState !== undefined) safeSet(KEYS.economy, economyState);
+  if (pipelinesState !== undefined) safeSet(KEYS.pipelines, pipelinesState);
 }
 
 /**
@@ -1481,22 +1480,17 @@ export function salvarNoStorage(gameState, centralState, economyState, pipelines
  * Retorna null para cada campo que não existir ou estiver corrompido.
  */
 export function carregarSalvo() {
-    const game      = safeParse(safeGet(KEYS.game), {});
-    let central     = safeParse(safeGet(KEYS.central), {});
-    const economy   = safeParse(safeGet(KEYS.economy), {});
-    const pipelines = safeParse(safeGet(KEYS.pipelines), {});
+    const economy   = safeParse(safeGet(KEYS.economy), null);
+    const pipelines = safeParse(safeGet(KEYS.pipelines), null);
 
-    // 👇 MIGRAÇÃO PRIMEIRO
-    central = migrarCentralAntigo(central);
-
-    // 👇 DEPOIS merge
-    const centralCorrigido = mergeDeep(estadoInicial, central);
+    // Se não houver save, usa o estado inicial da economy (opcional)
+    const economyFinal = economy ?? estadoInicialEconomy;
 
     return {
-        game,
-        central: centralCorrigido,
-        economy: estadoInicialEconomy,
-        pipelines
+        game: null,        // não usado mais
+        central: null,     // não usado (Zustand gerencia via 'central-dados')
+        economy: economyFinal,
+        pipelines: pipelines ?? null,
     };
 }
 
@@ -1514,9 +1508,10 @@ export function temSaveExistente() {
  */
 export function limparSalvo() {
     Object.values(KEYS).forEach(safeRemove);
+    // ✅ Remove também a chave antiga do persist Zustand
+    // try { localStorage.removeItem('central-dados') } catch(e) {}
     console.log("[Persistencia] Save limpo.");
 }
-
 /**
  * Limpa apenas os pipelines (útil para reset de automações sem perder o jogo).
  */
