@@ -1059,7 +1059,7 @@ export default function MapWorld() {
             )
           })}
         </group>
-// teste
+
         <ContactShadows
           position={[0, 0.02, 0]} opacity={0.4} scale={35} blur={2.2} color="#1a3a10"
         />
