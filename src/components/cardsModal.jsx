@@ -332,10 +332,10 @@ const CardModalBase = ({ index }) => {
   const mNec = edificioEstatico?.lojasNecessarias?.lojasM   ?? 0;
   const gNec = edificioEstatico?.lojasNecessarias?.lojasG   ?? 0;
 
-  const tPC = EDIFICIOS_BASE_ESTATICOS.terrenos.preçoConstrução;
-  const pPC = EDIFICIOS_BASE_ESTATICOS.lojasP.preçoConstrução;
-  const mPC = EDIFICIOS_BASE_ESTATICOS.lojasM.preçoConstrução;
-  const gPC = EDIFICIOS_BASE_ESTATICOS.lojasG.preçoConstrução;
+  const tPC = edificioBase.terrenos.preçoConstrução;
+  const pPC = edificioBase.lojasP.preçoConstrução;
+  const mPC = edificioBase.lojasM.preçoConstrução;
+  const gPC = edificioBase.lojasG.preçoConstrução;
   const tQNT = EDIFICIOS_BASE_ESTATICOS.lojasP.quantidadeNecTerreno;
   const mQNT = EDIFICIOS_BASE_ESTATICOS.lojasM.quantidadeNecTerreno;
   const gQNT = EDIFICIOS_BASE_ESTATICOS.lojasG.quantidadeNecTerreno;
@@ -393,7 +393,7 @@ const CardModalBase = ({ index }) => {
     const { edificiosFinais } = useCentralStore.getState();
     for (const setor of setoresArr) {
       const idx = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios?.findIndex((e) => e.nome === nomeEd) ?? -1;
-      if (idx !== -1) return (edificiosFinais[setor]?.[idx]?.quantidade ?? 0) > 0;
+      if (idx !== -1) return (edificiosFinais[setor]?.edificios?.[idx]?.quantidade ?? 0) > 0;
     }
     return false;
   }, []); // deps vazias — usa getState() em vez de assinatura reativa
@@ -590,21 +590,21 @@ const CardModalBase = ({ index }) => {
     ];
 
     // Consumir recursos de construção (decrementar quantidade)
-    if (edificioEstatico.recursoDeConstrução?.length) {
-      const { edificiosFinais } = useCentralStore.getState();
-      for (const nome of edificioEstatico.recursoDeConstrução) {
-        for (const s of setoresArr) {
-          const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex((e) => e.nome === nome) ?? -1;
-          if (idx !== -1) {
-            const qtdAtual = edificiosFinais[s]?.[idx]?.quantidade ?? 0;
-            lote.push([["edificiosFinais", s, idx, "quantidade"], Math.max(0, qtdAtual - 1)]);
-            break;
-          }
-        }
+if (edificioEstatico.recursoDeConstrução?.length) {
+  const { edificiosFinais } = useCentralStore.getState();
+  for (const nome of edificioEstatico.recursoDeConstrução) {
+    for (const s of setoresArr) {
+      const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex((e) => e.nome === nome) ?? -1;
+      if (idx !== -1) {
+        const qtdAtual = edificiosFinais[s]?.edificios?.[idx]?.quantidade ?? 0;
+        lote.push([["edificiosFinais", s, "edificios", idx, "quantidade"], Math.max(0, qtdAtual - 1)]);
+        break;
       }
     }
+  }
+}
 
-    atualizarLote(lote);
+atualizarLote(lote);
 
     // Atualizar contexto econômico (permanece no Context)
     const custosEdBase =

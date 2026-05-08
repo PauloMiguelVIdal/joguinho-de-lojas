@@ -132,6 +132,7 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
 
   const edificiosBaseEstáticos = EDIFICIOS_BASE_ESTATICOS
 
+
   const setorAtivo = setor;
   if (!EDIFICIOS_FINAIS_ESTATICOS[setorAtivo] || !EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios || !EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[index]) {
     return null;
@@ -251,18 +252,17 @@ export const CardLocalization = ({ index, setor, abrirModalSell }) => {
   const quantidadeLojasGNec = edificioEstatico.lojasNecessarias.lojasG;
 
   const CustoTotalSomadoLojas =
-    quantidadeTerrenosNec * edificiosBaseEstáticos.terrenos.preçoConstrução +
-    quantidadeLojasPNec * (edificiosBaseEstáticos.lojasP.preçoConstrução + edificiosBaseEstáticos.lojasP.quantidadeNecTerreno * edificiosBase.terrenos.preçoConstrução) +
-    quantidadeLojasMNec * (edificiosBaseEstáticos.lojasM.preçoConstrução + edificiosBaseEstáticos.lojasM.quantidadeNecTerreno * edificiosBase.terrenos.preçoConstrução) +
-    quantidadeLojasGNec * (edificiosBaseEstáticos.lojasG.preçoConstrução + edificiosBaseEstáticos.lojasG.quantidadeNecTerreno * edificiosBase.terrenos.preçoConstrução);
-
+    quantidadeTerrenosNec * EDIFICIOS_BASE_DINAMICOS.terrenos.preçoConstrução +
+    quantidadeLojasPNec * (EDIFICIOS_BASE_DINAMICOS.lojasP.preçoConstrução + edificiosBaseEstáticos.lojasP.quantidadeNecTerreno * EDIFICIOS_BASE_DINAMICOS.terrenos.preçoConstrução) +
+    quantidadeLojasMNec * (EDIFICIOS_BASE_DINAMICOS.lojasM.preçoConstrução + edificiosBaseEstáticos.lojasM.quantidadeNecTerreno * EDIFICIOS_BASE_DINAMICOS.terrenos.preçoConstrução) +
+    quantidadeLojasGNec * (EDIFICIOS_BASE_DINAMICOS.lojasG.preçoConstrução + edificiosBaseEstáticos.lojasG.quantidadeNecTerreno * EDIFICIOS_BASE_DINAMICOS.terrenos.preçoConstrução);
 
 
   const custoRecursos = useMemo(() => {
     let total = 0;
     arrayConstResources?.forEach((nome) => { total += calcularCustoRecursoGlobal(nome); });
     return total;
-  }, [arrayConstResources, edificiosBase.terrenos.preçoConstrução, edificiosBase.lojasP.preçoConstrução, edificiosBase.lojasM.preçoConstrução, edificiosBase.lojasG.preçoConstrução]);
+  }, [arrayConstResources, EDIFICIOS_BASE_DINAMICOS.terrenos.preçoConstrução, EDIFICIOS_BASE_DINAMICOS.lojasP.preçoConstrução, EDIFICIOS_BASE_DINAMICOS.lojasM.preçoConstrução, EDIFICIOS_BASE_DINAMICOS.lojasG.preçoConstrução]);
 
   const fatuMensal = valorFatuFinal * 30 * fatorEconomico;
   const valorImpostoSobreFatuCalc = fatuMensal * impostoSobreFatuFinal;

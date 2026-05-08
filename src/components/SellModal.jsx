@@ -17,18 +17,25 @@ import {
 } from "../stores/dadosEstáticos";
 
 export const SellModal = ({ setor, index, onClose }) => {
-  const { dados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
+  // const { dados, atualizarDadosProf } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const setorAtivo = setor;
+  const edificioBase = useCentralStore((s) => s.edificiosBase);          // terrenos/lojasP/M/G dinâmico
+  const edificiosDin = useCentralStore((s) => s.edificiosFinais[setorAtivo]); // array dinâmico do setor
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const atualizarDadosProf = useCentralStore((s) => s.atualizarDadosProf);
+  const atualizarLote = useCentralStore((s) => s.atualizarLote);
+  // ── Dados estáticos — zero reatividade ───────────────────
+  const edificioEstatico = EDIFICIOS_FINAIS_ESTATICOS[setorAtivo]?.edificios[index];
+  const edificioDinamico = edificiosDin?.edificios?.[index];// { liberado, quantidade, powerUp }
 
   const [buttonPayTerrain] = useSound(payTerrain);
   const [buttonCloseAudio] = useSound(closeAudio);
 
-  const setorAtivo = setor;
+
   const economiaSetoresAtual = economiaSetores[setor].economiaSetor.estadoAtual;
   const base = EDIFICIOS_FINAIS_ESTATICOS[setorAtivo].edificios[index];
-  const baseqtd = EDIFICIOS_FINAIS_DINAMICOS_INICIAL[setorAtivo].edificios[index];
-  const qtdEd = baseqtd.quantidade;
-
+  const qtdEd = edificiosDin?.edificios?.[index]?.quantidade ?? 0;
   const [quantidadeMarcador, setQuantidadeMarcador] = useState(1);
 
   // --- MANTENHA SUA FUNÇÃO DE CÁLCULO ORIGINAL AQUI ---
@@ -40,10 +47,10 @@ export const SellModal = ({ setor, index, onClose }) => {
     const quantidadeLojasPNec = base.lojasNecessarias?.lojasP || 0;
     const quantidadeLojasMNec = base.lojasNecessarias?.lojasM || 0;
     const quantidadeLojasGNec = base.lojasNecessarias?.lojasG || 0;
-    const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução;
-    const custoTotalLojasP = quantidadeLojasPNec * (dados.lojasP.preçoConstrução + (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução));
-    const custoTotalLojasM = quantidadeLojasMNec * (dados.lojasM.preçoConstrução + (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução));
-    const custoTotalLojasG = quantidadeLojasGNec * (dados.lojasG.preçoConstrução + (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução));
+    const custoTotalTerrenos = quantidadeTerrenosNec * edificioBase.terrenos.preçoConstrução;
+    const custoTotalLojasP = quantidadeLojasPNec * (edificioBase.lojasP.preçoConstrução + (EDIFICIOS_BASE_ESTATICOS.lojasP.quantidadeNecTerreno * edificioBase.terrenos.preçoConstrução));
+    const custoTotalLojasM = quantidadeLojasMNec * (edificioBase.lojasM.preçoConstrução + (EDIFICIOS_BASE_ESTATICOS.lojasM.quantidadeNecTerreno * edificioBase.terrenos.preçoConstrução));
+    const custoTotalLojasG = quantidadeLojasGNec * (edificioBase.lojasG.preçoConstrução + (EDIFICIOS_BASE_ESTATICOS.lojasG.quantidadeNecTerreno * edificioBase.terrenos.preçoConstrução));
     let custoTotalRecurso = custoConstrucaoRecurso + custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG;
     return custoTotalRecurso;
   }
@@ -64,24 +71,69 @@ export const SellModal = ({ setor, index, onClose }) => {
   const totalVenda = Number(patrimônioDepreciado) * quantidadeMarcador;
 
   const venderEdificio = () => {
-    if (quantidadeMarcador > qtdEd) return;
+    console.log("🟡 [venderEdificio] START", { setorAtivo, index, quantidadeMarcador, qtdEd });
+
+    if (quantidadeMarcador > qtdEd) {
+      console.warn("❌ [venderEdificio] BLOQUEADO: quantidadeMarcador > qtdEd", { quantidadeMarcador, qtdEd });
+      return;
+    }
+
     const novoValorQuantidadeEd = qtdEd - quantidadeMarcador;
-    atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], novoValorQuantidadeEd);
+    console.log("🔢 [venderEdificio] novoValorQuantidadeEd:", novoValorQuantidadeEd);
+
+    const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+
+    // 1. Snapshot antes
+    const { edificiosFinais, atualizarEdificio } = useCentralStore.getState();
+    console.log("📦 [venderEdificio] edificiosFinais ANTES:", JSON.stringify(edificiosFinais[setorAtivo]?.edificios?.[index]));
+    console.log("🔧 [venderEdificio] atualizarEdificio existe?", typeof atualizarEdificio);
+
+    // 2. Atualiza Zustand
+    atualizarEdificio(setorAtivo, index, { quantidade: novoValorQuantidadeEd });
+
+    // Verifica se o Zustand atualizou de fato
+    const depois = useCentralStore.getState().edificiosFinais[setorAtivo]?.edificios?.[index];
+    console.log("📦 [venderEdificio] edificiosFinais DEPOIS:", JSON.stringify(depois));
+
+    // 3. Saldo
+    console.log("💰 [venderEdificio] saldo ANTES:", economiaSetores.saldo, "| totalVenda:", totalVenda);
     atualizarEco("saldo", economiaSetores.saldo + totalVenda);
-    setEconomiaSetores(prev => {
-      const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-      const novaCarteira = setoresArr.map((s) => {
-        const edificiosDoSetor = dados[s]?.edificios || [];
-        return edificiosDoSetor.map((ed, i) => {
-          if (s === setorAtivo && i === index) {
-            if (novoValorQuantidadeEd <= 0) return null;
-            return { ...ed, quantidade: novoValorQuantidadeEd };
-          }
-          return ed.quantidade > 0 ? ed : null;
-        }).filter(Boolean);
-      });
-      return { ...prev, carteira: { ...prev.carteira, carteiraAtual: novaCarteira } };
+
+    // 4. Monta carteira
+    const novaCarteira = setoresArr.map((s) => {
+      const listaEst = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
+      const listaDin = edificiosFinais[s]?.edificios || [];
+
+      const resultado = listaEst
+        .map((edEst, i) => {
+          const qtd = (s === setorAtivo && i === index)
+            ? novoValorQuantidadeEd
+            : (listaDin[i]?.quantidade ?? 0);
+          if (qtd <= 0) return null;
+          return { nome: edEst.nome, quantidade: qtd };
+        })
+        .filter(Boolean);
+
+      if (resultado.length > 0) {
+        console.log(`🗂️ [carteira] setor ${s}:`, resultado);
+      }
+
+      return resultado;
     });
+
+    console.log("🗂️ [venderEdificio] novaCarteira completa:", JSON.stringify(novaCarteira));
+
+    // 5. Atualiza contexto
+    setEconomiaSetores(prev => {
+      console.log("🔄 [setEconomiaSetores] carteira ANTES:", JSON.stringify(prev.carteira?.carteiraAtual));
+      return {
+        ...prev,
+        carteira: { ...prev.carteira, carteiraAtual: novaCarteira }
+      };
+    });
+
+    console.log("✅ [venderEdificio] DONE | novoValorQuantidadeEd:", novoValorQuantidadeEd);
+
     if (novoValorQuantidadeEd === 0) onClose();
   };
 
@@ -98,7 +150,7 @@ export const SellModal = ({ setor, index, onClose }) => {
   return (
     <AnimatePresence>
       <div className="fixed inset-0 flex justify-center items-center z-[120] bg-black/90 backdrop-blur-sm select-none">
-        
+
         {/* Brilho de fundo dinâmico */}
         <div className="absolute inset-0 blur-[120px] opacity-10 pointer-events-none" style={{ backgroundColor: corSetor }} />
 
@@ -119,8 +171,8 @@ export const SellModal = ({ setor, index, onClose }) => {
                 {base.nome}
               </h1>
             </div>
-            <motion.button 
-              whileHover={{ scale: 1.1, rotate: 90 }} 
+            <motion.button
+              whileHover={{ scale: 1.1, rotate: 90 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => { onClose(); buttonCloseAudio(); }}
               className="text-white/20 hover:text-laranja transition-colors"
@@ -131,10 +183,10 @@ export const SellModal = ({ setor, index, onClose }) => {
 
           {/* Conteúdo Principal */}
           <div className="flex-1 flex gap-8 p-8 pt-0 overflow-hidden">
-            
+
             {/* LADO ESQUERDO: Dados e Economia */}
             <div className="flex-1 flex flex-col gap-6">
-              
+
               <div className="bg-white/5 border border-white/10 p-6 rounded-2xl">
                 <p className="text-white/80 text-lg font-light leading-relaxed">
                   O setor de <span className="text-white font-bold uppercase" style={{ color: corSetor }}>{setorAtivo}</span> opera em ciclo <span className="text-white font-bold">{economiaSetoresAtual}</span>.
@@ -174,25 +226,25 @@ export const SellModal = ({ setor, index, onClose }) => {
 
             {/* LADO DIREITO: Painel de Ação */}
             <div className="w-[320px] bg-white/5 border border-white/10 rounded-[24px] p-8 flex flex-col justify-between">
-              
+
               <div className="space-y-6">
                 <p className="text-center text-white/30 text-[10px] uppercase tracking-[0.2em] font-bold">Quantidade para Venda</p>
-                
+
                 <div className="flex items-center justify-between bg-[#1a053d] border border-white/10 rounded-2xl p-2">
-                  <motion.button 
+                  <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={diminuirQuantidadeMarcador}
                     className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-white transition-colors"
                   >
                     <Minus className="w-5 h-5" />
                   </motion.button>
-                  
+
                   <div className="text-center">
                     <span className="text-white text-4xl font-black">{quantidadeMarcador}</span>
                     <p className="text-white/20 text-[10px] mt-1">Disponível: {qtdEd}</p>
                   </div>
 
-                  <motion.button 
+                  <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={aumentarQuantidadeMarcador}
                     className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-white transition-colors"
@@ -220,7 +272,7 @@ export const SellModal = ({ setor, index, onClose }) => {
                   <Check className="w-5 h-5" />
                   Confirmar Venda
                 </motion.button>
-                
+
                 <p className="text-center text-white/20 text-[9px] uppercase tracking-widest font-medium">
                   Ação processada via economia global
                 </p>

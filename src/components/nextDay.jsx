@@ -194,10 +194,10 @@ export function NextDay() {
     const faturamento = calcularFaturamento();
     console.log("💰 Faturamento do dia:", faturamento);
 
-    // processarTransacoesMercado();
-    // processProductions();
-    // executarPipelinesHoje();
-    // processSellQueue(faturamento);
+    processarTransacoesMercado();
+    processProductions();
+    executarPipelinesHoje();
+    processSellQueue(faturamento);
 
 salvarNoStorage(
   undefined,               // gameState → NÃO salva o central

@@ -704,26 +704,27 @@ export default function Dashboard() {
 
   // ─── PERFORMANCE: todosEdificios memoizado ───────────────────────────────────
   // Antes era recalculado inline em cada render da carteira.
-  const todosEdificiosBase = useMemo(() => {
-    let lista = [];
-    SETORES_ARR.forEach((s) => {
-      (edificiosFinais[s]?.edificios || []).forEach((ed, idx) => {
-        const qtd = edificiosFinais[s]?.edificios[idx]?.quantidade ?? 0;
-        // const teste = edificiosFinais.agricultura?.[4]?.quantidade ?? 0;
-        console.log()
-        if (qtd > 0) {
-          lista.push({
-            ed: { ...ed, quantidade: qtd },  // merge estático + quantidade dinâmica
-            idx,
-            setor: s,
-            roi: calcROI({ ...ed, quantidade: qtd }),
-            categoria: getCategoria(ed.nome),
-          });
-        }
-      });
+const todosEdificiosBase = useMemo(() => {
+  let lista = [];
+  SETORES_ARR.forEach((s) => {
+    const edificiosEstaticos = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
+    const edificiosDinamicos = edificiosFinais[s]?.edificios || [];  // ✅ array correto
+
+    edificiosEstaticos.forEach((ed, idx) => {
+      const qtd = edificiosDinamicos[idx]?.quantidade ?? 0;  // ✅ lê do array dinâmico
+      if (qtd > 0) {
+        lista.push({
+          ed: { ...ed, quantidade: qtd },
+          idx,
+          setor: s,
+          roi: calcROI({ ...ed, quantidade: qtd }),
+          categoria: getCategoria(ed.nome),
+        });
+      }
     });
-    return lista;
-  }, [edificiosFinais, calcROI]);
+  });
+  return lista;
+}, [edificiosFinais, calcROI]);
 
   // ─── PERFORMANCE: totais financeiros memoizados ──────────────────────────────
   const totaisFinanceiros = useMemo(() => {
@@ -1020,18 +1021,13 @@ console.log(ativo)
 
                 const setoresAtivosSet = new Set(todosEdificiosBase.map(e => e.setor));
 
-                const edAtual = SETORES_ARR.reduce((total, s) =>
-                  total + (EDIFICIOS_FINAIS_DINAMICOS_INICIAL[s]?.edificios || []).reduce((sum, ed) => sum + (ed.quantidade > 0 ? ed.quantidade : 0), 0), 0);
+               const edAtual = todosEdificiosBase.reduce((total, { ed }) => total + ed.quantidade, 0);
 
-                const tiposUnicos = new Set(
-                  SETORES_ARR.flatMap(s =>
-                    (EDIFICIOS_FINAIS_DINAMICOS_INICIAL[s]?.edificios || []).filter(ed => ed.quantidade > 0).map(ed => ed.nome)
-                  )
-                ).size;
 
-                const setoresComEdificios = SETORES_ARR.filter(s =>
-                  (EDIFICIOS_FINAIS_DINAMICOS_INICIAL[s]?.edificios || []).some(ed => ed.quantidade > 0)
-                ).length;
+        const tiposUnicos = new Set(todosEdificiosBase.map(({ ed }) => ed.nome)).size;
+
+const setoresComEdificios = new Set(todosEdificiosBase.map(({ setor }) => setor)).size;
+
 
                 const edMax = dadosCarteiraEdificios.quantidadeEdificiosMax || 1;
                 const percCapacidade = Math.min((edAtual / edMax) * 100, 100);
