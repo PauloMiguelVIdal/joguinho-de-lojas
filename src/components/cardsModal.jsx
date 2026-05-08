@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useCallback, useContext, useState, useRef } from "react";
-import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL, LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
 import {
   EDIFICIOS_FINAIS_ESTATICOS,
   LICENCAS_ESTATICAS,
@@ -48,39 +48,123 @@ import { productsCatalog } from "./TablePrice";
 import { storageProfiles } from "./GameContext";
 import { SALES_EDIFICIOS } from "./salesFormulasConfig";
 
+// ═══════════════════════════════════════════════════════════
+// CONSTANTES ESTÁTICAS — fora do componente, zero recriação
+// ═══════════════════════════════════════════════════════════
+
 const getImageUrl = (nome) => `/imagens/${nome}.png`;
 
+const SETORES_ARR = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+
+// Arrays de categorias — definidos UMA vez
+const PRODUCTIONS_SET = new Set([
+  "Plantação De Grãos","Fazenda De Vacas","Plantação De Eucalipto","Granja De Aves","Criação De Ovinos",
+  "Serraria","Fábrica De Smartphones","Fábrica De Computadores","Fábrica De Consoles De Jogos",
+  "Fábrica De Dispositivos Vestíveis","Fábrica De Rações","Fábrica De Embalagens","Fábrica De Fertilizantes",
+  "Fábrica Têxtil","Fábrica De Calçados","Fábrica De Roupas","Fábrica De Celulose","Fábrica De Papel",
+  "Fábrica De Livros","Fábrica De Medicamentos","Laboratório Farmacêutico","Fábrica De Plásticos",
+  "Fábrica De Químicos Especializados","Alto-Forno","Usina Siderúrgica","Fundição De Alumínio",
+  "Fábrica De Ligas Metálicas","Indústria De Componentes Mecânicos","Fábrica De Chapas Metálicas",
+  "Fábrica De Estruturas Metálicas","Fábrica De Peças Automotivas","Montadora De Veículos Elétricos",
+  "Fábrica De Automóveis","Refinaria","Biofábrica","Fábrica De Chips","Fábrica De Placas Eletrônicas",
+  "Fábrica De Semicondutores","Fábrica De Robôs","Fábrica De Motores","Fábrica De Foguetes",
+  "Fábrica De Aeronaves","Estaleiro","Fábrica De Turbinas Eólicas","Fábrica De Painéis Solares","Fábrica De Baterias",
+]);
+
+const SELL_FINAL_SET = new Set([
+  "Livraria","Mercado","Açougue","Petshop","Farmácia","Loja De Calçados","Loja De Vestuário",
+  "Loja De Gadgets E Wearables","Loja De Games","Loja De Celulares","Loja De Informática",
+  "Loja De Eletrônicos","Concessionária De Veículos",
+]);
+
+const EDIFICIOS_ARMAZENAMENTO_SET = new Set([
+  "Armazém","Silo","Depósito De Resíduos Orgânicos","Data Center","Servidor Em Nuvem","Armazém Logístico",
+  "Centro De Distribuição","Fábrica De Tanque De Armazenamento Biocombustível","Centro De Coleta De Biomassa",
+  "Campo De Estocagem","Armazém De Materiais Brutos","Câmara Fria","Container Modular","Pátio De Veículos",
+  "Armazém Industrial","Armazém De Materiais Sensíveis","Hangar","Pátio De Mineração",
+]);
+
+// Mapa setor → configuração visual — definido UMA vez
+const SETORES_MAP = {
+  agricultura: { id: "agricultura", img: agricultura, cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50" },
+  tecnologia:  { id: "tecnologia",  img: tecnologia,  cor1: "#A64B00", cor2: "#D45A00", cor3: "#FF6F00", cor4: "#FF8C42" },
+  industria:   { id: "industria",   img: industria,   cor1: "#1A1A1A", cor2: "#4D4D4D", cor3: "#808080", cor4: "#B3B3B3" },
+  comercio:    { id: "comercio",    img: comercio,    cor1: "#660000", cor2: "#A31919", cor3: "#E60000", cor4: "#FF4D4D" },
+  imobiliario: { id: "imobiliario", img: imobiliario, cor1: "#000066", cor2: "#1A1A8C", cor3: "#3333CC", cor4: "#6666FF" },
+  energia:     { id: "energia",     img: energia,     cor1: "#665200", cor2: "#A37F19", cor3: "#E6B800", cor4: "#FFD966" },
+  grafico:     { id: "grafico",     img: grafico,     cor1: "#6A00FF", cor2: "#6A00FF", cor3: "#6A00FF", cor4: "#6A00FF" },
+};
+
+// Mapa de ícones de armazenamento — O(1)
+const STORAGE_ICON_MAP = {
+  "agrícolas secos": "🌾", "biomassa / orgânicos": "🌱", "produtos manufaturados": "📦",
+  "animais": "🐄", "perecíveis": "🥩", "componentes eletrônicos": "🔌",
+  "bens de alto valor": "💎", "componentes industriais": "⚙️", "químicos": "🧪",
+  "minério": "🪨", "fluidos": "💧", "veículos": "🚗", "aeronaves": "✈️",
+  "energia": "⚡", "produtos digitais": "💾", "materiais sensíveis": "⚠️",
+};
+
+// Mapa fator econômico — O(1)
+const FATOR_ECONOMICO_MAP = { recessão: 0.4, declinio: 0.8, estável: 1, progressiva: 1.1, aquecida: 1.25 };
+
+// Lookup map: nome do edifício → { setor, idx } — construído UMA vez na inicialização do módulo
+const EDIFICIO_LOOKUP_MAP = (() => {
+  const map = {};
+  for (const setor of SETORES_ARR) {
+    const lista = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios ?? [];
+    for (let i = 0; i < lista.length; i++) {
+      map[lista[i].nome] = { setor, idx: i };
+    }
+  }
+  return map;
+})();
+
+// Lookup map para FORMULAS_EDIFICIOS — O(1) por nome
+const FORMULAS_MAP = (() => {
+  const map = {};
+  for (const ed of FORMULAS_EDIFICIOS) map[ed.nomeEdificio] = ed;
+  return map;
+})();
+
+// Lookup map para SALES_EDIFICIOS — O(1)
+const SALES_MAP = (() => {
+  const map = {};
+  for (const ed of SALES_EDIFICIOS) map[ed.nomeEdificio] = ed;
+  return map;
+})();
+
+// Storage profiles lookup — O(1)
+const STORAGE_PROFILE_MAP = (() => {
+  const map = {};
+  for (const key of Object.keys(storageProfiles)) {
+    map[storageProfiles[key].nome] = storageProfiles[key];
+  }
+  return map;
+})();
+
 // ═══════════════════════════════════════════════════════════
-// HELPERS — fora do componente (sem recriação a cada render)
+// HELPERS — fora do componente
 // ═══════════════════════════════════════════════════════════
-const iconsCatArmazenamento = [
-  { categoria: "agrícolas secos", icon: "🌾" },
-  { categoria: "biomassa / orgânicos", icon: "🌱" },
-  { categoria: "produtos manufaturados", icon: "📦" },
-  { categoria: "animais", icon: "🐄" },
-  { categoria: "perecíveis", icon: "🥩" },
-  { categoria: "componentes eletrônicos", icon: "🔌" },
-  { categoria: "bens de alto valor", icon: "💎" },
-  { categoria: "componentes industriais", icon: "⚙️" },
-  { categoria: "químicos", icon: "🧪" },
-  { categoria: "minério", icon: "🪨" },
-  { categoria: "fluidos", icon: "💧" },
-  { categoria: "veículos", icon: "🚗" },
-  { categoria: "aeronaves", icon: "✈️" },
-  { categoria: "energia", icon: "⚡" },
-  { categoria: "produtos digitais", icon: "💾" },
-  { categoria: "materiais sensíveis", icon: "⚠️" },
-];
 
-const storageIconMap = Object.fromEntries(
-  iconsCatArmazenamento.map((item) => [item.categoria, item.icon])
-);
+const formatarNumero = (num) => {
+  if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
+  if (num >= 1e9)  return (num / 1e9) .toFixed(1).replace(".0", "") + "B";
+  if (num >= 1e6)  return (num / 1e6) .toFixed(1).replace(".0", "") + "M";
+  if (num >= 1e3)  return (num / 1e3) .toFixed(1).replace(".0", "") + "K";
+  return num?.toString() ?? "0";
+};
 
-const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+// Lê quantidade de um edifício via lookup O(1) — usa getState() (sem assinatura)
+const getQtdEdificio = (nome) => {
+  const entry = EDIFICIO_LOOKUP_MAP[nome];
+  if (!entry) return 0;
+  const { edificiosFinais } = useCentralStore.getState();
+  return edificiosFinais[entry.setor]?.edificios?.[entry.idx]?.quantidade ?? 0;
+};
 
-// ── Sub-componentes auxiliares ────────────────────────────────────────────────
+// ── Sub-componentes auxiliares com React.memo ─────────────────────────────────
 
-const _ImoveisBaseIcons = ({ edificioBase, edificioEstatico, cor1, onClickLojas }) => (
+const _ImoveisBaseIcons = React.memo(({ edificioBase, edificioEstatico, cor1, onClickLojas }) => (
   <div className="flex gap-[3px] flex-wrap">
     {[
       { img: terrenoImg, key: "terrenos", qtd: edificioBase.terrenos.quantidade },
@@ -104,9 +188,9 @@ const _ImoveisBaseIcons = ({ edificioBase, edificioEstatico, cor1, onClickLojas 
       );
     })}
   </div>
-);
+));
 
-const _ConstNecIcons = ({ arrayConstNece, arrayConstResources, cor1, onClickConstr, booleanPreReq }) => {
+const _ConstNecIcons = React.memo(({ arrayConstNece, arrayConstResources, cor1, onClickConstr, booleanPreReq }) => {
   const lista = [...(arrayConstNece || []), ...(arrayConstResources || [])].slice(0, 4);
   if (!lista.length) return <span style={{ fontSize: 8, color: "rgba(255,255,255,.25)" }}>—</span>;
   return (
@@ -125,9 +209,9 @@ const _ConstNecIcons = ({ arrayConstNece, arrayConstResources, cor1, onClickCons
       ))}
     </div>
   );
-};
+});
 
-const _ImoveisECustoRow = ({ edificioBase, edificioEstatico, cor1, setorInfo, formatarNumero, onClickLojas }) => (
+const _ImoveisECustoRow = React.memo(({ edificioBase, edificioEstatico, cor1, setorInfo, onClickLojas }) => (
   <div className="flex gap-[3px]" style={{ minHeight: 30 }}>
     <div
       style={{ width: "70%", background: "rgba(0,0,0,.32)", borderRadius: 6, padding: "4px 7px", display: "flex", flexDirection: "column", gap: 2, cursor: "pointer" }}
@@ -149,9 +233,9 @@ const _ImoveisECustoRow = ({ edificioBase, edificioEstatico, cor1, setorInfo, fo
       </span>
     </div>
   </div>
-);
+));
 
-const _ImoveisSMartelo = ({ edificioBase, edificioEstatico, cor1, onClickLojas }) => (
+const _ImoveisSMartelo = React.memo(({ edificioBase, edificioEstatico, cor1, onClickLojas }) => (
   <div
     style={{ width: "100%", height: "100%", borderRadius: 6, display: "flex", flexDirection: "column", justifyContent: "center", cursor: "pointer" }}
     onClick={onClickLojas}
@@ -165,9 +249,9 @@ const _ImoveisSMartelo = ({ edificioBase, edificioEstatico, cor1, onClickLojas }
       <_ImoveisBaseIcons edificioBase={edificioBase} edificioEstatico={edificioEstatico} cor1={cor1} onClickLojas={onClickLojas} />
     </div>
   </div>
-);
+));
 
-const _ConstrERecursosRow = ({ arrayConstNece, arrayConstResources, cor1, setorInfo, onClickConstr, booleanPreReq }) => {
+const _ConstrERecursosRow = React.memo(({ arrayConstNece, arrayConstResources, cor1, setorInfo, onClickConstr, booleanPreReq }) => {
   const temConstr   = (arrayConstNece     || []).length > 0;
   const temRecursos = (arrayConstResources || []).length > 0;
   if (!temConstr && !temRecursos) return null;
@@ -197,81 +281,49 @@ const _ConstrERecursosRow = ({ arrayConstNece, arrayConstResources, cor1, setorI
       </div>
     </div>
   );
-};
+});
+
+// TooltipCustom — extraído e memoizado
+const TooltipCustom = React.memo(({ text, children }) => {
+  const [show, setShow] = useState(false);
+  const ref = useRef();
+  const tooltip = show && ref.current && createPortal(
+    <div style={{ position: "absolute", top: ref.current.getBoundingClientRect().top - 40, left: ref.current.getBoundingClientRect().left + ref.current.offsetWidth / 2, transform: "translateX(-50%)", backgroundColor: "#FFFFFF", color: "#350973", padding: "6px 10px", borderRadius: "6px", fontWeight: "600", whiteSpace: "pre-line", zIndex: 2147483647, pointerEvents: "none", maxWidth: "400px" }}>{text}</div>,
+    document.body
+  );
+  return (
+    <>
+      <div ref={ref} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)} className="relative flex items-center justify-center">{children}</div>
+      {tooltip}
+    </>
+  );
+});
 
 // ═══════════════════════════════════════════════════════════
 //  CARD MODAL — componente principal
 // ═══════════════════════════════════════════════════════════
 const CardModalBase = ({ index }) => {
-  // ── DadosEconomyGlobalContext (inalterado) ────────────────
+  // ── DadosEconomyGlobalContext ─────────────────────────────
   const { economiaSetores, atualizarEco, verificarLimites } = useContext(DadosEconomyGlobalContext);
 
   // ── Zustand — seletores granulares ───────────────────────
-  const setorAtivo       = useCentralStore((s) => s.setorAtivo);
-  const edificioBase     = useCentralStore((s) => s.edificiosBase);          // terrenos/lojasP/M/G dinâmico
-  const edificiosDin     = useCentralStore((s) => s.edificiosFinais[setorAtivo]); // array dinâmico do setor
-  const atualizarDados   = useCentralStore((s) => s.atualizarDados);
-  const atualizarLote    = useCentralStore((s) => s.atualizarLote);
+  const setorAtivo     = useCentralStore((s) => s.setorAtivo);
+  const edificioBase   = useCentralStore((s) => s.edificiosBase);
+  const edificiosDin   = useCentralStore((s) => s.edificiosFinais[setorAtivo]);
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const atualizarLote  = useCentralStore((s) => s.atualizarLote);
 
-  // ── Dados estáticos — zero reatividade ───────────────────
+  // ── Dados estáticos (zero reatividade) ───────────────────
   const edificioEstatico = EDIFICIOS_FINAIS_ESTATICOS[setorAtivo]?.edificios[index];
- const edificioDinamico = edificiosDin?.edificios?.[index];// { liberado, quantidade, powerUp }
+  const edificioDinamico = edificiosDin?.edificios?.[index];
 
+  // ── setorInfo — O(1) lookup ───────────────────────────────
+  const setorInfo = SETORES_MAP[setorAtivo] ?? SETORES_MAP.grafico;
 
-  // ── Economia do setor (Context permanece) ────────────────
+  // ── Economia do setor ─────────────────────────────────────
   const economiaSetor = economiaSetores[setorAtivo]?.economiaSetor?.estadoAtual ?? "estável";
 
   const [buttonPurchaseEdifAudio] = useSound(purchaseEdifAudio);
-
-  // ── Listas de categorias ──────────────────────────────────
-  const productions = [
-    "Plantação De Grãos","Fazenda De Vacas","Plantação De Eucalipto","Granja De Aves","Criação De Ovinos",
-    "Serraria","Fábrica De Smartphones","Fábrica De Computadores","Fábrica De Consoles De Jogos",
-    "Fábrica De Dispositivos Vestíveis","Fábrica De Rações","Fábrica De Embalagens","Fábrica De Fertilizantes",
-    "Fábrica Têxtil","Fábrica De Calçados","Fábrica De Roupas","Fábrica De Celulose","Fábrica De Papel",
-    "Fábrica De Livros","Fábrica De Medicamentos","Laboratório Farmacêutico","Fábrica De Plásticos",
-    "Fábrica De Químicos Especializados","Alto-Forno","Usina Siderúrgica","Fundição De Alumínio",
-    "Fábrica De Ligas Metálicas","Indústria De Componentes Mecânicos","Fábrica De Chapas Metálicas",
-    "Fábrica De Estruturas Metálicas","Fábrica De Peças Automotivas","Montadora De Veículos Elétricos",
-    "Fábrica De Automóveis","Refinaria","Biofábrica","Fábrica De Chips","Fábrica De Placas Eletrônicas",
-    "Fábrica De Semicondutores","Fábrica De Robôs","Fábrica De Motores","Fábrica De Foguetes",
-    "Fábrica De Aeronaves","Estaleiro","Fábrica De Turbinas Eólicas","Fábrica De Painéis Solares","Fábrica De Baterias",
-  ];
-  const sellFinal = [
-    "Livraria","Mercado","Açougue","Petshop","Farmácia","Loja De Calçados","Loja De Vestuário",
-    "Loja De Gadgets E Wearables","Loja De Games","Loja De Celulares","Loja De Informática",
-    "Loja De Eletrônicos","Concessionária De Veículos",
-  ];
-  const edificiosDeArmazenamento = [
-    "Armazém","Silo","Depósito De Resíduos Orgânicos","Data Center","Servidor Em Nuvem","Armazém Logístico",
-    "Centro De Distribuição","Fábrica De Tanque De Armazenamento Biocombustível","Centro De Coleta De Biomassa",
-    "Campo De Estocagem","Armazém De Materiais Brutos","Câmara Fria","Container Modular","Pátio De Veículos",
-    "Armazém Industrial","Armazém De Materiais Sensíveis","Hangar","Pátio De Mineração",
-  ];
-
-  // ── Nome e categoria ──────────────────────────────────────
-  const nomeAtual = edificioEstatico?.nome ?? "";
-  const categoriaEdificio = (() => {
-    if (edificiosDeArmazenamento.includes(nomeAtual)) return "estoque";
-    if (productions.includes(nomeAtual))              return "producao";
-    if (sellFinal.includes(nomeAtual))                return "venda";
-    return "passiva";
-  })();
-  const isEstoque  = categoriaEdificio === "estoque";
-  const isProducao = categoriaEdificio === "producao";
-  const isVenda    = categoriaEdificio === "venda";
-  const isPassiva  = categoriaEdificio === "passiva";
-
-  // ── Mapa de setores (visual) ──────────────────────────────
-  const setores = [
-    { id: "agricultura", img: agricultura, cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50" },
-    { id: "tecnologia",  img: tecnologia,  cor1: "#A64B00", cor2: "#D45A00", cor3: "#FF6F00", cor4: "#FF8C42" },
-    { id: "industria",   img: industria,   cor1: "#1A1A1A", cor2: "#4D4D4D", cor3: "#808080", cor4: "#B3B3B3" },
-    { id: "comercio",    img: comercio,    cor1: "#660000", cor2: "#A31919", cor3: "#E60000", cor4: "#FF4D4D" },
-    { id: "imobiliario", img: imobiliario, cor1: "#000066", cor2: "#1A1A8C", cor3: "#3333CC", cor4: "#6666FF" },
-    { id: "energia",     img: energia,     cor1: "#665200", cor2: "#A37F19", cor3: "#E6B800", cor4: "#FFD966" },
-    { id: "grafico",     img: grafico,     cor1: "#6A00FF", cor2: "#6A00FF", cor3: "#6A00FF", cor4: "#6A00FF" },
-  ];
 
   // ── Estado local ──────────────────────────────────────────
   const [isModalOpen,   setIsModalOpen]   = useState(true);
@@ -280,135 +332,167 @@ const CardModalBase = ({ index }) => {
   const [verificadorDeLojasNecessárias,   setVerificador]      = useState(true);
   const [verificadorDeConstruçõesNecessárias, setVerificadorConstr] = useState(true);
   const [flipped,       setFlipped]       = useState(false);
-  const [acumuladorPowerUpRedCustoFornece, setAcumuladorPowerUpRedCustoFornece] = useState(0);
-  const [acumuladorPowerUpAumFatuFornece,  setAcumuladorPowerUpAumFatuFornece]  = useState(0);
-  const [acumuladorPowerUpRedCustoRecebe,  setAcumuladorPowerUpRedCustoRecebe]  = useState(0);
-  const [acumuladorPowerUpAumFatuRecebe,   setAcumuladorPowerUpAumFatuRecebe]   = useState(0);
+  const [acumuladorPowerUp, setAcumuladorPowerUp] = useState({ redFornece: 0, aumFornece: 0, redRecebe: 0, aumRecebe: 0 });
 
-  // ── Derivações estáticas ──────────────────────────────────
-  const setorInfo                   = setores.find((s) => s.id === setorAtivo);
+  // ── Derivações estáticas — memoizadas ────────────────────
+  const nomeAtual = edificioEstatico?.nome ?? "";
+
+  const categoriaEdificio = useMemo(() => {
+    if (EDIFICIOS_ARMAZENAMENTO_SET.has(nomeAtual)) return "estoque";
+    if (PRODUCTIONS_SET.has(nomeAtual))             return "producao";
+    if (SELL_FINAL_SET.has(nomeAtual))              return "venda";
+    return "passiva";
+  }, [nomeAtual]);
+
+  const isEstoque  = categoriaEdificio === "estoque";
+  const isProducao = categoriaEdificio === "producao";
+  const isVenda    = categoriaEdificio === "venda";
+  const isPassiva  = categoriaEdificio === "passiva";
+
   const quantidadeMinimaPowerUpNv2  = edificioEstatico?.powerUp?.nível2?.quantidadeMínima ?? 20;
   const quantidadeMinimaPowerUpNv3  = edificioEstatico?.powerUp?.nível3?.quantidadeMínima ?? 100;
   const arrayConstResources         = edificioEstatico?.recursoDeConstrução   ?? [];
   const arrayConstNece              = edificioEstatico?.construçõesNecessárias ?? [];
-  const corPadrão                   = { backgroundColor: setorInfo.cor2 };
 
   // ── Derivações dinâmicas ──────────────────────────────────
   const quantidadeAtivoAtual = edificioDinamico?.quantidade ?? 0;
   const liberado = edificioDinamico?.licençaLiberado?.liberado ?? false;
-// console.log(liberado)
+
   // ── PowerUp ───────────────────────────────────────────────
-  const corPowerUp = (pu) => {
+  const corPowerUp = useCallback((pu) => {
     switch (pu) {
       case "powerUpNv1": return "#8F5ADA";
       case "powerUpNv2": return "#6411D9";
       case "powerUpNv3": return "#350973";
-      default:           return corPadrão;
+      default:           return setorInfo.cor2;
     }
-  };
-  const powerUpSelecionado = quantidadeAtivoAtual >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3"
-                           : quantidadeAtivoAtual >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2"
-                           : "powerUpNv1";
+  }, [setorInfo.cor2]);
+
+  const powerUpSelecionado = useMemo(() => {
+    if (quantidadeAtivoAtual >= quantidadeMinimaPowerUpNv3) return "powerUpNv3";
+    if (quantidadeAtivoAtual >= quantidadeMinimaPowerUpNv2) return "powerUpNv2";
+    return "powerUpNv1";
+  }, [quantidadeAtivoAtual, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
+
   const corPowerUpAtual = corPowerUp(powerUpSelecionado);
-  const corLinha        = quantidadeAtivoAtual > 0 ? corPowerUpAtual : corPadrão;
-  const bgColuna1       = corLinha === "#8F5ADA" ? corPowerUp("powerUpNv1") : powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : powerUpSelecionado === "powerUpNv3" ? corPowerUp("powerUpNv3") : corPadrão;
-  const bgColuna2       = powerUpSelecionado === "powerUpNv1" ? corPadrão : powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
-  const bgColuna3       = powerUpSelecionado === "powerUpNv1" ? corPadrão : powerUpSelecionado === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
+  const corLinha        = quantidadeAtivoAtual > 0 ? corPowerUpAtual : setorInfo.cor2;
+  const bgColuna1       = corLinha === "#8F5ADA" ? corPowerUp("powerUpNv1") : powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : powerUpSelecionado === "powerUpNv3" ? corPowerUp("powerUpNv3") : setorInfo.cor2;
+  const bgColuna2       = powerUpSelecionado === "powerUpNv1" ? setorInfo.cor2 : powerUpSelecionado === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
+  const bgColuna3       = powerUpSelecionado === "powerUpNv1" ? setorInfo.cor2 : powerUpSelecionado === "powerUpNv2" ? setorInfo.cor2 : corPowerUp("powerUpNv3");
 
-  // ── Financeiro (tudo via estáticos) ───────────────────────
-  const valorFatu      = edificioEstatico?.finanças?.faturamentoUnitário ?? 0;
-  const valorImpostoFixo = edificioEstatico?.finanças?.impostoFixo       ?? 0;
-  const impostoSobreFatu = edificioEstatico?.finanças?.impostoSobreFatu  ?? 0;
-  const custoConstrução  = edificioEstatico?.custoConstrucao             ?? 0;
-  const fatorEconomico   = { recessão: 0.4, declinio: 0.8, estável: 1, progressiva: 1.1, aquecida: 1.25 }[economiaSetor] ?? 1;
+  // ── Financeiro — memoizado ────────────────────────────────
+  const {
+    valorFatu, valorImpostoFixo, impostoSobreFatu, custoConstrução,
+    impostoSobreFatuFinal, valorFatuFinal, valorImpostoFixoFinal,
+    fatuMensal, valorImpostoSobreFatu, valorFinalMês,
+  } = useMemo(() => {
+    const vFatu      = edificioEstatico?.finanças?.faturamentoUnitário ?? 0;
+    const vIF        = edificioEstatico?.finanças?.impostoFixo         ?? 0;
+    const iSF        = edificioEstatico?.finanças?.impostoSobreFatu    ?? 0;
+    const cC         = edificioEstatico?.custoConstrucao               ?? 0;
+    const fatorEco   = FATOR_ECONOMICO_MAP[economiaSetor] ?? 1;
+    const { redRecebe, aumRecebe } = acumuladorPowerUp;
+    const iSFFinal   = iSF  - iSF  * (redRecebe / 100);
+    const vFF        = vFatu + vFatu * (aumRecebe / 100);
+    const vIFF       = vIF   - vIF   * (redRecebe / 100);
+    const fM         = vFF * 30 * fatorEco;
+    const vISF       = fM * iSFFinal;
+    const vFM        = fM - vISF - vIFF;
+    return {
+      valorFatu: vFatu, valorImpostoFixo: vIF, impostoSobreFatu: iSF, custoConstrução: cC,
+      impostoSobreFatuFinal: iSFFinal, valorFatuFinal: vFF, valorImpostoFixoFinal: vIFF,
+      fatuMensal: fM, valorImpostoSobreFatu: vISF, valorFinalMês: vFM,
+    };
+  }, [edificioEstatico, economiaSetor, acumuladorPowerUp]);
 
-  const impostoSobreFatuFinal = impostoSobreFatu  - impostoSobreFatu  * (acumuladorPowerUpRedCustoRecebe / 100);
-  const valorFatuFinal        = valorFatu          + valorFatu         * (acumuladorPowerUpAumFatuRecebe  / 100);
-  const valorImpostoFixoFinal = valorImpostoFixo   - valorImpostoFixo  * (acumuladorPowerUpRedCustoRecebe / 100);
+  // ── Custos de imóveis base — memoizados ───────────────────
+  const {
+    tNec, pNec, mNec, gNec, tPC, pPC, mPC, gPC, tQNT, mQNT, gQNT,
+    CustoTotalSomadoLojas,
+  } = useMemo(() => {
+    const tN = edificioEstatico?.lojasNecessarias?.terrenos ?? 0;
+    const pN = edificioEstatico?.lojasNecessarias?.lojasP   ?? 0;
+    const mN = edificioEstatico?.lojasNecessarias?.lojasM   ?? 0;
+    const gN = edificioEstatico?.lojasNecessarias?.lojasG   ?? 0;
+    const tP = edificioBase.terrenos.preçoConstrução;
+    const pP = edificioBase.lojasP.preçoConstrução;
+    const mP = edificioBase.lojasM.preçoConstrução;
+    const gP = edificioBase.lojasG.preçoConstrução;
+    const tQ = EDIFICIOS_BASE_ESTATICOS.lojasP.quantidadeNecTerreno;
+    const mQ = EDIFICIOS_BASE_ESTATICOS.lojasM.quantidadeNecTerreno;
+    const gQ = EDIFICIOS_BASE_ESTATICOS.lojasG.quantidadeNecTerreno;
+    const custo =
+      tN * tP +
+      pN * (pP + tQ * tP) +
+      mN * (mP + mQ * tP) +
+      gN * (gP + gQ * tP);
+    return { tNec: tN, pNec: pN, mNec: mN, gNec: gN, tPC: tP, pPC: pP, mPC: mP, gPC: gP, tQNT: tQ, mQNT: mQ, gQNT: gQ, CustoTotalSomadoLojas: custo };
+  }, [edificioEstatico, edificioBase]);
 
-  // ── Custo total de imóveis base ───────────────────────────
-  const tNec = edificioEstatico?.lojasNecessarias?.terrenos ?? 0;
-  const pNec = edificioEstatico?.lojasNecessarias?.lojasP   ?? 0;
-  const mNec = edificioEstatico?.lojasNecessarias?.lojasM   ?? 0;
-  const gNec = edificioEstatico?.lojasNecessarias?.lojasG   ?? 0;
-
-  const tPC = edificioBase.terrenos.preçoConstrução;
-  const pPC = edificioBase.lojasP.preçoConstrução;
-  const mPC = edificioBase.lojasM.preçoConstrução;
-  const gPC = edificioBase.lojasG.preçoConstrução;
-  const tQNT = EDIFICIOS_BASE_ESTATICOS.lojasP.quantidadeNecTerreno;
-  const mQNT = EDIFICIOS_BASE_ESTATICOS.lojasM.quantidadeNecTerreno;
-  const gQNT = EDIFICIOS_BASE_ESTATICOS.lojasG.quantidadeNecTerreno;
-
-  const CustoTotalSomadoLojas =
-    tNec * tPC +
-    pNec * (pPC + tQNT * tPC) +
-    mNec * (mPC + mQNT * tPC) +
-    gNec * (gPC + gQNT * tPC);
-
-  // ── calcularCustoRecurso (usa estáticos) ──────────────────
-  function calcularCustoRecurso(nomeRecurso) {
-    for (const setor of setoresArr) {
-      const edEst = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios?.find((e) => e.nome === nomeRecurso);
-      if (edEst) {
-        const c    = edEst.custoConstrucao || 0;
-        const tN2  = edEst.lojasNecessarias?.terrenos ?? 0;
-        const pN2  = edEst.lojasNecessarias?.lojasP   ?? 0;
-        const mN2  = edEst.lojasNecessarias?.lojasM   ?? 0;
-        const gN2  = edEst.lojasNecessarias?.lojasG   ?? 0;
-        let total  = c + tN2 * tPC + pN2 * (pPC + tQNT * tPC) + mN2 * (mPC + mQNT * tPC) + gN2 * (gPC + gQNT * tPC);
-        if (Array.isArray(edEst.recursoDeConstrução) && edEst.recursoDeConstrução.length > 0) {
-          edEst.recursoDeConstrução.forEach((sub) => { total += calcularCustoRecurso(sub); });
-        }
-        return total;
-      }
+  // ── calcularCustoRecurso — memoizado ──────────────────────
+  const calcularCustoRecurso = useCallback((nomeRecurso) => {
+    const entry = EDIFICIO_LOOKUP_MAP[nomeRecurso];
+    if (!entry) return 0;
+    const edEst = EDIFICIOS_FINAIS_ESTATICOS[entry.setor]?.edificios?.[entry.idx];
+    if (!edEst) return 0;
+    const c   = edEst.custoConstrucao || 0;
+    const tN2 = edEst.lojasNecessarias?.terrenos ?? 0;
+    const pN2 = edEst.lojasNecessarias?.lojasP   ?? 0;
+    const mN2 = edEst.lojasNecessarias?.lojasM   ?? 0;
+    const gN2 = edEst.lojasNecessarias?.lojasG   ?? 0;
+    let total = c + tN2 * tPC + pN2 * (pPC + tQNT * tPC) + mN2 * (mPC + mQNT * tPC) + gN2 * (gPC + gQNT * tPC);
+    if (Array.isArray(edEst.recursoDeConstrução) && edEst.recursoDeConstrução.length > 0) {
+      edEst.recursoDeConstrução.forEach((sub) => { total += calcularCustoRecurso(sub); });
     }
-    return 0;
-  }
+    return total;
+  }, [tPC, pPC, mPC, gPC, tQNT, mQNT, gQNT]);
 
   const custoRecursos = useMemo(() => {
     let total = 0;
     arrayConstResources?.forEach((nome) => { total += calcularCustoRecurso(nome); });
     return total;
-    // deps: apenas estáticos — nunca mudam em runtime
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [arrayConstResources]);
+  }, [arrayConstResources, calcularCustoRecurso]);
 
-  const fatuMensal           = valorFatuFinal * 30 * fatorEconomico;
-  const valorImpostoSobreFatu = fatuMensal * impostoSobreFatuFinal;
-  const valorFinalMês        = fatuMensal - valorImpostoSobreFatu - valorImpostoFixoFinal;
-  const rentabilidade        = CustoTotalSomadoLojas + custoRecursos + custoConstrução > 0
-    ? (valorFinalMês / (CustoTotalSomadoLojas + custoRecursos + custoConstrução)) * 100
-    : 0;
-  const paybackDias = rentabilidade > 0 ? Math.ceil((100 / rentabilidade) * 30) : null;
+  // ── Rentabilidade e payback — memoizados ──────────────────
+  const { rentabilidade, paybackDias } = useMemo(() => {
+    const base = CustoTotalSomadoLojas + custoRecursos + custoConstrução;
+    const rent = base > 0 ? (valorFinalMês / base) * 100 : 0;
+    const pb   = rent > 0 ? Math.ceil((100 / rent) * 30) : null;
+    return { rentabilidade: rent, paybackDias: pb };
+  }, [CustoTotalSomadoLojas, custoRecursos, custoConstrução, valorFinalMês]);
 
-  // ── Produtos (FORMULAS_EDIFICIOS é estático) ──────────────
-  const edificioData    = FORMULAS_EDIFICIOS.find((e) => e.nomeEdificio === nomeAtual);
-  const todosOutputsIds = edificioData
-    ? [...new Set(edificioData.formulas.flatMap((f) => Object.keys(f.output)))]
-    : [];
+  // ── Produtos (FORMULAS_MAP — O(1)) ────────────────────────
+  const todosOutputsIds = useMemo(() => {
+    const ed = FORMULAS_MAP[nomeAtual];
+    if (!ed) return [];
+    return [...new Set(ed.formulas.flatMap((f) => Object.keys(f.output)))];
+  }, [nomeAtual]);
 
-  // ── booleanPreReq — lê snapshot via getState(), zero assinatura ──
+  // ── Storage profile (O(1)) ────────────────────────────────
+  const perfilStorage = useMemo(() => STORAGE_PROFILE_MAP[nomeAtual] ?? null, [nomeAtual]);
+  const categoriasStorage = useMemo(() => {
+    if (!perfilStorage) return [];
+    return Array.isArray(perfilStorage.categoriasPermitidas)
+      ? perfilStorage.categoriasPermitidas
+      : [perfilStorage.categoriasPermitidas];
+  }, [perfilStorage]);
+
+  // ── booleanPreReq — O(1) lookup ───────────────────────────
   const booleanPreReq = useCallback((nomeEd) => {
-    const { edificiosFinais } = useCentralStore.getState();
-    for (const setor of setoresArr) {
-      const idx = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios?.findIndex((e) => e.nome === nomeEd) ?? -1;
-      if (idx !== -1) return (edificiosFinais[setor]?.edificios?.[idx]?.quantidade ?? 0) > 0;
-    }
-    return false;
-  }, []); // deps vazias — usa getState() em vez de assinatura reativa
+    return getQtdEdificio(nomeEd) > 0;
+  }, []);
 
   // ── contabilidadeDeFalta ──────────────────────────────────
-  const contabilidadeDeFalta = (key) => {
-    const qtdAtual    = edificioBase[key]?.quantidade ?? 0;
-    const qtdNec      = edificioEstatico?.lojasNecessarias?.[key] ?? 0;
-    const qtdFalta    = qtdAtual >= qtdNec ? 0 : qtdNec - qtdAtual;
-    const custoUnit   = key === "terrenos" ? tPC
-                      : key === "lojasP"   ? pPC + tQNT * tPC
-                      : key === "lojasM"   ? mPC + mQNT * tPC
-                      :                     gPC + gQNT * tPC;
+  const contabilidadeDeFalta = useCallback((key) => {
+    const qtdAtual = edificioBase[key]?.quantidade ?? 0;
+    const qtdNec   = edificioEstatico?.lojasNecessarias?.[key] ?? 0;
+    const qtdFalta = qtdAtual >= qtdNec ? 0 : qtdNec - qtdAtual;
+    const custoUnit = key === "terrenos" ? tPC
+                    : key === "lojasP"   ? pPC + tQNT * tPC
+                    : key === "lojasM"   ? mPC + mQNT * tPC
+                    :                     gPC + gQNT * tPC;
     return qtdFalta * custoUnit;
-  };
+  }, [edificioBase, edificioEstatico, tPC, pPC, mPC, gPC, tQNT, mQNT, gQNT]);
 
   // ── useEffect: verificação de imóveis ────────────────────
   useEffect(() => {
@@ -423,92 +507,50 @@ const CardModalBase = ({ index }) => {
   // ── useEffect: verificação de construções necessárias ────
   useEffect(() => {
     const verificar = (lista) =>
-      (lista || []).some((nome) => {
-        const { edificiosFinais } = useCentralStore.getState();
-        for (const s of setoresArr) {
-          const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex((e) => e.nome === nome) ?? -1;
-          if (idx !== -1) return (edificiosFinais[s]?.[idx]?.quantidade ?? 0) <= 0;
-        }
-        return true;
-      });
+      (lista || []).some((nome) => getQtdEdificio(nome) <= 0);
     setVerificadorConstr(verificar(arrayConstResources) || verificar(arrayConstNece));
   }, [arrayConstResources, arrayConstNece, quantidadeAtivoAtual]);
 
-  // ── useEffect: acumulador powerUp Fornece ─────────────────
+  // ── useEffect: acumuladores powerUp — CONSOLIDADO em 1 ───
   useEffect(() => {
-    let r = 0, a = 0;
+    let rF = 0, aF = 0, rR = 0, aR = 0;
     const { edificiosFinais } = useCentralStore.getState();
-    edificioEstatico?.ForneceMelhoraEficiencia?.forEach((ed) => {
-      for (const s of setoresArr) {
-        const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex((e) => e.nome === ed.nome) ?? -1;
-        if (idx !== -1) {
-          const qtdM = edificiosFinais[s]?.[idx]?.quantidade ?? 0;
-          const pu   = powerUpSelecionado;
-          if (qtdM > 0) {
-            r += pu === "powerUpNv1" ? ed.redCusto.nível1 : pu === "powerUpNv2" ? ed.redCusto.nível2 : ed.redCusto.nível3;
-            a += pu === "powerUpNv1" ? ed.aumFatu.nível1  : pu === "powerUpNv2" ? ed.aumFatu.nível2  : ed.aumFatu.nível3;
-          }
-          break;
-        }
-      }
-    });
-    setAcumuladorPowerUpRedCustoFornece(r);
-    setAcumuladorPowerUpAumFatuFornece(a);
-  }, [quantidadeAtivoAtual, powerUpSelecionado]);
 
-  // ── useEffect: acumulador powerUp Recebe ─────────────────
-  useEffect(() => {
-    let r = 0, a = 0;
-    const { edificiosFinais } = useCentralStore.getState();
-    edificioEstatico?.RecebeMelhoraEficiencia?.forEach((ed) => {
-      for (const s of setoresArr) {
-        const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex((e) => e.nome === ed.nome) ?? -1;
-        if (idx !== -1) {
-          const qtdM = edificiosFinais[s]?.[idx]?.quantidade ?? 0;
-          const pu   = powerUpSelecionado;
-          if (qtdM > 0) {
-            r += pu === "powerUpNv1" ? ed.redCusto.nível1 : pu === "powerUpNv2" ? ed.redCusto.nível2 : ed.redCusto.nível3;
-            a += pu === "powerUpNv1" ? ed.aumFatu.nível1  : pu === "powerUpNv2" ? ed.aumFatu.nível2  : ed.aumFatu.nível3;
-          }
-          break;
-        }
-      }
-    });
-    setAcumuladorPowerUpRedCustoRecebe(r);
-    setAcumuladorPowerUpAumFatuRecebe(a);
-  }, [quantidadeAtivoAtual, powerUpSelecionado]);
+    const calcAcum = (lista, isRecebe) => {
+      (lista || []).forEach((ed) => {
+        const entry = EDIFICIO_LOOKUP_MAP[ed.nome];
+        if (!entry) return;
+        const qtdM = edificiosFinais[entry.setor]?.edificios?.[entry.idx]?.quantidade ?? 0;
+        if (qtdM <= 0) return;
+        const r = powerUpSelecionado === "powerUpNv1" ? ed.redCusto.nível1
+                : powerUpSelecionado === "powerUpNv2" ? ed.redCusto.nível2 : ed.redCusto.nível3;
+        const a = powerUpSelecionado === "powerUpNv1" ? ed.aumFatu.nível1
+                : powerUpSelecionado === "powerUpNv2" ? ed.aumFatu.nível2  : ed.aumFatu.nível3;
+        if (isRecebe) { rR += r; aR += a; }
+        else          { rF += r; aF += a; }
+      });
+    };
 
-  // ── Handlers ─────────────────────────────────────────────
-  let timer;
-  const handleFlip      = () => setFlipped((f) => !f);
-  const handleShow      = (id) => setVisibleId(id);
-  const openModalPowerUps  = () => setModalPowerUp(true);
-  const fecharModalPowerUp = () => setModalPowerUp(false);
-  const handleMouseEnter   = () => { timer = setTimeout(() => setIsModalOpen(true), 0); };
+    calcAcum(edificioEstatico?.ForneceMelhoraEficiencia, false);
+    calcAcum(edificioEstatico?.RecebeMelhoraEficiencia,  true);
 
-  const onClickLojas   = () => { handleShow("lojasNec");   handleFlip(); };
-  const onClickConstr  = () => { handleShow("constNece");  handleFlip(); };
-  const onClickFinancas = () => { handleShow("finançasEd"); handleFlip(); };
-  const onClickPowerUp  = () => { handleMouseEnter(); handleShow("powerUp"); handleFlip(); };
+    setAcumuladorPowerUp({ redFornece: rF, aumFornece: aF, redRecebe: rR, aumRecebe: aR });
+  }, [quantidadeAtivoAtual, powerUpSelecionado, edificioEstatico]);
 
-  // ── Tooltip customizado ───────────────────────────────────
-  function TooltipCustom({ text, children }) {
-    const [show, setShow] = useState(false);
-    const ref = useRef();
-    const tooltip = show && ref.current && createPortal(
-      <div style={{ position: "absolute", top: ref.current.getBoundingClientRect().top - 40, left: ref.current.getBoundingClientRect().left + ref.current.offsetWidth / 2, transform: "translateX(-50%)", backgroundColor: "#FFFFFF", color: "#350973", padding: "6px 10px", borderRadius: "6px", fontWeight: "600", whiteSpace: "pre-line", zIndex: 2147483647, pointerEvents: "none", maxWidth: "400px" }}>{text}</div>,
-      document.body
-    );
-    return (
-      <>
-        <div ref={ref} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)} className="relative flex items-center justify-center">{children}</div>
-        {tooltip}
-      </>
-    );
-  }
+  // ── Handlers — todos useCallback ──────────────────────────
+  const handleFlip         = useCallback(() => setFlipped((f) => !f), []);
+  const handleShow         = useCallback((id) => setVisibleId(id), []);
+  const openModalPowerUps  = useCallback(() => setModalPowerUp(true),  []);
+  const fecharModalPowerUp = useCallback(() => setModalPowerUp(false), []);
 
-  // ── podeComprarCard ───────────────────────────────────────
-  const podeComprarCard = () => {
+  const onClickLojas    = useCallback(() => { setVisibleId("lojasNec");   setFlipped((f) => !f); }, []);
+  const onClickConstr   = useCallback(() => { setVisibleId("constNece");  setFlipped((f) => !f); }, []);
+  const onClickFinancas = useCallback(() => { setVisibleId("finançasEd"); setFlipped((f) => !f); }, []);
+  const onClickPowerUp  = useCallback(() => { setIsModalOpen(true); setVisibleId("powerUp"); setFlipped((f) => !f); }, []);
+
+  // ── podeComprarCard — memoizado ───────────────────────────
+  // Executado apenas quando dependências mudam, NÃO a cada render
+  const { ok: podeComprar, motivo } = useMemo(() => {
     if (!edificioEstatico) return { ok: false, motivo: "Edifício não encontrado" };
     const carteira  = economiaSetores?.carteira?.carteiraAtual ?? [];
     const resultado = verificarLimites(edificioEstatico, setorAtivo, carteira);
@@ -532,11 +574,15 @@ const CardModalBase = ({ index }) => {
       }
     }
     return { ok: true };
-  };
-  const { ok: podeComprar, motivo } = podeComprarCard();
+  }, [
+    edificioEstatico, economiaSetores.saldo, economiaSetores?.carteira?.carteiraAtual,
+    setorAtivo, edificioBase.terrenos.quantidade, edificioBase.lojasP.quantidade,
+    edificioBase.lojasM.quantidade, edificioBase.lojasG.quantidade,
+    tNec, pNec, mNec, gNec, quantidadeAtivoAtual, booleanPreReq, verificarLimites,
+  ]);
 
-  // ── comprarCard — um único atualizarLote ──────────────────
-  const comprarCard = () => {
+  // ── comprarCard ───────────────────────────────────────────
+  const comprarCard = useCallback(() => {
     if (!edificioEstatico) {
       atualizarDados("modalAlert", { estadoModal: true, head: "Erro", content: "Edifício não encontrado." });
       return;
@@ -560,7 +606,6 @@ const CardModalBase = ({ index }) => {
       return;
     }
 
-    // Validar construções/recursos necessários
     if (edificioEstatico.construçõesNecessárias?.length) {
       for (const nome of edificioEstatico.construçõesNecessárias) {
         if (!booleanPreReq(nome)) {
@@ -580,111 +625,116 @@ const CardModalBase = ({ index }) => {
 
     buttonPurchaseEdifAudio();
 
-    // Montar lote de atualizações — 1 único set()
     const lote = [
-      [["edificiosFinais", setorAtivo,'edificios' ,index, "quantidade"], quantidadeAtivoAtual + 1],
+      [["edificiosFinais", setorAtivo, "edificios", index, "quantidade"], quantidadeAtivoAtual + 1],
       [["edificiosBase", "terrenos", "quantidade"], qTa - tNec],
       [["edificiosBase", "lojasP",   "quantidade"], qPa - pNec],
       [["edificiosBase", "lojasM",   "quantidade"], qMa - mNec],
       [["edificiosBase", "lojasG",   "quantidade"], qGa - gNec],
     ];
 
-    // Consumir recursos de construção (decrementar quantidade)
-if (edificioEstatico.recursoDeConstrução?.length) {
-  const { edificiosFinais } = useCentralStore.getState();
-  for (const nome of edificioEstatico.recursoDeConstrução) {
-    for (const s of setoresArr) {
-      const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex((e) => e.nome === nome) ?? -1;
-      if (idx !== -1) {
-        const qtdAtual = edificiosFinais[s]?.edificios?.[idx]?.quantidade ?? 0;
-        lote.push([["edificiosFinais", s, "edificios", idx, "quantidade"], Math.max(0, qtdAtual - 1)]);
-        break;
+    // Consumir recursos de construção — O(1) via EDIFICIO_LOOKUP_MAP
+    if (edificioEstatico.recursoDeConstrução?.length) {
+      const { edificiosFinais } = useCentralStore.getState();
+      for (const nome of edificioEstatico.recursoDeConstrução) {
+        const entry = EDIFICIO_LOOKUP_MAP[nome];
+        if (!entry) continue;
+        const qtdAtual = edificiosFinais[entry.setor]?.edificios?.[entry.idx]?.quantidade ?? 0;
+        lote.push([["edificiosFinais", entry.setor, "edificios", entry.idx, "quantidade"], Math.max(0, qtdAtual - 1)]);
       }
     }
-  }
-}
 
-atualizarLote(lote);
+    atualizarLote(lote);
 
-    // Atualizar contexto econômico (permanece no Context)
     const custosEdBase =
       tNec * tPC + pNec * (pPC + tQNT * tPC) + mNec * (mPC + mQNT * tPC) + gNec * (gPC + gQNT * tPC);
 
     const novaCarteira = [...carteira];
-    const setorIndex   = setoresArr.indexOf(setorAtivo);
+    const setorIndex   = SETORES_ARR.indexOf(setorAtivo);
     if (!novaCarteira[setorIndex]) novaCarteira[setorIndex] = [];
     novaCarteira[setorIndex] = [...novaCarteira[setorIndex], { ...edificioEstatico, quantidade: 1 }];
 
-    atualizarEco("saldo",    economiaSetores.saldo - custo);
-    atualizarEco("carteira", { ...economiaSetores.carteira, carteiraAtual: novaCarteira });
+    atualizarEco("saldo",     economiaSetores.saldo - custo);
+    atualizarEco("carteira",  { ...economiaSetores.carteira, carteiraAtual: novaCarteira });
     atualizarEco("patrimonio", economiaSetores.patrimonio + custosEdBase + custo);
 
-    const carteiraNorm = setoresArr.map((_, i) => Array.isArray(novaCarteira[i]) ? novaCarteira[i] : []);
+    const carteiraNorm = SETORES_ARR.map((_, i) => Array.isArray(novaCarteira[i]) ? novaCarteira[i] : []);
     let totalEd = 0;
     const nomesSet = new Set();
     carteiraNorm.forEach((arr) => arr.forEach((item) => { if (!item) return; nomesSet.add(item.nome); totalEd += Number(item.quantidade ?? 1); }));
     atualizarEco("centralEdificios", {
       ...economiaSetores.centralEdificios,
-      quantidadeSetoresAtual:        carteiraNorm.reduce((a, arr) => a + (arr.length > 0 ? 1 : 0), 0),
-      QuantidadeEdifíciosAtual:      totalEd,
+      quantidadeSetoresAtual:           carteiraNorm.reduce((a, arr) => a + (arr.length > 0 ? 1 : 0), 0),
+      QuantidadeEdifíciosAtual:         totalEd,
       QuantidadeDiversosEdificiosAtual: nomesSet.size,
     });
-  };
+  }, [
+    edificioEstatico, economiaSetores, verificarLimites, setorAtivo,
+    edificioBase, tNec, pNec, mNec, gNec, tPC, pPC, mPC, gPC, tQNT, mQNT, gQNT,
+    quantidadeAtivoAtual, index, booleanPreReq, buttonPurchaseEdifAudio,
+    atualizarDados, atualizarLote, atualizarEco,
+  ]);
 
-  // ── Formatação ────────────────────────────────────────────
-  const formatarNumero = (num) => {
-    if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
-    if (num >= 1e9)  return (num / 1e9) .toFixed(1).replace(".0", "") + "B";
-    if (num >= 1e6)  return (num / 1e6) .toFixed(1).replace(".0", "") + "M";
-    if (num >= 1e3)  return (num / 1e3) .toFixed(1).replace(".0", "") + "K";
-    return num?.toString() ?? "0";
-  };
+  // ── Gradientes e bordas — memoizados ──────────────────────
+  const { gradientLevel, getGradient, getBordaDinamica, getGradientByLevel } = useMemo(() => {
+    const gL = powerUpSelecionado === "powerUpNv3" ? "#FFD700"
+             : powerUpSelecionado === "powerUpNv2" ? "#6411D9"
+             : setorInfo.cor2;
+    const gg = isProducao
+      ? `radial-gradient(circle at 2% 50%, ${setorInfo.cor1}99 0%, ${setorInfo.cor4}FF 40%, ${gL}CC 70%, ${setorInfo.cor4}FF 80%, ${setorInfo.cor2}B3 85%, ${setorInfo.cor1}99 92%, ${setorInfo.cor2}B3 98%, ${setorInfo.cor4}FF 100%)`
+      : isVenda
+      ? `radial-gradient(circle at 100% 0%, ${setorInfo.cor1}11 0%, ${gL}CC 12%, ${setorInfo.cor4}CC 28%, ${setorInfo.cor3}FF 48%, ${setorInfo.cor3}FF 62%, ${gL}99 80%, ${setorInfo.cor1}11 100%)`
+      : isEstoque
+      ? `linear-gradient(190deg, ${gL}15 0%, ${setorInfo.cor4}EE 28%, ${setorInfo.cor3}CC 50%, ${setorInfo.cor4}EE 70%, ${setorInfo.cor1}77 100%)`
+      : `linear-gradient(135deg, ${gL}FF 0%, ${setorInfo.cor2}77 15%, ${setorInfo.cor3}BB 35%, ${setorInfo.cor4}FF 52%, ${setorInfo.cor3}99 70%, ${setorInfo.cor1}FF 100%)`;
+    const gb = isProducao
+      ? { border: `2px solid ${setorInfo.cor1}55`, boxShadow: `0 0 0 1px ${setorInfo.cor3}88`, borderRadius: "25px 10px 25px 10px" }
+      : isEstoque
+      ? { border: `2px solid ${setorInfo.cor2}`,   boxShadow: `0 0 0 3px ${setorInfo.cor3}88`, borderRadius: "20px 20px 20px 20px" }
+      : isVenda
+      ? { borderRadius: "20px 20px 20px 20px", border: `1.5px solid ${setorInfo.cor3}` }
+      : { border: `1px solid ${setorInfo.cor3}55`, boxShadow: `0 0 0 1px ${setorInfo.cor1}88`, borderRadius: "20px 20px 20px 20px" };
+    const gbl = powerUpSelecionado === "powerUpNv3"
+      ? `linear-gradient(135deg, #7a5500 0%, #b8870b 20%, #F27405 40%, #FFD700 60%, #F27405 80%, #7a5500 100%)`
+      : powerUpSelecionado === "powerUpNv2"
+      ? `linear-gradient(135deg, #350973 0%, #6411D9 25%, #8F5ADA 50%, #6411D9 75%, #350973 100%)`
+      : `transparent`;
+    return { gradientLevel: gL, getGradient: gg, getBordaDinamica: gb, getGradientByLevel: gbl };
+  }, [powerUpSelecionado, setorInfo, isProducao, isVenda, isEstoque]);
 
-  // ── Gradientes e bordas ───────────────────────────────────
-  const gradientLevel = () => {
-    if (powerUpSelecionado === "powerUpNv3") return "#FFD700";
-    if (powerUpSelecionado === "powerUpNv2") return "#6411D9";
-    return setorInfo.cor2;
-  };
-  const getGradient = () => {
-    if (isProducao) return `radial-gradient(circle at 2% 50%, ${setorInfo.cor1}99 0%, ${setorInfo.cor4}FF 40%, ${gradientLevel()}CC 70%, ${setorInfo.cor4}FF 80%, ${setorInfo.cor2}B3 85%, ${setorInfo.cor1}99 92%, ${setorInfo.cor2}B3 98%, ${setorInfo.cor4}FF 100%)`;
-    if (isVenda)    return `radial-gradient(circle at 100% 0%, ${setorInfo.cor1}11 0%, ${gradientLevel()}CC 12%, ${setorInfo.cor4}CC 28%, ${setorInfo.cor3}FF 48%, ${setorInfo.cor3}FF 62%, ${gradientLevel()}99 80%, ${setorInfo.cor1}11 100%)`;
-    if (isEstoque)  return `linear-gradient(190deg, ${gradientLevel()}15 0%, ${setorInfo.cor4}EE 28%, ${setorInfo.cor3}CC 50%, ${setorInfo.cor4}EE 70%, ${setorInfo.cor1}77 100%)`;
-    if (isPassiva)  return `linear-gradient(135deg, ${gradientLevel()}FF 0%, ${setorInfo.cor2}77 15%, ${setorInfo.cor3}BB 35%, ${setorInfo.cor4}FF 52%, ${setorInfo.cor3}99 70%, ${setorInfo.cor1}FF 100%)`;
-  };
-  const getBordaDinamica = () => {
-    if (isProducao) return { border: `2px solid ${setorInfo.cor1}55`, boxShadow: `0 0 0 1px ${setorInfo.cor3}88`, borderRadius: "25px 10px 25px 10px" };
-    if (isEstoque)  return { border: `2px solid ${setorInfo.cor2}`,   boxShadow: `0 0 0 3px ${setorInfo.cor3}88`, borderRadius: "20px 20px 20px 20px" };
-    if (isVenda)    return { borderRadius: "20px 20px 20px 20px", border: `1.5px solid ${setorInfo.cor3}` };
-    if (isPassiva)  return { border: `1px solid ${setorInfo.cor3}55`, boxShadow: `0 0 0 1px ${setorInfo.cor1}88`, borderRadius: "20px 20px 20px 20px" };
-    return { borderRadius: "20px 20px 20px 20px" };
-  };
-  const getGradientByLevel = () => {
-    if (powerUpSelecionado === "powerUpNv3") return `linear-gradient(135deg, #7a5500 0%, #b8870b 20%, #F27405 40%, #FFD700 60%, #F27405 80%, #7a5500 100%)`;
-    if (powerUpSelecionado === "powerUpNv2") return `linear-gradient(135deg, #350973 0%, #6411D9 25%, #8F5ADA 50%, #6411D9 75%, #350973 100%)`;
-    return `transparent`;
-  };
+  // ── Dados licença — memoizados ────────────────────────────
+  const { nomeLicencaBlocking, licencaObj, valorLicenca, custoLojas, custoTotal, temSaldo } = useMemo(() => {
+    const nLB    = edificioEstatico?.licençaLiberado?.licença ?? "";
+    const lObj   = LICENCAS_ESTATICAS[setorAtivo]?.find((l) => l.edifíciosLiberados?.includes(nomeAtual));
+    const vL     = lObj?.valor ?? 0;
+    const cL     = tNec * tPC + pNec * (pPC + tQNT * tPC) + mNec * (mPC + mQNT * tPC) + gNec * (gPC + gQNT * tPC);
+    const cT     = vL + cL + custoConstrução;
+    return { nomeLicencaBlocking: nLB, licencaObj: lObj, valorLicenca: vL, custoLojas: cL, custoTotal: cT, temSaldo: economiaSetores.saldo >= cT };
+  }, [edificioEstatico, setorAtivo, nomeAtual, tNec, pNec, mNec, gNec, tPC, pPC, mPC, gPC, tQNT, mQNT, gQNT, custoConstrução, economiaSetores.saldo]);
 
-  // ── Dados licença (usando estáticos) ──────────────────────
-  const nomeLicencaBlocking = edificioEstatico?.licençaLiberado?.licença ?? "";
-  const licencaObj = LICENCAS_ESTATICAS[setorAtivo]?.find((l) => l.edifíciosLiberados?.includes(nomeAtual));
-  const valorLicenca = licencaObj?.valor ?? 0;
-  const custoLojas   = tNec * tPC + pNec * (pPC + tQNT * tPC) + mNec * (mPC + mQNT * tPC) + gNec * (gPC + gQNT * tPC);
-  const custoTotal   = valorLicenca + custoLojas + custoConstrução;
-  const temSaldo     = economiaSetores.saldo >= custoTotal;
+  // ── Investimento no footer — memoizado ────────────────────
+  const { custoTotalInvestimento, podePagar } = useMemo(() => {
+    const tF = Math.max(0, tNec - edificioBase.terrenos.quantidade);
+    const pF = Math.max(0, pNec - edificioBase.lojasP.quantidade);
+    const mF = Math.max(0, mNec - edificioBase.lojasM.quantidade);
+    const gF = Math.max(0, gNec - edificioBase.lojasG.quantidade);
+    const cIF = tF * tPC + pF * (pPC + tQNT * tPC) + mF * (mPC + mQNT * tPC) + gF * (gPC + gQNT * tPC);
+    const cTI = cIF + custoRecursos + custoConstrução;
+    return { custoTotalInvestimento: cTI, podePagar: economiaSetores.saldo >= cTI };
+  }, [tNec, pNec, mNec, gNec, edificioBase, tPC, pPC, mPC, gPC, tQNT, mQNT, gQNT, custoRecursos, custoConstrução, economiaSetores.saldo]);
 
-  // ── Investimento no footer ────────────────────────────────
-  const tFalta = Math.max(0, tNec - edificioBase.terrenos.quantidade);
-  const pFalta = Math.max(0, pNec - edificioBase.lojasP.quantidade);
-  const mFalta = Math.max(0, mNec - edificioBase.lojasM.quantidade);
-  const gFalta = Math.max(0, gNec - edificioBase.lojasG.quantidade);
-  const custoImovelsFaltando =
-    tFalta * tPC +
-    pFalta * (pPC + tQNT * tPC) +
-    mFalta * (mPC + mQNT * tPC) +
-    gFalta * (gPC + gQNT * tPC);
-  const custoTotalInvestimento = custoImovelsFaltando + custoRecursos + custoConstrução;
-  const podePagar = economiaSetores.saldo >= custoTotalInvestimento;
+  // ── Capacidade de armazenamento ────────────────────────────
+  const capacidadeDisplay = useMemo(() => {
+    const capDin = edificioDinamico?.capacidadeArmazenamento ?? edificioDinamico?.slotArmazenamento;
+    if (capDin !== undefined && capDin !== null) return capDin;
+    return perfilStorage?.capacidadePorEdificio ?? "—";
+  }, [edificioDinamico, perfilStorage]);
+
+  // ── Dados venda — memoizados ──────────────────────────────
+  const produtosVendaIds = useMemo(() => {
+    const dv = SALES_MAP[nomeAtual];
+    return dv?.formulas?.map((f) => f.produto) || [];
+  }, [nomeAtual]);
 
   // ════════════════════════════════════════════════════════════════
   //  MODAL POWER-UPS
@@ -711,8 +761,8 @@ atualizarLote(lote);
             <div className="flex justify-around h-full w-full gap-4">
               {["Fornece", "Recebe"].map((label, li) => {
                 const lista  = li === 0 ? edificioEstatico?.ForneceMelhoraEficiencia : edificioEstatico?.RecebeMelhoraEficiencia;
-                const acRed  = li === 0 ? acumuladorPowerUpRedCustoFornece : acumuladorPowerUpRedCustoRecebe;
-                const acAum  = li === 0 ? acumuladorPowerUpAumFatuFornece  : acumuladorPowerUpAumFatuRecebe;
+                const acRed  = li === 0 ? acumuladorPowerUp.redFornece : acumuladorPowerUp.redRecebe;
+                const acAum  = li === 0 ? acumuladorPowerUp.aumFornece : acumuladorPowerUp.aumRecebe;
                 return (
                   <div key={label} className="w-[49%] h-full flex flex-col items-center">
                     <div style={{ backgroundColor: setorInfo.cor2, borderColor: setorInfo.cor4 }} className="w-full h-[10%] border-l-4 fonteBold text-white flex items-center pl-6 rounded-r-xl text-[30px] mb-4 uppercase tracking-widest shadow-md">
@@ -729,17 +779,18 @@ atualizarLote(lote);
                           </tr>
                         </thead>
                         {(lista || []).map((edM, i) => {
-                          const { edificiosFinais } = useCentralStore.getState();
+                          // Leitura via O(1) lookup
+                          const entry = EDIFICIO_LOOKUP_MAP[edM.nome];
                           let qtdM = 0;
-                          for (const s of setoresArr) {
-                            const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex((e) => e.nome === edM.nome) ?? -1;
-                            if (idx !== -1) { qtdM = edificiosFinais[s]?.[idx]?.quantidade ?? 0; break; }
+                          if (entry) {
+                            const { edificiosFinais } = useCentralStore.getState();
+                            qtdM = edificiosFinais[entry.setor]?.edificios?.[entry.idx]?.quantidade ?? 0;
                           }
                           const pu  = quantidadeAtivoAtual >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" : quantidadeAtivoAtual >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" : "powerUpNv1";
-                          const cL  = qtdM > 0 ? corPowerUp(pu) : corPadrão;
-                          const b1  = cL === "#8F5ADA" ? corPowerUp("powerUpNv1") : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : pu === "powerUpNv3" ? corPowerUp("powerUpNv3") : corPadrão;
-                          const b2  = pu === "powerUpNv1" ? corPadrão : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
-                          const b3  = pu === "powerUpNv1" ? corPadrão : pu === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
+                          const cL  = qtdM > 0 ? corPowerUp(pu) : setorInfo.cor2;
+                          const b1  = cL === "#8F5ADA" ? corPowerUp("powerUpNv1") : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : pu === "powerUpNv3" ? corPowerUp("powerUpNv3") : setorInfo.cor2;
+                          const b2  = pu === "powerUpNv1" ? setorInfo.cor2 : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
+                          const b3  = pu === "powerUpNv1" ? setorInfo.cor2 : pu === "powerUpNv2" ? setorInfo.cor2 : corPowerUp("powerUpNv3");
                           return (
                             <tbody key={i}>
                               <tr style={{ backgroundColor: "rgba(255,255,255,0.03)" }} className="group hover:bg-white/10 transition-all">
@@ -790,7 +841,7 @@ atualizarLote(lote);
   // ════════════════════════════════════════════════════════════════
   return (
     <motion.div
-      style={{ background: getGradientByLevel(), ...getBordaDinamica() }}
+      style={{ background: getGradientByLevel, ...getBordaDinamica }}
       className="w-[220px] h-[320px] bg-white rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective rounded-br-2xl"
       initial={{ scale: 1 }} whileHover={{ scale: 1.05 }}
       transition={{ type: "spring", stiffness: 100, damping: 10 }}
@@ -885,7 +936,7 @@ atualizarLote(lote);
         {/* ════════════════════════════════════════
             FRENTE DO CARD
         ════════════════════════════════════════ */}
-        <div className="absolute w-full h-full flex items-center justify-center rounded-xl" style={{ background: getGradient(), mixBlendMode: "color-dodge" }}>
+        <div className="absolute w-full h-full flex items-center justify-center rounded-xl" style={{ background: getGradient, mixBlendMode: "color-dodge" }}>
           <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
 
             {/* HEADER */}
@@ -937,7 +988,7 @@ atualizarLote(lote);
                     </div>
                   );
                 })()}
-                <_ImoveisECustoRow edificioBase={edificioBase} edificioEstatico={edificioEstatico} cor1={setorInfo.cor1} setorInfo={setorInfo} formatarNumero={formatarNumero} onClickLojas={onClickLojas} />
+                <_ImoveisECustoRow edificioBase={edificioBase} edificioEstatico={edificioEstatico} cor1={setorInfo.cor1} setorInfo={setorInfo} onClickLojas={onClickLojas} />
                 <_ConstrERecursosRow arrayConstNece={arrayConstNece} arrayConstResources={arrayConstResources} cor1={setorInfo.cor1} setorInfo={setorInfo} onClickConstr={onClickConstr} booleanPreReq={booleanPreReq} />
               </div>
             )}
@@ -967,42 +1018,27 @@ atualizarLote(lote);
                 </div>
                 {(() => {
                   const semRequisitosEmbaixo = !arrayConstNece?.length && !arrayConstResources?.length;
-                  const buildingKey = Object.keys(storageProfiles).find((key) => storageProfiles[key].nome === nomeAtual) || nomeAtual;
-                  const perfil      = storageProfiles[buildingKey];
-                  const categorias  = perfil ? (Array.isArray(perfil.categoriasPermitidas) ? perfil.categoriasPermitidas : [perfil.categoriasPermitidas]) : [];
                   return (
                     <div className="flex gap-[4px] w-full" style={{ minHeight: semRequisitosEmbaixo ? "68px" : "52px", transition: "all 0.3s ease" }}>
                       <div style={{ flex: "0 0 65%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: semRequisitosEmbaixo ? "8px 10px" : "5px 8px", display: "flex", flexDirection: "column", gap: semRequisitosEmbaixo ? 5 : 3, justifyContent: "center" }}>
                         <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "rgba(255,255,255,.38)" }}>Expande arm. de</div>
                         <div className="flex gap-[4px] flex-wrap items-center">
-                          {categorias.length > 0  ? categorias.map((cat, idx) => (
-                            <div key={idx} title={cat} style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", borderRadius: 4, width: semRequisitosEmbaixo ? 28 : 17, height: semRequisitosEmbaixo ? 28 : 17, fontSize: semRequisitosEmbaixo ? 14 : 10, transition: "all 0.2s ease" }}>{storageIconMap[cat] || "📦"}</div>
-                          )) : <span style={{ fontSize: 7, color: "rgba(255,255,255,.2)" }}>—</span>
-                          
-                          
-                          
-                          
-                          
-                          
-                          
-                          }
+                          {categoriasStorage.length > 0 ? categoriasStorage.map((cat, idx) => (
+                            <div key={idx} title={cat} style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", borderRadius: 4, width: semRequisitosEmbaixo ? 28 : 17, height: semRequisitosEmbaixo ? 28 : 17, fontSize: semRequisitosEmbaixo ? 14 : 10, transition: "all 0.2s ease" }}>{STORAGE_ICON_MAP[cat] || "📦"}</div>
+                          )) : <span style={{ fontSize: 7, color: "rgba(255,255,255,.2)" }}>—</span>}
                         </div>
                       </div>
                       <div style={{ flex: "0 0 35%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "5px 4px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }} data-tooltip-id="tooltip-faturado" data-tooltip-html="Slots de armazenamento adicionados">
                         <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: "rgba(255,255,255,.38)" }}>Capacidade</div>
                         <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: semRequisitosEmbaixo ? 18 : 16, fontWeight: 700, color: "#7aff9a", lineHeight: 1, margin: "1px 0", transition: "all 0.2s ease" }}>
-                          +{(() => {
-                            const capDin = edificioDinamico?.capacidadeArmazenamento ?? edificioDinamico?.slotArmazenamento;
-                            if (capDin !== undefined && capDin !== null) return capDin;
-                            return perfil?.capacidadePorEdificio ?? "—";
-                          })()}
+                          +{capacidadeDisplay}
                         </div>
                         <div style={{ fontSize: semRequisitosEmbaixo ? 7 : 6, color: "rgba(255,255,255,.3)", textTransform: "uppercase" }}>slots</div>
                       </div>
                     </div>
                   );
                 })()}
-                <_ImoveisECustoRow edificioBase={edificioBase} edificioEstatico={edificioEstatico} cor1={setorInfo.cor1} setorInfo={setorInfo} formatarNumero={formatarNumero} onClickLojas={onClickLojas} />
+                <_ImoveisECustoRow edificioBase={edificioBase} edificioEstatico={edificioEstatico} cor1={setorInfo.cor1} setorInfo={setorInfo} onClickLojas={onClickLojas} />
                 <_ConstrERecursosRow arrayConstNece={arrayConstNece} arrayConstResources={arrayConstResources} cor1={setorInfo.cor1} setorInfo={setorInfo} onClickConstr={onClickConstr} booleanPreReq={booleanPreReq} />
               </div>
             )}
@@ -1010,71 +1046,54 @@ atualizarLote(lote);
             {/* VENDA */}
             {isVenda && (
               <div className="w-full flex flex-col justify-around gap-[4px]" style={{ flex: 1, padding: "4px 0" }}>
-                {(() => {
-                  const buildingKey = Object.keys(storageProfiles).find((key) => storageProfiles[key].nome === nomeAtual) || nomeAtual;
-                  const perfil      = storageProfiles[buildingKey];
-                  const categorias  = perfil ? (Array.isArray(perfil.categoriasPermitidas) ? perfil.categoriasPermitidas : [perfil.categoriasPermitidas]) : [];
-                  return (
-                    <>
-                      <div className="flex gap-[3px]" style={{ minHeight: 34 }}>
-                        <div style={{ width: "70%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 7px" }}>
-                          <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "rgba(255,255,255,.38)", marginBottom: 3 }}>Aceita vender</div>
-                          <div className="flex flex-row items-center gap-1">
-                            {(() => {
-                              const dadosVenda = SALES_EDIFICIOS.find((ed) => ed.nomeEdificio === nomeAtual);
-                              const produtosIds = dadosVenda?.formulas?.map((f) => f.produto) || [];
-                              return (
-                                <>
-                                  {produtosIds.slice(0, 4).map((id) => (<div key={id} className="flex items-center justify-center bg-white/5 w-6 h-6 rounded border border-white/10"><span className="text-sm">{productsCatalog[id]?.icon || "📦"}</span></div>))}
-                                  {produtosIds.length > 4 && <span className="text-[10px] text-white/40 font-bold ml-1">+ {produtosIds.length - 4}</span>}
-                                </>
-                              );
-                            })()}
-                          </div>
-                        </div>
-                        <div style={{ width: "30%", background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)`, borderRadius: 7, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", cursor: "pointer", gap: 1 }} onClick={() => { handleShow("vendasList"); handleFlip(); }} className="hover:scale-[1.05] transition-transform">
-                          <span className="text-[14px] font-bold text-white">+</span>
-                          <span className="text-[6px] font-bold text-white/70 uppercase">Produtos</span>
-                        </div>
-                      </div>
-                      <div className="flex gap-[4px]" style={{ minHeight: 40 }}>
-                        <div style={{ width: "60%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "5px 8px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                          <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)", marginBottom: 2 }}>Expande arm. de</div>
-                          <div className="flex gap-[3px] flex-wrap items-center">
-                            {categorias.map((cat, idx) => (<div key={idx} style={{ background: "rgba(255,255,255,.05)", borderRadius: 4, width: 18, height: 18, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, border: "1px solid rgba(255,255,255,.1)" }}>{storageIconMap[cat] || "📦"}</div>))}
-                          </div>
-                        </div>
-                        <div style={{ width: "20%", borderRadius: 7, backgroundColor: setorInfo.cor1, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }} onClick={onClickFinancas}><img src={DolarImg} className="h-[14px]" /></div>
-                        <div style={{ width: "20%", borderRadius: 7, background: `linear-gradient(135deg,${setorInfo.cor4} 0%,${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }} onClick={onClickPowerUp}><img src={PróximoImg} className="h-[14px] rotate-[270deg]" /></div>
-                      </div>
-                      <div className="flex gap-[4px]" style={{ minHeight: 42 }}>
-                        <div style={{ width: "40%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 8px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                          <span style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>Renda / dia</span>
-                          <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 16, fontWeight: 700, color: "#C87AFF", lineHeight: 1 }}>+{formatarNumero(valorFatuFinal)}</span>
-                        </div>
-                        <div style={{ width: "30%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 6px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                          <span style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>Capacidade</span>
-                          <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 14, fontWeight: 700, color: "#7aff9a", lineHeight: 1 }}>+{(() => { const c = edificioDinamico?.capacidadeArmazenamento ?? edificioDinamico?.slotArmazenamento; return c ?? perfil?.capacidadePorEdificio ?? "0"; })()}</span>
-                        </div>
-                        <div style={{ width: "30%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 6px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }} data-tooltip-id="tooltip-faturado" data-tooltip-html="Custo de construção do edifício">
-                          <div className="flex items-center gap-1">
-                            <img src={ConstuirImg} style={{ height: 10, opacity: 0.6 }} alt="" />
-                            <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 13, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{formatarNumero(custoConstrução)}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex gap-[4px]" style={{ minHeight: 38 }}>
-                        <div style={{ width: "50%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 7px", display: "flex", flexDirection: "column", gap: 2, cursor: "pointer" }} onClick={onClickConstr}>
-                          <_ImoveisSMartelo edificioBase={edificioBase} edificioEstatico={edificioEstatico} cor1={setorInfo.cor1} onClickLojas={onClickLojas} />
-                        </div>
-                        <div style={{ width: "50%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 7px", display: "flex", flexDirection: "column", gap: 2, cursor: "pointer" }} onClick={onClickConstr}>
-                          <span style={{ fontSize: 6.5, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.3)" }}>Recursos</span>
-                          <_ConstNecIcons arrayConstNece={arrayConstNece} arrayConstResources={arrayConstResources} cor1={setorInfo.cor1} onClickConstr={onClickConstr} booleanPreReq={booleanPreReq} />
-                        </div>
-                      </div>
-                    </>
-                  );
-                })()}
+                <div className="flex gap-[3px]" style={{ minHeight: 34 }}>
+                  <div style={{ width: "70%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 7px" }}>
+                    <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "rgba(255,255,255,.38)", marginBottom: 3 }}>Aceita vender</div>
+                    <div className="flex flex-row items-center gap-1">
+                      {produtosVendaIds.slice(0, 4).map((id) => (<div key={id} className="flex items-center justify-center bg-white/5 w-6 h-6 rounded border border-white/10"><span className="text-sm">{productsCatalog[id]?.icon || "📦"}</span></div>))}
+                      {produtosVendaIds.length > 4 && <span className="text-[10px] text-white/40 font-bold ml-1">+ {produtosVendaIds.length - 4}</span>}
+                    </div>
+                  </div>
+                  <div style={{ width: "30%", background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)`, borderRadius: 7, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", cursor: "pointer", gap: 1 }} onClick={() => { handleShow("vendasList"); handleFlip(); }} className="hover:scale-[1.05] transition-transform">
+                    <span className="text-[14px] font-bold text-white">+</span>
+                    <span className="text-[6px] font-bold text-white/70 uppercase">Produtos</span>
+                  </div>
+                </div>
+                <div className="flex gap-[4px]" style={{ minHeight: 40 }}>
+                  <div style={{ width: "60%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "5px 8px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)", marginBottom: 2 }}>Expande arm. de</div>
+                    <div className="flex gap-[3px] flex-wrap items-center">
+                      {categoriasStorage.map((cat, idx) => (<div key={idx} style={{ background: "rgba(255,255,255,.05)", borderRadius: 4, width: 18, height: 18, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, border: "1px solid rgba(255,255,255,.1)" }}>{STORAGE_ICON_MAP[cat] || "📦"}</div>))}
+                    </div>
+                  </div>
+                  <div style={{ width: "20%", borderRadius: 7, backgroundColor: setorInfo.cor1, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }} onClick={onClickFinancas}><img src={DolarImg} className="h-[14px]" /></div>
+                  <div style={{ width: "20%", borderRadius: 7, background: `linear-gradient(135deg,${setorInfo.cor4} 0%,${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }} onClick={onClickPowerUp}><img src={PróximoImg} className="h-[14px] rotate-[270deg]" /></div>
+                </div>
+                <div className="flex gap-[4px]" style={{ minHeight: 42 }}>
+                  <div style={{ width: "40%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 8px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <span style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>Renda / dia</span>
+                    <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 16, fontWeight: 700, color: "#C87AFF", lineHeight: 1 }}>+{formatarNumero(valorFatuFinal)}</span>
+                  </div>
+                  <div style={{ width: "30%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 6px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                    <span style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>Capacidade</span>
+                    <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 14, fontWeight: 700, color: "#7aff9a", lineHeight: 1 }}>+{capacidadeDisplay}</span>
+                  </div>
+                  <div style={{ width: "30%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 6px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }} data-tooltip-id="tooltip-faturado" data-tooltip-html="Custo de construção do edifício">
+                    <div className="flex items-center gap-1">
+                      <img src={ConstuirImg} style={{ height: 10, opacity: 0.6 }} alt="" />
+                      <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 13, fontWeight: 700, color: "#fff", lineHeight: 1 }}>{formatarNumero(custoConstrução)}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-[4px]" style={{ minHeight: 38 }}>
+                  <div style={{ width: "50%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 7px", display: "flex", flexDirection: "column", gap: 2, cursor: "pointer" }} onClick={onClickConstr}>
+                    <_ImoveisSMartelo edificioBase={edificioBase} edificioEstatico={edificioEstatico} cor1={setorInfo.cor1} onClickLojas={onClickLojas} />
+                  </div>
+                  <div style={{ width: "50%", background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "4px 7px", display: "flex", flexDirection: "column", gap: 2, cursor: "pointer" }} onClick={onClickConstr}>
+                    <span style={{ fontSize: 6.5, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.3)" }}>Recursos</span>
+                    <_ConstNecIcons arrayConstNece={arrayConstNece} arrayConstResources={arrayConstResources} cor1={setorInfo.cor1} onClickConstr={onClickConstr} booleanPreReq={booleanPreReq} />
+                  </div>
+                </div>
               </div>
             )}
 
@@ -1090,12 +1109,7 @@ atualizarLote(lote);
                   <div style={{ flex: 1, background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "7px 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }} data-tooltip-id="tooltip-faturado" data-tooltip-html="Slots de armazenamento adicionados">
                     <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: "rgba(255,255,255,.38)" }}>Capacidade</div>
                     <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 18, fontWeight: 700, color: "#7aff9a", lineHeight: 1, margin: "2px 0" }}>
-                      +{(() => {
-                        const capDin = edificioDinamico?.capacidadeArmazenamento ?? edificioDinamico?.slotArmazenamento;
-                        if (capDin !== undefined && capDin !== null) return capDin;
-                        const bk = Object.keys(storageProfiles).find((key) => storageProfiles[key].nome === nomeAtual);
-                        return storageProfiles[bk]?.capacidadePorEdificio ?? "—";
-                      })()}
+                      +{capacidadeDisplay}
                     </div>
                     <div style={{ fontSize: 6.5, color: "rgba(255,255,255,.3)", textTransform: "uppercase" }}>slots</div>
                   </div>
@@ -1104,13 +1118,10 @@ atualizarLote(lote);
                   <div style={{ flex: 1, background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "8px 10px", display: "flex", flexDirection: "column", gap: 5, justifyContent: "center" }}>
                     <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "rgba(255,255,255,.38)" }}>Expande arm. de</div>
                     <div className="flex gap-[6px] flex-wrap items-center justify-center">
-                      {(() => {
-                        const bk     = Object.keys(storageProfiles).find((key) => storageProfiles[key].nome === nomeAtual) || nomeAtual;
-                        const perfil = storageProfiles[bk];
-                        if (!perfil) return <span style={{ fontSize: 7, color: "rgba(255,255,255,.2)" }}>Nenhum perfil</span>;
-                        const cats   = Array.isArray(perfil.categoriasPermitidas) ? perfil.categoriasPermitidas : [perfil.categoriasPermitidas];
-                        return cats.map((cat, idx) => (<div key={idx} title={cat} style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.12)", borderRadius: 5, width: 26, height: 26, fontSize: 14 }}>{storageIconMap[cat] || "📦"}</div>));
-                      })()}
+                      {categoriasStorage.length > 0
+                        ? categoriasStorage.map((cat, idx) => (<div key={idx} title={cat} style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.12)", borderRadius: 5, width: 26, height: 26, fontSize: 14 }}>{STORAGE_ICON_MAP[cat] || "📦"}</div>))
+                        : <span style={{ fontSize: 7, color: "rgba(255,255,255,.2)" }}>Nenhum perfil</span>
+                      }
                     </div>
                   </div>
                   <div className="flex flex-col gap-[4px]">
@@ -1118,7 +1129,7 @@ atualizarLote(lote);
                     <div style={{ width: 34, height: 32, borderRadius: 7, background: `linear-gradient(135deg,${setorInfo.cor4} 0%,${corPowerUpAtual} 50%,${setorInfo.cor1} 100%)`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }} onClick={onClickPowerUp} className="hover:brightness-110 active:scale-95 transition-all"><img src={PróximoImg} style={{ height: "60%", transform: "rotate(270deg)" }} alt="" /></div>
                   </div>
                 </div>
-                <_ImoveisECustoRow edificioBase={edificioBase} edificioEstatico={edificioEstatico} cor1={setorInfo.cor1} setorInfo={setorInfo} formatarNumero={formatarNumero} onClickLojas={onClickLojas} />
+                <_ImoveisECustoRow edificioBase={edificioBase} edificioEstatico={edificioEstatico} cor1={setorInfo.cor1} setorInfo={setorInfo} onClickLojas={onClickLojas} />
                 <_ConstrERecursosRow arrayConstNece={arrayConstNece} arrayConstResources={arrayConstResources} cor1={setorInfo.cor1} setorInfo={setorInfo} onClickConstr={onClickConstr} booleanPreReq={booleanPreReq} />
               </div>
             )}
@@ -1331,19 +1342,15 @@ atualizarLote(lote);
                 <div className="flex p-[10px] justify-center items-center"><h1 className="text-white fonteBold text-[12px]">Produtos à venda</h1></div>
               </div>
               <div style={{ backgroundColor: setorInfo.cor2 }} className="w-full flex-1 rounded-[10px] p-[8px] flex flex-wrap gap-[5px] content-start overflow-y-auto">
-                {(() => {
-                  const dadosVenda = SALES_EDIFICIOS.find((ed) => ed.nomeEdificio === nomeAtual);
-                  const produtosIds = dadosVenda?.formulas?.map((f) => f.produto) || [nomeAtual];
-                  return produtosIds.map((id) => {
-                    const produto = productsCatalog[id];
-                    return (
-                      <span key={id} style={{ display: "flex", alignItems: "center", gap: 4, background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 6, padding: "3px 7px", fontSize: 9, fontWeight: 700, color: "#fff", whiteSpace: "nowrap" }}>
-                        <span className="text-[12px]">{produto?.icon || "📦"}</span>
-                        {produto?.nome || id}
-                      </span>
-                    );
-                  });
-                })()}
+                {produtosVendaIds.map((id) => {
+                  const produto = productsCatalog[id];
+                  return (
+                    <span key={id} style={{ display: "flex", alignItems: "center", gap: 4, background: "rgba(255,255,255,.1)", border: "1px solid rgba(255,255,255,.2)", borderRadius: 6, padding: "3px 7px", fontSize: 9, fontWeight: 700, color: "#fff", whiteSpace: "nowrap" }}>
+                      <span className="text-[12px]">{produto?.icon || "📦"}</span>
+                      {produto?.nome || id}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           )}
