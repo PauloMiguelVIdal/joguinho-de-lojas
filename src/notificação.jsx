@@ -9,6 +9,89 @@ import { useHotkeys } from "react-hotkeys-hook";
 import terreno from "../public/outrasImagens/terreno.png"
 import imovelPeq from "../public/outrasImagens/lojaP.png"
 import passarDia from "../public/outrasImagens/proximo.png"
+
+export function ModalFalencia({ onConfirmar, onCancelar }) {
+  const [digitado, setDigitado] = useState("");
+  const confirmacaoTexto = "FALÊNCIA";
+  const podeConfirmar = digitado === confirmacaoTexto;
+
+  return (
+    <AnimatePresence>
+      <div style={{
+        position: "fixed", inset: 0, zIndex: 100,
+        background: "rgba(0,0,0,0.92)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+      }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85, y: 20 }}
+          animate={{ opacity: 1, scale: 1,    y: 0  }}
+          exit={{    opacity: 0, scale: 0.85, y: 20  }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          style={{
+            width: "min(420px, 92%)",
+            background: "linear-gradient(160deg, #350973, #1a053d)",
+            border: "1px solid rgba(255,138,0,0.4)",
+            borderRadius: 20,
+            padding: "36px 32px 32px",
+            boxShadow: "0 0 0 1px rgba(255,138,0,0.15), 0 30px 80px rgba(0,0,0,0.8)",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: 100, height: 2, background: "linear-gradient(90deg, transparent, #FF8A00, transparent)" }} />
+          <div style={{ width: 56, height: 56, borderRadius: "50%", background: "rgba(255,138,0,0.12)", border: "1px solid rgba(255,138,0,0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 24 }}>📉</div>
+          <h2 style={{ fontFamily: "serif", fontSize: 22, fontWeight: 900, color: "#fff", textAlign: "center", marginBottom: 8 }} className="fonteBold">
+            Declarar <span style={{ color: "#FF8A00" }}>Falência</span>
+          </h2>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,.4)", textAlign: "center", lineHeight: 1.6, marginBottom: 24 }} className="fonteLight">
+            Esta ação é <strong style={{ color: "rgba(255,255,255,.6)" }}>irreversível</strong>. Seu progresso será encerrado e o jogo reiniciará do início.
+          </p>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+            <div style={{ flex: 1, height: 1, background: "rgba(255,138,0,0.2)" }} />
+            <span style={{ fontSize: 10, color: "rgba(255,255,255,.25)", letterSpacing: ".15em", textTransform: "uppercase" }}>confirmação necessária</span>
+            <div style={{ flex: 1, height: 1, background: "rgba(255,138,0,0.2)" }} />
+          </div>
+          <p style={{ fontSize: 11, color: "rgba(255,255,255,.35)", letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 8 }}>
+            Digite <strong style={{ color: "rgba(255,138,0,.7)" }}>FALÊNCIA</strong> para confirmar
+          </p>
+          <input
+            type="text"
+            value={digitado}
+            onChange={e => setDigitado(e.target.value.toUpperCase())}
+            placeholder="FALÊNCIA"
+            style={{
+              width: "100%", height: 48, borderRadius: 10, padding: "0 16px",
+              background: "rgba(0,0,0,0.3)",
+              border: `1px solid ${podeConfirmar ? "#FF8A00" : "rgba(255,138,0,0.25)"}`,
+              fontFamily: "inherit", fontSize: 15, fontWeight: 700,
+              color: podeConfirmar ? "#FF8A00" : "#fff",
+              outline: "none", letterSpacing: ".08em", transition: "all .2s",
+              marginBottom: 20, boxSizing: "border-box",
+            }}
+          />
+          <div style={{ display: "flex", gap: 10 }}>
+            <button
+              onClick={onCancelar}
+              style={{ flex: 1, height: 46, borderRadius: 10, border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,.6)", fontSize: 13, fontWeight: 700, cursor: "pointer", letterSpacing: ".05em", transition: "background .15s" }}
+              onMouseEnter={e => e.target.style.background = "rgba(255,255,255,0.1)"}
+              onMouseLeave={e => e.target.style.background = "rgba(255,255,255,0.05)"}
+            >Cancelar</button>
+            <button
+              onClick={podeConfirmar ? onConfirmar : undefined}
+              disabled={!podeConfirmar}
+              style={{ flex: 1, height: 46, borderRadius: 10, border: "none", background: podeConfirmar ? "linear-gradient(135deg, #E56100, #FF8A00)" : "rgba(255,138,0,0.12)", color: podeConfirmar ? "#fff" : "rgba(255,138,0,0.3)", fontSize: 13, fontWeight: 700, cursor: podeConfirmar ? "pointer" : "not-allowed", letterSpacing: ".05em", transition: "all .2s", boxShadow: podeConfirmar ? "0 4px 20px rgba(255,138,0,0.3)" : "none" }}
+            >Declarar falência</button>
+          </div>
+        </motion.div>
+      </div>
+    </AnimatePresence>
+  );
+}
+
+
+
+
+
 export default function Notificação() {
   const [isNKeyDown, setIsNKeyDown] = useState(false);
   //   if (novoEventoSelecionado === "modalDespesas") {
@@ -25,6 +108,9 @@ export default function Notificação() {
   //     console.log(novoEvento.periodoSelecionado)
 
   //   const events = ['pagarDespesas', 'faturamento', 'impostosFixos', 'impostosVariáveis'];
+
+
+
 
   useHotkeys(
     "f",
