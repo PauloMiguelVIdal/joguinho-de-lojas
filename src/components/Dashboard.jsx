@@ -33,13 +33,13 @@ import { Tooltip } from "react-tooltip";
 import solo from "../../public/outrasImagens/solo.png";
 import buildBusiness from "../../public/outrasImagens/business.png";
 //imagens cena escritório
-import imgChefePé from "../../public/outrasImagens/chefe em pé.png";
-import imgchefeIcon from "../../public/outrasImagens/chefe.png";
+// import imgChefePé from "../../public/outrasImagens/chefe em pé.png";
+// import imgchefeIcon from "../../public/outrasImagens/chefe.png";
 import imgFuncionarioIcon from "../../public/outrasImagens/funcionário 1.png";
-import imgFuncionarioPé from "../../public/outrasImagens/funcionário 1 em pé.png";
+// import imgFuncionarioPé from "../../public/outrasImagens/funcionário 1 em pé.png";
 import imgMesa from "../../public/outrasImagens/mesa de trabalho.png";
 import imgCadeira from "../../public/outrasImagens/cadeira.png";
-import { Office } from "./Office";
+// import { Office } from "./Office";
 import maps from "../../public/outrasImagens/maps.png";
 import computador from "../../public/outrasImagens/computer-screen.png";
 import CreditCard from "./CreditCard";
@@ -65,6 +65,7 @@ import {
   Legend,
   LineController,
 } from "chart.js";
+import MapWorld from "./MapWorld.jsx";
 
 ChartJS.register(
   CategoryScale,
@@ -1363,7 +1364,8 @@ useEffect(()=>{
               )}
               {ativo === "gerenciamento" && (
                 <div className="w-full h-full">
-                  <MicroModel />
+                  {/* <MicroModel /> */}
+                  <MapWorld/>
                 </div>
               )}
               {ativo === "carteira" && (
