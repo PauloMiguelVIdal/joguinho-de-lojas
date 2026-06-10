@@ -828,21 +828,19 @@ const edificiosAtivos = useMemo(() => {
   const lista = [];
 
   SETORES.forEach(setor => {
-    const lista = dados?.[setor]?.edificios || [];
+    const edificiosDoSetor = dados?.[setor]?.edificios || []; // ← nome diferente
 
-    lista.forEach((edDin, idx) => {
+    edificiosDoSetor.forEach((edDin, idx) => {
       const qtd = edDin.quantidade || 0;
-
       if (qtd > 0) {
-        const edEst = lista[idx];
+        const edEst = edificiosDoSetor[idx];
+        if (!edEst) return;
 
-        if (!edEst) return; // segurança extra
-
-        lista.push({
-          id: `${setor}-${idx}`, // 🔥 index é a chave
-          nome: edEst.nome,      // 🔥 vem do estático
+        lista.push({  // ← agora empurra na lista externa corretamente
+          id: `${setor}-${idx}`,
+          nome: edEst.nome,
           setor,
-          quantidade: qtd,       // 🔥 vem do dinâmico
+          quantidade: qtd,
           ehCluster: edificioEhCluster(edEst.nome),
         });
       }
