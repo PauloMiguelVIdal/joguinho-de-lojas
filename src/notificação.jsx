@@ -1,15 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
-import { CentraldeDadosContext } from "./centralDeDadosContext";
-import { motion } from "framer-motion";
+import React, { useContext, useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { DadosEconomyGlobalContext } from "../src/dadosEconomyGlobal";
 import useSound from "use-sound";
 import closeAudio from "../public/sounds/closeAudio.mp3";
 import eventAudio from "../public/sounds/newEventAudio.mp3";
 import { useHotkeys } from "react-hotkeys-hook";
-import terreno from "../public/outrasImagens/terreno.png"
-import imovelPeq from "../public/outrasImagens/lojaP.png"
-import passarDia from "../public/outrasImagens/proximo.png"
-
+import terreno from "../public/outrasImagens/terreno.png";
+import imovelPeq from "../public/outrasImagens/lojaP.png";
+import passarDia from "../public/outrasImagens/proximo.png";
+import { CentraldeDadosContext } from "./centralDeDadosContext";
+// ─────────────────────────────────────────────────────────────
+// MODAL FALÊNCIA (inalterado)
+// ─────────────────────────────────────────────────────────────
 export function ModalFalencia({ onConfirmar, onCancelar }) {
   const [digitado, setDigitado] = useState("");
   const confirmacaoTexto = "FALÊNCIA";
@@ -88,465 +90,225 @@ export function ModalFalencia({ onConfirmar, onCancelar }) {
   );
 }
 
-
-
-
-
+// ─────────────────────────────────────────────────────────────
+// NOTIFICAÇÃO — Zustand
+// ─────────────────────────────────────────────────────────────
 export default function Notificação() {
   const [isNKeyDown, setIsNKeyDown] = useState(false);
-  //   if (novoEventoSelecionado === "modalDespesas") {
-  //     // Lógica para o evento modal de despesas
-  // } else if (novoEventoSelecionado === "modalFaturamento") {
-  //   novoEvento.periodoSelecionado = selecionarItem(periodo);
-  //   novoEvento.LojaSelecionada = selecionarItem(todasLojas);
-  //   novoEvento.situacaoSelecionada = selecionarItem(situacao);
-  //   novoEvento.porcentagemSelecionada = selecionarItem(porcentagem);
-  //   const novaDataFinal = parseInt(novaDataInicial) + novoEvento.periodoSelecionado;      // Lógica para o evento modal de faturamento
-  //     novoEvento.diaInicial = novaDataInicial;
-  //     novoEvento.diaFinal = novaDataFinal
-  //     novoEvento.title = `As ${novoEvento.LojaSelecionada} terão ${novoEvento.situacaoSelecionada} de faturamento de ${novoEvento.porcentagemSelecionada}% durante o período de ${novoEvento.periodoSelecionado} dias`;
-  //     console.log(novoEvento.periodoSelecionado)
+  const { dados, atualizarDados } = useContext(CentraldeDadosContext)
 
-  //   const events = ['pagarDespesas', 'faturamento', 'impostosFixos', 'impostosVariáveis'];
+  // ── Zustand — seletores granulares ────────────────────────
 
 
+  const dia              = dados.dia;
+  const fimGame          = dados.fimGame;
+  const despesas         = dados.despesas;
+  const eventoAtual      = dados.eventoAtual;
 
+  // Modais individuais — seletor por objeto inteiro é ok aqui porque
+  // cada modal só re-renderiza quando o seu slice muda.
+  const modal              = dados.modal;
+  const modalDespesas      = dados.modalDespesas
+  const modalEconomiaGlobal = dados.modalEconomiaGlobal;
+  const modalInicio        = dados.modalInicio;
+  const modalCompraTerrenos = dados.modalCompraTerrenos;
+  const modalContinuarDias = dados.modalContinuarDias;
+  
 
-  useHotkeys(
-    "f",
-    () => {
-      if (
-        isNKeyDown // 2. Se já estiver pressionada, ignora o auto-repeat
-      )
-        return;
-      setIsNKeyDown(true);
-      if (dados.modalDespesas.estadoModal) {
-        fecharModalDespesas();
-        return;
-      }
+  // ── Economy Context (mantido) ─────────────────────────────
+  const { economiaSetores } = useContext(DadosEconomyGlobalContext);
 
-      if (dados.modalEconomiaGlobal.estadoModal) {
-        fecharModalEconomiaGlobal();
-        return;
-      }
-      if (dados.modal.estadoModal) {
-        fecharModal();
-      }
-    },
-    {
-      keydown: true,
-      keyup: false,
-      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
-    }
-  );
-  useHotkeys(
-    "f",
-    () => {
-      setIsNKeyDown(false);
-    },
-    {
-      keydown: false,
-      keyup: true,
-      enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
-    }
-  );
-
-  const { economiaSetores, setEconomiaSetores } = useContext(
-    DadosEconomyGlobalContext
-  );
-
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-  // console.log(dados.estadoModal);
-
+  // ── Áudio ─────────────────────────────────────────────────
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonEventAudio] = useSound(eventAudio);
 
-  const fecharModal = () => {
+  // ── Fechar modais ─────────────────────────────────────────
+  const fecharModal = useCallback(() => {
     buttonCloseAudio();
-    atualizarDados("modal", { ...dados.modal, estadoModal: false });
-  };
+    atualizarDados("modal", { ...modal, estadoModal: false });
+  }, [modal, atualizarDados, buttonCloseAudio]);
 
-
-
-  const fecharModalDespesas = () => {
+  const fecharModalDespesas = useCallback(() => {
     buttonCloseAudio();
-    atualizarDados("modalDespesas", {
-      ...dados.modalDespesas,
-      estadoModal: false,
-    });
-  };
+    atualizarDados("modalDespesas", { ...modalDespesas, estadoModal: false });
+  }, [modalDespesas, atualizarDados, buttonCloseAudio]);
 
-  const fecharModalInicio = () => {
+  const fecharModalEconomiaGlobal = useCallback(() => {
     buttonCloseAudio();
-    atualizarDados("modalInicio", {
-      ...dados.modalInicio,
-      estadoModal: false,
-    });
-  };
+    atualizarDados("modalEconomiaGlobal", { ...modalEconomiaGlobal, estadoModal: false });
+  }, [modalEconomiaGlobal, atualizarDados, buttonCloseAudio]);
 
-  const fecharModalContinuarDias = () => {
+  const fecharModalInicio = useCallback(() => {
     buttonCloseAudio();
-    atualizarDados("modalContinuarDias", {
-      ...dados.modalContinuarDias,
-      estadoModal: false,
-    });
-  };
-  const fecharModalCompraTerrenos = () => {
+    atualizarDados("modalInicio", { ...modalInicio, estadoModal: false });
+  }, [modalInicio, atualizarDados, buttonCloseAudio]);
+
+  const fecharModalCompraTerrenos = useCallback(() => {
     buttonCloseAudio();
-    atualizarDados("modalCompraTerrenos", {
-      ...dados.modalCompraTerrenos,
-      estadoModal: false,
-    });
-  };
+    atualizarDados("modalCompraTerrenos", { ...modalCompraTerrenos, estadoModal: false });
+  }, [modalCompraTerrenos, atualizarDados, buttonCloseAudio]);
 
-  const fecharModalEconomiaGlobal = () => {
+  const fecharModalContinuarDias = useCallback(() => {
     buttonCloseAudio();
-    atualizarDados("modalEconomiaGlobal", {
-      ...dados.ModalEconomiaGlobal,
-      estadoModal: false,
-    });
-  };
+    atualizarDados("modalContinuarDias", { ...modalContinuarDias, estadoModal: false });
+  }, [modalContinuarDias, atualizarDados, buttonCloseAudio]);
 
-  // useEffect(() => console.log("chamou evento")), [dados.eventoAtual]
+  // ── Hotkey F ──────────────────────────────────────────────
+  useHotkeys("f", () => {
+    if (isNKeyDown) return;
+    setIsNKeyDown(true);
+    if (modalDespesas.estadoModal)      { fecharModalDespesas();      return; }
+    if (modalEconomiaGlobal.estadoModal){ fecharModalEconomiaGlobal(); return; }
+    if (modal.estadoModal)              { fecharModal();               return; }
+  }, { keydown: true, keyup: false, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] });
 
-  // console.log("useEffect chamado11!");
+  useHotkeys("f", () => setIsNKeyDown(false), {
+    keydown: false, keyup: true, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+  });
 
-  let head = `${dados.eventoAtual.julgamento}`;
-  let content = `${dados.eventoAtual.title}`;
+  // ── Estilos reutilizáveis ─────────────────────────────────
+  const containerStyle = "flex justify-center items-center z-[100] bg-black/95 w-screen h-screen fixed inset-0 select-none backdrop-blur-sm";
+  const modalStyle     = "w-[min(600px,90%)] min-h-[40vh] bg-gradient-to-br from-[#350973] to-[#1a053d] border border-laranja/30 rounded-[24px] z-[110] relative p-8 shadow-2xl overflow-hidden";
+  const barStyle       = "w-full h-[4px] bg-gradient-to-r from-transparent via-laranja to-transparent mb-6";
+  const buttonStyle    = "absolute right-6 bottom-6 text-white bg-gradient-to-r from-laranja to-[#E56100] px-8 py-3 rounded-full font-bold uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-laranja/20";
 
-  let headEconomiaGlobal = `${dados.economiaGlobal}`;
-  let contentEconomiaGlobal = `${dados.economiaGlobal}`;
-
-  useEffect(() => {}, [dados.fimGame]);
-  if (dados.fimGame === true) {
-    return (
-      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[35vw] h-[35vh] bg-[#350973] rounded-[20px] z-20 relative"
-        >
-          <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
-            Fim
-          </h1>
-          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
-          <div>
-            <h2 className="text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight">
-              você foi a falencia
-            </h2>
+  // ── Helper de tutorial (os 3 modais de onboarding) ────────
+  const renderTutorial = (titulo, texto, img, acao, obs) => (
+    <div className={containerStyle}>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-[min(800px,95%)] min-h-[60vh] bg-[#1a053d] border-2 border-laranja/30 rounded-[30px] p-10 relative overflow-hidden shadow-[0_0_50px_rgba(255,138,0,0.1)]"
+      >
+        <div className="absolute top-0 right-0 w-32 h-32 bg-laranja/10 blur-[80px]" />
+        <h1 className="text-white text-4xl font-black mb-6 italic tracking-tight uppercase border-b border-laranja/20 pb-4">{titulo}</h1>
+        <div className="flex flex-col md:flex-row gap-8 items-center">
+          <div className="flex-1">
+            <h2 className="text-white/80 text-xl font-light leading-relaxed mb-6">{texto}</h2>
+            <div className="flex items-center gap-4 bg-black/30 p-4 rounded-2xl border border-laranja/20">
+              <div className="w-20 h-20 flex items-center justify-center rounded-xl bg-gradient-to-br from-laranja to-[#E56100] shadow-lg">
+                <img className="w-[70%] h-[70%] object-contain" src={img} alt="ícone" />
+              </div>
+              <p className="text-laranja text-sm font-bold uppercase tracking-widest">{obs}</p>
+            </div>
           </div>
-          <button
-            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={fecharModal}
-          >
-            <h3>entendido</h3>
-          </button>
+        </div>
+        <button
+          className="absolute right-8 bottom-8 text-white bg-laranja px-10 py-4 rounded-2xl font-black uppercase hover:bg-[#E56100] transition-colors shadow-xl"
+          onClick={acao}
+        >
+          Entendido
+        </button>
+      </motion.div>
+    </div>
+  );
+
+  // ── Prioridade de renderização dos modais ─────────────────
+  // Ordem: fimGame → despesas → economiaGlobal →
+  //        tutoriais (início, terrenos, dias) → evento genérico
+
+  if (fimGame) {
+    return (
+      <div className={containerStyle}>
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className={modalStyle}>
+          <div className="absolute top-0 left-0 w-full h-1 bg-laranja shadow-[0_0_15px_rgba(255,138,0,0.5)]" />
+          <h1 className="text-center text-white text-4xl font-black mb-2 uppercase tracking-tighter italic">GAME OVER</h1>
+          <div className={barStyle} />
+          <h2 className="text-center text-laranja text-2xl font-light mb-4">Você foi à falência</h2>
+          <p className="text-white/60 text-center px-4">Sua jornada administrativa chegou ao fim. Os débitos superaram sua capacidade de gestão.</p>
+          <button className={buttonStyle} onClick={fecharModal}>Reiniciar</button>
         </motion.div>
       </div>
     );
-  } else if (
-    dados.dia % 30 === 0 &&
-    dados.modalDespesas.estadoModal &&
-    !dados.despesas.despesasPagas
-  ) {
+  }
+
+  if (dia % 30 === 0 && modalDespesas.estadoModal && !despesas.despesasPagas) {
     buttonEventAudio();
     return (
-      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none select-none">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[30vw] h-[30vh] bg-[#350973] rounded-[20px] z-20 relative"
-        >
-          <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
-            Dívidas a pagar
-          </h1>
-          <div className="w-[80%] h-[10px] bg-white flex rounded-[5px] relative m-auto"></div>
-          <div>
-            <h2 className="text-start text-white opacity-[70%] pl-[20px] text-[25px] pt-[20px] fonteLight">
-              Pague suas dívidas para poder continuar
-            </h2>
-          </div>
-          <button
-            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={fecharModalDespesas}
-          >
-            <h3>Entendido</h3>
-          </button>
-        </motion.div>
-      </div>
-    );
-  } else if (dados.modalEconomiaGlobal.estadoModal) {
-    let contentEconomiaGlobal = "";
-    let headEconomiaGlobal = "";
-
-    switch (economiaSetores.economiaGlobal) {
-      case "aquecida":
-        contentEconomiaGlobal =
-          "O mercado está aquecido, com alta demanda e grandes chances de crescimento no faturamento, favorecimento fiscal e redução nos custos de construção. Ainda assim, riscos negativos podem surgir.";
-        headEconomiaGlobal = "Economia Aquecida";
-        break;
-      case "progressiva":
-        contentEconomiaGlobal =
-          "A economia avança de forma constante, com boas perspectivas de aumento de faturamento, incentivos fiscais e queda nos custos de obras. Pequenos riscos ainda estão presentes.";
-        headEconomiaGlobal = "Economia em Crescimento";
-        break;
-      case "estável":
-        contentEconomiaGlobal =
-          "O cenário está equilibrado, com igual probabilidade de incentivos ou dificuldades, como variação nos impostos, no faturamento e nos custos de construção.";
-        headEconomiaGlobal = "Economia Estável";
-        break;
-      case "declinio":
-        contentEconomiaGlobal =
-          "A economia mostra sinais de enfraquecimento, com maior risco de perdas financeiras, aumento de impostos e encarecimento de obras, embora ainda existam oportunidades pontuais.";
-        headEconomiaGlobal = "Economia em Declínio";
-        break;
-      case "recessão":
-        contentEconomiaGlobal =
-          "A recessão traz um cenário adverso, com alta probabilidade de quedas no faturamento, carga tributária elevada e custos de construção maiores. Benefícios são raros, mas possíveis.";
-        headEconomiaGlobal = "Economia em Recessão";
-        break;
-      default:
-        contentEconomiaGlobal = "Informações econômicas indisponíveis.";
-        headEconomiaGlobal = "Estado econômico desconhecido";
-    }
-
-    return (
-      <div className="flex justify-center items-center z-10 bg-black opacity-[95%] w-[100vw] h-[100vh] absolute select-none">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        >
-          <div className="w-[45vw] h-[45vh] bg-[#350973] p-1 rounded-[20px] z-20 relative">
-            <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
-              {headEconomiaGlobal}
-            </h1>
-            <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
-            <div>
-              <h2 className="text-start text-white opacity-[70%] text-[25px] pl-[20px] pt-[20px] fonteLight">
-                {contentEconomiaGlobal}
-              </h2>
-            </div>
-            <button
-              className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold"
-              onClick={fecharModalEconomiaGlobal}
-            >
-              <h3>entendido</h3>
-            </button>
-          </div>
-        </motion.div>
-      </div>
-    );
-  } else if (dados.modalObjetivos.estadoModal) {
-    return (
-      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[45vw] h-[45vh] bg-[#350973] rounded-[20px] z-20 relative"
-        >
-          <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
-            Infelizmente você foi a falencia
-          </h1>
-          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
-          <div>
-            <h2 className="text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight">
-              Tente realizar o pagamento das suas dívidas, caso não seja
-              possível reinicie o jogo.
-            </h2>
-          </div>
-          <button
-            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={fecharModal}
-          >
-            <h3>entendido</h3>
-          </button>
+      <div className={containerStyle}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className={modalStyle}>
+          <h1 className="text-center text-white text-3xl font-bold mb-2">Dívidas a Pagar</h1>
+          <div className="w-1/2 h-[2px] bg-laranja/50 mx-auto mb-6" />
+          <h2 className="text-center text-white/80 text-xl font-light leading-relaxed">
+            Atenção, administrador!<br />Pague suas contas pendentes para continuar operando.
+          </h2>
+          <button className={buttonStyle} onClick={fecharModalDespesas}>Entendido</button>
         </motion.div>
       </div>
     );
   }
-  if (dados.modalInicio.estadoModal) {
-    return (
-      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[75vw] h-[75vh] bg-[#350973] rounded-[20px] z-20 relative"
-        >
-          <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
-           Construa um Imóvel Pequeno
-          </h1>
-          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
-          <div>
-            <h2 className="text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight">
-            Para que você construa um imóvel pequeno primeiramente é necessário que você tenha um terreno.
-            <br/>
-            
-            <br/>
-            <strong className="">COMPRE UM TERRENO</strong>
-            <br/>
-            
-            Para comprar um terreno é necessário clicar no botão:
-            <br/>
-            
-             <br/>
-            <div className="w-[100px] h-[100px] flex items-center justify-center rounded-[10px] bg-orange-700">
-              
-              <img className="w-[70%] h-[70%]" src={terreno}/>
-              </div> 
-              *está localizado na barra lateral da esquerda
-            
-             <br/>
-             <br/>
-            
-            </h2>
-          </div>
-          <button
-            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={fecharModalInicio}
-          >
-            <h3>entendido</h3>
-          </button>
-        </motion.div>
-      </div>
-    );
-  } else
-  if (dados.modalCompraTerrenos.estadoModal) {
-    return (
-      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[75vw] h-[75vh] bg-[#350973] rounded-[20px] z-20 relative"
-        >
-          <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
-           Construa um Imóvel Pequeno
-          </h1>
-          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
-          <div>
-            <h2 className="text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight">
-           Agora que você possui o terreno necessário, construa o imóvel pequeno
-            <br/>
-            
-            <br/>
-            <strong className="">CONTRUA O IMÓVEL PEQUENO</strong>
-            <br/>
-            
-            Para construir um imóvel pequeno é necessário clicar no botão:
-            <br/>
-            
-             <br/>
-            <div className="w-[100px] h-[100px] flex items-center justify-center rounded-[10px] bg-orange-700">
-              
-              <img className="w-[70%] h-[70%]" src={imovelPeq}/>
-              </div> 
-              *está localizado na barra lateral da esquerda
-            
-             <br/>
-             <br/>
-            
-            </h2>
-          </div>
-          <button
-            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={fecharModalCompraTerrenos}
-          >
-            <h3>entendido</h3>
-          </button>
-        </motion.div>
-      </div>
-    );
-  } else
-  if (dados.modalContinuarDias.estadoModal) {
-    return (
-      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[75vw] h-[75vh] bg-[#350973] rounded-[20px] z-20 relative"
-        >
-          <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
-           Passe para o próximo dia
-          </h1>
-          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
-          <div>
-            <h2 className="text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight">
-           Agora que você possui um imóvel pequeno, passe para o próximo dia até que tenha dinheiro suficiente para que possa comprar um novo terreno e continuar expandindo os seus imóveis.
-            <br/>
-            
-            <br/>
-            <strong className="">PASSE O DIA</strong>
-            <br/>
-            
-            Para passar o dia é necessário clicar no botão:
-            <br/>
-            
-             <br/>
-            <div className="w-[100px] h-[100px] flex items-center justify-center rounded-[10px] bg-orange-700">
-              
-              <img className="w-[70%] h-[70%]" src={passarDia}/>
-              </div> 
-              *está localizado na barra superior da direita
-            
-             <br/>
-             <br/>
-            
-            </h2>
-          </div>
-          <button
-            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={fecharModalContinuarDias}
-          >
-            <h3>entendido</h3>
-          </button>
-        </motion.div>
-      </div>
-    );
-  } else
-  if (dados.modal.estadoModal) {
-    return (
-      <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] absolute select-none">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[35vw] h-[35vh] bg-[#350973] rounded-[20px] z-20 relative"
-        >
-          <h1 className="text-center text-white p-[10px] text-[30px] fonteBold">
-            {head}
-          </h1>
-          <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
-          <div>
-            <h2 className="text-start text-white opacity-[70%] pl-[20px] pt-[20px] text-[25px] fonteLight">
-              {content}
-            </h2>
-          </div>
-          <button
-            className="absolute right-[10px] bottom-[10px] text-white bg-laranja p-[10px] rounded-[40px] z-30 fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={fecharModal}
-          >
-            <h3>entendido</h3>
-          </button>
-        </motion.div>
-      </div>
-    );
-  } 
 
-  else {
-    return null;
+  if (modalEconomiaGlobal.estadoModal) {
+    const mapaEconomia = {
+      aquecida:    { head: "Economia Aquecida",  content: "O mercado está fervendo! Alta demanda e custos de construção reduzidos. Aproveite." },
+      progressiva: { head: "Em Crescimento",     content: "Crescimento constante. Ótimas perspectivas de faturamento e incentivos fiscais." },
+      estável:     { head: "Economia Estável",   content: "Equilíbrio total. Riscos e oportunidades dividem o mesmo espaço." },
+      declinio:    { head: "Em Declínio",        content: "Sinais de alerta. Impostos podem subir e o faturamento cair." },
+      recessão:    { head: "Recessão",           content: "Cenário crítico. Sobrevivência é a palavra de ordem." },
+    };
+    const { head: headEco, content: contentEco } = mapaEconomia[economiaSetores.economiaGlobal] ?? { head: "Estado Desconhecido", content: "Informações indisponíveis." };
+
+    return (
+      <div className={containerStyle}>
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className={modalStyle}>
+          <div className="text-xs text-white/30 tracking-[0.3em] uppercase mb-2 text-center">Relatório Global</div>
+          <h1 className="text-center text-white text-3xl font-black mb-4 uppercase">{headEco}</h1>
+          <div className={barStyle} />
+          <h2 className="text-center text-white/70 text-lg font-light leading-relaxed px-6">{contentEco}</h2>
+          <button className={buttonStyle} onClick={fecharModalEconomiaGlobal}>Fechar Relatório</button>
+        </motion.div>
+      </div>
+    );
   }
+
+  // ── Tutoriais de onboarding ───────────────────────────────
+  if (modalInicio.estadoModal) {
+    return renderTutorial(
+      "Expansão Inicial",
+      "Para construir seu império, você precisa de espaço físico. Adquira seu primeiro lote.",
+      terreno,
+      fecharModalInicio,
+      "Barra Lateral Esquerda"
+    );
+  }
+
+  if (modalCompraTerrenos.estadoModal) {
+    return renderTutorial(
+      "Primeira Obra",
+      "Terreno pronto! Agora levante as paredes do seu primeiro imóvel pequeno.",
+      imovelPeq,
+      fecharModalCompraTerrenos,
+      "Barra Lateral Esquerda"
+    );
+  }
+
+  if (modalContinuarDias.estadoModal) {
+    return renderTutorial(
+      "Ciclo de Caixa",
+      "Aguarde o faturamento. Passe os dias para acumular capital e expandir.",
+      passarDia,
+      fecharModalContinuarDias,
+      "Topo Superior Direito"
+    );
+  }
+
+  // ── Evento/modal genérico ─────────────────────────────────
+  if (modal.estadoModal) {
+    return (
+      <div className={containerStyle}>
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className={modalStyle}>
+          <h1 className="text-center text-white text-3xl font-bold mb-4 italic uppercase tracking-tighter">
+            {eventoAtual.julgamento}
+          </h1>
+          <div className={barStyle} />
+          <h2 className="text-center text-white/70 text-xl font-light px-6">
+            {eventoAtual.title}
+          </h2>
+          <button className={buttonStyle} onClick={fecharModal}>Confirmar</button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return null;
 }

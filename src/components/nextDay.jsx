@@ -238,14 +238,15 @@ export function NextDay() {
       <button
         data-tooltip-id="saldo-tip"
         data-tooltip-content="Avança para o próximo dia (D)"
-        className="w-full min-h-[50px] aspect-square bg-laranja rounded-[20px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] "
+        className="h-[50px] aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
         onClick={ProximoDia}
       >
-        <img className="w-[60%] aspect-square" src={PróximoImg} alt="Próximo" />
+        <img className="w-[60%]" src={PróximoImg} alt="Próximo" />
       </button>
+
       <Sorteio />
 
-      <TooltipPadrao style={tooltipStyle} id="saldo-tip" />
+      <TooltipPadrao id="saldo-tip" />
     </div>
   );
 }

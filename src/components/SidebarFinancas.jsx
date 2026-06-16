@@ -2,7 +2,7 @@ import React, { useContext, useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
-import { CentraldeDadosContext }      from "../centralDeDadosContext";
+import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 import { motion } from "framer-motion";
 import agricultura from "../../public/outrasImagens/setores/agricultura.png";
@@ -17,21 +17,21 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import { BusinessLicence } from "./BusinessLicence";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
- import fechar from "../../public/outrasImagens/fechar.png";
+import fechar from "../../public/outrasImagens/fechar.png";
 
-    const setores = [
-        {
-            id: "carteira",
-            corClasse: "bg-[#934CFF]",
-            //   img: Carteira,
-            cor1: "#350973 ",
-            cor2: "#4C14A9 ",
-            cor3: "#6A00FF ",
-            cor4: "#934CFF ",
-        },
+const setores = [
+    {
+        id: "carteira",
+        corClasse: "bg-[#934CFF]",
+        //   img: Carteira,
+        cor1: "#350973 ",
+        cor2: "#4C14A9 ",
+        cor3: "#6A00FF ",
+        cor4: "#934CFF ",
+    },
 
-        // { id: "mapa", corClasse: "bg-[#E60000]", img: maps, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3:  "bg-gradient-to-br from-[#6A00FF] to-[#E60000]", cor4: "#6A00FF ", },
-    ];
+    // { id: "mapa", corClasse: "bg-[#E60000]", img: maps, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3:  "bg-gradient-to-br from-[#6A00FF] to-[#E60000]", cor4: "#6A00FF ", },
+];
 
 // const [buttonOpenAudio] = useSound(openAudio);
 // const { economiaSetores, setEconomiaSetores } = useContext(
@@ -40,26 +40,26 @@ import closeAudio from "../../public/sounds/closeAudio.mp3";
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 
-const SETORES    = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"];
-const IMAGENS    = { agricultura, tecnologia, industria, comercio, imobiliario, energia };
+const SETORES = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"];
+const IMAGENS = { agricultura, tecnologia, industria, comercio, imobiliario, energia };
 
 const ECO_CONFIG = {
-    "recessão":    { bg: "#FF0000", label: "Recessão",    dot: "#ff6666" },
-    "declinio":    { bg: "#FF6B00", label: "Declínio",    dot: "#ffaa55" },
-    "estável":     { bg: "#EEAD2D", label: "Estável",     dot: "#ffe08a" },
+    "recessão": { bg: "#FF0000", label: "Recessão", dot: "#ff6666" },
+    "declinio": { bg: "#FF6B00", label: "Declínio", dot: "#ffaa55" },
+    "estável": { bg: "#EEAD2D", label: "Estável", dot: "#ffe08a" },
     "progressiva": { bg: "#7BC142", label: "Progressiva", dot: "#b8e06a" },
-    "aquecida":    { bg: "#00843D", label: "Aquecida",    dot: "#4dd890" },
+    "aquecida": { bg: "#00843D", label: "Aquecida", dot: "#4dd890" },
 };
 
 const CAT_ICONS = {
-    "agrícolas secos":        "🌾", "biomassa / orgânicos":   "🌱",
-    "produtos manufaturados": "📦", animais:                  "🐄",
-    perecíveis:               "🥩", "componentes eletrônicos":"🔌",
-    "bens de alto valor":     "💎", "componentes industriais":"⚙️",
-    químicos:                 "🧪", minério:                  "🪨",
-    fluidos:                  "💧", veículos:                 "🚗",
-    aeronaves:                "✈️", energia:                  "⚡",
-    "produtos digitais":      "💾", "materiais sensíveis":    "⚠️",
+    "agrícolas secos": "🌾", "biomassa / orgânicos": "🌱",
+    "produtos manufaturados": "📦", animais: "🐄",
+    perecíveis: "🥩", "componentes eletrônicos": "🔌",
+    "bens de alto valor": "💎", "componentes industriais": "⚙️",
+    químicos: "🧪", minério: "🪨",
+    fluidos: "💧", veículos: "🚗",
+    aeronaves: "✈️", energia: "⚡",
+    "produtos digitais": "💾", "materiais sensíveis": "⚠️",
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -67,12 +67,12 @@ const CAT_ICONS = {
 const fmtBRL = (n) => {
     n = Number(n) || 0;
     const abs = Math.abs(n), s = n < 0 ? "-" : "";
-    if (abs >= 1e9) return `${s}R$${(abs/1e9).toFixed(1).replace(".0","")}B`;
-    if (abs >= 1e6) return `${s}R$${(abs/1e6).toFixed(1).replace(".0","")}M`;
-    if (abs >= 1e3) return `${s}R$${(abs/1e3).toFixed(0)}K`;
+    if (abs >= 1e9) return `${s}R$${(abs / 1e9).toFixed(1).replace(".0", "")}B`;
+    if (abs >= 1e6) return `${s}R$${(abs / 1e6).toFixed(1).replace(".0", "")}M`;
+    if (abs >= 1e3) return `${s}R$${(abs / 1e3).toFixed(0)}K`;
     return `${s}R$${Math.round(abs)}`;
 };
-  
+
 
 // ─── Seção colapsável (mesma do SideInformations) ────────────────────────────
 
@@ -123,7 +123,7 @@ function Section({ dot, title, badge, children, defaultOpen = true }) {
 
 function Bar({ value, max, color = "#FFD966" }) {
     const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0;
-    const c   = pct >= 90 ? "#ff4d4d" : pct >= 70 ? "#FFD700" : color;
+    const c = pct >= 90 ? "#ff4d4d" : pct >= 70 ? "#FFD700" : color;
     return (
         <div style={{
             width: "100%", height: 4,
@@ -140,11 +140,11 @@ function Bar({ value, max, color = "#FFD966" }) {
 // ─── 1. Economia dos setores ──────────────────────────────────────────────────
 
 function SecaoEconomia({ economiaSetores }) {
-        const { dados,atualizarDados } = useContext(CentraldeDadosContext);
+    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
-  const faturamento = dados.faturamento;
-  const dia = dados.dia;
-  const eventoAtual = dados.eventoAtual;
+    const faturamento = dados.faturamento;
+    const dia = dados.dia;
+    const eventoAtual = dados.eventoAtual;
 
 
 
@@ -157,7 +157,7 @@ function SecaoEconomia({ economiaSetores }) {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 6 }}>
                 {SETORES.map(setor => {
                     const estado = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
-                    const eco    = ECO_CONFIG[estado] || { bg: "#555", label: estado, dot: "#aaa" };
+                    const eco = ECO_CONFIG[estado] || { bg: "#555", label: estado, dot: "#aaa" };
 
                     return (
                         <React.Fragment key={setor}>
@@ -210,22 +210,22 @@ function SecaoEconomia({ economiaSetores }) {
 // ─── 2. Financeiro mensal ─────────────────────────────────────────────────────
 
 function SecaoFinancas({ economiaSetores }) {
-        const { dados,atualizarDados } = useContext(CentraldeDadosContext);
+    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
-  
-  const faturamento = dados.faturamento;
-  const dia = dados.dia;
-  const eventoAtual = dados.eventoAtual;
-   
-    const fat      = faturamento?.faturamentoMensal || 0;
-    const imp      = economiaSetores.imposto?.impostoMensal || 0;
-    const lucro    = fat - imp;
+
+    const faturamento = dados.faturamento;
+    const dia = dados.dia;
+    const eventoAtual = dados.eventoAtual;
+
+    const fat = faturamento?.faturamentoMensal || 0;
+    const imp = economiaSetores.imposto?.impostoMensal || 0;
+    const lucro = fat - imp;
     const impAnual = economiaSetores.valorImpostoAnual || 0;
 
     const rows = [
-        { label: "Faturamento",   value: fmtBRL(fat),    color: "#34d399", sign: "+" },
-        { label: "Despesas",      value: fmtBRL(imp),    color: "#f87171", sign: "−" },
-        { label: "Lucro líquido", value: fmtBRL(lucro),  color: lucro >= 0 ? "#a78bfa" : "#fb923c", sign: "=" },
+        { label: "Faturamento", value: fmtBRL(fat), color: "#34d399", sign: "+" },
+        { label: "Despesas", value: fmtBRL(imp), color: "#f87171", sign: "−" },
+        { label: "Lucro líquido", value: fmtBRL(lucro), color: lucro >= 0 ? "#a78bfa" : "#fb923c", sign: "=" },
         ...(dia > 270 ? [{ label: "Imposto anual", value: fmtBRL(impAnual), color: "#fbbf24", sign: "★" }] : []),
     ];
 
@@ -264,12 +264,12 @@ function SecaoFinancas({ economiaSetores }) {
 // ─── 4. Evento ativo ──────────────────────────────────────────────────────────
 
 function SecaoEvento() {
-        const { dados,atualizarDados } = useContext(CentraldeDadosContext);
+    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
-  
-  const faturamento = dados.faturamento;
-  const dia = dados.dia;
-  const eventoAtual = dados.eventoAtual;
+
+    const faturamento = dados.faturamento;
+    const dia = dados.dia;
+    const eventoAtual = dados.eventoAtual;
     const ev = eventoAtual;
 
     if (!ev?.eventoAtivo) {
@@ -291,8 +291,8 @@ function SecaoEvento() {
     const setor = ev.departamento || ev.setorSelecionado || ev.lojaSelecionada || "—";
     const diasRestantes = Math.max(0, (ev.diaFinal || 0) - dia);
     const titulo = ev.title || "";
-    const isBom  = /crescimento|aquecid|imposto|progress/i.test(titulo);
-    const cor    = isBom ? "#34d399" : "#f87171";
+    const isBom = /crescimento|aquecid|imposto|progress/i.test(titulo);
+    const cor = isBom ? "#34d399" : "#f87171";
 
     return (
         <Section dot={cor} title="Evento ativo">
@@ -352,13 +352,13 @@ function SecaoEvento() {
     );
 }
 
-const AlertaExpansao = ({ setBusinessLicenceModal }) => {
-    
+const AlertaExpansao = ({ onOpen }) => {
+
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-    
+
     const edMax = economiaSetores.centralEdificios?.quantidadeEdificiosMax || 1;
     const edAtual = economiaSetores.centralEdificios?.quantidadeEdificiosAtual || 0;
-    
+
     const edRestantes = edMax - edAtual;
     const mostrarAviso = edRestantes <= 2;
 
@@ -369,8 +369,9 @@ const AlertaExpansao = ({ setBusinessLicenceModal }) => {
 
     return (
         <Section dot={corAlerta} title="Gestão de Expansão" pulse={true}>
-            <div 
-                onClick={() => setBusinessLicenceModal(true)}
+            <div
+                onClick={() => onOpen()}
+
                 className="cursor-pointer hover:brightness-125 transition-all"
                 style={{
                     background: `${corAlerta}15`,
@@ -387,8 +388,8 @@ const AlertaExpansao = ({ setBusinessLicenceModal }) => {
                 </div>
 
                 <p style={{ fontSize: 11, color: "rgba(255,255,255,.9)", fontWeight: 600, lineHeight: 1.3, margin: 0 }}>
-                    {critico 
-                        ? "Sua empresa parou de crescer! Adquira uma licença agora." 
+                    {critico
+                        ? "Sua empresa parou de crescer! Adquira uma licença agora."
                         : "Você está ficando sem espaço para novos edifícios."}
                 </p>
 
@@ -412,71 +413,29 @@ const AlertaExpansao = ({ setBusinessLicenceModal }) => {
 
 // ─── COMPONENTE PRINCIPAL ─────────────────────────────────────────────────────
 
-export default function SidebarFinancas() {
-    const { dados,atualizarDados } = useContext(CentraldeDadosContext);
+export default function SidebarFinancas({ onOpen }) {
+    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
 
-  const faturamento = dados.faturamento
-  const dia = dados.dia
-  const eventoAtual = dados.eventoAtual
+    const faturamento = dados.faturamento
+    const dia = dados.dia
+    const eventoAtual = dados.eventoAtual
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-    const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
-  const [ativo, setAtivo] = useState("carteira");
+    const [ativo, setAtivo] = useState("carteira");
     const setorCarteira = setores.find((setor) => setor.id === "carteira");
     const dadosCarteiraEdificios = economiaSetores.centralEdificios;
     const edMax = dadosCarteiraEdificios.quantidadeEdificiosMax || 1;
     const edAtual = dadosCarteiraEdificios.quantidadeEdificiosAtual || 0;
-      const [buttonCloseAudio] = useSound(closeAudio);
-    if (businessLicenceModal === true) {
-        return (
-            <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90 ">
-                <motion.div
-                    style={{ backgroundColor: setorCarteira.cor4 }}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    className="w-[80vw] h-[80vh] bg-[#F52623] p-[20px] gap-[20px] rounded-[10px] flex flex-col items-center relative "
-                >
-                    <button
-                        className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
-                        onClick={() => {
-                            setBusinessLicenceModal(false), buttonCloseAudio();
-                        }}
-                    >
-                        <img src={fechar} alt="Fechar" className="w-[60%]" />
-                    </button>
-                    <div
-                        style={{ backgroundColor: setorCarteira.cor1 }}
-                        className="flex shadow-xl justify-center items-center w-[100%] h-[15%]  rounded-[20px] self-center "
-                    >
-                        <h1 className="text-center text-white text-[40px] fonteBold">
-                            Licenças empresariais
-                        </h1>
-                    </div>
-                    <div className="overflow-y-visible overflow-x-hidden w-full scrollbar-custom ">
-                        {economiaSetores.porteEmpresa.map((e, index) => (
-                            <BusinessLicence
-                                key={index}
-                                setor={ativo}
-                                nomeLicença={e.nome}
-                                index={index}
-                            />
-                        ))}
-                    </div>
-                </motion.div>
-            </div>
-        );
-    }
+    const [buttonCloseAudio] = useSound(closeAudio);
     return (
         <div className="scrollbar-custom" style={{
             display: "flex", flexDirection: "column", height: "100%", gap: 7, padding: "2px 2px 8px",
-             overflowX: "hidden", scrollbarWidth: "thin"
+            overflowX: "hidden", scrollbarWidth: "thin"
         }}>
             <SecaoEconomia economiaSetores={economiaSetores} />
-            <SecaoFinancas  economiaSetores={economiaSetores} />
-           
+            <SecaoFinancas economiaSetores={economiaSetores} />
+
             <SecaoEvento />
-            <AlertaExpansao setBusinessLicenceModal={setBusinessLicenceModal} />
+            <AlertaExpansao onOpen={onOpen} />
         </div>
     );
 }

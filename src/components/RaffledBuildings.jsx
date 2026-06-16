@@ -14,7 +14,9 @@ import useSound from "use-sound";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import openAudio from "../../public/sounds/openAudio.mp3";
 
-import newStageAudio from "../../public/sounds/newStageAudio.mp3";  
+import newStageAudio from "../../public/sounds/newStageAudio.mp3";
+
+
 
 const RaffledBuildings = () => {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
@@ -27,14 +29,15 @@ const RaffledBuildings = () => {
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
   const [buttonNewStageAudio] = useSound(newStageAudio);
+  const dia = dados.dia;
 
   useEffect(() => {
-    if (dados.dia === 400) {
+    if (dia === 400) {
       setIsModalObjOpen(true);
       buttonOpenAudio();
       buttonNewStageAudio();
     }
-  }, [dados.dia]);
+  }, [dia]);
 
   const setoresArr = [
     "agricultura",
@@ -55,12 +58,12 @@ const RaffledBuildings = () => {
   };
 
   const TooltipPadrao = ({ id }) => (
-  <Tooltip
-    id={id}
-    style={tooltipStyle}
-    border="1px solid #350973"
-  />
-);
+    <Tooltip
+      id={id}
+      style={tooltipStyle}
+      border="1px solid #350973"
+    />
+  );
 
 
   // Arrays de rank
@@ -99,7 +102,7 @@ const RaffledBuildings = () => {
     "Centro De Pesquisa Em Fusão Nuclear",
     "Centro De Pesquisa Aeroespacial",
     "Centro De Engenharia Avançada",
-    "Centro De Pesquisa Em Materiais Avançados",
+    "Centro De Pesquisa Em Materiais",
     "Centro De Pesquisa Em IA",
     "Mineradora De Pedras Preciosas",
     "Mega Mercado",
@@ -177,7 +180,7 @@ const RaffledBuildings = () => {
     "Armazém",
     "Silo",
     "Depósito De Resíduos Orgânicos",
-    "Madeireira",
+    "Serraria",
     "Área Florestal",
     "Terreno De Mineração",
     "Plantação De Eucalipto",
@@ -223,11 +226,11 @@ const RaffledBuildings = () => {
     "Escritório De Arquitetura",
     "Consultoria Em Engenharia Civil",
     "Fábrica De Móveis",
-    "Fábrica De Ração",
+    "Fábrica De Rações",
     "Fábrica De Embalagem",
     "Fábrica De Bebidas",
     "Fábrica De Pães",
-    "Fábrica Textil",
+    "Fábrica Têxtil",
     "Fábrica De Calçados",
     "Fábrica De Roupas",
     "Fábrica De Celulose",
@@ -246,6 +249,12 @@ const RaffledBuildings = () => {
         "Estação De Carregamento",
       ],
     },
+
+
+
+
+
+
     {
       nome: "Apple",
       descricao: "Se torne um empreendedor no ramo de celulares e computadores",
@@ -255,65 +264,7 @@ const RaffledBuildings = () => {
         "Loja De Celulares",
       ],
     },
-    {
-      nome: "SpaceX",
-      descricao: "Se torne um empreendedor no ramo espacial",
-      obrigatorios: [
-        "Fábrica De Foguetes",
-        "Centro De Pesquisa Aeroespacial",
-        "Aeroporto",
-      ],
-    },
-    {
-      nome: "AgroTech",
-      descricao: "Domine a indústria agrícola moderna",
-      obrigatorios: [
-        "Cooperativa Agrícola",
-        "Centro De Pesquisa Agrícola",
-        "Plantação De Grãos",
-        "Fazenda De Vacas",
-      ],
-    },
-    {
-      nome: "Energia Sustentável",
-      descricao: "Controle fontes de energia limpa",
-      obrigatorios: [
-        "Usina Solar",
-        "Parque Eólico",
-        "Centro De Pesquisa Em Energias Renováveis",
-        "Usina De Fusão Nuclear",
-      ],
-    },
-    {
-      nome: "Cidade Inteligente",
-      descricao: "Desenvolva infraestrutura e serviços urbanos",
-      obrigatorios: [
-        "Shopping Center",
-        "Posto De Combustíveis",
-        "Rede De Distribuição Elétrica",
-        "Estação De Carregamento",
-      ],
-    },
-    {
-      nome: "Amazonia Tech",
-      descricao: "Domine o mercado de varejo online e tecnologia",
-      obrigatorios: [
-        "Marketplace Online",
-        "Data Center",
-        "Centro De Distribuição",
-        "Fábrica De Eletrônicos",
-      ],
-    },
-    {
-      nome: "PetroGlobal",
-      descricao: "Controle o mercado de energia e combustíveis fósseis",
-      obrigatorios: [
-        "Plataforma De Petróleo",
-        "Refinaria",
-        "Transporte Petrolífero",
-        "Posto De Combustíveis",
-      ],
-    }, //limpo
+
     {
       nome: "BioFuture",
       descricao: "Lidere a revolução da biotecnologia e energias renováveis",
@@ -324,6 +275,223 @@ const RaffledBuildings = () => {
         "Refinaria De Biocombustíveis",
       ],
     },
+
+    {
+      nome: "FoodNetwork",
+      descricao: "Controle a cadeia produtiva de alimentos",
+      obrigatorios: [
+        "Cooperativa Agrícola",
+        "Mega Mercado",
+        "Restaurante",
+        "Fábrica De Rações",
+      ],
+    },
+
+
+
+
+
+
+
+
+    {
+      nome: "TechResearch",
+      descricao:
+        "Torne-se referência em pesquisa e desenvolvimento tecnológico",
+      obrigatorios: [
+        "Centro De Pesquisa Em IA",
+        "Centro De Pesquisa Em Materiais",
+        "Laboratório De Nanotecnologia",
+        "Centro De Pesquisa Em Eletrônicos",
+      ],
+    },
+
+    {
+      nome: "PetLove",
+      descricao:
+        "Crie o maior ecossistema de produtos para animais de estimação",
+      obrigatorios: [
+        "Petshop",
+        "Fábrica De Rações",
+        "Fazenda De Vacas",
+        "Granja De Aves",
+        "Centro De Distribuição",
+        "Mercado",
+        "Farmácia",
+        "Fábrica De Medicamentos",
+      ],
+    },
+
+    {
+      nome: "EduTech",
+      descricao: "Revolucione o mercado educacional com tecnologia",
+      obrigatorios: [
+        "Empresa De Desenvolvimento De Software",
+        "Livraria",
+        "Data Center",
+        "Centro De Pesquisa Em IA",
+      ],
+    },
+
+
+
+
+
+
+
+
+
+
+
+    {
+      nome: "Construtora Elite",
+      descricao:
+        "Torne-se referência em construções de alto padrão e design sofisticado",
+      obrigatorios: [
+        "Fábrica De Móveis",
+        "Prédio De Alto Padrão",
+        "Escritório De Arquitetura",
+        "Escritório De Design De Interiores",
+        "Terraplanagem E Pavimentação",
+      ],
+    },
+    {
+      nome: "Galaxy Tech",
+      descricao:
+        "Domine a tecnologia aeroespacial com foguetes, pesquisa avançada e propulsão",
+      obrigatorios: [
+        "Fábrica De Foguetes",
+        "Fábrica De Motores",
+        "Centro De Engenharia Avançada",
+        "Centro De Pesquisa Em Materiais",
+        "Centro De Pesquisa Em Robótica",
+        "Laboratório De Novos Combustíveis",
+        "Centro De Pesquisa Aeroespacial",
+      ],
+    },
+    {
+      nome: "Naval Force",
+      descricao:
+        "Lidere a construção naval com estaleiros de ponta e engenharia avançada",
+      obrigatorios: [
+        "Estaleiro",
+        "Centro De Pesquisa Em Materiais",
+        "Centro De Engenharia Avançada",
+        "Indústria De Componentes Mecânicos",
+        "Fábrica De Estruturas Metálicas",
+      ],
+    },
+    {
+      nome: "FashionStyle",
+      descricao: "Torne-se líder no mercado de moda e vestuário",
+      obrigatorios: [
+        "Fábrica Têxtil",
+        "Fábrica De Roupas",
+        "Fábrica De Calçados",
+        "Loja De Vestuário",
+      ],
+    },
+    {
+      nome: "SpaceX", //certo
+      descricao: "Se torne um empreendedor no ramo espacial",
+      obrigatorios: [
+        "Fábrica De Foguetes",
+        "Centro De Pesquisa Aeroespacial",
+        "Aeroporto",
+      ],
+    },
+    {
+      nome: "TecnoAgro",
+      descricao:
+        "Implemente a agricultura 4.0 com pesquisa de ponta e automação",
+      obrigatorios: [
+        "Centro De Pesquisa Agrícola",
+        "Instituto De Biotecnologia",
+        "Instituto De Tecnologia Alimentar",
+        "Empresa De Automação Industrial",
+        "Biofábrica",
+        "Cooperativa Agrícola",
+        "Armazém Logístico",
+        "Fazenda Administrativa",
+      ],
+    },
+    {
+      nome: "Aço & Alumínio",
+      descricao:
+        "Monopolize a produção metalúrgica desde a mineração até a fabricação",
+      obrigatorios: [
+        "Alto-Forno",
+        "Usina Siderúrgica",
+        "Fundição De Alumínio",
+        "Mineradora",
+        "Terreno De Mineração",
+      ],
+    },
+    {
+      nome: "HealthCare Brasil",
+      descricao: "Controle a cadeia completa de saúde e farmácias",
+      obrigatorios: [
+        "Farmácia",
+        "Laboratório Farmacêutico",
+        "Fábrica De Medicamentos",
+        "Plantação De Plantas Medicinais",
+        "Biofábrica",
+        "Centro De Pesquisa Química",
+        "Centro De Distribuição",
+        "Instituto De Biotecnologia",
+      ],
+    },
+
+    {
+      nome: "AgroTech", //certo
+      descricao: "Domine a indústria agrícola moderna",
+      obrigatorios: [
+        "Cooperativa Agrícola",
+        "Centro De Pesquisa Agrícola",
+        "Plantação De Grãos",
+        "Fazenda De Vacas",
+      ],
+    },
+    {
+      nome: "Energia Sustentável", //certo
+      descricao: "Controle fontes de energia limpa",
+      obrigatorios: [
+        "Usina Solar",
+        "Parque Eólico",
+        "Centro De Pesquisa Em Energias Renováveis",
+        "Usina De Fusão Nuclear",
+      ],
+    },
+    {
+      nome: "Cidade Inteligente", //certo
+      descricao: "Desenvolva infraestrutura e serviços urbanos",
+      obrigatorios: [
+        "Shopping Center",
+        "Posto De Combustíveis",
+        "Rede De Distribuição Elétrica",
+        "Estação De Carregamento",
+      ],
+    },
+    {
+      nome: "Amazonia Tech", //certo
+      descricao: "Domine o mercado de varejo online e tecnologia",
+      obrigatorios: [
+        "Marketplace Online",
+        "Data Center",
+        "Centro De Distribuição",
+        "Fábrica De Eletrônicos",
+      ],
+    },
+    {
+      nome: "PetroGlobal", //certo
+      descricao: "Controle o mercado de energia e combustíveis fósseis",
+      obrigatorios: [
+        "Plataforma De Petróleo",
+        "Refinaria",
+        "Transporte Petrolífero",
+        "Posto De Combustíveis",
+      ],
+    }, //limpo
     {
       nome: "MetaVerse Inc",
       descricao: "Crie o império de entretenimento digital e realidade virtual",
@@ -345,7 +513,7 @@ const RaffledBuildings = () => {
       ],
     }, //////errado
     {
-      nome: "HealthPlus",
+      nome: "HealthPlus", //certo
       descricao: "Domine o mercado farmacêutico e de saúde",
       obrigatorios: [
         "Fábrica De Medicamentos",
@@ -355,7 +523,7 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "AutoGroup",
+      nome: "AutoGroup", //certo
       descricao: "Lidere a indústria automotiva e de mobilidade",
       obrigatorios: [
         "Montadora De Veículos Elétricos",
@@ -365,28 +533,7 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "FoodNetwork",
-      descricao: "Controle a cadeia produtiva de alimentos",
-      obrigatorios: [
-        "Cooperativa Agrícola",
-        "Mega Mercado",
-        "Restaurante",
-        "Fábrica De Ração",
-      ],
-    },
-    {
-      nome: "TechResearch",
-      descricao:
-        "Torne-se referência em pesquisa e desenvolvimento tecnológico",
-      obrigatorios: [
-        "Centro De Pesquisa Em IA",
-        "Centro De Pesquisa Em Materiais Avançados",
-        "Laboratório De Nanotecnologia",
-        "Centro De Pesquisa Em Eletrônicos",
-      ],
-    },
-    {
-      nome: "EcoPower",
+      nome: "EcoPower", //certo
       descricao: "Lidere a transição para energias renováveis",
       obrigatorios: [
         "Usina Solar",
@@ -396,7 +543,7 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "SteelIndustry",
+      nome: "SteelIndustry", //certo
       descricao: "Domine a produção de aço e metais",
       obrigatorios: [
         "Alto-Forno",
@@ -406,18 +553,48 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "PetLove",
+      nome: "RoboTech", //certo
       descricao:
-        "Crie o maior ecossistema de produtos para animais de estimação",
+        "Revolutionize a indústria com automação, robótica e inteligência artificial",
       obrigatorios: [
-        "Petshop",
-        "Fábrica De Ração",
-        "Fazenda De Vacas",
-        "Granja De Aves",
+        "Fábrica De Robôs",
+        "Fábrica De Placas Eletrônicas",
+        "Fábrica De Chips",
+        "Indústria De Componentes Mecânicos",
+        "Centro De Pesquisa Em IA",
+        "Centro De Pesquisa Em Eletrônicos",
+        "Centro De Pesquisa Em Robótica",
+        "Fábrica De Eletrônicos",
+      ],
+    },
+    {
+      nome: "Verde & Papel", //certo
+      descricao:
+        "Monte o ecossistema completo de produção de papel desde a floresta até as livrarias",
+      obrigatorios: [
+        "Fábrica De Celulose",
+        "Fábrica De Papel",
+        "Serraria",
+        "Área Florestal",
+        "Plantação De Eucalipto",
+        "Centro De Pesquisa Química",
+        "Empresa De Automação Industrial",
+        "Livraria",
+      ],
+    },
+    {
+      nome: "AgroPower Brasil", //certo
+      descricao:
+        "Domine toda a cadeia produtiva do agronegócio brasileiro, desde a plantação até a exportação",
+      obrigatorios: [
+        "Plantação De Grãos",
+        "Plantação De Vegetais",
+        "Cooperativa Agrícola",
+        "Centro De Comércio De Plantações",
+        "Fazenda Administrativa",
+        "Armazém",
+        "Silo",
         "Centro De Distribuição",
-        "Mercado",
-        "Farmácia",
-        "Fábrica De Medicamentos",
       ],
     },
     {
@@ -426,7 +603,7 @@ const RaffledBuildings = () => {
       obrigatorios: [
         "Loja De Móveis",
         "Fábrica De Móveis",
-        "Madeireira",
+        "Serraria",
         "Plantação De Eucalipto",
         "Escritório De Design De Interiores",
         "Centro De Distribuição",
@@ -435,7 +612,7 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "EntregaExpress",
+      nome: "EntregaExpress", //certo
       descricao: "Monte a maior rede de logística e entregas do país",
       obrigatorios: [
         "Centro De Transporte E Entrega",
@@ -459,113 +636,7 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "EduTech",
-      descricao: "Revolucione o mercado educacional com tecnologia",
-      obrigatorios: [
-        "Empresa De Desenvolvimento De Software",
-        "Livraria",
-        "Data Center",
-        "Centro De Pesquisa Em IA",
-      ],
-    },
-    {
-      nome: "Diamond Empire",
-      descricao:
-        "Domine o mercado de joias luxuosas e mineração de pedras preciosas",
-      obrigatorios: [
-        "Mineradora De Pedras Preciosas",
-        "Joalheria",
-        "Terreno De Mineração",
-        "Laboratório De Design De Produtos",
-        "Terraplanagem E Pavimentação",
-        "Consultoria Em Engenharia Civil",
-      ],
-    },
-    {
-      nome: "Construtora Elite",
-      descricao:
-        "Torne-se referência em construções de alto padrão e design sofisticado",
-      obrigatorios: [
-        "Fábrica De Móveis",
-        "Prédio De Alto Padrão",
-        "Escritório De Arquitetura",
-        "Escritório De Design De Interiores",
-        "Terraplanagem E Pavimentação",
-      ],
-    },
-    {
-      nome: "Galaxy Tech",
-      descricao:
-        "Domine a tecnologia aeroespacial com foguetes, pesquisa avançada e propulsão",
-      obrigatorios: [
-        "Fábrica De Foguetes",
-        "Fábrica De Motores",
-        "Centro De Engenharia Avançada",
-        "Centro De Pesquisa Em Materiais Avançados",
-        "Centro De Pesquisa Em Robótica",
-        "Laboratório De Novos Combustíveis",
-        "Centro De Pesquisa Aeroespacial",
-      ],
-    },
-    {
-      nome: "Naval Force",
-      descricao:
-        "Lidere a construção naval com estaleiros de ponta e engenharia avançada",
-      obrigatorios: [
-        "Estaleiro",
-        "Centro De Pesquisa Em Materiais Avançados",
-        "Centro De Engenharia Avançada",
-        "Indústria De Componentes Mecânicos",
-        "Fábrica De Estruturas Metálicas",
-      ],
-    },
-    {
-      nome: "RoboTech",
-      descricao:
-        "Revolutionize a indústria com automação, robótica e inteligência artificial",
-      obrigatorios: [
-        "Fábrica De Robôs",
-        "Fábrica De Placas Eletrônicas",
-        "Fábrica De Chips",
-        "Indústria De Componentes Mecânicos",
-        "Centro De Pesquisa Em IA",
-        "Centro De Pesquisa Em Eletrônicos",
-        "Centro De Pesquisa Em Robótica",
-        "Fábrica De Eletrônicos",
-      ],
-    },
-    {
-      nome: "Verde & Papel",
-      descricao:
-        "Monte o ecossistema completo de produção de papel desde a floresta até as livrarias",
-      obrigatorios: [
-        "Fábrica De Celulose",
-        "Fábrica De Papel",
-        "Madeireira",
-        "Área Florestal",
-        "Plantação De Eucalipto",
-        "Centro De Pesquisa Química",
-        "Empresa De Automação Industrial",
-        "Livraria",
-      ],
-    },
-    {
-      nome: "AgroPower Brasil",
-      descricao:
-        "Domine toda a cadeia produtiva do agronegócio brasileiro, desde a plantação até a exportação",
-      obrigatorios: [
-        "Plantação De Grãos",
-        "Plantação De Vegetais",
-        "Cooperativa Agrícola",
-        "Centro De Comércio De Plantações",
-        "Fazenda Administrativa",
-        "Armazém",
-        "Silo",
-        "Centro De Distribuição",
-      ],
-    },
-    {
-      nome: "BioCombustíveis Nacional",
+      nome: "BioCombustíveis Nacional", //certo
       descricao:
         "Lidere a produção de energia renovável a partir de biomassa e resíduos agrícolas",
       obrigatorios: [
@@ -579,27 +650,13 @@ const RaffledBuildings = () => {
         "Fazenda Administrativa",
       ],
     },
+
     {
-      nome: "FarmaVerde",
-      descricao:
-        "Monopolize a produção de plantas medicinais e produtos farmacêuticos naturais",
-      obrigatorios: [
-        "Plantação De Plantas Medicinais",
-        "Biofábrica",
-        "Laboratório Farmacêutico",
-        "Fábrica De Medicamentos",
-        "Fábrica De Químicos Especializados",
-        "Instituto De Biotecnologia",
-        "Depósito De Resíduos Orgânicos",
-        "Centro De Pesquisa Agrícola",
-      ],
-    },
-    {
-      nome: "Madeira & Papel",
-      descricao: "Controle a cadeia completa de produção madeireira e de papel",
+      nome: "Madeira & Papel", //certo
+      descricao: "Controle a cadeia completa de produção Serraria e de papel",
       obrigatorios: [
         "Plantação De Eucalipto",
-        "Madeireira",
+        "Serraria",
         "Área Florestal",
         "Fábrica De Celulose",
         "Fábrica De Papel",
@@ -608,23 +665,9 @@ const RaffledBuildings = () => {
         "Fazenda Administrativa",
       ],
     },
+
     {
-      nome: "TecnoAgro",
-      descricao:
-        "Implemente a agricultura 4.0 com pesquisa de ponta e automação",
-      obrigatorios: [
-        "Centro De Pesquisa Agrícola",
-        "Instituto De Biotecnologia",
-        "Instituto De Tecnologia Alimentar",
-        "Empresa De Automação Industrial",
-        "Biofábrica",
-        "Cooperativa Agrícola",
-        "Armazém Logístico",
-        "Fazenda Administrativa",
-      ],
-    },
-    {
-      nome: "Shopping Brasil",
+      nome: "Shopping Brasil", //certo
       descricao: "Domine o varejo nacional com shoppings populares e centers",
       obrigatorios: [
         "Shopping Center",
@@ -638,7 +681,7 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "TechMall",
+      nome: "TechMall", //certo
       descricao: "Crie o maior centro de tecnologia e gadgets do país",
       obrigatorios: [
         "Loja De Eletrônicos",
@@ -651,22 +694,9 @@ const RaffledBuildings = () => {
         "Marketplace Online",
       ],
     },
+
     {
-      nome: "HealthCare Brasil",
-      descricao: "Controle a cadeia completa de saúde e farmácias",
-      obrigatorios: [
-        "Farmácia",
-        "Laboratório Farmacêutico",
-        "Fábrica De Medicamentos",
-        "Plantação De Plantas Medicinais",
-        "Biofábrica",
-        "Centro De Pesquisa Química",
-        "Centro De Distribuição",
-        "Instituto De Biotecnologia",
-      ],
-    },
-    {
-      nome: "AutoShopping",
+      nome: "AutoShopping", //certo
       descricao: "Integre concessionárias e centros automotivos",
       obrigatorios: [
         "Concessionária De Veículos",
@@ -679,18 +709,9 @@ const RaffledBuildings = () => {
         "Consultoria Em Engenharia Civil",
       ],
     },
+
     {
-      nome: "FashionStyle",
-      descricao: "Torne-se líder no mercado de moda e vestuário",
-      obrigatorios: [
-        "Fábrica Textil",
-        "Fábrica De Roupas",
-        "Fábrica De Calçados",
-        "Loja De Vestuário",
-      ],
-    },
-    {
-      nome: "Átomo Avançado",
+      nome: "Átomo Avançado", //certo
       descricao:
         "Lidere a revolução da energia nuclear com pesquisa de ponta e mineração radioativa",
       obrigatorios: [
@@ -703,17 +724,19 @@ const RaffledBuildings = () => {
       ],
     },
     {
-      nome: "Aço & Alumínio",
+      nome: "Diamond Empire", //certo
       descricao:
-        "Monopolize a produção metalúrgica desde a mineração até a fabricação",
+        "Domine o mercado de joias luxuosas e mineração de pedras preciosas",
       obrigatorios: [
-        "Alto-Forno",
-        "Usina Siderúrgica",
-        "Fundição De Alumínio",
-        "Mineradora",
+        "Mineradora De Pedras Preciosas",
+        "Joalheria",
         "Terreno De Mineração",
+        "Laboratório De Design De Produtos",
+        "Terraplanagem E Pavimentação",
+        "Consultoria Em Engenharia Civil",
       ],
     },
+
   ];
 
   // 🔹 Função para sortear itens
@@ -796,28 +819,35 @@ const RaffledBuildings = () => {
     );
   };
 
-  const fecharModal = () => {setIsModalObjOpen(false) };
+  const fecharModal = () => { setIsModalObjOpen(false) };
 
   // 🔹 Verificar se todos os objetivos foram concluídos
   const verificarConclusao = () => {
     if (!campanhaSelecionada || selectedItems.length === 0) return false;
 
-    const todosCompletos = selectedItems.every((ed) => {
-      const setores = [
-        "agricultura",
-        "tecnologia",
-        "comercio",
-        "industria",
-        "imobiliario",
-        "energia",
-      ];
+    const setores = [
+      "agricultura",
+      "tecnologia",
+      "comercio",
+      "industria",
+      "imobiliario",
+      "energia",
+    ];
 
+    const todosCompletos = selectedItems.every((ed) => {
       for (const setor of setores) {
-        const edificio = dados[setor]?.edificios?.find(
-          (e) => e.nome === ed.nome
-        );
-        if (edificio && edificio.quantidade > 0) {
-          return true;
+        const listaEst = dados[setor]?.edificios || [];
+
+        // 🔍 pega o índice no estático
+        const index = listaEst.findIndex((e) => e.nome === ed.nome);
+
+        if (index !== -1) {
+          // 🔥 usa o índice no dinâmico
+          const qtd =
+            dados[setor]?.edificios?.[index]
+              ?.quantidade || 0;
+
+          if (qtd > 0) return true;
         }
       }
       return false;
@@ -835,7 +865,7 @@ const RaffledBuildings = () => {
         setModalConclusao(true);
       }
     }
-  }, [dados, campanhaSelecionada, selectedItems, objetivoConcluido]);
+  }, [campanhaSelecionada, selectedItems, objetivoConcluido]);
 
   const continuarJogo = () => {
     setModalConclusao(false);
@@ -849,9 +879,9 @@ const RaffledBuildings = () => {
     /* 🎉 MODAL DE CONCLUSÃO */
   }
 
-  if (dados.dia < 270) return null;
+  if (dia < 270) return null;
 
-  if (dados.dia >= 270) {
+  if (dia >= 270) {
     // 🔹 Função para calcular extras de uma campanha específica
     const calcularExtras = (campanhaNome) => {
       const campanha = Campanhas.find((c) => c.nome === campanhaNome);
@@ -879,21 +909,21 @@ const RaffledBuildings = () => {
 
     return (
       <div>
-        {dados.dia >= 400 &&
+        {dia >= 400 &&
 
           <button
-          onClick={() => { setIsModalObjOpen(true), buttonOpenAudio(); }}
-          data-tooltip-id="saldo-tip"
-          data-tooltip-content="Observe os objetivos do jogo"
-          className="bg-laranja min-h-[50px] hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center"
+            onClick={() => { setIsModalObjOpen(true), buttonOpenAudio(); }}
+            data-tooltip-id="saldo-tip"
+            data-tooltip-content="Observe os objetivos do jogo"
+            className="bg-laranja min-h-[50px] hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center"
           >
-          <img
-            className="w-[60%] max-w-[58px] aspect-square"
-            src={alvo}
-            alt="Economia"
+            <img
+              className="w-[60%] max-w-[58px] aspect-square"
+              src={alvo}
+              alt="Economia"
             />
-        </button>
-          }
+          </button>
+        }
         <TooltipPadrao
           id="saldo-tip"
           style={tooltipStyle}
@@ -932,7 +962,7 @@ const RaffledBuildings = () => {
                 {/* 🔹 Mostrar opções somente se nenhuma campanha foi selecionada */}
                 {!campanhaSelecionada &&
                   getRandomItems(Campanhas, 3).map((c, i) => {
-                    const extrasParaEstaCampanha = calcularExtras(c.nome); // 🔹 CALCULAR AQUI
+                    const extrasParaEstaCampanha = calcularExtras(c.nome);
 
                     return (
                       <motion.div
@@ -940,39 +970,58 @@ const RaffledBuildings = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4 }}
-                        className="flex flex-col md:flex-row items-center justify-between bg-[#2a0f50] rounded-2xl p-6 w-full max-w-[1600px]"
+                        className="flex flex-col md:flex-row items-center justify-between bg-[#1f0b3d]/80 border border-white/5 backdrop-blur-md rounded-3xl p-8 w-full max-w-[1600px] shadow-2xl mb-6"
                       >
-                        <div className="flex -space-x-6 h-[230px] mb-4 md:mb-0">
-                          {c.obrigatorios.map((nome, j) => (
-                            <div key={j} className="w-[90px] h-[120px]">
-                              {Localizador(nome)}
-                            </div>
-                          ))}
-                          <Plus
-                            color="#FFFFFF"
-                            className="z-50 relative left-[150px] top-[90px]"
-                            size={48}
-                          />
-                          <div className="relative left-[180px]">
-                            <MisteryCard quantidade={extrasParaEstaCampanha} />{" "}
-                            {/* 🔹 USAR VALOR CALCULADO */}
+                        {/* CONTAINER INLINE: Agora tudo flui horizontalmente */}
+                        <div className="flex flex-row flex-1 items-center justify-start overflow-visible py-4">
+
+                          {/* GRUPO DE SOBREPOSIÇÃO DAS CARTAS OBRIGATÓRIAS */}
+                          <div className="flex -space-x-[150px] items-center">
+                            {c.obrigatorios.map((nome, j) => (
+                              <motion.div
+                                key={j}
+                                className="w-[220px] h-[350px] relative transition-all"
+                                style={{ zIndex: j }}
+                                whileHover={{ zIndex: 50, y: -15, scale: 1.05 }}
+                              >
+                                {Localizador(nome)}
+                              </motion.div>
+                            ))}
+                          </div>
+
+                          {/* DIVISOR PLUS: Espaçamento ajustado para não ficar em cima da última carta */}
+                          <div className="flex items-center justify-center px-10 z-[60]">
+                            <Plus
+                              color="#F27405"
+                              className="drop-shadow-[0_0_10px_rgba(242,116,5,0.5)]"
+                              size={48}
+                              strokeWidth={3}
+                            />
+                          </div>
+
+                          {/* MISTERY CARD INLINE */}
+                          <div className="z-[60]">
+                            <MisteryCard quantidade={extrasParaEstaCampanha} />
                           </div>
                         </div>
 
-                        <div className="flex flex-col justify-evenly text-center md:text-left w-full md:w-[35%] gap-4">
-                          <div className="w-full py-2 px-4 rounded-xl bg-white/10 backdrop-blur-sm">
-                            <h2 className="text-2xl font-bold text-white">
+                        {/* PAINEL LATERAL DE INFO */}
+                        <div className="flex flex-col justify-center text-center md:text-left w-full md:w-[28%] gap-6 ml-10 border-l border-white/10 pl-10">
+                          <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                            <h2 className="text-2xl font-black text-white uppercase tracking-tighter italic">
                               {c.nome}
                             </h2>
                           </div>
 
-                          <p className="text-sm text-white">{c.descricao}</p>
+                          <p className="text-sm text-white/60 leading-relaxed font-medium">
+                            {c.descricao}
+                          </p>
 
                           <button
                             onClick={() => { gerarCampanha(c.nome); buttonNewStageAudio(); }}
-                            className="bg-gradient-to-r from-[#F27405] to-[#6A00FF] text-white px-6 py-2 rounded-xl font-bold hover:scale-105 transition-transform duration-200 shadow-md"
+                            className="bg-gradient-to-r from-[#F27405] to-[#6A00FF] text-white py-4 rounded-2xl font-bold text-sm hover:scale-[1.02] active:scale-95 transition-all shadow-lg uppercase tracking-widest"
                           >
-                            Selecionar
+                            Selecionar Campanha
                           </button>
                         </div>
                       </motion.div>
@@ -984,24 +1033,24 @@ const RaffledBuildings = () => {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="flex flex-wrap gap-6 justify-center mt-4"
+                    className="flex flex-wrap gap-8 justify-center mt-6 pb-10"
                   >
+
+
                     {selectedItems.map((ed, i) => {
                       const setores = [
-                        "agricultura",
-                        "tecnologia",
-                        "comercio",
-                        "industria",
-                        "imobiliario",
-                        "energia",
+                        "agricultura", "tecnologia", "comercio",
+                        "industria", "imobiliario", "energia"
                       ];
+
                       let setorEncontrado = null;
                       let indice = -1;
 
                       for (const setor of setores) {
-                        indice = dados[setor].edificios.findIndex(
-                          (e) => e.nome === ed.nome
-                        );
+                        const listaEst = dados[setor]?.edificios || [];
+
+                        indice = listaEst.findIndex((e) => e.nome === ed.nome);
+
                         if (indice !== -1) {
                           setorEncontrado = setor;
                           break;
@@ -1010,32 +1059,60 @@ const RaffledBuildings = () => {
 
                       const quantidade =
                         setorEncontrado && indice !== -1
-                          ? dados[setorEncontrado].edificios[indice].quantidade
+                          ? dados[setorEncontrado]?.edificios?.[indice]?.quantidade || 0
                           : 0;
 
-                      const gradienteDourado = `
-                    linear-gradient(45deg, #b8860b, #8b7500 25%, #daa520 50%, #cfa200 75%, #b8860b 100%),
-                    linear-gradient(135deg, #8b6914, #ffd700 25%, #bfa600 50%, #806000 75%, #b8860b 100%)
-                    `;
+                      const gradienteConquistado = `linear-gradient(135deg, rgba(184, 134, 11, 0.9) 0%, rgba(218, 165, 32, 0.4) 50%, rgba(139, 117, 0, 0.9) 100%)`;
+
                       return (
                         <motion.div
                           key={i}
-                          initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                          initial={{ opacity: 0, y: 30, scale: 0.9 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
+                          whileHover={{ y: -10, transition: { duration: 0.2 } }}
                           transition={{
-                            delay: i * 0.1,
+                            delay: i * 0.05,
                             type: "spring",
-                            stiffness: 120,
+                            stiffness: 100,
                           }}
-                          className="w-[300px] h-[300px] p-2 rounded-xl flex items-center justify-center shadow-lg"
+                          className={`relative w-[250px] h-[350px] p-[2px] rounded-[20px] flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500`}
                           style={{
-                            background:
-                              quantidade > 0 ? gradienteDourado : "#ffffff10",
-                            backgroundBlendMode:
-                              quantidade > 0 ? "overlay" : "normal",
+                            background: quantidade > 0
+                              ? gradienteConquistado
+                              : "rgba(255, 255, 255, 0.05)",
+                            border: quantidade > 0
+                              ? "1px solid #FFD700"
+                              : "1px solid rgba(255,255,255,0.1)",
                           }}
                         >
-                          {Localizador(ed.nome)}
+
+                          {quantidade > 0 && (
+                            <motion.div
+                              animate={{ opacity: [0.3, 0.6, 0.3] }}
+                              transition={{ repeat: Infinity, duration: 2 }}
+                              className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,215,0,0.2)_0%,transparent_70%)]"
+                            />
+                          )}
+
+                          {quantidade === 0 && (
+                            <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center p-4">
+                              <div className="bg-white/40 p-3 rounded-full mb-2">
+                                <span className="text-white/20 text-xs font-bold uppercase tracking-widest">
+                                  Pendente
+                                </span>
+                              </div>
+                            </div>
+                          )}
+
+                          <div className={`w-full h-full rounded-[18px] flex items-center justify-center overflow-hidden ${quantidade === 0 ? 'grayscale opacity-50' : 'grayscale-0 opacity-100'}`}>
+                            {Localizador(ed.nome)}
+                          </div>
+
+                          {quantidade > 0 && (
+                            <div className="absolute top-3 right-3 z-20 bg-green-600 text-white text-[10px] font-black px-2 py-1 rounded-md shadow-lg border border-white/20">
+                              CONQUISTADO
+                            </div>
+                          )}
                         </motion.div>
                       );
                     })}

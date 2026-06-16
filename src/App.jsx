@@ -61,7 +61,7 @@ function App() {
           {/* Botão de Tela Cheia */}
           <button
             onClick={toggleFullscreen}
-            className="absolute top-2 right-5 z-50"
+            className="absolute top-4 right-4 z-[10000]"
           >
             <img
               className="w-[30px] h-[30px]"
@@ -78,4 +78,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

@@ -9,6 +9,8 @@ import finishGame from '../public/outrasImagens/finish.png'
 import { CentraldeDadosContext } from "./centralDeDadosContext.jsx";
 
 import { LicenceModalBusiness } from "./components/licenseButton.jsx";
+import { BusinessLicenceModal } from "./components/BusinessLicenseModal.jsx";
+
 
 const PayTexes = lazy(() => import("./components/PayTexes.jsx"));
 const ButtonChange = lazy(() => import("./components/ButtonChange.jsx"));
@@ -36,6 +38,7 @@ const ModalInfo = lazy(() => import("./components/ModalInfo.jsx"));
 const UpgradeCards = lazy(() => import("./components/UpgradeCards.jsx"));
 const Mapworld = lazy(() => import("./components/MapWorld.jsx"));
 const SidebarFinancas = lazy(() => import("./components/SidebarFinancas.jsx"));
+import { PackOpening } from "./components/PackOpening.jsx";
 import { ModalFalencia } from "./notificação.jsx";
 
 // Ícone de toggle simples (chevron)
@@ -63,9 +66,9 @@ function Interface() {
 
   // ── Visibilidade das camadas ──────────────────────────────
   const [sidebarEsqAberta, setSidebarEsqAberta] = useState(true);
-  const [dashboardAberto, setDashboardAberto]   = useState(true);
+  const [dashboardAberto, setDashboardAberto] = useState(true);
   const [sidebarDirAberta, setSidebarDirAberta] = useState(true);
-
+  const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
   // const setorAtivo = dados.setorAtivo
 
   // const setVision = (newVision) => {
@@ -111,7 +114,15 @@ function Interface() {
       <ModalAlert />
       <ModalPerson />
       <ModalInfo />
+      <PackOpening
+        onClose={() => setAbrirPack(false)}
+      />
 
+      {businessLicenceModal && (
+        <BusinessLicenceModal
+          onClose={() => setBusinessLicenceModal(false)}
+        />
+      )}
       {/* ═══════════════════════════════════════════════════════
           CAMADA 5 — TOPBAR (sempre sobrepõe tudo)
           Posição: fixa no topo, largura total
@@ -145,11 +156,14 @@ function Interface() {
           <TaxesYear />
           <EconomyGlobal />
           <RaffledBuildings />
-          <LicenceModalBusiness />
+          <UpgradeCards/>
+          <LicenceModalBusiness
+            onOpen={() => setBusinessLicenceModal(true)}
+          />
 
           {/* Botão Falência */}
           <button
-          className="h-[50px] relative aspect-square bg-laranja rounded-[10px] flex items-center justify-center"
+            className="h-[50px] relative aspect-square bg-laranja rounded-[10px] flex items-center justify-center"
             onClick={() => setModalFalenciaOpen(true)}
             data-tooltip-content="Declarar falência"
             style={{
@@ -347,7 +361,7 @@ function Interface() {
             overflow: 'hidden',
           }}
         >
-          <SidebarFinancas />
+          <SidebarFinancas onOpen={() => setBusinessLicenceModal(true)} />
         </div>
       </div>
 

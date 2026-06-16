@@ -13,7 +13,7 @@ import { useEffectEvent } from "react";
 import useSound from "use-sound";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import openAudio from "../../public/sounds/openAudio.mp3";
-
+import { LocalizadorUpgrade } from "./LocalizadorUpgrade";
 import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 
 const UpgradeCards = () => {
@@ -25,6 +25,10 @@ const UpgradeCards = () => {
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
   const [buttonNewStageAudio] = useSound(newStageAudio);
+
+  const CardsSorteados = dados.CardsSorteados
+
+  console.log(CardsSorteados)
 
   useEffect(() => {
     if (dados.dia === 380) {
@@ -471,7 +475,7 @@ const UpgradeCards = () => {
         "Fábrica De Papel",
         "Fábrica De Celulose",
         "Fábrica De Livros",
-       "Plantação De Eucalipto"
+        "Plantação De Eucalipto"
       ],
     },
   ];
@@ -618,7 +622,7 @@ const UpgradeCards = () => {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="w-[90vw] max-w-[1600px] h-[90vh] bg-[#1a0a3b] rounded-[20px] z-20 relative flex flex-col"
             >
-              {campanhaSelecionada && (
+              {dados.dia > 270 && (
                 <button
                   className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
                   onClick={() => { fecharModal(); buttonCloseAudio(); }}
@@ -627,12 +631,8 @@ const UpgradeCards = () => {
                 </button>
               )}
 
-              {!campanhaSelecionada && (
-                <h1 className="text-center text-white py-4 text-[30px] fonteBold">
-                  Selecione os edifícios melhorados
-                </h1>
-              )}
-              {campanhaSelecionada && (
+
+              {dados.dia > 270 && (
                 <h1 className="text-center text-white py-4 text-[30px] fonteBold">
                   Edifícios Melhorados
                 </h1>
@@ -641,110 +641,48 @@ const UpgradeCards = () => {
 
               <div className="overflow-y-auto flex-1 px-8 py-6 space-y-6 flex flex-col items-center scrollbar-custom">
                 {/* 🔹 Mostrar opções somente se nenhuma campanha foi selecionada */}
-                {!campanhaSelecionada &&
-                  getRandomItems(Campanhas, 3).map((c, i) => {
 
 
-                    return (
+
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex flex-col md:flex-row items-center justify-around bg-[#2a0f50] rounded-2xl p-6 w-full max-w-[1600px] h-full"
+                >
+
+                    {CardsSorteados.map((carta, i) => (
                       <motion.div
                         key={i}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4 }}
-                        className="flex flex-col md:flex-row items-center justify-between bg-[#2a0f50] rounded-2xl p-6 w-full max-w-[1600px]"
+                        initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        whileHover={{ y: -10, transition: { duration: 0.2 } }}
+                        transition={{
+                          delay: i * 0.05,
+                          type: "spring",
+                          stiffness: 100,
+                        }}
+                        className={`relative w-[250px] h-[350px] p-[2px] rounded-[20px] flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500`}
+                        style={{
+                          background
+                            : "rgba(255, 255, 255, 0.05)",
+                          border
+                            : "1px solid rgba(255,255,255,0.1)",
+                        }}
                       >
-                        <div className="flex -space-x-6 h-[230px] mb-4 md:mb-0">
-                          {c.obrigatorios.map((nome, j) => (
-                            <div key={j} className="w-[200px] h-[120px]">
-                              {Localizador(nome)}
-                            </div>
-                          ))}
-
-
-                        </div>
-
-                        <div className="flex flex-col justify-evenly text-center md:text-left w-full md:w-[35%] gap-4">
-                          <div className="w-full py-2 px-4 rounded-xl bg-white/10 backdrop-blur-sm">
-                            <h2 className="text-2xl font-bold text-white">
-                              {c.nome}
-                            </h2>
-                          </div>
-
-                          <p className="text-sm text-white">{c.descricao}</p>
-
-                          <button
-                            onClick={() => { gerarCampanha(c.nome); buttonNewStageAudio(); }}
-                            className="bg-gradient-to-r from-[#F27405] to-[#6A00FF] text-white px-6 py-2 rounded-xl font-bold hover:scale-105 transition-transform duration-200 shadow-md"
-                          >
-                            Selecionar
-                          </button>
-                        </div>
+                        {LocalizadorUpgrade(
+                          carta.nome,
+                          carta.redImposto,
+                          carta.fatu
+                        )}
                       </motion.div>
-                    );
-                  })}
+                    ))}
 
-                {/* 🔹 Renderiza todos os edifícios da campanha selecionada */}
-                {campanhaSelecionada && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex flex-wrap gap-6 justify-center mt-4"
-                  >
-                    {selectedItems.map((ed, i) => {
-                      const setores = [
-                        "agricultura",
-                        "tecnologia",
-                        "comercio",
-                        "industria",
-                        "imobiliario",
-                        "energia",
-                      ];
-                      let setorEncontrado = null;
-                      let indice = -1;
 
-                      for (const setor of setores) {
-                        indice = dados[setor].edificios.findIndex(
-                          (e) => e.nome === ed.nome
-                        );
-                        if (indice !== -1) {
-                          setorEncontrado = setor;
-                          break;
-                        }
-                      }
 
-                      const quantidade =
-                        setorEncontrado && indice !== -1
-                          ? dados[setorEncontrado].edificios[indice].quantidade
-                          : 0;
+                </motion.div>
 
-                      const gradienteDourado = `
-                      linear-gradient(45deg, #b8860b, #8b7500 25%, #daa520 50%, #cfa200 75%, #b8860b 100%),
-                      linear-gradient(135deg, #8b6914, #ffd700 25%, #bfa600 50%, #806000 75%, #b8860b 100%)
-                      `;
-                      return (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          transition={{
-                            delay: i * 0.1,
-                            type: "spring",
-                            stiffness: 120,
-                          }}
-                          className="w-[300px] h-[300px] p-2 rounded-xl flex items-center justify-center shadow-lg"
-                          style={{
-                            background:
-                              quantidade > 0 ? gradienteDourado : "#ffffff10",
-                            backgroundBlendMode:
-                              quantidade > 0 ? "overlay" : "normal",
-                          }}
-                        >
-                          {Localizador(ed.nome)}
-                        </motion.div>
-                      );
-                    })}
-                  </motion.div>
-                )}
               </div>
             </motion.div>
           </div>
