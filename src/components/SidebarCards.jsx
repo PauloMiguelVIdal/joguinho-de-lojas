@@ -1,580 +1,385 @@
-import { Sidebar } from "lucide-react";
-import React, { useContext, useEffect, useState } from "react";
-
+import React, { useContext, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-import EconomyGlobal from "./EconomyGlobal";
-import BankInterface from "./BankInterface";
 import LoanCarousel from "./LoanCarousel";
-const SidebarCards = ({ banco, cartao, setor }) => {
-  const { dados, atualizarDados, atualizarDadosProf } = useContext(
-    CentraldeDadosContext
+
+// ── Helpers ───────────────────────────────────────────────
+const fmt = (num) => {
+  if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
+  if (num >= 1e9)  return (num / 1e9).toFixed(1).replace(".0", "") + "B";
+  if (num >= 1e6)  return (num / 1e6).toFixed(1).replace(".0", "") + "M";
+  if (num >= 1e3)  return (num / 1e3).toFixed(1).replace(".0", "") + "K";
+  return String(num);
+};
+
+// ═══════════════════════════════════════════════════════════
+// CARTÕES DE CRÉDITO — variantes de design
+// ═══════════════════════════════════════════════════════════
+
+const GeometricChaosCard = ({ cartao, selected, onClick, nomeEmpresa }) => (
+  <motion.div
+    whileHover={{ scale: 1.04, y: -4 }}
+    whileTap={{ scale: 0.97 }}
+    onClick={onClick}
+    style={{
+      width: 280, height: 160, borderRadius: 20,
+      background: `linear-gradient(45deg, ${cartao.cor1} 0%, ${cartao.cor2} 25%, ${cartao.cor3} 50%, ${cartao.cor4} 75%, ${cartao.cor1} 100%)`,
+      position: "relative", overflow: "hidden", cursor: "pointer",
+      boxShadow: selected ? `0 0 0 3px #fff, 0 8px 32px ${cartao.cor2}88` : `0 8px 24px ${cartao.cor1}66`,
+    }}
+  >
+    <div style={{ position: "absolute", inset: 0 }}>
+      <div style={{ position: "absolute", top: 12, left: 12, width: 24, height: 24, transform: "rotate(45deg)", backgroundColor: cartao.cor4, opacity: .2 }} />
+      <div style={{ position: "absolute", bottom: 12, right: 12, width: 24, height: 48, transform: "rotate(-12deg)", backgroundColor: cartao.cor2, opacity: .3 }} />
+      <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%) rotate(45deg)", width: 48, height: 48, border: `4px solid ${cartao.cor4}`, opacity: .2 }} />
+    </div>
+    <CardBody cartao={cartao} nomeEmpresa={nomeEmpresa} />
+  </motion.div>
+);
+
+const TriangularFusionCard = ({ cartao, selected, onClick, nomeEmpresa }) => (
+  <motion.div
+    whileHover={{ scale: 1.04, y: -4 }}
+    whileTap={{ scale: 0.97 }}
+    onClick={onClick}
+    style={{
+      width: 280, height: 160, borderRadius: 20,
+      background: `conic-gradient(from 0deg, ${cartao.cor1}, ${cartao.cor2}, ${cartao.cor3}, ${cartao.cor4}, ${cartao.cor1})`,
+      position: "relative", overflow: "hidden", cursor: "pointer",
+      boxShadow: selected ? `0 0 0 3px #fff, 0 8px 32px ${cartao.cor2}88` : `0 8px 24px ${cartao.cor1}66`,
+    }}
+  >
+    <div style={{ position: "absolute", top: 12, left: 12, width: 0, height: 0, borderLeft: "15px solid transparent", borderRight: "15px solid transparent", borderBottom: `25px solid ${cartao.cor4}`, opacity: .3 }} />
+    <div style={{ position: "absolute", bottom: 12, right: 12, width: 0, height: 0, borderLeft: "18px solid transparent", borderRight: "18px solid transparent", borderTop: `30px solid ${cartao.cor1}`, opacity: .4 }} />
+    <CardBody cartao={cartao} nomeEmpresa={nomeEmpresa} />
+  </motion.div>
+);
+
+const CardClassico = ({ cartao, selected, onClick, nomeEmpresa }) => (
+  <motion.div
+    whileHover={{ scale: 1.04, y: -4 }}
+    whileTap={{ scale: 0.97 }}
+    onClick={onClick}
+    style={{
+      width: 280, height: 160, borderRadius: 20,
+      background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 50%, ${cartao.cor3} 100%)`,
+      position: "relative", overflow: "hidden", cursor: "pointer",
+      boxShadow: selected ? `0 0 0 3px #fff, 0 8px 32px ${cartao.cor2}88` : `0 8px 24px ${cartao.cor1}66`,
+    }}
+  >
+    <div style={{ position: "absolute", top: -24, right: -24, width: 80, height: 80, transform: "rotate(45deg)", backgroundColor: cartao.cor4, opacity: .1 }} />
+    <div style={{ position: "absolute", top: 40, left: -24, width: 56, height: 56, borderRadius: "50%", backgroundColor: cartao.cor3, opacity: .15 }} />
+    <CardBody cartao={cartao} nomeEmpresa={nomeEmpresa} />
+  </motion.div>
+);
+
+const CardModerno = ({ cartao, selected, onClick, nomeEmpresa }) => (
+  <motion.div
+    whileHover={{ scale: 1.04, y: -4 }}
+    whileTap={{ scale: 0.97 }}
+    onClick={onClick}
+    style={{
+      width: 280, height: 160, borderRadius: 16,
+      background: `radial-gradient(circle at top right, ${cartao.cor3} 0%, ${cartao.cor2} 50%, ${cartao.cor1} 100%)`,
+      position: "relative", overflow: "hidden", cursor: "pointer",
+      boxShadow: selected ? `0 0 0 3px #fff, 0 8px 32px ${cartao.cor2}88` : `0 8px 24px ${cartao.cor1}66`,
+    }}
+  >
+    {[...Array(4)].map((_, i) => (
+      <div key={i} style={{
+        position: "absolute",
+        border: `2px solid ${cartao.cor4}`,
+        width: 22, height: 22,
+        clipPath: "polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)",
+        left: `${15 + i * 14}%`, top: `${8 + (i % 2) * 18}%`,
+        transform: `rotate(${i * 30}deg)`, opacity: .18,
+      }} />
+    ))}
+    <CardBody cartao={cartao} nomeEmpresa={nomeEmpresa} />
+  </motion.div>
+);
+
+const WavePatternsCard = ({ cartao, selected, onClick, nomeEmpresa }) => (
+  <motion.div
+    whileHover={{ scale: 1.04, y: -4 }}
+    whileTap={{ scale: 0.97 }}
+    onClick={onClick}
+    style={{
+      width: 280, height: 160, borderRadius: 18,
+      background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 33%, ${cartao.cor3} 66%, ${cartao.cor4} 100%)`,
+      position: "relative", overflow: "hidden", cursor: "pointer",
+      boxShadow: selected ? `0 0 0 3px #fff, 0 8px 32px ${cartao.cor2}88` : `0 8px 24px ${cartao.cor1}66`,
+    }}
+  >
+    <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: .18 }} viewBox="0 0 280 160">
+      <path d="M0,80 Q70,50 140,80 T280,80 L280,160 L0,160 Z" fill={cartao.cor4} opacity=".35" />
+      <path d="M0,100 Q70,70 140,100 T280,100 L280,160 L0,160 Z" fill={cartao.cor3} opacity=".25" />
+    </svg>
+    <CardBody cartao={cartao} nomeEmpresa={nomeEmpresa} />
+  </motion.div>
+);
+
+// ── Corpo interno compartilhado ────────────────────────────
+const CardBody = ({ cartao, nomeEmpresa }) => (
+  <div style={{ padding: "14px 16px", position: "relative", zIndex: 10, height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+    {/* Banco */}
+    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <span style={{
+        backgroundColor: "rgba(255,255,255,.9)", color: cartao.cor1,
+        fontSize: 9, fontWeight: 800, padding: "3px 9px", borderRadius: 20,
+        letterSpacing: ".06em",
+      }}>
+        {cartao.banco}
+      </span>
+    </div>
+
+    {/* Chip */}
+    <div style={{
+      width: 38, height: 26, borderRadius: 6,
+      background: "linear-gradient(135deg, #f5c518, #e8a000)",
+      position: "relative", boxShadow: "0 2px 8px rgba(0,0,0,.4)",
+    }}>
+      <div style={{ position: "absolute", inset: 6, backgroundColor: "rgba(0,0,0,.25)", borderRadius: 3 }} />
+    </div>
+
+    {/* Número */}
+    <div style={{ fontSize: 14, fontFamily: "monospace", letterSpacing: "3px", color: "#fff", textShadow: "0 1px 4px rgba(0,0,0,.4)" }}>
+      {cartao.numeroCard}
+    </div>
+
+    {/* Rodapé */}
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+      <div>
+        <div style={{ fontSize: 7, opacity: .7, letterSpacing: ".1em", textTransform: "uppercase", color: "#fff", marginBottom: 2 }}>Empresa</div>
+        <div style={{ fontSize: 11, fontWeight: 700, color: "#fff" }}>{nomeEmpresa}</div>
+      </div>
+      <div style={{ textAlign: "right" }}>
+        <div style={{ fontSize: 7, opacity: .7, letterSpacing: ".1em", textTransform: "uppercase", color: "#fff", marginBottom: 2 }}>Válido</div>
+        <div style={{ fontSize: 11, fontWeight: 600, color: "#fff" }}>{cartao.validade}</div>
+      </div>
+    </div>
+  </div>
+);
+
+// ── Slot vazio ─────────────────────────────────────────────
+const SlotVazio = ({ onClick }) => (
+  <motion.div
+    whileHover={{ scale: 1.02 }}
+    onClick={onClick}
+    style={{
+      width: 280, height: 160, borderRadius: 20, cursor: "pointer",
+      background: "rgba(255,255,255,.04)",
+      border: "2px dashed rgba(255,255,255,.15)",
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      gap: 8,
+    }}
+  >
+    <div style={{
+      width: 40, height: 40, borderRadius: "50%",
+      background: "rgba(255,255,255,.07)", border: "1px solid rgba(255,255,255,.15)",
+      display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18,
+    }}>+</div>
+    <span style={{ fontSize: 11, color: "rgba(255,255,255,.4)", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase" }}>
+      Adicionar cartão
+    </span>
+    <span style={{ fontSize: 9, color: "rgba(255,255,255,.2)", letterSpacing: ".05em" }}>
+      Clique para acessar bancos
+    </span>
+  </motion.div>
+);
+
+// ── Slot bloqueado ─────────────────────────────────────────
+const SlotBloqueado = ({ index }) => {
+  const porteNecessario = index === 1 ? "Companhia Local" : "Corporação Multissetorial";
+  return (
+    <div style={{
+      width: 280, height: 160, borderRadius: 20,
+      background: "rgba(0,0,0,.25)",
+      border: "1px solid rgba(255,255,255,.06)",
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      gap: 8,
+    }}>
+      <div style={{ fontSize: 28, filter: "grayscale(1)", opacity: .4 }}>🔒</div>
+      <span style={{ fontSize: 10, color: "rgba(255,255,255,.25)", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase" }}>
+        Slot bloqueado
+      </span>
+      <span style={{ fontSize: 9, color: "rgba(255,255,255,.15)", textAlign: "center", maxWidth: 180, lineHeight: 1.5 }}>
+        Adquira <strong style={{ color: "rgba(255,255,255,.3)" }}>{porteNecessario}</strong> para desbloquear
+      </span>
+    </div>
   );
-  const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
-    DadosEconomyGlobalContext
-  );
+};
+
+// ═══════════════════════════════════════════════════════════
+// COMPONENTE PRINCIPAL
+// ═══════════════════════════════════════════════════════════
+const SidebarCards = () => {
+  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
   const contratos = economiaSetores?.contratosBancos || [];
-
-  const getSlotsLiberados = () => {
-    const porteEmpresa = economiaSetores.porteEmpresa || [];
-
-    // 7º nível (índice 6) - Corporação Multissetorial
-    const corporacaoMulti = porteEmpresa[6]?.status || false;
-
-    // 4º nível (índice 3) - Companhia Local
-    const companiaLocal = porteEmpresa[3]?.status || false;
-
-    if (corporacaoMulti) return 3; // 3 slots
-    if (companiaLocal) return 2; // 2 slots
-    return 1; // 1 slot inicial
-  };
-
-  const slotsLiberados = getSlotsLiberados();
-
   const [selectedCard, setSelectedCard] = useState(null);
 
-  const setVision = (newVision) => {
-    atualizarDados("vision", {
-      ...dados.vision,
-      visionAtual: newVision,
-    });
+  const setVision = (v) => atualizarDados("vision", { ...dados.vision, visionAtual: v });
+
+  const getSlotsLiberados = () => {
+    const porte = economiaSetores.porteEmpresa || [];
+    if (porte[6]?.status) return 3;
+    if (porte[3]?.status) return 2;
+    return 1;
+  };
+  const slotsLiberados = getSlotsLiberados();
+
+  const abrirBanco = (cartaoId) => {
+    const idx = contratos.findIndex((c) => c?.cartaoId === cartaoId);
+    if (idx !== -1) { atualizarEco("idContrato", idx); setVision("bankInterface"); }
   };
 
-  const testeId = (id) => {
-    const indice = economiaSetores.contratosBancos.findIndex(
-      (c) => c.cartaoId === id
-    );
-    atualizarEco("idContrato", indice);
-    return indice;
-  };
-
-  const abrirInterfaceBanco = (cartaoId) => {
-    const indice = contratos.findIndex((c) => c?.cartaoId === cartaoId);
-    if (indice !== -1) {
-      atualizarEco("idContrato", indice); // Define contrato ativo
-      setVision("bankInterface"); // Abre interface
-    }
-  };
-
-  //    const limite = parseInt(cartao.limiteEmprestimo);
-  //         const usado = parseInt(cartao.limiteUsado);
-  const limite = parseInt(40000);
-  const usado = parseInt(6000);
-  const percentualUsado = Math.round((usado / limite) * 100);
-
-  const contrato1 = economiaSetores.contratosBancos[0];
-  const contrato2 = economiaSetores.contratosBancos[1];
-  const contrato3 = economiaSetores.contratosBancos[2];
-
-  const SlotVazio = ({ index }) => (
-    <div
-      onClick={() => setVision("bank")}
-      className="w-[280px] h-[160px] rounded-3xl bg-gradient-to-br from-gray-700/30 to-gray-800/30 border-2 border-dashed border-gray-500/50 backdrop-blur-sm relative overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 group"
-    >
-      {/* Conteúdo do slot vazio */}
-    </div>
-  );
-
-  const SlotBloqueado = ({ index }) => {
-    const porteNecessario =
-      index === 1 ? "Companhia Local" : "Corporação Multissetorial";
-
-    return (
-      <div className="w-[280px] h-[160px] rounded-3xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-2 border-gray-700/50 backdrop-blur-sm relative overflow-hidden">
-        {/* Conteúdo do slot bloqueado */}
-      </div>
-    );
-  };
-
-  const GeometricChaosCard = ({ cartao }) => (
-    <div
-      className="w-[280px] h-[160px] rounded-3xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 cursor-pointer hover:animate-rainbow-shift"
-      style={{
-        background: `linear-gradient(45deg, ${cartao.cor1} 0%, ${cartao.cor2} 25%, ${cartao.cor3} 50%, ${cartao.cor4} 75%, ${cartao.cor1} 100%)`,
-      }}
-      onClick={() => {
-        setSelectedCard(cartao.id);
-        abrirInterfaceBanco(cartao.id);
-        console.log("Cartão selecionado:", cartao.id);
-      }}
-    >
-      {/* Losangos e retângulos com pulse */}
-      <div className="absolute inset-0">
-        <div
-          className="absolute top-3 left-3 w-6 h-6 transform rotate-45 hover:animate-geometric-pulse"
-          style={{ backgroundColor: cartao.cor4, opacity: 0.2 }}
-        ></div>
-        <div
-          className="absolute bottom-3 right-3 w-6 h-12 transform -rotate-12 hover:animate-geometric-pulse"
-          style={{ backgroundColor: cartao.cor2, opacity: 0.3 }}
-        ></div>
-        <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 rotate-45 border-4 hover:animate-geometric-pulse"
-          style={{ borderColor: cartao.cor4, opacity: 0.2 }}
-        ></div>
-      </div>
-
-      <div className="p-4 relative z-10">
-        <div
-          className="absolute top-3 right-3 px-2 py-1 rounded-full text-[10px] font-black"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.9)",
-            color: cartao.cor1,
-          }}
-        >
-          {cartao.banco}
-        </div>
-
-        <div className="w-10 h-6 bg-gradient-to-br from-white to-gray-200 rounded-lg mt-2 mb-4 relative shadow-lg">
-          <div className="absolute inset-1 bg-gradient-to-br from-yellow-400 to-orange-500 rounded opacity-80 hover:animate-geometric-pulse"></div>
-          <div className="absolute inset-2 bg-gray-800 rounded"></div>
-        </div>
-
-        <div className="text-base font-mono tracking-widest mb-4 text-shadow-lg">
-          {cartao.numeroCard}
-        </div>
-
-        <div className="flex justify-between items-end text-[11px]">
-          <div>
-            <div className="opacity-90 mb-1">EMPRESA</div>
-            <div className="font-bold">{dados.inicioGame.nomeEmpresa}</div>
-          </div>
-          <div className="text-right">
-            <div className="opacity-75 mb-1">VÁLIDO</div>
-            <div className="font-medium">{cartao.validade}</div>
-          </div>
-        </div>
-      </div>
-
-      {selectedCard === cartao.id && (
-        <div className="absolute inset-0 border-2 border-white rounded-3xl animate-pulse"></div>
-      )}
-    </div>
-  );
-
-  // As outras variantes seguem o mesmo padrão:
-  const TriangularFusionCard = ({ cartao }) => (
-    <div
-      className="w-[280px] h-[160px] rounded-3xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 cursor-pointer hover:animate-rainbow-shift"
-      style={{
-        background: `conic-gradient(from 0deg, ${cartao.cor1}, ${cartao.cor2}, ${cartao.cor3}, ${cartao.cor4}, ${cartao.cor1})`,
-      }}
-      onClick={() => {
-        setSelectedCard(cartao.id);
-        abrirInterfaceBanco(cartao.id);
-        console.log("Cartão selecionado:", cartao.id);
-      }}
-    >
-      <div className="absolute inset-0">
-        <div
-          className="absolute top-3 left-3 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-transparent hover:animate-geometric-pulse"
-          style={{ borderBottomColor: cartao.cor4, opacity: 0.3 }}
-        ></div>
-        <div
-          className="absolute bottom-3 right-3 w-0 h-0 border-l-[18px] border-r-[18px] border-t-[30px] border-transparent rotate-180 hover:animate-geometric-pulse"
-          style={{ borderTopColor: cartao.cor1, opacity: 0.4 }}
-        ></div>
-        <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 rotate-45 border-4 hover:animate-geometric-pulse"
-          style={{ borderColor: cartao.cor4, opacity: 0.2 }}
-        ></div>
-      </div>
-
-      <div className="p-4 relative z-10">
-        <div
-          className="absolute top-3 right-3 px-2 py-1 rounded-full text-[10px] font-black"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.9)",
-            color: cartao.cor1,
-          }}
-        >
-          {cartao.banco}
-        </div>
-
-        <div className="w-10 h-6 bg-gradient-to-br from-white to-gray-200 rounded-lg mt-2 mb-4 relative shadow-lg hover:animate-geometric-pulse">
-          <div className="absolute inset-1 bg-gradient-to-br from-yellow-400 to-orange-500 rounded opacity-80"></div>
-          <div className="absolute inset-2 bg-gray-800 rounded"></div>
-        </div>
-
-        <div className="text-base font-mono tracking-widest mb-4 text-shadow-lg">
-          {cartao.numeroCard}
-        </div>
-
-        <div className="flex justify-between items-end text-[11px]">
-          <div>
-            <div className="opacity-90 mb-1">EMPRESA</div>
-            <div className="font-bold">{dados.inicioGame.nomeEmpresa}</div>
-          </div>
-          <div className="text-right">
-            <div className="opacity-75 mb-1">VÁLIDO</div>
-            <div className="font-medium">{cartao.validade}</div>
-          </div>
-        </div>
-      </div>
-
-      {selectedCard === cartao.id && (
-        <div className="absolute inset-0 border-2 border-white rounded-3xl animate-pulse"></div>
-      )}
-    </div>
-  );
-
-  // =======================
-  // Card Clássico
-  // =======================
-  const CardClassico = ({ cartao }) => (
-    <div
-      className="w-[280px] h-[160px] rounded-3xl p-4 text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer hover:animate-rainbow-shift"
-      style={{
-        background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 50%, ${cartao.cor3} 100%)`,
-      }}
-      onClick={() => {
-        setSelectedCard(cartao.id);
-        abrirInterfaceBanco(cartao.id);
-        console.log("Cartão selecionado:", cartao.id);
-      }}
-    >
-      {/* Formas geométricas */}
-      <div className="absolute inset-0">
-        <div
-          className="absolute -top-6 -right-6 w-20 h-20 rotate-45 hover:animate-geometric-pulse"
-          style={{ backgroundColor: cartao.cor4, opacity: 0.1 }}
-        ></div>
-        <div
-          className="absolute top-10 -left-6 w-14 h-14 rounded-full hover:animate-geometric-pulse"
-          style={{ backgroundColor: cartao.cor3, opacity: 0.15 }}
-        ></div>
-      </div>
-
-      {/* Logo do banco */}
-      <div
-        className="absolute top-3 right-3 px-2 py-1 rounded-lg text-[10px] font-bold"
-        style={{
-          backgroundColor: cartao.cor4,
-          color: cartao.cor1,
-          opacity: 0.9,
-        }}
-      >
-        {cartao.banco}
-      </div>
-
-      {/* Chip */}
-      <div className="w-10 h-6 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-lg mt-2 mb-4 relative shadow-lg">
-        <div className="absolute inset-2 bg-black bg-opacity-20 rounded"></div>
-      </div>
-
-      {/* Número do cartão */}
-      <div className="text-lg font-mono tracking-widest mb-4">
-        {cartao.numeroCard}
-      </div>
-
-      {/* Info */}
-      <div className="flex justify-between items-end text-xs">
-        <div>
-          <div className="opacity-75 mb-1">EMPRESA</div>
-          <div className="font-medium">{dados.inicioGame.nomeEmpresa}</div>
-        </div>
-        <div className="text-right">
-          <div className="opacity-75 mb-1">VÁLIDO</div>
-          <div className="font-medium">{cartao.validade}</div>
-        </div>
-      </div>
-
-      {selectedCard === cartao.id && (
-        <div className="absolute inset-0 border-4 border-white rounded-3xl animate-pulse"></div>
-      )}
-    </div>
-  );
-
-  // =======================
-  // Card Moderno
-  // =======================
-  const CardModerno = ({ cartao }) => (
-    <div
-      className="w-[280px] h-[160px] rounded-xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer hover:animate-rainbow-shift"
-      style={{
-        background: `radial-gradient(circle at top right, ${cartao.cor3} 0%, ${cartao.cor2} 50%, ${cartao.cor1} 100%)`,
-      }}
-      onClick={() => {
-        setSelectedCard(cartao.id);
-        abrirInterfaceBanco(cartao.id);
-        console.log("Cartão selecionado:", cartao.id);
-      }}
-    >
-      {/* Hexágonos */}
-      <div className="absolute inset-0">
-        {[...Array(5)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute border opacity-20 hover:animate-geometric-pulse"
-            style={{
-              borderColor: cartao.cor4,
-              width: "22px",
-              height: "22px",
-              clipPath:
-                "polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)",
-              left: `${15 + i * 12}%`,
-              top: `${8 + (i % 2) * 18}%`,
-              transform: `rotate(${i * 30}deg)`,
-            }}
-          ></div>
-        ))}
-      </div>
-
-      <div className="p-4 relative z-10">
-        {/* Logo */}
-        <div
-          className="absolute top-3 right-3 px-2 py-1 rounded-lg text-[10px] font-bold backdrop-blur-sm"
-          style={{
-            backgroundColor: `${cartao.cor4}20`,
-            border: `1px solid ${cartao.cor4}40`,
-            color: cartao.cor4,
-          }}
-        >
-          {cartao.banco}
-        </div>
-
-        {/* Chip */}
-        <div
-          className="w-10 h-7 rounded-lg mt-2 mb-4 relative border-2"
-          style={{ backgroundColor: cartao.cor3, borderColor: cartao.cor4 }}
-        >
-          <div
-            className="absolute inset-2 rounded"
-            style={{ backgroundColor: cartao.cor4, opacity: 0.8 }}
-          ></div>
-        </div>
-
-        {/* Número */}
-        <div
-          className="text-lg font-semibold tracking-wide mb-4"
-          style={{ textShadow: `1px 1px 3px ${cartao.cor1}` }}
-        >
-          {cartao.numeroCard}
-        </div>
-
-        {/* Footer */}
-        <div
-          className="border-t pt-2"
-          style={{ borderColor: cartao.cor4, opacity: 0.3 }}
-        >
-          <div className="flex justify-between items-center text-xs">
-            <div>
-              <div className="opacity-70">EMPRESA</div>
-              <div className="font-medium">{dados.inicioGame.nomeEmpresa}</div>
-            </div>
-            <div className="text-right">
-              <div className="opacity-75 mb-1">VÁLIDO</div>
-              <div className="font-medium">{cartao.validade}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {selectedCard === cartao.id && (
-        <div className="absolute inset-0 border-4 border-white rounded-xl animate-pulse"></div>
-      )}
-    </div>
-  );
-
-  // =======================
-  // Card Wave Patterns
-  // =======================
-  const WavePatternsCard = ({ cartao }) => (
-    <div
-      className="w-[280px] h-[160px] rounded-2xl text-white relative overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 cursor-pointer hover:animate-rainbow-shift"
-      style={{
-        background: `linear-gradient(135deg, ${cartao.cor1} 0%, ${cartao.cor2} 33%, ${cartao.cor3} 66%, ${cartao.cor4} 100%)`,
-      }}
-      onClick={() => {
-        setSelectedCard(cartao.id);
-        abrirInterfaceBanco(cartao.id);
-        console.log("Cartão selecionado:", cartao.id);
-      }}
-    >
-      {/* Ondas */}
-      <div className="absolute inset-0 hover:animate-geometric-pulse">
-        <svg className="w-full h-full opacity-20" viewBox="0 0 280 160">
-          <path
-            d="M0,80 Q70,50 140,80 T280,80 L280,160 L0,160 Z"
-            fill={cartao.cor4}
-            opacity="0.3"
-          />
-          <path
-            d="M0,100 Q70,70 140,100 T280,100 L280,160 L0,160 Z"
-            fill={cartao.cor3}
-            opacity="0.2"
-          />
-          <path
-            d="M0,120 Q70,90 140,120 T280,120 L280,160 L0,160 Z"
-            fill={cartao.cor2}
-            opacity="0.1"
-          />
-        </svg>
-
-        <div
-          className="absolute top-5 right-5 w-16 h-16 rounded-full border-4 opacity-30 hover:animate-geometric-pulse"
-          style={{ borderColor: cartao.cor4 }}
-        ></div>
-        <div
-          className="absolute bottom-6 left-6 w-10 h-10 opacity-25 hover:animate-geometric-pulse"
-          style={{
-            backgroundColor: cartao.cor4,
-            clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
-          }}
-        ></div>
-      </div>
-
-      <div className="p-4 relative z-10">
-        {/* Banco */}
-        <div
-          className="absolute top-3 right-3 px-2 py-1 rounded-full text-[10px] font-black"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.9)",
-            color: cartao.cor1,
-          }}
-        >
-          {cartao.banco}
-        </div>
-
-        {/* Chip */}
-        <div className="w-10 h-6 bg-gradient-to-br from-white to-gray-200 rounded-lg mt-2 mb-4 relative shadow-lg hover:animate-geometric-pulse">
-          <div className="absolute inset-1 bg-gradient-to-br from-yellow-400 to-orange-500 rounded opacity-80"></div>
-          <div className="absolute inset-2 bg-gray-800 rounded"></div>
-        </div>
-
-        {/* Número */}
-        <div className="text-lg font-mono tracking-widest mb-4 text-shadow-lg">
-          {cartao.numeroCard}
-        </div>
-
-        {/* Info */}
-        <div className="flex justify-between items-end text-xs">
-          <div>
-            <div className="opacity-90 mb-1">EMPRESA</div>
-            <div className="font-bold">{dados.inicioGame.nomeEmpresa}</div>
-          </div>
-          <div className="text-right">
-            <div className="opacity-75 mb-1">VÁLIDO</div>
-            <div className="font-medium">{cartao.validade}</div>
-          </div>
-        </div>
-      </div>
-
-      {selectedCard === cartao.id && (
-        <div className="absolute inset-0 border-4 border-white rounded-2xl animate-pulse"></div>
-      )}
-    </div>
-  );
+  const contratoParaCartao = (c) => ({
+    id: c.cartaoId, banco: c.bancoNome, design: c.design,
+    cor1: c.cor1, cor2: c.cor2, cor3: c.cor3, cor4: c.cor4,
+    numeroCard: c.cartaoNome,
+    validade: c.dataFim ? `até ${c.dataFim}` : "—",
+  });
 
   const renderCartao = (cartao) => {
+    const props = {
+      cartao, selected: selectedCard === cartao.id,
+      onClick: () => { setSelectedCard(cartao.id); abrirBanco(cartao.id); },
+      nomeEmpresa: dados.inicioGame.nomeEmpresa,
+    };
     switch (cartao.design) {
-      case "geometric-chaos":
-        return <GeometricChaosCard cartao={cartao} />;
-      case "triangular-fusion":
-        return <TriangularFusionCard cartao={cartao} />;
-      case "classico":
-        return <CardClassico cartao={cartao} />;
-      case "moderno":
-        return <CardModerno cartao={cartao} />;
-      case "wave-patterns":
-        return <WavePatternsCard cartao={cartao} />;
-      default:
-        return <CardClassico cartao={cartao} />; // fallback
+      case "geometric-chaos":    return <GeometricChaosCard   {...props} />;
+      case "triangular-fusion":  return <TriangularFusionCard  {...props} />;
+      case "moderno":            return <CardModerno           {...props} />;
+      case "wave-patterns":      return <WavePatternsCard      {...props} />;
+      default:                   return <CardClassico          {...props} />;
     }
   };
 
-  const config = {
-    cashback: {
-      nenhum: { valor: 0 },
-      todos: { valor: 2 },
-      especifico: { valor: 5 },
-    },
-    juros: {
-      baixo: 2, // % a.m
-      medio: 3,
-      alto: 4,
-    },
-    emprestimos: {
-      baixo: { mult: 1 },
-      medio: { mult: 2 },
-      alto: { mult: 3 },
-    },
-    investimentos: {
-      pos: {
-        baixa: 1, // % a.m
-        media: 3,
-        alta: 5,
-      },
-      pre: {
-        baixa: [
-          { prazo: 90, valor: 0.5 },
-          { prazo: 180, valor: 0.7 },
-          { prazo: 360, valor: 1.0 },
-        ],
-        media: [
-          { prazo: 90, valor: 0.7 },
-          { prazo: 180, valor: 1.0 },
-          { prazo: 360, valor: 1.5 },
-        ],
-        alta: [
-          { prazo: 90, valor: 1.5 },
-          { prazo: 180, valor: 2.0 },
-          { prazo: 360, valor: 2.5 },
-        ],
-      },
-    },
-  };
+  const nomeEmpresa = dados.inicioGame.nomeEmpresa || "Empresa";
 
-  // Função que adapta contrato para formato de "cartão"
-  const contratoParaCartao = (contrato) => ({
-    id: contrato.cartaoId,
-    banco: contrato.bancoNome,
-    design: contrato.design,
-    cor1: contrato.cor1,
-    cor2: contrato.cor2,
-    cor3: contrato.cor3,
-    cor4: contrato.cor4,
-    numeroCard: contrato.cartaoNome,
-    validade: contrato.dataFim ? `até ${contrato.dataFim}` : "-",
-  });
-
-  const slots = [0, 1, 2].map((index) => {
-    const contrato = contratos[index];
-
-    if (index < slotsLiberados) {
-      return contrato ? (
-        <div
-          key={index}
-          className=" rounded-3xl w-full flex items-center justify-center"
-        >
-          {renderCartao(contratoParaCartao(contrato))}
-        </div>
-      ) : (
-        <div
-          key={index}
-          className=" rounded-3xl w-full flex items-center justify-center"
-        >
-          <SlotVazio />
-        
-        </div>
-      );
-    } else {
-      return (
-        <div
-          key={index}
-          className="flex items-center  justify-center rounded-3xl w-full"
-        >
-          <SlotBloqueado index={index} />
-        </div>
-      );
-    } 
-  });
   return (
-    <div className="h-[95vh] rounded-xl w-full flex flex-col items-center justify-around gap-4 bg-gradient-to-br from-[#350973] via-[#6411D9] to-[#6411D9]  overflow-y-auto">
-    {slots}
-        <LoanCarousel/>
+    <div style={{
+      height: "95vh", width: "100%", borderRadius: 16,
+      background: "linear-gradient(170deg, #1a0d40 0%, #2d1470 40%, #1a0d40 100%)",
+      display: "flex", flexDirection: "column",
+      overflow: "hidden", position: "relative",
+    }}>
+
+      {/* Glow de fundo decorativo */}
+      <div style={{
+        position: "absolute", top: -80, left: "50%", transform: "translateX(-50%)",
+        width: 300, height: 300,
+        background: "radial-gradient(circle, rgba(147,76,255,.18) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+
+      {/* ── HEADER ─────────────────────────────────────── */}
+      <div style={{
+        padding: "16px 18px 12px",
+        borderBottom: "1px solid rgba(255,255,255,.07)",
+        flexShrink: 0,
+      }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div>
+            <h2 style={{
+              color: "#fff", fontSize: 14, fontWeight: 800,
+              fontFamily: "'Rajdhani',sans-serif", letterSpacing: ".06em",
+              textTransform: "uppercase", margin: 0,
+            }}>
+              Carteira Financeira
+            </h2>
+            <p style={{ color: "rgba(255,255,255,.35)", fontSize: 10, margin: "2px 0 0", letterSpacing: ".04em" }}>
+              {nomeEmpresa}
+            </p>
+          </div>
+          {/* Slots indicator */}
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            {[0, 1, 2].map((i) => (
+              <div key={i} style={{
+                width: 8, height: 8, borderRadius: "50%",
+                background: i < slotsLiberados
+                  ? "linear-gradient(135deg,#7B2FFF,#934CFF)"
+                  : "rgba(255,255,255,.1)",
+                boxShadow: i < slotsLiberados ? "0 0 8px #934CFF88" : "none",
+                transition: "all .3s",
+              }} />
+            ))}
+            <span style={{ fontSize: 9, color: "rgba(255,255,255,.35)", marginLeft: 4, letterSpacing: ".08em" }}>
+              {slotsLiberados}/3 slots
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── ÁREA DE SCROLL ─────────────────────────────── */}
+      <div style={{
+        flex: 1, overflowY: "auto", overflowX: "hidden",
+        padding: "14px 14px 0",
+        display: "flex", flexDirection: "column", gap: 12,
+      }}
+        className="scrollbar-custom"
+      >
+
+        {/* SLOTS DE CARTÃO */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "center" }}>
+          <div style={{
+            fontSize: 8, fontWeight: 700, letterSpacing: ".18em",
+            textTransform: "uppercase", color: "rgba(255,255,255,.28)",
+            paddingLeft: 2,
+          }}>
+            Cartões ativos
+          </div>
+
+          {[0, 1, 2].map((i) => {
+            const contrato = contratos[i];
+            if (i < slotsLiberados) {
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.08 }}
+                >
+                  {contrato
+                    ? renderCartao(contratoParaCartao(contrato))
+                    : <SlotVazio onClick={() => setVision("bank")} />
+                  }
+                </motion.div>
+              );
+            }
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+              >
+                <SlotBloqueado index={i} />
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* DIVISOR */}
+        <div style={{
+          display: "flex", alignItems: "center", gap: 10, padding: "4px 0",
+        }}>
+          <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,.07)" }} />
+          <span style={{ fontSize: 8, color: "rgba(255,255,255,.2)", letterSpacing: ".14em", textTransform: "uppercase" }}>
+            Empréstimos
+          </span>
+          <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,.07)" }} />
+        </div>
+
+        {/* LOAN CAROUSEL */}
+        <div style={{ marginBottom: 14 }}>
+          <LoanCarousel />
+        </div>
+
+      </div>
     </div>
   );
 };
