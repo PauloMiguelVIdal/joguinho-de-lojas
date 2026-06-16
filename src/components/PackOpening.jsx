@@ -347,11 +347,11 @@ export const PackOpening = ({ tema = PACK_THEME, onClose, onSorteio }) => {
     const [cartasSorteadas, setCartasSorteadas] = useState([]);
     const [fase, setFase] = useState("idle");
     const [particles, setParticles] = useState([]);
- const [modal, setModal] = useState(false);
-  const [buttonCloseAudio] = useSound(closeAudio);
-  const fecharModal = () => {
-    setModal(false);
-  };
+    const [modal, setModal] = useState(false);
+    const [buttonCloseAudio] = useSound(closeAudio);
+    const fecharModal = () => {
+        setModal(false);
+    };
 
     // useEffect(() => {
     //   console.log("CardsSorteados mudou:", dados.CardsSorteados);
@@ -503,115 +503,115 @@ export const PackOpening = ({ tema = PACK_THEME, onClose, onSorteio }) => {
         console.log(upgrades)
     };
 
-  useEffect(() => {
-    if (dados.dia % 500 === 0) {
-      setModal(true);
-    }
-  }, [dados.dia]);
-  
-  if (modal) {
-    return (
-        <div style={{
-            position: "fixed", inset: 0, zIndex: 200,
-            background: "radial-gradient(ellipse at 50% 30%, #1a0a2e 0%, #07070f 70%)",
-            display: "flex", flexDirection: "column",
-            alignItems: "center", justifyContent: "center",
-            gap: 24, padding: 32,
-        }}>
+    useEffect(() => {
+        if (dados.dia % 500 === 0) {
+            setModal(true);
+        }
+    }, [dados.dia]);
 
-            {/* Partículas */}
-            <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
+    if (modal) {
+        return (
+            <div style={{
+                position: "fixed", inset: 0, zIndex: 200,
+                background: "radial-gradient(ellipse at 50% 30%, #1a0a2e 0%, #07070f 70%)",
+                display: "flex", flexDirection: "column",
+                alignItems: "center", justifyContent: "center",
+                gap: 24, padding: 32,
+            }}>
+
+                {/* Partículas */}
+                <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
+                    <AnimatePresence>
+                        {particles.map(p => <Particle key={p.id} {...p} />)}
+                    </AnimatePresence>
+                </div>
+
+                {/* Fechar */}
+
+
+                {/* Pacote */}
                 <AnimatePresence>
-                    {particles.map(p => <Particle key={p.id} {...p} />)}
+                    {fase !== "revealed" && (
+                        <Pacote
+                            key="pacote"
+                            fase={fase}
+                            onOpen={handleOpen}
+                            tema={tema}
+                        />
+                    )}
                 </AnimatePresence>
-            </div>
 
-            {/* Fechar */}
+                {/* Hint */}
+                <AnimatePresence>
+                    {fase === "idle" && (
+                        <motion.div
+                            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                            style={{
+                                fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase",
+                                color: `${tema.cor4}88`,
+                            }}
+                        >
+                            Clique no pacote para abrir
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
+                {/* Botão abrir */}
+                <AnimatePresence>
+                    {fase === "idle" && (
+                        <motion.button
+                            onClick={handleOpen}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            whileHover={{ scale: 1.04, y: -2 }}
+                            whileTap={{ scale: 0.97 }}
+                            style={{
+                                padding: "12px 36px", borderRadius: 10, border: "none",
+                                background: `linear-gradient(135deg, ${tema.cor4} 0%, ${tema.cor3} 100%)`,
+                                color: tema.cor1, fontSize: 13, fontWeight: 800,
+                                letterSpacing: ".1em", textTransform: "uppercase",
+                                cursor: "pointer",
+                                boxShadow: `0 4px 20px ${tema.cor4}44`,
+                            }}
+                        >
+                            Abrir Pacote
+                        </motion.button>
+                    )}
+                </AnimatePresence>
 
-            {/* Pacote */}
-            <AnimatePresence>
-                {fase !== "revealed" && (
-                    <Pacote
-                        key="pacote"
-                        fase={fase}
-                        onOpen={handleOpen}
-                        tema={tema}
-                    />
-                )}
-            </AnimatePresence>
-
-            {/* Hint */}
-            <AnimatePresence>
-                {fase === "idle" && (
-                    <motion.div
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                        style={{
-                            fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase",
-                            color: `${tema.cor4}88`,
-                        }}
-                    >
-                        Clique no pacote para abrir
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-            {/* Botão abrir */}
-            <AnimatePresence>
-                {fase === "idle" && (
-                    <motion.button
-                        onClick={handleOpen}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        whileHover={{ scale: 1.04, y: -2 }}
-                        whileTap={{ scale: 0.97 }}
-                        style={{
-                            padding: "12px 36px", borderRadius: 10, border: "none",
-                            background: `linear-gradient(135deg, ${tema.cor4} 0%, ${tema.cor3} 100%)`,
-                            color: tema.cor1, fontSize: 13, fontWeight: 800,
-                            letterSpacing: ".1em", textTransform: "uppercase",
-                            cursor: "pointer",
-                            boxShadow: `0 4px 20px ${tema.cor4}44`,
-                        }}
-                    >
-                        Abrir Pacote
-                    </motion.button>
-                )}
-            </AnimatePresence>
-
-            {/* Cartas reveladas */}
-            <AnimatePresence>
-                {fase === "revealed" && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}
-                    >
-                        <div className="m-auto top-[150px] fixed">
-                            <h1 className="text-white fonteBold text-[25px]">Essas cartas estão aprimoradas até o fim do jogo</h1>
-                        </div>
-                        {cartasSorteadas.map((carta, i) => (
-                            <motion.div
-                                key={`${carta.nome}-${i}`}
-                                initial={{ opacity: 0, y: 60, scale: 0.8 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                transition={{
-                                    delay: 0.1 + i * 0.18,
-                                    duration: 0.5,
-                                    type: "spring",
-                                    stiffness: 200,
-                                    damping: 18,
-                                }}
-                            >
-                                {LocalizadorUpgrade(
-                                    carta.nome,
-                                    carta.redImposto,
-                                    carta.fatu
-                                )}
-                            </motion.div>
-                        ))}
-                        {/* <button
+                {/* Cartas reveladas */}
+                <AnimatePresence>
+                    {fase === "revealed" && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}
+                        >
+                            <div className="m-auto top-[150px] fixed">
+                                <h1 className="text-white fonteBold text-[25px]">Essas cartas estão aprimoradas até o fim do jogo</h1>
+                            </div>
+                            {cartasSorteadas.map((carta, i) => (
+                                <motion.div
+                                    key={`${carta.nome}-${i}`}
+                                    initial={{ opacity: 0, y: 60, scale: 0.8 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    transition={{
+                                        delay: 0.1 + i * 0.18,
+                                        duration: 0.5,
+                                        type: "spring",
+                                        stiffness: 200,
+                                        damping: 18,
+                                    }}
+                                >
+                                    {LocalizadorUpgrade(
+                                        carta.nome,
+                                        carta.redImposto,
+                                        carta.fatu
+                                    )}
+                                </motion.div>
+                            ))}
+                            {/* <button
                            
                             style={{
                                 position: "absolute", top: 20, right: 20, zIndex: 10,
@@ -623,20 +623,21 @@ export const PackOpening = ({ tema = PACK_THEME, onClose, onSorteio }) => {
                         >
                             Entendido
                         </button> */}
-                                                <div className="m-auto bottom-[240px] fixed">
-                            <h1 className="text-white fonteLight text-[25px]">para reve-los basta clicar no botão ⬆️</h1>
-                        </div>
-                        <button
-                            className="fixed m-auto bottom-[150px] text-white bg-laranja px-[25px] py-[15px] rounded-[40px] fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-                            onClick={() => {
-                                fecharModal(), buttonCloseAudio(), onClose();
-                            }}
-                        >
-                            entendido
-                        </button>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
-    );
-}};
+                            <div className="m-auto bottom-[240px] fixed">
+                                <h1 className="text-white fonteLight text-[25px]">para reve-los basta clicar no botão ⬆️</h1>
+                            </div>
+                            <button
+                                className="fixed m-auto bottom-[150px] text-white bg-laranja px-[25px] py-[15px] rounded-[40px] fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+                                onClick={() => {
+                                    fecharModal(), buttonCloseAudio(), onClose();
+                                }}
+                            >
+                                entendido
+                            </button>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+        );
+    }
+};
