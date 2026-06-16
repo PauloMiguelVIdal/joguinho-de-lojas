@@ -21,7 +21,7 @@ export default function EconomyGlobal() {
   const economiaAtual = economiaSetores.economiaGlobal;
   const setores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"];
 
-    const tooltipStyle = {
+  const tooltipStyle = {
     backgroundColor: "#FFFFFF",
     color: "#350973",
     borderRadius: "6px",
@@ -29,7 +29,7 @@ export default function EconomyGlobal() {
     fontWeight: "600",
     fontSize: "14px",
   };
-  
+
   const TooltipPadrao = ({ id }) => (
     <Tooltip
       id={id}
@@ -63,11 +63,6 @@ export default function EconomyGlobal() {
   // Converte o estado da economia em um valor numérico
   const valorEconomico = (estado) =>
     ({ recessão: -2, declinio: -1, estável: 0, progressiva: 1, aquecida: 2 }[estado] ?? 0);
-
-
-
-
-
   // Altera a economia global a cada 90 dias
   useEffect(() => {
     // if (dados.dia % 90 === 0 && dados.dia >269) {
@@ -120,12 +115,6 @@ export default function EconomyGlobal() {
           if (somaEconomias < 5) return "progressiva";
           return "aquecida";
         }
-
-
-
-
-
-
         // console.log("essa é a soma" ,somaEconomias)
 
         const novaEconomiaGlobal = decidirEconomiaSetor();
@@ -157,9 +146,9 @@ export default function EconomyGlobal() {
   }, [dados.dia]);
 
   return (
-    <div className="flex max-h-[50px] w-[100%] bg-white rounded-[10px]">
+    <div className="flex max-h-[50px] w-[100px] bg-white rounded-[10px]">
       <Converter />
-      <div className={`${corClasse} min-h-[50px] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center`}>
+      <div className={`${corClasse} min-h-[50px] max-h-[70px] min-w-[50px] max-w-[50px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center`}>
         <img
           data-tooltip-id="economia-tip"
           data-tooltip-html={`Esse é a economia global atual do jogo, <b>${economiaAtual}</b> <br/> <br/>    <div>
@@ -181,7 +170,7 @@ export default function EconomyGlobal() {
       <div
         data-tooltip-id="economiaData-tip"
         data-tooltip-content="Esse é o número de dias restantes para a próxima mudança na economia global"
-        className="flex justify-center items-center w-full">
+        className="flex justify-center items-center w-[50px]">
         <h2 className="text-[#350973] text-[20px] fonteBold">{dados.proximaEconomia}</h2>
         <TooltipPadrao style={tooltipStyle} id="economiaData-tip" />
 

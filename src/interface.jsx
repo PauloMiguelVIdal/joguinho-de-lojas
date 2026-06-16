@@ -146,12 +146,12 @@ function Interface() {
         }}
       >
         {/* Informações centrais (nome empresa, saldo, dia...) */}
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-          <Informations />
-        </div>
-
+                  <div className="grid gap-[10px] col-start-1 col-end-8 w-full place-items-center">
+                            <Informations className="grid col-start-1 col-end-8" />
+                        </div>
         {/* Controles da direita */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div className="flex w-full items-center justify-center col-start-8 col-end-9 gap-[10px]">
+
           <Day />
           <TaxesYear />
           <EconomyGlobal />

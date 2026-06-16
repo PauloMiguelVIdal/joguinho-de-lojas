@@ -426,8 +426,16 @@ export default function PayTexes() {
       const ehPrimeiroDiaDoMes = dados.dia % 30 === 1;
       const ehDiaDeCobranca = dados.dia % 30 === 0 && dados.dia > 0;
 
+
+
+
+
+
+
       setoresArr.forEach((setor) => {
         const edificiosOriginais = dados[setor]?.edificios || [];
+
+
 
         let faturamentoTotalSetor = 0;
 
@@ -537,18 +545,43 @@ export default function PayTexes() {
 
         const arrayFatuSetor =
           economiaSetores[setor]?.economiaSetor?.ArrayFatu || [];
+
         const novoArrayFatuSetor = ehPrimeiroDiaDoMes
           ? [faturamentoTotalSetor]
           : [...arrayFatuSetor, faturamentoTotalSetor].slice(-360);
+
+const arrayFatuMonthSetor =
+  economiaSetores[setor]?.economiaSetor?.ArrayFatuMonth || [];
+
+
 
 
 const arrayFatuSetorHistory = economiaSetores[setor]?.economiaSetor?.ArrayFatuHistory || [];
 const novoArrayFatuSetorHistory = [...arrayFatuSetorHistory, faturamentoTotalSetor].slice(-360);
 
+
+const ehDiaDeRegistroMensal = dados.dia % 30 === 0;
+let novoArrayFatuMonthSetor = [...arrayFatuMonthSetor];
+
+if (ehDiaDeRegistroMensal) {
+  // Se for dia 30, 60, 90, etc., adiciona o faturamento total do setor
+  novoArrayFatuMonthSetor = [
+    ...arrayFatuMonthSetor,
+    faturamentoTotalSetor, // 👈 Aqui é o faturamento TOTAL do setor no mês
+  ];
+  
+  // Opcional: Log para debug
+  console.log(`📊 Setor ${setor} - Dia ${dados.dia}: Registrado faturamento mensal de R$ ${faturamentoTotalSetor.toFixed(2)}`);
+}
+
+
+
         atualizarEcoSafely(setor, {
           ArrayFatu: novoArrayFatuSetor,
           ArrayFatuHistory: novoArrayFatuSetorHistory,
+          ArrayFatuMonth: novoArrayFatuMonthSetor,
         });
+
 
         // Atualiza mantendo a estrutura completa
         // atualizarEco(setor, {
@@ -642,8 +675,8 @@ const novoArrayFatuSetorHistory = [...arrayFatuSetorHistory, faturamentoTotalSet
 
 
   return (
-    <div className="flex justify-center items-center bg-[#290064] w-full rounded-[10px] relative">
-      <div className="flex justify-center items-center w-full">
+    <div className="flex justify-center items-center bg-[#290064] w-[100px] rounded-[10px] relative">
+      <div className="flex justify-center items-center w-[100px]">
         <h2 className="text-white text-[20px] fonteBold">
           {dados.despesas.proximoPagamento}
         </h2>

@@ -646,163 +646,181 @@ export default function Dashboard() {
 
   const chartRefSetores = useRef(null);
 
-  useEffect(() => {
-    if (ativo === "grafico" && dados.dia > 270 && chartRefSetores.current) {
-      const ctx = chartRefSetores.current.getContext("2d");
+useEffect(() => {
+  if (ativo === "grafico" && dados.dia > 270 && chartRefSetores.current) {
+    const ctx = chartRefSetores.current.getContext("2d");
 
-      const datasetsSetores = [
-        "agricultura",
-        "tecnologia",
-        "industria",
-        "comercio",
-        "imobiliario",
-        "energia",
-      ].map((setorSelecionado) => {
-        const gradient = createGradient(ctx, setorSelecionado);
-        const cores = coresSetoresGradiente[setorSelecionado];
+    // 🔥 MODIFICAÇÃO: Usar ArrayFatuMonth em vez de ArrayFatuHistory
+    const datasetsSetores = [
+      "agricultura",
+      "tecnologia",
+      "industria",
+      "comercio",
+      "imobiliario",
+      "energia",
+    ].map((setorSelecionado) => {
+      const gradient = createGradient(ctx, setorSelecionado);
+      const cores = coresSetoresGradiente[setorSelecionado];
 
-        return {
-          label: setorSelecionado.toUpperCase(),
-          data:
-            economiaSetores[setorSelecionado]?.economiaSetor
-              ?.ArrayFatuHistory || [],
-          borderColor: cores.end,
-          backgroundColor: gradient,
-          tension: 0.4,
-          fill: true, // ✅ Mantém true para empilhar
-          pointRadius: 0,
-          pointHoverRadius: 8,
-          pointHoverBackgroundColor: cores.end,
-          pointHoverBorderColor: "#FFFFFF",
-          pointHoverBorderWidth: 3,
-          borderWidth: 3,
-          shadowOffsetX: 0,
-          shadowOffsetY: 0,
-          shadowBlur: 20,
-          shadowColor: cores.glow,
-        };
-      });
+      // 🔥 MUDANÇA AQUI: ArrayFatuMonth em vez de ArrayFatuHistory
+      const dadosSetor = economiaSetores[setorSelecionado]?.economiaSetor?.ArrayFatuMonth || [];
 
-      // Configuração do gráfico futurista
-      const configSetores = {
-        type: "line",
-        data: {
-          labels: dadosDiaSetores,
-          datasets: datasetsSetores,
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: {
-            mode: "index",
-            intersect: false,
-          },
-          plugins: {
-            legend: {
-              position: "bottom",
-              labels: {
-                color: "#FFFFFF",
-                font: {
-                  size: 12,
-                  weight: "bold",
-                  family: "Inter, system-ui, sans-serif",
-                },
-                padding: 15,
-                usePointStyle: true,
-                pointStyle: "circle",
-              },
-            },
-            tooltip: {
-              backgroundColor: "rgba(0, 0, 0, 0.8)",
-              backdropFilter: "blur(10px)",
-              titleColor: "#FFFFFF",
-              bodyColor: "#C79FFF",
-              borderColor: "rgba(255, 255, 255, 0.2)",
-              borderWidth: 1,
-              padding: 12,
-              displayColors: true,
-              callbacks: {
-                label: function (context) {
-                  let label = context.dataset.label || "";
-                  if (label) {
-                    label += ": ";
-                  }
-                  label +=
-                    "R$ " +
-                    context.parsed.y.toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    });
-                  return label;
-                },
-              },
-            },
-          },
-          scales: {
-            x: {
-              display: true,
-              stacked: true, // ✅ ATIVAR EMPILHAMENTO NO EIXO X
-              grid: {
-                display: true,
-                color: "rgba(255, 255, 255, 0.1)",
-                lineWidth: 1,
-              },
-              ticks: {
-                color: "#C79FFF",
-                font: {
-                  size: 11,
-                  weight: "500",
-                },
-              },
-              border: {
-                display: false,
-              },
-            },
-            y: {
-              display: true,
-              stacked: true, // ✅ ATIVAR EMPILHAMENTO NO EIXO Y
-              position: "right",
-              grid: {
-                display: true,
-                color: "rgba(255, 255, 255, 0.1)",
-                lineWidth: 1,
-              },
-              ticks: {
-                color: "#C79FFF",
-                font: {
-                  size: 11,
-                  weight: "500",
-                },
-                callback: function (value) {
-                  return "R$ " + formatarNumero(value);
-                },
-              },
-              border: {
-                display: false,
-              },
-            },
-          },
-          elements: {
-            line: {
-              borderJoinStyle: "round",
-            },
-          },
-        },
+      return {
+        label: setorSelecionado.toUpperCase(),
+        data: dadosSetor, // ✅ Agora usando ArrayFatuMonth
+        borderColor: cores.end,
+        backgroundColor: gradient,
+        tension: 0.4,
+        fill: true,
+        pointRadius: 0,
+        pointHoverRadius: 8,
+        pointHoverBackgroundColor: cores.end,
+        pointHoverBorderColor: "#FFFFFF",
+        pointHoverBorderWidth: 3,
+        borderWidth: 3,
+        shadowOffsetX: 0,
+        shadowOffsetY: 0,
+        shadowBlur: 20,
+        shadowColor: cores.glow,
       };
+    });
+      const dadosSetor = economiaSetores.agricultura?.economiaSetor?.ArrayFatuMonth || [];
 
-      // Criar o gráfico
-      if (window.chartInstanceSetores) {
-        window.chartInstanceSetores.destroy();
-      }
-      window.chartInstanceSetores = new ChartJS(ctx, configSetores);
-    }
+    // 🔥 MODIFICAÇÃO: Labels agora representam meses, não dias
+const labelsMeses = dadosSetor.map((_, index) => {
+  const dia = (index + 1) * 30;
+  return `Dia ${dia}`;
+});
 
-    return () => {
-      if (window.chartInstanceSetores) {
-        window.chartInstanceSetores.destroy();
-      }
+    // Configuração do gráfico futurista
+    const configSetores = {
+      type: "line",
+      data: {
+        labels: labelsMeses, // ✅ Agora usando labels mensais
+        datasets: datasetsSetores,
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: "index",
+          intersect: false,
+        },
+        plugins: {
+          legend: {
+            position: "bottom",
+            labels: {
+              color: "#FFFFFF",
+              font: {
+                size: 12,
+                weight: "bold",
+                family: "Inter, system-ui, sans-serif",
+              },
+              padding: 15,
+              usePointStyle: true,
+              pointStyle: "circle",
+            },
+          },
+          tooltip: {
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            backdropFilter: "blur(10px)",
+            titleColor: "#FFFFFF",
+            bodyColor: "#C79FFF",
+            borderColor: "rgba(255, 255, 255, 0.2)",
+            borderWidth: 1,
+            padding: 12,
+            displayColors: true,
+            callbacks: {
+              title: function(items) {
+                // Mostra o mês e o dia correspondente
+                const index = items[0].dataIndex;
+                const dia = (index + 1) * 30;
+                return `Mês ${index + 1} (Dia ${dia})`;
+              },
+              label: function (context) {
+                let label = context.dataset.label || "";
+                if (label) {
+                  label += ": ";
+                }
+                label +=
+                  "R$ " +
+                  context.parsed.y.toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  });
+                return label;
+              },
+            },
+          },
+        },
+        scales: {
+          x: {
+            display: true,
+            stacked: true,
+            grid: {
+              display: true,
+              color: "rgba(255, 255, 255, 0.1)",
+              lineWidth: 1,
+            },
+            ticks: {
+              color: "#C79FFF",
+              font: {
+                size: 11,
+                weight: "500",
+              },
+              // Mostra a cada 3 meses para não poluir
+              stepSize: 3,
+            },
+            border: {
+              display: false,
+            },
+          },
+          y: {
+            display: true,
+            stacked: true,
+            position: "right",
+            grid: {
+              display: true,
+              color: "rgba(255, 255, 255, 0.1)",
+              lineWidth: 1,
+            },
+            ticks: {
+              color: "#C79FFF",
+              font: {
+                size: 11,
+                weight: "500",
+              },
+              callback: function (value) {
+                return "R$ " + formatarNumero(value);
+              },
+            },
+            border: {
+              display: false,
+            },
+          },
+        },
+        elements: {
+          line: {
+            borderJoinStyle: "round",
+          },
+        },
+      },
     };
-  }, [ativo, dados.dia, economiaSetores]);
+
+    // Criar o gráfico
+    if (window.chartInstanceSetores) {
+      window.chartInstanceSetores.destroy();
+    }
+    window.chartInstanceSetores = new ChartJS(ctx, configSetores);
+  }
+
+  return () => {
+    if (window.chartInstanceSetores) {
+      window.chartInstanceSetores.destroy();
+    }
+  };
+}, [ativo, dados.dia, economiaSetores]);
+
 
   const cores = {
     terrenos: "#FF7F32 ",
@@ -1376,7 +1394,7 @@ export default function Dashboard() {
             // Container com licença comprada
             <div className="w-full h-full p-4 flex flex-col" style={{ minHeight: 0, overflow: "hidden" }}>
 
-              {ativo === "grafico" && dados.dia <= 270 && (
+              {ativo === "grafico" && dados.dia <= 269 && (
                 <div className="w-full h-full p-6 flex items-center justify-center">
                   <div
                     className="w-full h-full rounded-2xl p-6 shadow-2xl relative overflow-hidden"
@@ -1414,77 +1432,12 @@ export default function Dashboard() {
               )}
 
 
-              {ativo === "grafico" && (
+              {ativo === "grafico"&& dados.dia > 269 && (
                 <div className="w-full h-full flex flex-col gap-3">
-                  {/* <AssistenteIA /> */}
-
-                                 
-                  {/* <div style={{
-                    display: 'flex', gap: 6, padding: '6px 8px',
-                    background: 'rgba(0,0,0,.35)', borderRadius: 14,
-                    border: '1px solid rgba(255,255,255,.08)',
-                    flexShrink: 0,
-                  }}>
-                    {[
-                      // { key: 'ecossistema', emoji: '🌿', label: 'Ecossistemas' },
-                      { key: 'grafico', emoji: '📊', label: dados.dia <= 270 ? 'Faturamento Edificações' : 'Faturamento Setores' },
-                      // { key: 'techtree', emoji: '🌐', label: 'Mapa de Sinergias' },
-                      // { key: 'producao', emoji: '🔗', label: 'Cadeia Produtiva' },
-                    ].map(({ key, emoji, label }) => {
-                      const isAtivo = graficoView === key;
-                      return (
-                        <button
-                          key={key}
-                          onClick={() => setGraficoView(key)}
-                          style={{
-                            border: 'none', borderRadius: 10,
-                            padding: '7px 16px', cursor: 'pointer',
-                            fontFamily: "'Rajdhani', sans-serif",
-                            fontSize: 13, fontWeight: 700,
-                            letterSpacing: '.04em',
-                            transition: 'all .18s',
-                            display: 'flex', alignItems: 'center', gap: 6,
-                            background: isAtivo
-                              ? 'linear-gradient(135deg, #4C14A9, #6411D9)'
-                              : 'rgba(255,255,255,.06)',
-                            color: isAtivo ? '#fff' : 'rgba(255,255,255,.38)',
-                            boxShadow: isAtivo ? '0 2px 14px rgba(100,17,217,.45)' : 'none',
-                          }}
-                        >
-                          <span style={{ fontSize: 15 }}>{emoji}</span>
-                          {label}
-                        </button>
-                      );
-                    })}
-                  </div> */}
 
                   <div className="flex-1 w-full" style={{ minHeight: 0 }}>
 
-          
-                    {/* {graficoView === 'grafico' && dados.dia <= 270 && (
-                      <div className="w-full h-full p-4 flex items-center justify-center">
-                        <div
-                          className="w-full h-full rounded-2xl p-6 shadow-2xl relative overflow-hidden"
-                          style={{
-                            background: "rgba(255, 255, 255, 0.05)",
-                            backdropFilter: "blur(20px)",
-                            border: "1px solid rgba(255, 255, 255, 0.1)",
-                            boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-                          }}
-                        >
-                          <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(circle at 50% 50%, rgba(242, 116, 5, 0.2) 0%, transparent 70%)", animation: "pulse 4s ease-in-out infinite" }} />
-                          <h2 className="text-white text-2xl font-bold mb-4 relative z-10 flex items-center gap-3">
-                            <div className="w-1 h-8 bg-gradient-to-b from-[#FF7F32] to-[#6411D9] rounded-full" />
-                            FATURAMENTO POR TIPO DE EDIFICAÇÃO
-                          </h2>
-                          <div className="relative z-10 h-[calc(100%-60px)]">
-                            <canvas ref={chartRefEdificios}></canvas>
-                          </div>
-                        </div>
-                      </div>
-                    )} */}
-
-                    {/* {graficoView === 'grafico' && dados.dia > 270 && ( */}
+                  
                       <div className="w-full h-full p-4 flex items-center justify-center">
                         <div
                           className="w-full h-full rounded-2xl p-6 shadow-2xl relative overflow-hidden"
@@ -1505,7 +1458,7 @@ export default function Dashboard() {
                           </div>
                         </div>
                       </div>
-                    {/* )} */}
+                 
 
                   
                     {/* {graficoView === 'techtree' && (

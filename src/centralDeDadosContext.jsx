@@ -15,7 +15,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
     animarCicloDia: null,
-    dia: 1,
+    dia: 1000,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -2823,7 +2823,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              Dome: "Fábrica De Medicamentos",
+              nome: "Fábrica De Medicamentos",
               redCusto: { nível1: 2, nível2: 3, nível3: 5 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -6111,7 +6111,7 @@ const CentraldeDadosProvider = ({ children }) => {
               aumFatu: { nível1: 8, nível2: 8, nível3: 10 },
             },
             {
-              Dome: "Fábrica De Medicamentos",
+              nome: "Fábrica De Medicamentos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 20, nível2: 25, nível3: 35 },
             },
@@ -10037,7 +10037,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              Dome: "Fábrica De Medicamentos",
+              nome: "Fábrica De Medicamentos",
               redCusto: { nível1: 1, nível2: 1, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -12494,7 +12494,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 3, nível2: 5, nível3: 12 },
             },
             {
-              Dome: "Fábrica De Medicamentos",
+              nome: "Fábrica De Medicamentos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 1, nível2: 2, nível3: 5 },
             },
@@ -13777,7 +13777,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 30, nível2: 40, nível3: 50 },
             },
             {
-              Dome: "Fábrica De Medicamentos",
+              nome: "Fábrica De Medicamentos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 10, nível2: 15, nível3: 15 },
             },
@@ -16139,7 +16139,7 @@ RecebeMelhoraEficiencia: [
           ForneceMelhoraEficiencia: [],
           RecebeMelhoraEficiencia: [
             {
-              Dome: "Fábrica De Medicamentos",
+              nome: "Fábrica De Medicamentos",
               redCusto: { nível1: 6, nível2: 8, nível3: 19 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18010,7 +18010,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              Dome: "Fábrica De Medicamentos",
+              nome: "Fábrica De Medicamentos",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -18239,7 +18239,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              Dome: "Fábrica De Medicamentos",
+              nome: "Fábrica De Medicamentos",
               redCusto: { nível1: 0, nível2: 0, nível3: 0 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
@@ -19058,7 +19058,7 @@ RecebeMelhoraEficiencia: [
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },
             {
-              Dome: "Fábrica De Medicamentos",
+              nome: "Fábrica De Medicamentos",
               redCusto: { nível1: 1, nível2: 2, nível3: 3 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
             },

@@ -594,7 +594,7 @@ const UpgradeCards = () => {
 
     return (
       <div>
-        {dados.dia >= 380 &&
+        {dados.dia >= 501 &&
 
           <button
             onClick={() => { setIsModalObjOpen(true), buttonOpenAudio(); }}

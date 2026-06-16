@@ -62,7 +62,7 @@ export default function Business() {
         );
     } else if (dados.botãoOfertas === "btnNoti") {
         return (
-            <div className="flex bg-[#290064] w-full rounded-[10px] relative">
+            <div className="flex bg-[#290064] w-[100px] rounded-[10px] relative">
                 <div className="flex justify-center items-center w-full rounded-[10px]">
                     <h2 className={`text-white text-[20px] fonteBold`}>{dados.proximaOferta}</h2>
                 </div>

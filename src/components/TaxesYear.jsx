@@ -164,11 +164,11 @@ export function TaxesYear() {
   const isNear    = proximoDia <= 30 && !isPending;
 
   return (
-    <div className={`flex items-center justify-between w-full h-[54px] rounded-[12px] p-1 transition-all duration-500 ${
+    <div className={`flex items-center justify-between w-[100px] h-[54px] rounded-[12px] p-1 transition-all duration-500 ${
       isPending ? "bg-red-600/20 border border-red-500 animate-pulse" : "bg-[#350973]/40 border border-white/10"
     }`}>
       <div
-        className="flex flex-col items-center justify-center flex-1"
+        className="flex flex-col items-center justify-center flex-1 w-[100px]"
         data-tooltip-id="tax-info"
         data-tooltip-content={isPending ? "IMPOSTO VENCIDO!" : `Próximo imposto em ${proximoDia} dias`}
       >
