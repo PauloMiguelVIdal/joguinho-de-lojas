@@ -30,13 +30,13 @@ const UpgradeCards = () => {
 
   console.log(CardsSorteados)
 
-  useEffect(() => {
-    if (dados.dia === 380) {
-      setIsModalObjOpen(true);
-      buttonOpenAudio();
-      buttonNewStageAudio();
-    }
-  }, [dados.dia]);
+    // useEffect(() => {
+    //   if (dados.dia === 380) {
+    //     setIsModalObjOpen(true);
+    //     buttonOpenAudio();
+    //     buttonNewStageAudio();
+    //   }
+    // }, [dados.dia]);
 
   const setoresArr = [
     "agricultura",
@@ -592,103 +592,94 @@ const UpgradeCards = () => {
     // 🔹 Função para calcular extras de uma campanha específica
 
 
-    return (
-      <div>
-        {dados.dia >= 501 &&
-
-          <button
-            onClick={() => { setIsModalObjOpen(true), buttonOpenAudio(); }}
-            data-tooltip-id="saldo-tip"
-            data-tooltip-content="Observe os objetivos do jogo"
-            className="bg-laranja min-h-[50px] hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center"
-          >
-            <img
-              className="w-[60%] max-w-[58px] aspect-square"
-              src={upgrade}
-              alt="Economia"
-            />
-          </button>
-        }
-        <TooltipPadrao
-          id="saldo-tip"
-          style={tooltipStyle}
+return (
+  <div>
+    {dados.dia >= 501 && (
+      <button
+        onClick={() => { setIsModalObjOpen(true); buttonOpenAudio(); }}
+        data-tooltip-id="saldo-tip"
+        data-tooltip-content="Observe os objetivos do jogo"
+        className="bg-laranja min-h-[50px] hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] max-h-[70px] min-w-[50px] max-w-[70px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center"
+      >
+        <img
+          className="w-[60%] max-w-[58px] aspect-square"
+          src={upgrade}
+          alt="Economia"
         />
-        {ModalObjOpen && (
-          <div className="flex justify-center items-center z-50 bg-black bg-opacity-90 w-[100vw] h-[100vh] fixed top-0 left-0 select-none">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="w-[90vw] max-w-[1600px] h-[90vh] bg-[#1a0a3b] rounded-[20px] z-20 relative flex flex-col"
+      </button>
+    )}
+    <TooltipPadrao
+      id="saldo-tip"
+      style={tooltipStyle}
+    />
+    {ModalObjOpen && (
+      <div className="flex justify-center items-center z-50 bg-black bg-opacity-90 w-[100vw] h-[100vh] fixed top-0 left-0 select-none p-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="w-[95vw] max-w-[1600px] h-[90vh] bg-[#1a0a3b] rounded-[20px] z-20 relative flex flex-col"
+        >
+          {dados.dia > 270 && (
+            <button
+              className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95 z-30"
+              onClick={() => { fecharModal(); buttonCloseAudio(); }}
             >
-              {dados.dia > 270 && (
-                <button
-                  className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
-                  onClick={() => { fecharModal(); buttonCloseAudio(); }}
-                >
-                  <img src={fechar} alt="Fechar" className="w-[60%]" />
-                </button>
-              )}
+              <img src={fechar} alt="Fechar" className="w-[60%]" />
+            </button>
+          )}
 
+          {dados.dia > 270 && (
+            <h1 className="text-center text-white py-4 text-[30px] fonteBold px-4">
+              Edifícios Melhorados
+            </h1>
+          )}
+          <div className="w-[60%] h-[10px] bg-gradient-to-l from-[#F27405] to-[#6A00FF] rounded-[5px] mx-auto mb-4"></div>
 
-              {dados.dia > 270 && (
-                <h1 className="text-center text-white py-4 text-[30px] fonteBold">
-                  Edifícios Melhorados
-                </h1>
-              )}
-              <div className="w-[60%] h-[10px] bg-gradient-to-l from-[#F27405] to-[#6A00FF] rounded-[5px] mx-auto mb-6"></div>
-
-              <div className="overflow-y-auto flex-1 px-8 py-6 space-y-6 flex flex-col items-center scrollbar-custom">
-                {/* 🔹 Mostrar opções somente se nenhuma campanha foi selecionada */}
-
-
-
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="flex flex-col md:flex-row items-center justify-around bg-[#2a0f50] rounded-2xl p-6 w-full max-w-[1600px] h-full"
-                >
-
-                    {CardsSorteados.map((carta, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        whileHover={{ y: -10, transition: { duration: 0.2 } }}
-                        transition={{
-                          delay: i * 0.05,
-                          type: "spring",
-                          stiffness: 100,
-                        }}
-                        className={`relative w-[250px] h-[350px] p-[2px] rounded-[20px] flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500`}
-                        style={{
-                          background
-                            : "rgba(255, 255, 255, 0.05)",
-                          border
-                            : "1px solid rgba(255,255,255,0.1)",
-                        }}
-                      >
-                        {LocalizadorUpgrade(
-                          carta.nome,
-                          carta.redImposto,
-                          carta.fatu
-                        )}
-                      </motion.div>
-                    ))}
-
-
-
-                </motion.div>
-
+          <div className="overflow-y-auto flex-1 px-4 sm:px-6 py-4 scrollbar-custom">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="bg-[#2a0f50] rounded-2xl p-4 sm:p-6 w-full"
+            >
+              {/* Grid responsivo com cards ajustáveis */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 md:gap-6 justify-items-center">
+                {CardsSorteados.map((carta, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    whileHover={{ y: -10, transition: { duration: 0.2 } }}
+                    transition={{
+                      delay: i * 0.05,
+                      type: "spring",
+                      stiffness: 100,
+                    }}
+                    className="relative w-[280px] max-w-[250px] aspect-[5/7] p-[2px] rounded-[20px] flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.05)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                    }}
+                  >
+                    <div className="w-full h-full flex items-center justify-center">
+                      {LocalizadorUpgrade(
+                        carta.nome,
+                        carta.redImposto,
+                        carta.fatu
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           </div>
-        )}
+        </motion.div>
       </div>
-    );
+    )}
+  </div>
+);
   }
 };
 

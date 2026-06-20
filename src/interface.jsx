@@ -121,6 +121,7 @@ function Interface() {
       {businessLicenceModal && (
         <BusinessLicenceModal
           onClose={() => setBusinessLicenceModal(false)}
+          onSorteio={() => console.log('Sorteio realizado!')}
         />
       )}
       {/* ═══════════════════════════════════════════════════════
@@ -146,17 +147,17 @@ function Interface() {
         }}
       >
         {/* Informações centrais (nome empresa, saldo, dia...) */}
-                  <div className="grid gap-[10px] col-start-1 col-end-8 w-full place-items-center">
-                            <Informations className="grid col-start-1 col-end-8" />
-                        </div>
+        <div className="grid gap-[10px] col-start-1 col-end-8 w-full place-items-center">
+          <Informations className="grid col-start-1 col-end-8" />
+        </div>
         {/* Controles da direita */}
-              <div className="flex w-full items-center justify-center col-start-8 col-end-9 gap-[10px]">
+        <div className="flex w-full items-center justify-center col-start-8 col-end-9 gap-[10px]">
 
           <Day />
           <TaxesYear />
           <EconomyGlobal />
           <RaffledBuildings />
-          <UpgradeCards/>
+          <UpgradeCards />
           <LicenceModalBusiness
             onOpen={() => setBusinessLicenceModal(true)}
           />

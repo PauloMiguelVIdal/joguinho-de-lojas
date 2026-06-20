@@ -1,4 +1,4 @@
-import React, { useContext,useCallback, useMemo, useEffect, useRef, useState } from "react";
+import React, { useContext, useCallback, useMemo, useEffect, useRef, useState } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { Line } from "react-chartjs-2";
 import agricultura from "../../public/outrasImagens/setores/agricultura.png";
@@ -92,6 +92,9 @@ export default function Dashboard() {
   );
   const [ativo, setAtivo] = useState("grafico");
 
+  // useEffect(() => {
+  //   setAtivo('carteira');
+  // }, [dados.dia])
   // const [graficoView, setGraficoView] = useState('ecossistema'); // 'grafico' | 'techtree' | 'producao' | 'ecossistema'
 
   // No topo do Dashboard, APÓS os outros useState:
@@ -153,14 +156,12 @@ export default function Dashboard() {
   });
 
   useEffect(() => {
-    if (dados.dia >= 270) {
-      if (ativo === "carteira") return
-      // if(ativo!=="carteira"){
-      //   setAtivo("carteira")
-      // }
-    }
+      if (dados.dia >= 270) {
 
-  }, [dados.dia])
+        setAtivo("carteira")
+      
+    }
+    }, [dados.dia])
 
 
   const abrirModalSell = (setor, index) => {
@@ -189,9 +190,9 @@ export default function Dashboard() {
   };
 
   // disponibiliza no contexto para o botão usar
-  useEffect(() => {
-    atualizarDados("animarCicloDia", animarCicloDia);
-  }, [dados.dia]);
+  // useEffect(() => {
+  //   atualizarDados("animarCicloDia", animarCicloDia);
+  // }, [dados.dia]);
 
   const tooltipStyle = {
     backgroundColor: "#FFFFFF",
@@ -646,180 +647,180 @@ export default function Dashboard() {
 
   const chartRefSetores = useRef(null);
 
-useEffect(() => {
-  if (ativo === "grafico" && dados.dia > 270 && chartRefSetores.current) {
-    const ctx = chartRefSetores.current.getContext("2d");
+  useEffect(() => {
+    if (ativo === "grafico" && dados.dia > 270 && chartRefSetores.current) {
+      const ctx = chartRefSetores.current.getContext("2d");
 
-    // 🔥 MODIFICAÇÃO: Usar ArrayFatuMonth em vez de ArrayFatuHistory
-    const datasetsSetores = [
-      "agricultura",
-      "tecnologia",
-      "industria",
-      "comercio",
-      "imobiliario",
-      "energia",
-    ].map((setorSelecionado) => {
-      const gradient = createGradient(ctx, setorSelecionado);
-      const cores = coresSetoresGradiente[setorSelecionado];
+      // 🔥 MODIFICAÇÃO: Usar ArrayFatuMonth em vez de ArrayFatuHistory
+      const datasetsSetores = [
+        "agricultura",
+        "tecnologia",
+        "industria",
+        "comercio",
+        "imobiliario",
+        "energia",
+      ].map((setorSelecionado) => {
+        const gradient = createGradient(ctx, setorSelecionado);
+        const cores = coresSetoresGradiente[setorSelecionado];
 
-      // 🔥 MUDANÇA AQUI: ArrayFatuMonth em vez de ArrayFatuHistory
-      const dadosSetor = economiaSetores[setorSelecionado]?.economiaSetor?.ArrayFatuMonth || [];
+        // 🔥 MUDANÇA AQUI: ArrayFatuMonth em vez de ArrayFatuHistory
+        const dadosSetor = economiaSetores[setorSelecionado]?.economiaSetor?.ArrayFatuMonth || [];
 
-      return {
-        label: setorSelecionado.toUpperCase(),
-        data: dadosSetor, // ✅ Agora usando ArrayFatuMonth
-        borderColor: cores.end,
-        backgroundColor: gradient,
-        tension: 0.4,
-        fill: true,
-        pointRadius: 0,
-        pointHoverRadius: 8,
-        pointHoverBackgroundColor: cores.end,
-        pointHoverBorderColor: "#FFFFFF",
-        pointHoverBorderWidth: 3,
-        borderWidth: 3,
-        shadowOffsetX: 0,
-        shadowOffsetY: 0,
-        shadowBlur: 20,
-        shadowColor: cores.glow,
-      };
-    });
+        return {
+          label: setorSelecionado.toUpperCase(),
+          data: dadosSetor, // ✅ Agora usando ArrayFatuMonth
+          borderColor: cores.end,
+          backgroundColor: gradient,
+          tension: 0.4,
+          fill: true,
+          pointRadius: 0,
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: cores.end,
+          pointHoverBorderColor: "#FFFFFF",
+          pointHoverBorderWidth: 3,
+          borderWidth: 3,
+          shadowOffsetX: 0,
+          shadowOffsetY: 0,
+          shadowBlur: 20,
+          shadowColor: cores.glow,
+        };
+      });
       const dadosSetor = economiaSetores.agricultura?.economiaSetor?.ArrayFatuMonth || [];
 
-    // 🔥 MODIFICAÇÃO: Labels agora representam meses, não dias
-const labelsMeses = dadosSetor.map((_, index) => {
-  const dia = (index + 1) * 30;
-  return `Dia ${dia}`;
-});
+      // 🔥 MODIFICAÇÃO: Labels agora representam meses, não dias
+      const labelsMeses = dadosSetor.map((_, index) => {
+        const dia = (index + 1) * 30;
+        return `Dia ${dia}`;
+      });
 
-    // Configuração do gráfico futurista
-    const configSetores = {
-      type: "line",
-      data: {
-        labels: labelsMeses, // ✅ Agora usando labels mensais
-        datasets: datasetsSetores,
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: {
-          mode: "index",
-          intersect: false,
+      // Configuração do gráfico futurista
+      const configSetores = {
+        type: "line",
+        data: {
+          labels: labelsMeses, // ✅ Agora usando labels mensais
+          datasets: datasetsSetores,
         },
-        plugins: {
-          legend: {
-            position: "bottom",
-            labels: {
-              color: "#FFFFFF",
-              font: {
-                size: 12,
-                weight: "bold",
-                family: "Inter, system-ui, sans-serif",
-              },
-              padding: 15,
-              usePointStyle: true,
-              pointStyle: "circle",
-            },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: "index",
+            intersect: false,
           },
-          tooltip: {
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-            backdropFilter: "blur(10px)",
-            titleColor: "#FFFFFF",
-            bodyColor: "#C79FFF",
-            borderColor: "rgba(255, 255, 255, 0.2)",
-            borderWidth: 1,
-            padding: 12,
-            displayColors: true,
-            callbacks: {
-              title: function(items) {
-                // Mostra o mês e o dia correspondente
-                const index = items[0].dataIndex;
-                const dia = (index + 1) * 30;
-                return `Mês ${index + 1} (Dia ${dia})`;
-              },
-              label: function (context) {
-                let label = context.dataset.label || "";
-                if (label) {
-                  label += ": ";
-                }
-                label +=
-                  "R$ " +
-                  context.parsed.y.toLocaleString("pt-BR", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  });
-                return label;
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: {
+                color: "#FFFFFF",
+                font: {
+                  size: 12,
+                  weight: "bold",
+                  family: "Inter, system-ui, sans-serif",
+                },
+                padding: 15,
+                usePointStyle: true,
+                pointStyle: "circle",
               },
             },
+            tooltip: {
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              backdropFilter: "blur(10px)",
+              titleColor: "#FFFFFF",
+              bodyColor: "#C79FFF",
+              borderColor: "rgba(255, 255, 255, 0.2)",
+              borderWidth: 1,
+              padding: 12,
+              displayColors: true,
+              callbacks: {
+                title: function (items) {
+                  // Mostra o mês e o dia correspondente
+                  const index = items[0].dataIndex;
+                  const dia = (index + 1) * 30;
+                  return `Mês ${index + 1} (Dia ${dia})`;
+                },
+                label: function (context) {
+                  let label = context.dataset.label || "";
+                  if (label) {
+                    label += ": ";
+                  }
+                  label +=
+                    "R$ " +
+                    context.parsed.y.toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    });
+                  return label;
+                },
+              },
+            },
           },
-        },
-        scales: {
-          x: {
-            display: true,
-            stacked: true,
-            grid: {
+          scales: {
+            x: {
               display: true,
-              color: "rgba(255, 255, 255, 0.1)",
-              lineWidth: 1,
-            },
-            ticks: {
-              color: "#C79FFF",
-              font: {
-                size: 11,
-                weight: "500",
+              stacked: true,
+              grid: {
+                display: true,
+                color: "rgba(255, 255, 255, 0.1)",
+                lineWidth: 1,
               },
-              // Mostra a cada 3 meses para não poluir
-              stepSize: 3,
+              ticks: {
+                color: "#C79FFF",
+                font: {
+                  size: 11,
+                  weight: "500",
+                },
+                // Mostra a cada 3 meses para não poluir
+                stepSize: 3,
+              },
+              border: {
+                display: false,
+              },
             },
-            border: {
-              display: false,
-            },
-          },
-          y: {
-            display: true,
-            stacked: true,
-            position: "right",
-            grid: {
+            y: {
               display: true,
-              color: "rgba(255, 255, 255, 0.1)",
-              lineWidth: 1,
-            },
-            ticks: {
-              color: "#C79FFF",
-              font: {
-                size: 11,
-                weight: "500",
+              stacked: true,
+              position: "right",
+              grid: {
+                display: true,
+                color: "rgba(255, 255, 255, 0.1)",
+                lineWidth: 1,
               },
-              callback: function (value) {
-                return "R$ " + formatarNumero(value);
+              ticks: {
+                color: "#C79FFF",
+                font: {
+                  size: 11,
+                  weight: "500",
+                },
+                callback: function (value) {
+                  return "R$ " + formatarNumero(value);
+                },
+              },
+              border: {
+                display: false,
               },
             },
-            border: {
-              display: false,
+          },
+          elements: {
+            line: {
+              borderJoinStyle: "round",
             },
           },
         },
-        elements: {
-          line: {
-            borderJoinStyle: "round",
-          },
-        },
-      },
+      };
+
+      // Criar o gráfico
+      if (window.chartInstanceSetores) {
+        window.chartInstanceSetores.destroy();
+      }
+      window.chartInstanceSetores = new ChartJS(ctx, configSetores);
+    }
+
+    return () => {
+      if (window.chartInstanceSetores) {
+        window.chartInstanceSetores.destroy();
+      }
     };
-
-    // Criar o gráfico
-    if (window.chartInstanceSetores) {
-      window.chartInstanceSetores.destroy();
-    }
-    window.chartInstanceSetores = new ChartJS(ctx, configSetores);
-  }
-
-  return () => {
-    if (window.chartInstanceSetores) {
-      window.chartInstanceSetores.destroy();
-    }
-  };
-}, [ativo, dados.dia, economiaSetores]);
+  }, [ativo, dados.dia, economiaSetores]);
 
 
   const cores = {
@@ -1432,49 +1433,49 @@ const labelsMeses = dadosSetor.map((_, index) => {
               )}
 
 
-              {ativo === "grafico"&& dados.dia > 269 && (
+              {ativo === "grafico" && dados.dia > 269 && (
                 <div className="w-full h-full flex flex-col gap-3">
 
                   <div className="flex-1 w-full" style={{ minHeight: 0 }}>
 
-                  
-                      <div className="w-full h-full p-4 flex items-center justify-center">
-                        <div
-                          className="w-full h-full rounded-2xl p-6 shadow-2xl relative overflow-hidden"
-                          style={{
-                            background: "rgba(255, 255, 255, 0.05)",
-                            backdropFilter: "blur(20px)",
-                            border: "1px solid rgba(255, 255, 255, 0.1)",
-                            boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-                          }}
-                        >
-                          <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(circle at 50% 50%, rgba(106, 0, 255, 0.2) 0%, transparent 70%)", animation: "pulse 4s ease-in-out infinite" }} />
-                          <h2 className="text-white text-2xl font-bold mb-4 relative z-10 flex items-center gap-3">
-                            <div className="w-1 h-8 bg-gradient-to-b from-[#6A00FF] to-[#FF00FF] rounded-full" />
-                            FATURAMENTO POR SETOR
-                          </h2>
-                          <div className="relative z-10 h-[calc(100%-60px)]">
-                            <canvas ref={chartRefSetores}></canvas>
-                          </div>
+
+                    <div className="w-full h-full p-4 flex items-center justify-center">
+                      <div
+                        className="w-full h-full rounded-2xl p-6 shadow-2xl relative overflow-hidden"
+                        style={{
+                          background: "rgba(255, 255, 255, 0.05)",
+                          backdropFilter: "blur(20px)",
+                          border: "1px solid rgba(255, 255, 255, 0.1)",
+                          boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+                        }}
+                      >
+                        <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(circle at 50% 50%, rgba(106, 0, 255, 0.2) 0%, transparent 70%)", animation: "pulse 4s ease-in-out infinite" }} />
+                        <h2 className="text-white text-2xl font-bold mb-4 relative z-10 flex items-center gap-3">
+                          <div className="w-1 h-8 bg-gradient-to-b from-[#6A00FF] to-[#FF00FF] rounded-full" />
+                          FATURAMENTO POR SETOR
+                        </h2>
+                        <div className="relative z-10 h-[calc(100%-60px)]">
+                          <canvas ref={chartRefSetores}></canvas>
                         </div>
                       </div>
-                 
+                    </div>
 
-                  
+
+
                     {/* {graficoView === 'techtree' && (
                       <div className="w-full h-full">
                         <Techtree />
                       </div>
                     )} */}
 
-               
+
                     {/* {graficoView === 'producao' && (
                       <div className="w-full h-full">
                         <ProductionChainTree />
                       </div>
                     )} */}
 
-            
+
                     {/* {graficoView === 'ecossistema' && (
                       <div className="w-full h-full">
                         <EcosystemMap />

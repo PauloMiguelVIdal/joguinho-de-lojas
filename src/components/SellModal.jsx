@@ -1,330 +1,230 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-import agricultura from "../../public/outrasImagens/setores/agricultura.png";
-import tecnologia from "../../public/outrasImagens/setores/tecnologia.png";
-import comercio from "../../public/outrasImagens/setores/comercio.png";
-import industria from "../../public/outrasImagens/setores/industria.png";
-import imobiliario from "../../public/outrasImagens/setores/imobiliário.png";
-import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
-import grafico from "../../public/outrasImagens/setores/grafico.png";
-import { CardModal } from "./cardsModal";
-import { CardLocalization } from "./cardLocalization";
-import circularEconomia from "../../public/outrasImagens/circular-economy.png"
-import DolarImg from "../../public/outrasImagens/simbolo-do-dolar.png"
-import licença from "../../public/outrasImagens/licença.png"
-import { Localizador } from "./localizador";
+import { Localizador } from "./localizador"; // Se o localizador for o que gera o CardLocalization
+import { CardLocalization } from "./cardLocalization"; // Importe direto se for o caso
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
-import { motion } from "framer-motion";
-import fechar from "../../public/outrasImagens/fechar.png"
-import mais from "../../public/outrasImagens/botao-de-simbolo-de-mais.png"
-import menos from "../../public/outrasImagens/simbolo-de-menos.png"
-import { Statistic } from './statistic'
-import { Box, Grid, IconButton, Paper, Typography } from '@mui/material'
-import { styled } from '@mui/system';
+import { motion, AnimatePresence } from "framer-motion";
+import { X, DollarSign, TrendingDown, Plus, Minus, Check, AlertCircle } from "lucide-react";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import useSound from "use-sound";
 import payTerrain from "../../public/sounds/payTerrainAudio.mp3";
 
 export const SellModal = ({ setor, index, onClose }) => {
-  const { dados, atualizarDados, atualizarDadosProf,atualizarDadosProf2 } = useContext(CentraldeDadosContext);
+  const { dados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
   const [buttonPayTerrain] = useSound(payTerrain);
-    const [buttonCloseAudio] = useSound(closeAudio);
-  
+  const [buttonCloseAudio] = useSound(closeAudio);
 
-  const setorAtivo = setor
+  const setorAtivo = setor;
+  const economiaSetoresAtual = economiaSetores[setor].economiaSetor.estadoAtual;
+  const base = dados[setorAtivo].edificios[index];
+  const qtdEd = base.quantidade;
 
-  const economiaSetoresAtual = economiaSetores[setor].economiaSetor.estadoAtual
+  const [quantidadeMarcador, setQuantidadeMarcador] = useState(1);
 
-  const base = dados[setorAtivo].edificios[index]
-
-  const qtdEd = base.quantidade
-
-  const [quantidadeMarcador, setQuantidadeMarcador] = useState(1)
-
-  const aumentarQuantidadeMarcador = () => {
-    if (qtdEd === quantidadeMarcador) { return }
-    setQuantidadeMarcador(quantidadeMarcador + 1)
-  }
-
-if(quantidadeMarcador>qtdEd){
-  setQuantidadeMarcador(qtdEd)
-}
-
-
-  const diminuirQuantidadeMarcador = () => {
-    if (quantidadeMarcador === 1) { return }
-    setQuantidadeMarcador(quantidadeMarcador - 1)
-  }
-  const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-
+  // --- MANTENHA SUA FUNÇÃO DE CÁLCULO ORIGINAL AQUI ---
   function calcularCustoEdificio(setorAtivo, index, nivel = 1) {
     const base = dados[setorAtivo].edificios[index];
     if (!base) return 0;
-
-    // custo direto da construção
     const custoConstrucaoRecurso = base.custoConstrucao || 0;
-
-    // lojas necessárias
     const quantidadeTerrenosNec = base.lojasNecessarias?.terrenos || 0;
     const quantidadeLojasPNec = base.lojasNecessarias?.lojasP || 0;
     const quantidadeLojasMNec = base.lojasNecessarias?.lojasM || 0;
     const quantidadeLojasGNec = base.lojasNecessarias?.lojasG || 0;
-
     const custoTotalTerrenos = quantidadeTerrenosNec * dados.terrenos.preçoConstrução;
-
-    const custoTotalLojasP = quantidadeLojasPNec * (
-      dados.lojasP.preçoConstrução +
-      (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-    );
-
-    const custoTotalLojasM = quantidadeLojasMNec * (
-      dados.lojasM.preçoConstrução +
-      (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-    );
-
-    const custoTotalLojasG = quantidadeLojasGNec * (
-      dados.lojasG.preçoConstrução +
-      (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-    );
-
+    const custoTotalLojasP = quantidadeLojasPNec * (dados.lojasP.preçoConstrução + (dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução));
+    const custoTotalLojasM = quantidadeLojasMNec * (dados.lojasM.preçoConstrução + (dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução));
+    const custoTotalLojasG = quantidadeLojasGNec * (dados.lojasG.preçoConstrução + (dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução));
     let custoTotalRecurso = custoConstrucaoRecurso + custoTotalTerrenos + custoTotalLojasP + custoTotalLojasM + custoTotalLojasG;
-
-    // recursão para sub-recursos
-    if (Array.isArray(base.recursoDeConstrução) && base.recursoDeConstrução.length > 0) {
-      base.recursoDeConstrução.forEach(subRecurso => {
-        // aqui preciso localizar o setor e index do recurso
-        for (const setor of setoresArr) {
-          const i = dados[setor]?.edificios?.findIndex(e => e.nome === subRecurso);
-          if (i !== -1 && i !== undefined) {
-            const custoSub = calcularCustoEdificio(setor, i, nivel + 1);
-            custoTotalRecurso += custoSub;
-            break;
-          }
-        }
-      });
-    }
-
     return custoTotalRecurso;
   }
+
   const percSetor = (setorAtivo) => {
     switch (setorAtivo) {
-      case "recessão": return 20;
-      case "declinio": return 25;
-      case "estável": return 30;
-      case "progressiva": return 35;
-      case "aquecida": return 40;
+      case "recessão": return 50;
+      case "declinio": return 60;
+      case "estável": return 70;
+      case "progressiva": return 75;
+      case "aquecida": return 80;
+      default: return 10;
     }
-  }
-  const patrimônioAtual = calcularCustoEdificio(setorAtivo, index)
+  };
+
+  const patrimônioAtual = calcularCustoEdificio(setorAtivo, index);
   const patrimônioDepreciado = (patrimônioAtual * (percSetor(economiaSetoresAtual) / 100)).toFixed(2);
-  
+  const totalVenda = Number(patrimônioDepreciado) * quantidadeMarcador;
+
   const venderEdificio = () => {
-    if(quantidadeMarcador > qtdEd){
-      alert("Quantidade a ser vendida é maior que a quantidade disponível.")
-      return
-    }
-    const novoValorQuantidadeEd  = qtdEd - quantidadeMarcador
-atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], novoValorQuantidadeEd);
-atualizarEco("saldo",economiaSetores.saldo + (patrimônioDepreciado * quantidadeMarcador))
-  }
-
-
-  const formatarNumero = (num) => {
-    if (num >= 1e12) return (num / 1e12).toFixed(1).replace('.0', '') + 'T'; // Trilhões
-    if (num >= 1e9) return (num / 1e9).toFixed(1).replace('.0', '') + 'B';   // Bilhões
-    if (num >= 1e6) return (num / 1e6).toFixed(1).replace('.0', '') + 'M';   // Milhões
-    if (num >= 1e3) return (num / 1e3).toFixed(1).replace('.0', '') + 'K';   // Milhares
-    return num.toString();
-  };
-
-
-  const setores = [
-    { id: "agricultura", corClasse: "bg-[#4CAF50]", img: agricultura, descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50", },
-    { id: "tecnologia", corClasse: "bg-[#FF8C42]", img: tecnologia, descLicença: "Com a Licença Global de Tecnologia, você desbloqueia inovações que podem transformar sua infraestrutura, otimizar processos e maximizar os lucros. Invista no futuro agora!", cor1: "#A64B00 ", cor2: "#D45A00 ", cor3: "#FF6F00", cor4: "#FF8C42 ", },
-    { id: "industria", corClasse: "bg-[#B3B3B3]", img: industria, descLicença: "Com a Licença Global de Indústria, você acessa fábricas avançadas e processos de produção que aceleram sua evolução e aumentam a eficiência. Não fique para trás!", cor1: "#1A1A1A ", cor2: "#4D4D4D  ", cor3: "#808080  ", cor4: "#B3B3B3", },
-    { id: "comercio", corClasse: "bg-[#FF4D4D]", img: comercio, descLicença: "Com a Licença Global de Comércio, você tem acesso a novos mercados, estratégias de vendas e expansão que podem levar seus negócios a um novo nível. Não perca essa oportunidade!", cor1: "#660000  ", cor2: "#A31919  ", cor3: "#E60000", cor4: "#FF4D4D  ", },
-    { id: "imobiliario", corClasse: "bg-[#6666FF]", img: imobiliario, descLicença: "Com a Licença Global Imobiliária, você pode investir em novos terrenos, expandir suas construções e maximizar os retornos do mercado imobiliário. Abra as portas para grandes lucros!", cor1: "#000066  ", cor2: "#1A1A8C  ", cor3: "#3333CC", cor4: "#6666FF  " },
-    { id: "energia", corClasse: "bg-[#FFD966]", img: energia, descLicença: "Com a Licença Global de Energia, você ativa fontes de energia sustentáveis e de alta performance, garantindo uma operação eficiente e lucrativa. Potencialize seu setor energético agora!", cor1: "#665200   ", cor2: "#A37F19   ", cor3: "#E6B800", cor4: "#FFD966" },
-
-  ];
-
-
-
-  const comprarLicença = () => {
-    if (dados[setorAtivo].licençasSetor[index].status === true) { return }
-
-    else if (economiaSetores.saldo < (dados[setorAtivo].licençasSetor[index].valor)) {
-      alert("Você não tem dinheiro suficiente para comprar essa licença");
-    } else {
-      atualizarDadosProf(["licençasSetor", index, "status"], true);
-      liberarEdificios();
-      console.log("Licença comprada e edifícios liberados");
-      atualizarEco('saldo', economiaSetores.saldo - (dados[setorAtivo].licençasSetor[index].valor));
-    }
-  };
-
-
-  const liberarEdificios = () => {
-    const edificiosLiberados = dados[setorAtivo].licençasSetor[index].edifíciosLiberados;
-
-    edificiosLiberados.forEach(nomeEd => {
-      const indice = dados[setorAtivo].edificios.findIndex(ed => ed.nome === nomeEd);
-      if (indice === -1) return;
-
-      atualizarDadosProf(["edificios", indice, "licençaLiberado"], {
-        ...dados[setorAtivo].edificios[indice].licençaLiberado,
-        liberado: true
+    if (quantidadeMarcador > qtdEd) return;
+    const novoValorQuantidadeEd = qtdEd - quantidadeMarcador;
+    atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], novoValorQuantidadeEd);
+    atualizarEco("saldo", economiaSetores.saldo + totalVenda);
+    setEconomiaSetores(prev => {
+      const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+      const novaCarteira = setoresArr.map((s) => {
+        const edificiosDoSetor = dados[s]?.edificios || [];
+        return edificiosDoSetor.map((ed, i) => {
+          if (s === setorAtivo && i === index) {
+            if (novoValorQuantidadeEd <= 0) return null;
+            return { ...ed, quantidade: novoValorQuantidadeEd };
+          }
+          return ed.quantidade > 0 ? ed : null;
+        }).filter(Boolean);
       });
-
-
-
+      return { ...prev, carteira: { ...prev.carteira, carteiraAtual: novaCarteira } };
     });
+    if (novoValorQuantidadeEd === 0) onClose();
   };
-  const setorInfo = setores.find(setor => setor.id === setorAtivo);
-const getImageUrl = (nomeArquivo) => `/imagens/${nomeArquivo}.png`;
 
-return (
-  <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90 ">
-    <motion.div
-      style={{
-        background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor4} 100%)`
-      }}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className="w-[85vw] h-[80vh] p-[20px] gap-[20px] rounded-[20px] flex flex-col items-center relative shadow-2xl"
-    >
-      {/* Botão Fechar */}
-      <button
-        className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
-        onClick={() => { onClose(); buttonCloseAudio() }}
-      >
-        <img src={fechar} alt="Fechar" className="w-[60%]" />
-      </button>
+  const aumentarQuantidadeMarcador = () => { if (qtdEd > quantidadeMarcador) setQuantidadeMarcador(quantidadeMarcador + 1); };
+  const diminuirQuantidadeMarcador = () => { if (quantidadeMarcador > 1) setQuantidadeMarcador(quantidadeMarcador - 1); };
 
-      {/* Cabeçalho */}
-      <div
-        style={{ backgroundColor: setorInfo.cor1 }}
-        className="flex shadow-xl justify-center items-center w-[100%] h-[15%] rounded-[20px] self-center"
-      >
-        <h1 className="text-center text-white text-[40px] fonteBold">
-          {dados[setorAtivo].edificios[index].nome}
-        </h1>
-      </div>
+  // Cores do setor para o brilho dinâmico
+  const coresSetores = {
+    agricultura: "#4CAF50", tecnologia: "#FF8C42", industria: "#B3B3B3",
+    comercio: "#FF4D4D", imobiliario: "#6666FF", energia: "#FFD966"
+  };
+  const corSetor = coresSetores[setorAtivo] || "#6A00FF";
 
-      {/* Corpo - 2 Colunas */}
-      <div className="flex flex-1 w-full gap-6 mt-4">
-        {/* ESQUERDA */}
-        <div
-          style={{ backgroundColor: setorInfo.cor3, opacity: 0.85 }}
-          className="flex-1 rounded-[15px] p-6 text-white text-[22px] flex flex-col"
-        >
-          {/* CardLocalization que você tinha adicionado */}
+  return (
+    <AnimatePresence>
+      <div className="fixed inset-0 flex justify-center items-center z-[120] bg-black/90 backdrop-blur-sm select-none">
         
+        {/* Brilho de fundo dinâmico */}
+        <div className="absolute inset-0 blur-[120px] opacity-10 pointer-events-none" style={{ backgroundColor: corSetor }} />
 
-          <p className="mb-6 leading-relaxed">
-            A economia do setor{" "}
-            <span className="fonteBold text-[#6A00FF]">{setor}</span> está{" "}
-            <span className="fonteBold">{economiaSetoresAtual}</span>.
-          </p>
-
-          <p className="mb-6 leading-relaxed">
-            O valor a ser pago será referente a{" "}
-            <span className="text-[#6A00FF] fonteBold">
-              {percSetor(economiaSetoresAtual)}%
-            </span>{" "}
-            do valor de mercado atual.
-          </p>
-
-          <div className="space-y-4">
-            <p>
-              Valor de mercado:{" "}
-              <span className="fonteBold">
-                {calcularCustoEdificio(setorAtivo, index)}
-              </span>
-            </p>
-            <p>
-              Valor ofertado:{" "}
-              <span className="fonteBold">{patrimônioDepreciado}</span>
-            </p>
-            <p>
-              Total:{" "}
-              <span className="fonteBold text-[#6A00FF]">
-                {patrimônioDepreciado * quantidadeMarcador}
-              </span>
-            </p>
-          </div>
-        </div>
-
-        {/* DIREITA */}
-        <div
-          style={{ backgroundColor: setorInfo.cor2, opacity: 0.85 }}
-          className="w-[260px] flex flex-col items-center justify-between rounded-[15px] p-6"
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.9, y: 10 }}
+          className="relative w-[85vw] max-w-[1100px] h-[80vh] bg-gradient-to-br from-[#350973] to-[#1a053d] rounded-[32px] border border-laranja/30 shadow-[0_40px_100px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col"
         >
-            <div className="mb-6">{Localizador(dados[setorAtivo].edificios[index].nome)}</div>
-          {/* Marcador com cores originais */}
-          <Box display="flex" alignItems="center" className="mb-6">
-            <IconButton
-              onClick={diminuirQuantidadeMarcador}
-              sx={{
-                bgcolor: "#6411D9",
-                width: 36,
-                height: 36,
-                borderRadius: "8px",
-                "&:hover": { bgcolor: "#834EDB" }
-              }}
-            >
-              <img src={menos} width={16} height={16} />
-            </IconButton>
+          {/* Linha de brilho superior */}
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-laranja/40 to-transparent" />
 
-            <Box
-              sx={{
-                mx: 2,
-                bgcolor: "#350973",
-                width: 36,
-                height: 36,
-                borderRadius: "8px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
+          {/* Header */}
+          <div className="p-8 flex justify-between items-start">
+            <div>
+              <span className="text-laranja text-xs font-black uppercase tracking-[0.3em] mb-2 block">Ordem de Desinvestimento</span>
+              <h1 className="text-white text-4xl font-extrabold tracking-tight italic">
+                {base.nome}
+              </h1>
+            </div>
+            <motion.button 
+              whileHover={{ scale: 1.1, rotate: 90 }} 
+              whileTap={{ scale: 0.9 }}
+              onClick={() => { onClose(); buttonCloseAudio(); }}
+              className="text-white/20 hover:text-laranja transition-colors"
             >
-              <Typography variant="body2" color="white" fontWeight="bold">
-                {quantidadeMarcador}
-              </Typography>
-            </Box>
+              <X className="w-8 h-8" />
+            </motion.button>
+          </div>
 
-            <IconButton
-              onClick={aumentarQuantidadeMarcador}
-              sx={{
-                bgcolor: "#6411D9",
-                width: 36,
-                height: 36,
-                borderRadius: "8px",
-                "&:hover": { bgcolor: "#834EDB" }
-              }}
-            >
-              <img src={mais} width={16} height={16} />
-            </IconButton>
-          </Box>
+          {/* Conteúdo Principal */}
+          <div className="flex-1 flex gap-8 p-8 pt-0 overflow-hidden">
+            
+            {/* LADO ESQUERDO: Dados e Economia */}
+            <div className="flex-1 flex flex-col gap-6">
+              
+              <div className="bg-white/5 border border-white/10 p-6 rounded-2xl">
+                <p className="text-white/80 text-lg font-light leading-relaxed">
+                  O setor de <span className="text-white font-bold uppercase" style={{ color: corSetor }}>{setorAtivo}</span> opera em ciclo <span className="text-white font-bold">{economiaSetoresAtual}</span>.
+                </p>
+                <div className="mt-4 flex items-center gap-3 text-laranja/80 text-sm italic">
+                  <AlertCircle className="w-4 h-4" />
+                  <span>Taxa de liquidez atual: {percSetor(economiaSetoresAtual)}% do valor de construção.</span>
+                </div>
+              </div>
 
-          {/* Botão Vender */}
-          <button
-            onClick={() => { venderEdificio(); buttonPayTerrain(); }}
-            className="w-full py-3 bg-gradient-to-r from-[#6411D9] to-[#934CFF] text-white rounded-[12px] fonteBold hover:scale-105 transition duration-300 shadow-md"
-          >
-            Vender
-          </button>
-        </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white/5 border border-white/10 p-5 rounded-2xl">
+                  <p className="text-white/40 text-[10px] uppercase tracking-widest font-bold mb-2">Avaliação de Unidade</p>
+                  <div className="flex items-center gap-2">
+                    <TrendingDown className="text-white/20 w-5 h-5" />
+                    <span className="text-white text-xl font-light">R$ {patrimônioAtual.toLocaleString()}</span>
+                  </div>
+                </div>
+                <div className="bg-laranja/5 border border-laranja/20 p-5 rounded-2xl">
+                  <p className="text-laranja/60 text-[10px] uppercase tracking-widest font-bold mb-2">Oferta por Unidade</p>
+                  <div className="flex items-center gap-2">
+                    <DollarSign className="text-laranja w-5 h-5" />
+                    <span className="text-laranja text-xl font-bold">R$ {Number(patrimônioDepreciado).toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* CardLocalization Renderizado aqui com destaque */}
+              <div className="flex-1 bg-black/20 rounded-2xl border border-white/5 p-4 flex items-center justify-center relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10 pointer-events-none bg-grid-white/[0.02]" />
+                {/* Renderizando o seu componente CardLocalization aqui. 
+                  Como ele costuma vir via função localizador ou import, use conforme seu projeto:
+                */}
+                {Localizador(base.nome, null, index, setor)}
+              </div>
+            </div>
+
+            {/* LADO DIREITO: Painel de Ação */}
+            <div className="w-[320px] bg-white/5 border border-white/10 rounded-[24px] p-8 flex flex-col justify-between">
+              
+              <div className="space-y-6">
+                <p className="text-center text-white/30 text-[10px] uppercase tracking-[0.2em] font-bold">Quantidade para Venda</p>
+                
+                <div className="flex items-center justify-between bg-[#1a053d] border border-white/10 rounded-2xl p-2">
+                  <motion.button 
+                    whileTap={{ scale: 0.9 }}
+                    onClick={diminuirQuantidadeMarcador}
+                    className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-white transition-colors"
+                  >
+                    <Minus className="w-5 h-5" />
+                  </motion.button>
+                  
+                  <div className="text-center">
+                    <span className="text-white text-4xl font-black">{quantidadeMarcador}</span>
+                    <p className="text-white/20 text-[10px] mt-1">Disponível: {qtdEd}</p>
+                  </div>
+
+                  <motion.button 
+                    whileTap={{ scale: 0.9 }}
+                    onClick={aumentarQuantidadeMarcador}
+                    className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-white transition-colors"
+                  >
+                    <Plus className="w-5 h-5" />
+                  </motion.button>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div className="text-center">
+                  <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] font-bold mb-2">Total Estimado</p>
+                  <span className="text-white text-3xl font-light">R$ </span>
+                  <span className="text-laranja text-4xl font-black tracking-tighter">
+                    {totalVenda.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  </span>
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => { venderEdificio(); buttonPayTerrain(); }}
+                  className="w-full py-5 bg-gradient-to-r from-laranja to-[#E56100] rounded-2xl text-white font-black uppercase tracking-widest text-sm shadow-[0_20px_40px_rgba(229,97,0,0.2)] flex items-center justify-center gap-3 transition-all"
+                >
+                  <Check className="w-5 h-5" />
+                  Confirmar Venda
+                </motion.button>
+                
+                <p className="text-center text-white/20 text-[9px] uppercase tracking-widest font-medium">
+                  Ação processada via economia global
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Footer visual sutil */}
+          <div className="h-2 w-full bg-laranja/10 mt-auto" />
+        </motion.div>
       </div>
-    </motion.div>
-  </div>
-);
-
-
-
-
-}
+    </AnimatePresence>
+  );
+};

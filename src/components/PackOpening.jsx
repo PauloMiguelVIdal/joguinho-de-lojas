@@ -2,10 +2,12 @@
 import React, { useState, useCallback, useContext, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LocalizadorUpgrade } from "./LocalizadorUpgrade";
-import logo from '../../public/outrasImagens/logo Joguinho.png'
+import logo from '../../public/outrasImagens/logo Joguinho.png';
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import useSound from "use-sound";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
+
+// ── Funções Auxiliares ───────────────────────────────────────────
 const getRaridade = (custo) => {
     if (custo >= 5_000_000) return "lendario";
     if (custo >= 500_000) return "epico";
@@ -28,7 +30,7 @@ const RARIDADE_LABEL = { comum: "Comum", incomum: "Incomum", raro: "Raro", epico
 
 const getImageUrl = (nome) => `/imagens/${nome}.png`;
 
-// ── Partículas ───────────────────────────────────────────
+// ── Partículas ────────────────────────────────────────────────────
 const Particle = ({ x, y, dx, dy, color, delay }) => (
   <motion.div
     style={{
@@ -56,8 +58,6 @@ const Particle = ({ x, y, dx, dy, color, delay }) => (
   />
 );
 
-
-
 const PACK_THEME = {
     cor1: "#6411D9",
     cor2: "#350973",
@@ -73,6 +73,7 @@ const setoresArr = [
     "imobiliario",
     "energia",
 ];
+
 const todasCartas = [
     "Usina Hidrelétrica",
     "Reator Nuclear Convencional",
@@ -248,10 +249,8 @@ const getRandomItems = (array, n) => {
 
 const randomBonus = () => Math.floor(Math.random() * 10) + 1;
 
-
-// ── Pacote visual ─────────────────────────────────────────
+// ── Pacote visual ────────────────────────────────────────────────
 const Pacote = ({ fase, onOpen, tema }) => {
-  // Gradiente premium com mais profundidade
   const packGradient = `linear-gradient(
     160deg, 
     ${tema.cor1} 0%, 
@@ -261,7 +260,6 @@ const Pacote = ({ fase, onOpen, tema }) => {
     ${tema.cor1} 100%
   )`;
 
-  // Efeito de brilho metálico
   const metallicSheen = `linear-gradient(
     135deg,
     transparent 0%,
@@ -361,7 +359,7 @@ const Pacote = ({ fase, onOpen, tema }) => {
         `,
         overflow: "hidden",
       }}>
-        {/* Textura premium com padrão mais refinado */}
+        {/* Textura premium */}
         <div style={{
           position: "absolute", 
           inset: 0, 
@@ -531,7 +529,7 @@ const Pacote = ({ fase, onOpen, tema }) => {
           fontWeight: 300,
         }}>✦ ✦ ✦</div>
 
-        {/* Título Business Game com animação premium */}
+        {/* Título Business Game */}
         <motion.div
           style={{
             position: "absolute", 
@@ -616,7 +614,7 @@ const Pacote = ({ fase, onOpen, tema }) => {
   );
 };
 
-// ── Componente Principal ──────────────────────────────────
+// ── Componente Principal ─────────────────────────────────────────
 export const PackOpening = ({ tema = PACK_THEME, onClose, onSorteio }) => {
   const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
   const [cartasSorteadas, setCartasSorteadas] = useState([]);
@@ -624,11 +622,15 @@ export const PackOpening = ({ tema = PACK_THEME, onClose, onSorteio }) => {
   const [particles, setParticles] = useState([]);
   const [modal, setModal] = useState(false);
   const [buttonCloseAudio] = useSound(closeAudio);
+  const [jaSorteouHoje, setJaSorteouHoje] = useState(false);
 
   const fecharModal = () => {
     setModal(false);
+    setJaSorteouHoje(false);
+    setFase("idle");
   };
 
+  // ── Spawn de Partículas ──────────────────────────────────────
   const spawnParticles = useCallback(() => {
     const colors = [
       tema.cor4,
@@ -658,18 +660,23 @@ export const PackOpening = ({ tema = PACK_THEME, onClose, onSorteio }) => {
     setTimeout(() => setParticles([]), 1800);
   }, [tema]);
 
-  const handleOpen = () => {
-    if (fase !== "idle") return;
+  // ── Função Principal de Sorteio ─────────────────────────────
+  const realizarSorteio = useCallback(() => {
+    // Se já sorteou hoje ou se o pacote já está em andamento, não faz nada
+    if (jaSorteouHoje || fase !== "idle") return;
 
+    console.log(`🎁 Dia ${dados.dia}: Iniciando sorteio de pacote!`);
+
+    // 1. Sorteia 5 cartas aleatórias
     const cartas = getRandomItems(todasCartas, 5);
 
+    // 2. Mapeia as cartas para upgrades (encontra os edifícios)
     const upgrades = cartas
       .map((nome) => {
         for (const setor of setoresArr) {
           const edificio = dados[setor]?.edificios?.find(
             (ed) => ed.nome === nome
           );
-
           if (edificio) {
             return {
               nome,
@@ -682,6 +689,13 @@ export const PackOpening = ({ tema = PACK_THEME, onClose, onSorteio }) => {
       })
       .filter(Boolean);
 
+    if (upgrades.length === 0) {
+      console.warn("⚠️ Nenhum upgrade válido encontrado para as cartas sorteadas");
+      setModal(false);
+      return;
+    }
+
+    // 3. Aplica os upgrades nos edifícios
     upgrades.forEach((upgrade) => {
       const { nome, fatu, redImposto } = upgrade;
 
@@ -722,21 +736,58 @@ export const PackOpening = ({ tema = PACK_THEME, onClose, onSorteio }) => {
       );
     });
 
+    // 4. Adiciona ao histórico de cards sorteados
+    const cardsSorteadosAtuais = dados.CardsSorteados || [];
+    const novosCardsSorteados = [...cardsSorteadosAtuais, ...upgrades];
     setCartasSorteadas(upgrades);
-    atualizarDados("CardsSorteados", upgrades);
+    atualizarDados("CardsSorteados", novosCardsSorteados);
 
+    // 5. Marca que já sorteou neste dia
+    setJaSorteouHoje(true);
+    
+    // 6. Salva o dia do último sorteio no contexto (para persistência)
+    atualizarDados("ultimoSorteio500", dados.dia);
+
+    // 7. Inicia a animação do pacote
     setFase("shaking");
     setTimeout(() => setFase("opening"), 800);
     setTimeout(() => spawnParticles(), 1000);
     setTimeout(() => setFase("revealed"), 1500);
+
+    console.log(`✅ Sorteio concluído! ${upgrades.length} upgrades aplicados.`);
+  }, [dados, atualizarDados, atualizarDadosProf2, fase, jaSorteouHoje, spawnParticles]);
+
+  // ── handleOpen (clique manual no pacote) ────────────────────
+  const handleOpen = () => {
+    if (fase !== "idle") return;
+    realizarSorteio();
   };
 
+  // ── useEffect: Detecta quando é dia 500, 1000, 1500... ─────
   useEffect(() => {
-    if (dados.dia % 500 === 0) {
+    const isDiaDeSorteio = dados.dia > 0 && dados.dia % 500 === 0;
+    const ultimoSorteio = dados.ultimoSorteio500 || 0;
+    const jaSorteioNesteDia = ultimoSorteio === dados.dia;
+
+    if (isDiaDeSorteio && !jaSorteioNesteDia && fase === "idle" && !modal) {
+      console.log(`🎯 Dia ${dados.dia}: Sorteio automático de pacote ativado!`);
       setModal(true);
     }
-  }, [dados.dia]);
+  }, [dados.dia, dados.ultimoSorteio500, fase, modal]);
 
+  // ── useEffect: Quando o modal abre, inicia o sorteio ──────
+  useEffect(() => {
+    if (modal && fase === "idle" && !jaSorteouHoje) {
+      const timer = setTimeout(() => {
+        console.log("🎁 Abrindo pacote automaticamente...");
+        realizarSorteio();
+      }, 300);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [modal, fase, jaSorteouHoje, realizarSorteio]);
+
+  // ── Render do Modal ──────────────────────────────────────────
   if (modal) {
     return (
       <div style={{
@@ -875,6 +926,8 @@ export const PackOpening = ({ tema = PACK_THEME, onClose, onSorteio }) => {
                 flexDirection: "column",
                 alignItems: "center",
                 gap: 24,
+                width: "100%",
+                maxWidth: "900px",
               }}
             >
               {/* Título */}
@@ -915,7 +968,7 @@ export const PackOpening = ({ tema = PACK_THEME, onClose, onSorteio }) => {
                   gap: 16,
                   flexWrap: "wrap",
                   justifyContent: "center",
-                  maxWidth: "900px",
+                  width: "100%",
                   padding: "0 20px",
                 }}
               >
@@ -971,7 +1024,8 @@ export const PackOpening = ({ tema = PACK_THEME, onClose, onSorteio }) => {
                 onClick={() => {
                   fecharModal();
                   buttonCloseAudio();
-                  onClose();
+                  if (onClose) onClose();
+                  if (onSorteio) onSorteio();
                 }}
                 style={{
                   marginTop: 16,

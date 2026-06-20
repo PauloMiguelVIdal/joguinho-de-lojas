@@ -11,7 +11,7 @@ import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 import { useHotkeys } from "react-hotkeys-hook";
 import { use } from "react";
 export function NextDay() {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+  const { dados, atualizarDados,atualizarDadosProf2 } = useContext(CentraldeDadosContext);
   const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(
     DadosEconomyGlobalContext
   );
@@ -117,7 +117,7 @@ export function NextDay() {
 
     if (economiaSetores.activeLoan?.proximoVencimento !== undefined) {
       if (economiaSetores.activeLoan.proximoVencimento === dados.dia) {
-        return; 
+        return;
       }
 
     }
@@ -135,7 +135,8 @@ export function NextDay() {
 
     //    dados.animarCicloDia();
     const novoDia = dados.dia + 1;
-
+   
+    // atualizarDadosProf2(["setorAtivo"], "carteira")
     atualizarDados("dia", novoDia);
     // console.log(dados.dia);
     calcularFaturamento();
