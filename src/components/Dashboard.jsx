@@ -28,7 +28,7 @@ import soma from "../../public/outrasImagens/Soma.png";
 import setoresImg from "../../public/outrasImagens/setores.png";
 import diversidade from "../../public/outrasImagens/diversidade.png";
 import { SellModal } from "./SellModal";
-import Map from "../Map";
+// import Map from "../Map";
 import { Tooltip } from "react-tooltip";
 import solo from "../../public/outrasImagens/solo.png";
 import buildBusiness from "../../public/outrasImagens/business.png";
@@ -81,6 +81,259 @@ ChartJS.register(
   Legend
 );
 
+// ===== CONSTANTES E FUNÇÕES DE CÁLCULO DA CARTEIRA (FORA DO COMPONENTE) =====
+
+const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+
+
+
+const ESTOQUES = new Set([
+  "Armazém", "Silo", "Depósito De Resíduos Orgânicos", "Data Center",
+  "Servidor Em Nuvem", "Armazém Logístico", "Centro De Distribuição",
+  "Fábrica De Tanque De Armazenamento Biocombustível", "Centro De Coleta De Biomassa",
+  "Campo De Estocagem", "Armazém De Materiais Brutos", "Câmara Fria",
+  "Container Modular", "Pátio De Veículos", "Armazém Industrial",
+  "Armazém De Materiais Sensíveis", "Hangar", "Pátio De Mineração"
+]);
+
+const PRODUCOES = new Set([
+  "Plantação De Grãos", "Fazenda De Vacas", "Plantação De Eucalipto",
+  "Granja De Aves", "Criação De Ovinos", "Serraria", "Fábrica De Smartphones",
+  "Fábrica De Computadores", "Fábrica De Consoles De Jogos",
+  "Fábrica De Dispositivos Vestíveis", "Fábrica De Rações", "Fábrica De Embalagens",
+  "Fábrica De Fertilizantes", "Fábrica Têxtil", "Fábrica De Calçados",
+  "Fábrica De Roupas", "Fábrica De Celulose", "Fábrica De Papel",
+  "Fábrica De Livros", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
+  "Fábrica De Plásticos", "Fábrica De Químicos Especializados", "Alto-Forno",
+  "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas",
+  "Indústria De Componentes Mecânicos", "Fábrica De Chapas Metálicas",
+  "Fábrica De Estruturas Metálicas", "Fábrica De Peças Automotivas",
+  "Montadora De Veículos Elétricos", "Fábrica De Automóveis", "Refinaria",
+  "Biofábrica", "Fábrica De Chips", "Fábrica De Placas Eletrônicas",
+  "Fábrica De Semicondutores", "Fábrica De Robôs", "Fábrica De Motores",
+  "Fábrica De Foguetes", "Fábrica De Aeronaves", "Estaleiro",
+  "Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias"
+]);
+
+const VENDAS_FINAIS = new Set([
+  "Livraria", "Mercado", "Açougue", "Petshop", "Farmácia", "Loja De Calçados",
+  "Loja De Vestuário", "Loja De Gadgets E Wearables", "Loja De Games",
+  "Loja De Celulares", "Loja De Informática", "Loja De Eletrônicos",
+  "Concessionária De Veículos"
+]);
+
+const FATOR_ECONOMIA = {
+  recessão: 0.4,
+  declinio: 0.8,
+  estável: 1,
+  progressiva: 1.1,
+  aquecida: 1.25
+};
+
+const getCategoria = (nome) => {
+  if (ESTOQUES.has(nome)) return "estoque";
+  if (PRODUCOES.has(nome)) return "producao";
+  if (VENDAS_FINAIS.has(nome)) return "venda";
+  return "passiva";
+};
+
+const criarMapaEdificios = (dados) => {
+  const mapa = new Map();
+  setoresArr.forEach(setor => {
+    if (dados[setor]?.edificios) {
+      dados[setor].edificios.forEach(ed => {
+        mapa.set(ed.nome, ed);
+      });
+    }
+  });
+  return mapa;
+};
+
+const criarCalculadoraCustoRecurso = (mapaEdificios, dados) => {
+  const cache = new Map();
+
+  const calcularCustoRecurso = (nomeRecurso) => {
+    if (cache.has(nomeRecurso)) return cache.get(nomeRecurso);
+
+    const edEncontrado = mapaEdificios.get(nomeRecurso);
+    if (!edEncontrado) return 0;
+
+    const c = edEncontrado.custoConstrucao || 0;
+    const tNec = edEncontrado.lojasNecessarias?.terrenos || 0;
+    const pNec = edEncontrado.lojasNecessarias?.lojasP || 0;
+    const mNec = edEncontrado.lojasNecessarias?.lojasM || 0;
+    const gNec = edEncontrado.lojasNecessarias?.lojasG || 0;
+
+    let total = c
+      + tNec * (dados.terrenos?.preçoConstrução || 0)
+      + pNec * ((dados.lojasP?.preçoConstrução || 0) + (dados.lojasP?.quantidadeNecTerreno || 0) * (dados.terrenos?.preçoConstrução || 0))
+      + mNec * ((dados.lojasM?.preçoConstrução || 0) + (dados.lojasM?.quantidadeNecTerreno || 0) * (dados.terrenos?.preçoConstrução || 0))
+      + gNec * ((dados.lojasG?.preçoConstrução || 0) + (dados.lojasG?.quantidadeNecTerreno || 0) * (dados.terrenos?.preçoConstrução || 0));
+
+    if (Array.isArray(edEncontrado.recursoDeConstrução) && edEncontrado.recursoDeConstrução.length > 0) {
+      edEncontrado.recursoDeConstrução.forEach((sub) => {
+        total += calcularCustoRecurso(sub);
+      });
+    }
+
+    cache.set(nomeRecurso, total);
+    return total;
+  };
+
+  return calcularCustoRecurso;
+};
+
+const calcROI = (ed, dados, economiaSetor, mapaEdificios, calcularCustoRecurso) => {
+  if (!ed || !dados) return 0;
+  
+  try {
+    // ===== ECONOMIA (USA O ESTADO ATUAL DO SETOR) =====
+    const fatorEconomico = FATOR_ECONOMIA[economiaSetor] || 1;
+
+    const quantidadeAtual = ed.quantidade || 0;
+    const qtdMin2 = ed?.powerUp?.nível2?.quantidadeMínima ?? Infinity;
+    const qtdMin3 = ed?.powerUp?.nível3?.quantidadeMínima ?? Infinity;
+
+    const nivelPU = quantidadeAtual >= qtdMin3 ? "powerUpNv3"
+      : quantidadeAtual >= qtdMin2 ? "powerUpNv2"
+      : "powerUpNv1";
+
+    let redCusto = 0;
+    let aumFatu = 0;
+
+    if (Array.isArray(ed?.RecebeMelhoraEficiencia)) {
+      ed.RecebeMelhoraEficiencia.forEach((rel) => {
+        const outroEd = mapaEdificios.get(rel.nome);
+        if (outroEd && outroEd.quantidade > 0) {
+          const nivel = nivelPU === "powerUpNv1" ? "nível1"
+            : nivelPU === "powerUpNv2" ? "nível2"
+            : "nível3";
+          
+          redCusto += rel?.redCusto?.[nivel] || 0;
+          aumFatu += rel?.aumFatu?.[nivel] || 0;
+        }
+      });
+    }
+
+    const valorFatu = ed?.finanças?.faturamentoUnitário || 0;
+    const impostoFixo = ed?.finanças?.impostoFixo || 0;
+    const impostoFatu = ed?.finanças?.impostoSobreFatu || 0;
+
+    const valorFatuFinal = valorFatu * (1 + aumFatu / 100);
+    const impostoFixoFinal = impostoFixo * (1 - redCusto / 100);
+    const impostoFatuFinal = impostoFatu * (1 - redCusto / 100);
+
+    const fatuMensal = valorFatuFinal * 30 * fatorEconomico;
+    const impostoSobreFatuValor = fatuMensal * impostoFatuFinal;
+    const lucro = fatuMensal - impostoSobreFatuValor - impostoFixoFinal;
+
+    const custoBase = 
+      (ed?.lojasNecessarias?.terrenos || 0) * (dados?.terrenos?.preçoConstrução || 0) +
+      (ed?.lojasNecessarias?.lojasP || 0) * ((dados?.lojasP?.preçoConstrução || 0) + (dados?.lojasP?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
+      (ed?.lojasNecessarias?.lojasM || 0) * ((dados?.lojasM?.preçoConstrução || 0) + (dados?.lojasM?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
+      (ed?.lojasNecessarias?.lojasG || 0) * ((dados?.lojasG?.preçoConstrução || 0) + (dados?.lojasG?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0));
+
+    let custoRecursos = 0;
+    if (Array.isArray(ed?.recursoDeConstrução)) {
+      ed.recursoDeConstrução.forEach((nome) => {
+        custoRecursos += calcularCustoRecurso(nome);
+      });
+    }
+
+    const custoTotal = custoBase + custoRecursos + (ed?.custoConstrucao || 0);
+
+    return custoTotal > 0 ? (lucro / custoTotal) * 100 : 0;
+
+  } catch (err) {
+    console.error("Erro no calcROI:", err);
+    return 0;
+  }
+};
+
+const processarCarteira = (dados, economiaSetores, carteiraFiltroSetor, carteiraOrdem) => {
+  const mapaEdificios = criarMapaEdificios(dados);
+  const calcularCustoRecurso = criarCalculadoraCustoRecurso(mapaEdificios, dados);
+  const cacheROI = new Map();
+  
+  const calcularROI = (ed, setor) => {
+    const chave = `${ed.nome}_${ed.quantidade}`;
+    if (cacheROI.has(chave)) return cacheROI.get(chave);
+    
+    // 🔥 CORREÇÃO: Usa o estado atual da economia do setor
+    const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || 'estável';
+    
+    const resultado = calcROI(ed, dados, economiaSetor, mapaEdificios, calcularCustoRecurso);
+    cacheROI.set(chave, resultado);
+    return resultado;
+  };
+  
+  let todosEdificios = [];
+  setoresArr.forEach(s => {
+    dados[s]?.edificios?.forEach((ed, idx) => {
+      if (ed.quantidade > 0) {
+        todosEdificios.push({ 
+          ed, 
+          idx, 
+          setor: s, 
+          roi: calcularROI(ed, s), 
+          categoria: getCategoria(ed.nome) 
+        });
+      }
+    });
+  });
+
+  if (carteiraFiltroSetor !== "todos") {
+    todosEdificios = todosEdificios.filter(e => e.setor === carteiraFiltroSetor);
+  }
+
+  if (carteiraOrdem === "roi_desc") todosEdificios.sort((a, b) => b.roi - a.roi);
+  else if (carteiraOrdem === "roi_asc") todosEdificios.sort((a, b) => a.roi - b.roi);
+  else if (carteiraOrdem === "categoria") todosEdificios.sort((a, b) => a.categoria.localeCompare(b.categoria));
+  else if (carteiraOrdem === "setor") todosEdificios.sort((a, b) => a.setor.localeCompare(b.setor));
+  else if (carteiraOrdem === "nome") todosEdificios.sort((a, b) => a.ed.nome.localeCompare(b.ed.nome));
+
+  let receitaMensalTotal = 0, impostosTotais = 0;
+  setoresArr.forEach(s => {
+    dados[s]?.edificios?.forEach(ed => {
+      if (ed.quantidade > 0) {
+        const fatu = (ed.finanças?.faturamentoUnitário || 0) * 30 * ed.quantidade;
+        const imp = fatu * (ed.finanças?.impostoSobreFatu || 0) + (ed.finanças?.impostoFixo || 0) * ed.quantidade;
+        receitaMensalTotal += fatu;
+        impostosTotais += imp;
+      }
+    });
+  });
+
+  const lucroLiquido = receitaMensalTotal - impostosTotais;
+  const setoresAtivosSet = new Set(todosEdificios.map(e => e.setor));
+  const edAtual = setoresArr.reduce((total, s) =>
+    total + (dados[s]?.edificios || []).reduce((sum, ed) =>
+      sum + (ed.quantidade > 0 ? ed.quantidade : 0), 0)
+    , 0);
+
+  const tiposUnicos = new Set(
+    setoresArr.flatMap(s =>
+      (dados[s]?.edificios || []).filter(ed => ed.quantidade > 0).map(ed => ed.nome)
+    )
+  ).size;
+
+  const setoresComEdificios = setoresArr.filter(s =>
+    (dados[s]?.edificios || []).some(ed => ed.quantidade > 0)
+  ).length;
+
+  return {
+    todosEdificios,
+    receitaMensalTotal,
+    impostosTotais,
+    lucroLiquido,
+    setoresAtivosSet,
+    edAtual,
+    tiposUnicos,
+    setoresComEdificios
+  };
+};
+
+
 export default function Dashboard() {
 
 
@@ -91,6 +344,23 @@ export default function Dashboard() {
     DadosEconomyGlobalContext
   );
   const [ativo, setAtivo] = useState("grafico");
+  const [carteiraOrdem, setCarteiraOrdem] = useState("setor");
+  const [carteiraFiltroSetor, setCarteiraFiltroSetor] = useState("todos");
+  const [carteiraKey, setCarteiraKey] = useState(0);
+  
+  // ===== NOVO: Estado para os dados da carteira =====
+  const [carteiraDados, setCarteiraDados] = useState({
+    todosEdificios: [],
+    receitaMensalTotal: 0,
+    impostosTotais: 0,
+    lucroLiquido: 0,
+    setoresAtivosSet: new Set(),
+    edAtual: 0,
+    tiposUnicos: 0,
+    setoresComEdificios: 0
+  });
+
+
 
   // useEffect(() => {
   //   setAtivo('carteira');
@@ -105,7 +375,7 @@ export default function Dashboard() {
   );
 
   // Adicione este useEffect logo abaixo:
-  const [carteiraKey, setCarteiraKey] = useState(0);
+
 
 
 
@@ -136,8 +406,8 @@ export default function Dashboard() {
   const [buttonOpenAudio] = useSound(openAudio);
   const [buttonWalletOpenAudio] = useSound(walletOpenAudio);
   // Adicione este estado no início do componente Dashboard (junto com os outros useState):
-  const [carteiraOrdem, setCarteiraOrdem] = useState("setor");
-  const [carteiraFiltroSetor, setCarteiraFiltroSetor] = useState("todos");
+
+
   const setVision = (newVision) => {
     atualizarDados("vision", {
       ...dados.vision,
@@ -155,13 +425,23 @@ export default function Dashboard() {
     index: 0,
   });
 
-  useEffect(() => {
-      if (dados.dia >= 270) {
 
-        setAtivo("carteira")
-      
+  useEffect(() => {
+    if (ativo === "carteira") {
+      console.log("[Carteira] Recalculando dados...");
+      const novosDados = processarCarteira(dados, economiaSetores, carteiraFiltroSetor, carteiraOrdem);
+      setCarteiraDados(novosDados);
     }
-    }, [dados.dia])
+  }, [dados, economiaSetores, carteiraFiltroSetor, carteiraOrdem, ativo]);
+
+
+  useEffect(() => {
+    if (dados.dia >= 270) {
+
+      setAtivo("carteira")
+
+    }
+  }, [dados.dia])
 
 
   const abrirModalSell = (setor, index) => {
@@ -624,9 +904,9 @@ export default function Dashboard() {
 
 
   console.log("setorAtivo:", setorAtivo);
-console.log("edificios:", dados[setorAtivo]?.edificios);
-console.log("edificios length:", dados[setorAtivo]?.edificios?.length);
-    console.log("setorAtivo:", setorAtivo, "| dados keys:", Object.keys(dados));
+  console.log("edificios:", dados[setorAtivo]?.edificios);
+  console.log("edificios length:", dados[setorAtivo]?.edificios?.length);
+  console.log("setorAtivo:", setorAtivo, "| dados keys:", Object.keys(dados));
 
 
 
@@ -1129,21 +1409,21 @@ console.log("edificios length:", dados[setorAtivo]?.edificios?.length);
   const [licencaModal, setLicencaModal] = useState({ open: false, scrollToIndex: null });
   const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
 
-const setorAtivoId = typeof dados.setorAtivo === 'object' 
-  ? dados.setorAtivo.id 
-  : dados.setorAtivo;
+  const setorAtivoId = typeof dados.setorAtivo === 'object'
+    ? dados.setorAtivo.id
+    : dados.setorAtivo;
 
-const edificiosPorNome = useMemo(() => {
-  console.count("edificiosPorNome recriado"); // ← deve ser raro
-  const mapa = {};
-  ["agricultura","tecnologia","comercio","industria","imobiliario","energia"].forEach(setor => {
-    if (!dados[setor]?.edificios) return;
-    dados[setor].edificios.forEach(ed => {
-      mapa[ed.nome] = { ...ed, setor };
+  const edificiosPorNome = useMemo(() => {
+    console.count("edificiosPorNome recriado"); // ← deve ser raro
+    const mapa = {};
+    ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"].forEach(setor => {
+      if (!dados[setor]?.edificios) return;
+      dados[setor].edificios.forEach(ed => {
+        mapa[ed.nome] = { ...ed, setor };
+      });
     });
-  });
-  return mapa;
-}, [dados]);
+    return mapa;
+  }, [dados]);
 
 
   useEffect(() => {
@@ -1572,7 +1852,6 @@ const edificiosPorNome = useMemo(() => {
                 </div>
               )} */}
               {ativo === "carteira" && (() => {
-                const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
                 const setoresCores = {
                   agricultura: { cor1: "#003816", cor3: "#0C9123", cor4: "#4CAF50" },
                   tecnologia: { cor1: "#A64B00", cor3: "#FF6F00", cor4: "#FF8C42" },
@@ -1581,165 +1860,28 @@ const edificiosPorNome = useMemo(() => {
                   imobiliario: { cor1: "#000066", cor3: "#3333CC", cor4: "#6666FF" },
                   energia: { cor1: "#665200", cor3: "#E6B800", cor4: "#FFD966" },
                 };
-                const setoresNomes = { agricultura: "Agricultura", tecnologia: "Tecnologia", industria: "Indústria", comercio: "Comércio", imobiliario: "Imobiliário", energia: "Energia", todos: "Todos" };
-
-                const productions = ["Plantação De Grãos", "Fazenda De Vacas", "Plantação De Eucalipto", "Granja De Aves", "Criação De Ovinos", "Serraria", "Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestíveis", "Fábrica De Rações", "Fábrica De Embalagens", "Fábrica De Fertilizantes", "Fábrica Têxtil", "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose", "Fábrica De Papel", "Fábrica De Livros", "Fábrica De Medicamentos", "Laboratório Farmacêutico", "Fábrica De Plásticos", "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas", "Indústria De Componentes Mecânicos", "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas", "Fábrica De Peças Automotivas", "Montadora De Veículos Elétricos", "Fábrica De Automóveis", "Refinaria", "Biofábrica", "Fábrica De Chips", "Fábrica De Placas Eletrônicas", "Fábrica De Semicondutores", "Fábrica De Robôs", "Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves", "Estaleiro", "Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias"];
-                const sellFinal = ["Livraria", "Mercado", "Açougue", "Petshop", "Farmácia", "Loja De Calçados", "Loja De Vestuário", "Loja De Gadgets E Wearables", "Loja De Games", "Loja De Celulares", "Loja De Informática", "Loja De Eletrônicos", "Concessionária De Veículos"];
-                const edificiosDeArmazenamento = ["Armazém", "Silo", "Depósito De Resíduos Orgânicos", "Data Center", "Servidor Em Nuvem", "Armazém Logístico", "Centro De Distribuição", "Fábrica De Tanque De Armazenamento Biocombustível", "Centro De Coleta De Biomassa", "Campo De Estocagem", "Armazém De Materiais Brutos", "Câmara Fria", "Container Modular", "Pátio De Veículos", "Armazém Industrial", "Armazém De Materiais Sensíveis", "Hangar", "Pátio De Mineração"];
-
-                const getCategoria = (nome) => {
-                  if (edificiosDeArmazenamento.includes(nome)) return "ecossistema";
-                  if (productions.includes(nome)) return "producao";
-                  if (sellFinal.includes(nome)) return "venda";
-                  return "passiva";
-                };
-                const categoriaLabel = { producao: "Produção", venda: "Venda", ecossistema: "ecossistema", passiva: "Passiva" };
-                const categoriaColor = { producao: "#6411D9", venda: "#F27405", ecossistema: "#1A8C5A", passiva: "#555" };
-
-                const calcROI = (ed) => {
-                  if (!ed || !dados) return 0;
-
-                  try {
-                    // ===== ECONOMIA =====
-                    const fatorEconomico = {
-                      recessão: 0.4,
-                      declinio: 0.8,
-                      estável: 1,
-                      progressiva: 1.1,
-                      aquecida: 1.25
-                    }[economiaSetores] || 1;
-
-                    // ===== POWER UP (SAFE) =====
-                    const quantidadeAtual = ed.quantidade || 0;
-
-                    const qtdMin2 = ed?.powerUp?.nível2?.quantidadeMínima ?? Infinity;
-                    const qtdMin3 = ed?.powerUp?.nível3?.quantidadeMínima ?? Infinity;
-
-                    const nivelPU =
-                      quantidadeAtual >= qtdMin3 ? "powerUpNv3" :
-                        quantidadeAtual >= qtdMin2 ? "powerUpNv2" :
-                          "powerUpNv1";
-
-                    let redCusto = 0;
-                    let aumFatu = 0;
-
-                    if (Array.isArray(ed?.RecebeMelhoraEficiencia)) {
-                      ed.RecebeMelhoraEficiencia.forEach((rel) => {
-                        let qtdOutro = 0;
-
-                        for (const s of setoresArr) {
-                          const lista = dados[s]?.edificios;
-                          if (!Array.isArray(lista)) continue;
-
-                          const found = lista.find(e => e.nome === rel.nome);
-                          if (found) {
-                            qtdOutro = found.quantidade || 0;
-                            break;
-                          }
-                        }
-
-                        if (qtdOutro > 0) {
-                          redCusto +=
-                            nivelPU === "powerUpNv1" ? rel?.redCusto?.nível1 || 0 :
-                              nivelPU === "powerUpNv2" ? rel?.redCusto?.nível2 || 0 :
-                                rel?.redCusto?.nível3 || 0;
-
-                          aumFatu +=
-                            nivelPU === "powerUpNv1" ? rel?.aumFatu?.nível1 || 0 :
-                              nivelPU === "powerUpNv2" ? rel?.aumFatu?.nível2 || 0 :
-                                rel?.aumFatu?.nível3 || 0;
-                        }
-                      });
-                    }
-
-                    // ===== FINANÇAS =====
-                    const valorFatu = ed?.finanças?.faturamentoUnitário || 0;
-                    const impostoFixo = ed?.finanças?.impostoFixo || 0;
-                    const impostoFatu = ed?.finanças?.impostoSobreFatu || 0;
-
-                    const valorFatuFinal = valorFatu * (1 + aumFatu / 100);
-                    const impostoFixoFinal = impostoFixo * (1 - redCusto / 100);
-                    const impostoFatuFinal = impostoFatu * (1 - redCusto / 100);
-
-                    const fatuMensal = valorFatuFinal * 30 * fatorEconomico;
-                    const impostoSobreFatuValor = fatuMensal * impostoFatuFinal;
-
-                    const lucro = fatuMensal - impostoSobreFatuValor - impostoFixoFinal;
-
-                    // ===== CUSTO BASE =====
-                    const custoBase =
-                      (ed?.lojasNecessarias?.terrenos || 0) * (dados?.terrenos?.preçoConstrução || 0) +
-                      (ed?.lojasNecessarias?.lojasP || 0) * ((dados?.lojasP?.preçoConstrução || 0) + (dados?.lojasP?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
-                      (ed?.lojasNecessarias?.lojasM || 0) * ((dados?.lojasM?.preçoConstrução || 0) + (dados?.lojasM?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
-                      (ed?.lojasNecessarias?.lojasG || 0) * ((dados?.lojasG?.preçoConstrução || 0) + (dados?.lojasG?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0));
-
-                    // ⚠️ IMPORTANTE: evitar recursão pesada no render
-                    let custoRecursos = 0;
-                    if (Array.isArray(ed?.recursoDeConstrução)) {
-                      ed.recursoDeConstrução.forEach((nome) => {
-                        try {
-                          custoRecursos += calcularCustoRecurso(nome);
-                        } catch {
-                          custoRecursos += 0;
-                        }
-                      });
-                    }
-
-                    const custoTotal = custoBase + custoRecursos + (ed?.custoConstrucao || 0);
-
-                    return custoTotal > 0 ? (lucro / custoTotal) * 100 : 0;
-
-                  } catch (err) {
-                    console.error("Erro no calcROI:", err);
-                    return 0;
-                  }
+                const setoresNomes = {
+                  agricultura: "Agricultura",
+                  tecnologia: "Tecnologia",
+                  industria: "Indústria",
+                  comercio: "Comércio",
+                  imobiliario: "Imobiliário",
+                  energia: "Energia",
+                  todos: "Todos"
                 };
 
-                let todosEdificios = [];
-                setoresArr.forEach(s => {
-                  dados[s]?.edificios?.forEach((ed, idx) => {
-                    if (ed.quantidade > 0) {
-                      todosEdificios.push({ ed, idx, setor: s, roi: calcROI(ed, s), categoria: getCategoria(ed.nome) });
-                    }
-                  });
-                });
+                const dadosCarteiraEdificios = economiaSetores.centralEdificios;
 
-                if (carteiraFiltroSetor !== "todos") todosEdificios = todosEdificios.filter(e => e.setor === carteiraFiltroSetor);
-
-                if (carteiraOrdem === "roi_desc") todosEdificios.sort((a, b) => b.roi - a.roi);
-                else if (carteiraOrdem === "roi_asc") todosEdificios.sort((a, b) => a.roi - b.roi);
-                else if (carteiraOrdem === "categoria") todosEdificios.sort((a, b) => a.categoria.localeCompare(b.categoria));
-                else if (carteiraOrdem === "setor") todosEdificios.sort((a, b) => a.setor.localeCompare(b.setor));
-                else if (carteiraOrdem === "nome") todosEdificios.sort((a, b) => a.ed.nome.localeCompare(b.ed.nome));
-
-                let receitaMensalTotal = 0, impostosTotais = 0;
-                setoresArr.forEach(s => {
-                  dados[s]?.edificios?.forEach(ed => {
-                    if (ed.quantidade > 0) {
-                      const fatu = (ed.finanças?.faturamentoUnitário || 0) * 30 * ed.quantidade;
-                      const imp = fatu * (ed.finanças?.impostoSobreFatu || 0) + (ed.finanças?.impostoFixo || 0) * ed.quantidade;
-                      receitaMensalTotal += fatu;
-                      impostosTotais += imp;
-                    }
-                  });
-                });
-
-                const lucroLiquido = receitaMensalTotal - impostosTotais;
-                const setoresAtivosSet = new Set(todosEdificios.map(e => e.setor));
-                const edAtual = setoresArr.reduce((total, s) =>
-                  total + (dados[s]?.edificios || []).reduce((sum, ed) =>
-                    sum + (ed.quantidade > 0 ? ed.quantidade : 0), 0)
-                  , 0);
-
-                const tiposUnicos = new Set(
-                  setoresArr.flatMap(s =>
-                    (dados[s]?.edificios || []).filter(ed => ed.quantidade > 0).map(ed => ed.nome)
-                  )
-                ).size;
-
-                const setoresComEdificios = setoresArr.filter(s =>
-                  (dados[s]?.edificios || []).some(ed => ed.quantidade > 0)
-                ).length;
+                const {
+                  todosEdificios,
+                  receitaMensalTotal,
+                  impostosTotais,
+                  lucroLiquido,
+                  setoresAtivosSet,
+                  edAtual,
+                  tiposUnicos,
+                  setoresComEdificios
+                } = processarCarteira(dados, economiaSetores, carteiraFiltroSetor, carteiraOrdem);
 
                 const edMax = dadosCarteiraEdificios.quantidadeEdificiosMax || 1;
                 const percCapacidade = Math.min((edAtual / edMax) * 100, 100);
@@ -1797,11 +1939,6 @@ const edificiosPorNome = useMemo(() => {
                           className="h-full bg-laranja aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 cursor-pointer">
                           <img className="w-[70%]" src={bank} alt="Bancos" />
                         </button>
-                        {/* <button onClick={() => { setBusinessLicenceModal(true); buttonOpenAudio(); }}
-                          data-tooltip-id="tooltip-carteira" data-tooltip-html="Licenças empresariais"
-                          className="h-full bg-laranja aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 cursor-pointer">
-                          <img className="w-[70%]" src={licença} />
-                        </button> */}
                       </div>
                     </div>
 
@@ -1892,7 +2029,6 @@ const edificiosPorNome = useMemo(() => {
                         <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] h-[400px] pt-[20px] pl-[20px]">
                           {todosEdificios.map(({ ed, idx, setor, roi, categoria }) => (
                             <div key={`${setor}-${idx}`} style={{ position: "relative" }}>
-                              {/* Badge ROI */}
                               <div style={{
                                 position: "absolute", top: -8, right: 10, zIndex: 2,
                                 background: roi >= 10 ? "#1a4a1a" : roi >= 0 ? "#2a2a1a" : "#4a1a1a",
@@ -1903,17 +2039,6 @@ const edificiosPorNome = useMemo(() => {
                                   {roi >= 0 ? "+" : ""}{roi.toFixed(1)}%
                                 </span>
                               </div>
-                              {/* Badge categoria */}
-                              {/* <div style={{
-                  position: "absolute", top: -8, left: 10, zIndex: 10,
-                  background: categoriaColor[categoria] + "33",
-                  border: `1px solid ${categoriaColor[categoria]}88`,
-                  borderRadius: 6, padding: "1px 8px",
-                }}>
-                  <span style={{ fontSize: 9, fontWeight: 700, color: categoriaColor[categoria], letterSpacing: ".08em", textTransform: "uppercase" }}>
-                    {categoriaLabel[categoria]}
-                  </span>
-                </div> */}
                               <CardLocalization index={idx} setor={setor} abrirModalSell={abrirModalSell} />
                             </div>
                           ))}
@@ -2073,15 +2198,15 @@ const edificiosPorNome = useMemo(() => {
                       <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
 
 
-{(dados[setorAtivoId]?.edificios ?? []).map((edificio, index) => (
-  <CardModal
-    key={`${setorAtivoId}-${edificio.nome}`}
-    index={index}
-    edificio={edificio}
-    setorAtivo={setorAtivoId}
-    edificiosPorNome={edificiosPorNome}
-  />
-))}
+                        {(dados[setorAtivoId]?.edificios ?? []).map((edificio, index) => (
+                          <CardModal
+                            key={`${setorAtivoId}-${edificio.nome}`}
+                            index={index}
+                            edificio={edificio}
+                            setorAtivo={setorAtivoId}
+                            edificiosPorNome={edificiosPorNome}
+                          />
+                        ))}
                       </div>
                     </div>
                     <Tooltip style={tooltipStyle} id="tooltip-terreno-aumentar" />
