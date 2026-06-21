@@ -140,8 +140,8 @@ function Interface() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 12px',
-          background: 'linear-gradient(180deg, rgba(53,9,115,0.97) 0%, rgba(53,9,115,0.85) 100%)',
-          backdropFilter: 'blur(12px)',
+          background: 'linear-gradient(180deg, rgb(53, 9, 115) 0%, rgba(53,9,115,0.85) 100%)',
+          // backdropFilter: 'blur(12px)',
           borderBottom: '1px solid rgba(147,76,255,0.3)',
           boxShadow: '0 2px 20px rgba(0,0,0,0.5)',
         }}
@@ -258,9 +258,9 @@ function Interface() {
           style={{
             width: '20vw', // largura real sempre 20vw, o pai que oclui
             height: '100%',
-            background: 'rgba(30, 8, 60, 0.55)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
+            background: 'rgb(30, 8, 60)',
+            // backdropFilter: 'blur(16px)',
+            // WebkitBackdropFilter: 'blur(16px)',
             borderRight: '1px solid rgba(147,76,255,0.2)',
             display: 'flex',
             alignItems: 'center',
@@ -354,9 +354,9 @@ function Interface() {
           style={{
             width: '20vw',
             height: '100%',
-            background: 'rgba(20, 6, 50, 0.65)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
+            background: 'rgb(20, 6, 50)',
+            // backdropFilter: 'blur(16px)',
+            // WebkitBackdropFilter: 'blur(16px)',
             borderLeft: '1px solid rgba(147,76,255,0.2)',
             paddingTop: 30,
             overflow: 'hidden',

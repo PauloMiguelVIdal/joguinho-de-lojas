@@ -16,8 +16,6 @@ import openAudio from "../../public/sounds/openAudio.mp3";
 
 import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 
-
-
 const RaffledBuildings = () => {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext);
   const [ModalObjOpen, setIsModalObjOpen] = useState(false);
@@ -29,15 +27,14 @@ const RaffledBuildings = () => {
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
   const [buttonNewStageAudio] = useSound(newStageAudio);
-  const dia = dados.dia;
 
   useEffect(() => {
-    if (dia === 400) {
+    if (dados.dia === 400) {
       setIsModalObjOpen(true);
       buttonOpenAudio();
       buttonNewStageAudio();
     }
-  }, [dia]);
+  }, [dados.dia]);
 
   const setoresArr = [
     "agricultura",
@@ -825,29 +822,22 @@ const RaffledBuildings = () => {
   const verificarConclusao = () => {
     if (!campanhaSelecionada || selectedItems.length === 0) return false;
 
-    const setores = [
-      "agricultura",
-      "tecnologia",
-      "comercio",
-      "industria",
-      "imobiliario",
-      "energia",
-    ];
-
     const todosCompletos = selectedItems.every((ed) => {
+      const setores = [
+        "agricultura",
+        "tecnologia",
+        "comercio",
+        "industria",
+        "imobiliario",
+        "energia",
+      ];
+
       for (const setor of setores) {
-        const listaEst = dados[setor]?.edificios || [];
-
-        // 🔍 pega o índice no estático
-        const index = listaEst.findIndex((e) => e.nome === ed.nome);
-
-        if (index !== -1) {
-          // 🔥 usa o índice no dinâmico
-          const qtd =
-            dados[setor]?.edificios?.[index]
-              ?.quantidade || 0;
-
-          if (qtd > 0) return true;
+        const edificio = dados[setor]?.edificios?.find(
+          (e) => e.nome === ed.nome
+        );
+        if (edificio && edificio.quantidade > 0) {
+          return true;
         }
       }
       return false;
@@ -865,7 +855,7 @@ const RaffledBuildings = () => {
         setModalConclusao(true);
       }
     }
-  }, [campanhaSelecionada, selectedItems, objetivoConcluido]);
+  }, [dados, campanhaSelecionada, selectedItems, objetivoConcluido]);
 
   const continuarJogo = () => {
     setModalConclusao(false);
@@ -879,9 +869,9 @@ const RaffledBuildings = () => {
     /* 🎉 MODAL DE CONCLUSÃO */
   }
 
-  if (dia < 270) return null;
+  if (dados.dia < 270) return null;
 
-  if (dia >= 270) {
+  if (dados.dia >= 270) {
     // 🔹 Função para calcular extras de uma campanha específica
     const calcularExtras = (campanhaNome) => {
       const campanha = Campanhas.find((c) => c.nome === campanhaNome);
@@ -909,7 +899,7 @@ const RaffledBuildings = () => {
 
     return (
       <div>
-        {dia >= 400 &&
+        {dados.dia >= 400 &&
 
           <button
             onClick={() => { setIsModalObjOpen(true), buttonOpenAudio(); }}
@@ -980,7 +970,7 @@ const RaffledBuildings = () => {
                             {c.obrigatorios.map((nome, j) => (
                               <motion.div
                                 key={j}
-                                className="w-[220px] h-[350px] relative transition-all"
+                                className="w-[220px] h-[320px] relative transition-all"
                                 style={{ zIndex: j }}
                                 whileHover={{ zIndex: 50, y: -15, scale: 1.05 }}
                               >
@@ -1035,8 +1025,6 @@ const RaffledBuildings = () => {
                     animate={{ opacity: 1 }}
                     className="flex flex-wrap gap-8 justify-center mt-6 pb-10"
                   >
-
-
                     {selectedItems.map((ed, i) => {
                       const setores = [
                         "agricultura", "tecnologia", "comercio",
@@ -1047,21 +1035,18 @@ const RaffledBuildings = () => {
                       let indice = -1;
 
                       for (const setor of setores) {
-                        const listaEst = dados[setor]?.edificios || [];
-
-                        indice = listaEst.findIndex((e) => e.nome === ed.nome);
-
+                        indice = dados[setor].edificios.findIndex((e) => e.nome === ed.nome);
                         if (indice !== -1) {
                           setorEncontrado = setor;
                           break;
                         }
                       }
 
-                      const quantidade =
-                        setorEncontrado && indice !== -1
-                          ? dados[setorEncontrado]?.edificios?.[indice]?.quantidade || 0
-                          : 0;
+                      const quantidade = setorEncontrado && indice !== -1
+                        ? dados[setorEncontrado].edificios[indice].quantidade
+                        : 0;
 
+                      // Gradiente Dourado mais refinado para quando completar o objetivo
                       const gradienteConquistado = `linear-gradient(135deg, rgba(184, 134, 11, 0.9) 0%, rgba(218, 165, 32, 0.4) 50%, rgba(139, 117, 0, 0.9) 100%)`;
 
                       return (
@@ -1075,17 +1060,16 @@ const RaffledBuildings = () => {
                             type: "spring",
                             stiffness: 100,
                           }}
+                          // AJUSTE DE DIMENSÕES: 220px x 320px
                           className={`relative w-[250px] h-[350px] p-[2px] rounded-[20px] flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-500`}
                           style={{
                             background: quantidade > 0
                               ? gradienteConquistado
                               : "rgba(255, 255, 255, 0.05)",
-                            border: quantidade > 0
-                              ? "1px solid #FFD700"
-                              : "1px solid rgba(255,255,255,0.1)",
+                            border: quantidade > 0 ? "1px solid #FFD700" : "1px solid rgba(255,255,255,0.1)",
                           }}
                         >
-
+                          {/* Efeito de Brilho para itens conquistados */}
                           {quantidade > 0 && (
                             <motion.div
                               animate={{ opacity: [0.3, 0.6, 0.3] }}
@@ -1094,20 +1078,22 @@ const RaffledBuildings = () => {
                             />
                           )}
 
+                          {/* Overlay Escuro para itens NÃO conquistados (estilo bloqueado) */}
                           {quantidade === 0 && (
                             <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center p-4">
                               <div className="bg-white/40 p-3 rounded-full mb-2">
-                                <span className="text-white/20 text-xs font-bold uppercase tracking-widest">
-                                  Pendente
-                                </span>
+                                {/* Ícone opcional de cadeado ou interrogação aqui */}
+                                <span className="text-white/20 text-xs font-bold uppercase tracking-widest">Pendente</span>
                               </div>
                             </div>
                           )}
 
+                          {/* Renderização da Carta Real */}
                           <div className={`w-full h-full rounded-[18px] flex items-center justify-center overflow-hidden ${quantidade === 0 ? 'grayscale opacity-50' : 'grayscale-0 opacity-100'}`}>
                             {Localizador(ed.nome)}
                           </div>
 
+                          {/* Badge de Quantidade no topo */}
                           {quantidade > 0 && (
                             <div className="absolute top-3 right-3 z-20 bg-green-600 text-white text-[10px] font-black px-2 py-1 rounded-md shadow-lg border border-white/20">
                               CONQUISTADO
