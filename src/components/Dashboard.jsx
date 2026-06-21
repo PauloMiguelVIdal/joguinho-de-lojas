@@ -623,6 +623,12 @@ export default function Dashboard() {
   );
 
 
+  console.log("setorAtivo:", setorAtivo);
+console.log("edificios:", dados[setorAtivo]?.edificios);
+console.log("edificios length:", dados[setorAtivo]?.edificios?.length);
+    console.log("setorAtivo:", setorAtivo, "| dados keys:", Object.keys(dados));
+
+
 
   // Definindo as cores dinâmicas
   const corClasse = setorAtivo ? setorAtivo.corClasse : "bg-[#358Q973]";
@@ -1045,6 +1051,8 @@ export default function Dashboard() {
     },
   };
 
+
+
   const configDespesasFatu = {
     type: "line",
     data: dataDespesasFatu,
@@ -1120,6 +1128,23 @@ export default function Dashboard() {
 
   const [licencaModal, setLicencaModal] = useState({ open: false, scrollToIndex: null });
   const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
+
+const setorAtivoId = typeof dados.setorAtivo === 'object' 
+  ? dados.setorAtivo.id 
+  : dados.setorAtivo;
+
+const edificiosPorNome = useMemo(() => {
+  console.count("edificiosPorNome recriado"); // ← deve ser raro
+  const mapa = {};
+  ["agricultura","tecnologia","comercio","industria","imobiliario","energia"].forEach(setor => {
+    if (!dados[setor]?.edificios) return;
+    dados[setor].edificios.forEach(ed => {
+      mapa[ed.nome] = { ...ed, setor };
+    });
+  });
+  return mapa;
+}, [dados]);
+
 
   useEffect(() => {
     const sinal = dados.abrirModalLicencas;
@@ -2046,9 +2071,17 @@ export default function Dashboard() {
                       className="flex-1 overflow-y-auto mt-4 scrollbar-custom h-[calc(100%-50px)] rounded-[10px]"
                     >
                       <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] h-[400px] pt-[20px] pl-[20px]">
-                        {dados[ativo].edificios.map((_, index) => (
-                          <CardModal key={index} index={index} />
-                        ))}
+
+
+{(dados[setorAtivoId]?.edificios ?? []).map((edificio, index) => (
+  <CardModal
+    key={`${setorAtivoId}-${edificio.nome}`}
+    index={index}
+    edificio={edificio}
+    setorAtivo={setorAtivoId}
+    edificiosPorNome={edificiosPorNome}
+  />
+))}
                       </div>
                     </div>
                     <Tooltip style={tooltipStyle} id="tooltip-terreno-aumentar" />
