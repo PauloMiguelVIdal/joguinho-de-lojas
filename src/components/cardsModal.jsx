@@ -441,66 +441,78 @@ const CardModalBase = ({ index, edificio, setorAtivo, edificiosPorNome }) => {
   const { ok: podeComprar, motivo } = useMemo(() => podeComprarCard(), [podeComprarCard]);
 
   // ── comprarCard ────────────────────────────────────────────────────────
-  const comprarCard = useCallback(() => {
-    if (!edificio) return;
-    const carteira = economiaSetores?.carteira?.carteiraAtual ?? [];
-    if (verificarLimites(edificio, setorAtivo, carteira) !== true) return;
-    const custo = Number(edificio.custoConstrucao ?? 0);
-    if (economiaSetores.saldo < custo) {
-      atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: "Erro na construção", content: "Você não tem dinheiro suficiente." });
-      return;
+const comprarCard = useCallback(() => {
+  if (!edificio) return;
+  const carteira = economiaSetores?.carteira?.carteiraAtual ?? [];
+  if (verificarLimites(edificio, setorAtivo, carteira) !== true) return;
+  const custo = Number(edificio.custoConstrucao ?? 0);
+  if (economiaSetores.saldo < custo) {
+    atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: "Erro na construção", content: "Você não tem dinheiro suficiente." });
+    return;
+  }
+  const { terrenos: qT = 0, lojasP: qP = 0, lojasM: qM = 0, lojasG: qG = 0 } = edificio.lojasNecessarias || {};
+  const qTa = dados.terrenos.quantidade, qPa = dados.lojasP.quantidade, qMa = dados.lojasM.quantidade, qGa = dados.lojasG.quantidade;
+  if (qT > qTa || qP > qPa || qM > qMa || qG > qGa) {
+    atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: "Falta edifícios base", content: "Não tem lojas/terrenos suficientes." });
+    return;
+  }
+  if (edificio.construçõesNecessárias?.length)
+    for (const nome of edificio.construçõesNecessárias) {
+      const ref = edificiosPorNome?.[nome];
+      if (!ref || ref.quantidade <= 0) {
+        atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: `Falta ${nome}`, content: `Precisa de 1 unidade de "${nome}".` });
+        return;
+      }
     }
-    const { terrenos: qT = 0, lojasP: qP = 0, lojasM: qM = 0, lojasG: qG = 0 } = edificio.lojasNecessarias || {};
-    const qTa = dados.terrenos.quantidade, qPa = dados.lojasP.quantidade, qMa = dados.lojasM.quantidade, qGa = dados.lojasG.quantidade;
-    if (qT > qTa || qP > qPa || qM > qMa || qG > qGa) {
-      atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: "Falta edifícios base", content: "Não tem lojas/terrenos suficientes." });
-      return;
+  if (edificio.recursoDeConstrução?.length)
+    for (const nome of edificio.recursoDeConstrução) {
+      const ref = edificiosPorNome?.[nome];
+      if (!ref || ref.quantidade <= 0) {
+        atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: `Precisa de ${nome}`, content: `Precisa de 1 unidade de "${nome}".` });
+        return;
+      }
     }
-    if (edificio.construçõesNecessárias?.length)
-      for (const nome of edificio.construçõesNecessárias) {
-        const ref = edificiosPorNome?.[nome];
-        if (!ref || ref.quantidade <= 0) {
-          atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: `Falta ${nome}`, content: `Precisa de 1 unidade de "${nome}".` });
-          return;
+  buttonPurchaseEdifAudio();
+  atualizarEco("saldo", economiaSetores.saldo - custo);
+  atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], (edificio.quantidade || 0) + 1);
+  atualizarDadosProf2(["terrenos", "quantidade"], qTa - qT);
+  atualizarDadosProf2(["lojasP",   "quantidade"], qPa - qP);
+  atualizarDadosProf2(["lojasM",   "quantidade"], qMa - qM);
+  atualizarDadosProf2(["lojasG",   "quantidade"], qGa - qG);
+  const custosEdBase = qT * dados.terrenos.preçoConstrução
+    + qP * (dados.lojasP.preçoConstrução + dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+    + qM * (dados.lojasM.preçoConstrução + dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
+    + qG * (dados.lojasG.preçoConstrução + dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução);
+  
+  // 🔥 CORREÇÃO AQUI: Consome os recursos de construção
+  if (edificio.recursoDeConstrução?.length) {
+    for (const nome of edificio.recursoDeConstrução) {
+      const ref = edificiosPorNome?.[nome];
+      if (ref) {
+        // Precisa encontrar o setor e índice corretos do edifício recurso
+        const setorDoRecurso = ref.setor;
+        const edificiosDoSetor = dados[setorDoRecurso]?.edificios || [];
+        const indexDoRecurso = edificiosDoSetor.findIndex(e => e.nome === nome);
+        if (indexDoRecurso !== -1) {
+          const novaQuantidade = (ref.quantidade || 0) - 1;
+          atualizarDadosProf2([setorDoRecurso, "edificios", indexDoRecurso, "quantidade"], novaQuantidade);
         }
       }
-    if (edificio.recursoDeConstrução?.length)
-      for (const nome of edificio.recursoDeConstrução) {
-        const ref = edificiosPorNome?.[nome];
-        if (!ref || ref.quantidade <= 0) {
-          atualizarDados("modalAlert", { ...dados.modalAlert, estadoModal: true, head: `Precisa de ${nome}`, content: `Precisa de 1 unidade de "${nome}".` });
-          return;
-        }
-      }
-    buttonPurchaseEdifAudio();
-    atualizarEco("saldo", economiaSetores.saldo - custo);
-    atualizarDadosProf2([setorAtivo, "edificios", index, "quantidade"], (edificio.quantidade || 0) + 1);
-    atualizarDadosProf2(["terrenos", "quantidade"], qTa - qT);
-    atualizarDadosProf2(["lojasP",   "quantidade"], qPa - qP);
-    atualizarDadosProf2(["lojasM",   "quantidade"], qMa - qM);
-    atualizarDadosProf2(["lojasG",   "quantidade"], qGa - qG);
-    const custosEdBase = qT * dados.terrenos.preçoConstrução
-      + qP * (dados.lojasP.preçoConstrução + dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-      + qM * (dados.lojasM.preçoConstrução + dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
-      + qG * (dados.lojasG.preçoConstrução + dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução);
-    if (edificio.recursoDeConstrução?.length)
-      for (const nome of edificio.recursoDeConstrução) {
-        const ref = edificiosPorNome?.[nome];
-        if (ref) atualizarDadosProf2([ref.setor, "edificios", ref.index, "quantidade"], (ref.quantidade || 0) - 1);
-      }
-    const setorIndex   = SETORES_ARR.indexOf(setorAtivo);
-    const novaCarteira = [...carteira];
-    if (!novaCarteira[setorIndex]) novaCarteira[setorIndex] = [];
-    novaCarteira[setorIndex] = [...novaCarteira[setorIndex], { ...edificio, quantidade: 1 }];
-    atualizarEco("carteira",   { ...economiaSetores.carteira, carteiraAtual: novaCarteira });
-    atualizarEco("patrimonio", economiaSetores.patrimonio + custosEdBase + custo);
-    atualizarEco("patrimônio", { ...economiaSetores[setorAtivo].economiaSetor, patrimonio: economiaSetores[setorAtivo].economiaSetor.patrimonio + custosEdBase + custo });
-    const carteiraNorm = SETORES_ARR.map((_, i) => Array.isArray(novaCarteira[i]) ? novaCarteira[i] : []);
-    let totalEd = 0; const nomesSet = new Set();
-    carteiraNorm.forEach((arr) => arr.forEach((item) => { if (!item) return; nomesSet.add(item.nome); totalEd += Number(item.quantidade ?? 1); }));
-    atualizarEco("centralEdificios", { ...economiaSetores.centralEdificios, quantidadeSetoresAtual: carteiraNorm.reduce((a, arr) => a + (arr.length > 0 ? 1 : 0), 0), QuantidadeEdifíciosAtual: totalEd, QuantidadeDiversosEdificiosAtual: nomesSet.size });
-  }, [edificio, setorAtivo, index, economiaSetores, dados, verificarLimites, atualizarDados, atualizarEco, atualizarDadosProf2, edificiosPorNome, buttonPurchaseEdifAudio]);
-
+    }
+  }
+  
+  const setorIndex   = SETORES_ARR.indexOf(setorAtivo);
+  const novaCarteira = [...carteira];
+  if (!novaCarteira[setorIndex]) novaCarteira[setorIndex] = [];
+  novaCarteira[setorIndex] = [...novaCarteira[setorIndex], { ...edificio, quantidade: 1 }];
+  atualizarEco("carteira",   { ...economiaSetores.carteira, carteiraAtual: novaCarteira });
+  atualizarEco("patrimonio", economiaSetores.patrimonio + custosEdBase + custo);
+  atualizarEco("patrimônio", { ...economiaSetores[setorAtivo].economiaSetor, patrimonio: economiaSetores[setorAtivo].economiaSetor.patrimonio + custosEdBase + custo });
+  const carteiraNorm = SETORES_ARR.map((_, i) => Array.isArray(novaCarteira[i]) ? novaCarteira[i] : []);
+  let totalEd = 0; const nomesSet = new Set();
+  carteiraNorm.forEach((arr) => arr.forEach((item) => { if (!item) return; nomesSet.add(item.nome); totalEd += Number(item.quantidade ?? 1); }));
+  atualizarEco("centralEdificios", { ...economiaSetores.centralEdificios, quantidadeSetoresAtual: carteiraNorm.reduce((a, arr) => a + (arr.length > 0 ? 1 : 0), 0), QuantidadeEdifíciosAtual: totalEd, QuantidadeDiversosEdificiosAtual: nomesSet.size });
+}, [edificio, setorAtivo, index, economiaSetores, dados, verificarLimites, atualizarDados, atualizarEco, atualizarDadosProf2, edificiosPorNome, buttonPurchaseEdifAudio]);
   // ── Handlers ──────────────────────────────────────────────────────────
   let timer;
   const openModalPowerUps  = () => setModalPowerUp(true);
