@@ -15,7 +15,7 @@ const CentraldeDadosProvider = ({ children }) => {
     fimGame: false,
     nomeEmpresa: "",
     animarCicloDia: null,
-    dia: 260,
+    dia: 300,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",
     botãoOfertas: "btnNormal",
@@ -14199,7 +14199,7 @@ RecebeMelhoraEficiencia: [
             liberado: false,
           },
           custoConstrucao: 67200000,
-          quantidade: 0,
+          quantidade: 10,
           finanças: {
             faturamentoUnitário: 5000000,
             impostoFixo: 102000000,

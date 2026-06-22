@@ -65,6 +65,39 @@ const PACK_THEME = {
     cor4: "#8F5ADA",
 };
 
+
+//lendário
+// const PACK_THEME = {
+//     cor1: "#ffecae",
+//     cor2: "#ffc400",
+//     cor3: "#bd5800",
+//     cor4: "#6411D9",
+// };
+
+// épico
+// const PACK_THEME = {
+//     cor1: "#af8968",
+//     cor2: "#ff7700",
+//     cor3: "#bd5800",
+//     cor4: "#442000",
+// };
+
+// raro
+// const PACK_THEME = {
+//     cor1: "#978585",
+//     cor2: "#553683",
+//     cor3: "#fde4ce",
+//     cor4: "#1f014e",
+// };
+
+// básico
+// const PACK_THEME = {
+//     cor1: "#ffffff",
+//     cor2: "#3e3a44",
+//     cor3: "#fde4ce",
+//     cor4: "#1f014e",
+// };
+
 const setoresArr = [
     "agricultura",
     "tecnologia",

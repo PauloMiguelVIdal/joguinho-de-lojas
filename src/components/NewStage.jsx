@@ -10,12 +10,12 @@ export default function NewStage() {
     setModal(false);
   };
 
-  useEffect(() => {
-    // Abre o modal quando chegar no dia 270
-    if (dados.dia === 270) {
-      setModal(true);
-    }
-  }, [dados.dia]);
+  // useEffect(() => {
+  //   // Abre o modal quando chegar no dia 270
+  //   if (dados.dia === 270) {
+  //     setModal(true);
+  //   }
+  // }, [dados.dia]);
 
   // Estilos baseados no seu modelo de referência
   const containerStyle = "fixed inset-0 flex justify-center items-center z-[100] bg-black/90 backdrop-blur-sm select-none";

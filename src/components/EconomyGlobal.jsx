@@ -147,7 +147,7 @@ export default function EconomyGlobal() {
 
   return (
     <div className="flex max-h-[50px] w-[100px] bg-white rounded-[10px]">
-      <Converter />
+      {/* <Converter /> */}
       <div className={`${corClasse} min-h-[50px] max-h-[70px] min-w-[50px] max-w-[50px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center`}>
         <img
           data-tooltip-id="economia-tip"

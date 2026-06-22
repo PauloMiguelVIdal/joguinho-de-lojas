@@ -6,7 +6,7 @@ const DadosEconomyGlobalContext = createContext();
 // Provedor do contexto
 const DadosEconomyGlobalProvider = ({ children }) => {
   const [economiaSetores, setEconomiaSetores] = useState({
-    saldo: 6000000,
+    saldo: 60000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
@@ -1131,6 +1131,38 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     }));
   };
 
+
+
+
+const atualizarEcoDraft = (chave, valorOuFuncao) => {
+  setEconomiaSetores((prev) => ({
+    ...prev,
+    [chave]:
+      typeof valorOuFuncao === "function"
+        ? valorOuFuncao(prev[chave])
+        : valorOuFuncao,
+  }));
+};
+
+  // const atualizarEcoDraft = (chave, valorOuFuncao) => {
+  //   setEconomiaSetores((prev) => {
+  //     const novoEstado = {
+  //       ...prev,
+  //       [chave]:
+  //         typeof valorOuFuncao === "function"
+  //           ? valorOuFuncao(prev[chave])
+  //           : valorOuFuncao,
+  //     };
+  //     console.log(`🔄 Atualizando ${chave}:`, {
+  //       anterior: prev[chave],
+  //       novo: novoEstado[chave]
+  //     });
+  //     return novoEstado;
+  //   });
+  // };
+
+
+
   const atualizarEcoCallback = (chave, novoValor) => {
     setEconomiaSetores((prevState) => ({
       ...prevState,
@@ -1441,10 +1473,12 @@ const atualizarEcoSafely = (chave, patch) => {
       value={{
         economiaSetores,
         atualizarEco,
+        atualizarEcoDraft,
         setEconomiaSetores,
         atualizarDadosEconomy,
         atualizarEcoProf,
         atualizarEcoProfSeguro,
+
         verificarLimites,
         liberaProximoNivel,
         salvarContrato,

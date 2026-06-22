@@ -7,7 +7,7 @@ import Buy from "./components/buy.jsx";
 import Day from "./components/day.jsx";
 import finishGame from '../public/outrasImagens/finish.png'
 import { CentraldeDadosContext } from "./centralDeDadosContext.jsx";
-
+import DashboardDraft from "./components/DashboardDraft.jsx";
 import { LicenceModalBusiness } from "./components/licenseButton.jsx";
 import { BusinessLicenceModal } from "./components/BusinessLicenseModal.jsx";
 
@@ -39,6 +39,7 @@ const UpgradeCards = lazy(() => import("./components/UpgradeCards.jsx"));
 const Mapworld = lazy(() => import("./components/MapWorld.jsx"));
 const SidebarFinancas = lazy(() => import("./components/SidebarFinancas.jsx"));
 import { PackOpening } from "./components/PackOpening.jsx";
+import { PackOpeningDraft } from "./components/PackOpeningDraft.jsx";
 import { ModalFalencia } from "./notificação.jsx";
 
 // Ícone de toggle simples (chevron)
@@ -65,7 +66,7 @@ function Interface() {
   const [modalFalenciaOpen, setModalFalenciaOpen] = useState(false);
 
   // ── Visibilidade das camadas ──────────────────────────────
-  const [sidebarEsqAberta, setSidebarEsqAberta] = useState(true);
+  const [sidebarEsqAberta, setSidebarEsqAberta] = useState(false);
   const [dashboardAberto, setDashboardAberto] = useState(true);
   const [sidebarDirAberta, setSidebarDirAberta] = useState(true);
   const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
@@ -103,18 +104,21 @@ function Interface() {
           onCancelar={() => setModalFalenciaOpen(false)}
         />
       )}
-      <NewStage />
+      {/* <NewStage /> */}
       {/* <ModalExcesso /> */}
       {/* <CardSpecials /> */}
       <InputName />
-      <Offers />
-      <Events />
+      {/* <Offers /> */}
+      {/* <Events /> */}
       {/* <Employees /> */}
-      <Notificação />
-      <ModalAlert />
+      {/* <Notificação /> */}
+      {/* <ModalAlert />
       <ModalPerson />
-      <ModalInfo />
-      <PackOpening
+      <ModalInfo /> */}
+      {/* <PackOpening
+        onClose={() => setAbrirPack(false)}
+      /> */}
+      <PackOpeningDraft
         onClose={() => setAbrirPack(false)}
       />
 
@@ -154,16 +158,16 @@ function Interface() {
         <div className="flex w-full items-center justify-center col-start-8 col-end-9 gap-[10px]">
 
           <Day />
-          <TaxesYear />
+          {/* <TaxesYear /> */}
           <EconomyGlobal />
-          <RaffledBuildings />
-          <UpgradeCards />
-          <LicenceModalBusiness
+          {/* <RaffledBuildings /> */}
+          {/* <UpgradeCards /> */}
+          {/* <LicenceModalBusiness
             onOpen={() => setBusinessLicenceModal(true)}
-          />
+          /> */}
 
           {/* Botão Falência */}
-          <button
+          {/* <button
             className="h-[50px] relative aspect-square bg-laranja rounded-[10px] flex items-center justify-center"
             onClick={() => setModalFalenciaOpen(true)}
             data-tooltip-content="Declarar falência"
@@ -179,10 +183,10 @@ function Interface() {
             onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
           >
             <img className="h-[70%] aspect-square" src={finishGame} alt="Falência" />
-          </button>
+          </button> */}
 
           {/* Botão toggle Dashboard */}
-          <button
+          {/* <button
             onClick={() => setDashboardAberto(v => !v)}
             title={dashboardAberto ? 'Ocultar painel' : 'Mostrar painel'}
             style={{
@@ -207,7 +211,7 @@ function Interface() {
             Painel
           </button>
 
-          {/* Botão toggle Sidebar Direita */}
+   
           <button
             onClick={() => setSidebarDirAberta(v => !v)}
             title={sidebarDirAberta ? 'Ocultar sidebar direita' : 'Mostrar sidebar direita'}
@@ -231,54 +235,23 @@ function Interface() {
           >
             <IconToggle aberto={sidebarDirAberta} />
             Dados
-          </button>
+          </button> */}
 
           <Buttons />
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════
-          CAMADA 3 — SIDEBAR ESQUERDA (Buy) — bg transparente
-          Botão de toggle flutua na borda
-      ════════════════════════════════════════════════════════ */}
-      <div
-        style={{
-          position: 'fixed',
-          top: TOP_H,
-          left: 0,
-          bottom: 0,
-          width: sidebarEsqAberta ? '20vw' : 0,
-          zIndex: 30,
-          overflow: 'hidden',
-          transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        }}
-      >
-        {/* Conteúdo com backdrop-blur para "ver" o mapa atrás */}
-        <div
-          style={{
-            width: '20vw', // largura real sempre 20vw, o pai que oclui
-            height: '100%',
-            background: 'rgb(30, 8, 60)',
-            // backdropFilter: 'blur(16px)',
-            // WebkitBackdropFilter: 'blur(16px)',
-            borderRight: '1px solid rgba(147,76,255,0.2)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Buy />
-        </div>
-      </div>
 
-      {/* Botão toggle da sidebar esquerda — flutua na borda */}
+
+
+
       <button
         onClick={() => setSidebarEsqAberta(v => !v)}
         title={sidebarEsqAberta ? 'Ocultar sidebar' : 'Mostrar sidebar'}
         style={{
           position: 'fixed',
           top: '50%',
-          left: sidebarEsqAberta ? 'calc(20vw - 1px)' : 0,
+          left: sidebarEsqAberta ? 'calc(15 vw - 1px)' : 0,
           transform: 'translateY(-50%)',
           zIndex: 35,
           background: 'linear-gradient(135deg, #4C14A9, #6411D9)',
@@ -313,7 +286,7 @@ function Interface() {
           // Respeita a sidebar esquerda se estiver aberta
           left: sidebarEsqAberta ? 'calc(20vw + 8px)' : 8,
           // Respeita a sidebar direita se estiver aberta
-          right: sidebarDirAberta ? 'calc(20vw + 8px)' : 8,
+          right: sidebarDirAberta ? 'calc(15  vw + 8px)' : 8,
           bottom: 8,
           zIndex: 20,
           borderRadius: 20,
@@ -331,7 +304,8 @@ function Interface() {
         {vision === "financas" ? (
           <PatrimonioInterface />
         ) : (
-          <Dashboard />
+          <DashboardDraft />
+          // <Dashboard/>
         )}
       </div>
 
@@ -344,7 +318,7 @@ function Interface() {
           top: TOP_H,
           right: 0,
           bottom: 0,
-          width: sidebarDirAberta ? '20vw' : 0,
+          width: sidebarDirAberta ? '15vw' : 0,
           zIndex: 30,
           overflow: 'hidden',
           transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -352,7 +326,7 @@ function Interface() {
       >
         <div
           style={{
-            width: '20vw',
+            width: '15vw',
             height: '100%',
             background: 'rgb(20, 6, 50)',
             // backdropFilter: 'blur(16px)',
@@ -373,7 +347,7 @@ function Interface() {
         style={{
           position: 'fixed',
           top: '50%',
-          right: sidebarDirAberta ? 'calc(20vw - 1px)' : 0,
+          right: sidebarDirAberta ? 'calc(15vw - 1px)' : 0,
           transform: 'translateY(-50%)',
           zIndex: 35,
           background: 'linear-gradient(135deg, #4C14A9, #6411D9)',
