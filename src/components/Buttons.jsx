@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { NextDay } from "./nextDay";
-import PayTexes from "./PayTexes";
+// import PayTexes from "./PayTexes";
 import PayTexesDraft from "./PayTexesDraft";
 import Business from "./business";
 import ToggleButton from "./ToggleButton";
@@ -20,7 +20,7 @@ return (
         <SystemTurn />
 
         {/* <PayTexes /> */}
-        <PayTexesDraft />
+        {/* <PayTexesDraft /> */}
 
 
 

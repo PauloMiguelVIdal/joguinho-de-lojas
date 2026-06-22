@@ -12,7 +12,7 @@ import { LicenceModalBusiness } from "./components/licenseButton.jsx";
 import { BusinessLicenceModal } from "./components/BusinessLicenseModal.jsx";
 
 
-const PayTexes = lazy(() => import("./components/PayTexes.jsx"));
+// const PayTexes = lazy(() => import("./components/PayTexes.jsx"));
 const ButtonChange = lazy(() => import("./components/ButtonChange.jsx"));
 const Events = lazy(() => import("./components/events.jsx"));
 const Employees = lazy(() => import("./components/employees.jsx"));
