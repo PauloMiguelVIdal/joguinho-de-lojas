@@ -23,22 +23,12 @@ const setores = [
     {
         id: "carteira",
         corClasse: "bg-[#934CFF]",
-        //   img: Carteira,
         cor1: "#350973 ",
         cor2: "#4C14A9 ",
         cor3: "#6A00FF ",
         cor4: "#934CFF ",
     },
-
-    // { id: "mapa", corClasse: "bg-[#E60000]", img: maps, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3:  "bg-gradient-to-br from-[#6A00FF] to-[#E60000]", cor4: "#6A00FF ", },
 ];
-
-// const [buttonOpenAudio] = useSound(openAudio);
-// const { economiaSetores, setEconomiaSetores } = useContext(
-//   DadosEconomyGlobalContext
-// );
-
-// ─── Constantes ───────────────────────────────────────────────────────────────
 
 const SETORES = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"];
 const IMAGENS = { agricultura, tecnologia, industria, comercio, imobiliario, energia };
@@ -62,8 +52,6 @@ const CAT_ICONS = {
     "produtos digitais": "💾", "materiais sensíveis": "⚠️",
 };
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
 const fmtBRL = (n) => {
     n = Number(n) || 0;
     const abs = Math.abs(n), s = n < 0 ? "-" : "";
@@ -73,8 +61,7 @@ const fmtBRL = (n) => {
     return `${s}R$${Math.round(abs)}`;
 };
 
-
-// ─── Seção colapsável (mesma do SideInformations) ────────────────────────────
+// ─── Seção colapsável (estilo compacto) ─────────────────────────────────────
 
 function Section({ dot, title, badge, children, defaultOpen = true }) {
     const [open, setOpen] = useState(defaultOpen);
@@ -82,20 +69,24 @@ function Section({ dot, title, badge, children, defaultOpen = true }) {
         <div style={{
             background: "rgba(0,0,0,.22)",
             border: "1px solid rgba(255,255,255,.07)",
-            borderRadius: 12, overflow: "hidden", flexShrink: 0,
+            borderRadius: 10, overflow: "hidden", flexShrink: 0,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
         }}>
             <button onClick={() => setOpen(v => !v)} style={{
-                width: "100%", display: "flex", alignItems: "center", gap: 7,
-                padding: "8px 11px", border: "none", cursor: "pointer",
+                width: "100%", display: "flex", alignItems: "center", gap: 6,
+                padding: "6px 10px", border: "none", cursor: "pointer",
                 background: "rgba(0,0,0,.18)", fontFamily: "inherit",
                 borderBottom: open ? "1px solid rgba(255,255,255,.05)" : "none",
+                flexShrink: 0,
             }}>
                 <div style={{
-                    width: 7, height: 7, borderRadius: "50%",
-                    background: dot, boxShadow: `0 0 5px ${dot}`, flexShrink: 0,
+                    width: 6, height: 6, borderRadius: "50%",
+                    background: dot, boxShadow: `0 0 4px ${dot}`, flexShrink: 0,
                 }} />
                 <span style={{
-                    fontSize: 9, fontWeight: 800, letterSpacing: ".14em",
+                    fontSize: 8, fontWeight: 800, letterSpacing: ".12em",
                     textTransform: "uppercase", color: "rgba(255,255,255,.42)",
                     flex: 1, textAlign: "left",
                 }}>
@@ -103,18 +94,18 @@ function Section({ dot, title, badge, children, defaultOpen = true }) {
                 </span>
                 {badge != null && (
                     <span style={{
-                        fontSize: 8, fontWeight: 900, padding: "1px 6px", borderRadius: 99,
+                        fontSize: 7, fontWeight: 900, padding: "1px 5px", borderRadius: 99,
                         background: "rgba(255,255,255,.08)", color: "rgba(255,255,255,.35)",
-                        marginRight: 4,
+                        marginRight: 3,
                     }}>
                         {badge}
                     </span>
                 )}
-                <ChevronDown size={11} color="rgba(255,255,255,.2)"
+                <ChevronDown size={10} color="rgba(255,255,255,.2)"
                     style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform .2s", flexShrink: 0 }}
                 />
             </button>
-            {open && <div style={{ padding: "9px 11px" }}>{children}</div>}
+            {open && <div style={{ padding: "7px 9px", flex: 1, overflowY: "auto" }}>{children}</div>}
         </div>
     );
 }
@@ -126,75 +117,71 @@ function Bar({ value, max, color = "#FFD966" }) {
     const c = pct >= 90 ? "#ff4d4d" : pct >= 70 ? "#FFD700" : color;
     return (
         <div style={{
-            width: "100%", height: 4,
+            width: "100%", height: 3,
             background: "rgba(255,255,255,.07)", borderRadius: 99, overflow: "hidden",
         }}>
             <div style={{
                 width: `${pct}%`, height: "100%", background: c,
-                borderRadius: 99, boxShadow: `0 0 5px ${c}88`, transition: "width .4s",
+                borderRadius: 99, boxShadow: `0 0 4px ${c}88`, transition: "width .4s",
             }} />
         </div>
     );
 }
 
-// ─── 1. Economia dos setores ──────────────────────────────────────────────────
+// ─── 1. Economia dos setores (versão compacta) ──────────────────────────────────
 
 function SecaoEconomia({ economiaSetores }) {
-    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-
-    const faturamento = dados.faturamento;
+    const { dados } = useContext(CentraldeDadosContext);
     const dia = dados.dia;
-    const eventoAtual = dados.eventoAtual;
-
-
-
-
 
     if (dia < 270) return null;
 
     return (
-        <Section dot="#a78bfa" title="Economia dos setores">
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 6 }}>
+        <Section dot="#a78bfa" title="Economia">
+            <div style={{ 
+                display: "grid", 
+                gridTemplateColumns: "repeat(6, 1fr)", 
+                gap: 4,
+            }}>
                 {SETORES.map(setor => {
                     const estado = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
                     const eco = ECO_CONFIG[estado] || { bg: "#555", label: estado, dot: "#aaa" };
 
                     return (
                         <React.Fragment key={setor}>
-                            {/* Quadrado com borda colorida + ícone centralizado grande */}
                             <div
                                 data-tooltip-id={`sb-eco-${setor}`}
                                 style={{
                                     aspectRatio: "1",
                                     background: "rgba(53,9,115,.6)",
-                                    border: `2.5px solid ${eco.bg}`,
-                                    borderRadius: 10,
+                                    border: `2px solid ${eco.bg}`,
+                                    borderRadius: 8,
                                     display: "flex", alignItems: "center", justifyContent: "center",
                                     cursor: "default", transition: "transform .15s, box-shadow .15s",
-                                    boxShadow: `0 0 8px ${eco.bg}55`,
+                                    boxShadow: `0 0 6px ${eco.bg}55`,
                                 }}
                                 onMouseEnter={e => {
-                                    e.currentTarget.style.transform = "scale(1.08)";
-                                    e.currentTarget.style.boxShadow = `0 0 16px ${eco.bg}99`;
+                                    e.currentTarget.style.transform = "scale(1.06)";
+                                    e.currentTarget.style.boxShadow = `0 0 12px ${eco.bg}99`;
                                 }}
                                 onMouseLeave={e => {
                                     e.currentTarget.style.transform = "scale(1)";
-                                    e.currentTarget.style.boxShadow = `0 0 8px ${eco.bg}55`;
+                                    e.currentTarget.style.boxShadow = `0 0 6px ${eco.bg}55`;
                                 }}
                             >
                                 <img
                                     src={IMAGENS[setor]}
                                     alt={setor}
-                                    style={{ width: "55%", height: "55%", objectFit: "contain" }}
+                                    style={{ width: "50%", height: "50%", objectFit: "contain" }}
                                 />
                             </div>
 
                             <Tooltip id={`sb-eco-${setor}`}
-                                style={{ background: "#fff", color: "#350973", borderRadius: 8, fontWeight: 700, fontSize: 12 }}
+                                style={{ background: "#fff", color: "#350973", borderRadius: 6, fontWeight: 700, fontSize: 10 }}
                                 border="1px solid #350973"
                                 html={`
                                     <b>${setor.charAt(0).toUpperCase() + setor.slice(1)}</b> — ${estado}<br/>
-                                    <span style="font-size:11px;opacity:.65">
+                                    <span style="font-size:10px;opacity:.65">
                                       Rec 40% · Dec 80% · Est 100% · Prog 110% · Aq 125%
                                     </span>
                                 `}
@@ -207,50 +194,44 @@ function SecaoEconomia({ economiaSetores }) {
     );
 }
 
-// ─── 2. Financeiro mensal ─────────────────────────────────────────────────────
+// ─── 2. Financeiro mensal (versão compacta) ─────────────────────────────────────
 
 function SecaoFinancas({ economiaSetores }) {
-    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-
+    const { dados } = useContext(CentraldeDadosContext);
 
     const faturamento = dados.faturamento;
-    const dia = dados.dia;
-    const eventoAtual = dados.eventoAtual;
-
     const fat = faturamento?.faturamentoMensal || 0;
     const imp = economiaSetores.imposto?.impostoMensal || 0;
     const lucro = fat - imp;
-    const impAnual = economiaSetores.valorImpostoAnual || 0;
 
     const rows = [
         { label: "Faturamento", value: fmtBRL(fat), color: "#34d399", sign: "+" },
         { label: "Despesas", value: fmtBRL(imp), color: "#f87171", sign: "−" },
         { label: "Lucro líquido", value: fmtBRL(lucro), color: lucro >= 0 ? "#a78bfa" : "#fb923c", sign: "=" },
-        ...(dia > 270 ? [{ label: "Imposto anual", value: fmtBRL(impAnual), color: "#fbbf24", sign: "★" }] : []),
     ];
 
     return (
-        <Section dot="#34d399" title="Financeiro mensal">
-            <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+        <Section dot="#34d399" title="Finanças">
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 {rows.map(({ label, value, color, sign }) => (
                     <div key={label} style={{
                         display: "flex", alignItems: "center", justifyContent: "space-between",
                         background: "rgba(255,255,255,.05)",
                         border: `1px solid ${color}22`,
-                        borderRadius: 8, padding: "6px 10px",
+                        borderRadius: 6, padding: "4px 8px",
                     }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                            <span style={{ fontSize: 10, fontWeight: 900, color, width: 12, textAlign: "center", opacity: .8 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                            <span style={{ fontSize: 8, fontWeight: 900, color, width: 20, textAlign: "center", opacity: .8 }}>
                                 {sign}
                             </span>
                             <span style={{
-                                fontSize: 10, color: "rgba(255,255,255,.5)",
-                                fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em",
+                                fontSize: 8, color: "rgba(255,255,255,.5)",
+                                fontWeight: 900, textTransform: "uppercase", letterSpacing: ".04em",
                             }}>
                                 {label}
                             </span>
                         </div>
-                        <span style={{ fontSize: 13, fontWeight: 900, color, letterSpacing: "-.01em" }}>
+                        <span style={{ fontSize: 10, fontWeight: 900, color, letterSpacing: "-.01em" }}>
                             {value}
                         </span>
                     </div>
@@ -260,28 +241,24 @@ function SecaoFinancas({ economiaSetores }) {
     );
 }
 
-// ─── 3. Armazenamento (idêntico ao SideInformations, sem props externos) ──────
-// ─── 4. Evento ativo ──────────────────────────────────────────────────────────
+// ─── 3. Evento ativo (versão compacta) ──────────────────────────────────────────
 
 function SecaoEvento() {
-    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-
-
-    const faturamento = dados.faturamento;
+    const { dados } = useContext(CentraldeDadosContext);
     const dia = dados.dia;
     const eventoAtual = dados.eventoAtual;
     const ev = eventoAtual;
 
     if (!ev?.eventoAtivo) {
         return (
-            <Section dot="#6b7280" title="Evento ativo" defaultOpen={false}>
+            <Section dot="#6b7280" title="Evento" defaultOpen={false}>
                 <div style={{
-                    display: "flex", alignItems: "center", gap: 8,
-                    padding: "4px 0",
+                    display: "flex", alignItems: "center", gap: 6,
+                    padding: "2px 0",
                 }}>
-                    <span style={{ fontSize: 16, opacity: .3 }}>📭</span>
-                    <span style={{ fontSize: 10, color: "rgba(255,255,255,.25)", fontWeight: 700 }}>
-                        Nenhum evento ativo
+                    <span style={{ fontSize: 14, opacity: .3 }}>📭</span>
+                    <span style={{ fontSize: 9, color: "rgba(255,255,255,.25)", fontWeight: 700 }}>
+                        Nenhum
                     </span>
                 </div>
             </Section>
@@ -295,43 +272,40 @@ function SecaoEvento() {
     const cor = isBom ? "#34d399" : "#f87171";
 
     return (
-        <Section dot={cor} title="Evento ativo">
+        <Section dot={cor} title="Evento">
             <div style={{
                 background: `${cor}0f`,
                 border: `1px solid ${cor}33`,
-                borderRadius: 9, padding: "9px 11px",
-                display: "flex", flexDirection: "column", gap: 6,
+                borderRadius: 7, padding: "7px 9px",
+                display: "flex", flexDirection: "column", gap: 4,
             }}>
-                {/* header */}
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                         <div style={{
-                            width: 6, height: 6, borderRadius: "50%",
-                            background: cor, boxShadow: `0 0 6px ${cor}`,
+                            width: 5, height: 5, borderRadius: "50%",
+                            background: cor, boxShadow: `0 0 5px ${cor}`,
                         }} />
                         <span style={{
-                            fontSize: 9, fontWeight: 900, color: cor,
-                            textTransform: "uppercase", letterSpacing: ".1em",
+                            fontSize: 8, fontWeight: 900, color: cor,
+                            textTransform: "uppercase", letterSpacing: ".08em",
                         }}>
                             {setor}
                         </span>
                     </div>
-                    <span style={{ fontSize: 9, color: "rgba(255,255,255,.38)", fontWeight: 700 }}>
-                        {diasRestantes}d restantes
+                    <span style={{ fontSize: 8, color: "rgba(255,255,255,.38)", fontWeight: 700 }}>
+                        {diasRestantes}d
                     </span>
                 </div>
 
-                {/* título */}
                 <p style={{
-                    fontSize: 11, color: "rgba(255,255,255,.8)",
-                    fontWeight: 600, lineHeight: 1.45, margin: 0,
+                    fontSize: 9, color: "rgba(255,255,255,.8)",
+                    fontWeight: 600, lineHeight: 1.4, margin: 0,
                 }}>
                     {titulo}
                 </p>
 
-                {/* barra de tempo */}
                 {ev.diaFinal > 0 && (
-                    <div style={{ height: 3, background: "rgba(255,255,255,.08)", borderRadius: 2 }}>
+                    <div style={{ height: 2, background: "rgba(255,255,255,.08)", borderRadius: 2 }}>
                         <div style={{
                             height: "100%", borderRadius: 2, background: cor,
                             width: `${Math.min(100, Math.max(0, (diasRestantes / 30) * 100))}%`,
@@ -339,21 +313,14 @@ function SecaoEvento() {
                         }} />
                     </div>
                 )}
-
-                {/* encerramento */}
-                <span style={{
-                    fontSize: 9, color: "rgba(255,255,255,.3)", fontWeight: 700,
-                    alignSelf: "flex-end",
-                }}>
-                    Encerra: dia {ev.diaFinal}
-                </span>
             </div>
         </Section>
     );
 }
 
-const AlertaExpansao = ({ onOpen }) => {
+// ─── Alerta de Expansão ──────────────────────────────────────────────────────
 
+const AlertaExpansao = ({ onOpen }) => {
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
 
     const edMax = economiaSetores.centralEdificios?.quantidadeEdificiosMax || 1;
@@ -368,32 +335,31 @@ const AlertaExpansao = ({ onOpen }) => {
     const corAlerta = critico ? "#ff4d4d" : "#F27405";
 
     return (
-        <Section dot={corAlerta} title="Gestão de Expansão" pulse={true}>
+        <Section dot={corAlerta} title="Expansão" pulse={true}>
             <div
                 onClick={() => onOpen()}
-
                 className="cursor-pointer hover:brightness-125 transition-all"
                 style={{
                     background: `${corAlerta}15`,
                     border: `1px solid ${corAlerta}44`,
-                    borderRadius: 12, padding: "10px 12px",
-                    display: "flex", flexDirection: "column", gap: 8,
+                    borderRadius: 8, padding: "7px 9px",
+                    display: "flex", flexDirection: "column", gap: 5,
                     backdropFilter: "blur(4px)"
                 }}
             >
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ fontSize: 10, fontWeight: 900, color: corAlerta, textTransform: "uppercase", letterSpacing: ".1em" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                    <span style={{ fontSize: 8, fontWeight: 900, color: corAlerta, textTransform: "uppercase", letterSpacing: ".08em" }}>
                         {critico ? "Limite Atingido" : "Capacidade Próxima"}
                     </span>
                 </div>
 
-                <p style={{ fontSize: 11, color: "rgba(255,255,255,.9)", fontWeight: 600, lineHeight: 1.3, margin: 0 }}>
+                <p style={{ fontSize: 9, color: "rgba(255,255,255,.9)", fontWeight: 600, lineHeight: 1.3, margin: 0 }}>
                     {critico
-                        ? "Sua empresa parou de crescer! Adquira uma licença agora."
-                        : "Você está ficando sem espaço para novos edifícios."}
+                        ? "Adquira uma licença agora."
+                        : "Espaço para novos edifícios."}
                 </p>
 
-                <div style={{ height: 4, background: "rgba(255,255,255,.1)", borderRadius: 2, overflow: 'hidden' }}>
+                <div style={{ height: 3, background: "rgba(255,255,255,.1)", borderRadius: 2, overflow: 'hidden' }}>
                     <div style={{
                         height: "100%", background: corAlerta,
                         width: `${Math.min(100, (edAtual / edMax) * 100)}%`,
@@ -401,41 +367,80 @@ const AlertaExpansao = ({ onOpen }) => {
                     }} />
                 </div>
 
-                <span style={{ fontSize: 9, color: "rgba(255,255,255,.5)", fontWeight: 700, alignSelf: "flex-end", textTransform: "uppercase" }}>
-                    Expandir Empresa →
+                <span style={{ fontSize: 7, color: "rgba(255,255,255,.5)", fontWeight: 700, alignSelf: "flex-end", textTransform: "uppercase" }}>
+                    Expandir →
                 </span>
             </div>
         </Section>
     );
 };
 
-
-
-// ─── COMPONENTE PRINCIPAL ─────────────────────────────────────────────────────
+// ─── COMPONENTE PRINCIPAL ─── LAYOUT EM ROW ─────────────────────────────────
 
 export default function SidebarFinancas({ onOpen }) {
-    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
-
-    const faturamento = dados.faturamento
-    const dia = dados.dia
-    const eventoAtual = dados.eventoAtual
+    const { dados } = useContext(CentraldeDadosContext);
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-    const [ativo, setAtivo] = useState("carteira");
-    const setorCarteira = setores.find((setor) => setor.id === "carteira");
-    const dadosCarteiraEdificios = economiaSetores.centralEdificios;
-    const edMax = dadosCarteiraEdificios.quantidadeEdificiosMax || 1;
-    const edAtual = dadosCarteiraEdificios.quantidadeEdificiosAtual || 0;
-    const [buttonCloseAudio] = useSound(closeAudio);
+    const dia = dados.dia;
+
     return (
         <div className="scrollbar-custom" style={{
-            display: "flex", flexDirection: "column", height: "100%", gap: 7, padding: "2px 2px 8px",
-            overflowX: "hidden", scrollbarWidth: "thin"
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 6,
+            height: "100%",
+            padding: "2px 2px 6px",
+            overflowX: "hidden",
+            scrollbarWidth: "thin",
         }}>
-            <SecaoEconomia economiaSetores={economiaSetores} />
-            <SecaoFinancas economiaSetores={economiaSetores} />
+            {/* ─── COLUNA ESQUERDA: FINANÇAS ─── */}
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+                minHeight: 0,
+                overflow: "hidden",
+            }}>
+                {/* <SecaoFinancas economiaSetores={economiaSetores} /> */}
+                {/* <SecaoEvento />
+                <AlertaExpansao onOpen={onOpen} /> */}
+            </div>
 
-            <SecaoEvento />
-            <AlertaExpansao onOpen={onOpen} />
+            {/* ─── COLUNA DIREITA: ECONOMIA ─── */}
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+                minHeight: 0,
+                overflow: "hidden",
+            }}>
+                <SecaoEconomia economiaSetores={economiaSetores} />
+                
+                {/* Espaço extra para info adicional se quiser */}
+                {/* {dia >= 270 && (
+                    <Section dot="#fbbf24" title="Resumo" defaultOpen={false}>
+                        <div style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 3,
+                            fontSize: 9,
+                            color: "rgba(255,255,255,.5)",
+                        }}>
+                            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                <span>Setores ativos</span>
+                                <span style={{ color: "#fff", fontWeight: 700 }}>
+                                    {SETORES.filter(s => economiaSetores[s]?.economiaSetor?.estadoAtual).length}/6
+                                </span>
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                <span>Economia estável</span>
+                                <span style={{ color: "#fff", fontWeight: 700 }}>
+                                    {SETORES.filter(s => economiaSetores[s]?.economiaSetor?.estadoAtual === "estável").length}
+                                </span>
+                            </div>
+                        </div>
+                    </Section>
+                )} */}
+            </div>
         </div>
     );
 }

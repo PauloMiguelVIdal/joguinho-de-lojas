@@ -11,6 +11,7 @@ const CentraldeDadosProvider = ({ children }) => {
     },
     itensSorteados: [],
     CardsSorteados: [],
+    cartasSelecionadas:[],
     setorAtivo: "agricultura",
     fimGame: false,
     nomeEmpresa: "",
@@ -14199,7 +14200,7 @@ RecebeMelhoraEficiencia: [
             liberado: false,
           },
           custoConstrucao: 67200000,
-          quantidade: 10,
+          quantidade: 0,
           finanças: {
             faturamentoUnitário: 5000000,
             impostoFixo: 102000000,

@@ -1186,7 +1186,7 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                                 </h1>
 
                                 {/* Stats */}
-                                <h1 className="fonteLight text-center" style={{
+                                {/* <h1 className="fonteLight text-center" style={{
                                     color: isEterno ? "#ffffff" : (raridade === "lendario" ? "#ffffff" : "#ffffff"),
                                     fontSize: isEterno ? 11 : 10, lineHeight: 1.3, maxWidth: "85%",
                                     textTransform: "uppercase", letterSpacing: ".04em",
@@ -1201,7 +1201,7 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                                     textShadow: isEterno ? `0 0 15px rgba(139,92,246,0.3)` : (raridade === "lendario" ? `0 0 10px ${setorInfo.cor4}88, 0 1px 4px #00000088` : `0 1px 6px #00000088`),
                                 }}>
                                     Faturamento: + {fatu} %
-                                </h1>
+                                </h1> */}
                             </div>
 
                             {/* Custo total */}

@@ -67,6 +67,7 @@ import {
 } from "chart.js";
 import MapWorld from "./MapWorld.jsx";
 import { CardLocalization } from "./cardLocalization.jsx";
+import { CardDraft } from "./CardDraft.jsx";
 import TechTree from "./Techtree.jsx";
 import ecossistema from '../../public/outrasImagens/setores/ecossistema.png'
 ChartJS.register(
@@ -2039,7 +2040,8 @@ export default function Dashboard() {
                                   {roi >= 0 ? "+" : ""}{roi.toFixed(1)}%
                                 </span>
                               </div>
-                              <CardLocalization index={idx} setor={setor} abrirModalSell={abrirModalSell} />
+                              <CardDraft index={idx} setor={setor} abrirModalSell={abrirModalSell} />
+                              {/* <CardLocalization index={idx} setor={setor} abrirModalSell={abrirModalSell} /> */}
                             </div>
                           ))}
                         </div>

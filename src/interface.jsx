@@ -10,7 +10,7 @@ import { CentraldeDadosContext } from "./centralDeDadosContext.jsx";
 import DashboardDraft from "./components/DashboardDraft.jsx";
 import { LicenceModalBusiness } from "./components/licenseButton.jsx";
 import { BusinessLicenceModal } from "./components/BusinessLicenseModal.jsx";
-
+import DashboardMiniDraft from "./components/DashboardMiniDrafts.jsx";
 
 // const PayTexes = lazy(() => import("./components/PayTexes.jsx"));
 const ButtonChange = lazy(() => import("./components/ButtonChange.jsx"));
@@ -36,12 +36,12 @@ const ToggleButton = lazy(() => import("./components/ToggleButton.jsx"));
 const InfoPage = lazy(() => import("./components/Info.jsx").then(m => ({ default: m.InfoPage })));
 const ModalInfo = lazy(() => import("./components/ModalInfo.jsx"));
 const UpgradeCards = lazy(() => import("./components/UpgradeCards.jsx"));
-const Mapworld = lazy(() => import("./components/MapWorld.jsx"));
+// const Mapworld = lazy(() => import("./components/MapWorld.jsx"));
 const SidebarFinancas = lazy(() => import("./components/SidebarFinancas.jsx"));
 import { PackOpening } from "./components/PackOpening.jsx";
 import { PackOpeningDraft } from "./components/PackOpeningDraft.jsx";
 import { ModalFalencia } from "./notificação.jsx";
-
+import DisplayInformations from "./components/DisplayInformations.jsx";
 // Ícone de toggle simples (chevron)
 const IconToggle = ({ aberto, horizontal = false }) => (
   <svg
@@ -77,7 +77,7 @@ function Interface() {
   // }
 
   // Altura da topbar para que as outras camadas não fiquem atrás dela
-  const TOP_H = 64; // px — ajuste se a sua Informations tiver altura diferente
+  ; // px — ajuste se a sua Informations tiver altura diferente
 
   return (
     <Suspense fallback={<div className="w-screen h-screen bg-gray-900" />}>
@@ -92,7 +92,7 @@ function Interface() {
           zIndex: 0,
         }}
       >
-        <Mapworld />
+        {/* <Mapworld /> */}
       </div>
 
       {/* ═══════════════════════════════════════════════════════
@@ -138,16 +138,17 @@ function Interface() {
           top: 0,
           left: 0,
           right: 0,
-          height: TOP_H,
+          height: '80px',
+          width:'50vw',
           zIndex: 50,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0 12px',
+          padding: '0 px',
           background: 'linear-gradient(180deg, rgb(53, 9, 115) 0%, rgba(53,9,115,0.85) 100%)',
           // backdropFilter: 'blur(12px)',
           borderBottom: '1px solid rgba(147,76,255,0.3)',
-          boxShadow: '0 2px 20px rgba(0,0,0,0.5)',
+          boxShadow: '0 2px 5vh rgba(0,0,0,0.5)',
         }}
       >
         {/* Informações centrais (nome empresa, saldo, dia...) */}
@@ -245,7 +246,7 @@ function Interface() {
 
 
 
-      <button
+      {/* <button
         onClick={() => setSidebarEsqAberta(v => !v)}
         title={sidebarEsqAberta ? 'Ocultar sidebar' : 'Mostrar sidebar'}
         style={{
@@ -273,7 +274,7 @@ function Interface() {
         >
           <polyline points="9 18 15 12 9 6" />
         </svg>
-      </button>
+      </button> */}
 
       {/* ═══════════════════════════════════════════════════════
           CAMADA 2 — DASHBOARD CENTRAL
@@ -282,12 +283,64 @@ function Interface() {
       <div
         style={{
           position: 'fixed',
-          top: TOP_H + 8,
+          top:'13vh',
+          right:'0',
+          height:'27vh',
+          width:'50vw',
+          // Respeita a sidebar esquerda se estiver aberta
+     
+          // Respeita a sidebar direita se estiver aberta
+        
+       
+          zIndex: 20,
+          borderRadius: 20,
+          overflow: 'hidden',
+          transition: 'left 0.3s cubic-bezier(0.4,0,0.2,1), right 0.3s cubic-bezier(0.4,0,0.2,1)',
+          // Quando fechado, reduz opacidade e escala
+          opacity: dashboardAberto ? 1 : 0,
+          pointerEvents: dashboardAberto ? 'auto' : 'none',
+          transform: dashboardAberto ? 'scale(1)' : 'scale(0.97)',
+          transformOrigin: 'top center',
+          background: 'linear-gradient(to bottom, #6411D9, #350973)',
+          boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+        }}
+      >
+        <DashboardMiniDraft/>
+      </div>
+
+<div
+  style={{
+    position: 'fixed',
+    top: '80px',
+    height: 'calc(100vh - 120px)', // Altura dinâmica baseada na viewport
+    maxHeight: '32vh', // Limite máximo
+    minHeight: '200px', // Limite mínimo
+    width: '50vw',
+    zIndex: 20,
+    borderRadius: 20,
+    overflow: 'hidden',
+    transition: 'left 0.3s cubic-bezier(0.4,0,0.2,1), right 0.3s cubic-bezier(0.4,0,0.2,1)',
+    opacity: dashboardAberto ? 1 : 0,
+    pointerEvents: dashboardAberto ? 'auto' : 'none',
+    transform: dashboardAberto ? 'scale(1)' : 'scale(0.97)',
+    transformOrigin: 'top center',
+    background: 'linear-gradient(to bottom, #6411D9, #350973)',
+    boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+  }}
+>
+  <DisplayInformations />
+</div>
+      <div
+        style={{
+          position: 'fixed',
+          bottom: 0,
+          height:'60vh',
+          width:'100vw',
           // Respeita a sidebar esquerda se estiver aberta
           left: sidebarEsqAberta ? 'calc(20vw + 8px)' : 8,
           // Respeita a sidebar direita se estiver aberta
           right: sidebarDirAberta ? 'calc(15  vw + 8px)' : 8,
-          bottom: 8,
+       
           zIndex: 20,
           borderRadius: 20,
           overflow: 'hidden',
@@ -315,10 +368,11 @@ function Interface() {
       <div
         style={{
           position: 'fixed',
-          top: TOP_H,
+          top: 0,
           right: 0,
-          bottom: 0,
-          width: sidebarDirAberta ? '15vw' : 0,
+          // bottom: '40vh',
+          height: '13vh',
+          width: sidebarDirAberta ? '50vw' : 0,
           zIndex: 30,
           overflow: 'hidden',
           transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -326,13 +380,14 @@ function Interface() {
       >
         <div
           style={{
-            width: '15vw',
+            width: '50vw',
             height: '100%',
             background: 'rgb(20, 6, 50)',
             // backdropFilter: 'blur(16px)',
             // WebkitBackdropFilter: 'blur(16px)',
             borderLeft: '1px solid rgba(147,76,255,0.2)',
-            paddingTop: 30,
+            borderRadius:'20px',
+            paddingTop: 0,
             overflow: 'hidden',
           }}
         >
@@ -341,7 +396,7 @@ function Interface() {
       </div>
 
       {/* Botão toggle da sidebar direita — flutua na borda */}
-      <button
+      {/* <button
         onClick={() => setSidebarDirAberta(v => !v)}
         title={sidebarDirAberta ? 'Ocultar dados' : 'Mostrar dados'}
         style={{
@@ -368,7 +423,7 @@ function Interface() {
         >
           <polyline points="9 18 15 12 9 6" />
         </svg>
-      </button>
+      </button> */}
 
     </Suspense>
   )
