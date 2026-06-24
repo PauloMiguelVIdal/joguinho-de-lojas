@@ -95,15 +95,15 @@ function Interface() {
       {/* ═══════════════════════════════════════════════════════
           CAMADA 0 — MAPA (fundo fixo, ocupa tela toda)
       ════════════════════════════════════════════════════════ */}
-      <div
+      {/* <div
         style={{
           position: 'fixed',
           inset: 0,
-          // zIndex: 100000,
+          zIndex: 100000,
         }}
       >
         <Mapworld />
-      </div>
+      </div> */}
 
       {/* ═══════════════════════════════════════════════════════
           MODAIS / OVERLAYS (z-index alto — acima de tudo)

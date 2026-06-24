@@ -2493,7 +2493,7 @@ export const MODELOS_SEDE = {
 }
 
 export function resolverModeloSede(classificacaoPorte) {
-  const edificio = MODELOS_SEDE[classificacaoPorte] ?? MODELOS_SEDE['Micro Empresa']
+  const edificio =  MODELOS_SEDE['Mega Holding']
   const pacoteEdificio = PACOTES[edificio.pacote]
 
   // Base fixa — modelo 6 (stone-rocks / terreno de mineração)
