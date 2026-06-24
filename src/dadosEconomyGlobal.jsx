@@ -10,7 +10,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
-    patrimonio:0,
+    patrimonio: 0,
     despesasImpostoAnual: {
       diaPagarImpostoAnual: false,
       impostoAnualPago: false,
@@ -1008,7 +1008,7 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       impostoDiário: 0,
       impostoMensal: 0,
       impostoSobreFaturamentoDiário: 0,
-            arrayimpostoDiário: [],
+      arrayimpostoDiário: [],
     },
     agricultura: {
       economiaSetor: {
@@ -1017,6 +1017,8 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         percImpostoAnualAtual: 20,
         ArrayFatu: [],
         ArrayFatuHistory: [],
+        patrimonioHistorico: [],
+        patrimonioInventarioHistorico: [],
         arrValorImpostoAnualPorMes: [],
         valorImpostoAnualAtual: 0,
         RelatórioMensalImpostoAnual: {},
@@ -1029,6 +1031,8 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         percImpostoAnualAtual: 24,
         ArrayFatu: [],
         ArrayFatuHistory: [],
+        patrimonioHistorico: [],
+        patrimonioInventarioHistorico: [],
         arrValorImpostoAnualPorMes: [],
         valorImpostoAnualAtual: 0,
         RelatórioMensalImpostoAnual: {},
@@ -1041,6 +1045,8 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         percImpostoAnualAtual: 22,
         ArrayFatu: [],
         ArrayFatuHistory: [],
+        patrimonioHistorico: [],
+        patrimonioInventarioHistorico: [],
         arrValorImpostoAnualPorMes: [],
         valorImpostoAnualAtual: 0,
         RelatórioMensalImpostoAnual: {},
@@ -1053,6 +1059,8 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         percImpostoAnualAtual: 24,
         ArrayFatu: [],
         ArrayFatuHistory: [],
+        patrimonioHistorico: [],
+        patrimonioInventarioHistorico: [],
         arrValorImpostoAnualPorMes: [],
         valorImpostoAnualAtual: 0,
         RelatórioMensalImpostoAnual: {},
@@ -1065,6 +1073,8 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         percImpostoAnualAtual: 22,
         ArrayFatu: [],
         ArrayFatuHistory: [],
+        patrimonioHistorico: [],
+        patrimonioInventarioHistorico: [],
         arrValorImpostoAnualPorMes: [],
         valorImpostoAnualAtual: 0,
         RelatórioMensalImpostoAnual: {},
@@ -1075,8 +1085,10 @@ const DadosEconomyGlobalProvider = ({ children }) => {
         patrimonio: 0,
         estadoAtual: "estável",
         percImpostoAnualAtual: 20,
-        ArrayFatu: [], 
-        ArrayFatuHistory: [], 
+        ArrayFatu: [],
+        ArrayFatuHistory: [],
+        patrimonioHistorico: [],
+        patrimonioInventarioHistorico: [],
         arrValorImpostoAnualPorMes: [],
         valorImpostoAnualAtual: 0,
         RelatórioMensalImpostoAnual: {},
@@ -1093,14 +1105,14 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       //     RelatórioMensalImpostoAnual: {}
       //   }
     },
-      patrimonioGlobal: 0,
-  valorImpostoAnual: 0,
+    patrimonioGlobal: 0,
+    valorImpostoAnual: 0,
 
-      despesasImpostoAnual: {
-    diaPagarImpostoAnual: false,
-    impostoAnualPago: false,
-    proximoPagamento: 360,
-  },
+    despesasImpostoAnual: {
+      diaPagarImpostoAnual: false,
+      impostoAnualPago: false,
+      proximoPagamento: 360,
+    },
   });
 
   const atualizarDadosEconomy = (caminho, novoValor) => {
@@ -1134,15 +1146,15 @@ const DadosEconomyGlobalProvider = ({ children }) => {
 
 
 
-const atualizarEcoDraft = (chave, valorOuFuncao) => {
-  setEconomiaSetores((prev) => ({
-    ...prev,
-    [chave]:
-      typeof valorOuFuncao === "function"
-        ? valorOuFuncao(prev[chave])
-        : valorOuFuncao,
-  }));
-};
+  const atualizarEcoDraft = (chave, valorOuFuncao) => {
+    setEconomiaSetores((prev) => ({
+      ...prev,
+      [chave]:
+        typeof valorOuFuncao === "function"
+          ? valorOuFuncao(prev[chave])
+          : valorOuFuncao,
+    }));
+  };
 
   // const atualizarEcoDraft = (chave, valorOuFuncao) => {
   //   setEconomiaSetores((prev) => {
@@ -1440,30 +1452,30 @@ const atualizarEcoDraft = (chave, valorOuFuncao) => {
     });
   };
 
-const atualizarEcoSafely = (chave, patch) => {
-  setEconomiaSetores((prev) => {
-    const prevItem = prev?.[chave] || {};
-    const prevEco = prevItem?.economiaSetor || {};
+  const atualizarEcoSafely = (chave, patch) => {
+    setEconomiaSetores((prev) => {
+      const prevItem = prev?.[chave] || {};
+      const prevEco = prevItem?.economiaSetor || {};
 
-    // determina o patch real
-    const patchObj =
-      typeof patch === "function" ? patch(prevEco, prevItem, prev) : patch || {};
+      // determina o patch real
+      const patchObj =
+        typeof patch === "function" ? patch(prevEco, prevItem, prev) : patch || {};
 
-    // ✅ CORREÇÃO: Merge profundo do economiaSetor
-    const novoEconomiaSetor = { 
-      ...prevEco, 
-      ...patchObj 
-    };
+      // ✅ CORREÇÃO: Merge profundo do economiaSetor
+      const novoEconomiaSetor = {
+        ...prevEco,
+        ...patchObj
+      };
 
-    return {
-      ...prev,
-      [chave]: { 
-        ...prevItem, 
-        economiaSetor: novoEconomiaSetor 
-      },
-    };
-  });
-};
+      return {
+        ...prev,
+        [chave]: {
+          ...prevItem,
+          economiaSetor: novoEconomiaSetor
+        },
+      };
+    });
+  };
   const salvarContrato = (novoContrato) => {
     setContratos((prev) => [...prev, novoContrato]);
   };

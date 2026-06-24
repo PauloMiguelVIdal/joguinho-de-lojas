@@ -9,7 +9,6 @@ import useSound from "use-sound";
 import nextDayAudio from "../../public/sounds/nextDayAudio.mp3";
 import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 import { LoadingScreen } from "./LoadingScreen";
-// 🔥 IMPORTA A FUNÇÃO DE LIQUIDAÇÃO
 import { executarLiquidacaoAutomatica } from "./SlotManager";
 
 export function SystemTurn() {
@@ -21,7 +20,11 @@ export function SystemTurn() {
         atualizarEco,
     } = useContext(DadosEconomyGlobalContext);
 
-const [mostrarLoading, setMostrarLoading] = useState(false);
+    const [mostrarLoading, setMostrarLoading] = useState(false);
+    const [pacotesIniciaisAbertos, setPacotesIniciaisAbertos] = useState(false);
+
+    // 🔥 VERIFICA SE O JOGO JÁ FOI INICIADO
+    const jogoIniciado = dados.jogoIniciado || false;
 
     const [countdown, setCountdown] = useState(15);
     const [diasPendentes, setDiasPendentes] = useState(0);
@@ -41,7 +44,7 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
     // 🔥 FLAG PARA SABER SE JÁ CALCULOU O IMPOSTO FIXO NO MÊS
     const impostoFixoCalculadoRef = useRef(false);
 
-    // 🔥 REF PARA CARTAS SELECIONADAS - ARMAZENA { nome, quantidade }
+    // 🔥 REF PARA CARTAS SELECIONADAS
     const cartasSelecionadasRef = useRef([]);
     const cartasSelecionadasMapRef = useRef(new Map());
 
@@ -58,10 +61,86 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
         return mapa;
     };
 
+    // 🔥 FUNÇÃO PARA CALCULAR O CUSTO TOTAL DE UM EDIFÍCIO
+    const calcularCustoEdificio = (ed, dadosAtuais) => {
+        if (!ed) return 0;
+        
+        const custoBase = ed.custoConstrucao || 0;
+        const tNec = ed.lojasNecessarias?.terrenos || 0;
+        const pNec = ed.lojasNecessarias?.lojasP || 0;
+        const mNec = ed.lojasNecessarias?.lojasM || 0;
+        const gNec = ed.lojasNecessarias?.lojasG || 0;
+
+        let custoTotal = custoBase
+            + tNec * (dadosAtuais.terrenos?.preçoConstrução || 0)
+            + pNec * ((dadosAtuais.lojasP?.preçoConstrução || 0) + (dadosAtuais.lojasP?.quantidadeNecTerreno || 0) * (dadosAtuais.terrenos?.preçoConstrução || 0))
+            + mNec * ((dadosAtuais.lojasM?.preçoConstrução || 0) + (dadosAtuais.lojasM?.quantidadeNecTerreno || 0) * (dadosAtuais.terrenos?.preçoConstrução || 0))
+            + gNec * ((dadosAtuais.lojasG?.preçoConstrução || 0) + (dadosAtuais.lojasG?.quantidadeNecTerreno || 0) * (dadosAtuais.terrenos?.preçoConstrução || 0));
+
+        if (Array.isArray(ed.recursoDeConstrução)) {
+            const mapaEdificios = criarMapaEdificios(dadosAtuais);
+            ed.recursoDeConstrução.forEach(nome => {
+                const recurso = mapaEdificios.get(nome);
+                if (recurso) {
+                    custoTotal += calcularCustoEdificio(recurso, dadosAtuais);
+                }
+            });
+        }
+
+        return custoTotal;
+    };
+
+    // 🔥 FUNÇÃO PARA CALCULAR PATRIMÔNIO DOS SETORES
+    const calcularPatrimonioSetores = (dadosAtuais) => {
+        const patrimonioSetores = {};
+        let patrimonioTotalInventario = 0;
+
+        setoresArr.forEach(setor => {
+            let patrimonioSetor = 0;
+            const edificios = dadosAtuais[setor]?.edificios || [];
+            
+            edificios.forEach(ed => {
+                if (ed.quantidade > 0) {
+                    const custoUnitario = calcularCustoEdificio(ed, dadosAtuais);
+                    patrimonioSetor += custoUnitario * ed.quantidade;
+                    patrimonioTotalInventario += custoUnitario * ed.quantidade;
+                }
+            });
+            
+            patrimonioSetores[setor] = patrimonioSetor;
+        });
+
+        setoresArr.forEach(setor => {
+            const patrimAtual = patrimonioSetores[setor] || 0;
+            const arrayPatrimonio = economiaSetores[setor]?.economiaSetor?.patrimonioHistorico || [];
+            
+            const novoArray = [...arrayPatrimonio, patrimAtual];
+            if (novoArray.length > 360) {
+                novoArray.splice(0, novoArray.length - 360);
+            }
+            
+            atualizarEcoSafely(setor, {
+                patrimonioHistorico: novoArray,
+                patrimonioAtual: patrimAtual
+            });
+        });
+
+        const arrayPatrimonioInventario = economiaSetores.patrimonioInventarioHistorico || [];
+        const novoArrayInventario = [...arrayPatrimonioInventario, patrimonioTotalInventario];
+        
+        if (novoArrayInventario.length > 360) {
+            novoArrayInventario.splice(0, novoArrayInventario.length - 360);
+        }
+        
+        atualizarEco("patrimonioInventarioHistorico", novoArrayInventario);
+        atualizarEco("patrimonioInventarioAtual", patrimonioTotalInventario);
+
+        return { patrimonioSetores, patrimonioTotalInventario };
+    };
+
     // 🔥 FUNÇÃO PARA FORÇAR ATUALIZAÇÃO DAS CARTAS SELECIONADAS
     const forcarAtualizacaoCartas = () => {
         const cartas = dados.cartasSelecionadas || [];
-        
         const nomes = [];
         const mapa = new Map();
         
@@ -102,18 +181,15 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
         
         cartasSelecionadasRef.current = nomes;
         cartasSelecionadasMapRef.current = mapa;
-        
         return { nomes, mapa };
     };
 
     // 🔥 FUNÇÃO PARA CARREGAR AS CARTAS SELECIONADAS
     const carregarCartasSelecionadas = () => {
         const resultado = forcarAtualizacaoCartas();
-        
         if (resultado.nomes.length === 0) {
             const cartas = dados.cartasSelecionadas || [];
             const nomes = [];
-            
             cartas.forEach((carta) => {
                 if (carta.nome) {
                     nomes.push(carta.nome);
@@ -124,26 +200,26 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
                     }
                 }
             });
-            
             cartasSelecionadasRef.current = nomes;
             return nomes;
         }
-        
         return resultado.nomes;
     };
 
     // 🔥 CARREGA AS CARTAS INICIALMENTE
     useEffect(() => {
-        carregarCartasSelecionadas();
-    }, []);
+        if (jogoIniciado) {
+            carregarCartasSelecionadas();
+        }
+    }, [jogoIniciado]);
 
     // 🔥 CORREÇÃO: Atualiza o ref sempre que dados mudar
     useEffect(() => {
         dadosRef.current = dados;
-        if (!estaProcessando) {
+        if (!estaProcessando && jogoIniciado) {
             carregarCartasSelecionadas();
         }
-    }, [dados, estaProcessando]);
+    }, [dados, estaProcessando, jogoIniciado]);
 
     // 🔥 CORREÇÃO: Atualiza o saldo ref sempre que mudar
     useEffect(() => {
@@ -162,7 +238,6 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
     const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
     const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
-    // Fator econômico
     const FATOR_ECONOMIA = {
         recessão: 0.4,
         declinio: 0.8,
@@ -193,8 +268,25 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
         }
     };
 
-    // Timer principal - CORRIGIDO COM LIQUIDAÇÃO
+    // 🔥 FUNÇÃO PARA ABRIR PACOTES INICIAIS (DIA 0)
+    const abrirPacotesIniciais = () => {
+        if (pacotesIniciaisAbertos) return;
+        
+        console.log("🎁 [SystemTurn] Abrindo 2 pacotes comuns para o jogador...");
+        setPacotesIniciaisAbertos(true);
+        
+        setTimeout(() => {
+            console.log("🎁 [SystemTurn] Abrindo pacote comum #1...");
+        }, 500);
+        
+        setTimeout(() => {
+            console.log("🎁 [SystemTurn] Abrindo pacote comum #2...");
+        }, 1500);
+    };
+
+    // 🔥 TIMER PRINCIPAL
     useEffect(() => {
+        if (!jogoIniciado) return;
         if (diasPendentes > 0 || estaProcessando) return;
 
         const interval = setInterval(() => {
@@ -202,22 +294,22 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
                 if (prev <= 1) {
                     const totalDias = 30;
 
-                    // 🔥 RESETA ACUMULADORES
+                    if (dados.dia === 0 && !pacotesIniciaisAbertos) {
+                        abrirPacotesIniciais();
+                    }
+
                     impostoMensalRef.current = 0;
                     faturamentoMensalRef.current = 0;
                     impostoFixoMensalRef.current = 0;
                     impostoFaturamentoMensalRef.current = 0;
                     impostoFixoCalculadoRef.current = false;
 
-                    // 🔥 🔥 🔥 EXECUTA LIQUIDAÇÃO DE EXCEDENTES ANTES DE COMEÇAR O MÊS
                     console.log("🔄 [SystemTurn] Iniciando liquidação de excedentes...");
                     executarLiquidacao().then(() => {
                         console.log("✅ [SystemTurn] Liquidação concluída, iniciando novo mês...");
                     });
 
-                    // 🔥 FORÇA ATUALIZAÇÃO E ESPERA OS DADOS
                     console.log("🔄 [PREPARANDO MÊS] Forçando sincronização das cartas...");
-                    
                     dadosRef.current = dados;
                     
                     const cartas = dados.cartasSelecionadas || [];
@@ -284,60 +376,50 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [diasPendentes, estaProcessando, dados.cartasSelecionadas]);
+    }, [diasPendentes, estaProcessando, dados.cartasSelecionadas, jogoIniciado, dados.dia, pacotesIniciaisAbertos]);
 
-    // 🔥 PROCESSAMENTO DOS 30 DIAS COM CÁLCULO DE IMPOSTOS INTEGRADO
+    // 🔥 PROCESSAMENTO DOS 30 DIAS
     useEffect(() => {
-        if (diasPendentes <= 0 || processandoRef.current) {
-            return;
-        }
+        if (!jogoIniciado) return;
+        if (diasPendentes <= 0 || processandoRef.current) return;
 
-        // 🔥 GARANTE QUE AS CARTAS ESTÃO ATUALIZADAS
         const resultado = forcarAtualizacaoCartas();
-        
         if (resultado.nomes.length === 0) {
             carregarCartasSelecionadas();
         }
 
         console.log(`🚀 [Processamento] INICIANDO ${diasPendentes} dias`);
-        
         processandoRef.current = true;
         setEstaProcessando(true);
 
-        // 🔥 FUNÇÃO RECURSIVA QUE PROCESSA UM DIA POR VEZ
         const processarProximoDia = () => {
-            // VERIFICA SE TERMINOU
             if (diasRestantesRef.current <= 0) {
                 console.log(`✅ [Processamento] FINALIZADO!`);
-                
-                // 🔥 ATUALIZA OS DADOS MENSAIS NO FINAL DO MÊS
                 finalizarProcessamentoMensal();
-                
                 setCountdown(60);
                 setDiasPendentes(0);
                 setEstaProcessando(false);
                 processandoRef.current = false;
                 return;
             }
-   setMostrarLoading(true);
-            // 🔥 PEGA O DIA ATUAL DO REF
+
+            setMostrarLoading(true);
+
             const dadosAtuais = dadosRef.current;
             const saldoAtual = saldoRef.current || 0;
             const diaAtual = dadosAtuais.dia;
             const proximoDia = diaAtual + 1;
 
-            // 🔥 CALCULA O FATURAMENTO DO DIA
             const resultadoDia = calcularFaturamentoDoDia(proximoDia, dadosAtuais);
             const { faturamentoDiario, detalhesEdificios, totalAumFatu, totalRedCusto } = resultadoDia;
 
-            // 🔥 CALCULA IMPOSTO SOBRE FATURAMENTO DO DIA
+            calcularPatrimonioSetores(dadosAtuais);
+
             const impostoSobreFatuDia = calcularImpostoSobreFaturamentoDiario(dadosAtuais);
 
-            // 🔥 ACUMULA OS VALORES MENSAIS
             faturamentoMensalRef.current += faturamentoDiario;
             impostoFaturamentoMensalRef.current += impostoSobreFatuDia;
 
-            // 🔥 CALCULA IMPOSTO FIXO (APENAS UMA VEZ NO MÊS)
             let impostoFixoMensal = 0;
             if (!impostoFixoCalculadoRef.current) {
                 impostoFixoMensal = calcularImpostoFixoMensal(dadosAtuais);
@@ -345,19 +427,15 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
                 impostoFixoCalculadoRef.current = true;
             }
 
-            // 🔥 IMPOSTO TOTAL DO DIA
             const impostoTotalDia = impostoSobreFatuDia;
 
-            // 🔥 ATUALIZA O DIA NO ESTADO
             atualizarDados("dia", proximoDia);
             dadosRef.current = { ...dadosAtuais, dia: proximoDia };
 
-            // 🔥 ATUALIZA O SALDO
             const novoSaldo = saldoAtual + faturamentoDiario - impostoTotalDia;
             atualizarEco("saldo", novoSaldo);
             saldoRef.current = novoSaldo;
 
-            // 🔥 ATUALIZA OS IMPOSTOS NO CONTEXTO GLOBAL
             const impostoMensalParcial = impostoFaturamentoMensalRef.current;
             
             atualizarEco("imposto", {
@@ -369,13 +447,33 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
                 impostoSobreFaturamentoDiário: impostoSobreFatuDia,
             });
 
-            // 🔥 DECREMENTA O CONTADOR
-            diasRestantesRef.current--;
+            // 🔥 ATUALIZA POWER-UPS - APENAS O VALOR DO DIA EM ARRAY
+            const powerUpsAumFatu = economiaSetores.powerUps?.aumentoFaturamentoDiario || [];
+            const powerUpsRedCusto = economiaSetores.powerUps?.reducaoCustoDiario || [];
+            
+            // 🔥 ADICIONA O VALOR DO DIA AO ARRAY
+            const novoAumFatu = [...powerUpsAumFatu, totalAumFatu];
+            const novoRedCusto = [...powerUpsRedCusto, totalRedCusto];
+            
+            // 🔥 MANTÉM APENAS OS ÚLTIMOS 360 DIAS
+            if (novoAumFatu.length > 360) {
+                novoAumFatu.splice(0, novoAumFatu.length - 360);
+            }
+            if (novoRedCusto.length > 360) {
+                novoRedCusto.splice(0, novoRedCusto.length - 360);
+            }
+            
+            atualizarEco("powerUps", {
+                ...economiaSetores.powerUps,
+                aumentoFaturamentoDiario: novoAumFatu,
+                reducaoCustoDiario: novoRedCusto,
+                aumentoFaturamentoAtual: totalAumFatu,
+                reducaoCustoAtual: totalRedCusto,
+            });
 
-            // 🔥 ATUALIZA O ESTADO PARA O UI
+            diasRestantesRef.current--;
             setDiasPendentes(diasRestantesRef.current);
 
-            // 🔥 LOG DO DIA
             console.log("───────────────────────────────────────────────────────────────");
             console.log(`📅 DIA ${proximoDia} - RESUMO DO FATURAMENTO:`);
             console.log(`   📊 Faturamento Bruto: R$ ${faturamentoDiario.toFixed(2)}`);
@@ -384,9 +482,12 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
             console.log(`   📊 Despesas do Dia: R$ ${impostoTotalDia.toFixed(2)}`);
             console.log(`   📊 Saldo Atualizado: R$ ${novoSaldo.toFixed(2)}`);
             
-            console.log(`   ⚡ Power-ups aplicados:`);
+            console.log(`   ⚡ Power-ups do dia:`);
             console.log(`      🔼 Aumento Faturamento: +${totalAumFatu.toFixed(1)}%`);
             console.log(`      🔽 Redução de Custo: -${totalRedCusto.toFixed(1)}%`);
+            console.log(`   📊 Power-ups em array (últimos 10 dias):`);
+            console.log(`      🔼 AumFatu: [${novoAumFatu.slice(-10).map(v => v.toFixed(1)).join(', ')}]`);
+            console.log(`      🔽 RedCusto: [${novoRedCusto.slice(-10).map(v => v.toFixed(1)).join(', ')}]`);
             
             if (detalhesEdificios && detalhesEdificios.length > 0) {
                 console.log(`   🏗️ Detalhes por edifício:`);
@@ -397,7 +498,6 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
             console.log(`   📊 Progresso: ${30 - diasRestantesRef.current}/30 dias`);
             console.log("───────────────────────────────────────────────────────────────");
 
-            // 🔥 PRÓXIMO DIA APÓS 500ms
             if (diasRestantesRef.current > 0) {
                 setTimeout(processarProximoDia, 500);
             } else {
@@ -411,15 +511,13 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
             }
         };
 
-        // 🔥 INICIA O PROCESSAMENTO
         setTimeout(processarProximoDia, 500);
 
-    }, [diasPendentes]);
+    }, [diasPendentes, jogoIniciado]);
 
     // 🔥 FUNÇÃO PARA FINALIZAR O PROCESSAMENTO MENSAL
     const finalizarProcessamentoMensal = () => {
-       
-           setMostrarLoading(false);
+        setMostrarLoading(false);
 
         console.log("═══════════════════════════════════════════════════════════");
         console.log("📊 FINALIZANDO PROCESSAMENTO MENSAL");
@@ -436,15 +534,19 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
         console.log(`📊 FATURAMENTO MENSAL TOTAL: R$ ${faturamentoMensalRef.current.toFixed(2)}`);
         console.log(`📊 IMPOSTO MENSAL TOTAL: R$ ${impostoTotalMensal.toFixed(2)}`);
         console.log(`📊 LUCRO MENSAL LÍQUIDO: R$ ${(faturamentoMensalRef.current - impostoTotalMensal).toFixed(2)}`);
+        
+        console.log(`⚡ POWER-UPS DO MÊS:`);
+        const powerUpsAumFatu = economiaSetores.powerUps?.aumentoFaturamentoDiario || [];
+        const powerUpsRedCusto = economiaSetores.powerUps?.reducaoCustoDiario || [];
+        console.log(`   🔼 Média AumFatu: ${(powerUpsAumFatu.reduce((a, b) => a + b, 0) / (powerUpsAumFatu.length || 1)).toFixed(1)}%`);
+        console.log(`   🔽 Média RedCusto: ${(powerUpsRedCusto.reduce((a, b) => a + b, 0) / (powerUpsRedCusto.length || 1)).toFixed(1)}%`);
 
-        // Atualiza faturamento mensal
         atualizarDados("faturamento", {
             ...dadosRef.current.faturamento,
             faturamentoMensal: faturamentoMensalRef.current,
             faturamentoDiário: faturamentoMensalRef.current / 30,
         });
 
-        // 🔥 ATUALIZA IMPOSTOS MENSAIS NO CONTEXTO GLOBAL
         atualizarEco("imposto", {
             ...economiaSetores.imposto,
             impostoMensal: impostoTotalMensal,
@@ -454,7 +556,6 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
             impostoSobreFaturamentoDiário: impostoFaturamentoMensalRef.current / 30,
         });
 
-        // Marca despesas como pagas automaticamente
         if (dadosRef.current.dia % 30 === 0) {
             atualizarDados("despesas", {
                 ...dadosRef.current.despesas,
@@ -479,10 +580,7 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
 
     // 🔥 FUNÇÃO PARA VERIFICAR SE UM EDIFÍCIO ESTÁ SELECIONADO
     const isEdificioSelecionado = (ed) => {
-        if (!ed || !ed.nome) {
-            return false;
-        }
-        
+        if (!ed || !ed.nome) return false;
         const info = cartasSelecionadasMapRef.current.get(ed.nome);
         if (info) {
             if (info.quantidade !== ed.quantidade) {
@@ -490,7 +588,6 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
             }
             return true;
         }
-        
         return cartasSelecionadasRef.current.includes(ed.nome);
     };
 
@@ -499,7 +596,6 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
         let totalImpostoFixo = 0;
         const mapaEdificios = criarMapaEdificios(dadosAtuais);
 
-        // Lojas básicas - SEMPRE processadas
         todasLojas.forEach((loja) => {
             const dadosLoja = dadosAtuais[loja] || {};
             const quantidade = dadosLoja.quantidade || 0;
@@ -507,15 +603,12 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
             totalImpostoFixo += quantidade * impostoFixo;
         });
 
-        // Edifícios dos setores - apenas os selecionados
         setoresArr.forEach((setor) => {
             const edificios = dadosAtuais[setor]?.edificios || [];
             edificios.forEach((ed) => {
                 const quantidade = ed.quantidade || 0;
                 const impostoFixo = ed.finanças?.impostoFixo || 0;
-                
                 const selecionado = isEdificioSelecionado(ed);
-                
                 if (quantidade > 0 && selecionado) {
                     const qtdMin2 = ed?.powerUp?.nível2?.quantidadeMínima ?? Infinity;
                     const qtdMin3 = ed?.powerUp?.nível3?.quantidadeMínima ?? Infinity;
@@ -550,7 +643,6 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
         let totalImpostoFaturamento = 0;
         const mapaEdificios = criarMapaEdificios(dadosAtuais);
 
-        // Lojas básicas - SEMPRE processadas
         todasLojas.forEach((loja) => {
             const dadosLoja = dadosAtuais[loja] || {};
             const faturamento = dadosLoja.faturamentoTotal || 0;
@@ -558,16 +650,13 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
             totalImpostoFaturamento += faturamento * aliquota;
         });
 
-        // Edifícios dos setores - apenas os selecionados
         setoresArr.forEach((setor) => {
             const edificios = dadosAtuais[setor]?.edificios || [];
             edificios.forEach((ed) => {
                 const quantidade = ed.quantidade || 0;
                 const faturamento = ed.faturamentoTotal || 0;
                 const aliquota = ed.finanças?.impostoSobreFatu || 0;
-                
                 const selecionado = isEdificioSelecionado(ed);
-                
                 if (quantidade > 0 && selecionado) {
                     const qtdMin2 = ed?.powerUp?.nível2?.quantidadeMínima ?? Infinity;
                     const qtdMin3 = ed?.powerUp?.nível3?.quantidadeMínima ?? Infinity;
@@ -604,14 +693,10 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
         let faturamentoEdificios = 0;
         const mapaEdificios = criarMapaEdificios(dadosAtuais);
         
-        // 🔥 ACUMULADORES DE POWER-UPS
         let totalAumFatu = 0;
         let totalRedCusto = 0;
         const detalhesEdificios = [];
 
-        // ============================================
-        // 1. CALCULA FATURAMENTO DAS LOJAS BÁSICAS
-        // ============================================
         const novasLojas = todasLojas.map((loja) => {
             const dadosLoja = dadosAtuais[loja] || {};
             const valorUnitário = dadosLoja.faturamentoUnitárioPadrão || 0;
@@ -642,9 +727,6 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
             };
         });
 
-        // ============================================
-        // 2. CALCULA FATURAMENTO DOS EDIFÍCIOS POR SETOR
-        // ============================================
         const ehPrimeiroDiaDoMes = diaAtual % 30 === 1;
 
         setoresArr.forEach((setor) => {
@@ -653,17 +735,13 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
 
             const edificiosAtualizados = edificiosOriginais.map((ed) => {
                 const quantidade = ed.quantidade || 0;
-                
                 const selecionado = isEdificioSelecionado(ed);
                 const deveProcessar = quantidade > 0 && selecionado;
 
-                if (!deveProcessar) {
-                    return ed;
-                }
+                if (!deveProcessar) return ed;
 
                 const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
 
-                // Calcula power-ups
                 const qtdMin2 = ed?.powerUp?.nível2?.quantidadeMínima ?? Infinity;
                 const qtdMin3 = ed?.powerUp?.nível3?.quantidadeMínima ?? Infinity;
                 const nivelPU = quantidade >= qtdMin3 ? "powerUpNv3" 
@@ -686,21 +764,17 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
                     });
                 }
 
-                // Acumula power-ups totais
                 totalAumFatu += aumFatu;
                 totalRedCusto += redCusto;
 
                 const valorFatuFinal = faturamentoUnitario * (1 + aumFatu / 100);
-
                 const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
                 const fatorEconomico = FATOR_ECONOMIA[economiaSetor] || 1;
-
-                const faturamentoDiario = valorFatuFinal * quantidade * fatorEconomico;
+                const faturamentoDiario = valorFatuFinal * quantidade * fatorEconomico * 30 ;
 
                 faturamentoTotalSetor += faturamentoDiario;
                 faturamentoEdificios += faturamentoDiario;
 
-                // 🔥 ARMAZENA DETALHES DO EDIFÍCIO
                 detalhesEdificios.push({
                     nome: ed.nome,
                     quantidade: quantidade,
@@ -746,9 +820,6 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
 
         faturamentoTotal = faturamentoLojas + faturamentoEdificios;
 
-        // ============================================
-        // 3. ATUALIZA FATURAMENTO MENSAL
-        // ============================================
         const faturamentoMensalAnterior = dadosAtuais.faturamento?.faturamentoMensal || 0;
         const novoFaturamentoMensal =
             diaAtual % 30 === 0
@@ -767,7 +838,6 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
             });
         }
 
-        // Atualiza as lojas
         todasLojas.forEach((loja, index) => {
             atualizarDados(loja, novasLojas[index]);
         });
@@ -782,10 +852,10 @@ const [mostrarLoading, setMostrarLoading] = useState(false);
 
     return (
         <div className="flex">
-                    <LoadingScreen 
-            visible={mostrarLoading} 
-            onComplete={() => setMostrarLoading(false)} 
-        />
+            <LoadingScreen 
+                visible={mostrarLoading} 
+                onComplete={() => setMostrarLoading(false)} 
+            />
             <div
                 data-tooltip-id="saldo-tip"
                 data-tooltip-content={
