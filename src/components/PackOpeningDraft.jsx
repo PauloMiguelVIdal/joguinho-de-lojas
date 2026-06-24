@@ -836,11 +836,17 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
     }
   }, [dados.jogoIniciado, dados.dia, pacotesIniciaisAbertos, quantosPacotesAbertos, modal, fase, aguardandoProximoPacote, abrirProximoPacoteInicial]);
 
-  // 🔥 useEffect: Detecta quando é dia de sorteio (múltiplos de 30, exceto dia 0)
+  // 🔥 useEffect: Detecta quando é dia de sorteio (múltiplos de 30, exceto dia 0 e dia 360)
   useEffect(() => {
     if (dados.dia === 0) return;
+    
+    // 🔥 NÃO ABRE PACOTE NO DIA 360 (FIM DO JOGO)
+    if (dados.dia >= 360) {
+      console.log("🏁 [PackOpening] Jogo finalizado! Sem pacotes no dia 360.");
+      return;
+    }
+    
     if (pacotesIniciaisAbertos === false && dados.dia > 0) {
-      // Se os pacotes iniciais não foram abertos por algum motivo, marca como abertos
       setPacotesIniciaisAbertos(true);
     }
     

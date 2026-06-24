@@ -44,6 +44,8 @@ export const LoadingScreen = ({ visible, onComplete }) => {
             });
         }, 1000);
 
+        
+
         // 🔥 MENSAGENS: alterna a cada 3 segundos
         const mensagemInterval = setInterval(() => {
             setMensagemAtual(prev => (prev + 1) % MENSAGENS.length);

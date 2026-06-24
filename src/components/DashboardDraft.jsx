@@ -362,6 +362,8 @@ export default function DashboardDraft() {
   const [carteiraOrdem, setCarteiraOrdem] = useState("setor");
   const [carteiraFiltroSetor, setCarteiraFiltroSetor] = useState("todos");
   const [carteiraKey, setCarteiraKey] = useState(0);
+  const [modalConclusao, setModalConclusao] = useState(false);
+
 const verificarSlots = useSlotVerification();
 
   // ===== NOVO: Estado para os dados da carteira =====
@@ -405,6 +407,63 @@ const verificarAcao = useSlotVerification();
     if (dia > 90) return 8;
     return 5;
   }, [dados.dia]);
+
+  const calcularDadosFinais = useCallback(() => {
+  // 1. Faturamento total durante todo o jogo
+  const faturamentoTotal = dados.faturamento?.arrayFatuDiário?.reduce((acc, val) => acc + val, 0) || 0;
+
+  // 2. Soma de todas as pontuações de powerUp (aum fatu e red custo)
+  const powerUpsAumFatu = economiaSetores.powerUps?.aumentoFaturamentoDiario || [];
+  const powerUpsRedCusto = economiaSetores.powerUps?.reducaoCustoDiario || [];
+  const somaPowerUpsAumFatu = powerUpsAumFatu.reduce((acc, val) => acc + val, 0);
+  const somaPowerUpsRedCusto = powerUpsRedCusto.reduce((acc, val) => acc + val, 0);
+  const totalPowerUps = somaPowerUpsAumFatu + somaPowerUpsRedCusto;
+
+  // 3. ROE médio de todo o jogo (Retorno sobre o Patrimônio)
+  const patrimonioHistorico = economiaSetores.patrimonioInventarioHistorico || [];
+  const roeMedio = patrimonioHistorico.length > 0 
+    ? (patrimonioHistorico.reduce((acc, val) => acc + val, 0) / patrimonioHistorico.length) 
+    : 0;
+
+  // 4. Soma total de inventário histórico durante o jogo
+  const inventarioHistorico = economiaSetores.patrimonioInventarioHistorico || [];
+  const somaInventarioHistorico = inventarioHistorico.reduce((acc, val) => acc + val, 0);
+
+  // 5. Soma total de patrimônio histórico
+  const patrimonioHistoricoTotal = setoresArr.reduce((total, setor) => {
+    const historico = economiaSetores[setor]?.economiaSetor?.patrimonioHistorico || [];
+    return total + historico.reduce((acc, val) => acc + val, 0);
+  }, 0);
+
+  // 6. Total de dinheiro disponível de saldo
+  const saldoTotal = economiaSetores.saldo || 0;
+
+  return {
+    faturamentoTotal,
+    somaPowerUpsAumFatu,
+    somaPowerUpsRedCusto,
+    totalPowerUps,
+    roeMedio,
+    somaInventarioHistorico,
+    patrimonioHistoricoTotal,
+    saldoTotal
+  };
+}, [dados, economiaSetores]);
+
+// Adicione este useEffect para monitorar o fim do jogo:
+
+useEffect(() => {
+  if (dados.dia >= 360 && !modalConclusao) {
+    setModalConclusao(true);
+  }
+}, [dados.dia, modalConclusao]);
+
+// Funções para os botões do modal:
+
+const fecharModalConclusao = useCallback(() => {
+  setModalConclusao(false);
+  // Aqui você pode adicionar lógica para reiniciar o jogo ou redirecionar
+}, []);
 
   // Função para alternar seleção de uma carta
   const toggleSelecao = useCallback((setor, index, nomeEdificio) => {
@@ -1583,823 +1642,865 @@ const verificarAcao = useSlotVerification();
 
   if (vision === "dashboard") {
     return (
-      <div
-        className={`${corClasse} w-full h-full border-[#350973] rounded-[20px] flex justify-between`}
-      >
-        {/* Sidebar */}
-
-        {/* Dashboard */}
+      <>
         <div
-          className={`h-full rounded-[0px] items-center justify-center transition-all rounded-[40px] duration-300 bg-[${setorAtivo.cor2
-            }] ${dados.dia >= 270 ? "w-[calc(100%)]" : "w-[calc(100%)]"}`}
+          className={`${corClasse} w-full h-full border-[#350973] rounded-[20px] flex justify-between`}
         >
-          {/* Renderiza o conteúdo baseado no estado da licença */}
-          {licençaComprada ? (
-            // Container com licença comprada
-            <div className="w-full h-full p-4 flex flex-col" style={{ minHeight: 0, overflow: "hidden" }}>
+          {/* Dashboard */}
+          <div
+            className={`h-full rounded-[0px] items-center justify-center transition-all rounded-[40px] duration-300 bg-[${setorAtivo.cor2
+              }] ${dados.dia >= 270 ? "w-[calc(100%)]" : "w-[calc(100%)]"}`}
+          >
+            {/* Renderiza o conteúdo baseado no estado da licença */}
+            {licençaComprada ? (
+              // Container com licença comprada
+              <div className="w-full h-full p-4 flex flex-col" style={{ minHeight: 0, overflow: "hidden" }}>
+                {ativo === "grafico" && <TechTree />}
 
+                {ativo === "teste" && (() => {
+                  const setoresCores = {
+                    agricultura: { cor1: "#003816", cor3: "#0C9123", cor4: "#4CAF50" },
+                    tecnologia: { cor1: "#A64B00", cor3: "#FF6F00", cor4: "#FF8C42" },
+                    industria: { cor1: "#1A1A1A", cor3: "#808080", cor4: "#B3B3B3" },
+                    comercio: { cor1: "#660000", cor3: "#E60000", cor4: "#FF4D4D" },
+                    imobiliario: { cor1: "#000066", cor3: "#3333CC", cor4: "#6666FF" },
+                    energia: { cor1: "#665200", cor3: "#E6B800", cor4: "#FFD966" },
+                  };
+                  const setoresNomes = {
+                    agricultura: "Agricultura",
+                    tecnologia: "Tecnologia",
+                    industria: "Indústria",
+                    comercio: "Comércio",
+                    imobiliario: "Imobiliário",
+                    energia: "Energia",
+                    todos: "Todos"
+                  };
 
+                  const dadosCarteiraEdificios = economiaSetores.centralEdificios;
 
+                  const {
+                    todosEdificios,
+                    receitaMensalTotal,
+                    impostosTotais,
+                    lucroLiquido,
+                    setoresAtivosSet,
+                    edAtual,
+                    tiposUnicos,
+                    setoresComEdificios
+                  } = processarCarteira(dados, economiaSetores, carteiraFiltroSetor, carteiraOrdem);
 
-              {ativo === "grafico" && <TechTree />}
+                  const edMax = dadosCarteiraEdificios.quantidadeEdificiosMax || 1;
+                  const percCapacidade = Math.min((edAtual / edMax) * 100, 100);
+                  const corBarra = percCapacidade >= 90 ? "#ff4d4d" : percCapacidade >= 70 ? "#FFD700" : "#7aff9a";
 
-              {ativo === "teste" && (() => {
-                const setoresCores = {
-                  agricultura: { cor1: "#003816", cor3: "#0C9123", cor4: "#4CAF50" },
-                  tecnologia: { cor1: "#A64B00", cor3: "#FF6F00", cor4: "#FF8C42" },
-                  industria: { cor1: "#1A1A1A", cor3: "#808080", cor4: "#B3B3B3" },
-                  comercio: { cor1: "#660000", cor3: "#E60000", cor4: "#FF4D4D" },
-                  imobiliario: { cor1: "#000066", cor3: "#3333CC", cor4: "#6666FF" },
-                  energia: { cor1: "#665200", cor3: "#E6B800", cor4: "#FFD966" },
-                };
-                const setoresNomes = {
-                  agricultura: "Agricultura",
-                  tecnologia: "Tecnologia",
-                  industria: "Indústria",
-                  comercio: "Comércio",
-                  imobiliario: "Imobiliário",
-                  energia: "Energia",
-                  todos: "Todos"
-                };
+                  const btnBase = {
+                    border: "none", borderRadius: 8, padding: "5px 12px", cursor: "pointer",
+                    fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 700,
+                    letterSpacing: ".06em", transition: "all .15s", whiteSpace: "nowrap",
+                  };
+                  const btnAtivo = { ...btnBase, background: "rgba(255,255,255,.18)", color: "#fff" };
+                  const btnInativo = { ...btnBase, background: "rgba(255,255,255,.06)", color: "rgba(255,255,255,.4)" };
 
-                const dadosCarteiraEdificios = economiaSetores.centralEdificios;
+                  return (
+                    <div key={carteiraKey} className="flex-1 w-full rounded-[20px] flex flex-col gap-[10px]" style={{ minHeight: 0 }}>
+                      <Tooltip style={tooltipStyle} id="tooltip-carteira" />
 
-                const {
-                  todosEdificios,
-                  receitaMensalTotal,
-                  impostosTotais,
-                  lucroLiquido,
-                  setoresAtivosSet,
-                  edAtual,
-                  tiposUnicos,
-                  setoresComEdificios
-                } = processarCarteira(dados, economiaSetores, carteiraFiltroSetor, carteiraOrdem);
-
-                const edMax = dadosCarteiraEdificios.quantidadeEdificiosMax || 1;
-                const percCapacidade = Math.min((edAtual / edMax) * 100, 100);
-                const corBarra = percCapacidade >= 90 ? "#ff4d4d" : percCapacidade >= 70 ? "#FFD700" : "#7aff9a";
-
-                const btnBase = {
-                  border: "none", borderRadius: 8, padding: "5px 12px", cursor: "pointer",
-                  fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 700,
-                  letterSpacing: ".06em", transition: "all .15s", whiteSpace: "nowrap",
-                };
-                const btnAtivo = { ...btnBase, background: "rgba(255,255,255,.18)", color: "#fff" };
-                const btnInativo = { ...btnBase, background: "rgba(255,255,255,.06)", color: "rgba(255,255,255,.4)" };
-
-                return (
-                  <div key={carteiraKey} className="flex-1 w-full rounded-[20px] flex flex-col gap-[10px]" style={{ minHeight: 0 }}>
-                    <Tooltip style={tooltipStyle} id="tooltip-carteira" />
-
-                    {/* ── HEADER ─────────────────────────────────────── */}
-                    <div className="h-[50px] w-full flex gap-[10px] items-center">
-                      <div style={{ backgroundColor: setorAtivo.cor3 }}
-                        className="rounded-[20px] px-4 h-full fonteBold text-white flex items-center justify-center text-[20px] sombra shrink-0">
-                        Carteira
-                      </div>
-                      <div style={{ backgroundColor: setorAtivo.cor3 }}
-                        className="rounded-[20px] px-4 h-full fonteBold text-white flex items-center text-[15px] sombra shrink-0">
-                        {dadosCarteiraEdificios.classificacaoPorteEmpresa}
-                      </div>
-                      {/* <div style={{ backgroundColor: setorAtivo.cor3 }}
-                        className="rounded-[20px] h-full fonteBold text-white flex items-center sombra shrink-0">
-                        <div style={{ backgroundColor: setorAtivo.cor4 }} className="h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center">
-                          <img src={patrimônio} className="h-[60%] aspect-square" />
+                      {/* ── HEADER ─────────────────────────────────────── */}
+                      <div className="h-[50px] w-full flex gap-[10px] items-center">
+                        <div style={{ backgroundColor: setorAtivo.cor3 }}
+                          className="rounded-[20px] px-4 h-full fonteBold text-white flex items-center justify-center text-[20px] sombra shrink-0">
+                          Carteira
                         </div>
-                        <h1 className="text-white fonteBold text-[17px] mx-[12px]">{formatarNumero(patrimonioTotal)}</h1>
-                      </div> */}
-
-                      {/* Performance inline */}
-                      {/* <div style={{ flex: 1, background: "rgba(0,0,0,.3)", border: "1px solid rgba(255,255,255,.08)", borderRadius: 12, height: "100%", display: "flex", alignItems: "center", gap: 8, padding: "0 14px" }}>
-                        {[
-                          { label: "Receita/mês", val: "+" + formatarNumero(receitaMensalTotal), color: "#7aff9a" },
-                          { label: "Impostos", val: "-" + formatarNumero(impostosTotais), color: "#ff9090" },
-                          { label: "Lucro líq.", val: formatarNumero(lucroLiquido), color: lucroLiquido >= 0 ? "#C87AFF" : "#ff9090" },
-                        ].map(({ label, val, color }, i) => (
-                          <React.Fragment key={i}>
-                            {i > 0 && <div style={{ width: 1, height: "55%", background: "rgba(255,255,255,.1)" }} />}
-                            <div style={{ display: "flex", flexDirection: "column", gap: 1, flex: 1 }}>
-                              <span style={{ fontSize: 8, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.35)" }}>{label}</span>
-                              <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 15, fontWeight: 800, color, lineHeight: 1 }}>{val}</span>
-                            </div>
-                          </React.Fragment>
-                        ))}
-                      </div> */}
-                      {/* <div className="flex gap-[8px] h-full shrink-0">
-                        <button onClick={() => { abrirBanco(); buttonOpenAudio(); }}
-                          data-tooltip-id="tooltip-carteira" data-tooltip-html="Abrir Bancos"
-                          className="h-full bg-laranja aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 cursor-pointer">
-                          <img className="w-[70%]" src={bank} alt="Bancos" />
-                        </button>
-                      </div> */}
-                      <div className="w-full flex gap-[10px]" style={{ height: 44 }}>
-                        {[
-                          { icon: limitar, tip: "Limite por tipo", val: String(dadosCarteiraEdificios.quantidadeUnicoMax) },
-                          { icon: setoresImg, tip: "Setores ativos", val: `${setoresComEdificios}/${dadosCarteiraEdificios.quantidadeSetoresMax}` },
-                          { icon: diversidade, tip: "Tipos de edifícios", val: `${tiposUnicos}/${dadosCarteiraEdificios.quantidadeDiversosEdificiosMax}` },
-                          { icon: soma, tip: "Total de edifícios", val: `${edAtual}/${dadosCarteiraEdificios.quantidadeEdificiosMax}` },
-                        ].map(({ icon, tip, val }, i) => (
-                          <div key={i} data-tooltip-id="tooltip-carteira" data-tooltip-html={tip}
-                            style={{ backgroundColor: setorAtivo.cor3 }}
-                            className="flex-1 rounded-[12px] h-full fonteBold text-white flex items-center justify-between sombra px-[4px]">
-                            <div style={{ backgroundColor: setorAtivo.cor4 }} className="h-[80%] aspect-square rounded-[10px] flex items-center justify-center">
-                              <img src={icon} className="h-[55%] aspect-square" />
-                            </div>
-                            <span className="text-white fonteBold text-[15px] mr-[8px]">{val}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* ── MÉTRICAS ───────────────────────────────────── */}
-
-                    {/* ── BARRA DE FILTROS E ORDENAÇÃO ───────────────── */}
-                    <div style={{
-                      display: "flex", alignItems: "center", gap: 8,
-                      background: "rgba(0,0,0,.25)", border: "1px solid rgba(255,255,255,.07)",
-                      borderRadius: 12, padding: "7px 12px", flexShrink: 0, flexWrap: "wrap",
-                    }}>
-                      <span style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".14em", color: "rgba(255,255,255,.3)", marginRight: 4 }}>
-                        Ordenar
-                      </span>
-                      {[
-                        { key: "setor", label: "Por setor" },
-                        { key: "roi_desc", label: "ROI ↓" },
-                        { key: "roi_asc", label: "ROI ↑" },
-                        { key: "categoria", label: "Categoria" },
-                        { key: "nome", label: "A–Z" },
-                      ].map(({ key, label }) => (
-                        <button key={key}
-                          onClick={() => setCarteiraOrdem(key)}
-                          style={carteiraOrdem === key ? btnAtivo : btnInativo}>
-                          {label}
-                        </button>
-                      ))}
-
-                      <div style={{ width: 1, height: 20, background: "rgba(255,255,255,.1)", margin: "0 4px" }} />
-                      <span style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".14em", color: "rgba(255,255,255,.3)", marginRight: 4 }}>
-                        Setor
-                      </span>
-
-                      {["todos", ...setoresArr].map(s => {
-                        const sc = s !== "todos" ? setoresCores[s] : null;
-                        const isAtivo = carteiraFiltroSetor === s;
-                        const temCards = s === "todos" || setoresAtivosSet.has(s);
-                        return (
-                          <button key={s}
-                            onClick={() => setCarteiraFiltroSetor(s)}
-                            style={{
-                              ...btnBase,
-                              background: isAtivo ? (sc ? sc.cor3 : "rgba(255,255,255,.2)") : "rgba(255,255,255,.05)",
-                              color: isAtivo ? "#fff" : temCards ? "rgba(255,255,255,.45)" : "rgba(255,255,255,.15)",
-                              border: isAtivo && sc ? `1px solid ${sc.cor4}` : "1px solid transparent",
-                              opacity: temCards ? 1 : 0.5,
-                            }}>
-                            {setoresNomes[s]}
-                          </button>
-                        );
-                      })}
-
-
-                      <span style={{ marginLeft: "auto", fontSize: 10, color: "rgba(255,255,255,.3)", fontFamily: "'Rajdhani',sans-serif" }}>
-                        {todosEdificios.length} edifício{todosEdificios.length !== 1 ? "s" : ""}
-                      </span>
-                    </div>
-
-                    {/* ── GRID DE CARDS ──────────────────────────────── */}
-                    <div
-                      style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%, ${setorAtivo.cor4} 100%)` }}
-                      className="flex-1 overflow-y-auto mt-0 scrollbar-custom rounded-[10px]"
-                    >
-                      {todosEdificios.length === 0 ? (
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, opacity: .4 }}>
-                          <span style={{ fontSize: 22 }}>📭</span>
-                          <span style={{ color: "#fff", fontSize: 13, fontFamily: "'Rajdhani',sans-serif" }}>
-                            {carteiraFiltroSetor !== "todos" ? `Nenhum edifício em ${setoresNomes[carteiraFiltroSetor]}` : "Nenhum edifício na carteira ainda"}
-                          </span>
+                        <div style={{ backgroundColor: setorAtivo.cor3 }}
+                          className="rounded-[20px] px-4 h-full fonteBold text-white flex items-center text-[15px] sombra shrink-0">
+                          {dadosCarteiraEdificios.classificacaoPorteEmpresa}
                         </div>
-                      ) : (
-                        <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] h-[400px] pt-[20px] pl-[20px]">
-                          {todosEdificios.map(({ ed, idx, setor, roi, categoria }) => {
-                            const chave = `${setor}-${idx}`;
-                            const estaSelecionado = cartasSelecionadas.some(item => item.chave === chave);
-                            const limite = getLimiteSelecao();
-                            const atingiuLimite = cartasSelecionadas.length >= limite && !estaSelecionado;
-
-                            return (
-                              <div key={`${setor}-${idx}`} style={{ position: "relative" }}>
-                                <div style={{
-                                  position: "absolute", top: -8, right: 10, zIndex: 2,
-                                  background: roi >= 10 ? "#1a4a1a" : roi >= 0 ? "#2a2a1a" : "#4a1a1a",
-                                  border: `1px solid ${roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090"}`,
-                                  borderRadius: 6, padding: "1px 8px", display: "flex", alignItems: "center", gap: 4,
-                                }}>
-                                  <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 800, color: roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090" }}>
-                                    {roi >= 0 ? "+" : ""}{roi.toFixed(1)}%
-                                  </span>
-                                </div>
-
-                                {/* Card */}
-                                <CardDraft index={idx} setor={setor} abrirModalSell={abrirModalSell} />
-
-                                {/* Botão de Seleção - abaixo do card */}
-                                <div style={{
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  marginTop: "4px",
-                                  marginBottom: "2px",
-                                }}>
-                                  <button
-                                    onClick={() => toggleSelecao(setor, idx, ed.nome)}
-                                    style={{
-                                      padding: "6px 12px",
-                                      borderRadius: "6px",
-                                      border: "none",
-                                      fontFamily: "'Rajdhani',sans-serif",
-                                      fontSize: "10px",
-                                      fontWeight: 700,
-                                      cursor: "pointer",
-                                      transition: "all 0.2s ease",
-                                      background: estaSelecionado
-                                        ? "linear-gradient(135deg, #7aff9a, #34d399)"
-                                        : atingiuLimite
-                                          ? "rgba(255,255,255,0.1)"
-                                          : "rgba(255,255,255,0.15)",
-                                      color: estaSelecionado
-                                        ? "#1a1a1a"
-                                        : atingiuLimite
-                                          ? "rgba(255,255,255,0.3)"
-                                          : "rgba(255,255,255,0.7)",
-                                      boxShadow: estaSelecionado
-                                        ? "0 0 15px rgba(52, 211, 153, 0.4)"
-                                        : "none",
-                                      border: estaSelecionado
-                                        ? "1px solid #34d399"
-                                        : "1px solid rgba(255,255,255,0.1)",
-                                      transform: estaSelecionado ? "scale(1.02)" : "scale(1)",
-                                      pointerEvents: atingiuLimite && !estaSelecionado ? "none" : "auto",
-                                    }}
-                                    onMouseEnter={(e) => {
-                                      if (!estaSelecionado && !atingiuLimite) {
-                                        e.currentTarget.style.background = "rgba(255,255,255,0.25)";
-                                        e.currentTarget.style.transform = "scale(1.05)";
-                                      }
-                                    }}
-                                    onMouseLeave={(e) => {
-                                      if (!estaSelecionado && !atingiuLimite) {
-                                        e.currentTarget.style.background = "rgba(255,255,255,0.15)";
-                                        e.currentTarget.style.transform = "scale(1)";
-                                      }
-                                    }}
-                                  >
-                                    {estaSelecionado ? "✓ Selecionado" : "Selecionar"}
-                                  </button>
-                                </div>
+                        <div className="w-full flex gap-[10px]" style={{ height: 44 }}>
+                          {[
+                            { icon: limitar, tip: "Limite por tipo", val: String(dadosCarteiraEdificios.quantidadeUnicoMax) },
+                            { icon: setoresImg, tip: "Setores ativos", val: `${setoresComEdificios}/${dadosCarteiraEdificios.quantidadeSetoresMax}` },
+                            { icon: diversidade, tip: "Tipos de edifícios", val: `${tiposUnicos}/${dadosCarteiraEdificios.quantidadeDiversosEdificiosMax}` },
+                            { icon: soma, tip: "Total de edifícios", val: `${edAtual}/${dadosCarteiraEdificios.quantidadeEdificiosMax}` },
+                          ].map(({ icon, tip, val }, i) => (
+                            <div key={i} data-tooltip-id="tooltip-carteira" data-tooltip-html={tip}
+                              style={{ backgroundColor: setorAtivo.cor3 }}
+                              className="flex-1 rounded-[12px] h-full fonteBold text-white flex items-center justify-between sombra px-[4px]">
+                              <div style={{ backgroundColor: setorAtivo.cor4 }} className="h-[80%] aspect-square rounded-[10px] flex items-center justify-center">
+                                <img src={icon} className="h-[55%] aspect-square" />
                               </div>
+                              <span className="text-white fonteBold text-[15px] mr-[8px]">{val}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* ── BARRA DE FILTROS E ORDENAÇÃO ───────────────── */}
+                      <div style={{
+                        display: "flex", alignItems: "center", gap: 8,
+                        background: "rgba(0,0,0,.25)", border: "1px solid rgba(255,255,255,.07)",
+                        borderRadius: 12, padding: "7px 12px", flexShrink: 0, flexWrap: "wrap",
+                      }}>
+                        <span style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".14em", color: "rgba(255,255,255,.3)", marginRight: 4 }}>
+                          Ordenar
+                        </span>
+                        {[
+                          { key: "setor", label: "Por setor" },
+                          { key: "roi_desc", label: "ROI ↓" },
+                          { key: "roi_asc", label: "ROI ↑" },
+                          { key: "categoria", label: "Categoria" },
+                          { key: "nome", label: "A–Z" },
+                        ].map(({ key, label }) => (
+                          <button key={key}
+                            onClick={() => setCarteiraOrdem(key)}
+                            style={carteiraOrdem === key ? btnAtivo : btnInativo}>
+                            {label}
+                          </button>
+                        ))}
+
+                        <div style={{ width: 1, height: 20, background: "rgba(255,255,255,.1)", margin: "0 4px" }} />
+                        <span style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".14em", color: "rgba(255,255,255,.3)", marginRight: 4 }}>
+                          Setor
+                        </span>
+
+                        {["todos", ...setoresArr].map(s => {
+                          const sc = s !== "todos" ? setoresCores[s] : null;
+                          const isAtivo = carteiraFiltroSetor === s;
+                          const temCards = s === "todos" || setoresAtivosSet.has(s);
+                          return (
+                            <button key={s}
+                              onClick={() => setCarteiraFiltroSetor(s)}
+                              style={{
+                                ...btnBase,
+                                background: isAtivo ? (sc ? sc.cor3 : "rgba(255,255,255,.2)") : "rgba(255,255,255,.05)",
+                                color: isAtivo ? "#fff" : temCards ? "rgba(255,255,255,.45)" : "rgba(255,255,255,.15)",
+                                border: isAtivo && sc ? `1px solid ${sc.cor4}` : "1px solid transparent",
+                                opacity: temCards ? 1 : 0.5,
+                              }}>
+                              {setoresNomes[s]}
+                            </button>
+                          );
+                        })}
+
+
+                        <span style={{ marginLeft: "auto", fontSize: 10, color: "rgba(255,255,255,.3)", fontFamily: "'Rajdhani',sans-serif" }}>
+                          {todosEdificios.length} edifício{todosEdificios.length !== 1 ? "s" : ""}
+                        </span>
+                      </div>
+
+                      {/* ── GRID DE CARDS ──────────────────────────────── */}
+                      <div
+                        style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%, ${setorAtivo.cor4} 100%)` }}
+                        className="flex-1 overflow-y-auto mt-0 scrollbar-custom rounded-[10px]"
+                      >
+                        {todosEdificios.length === 0 ? (
+                          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, opacity: .4 }}>
+                            <span style={{ fontSize: 22 }}>📭</span>
+                            <span style={{ color: "#fff", fontSize: 13, fontFamily: "'Rajdhani',sans-serif" }}>
+                              {carteiraFiltroSetor !== "todos" ? `Nenhum edifício em ${setoresNomes[carteiraFiltroSetor]}` : "Nenhum edifício na carteira ainda"}
+                            </span>
+                          </div>
+                        ) : (
+                          <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] h-[400px] pt-[20px] pl-[20px]">
+                            {todosEdificios.map(({ ed, idx, setor, roi, categoria }) => {
+                              const chave = `${setor}-${idx}`;
+                              const estaSelecionado = cartasSelecionadas.some(item => item.chave === chave);
+                              const limite = getLimiteSelecao();
+                              const atingiuLimite = cartasSelecionadas.length >= limite && !estaSelecionado;
+
+                              return (
+                                <div key={`${setor}-${idx}`} style={{ position: "relative" }}>
+                                  <div style={{
+                                    position: "absolute", top: -8, right: 10, zIndex: 2,
+                                    background: roi >= 10 ? "#1a4a1a" : roi >= 0 ? "#2a2a1a" : "#4a1a1a",
+                                    border: `1px solid ${roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090"}`,
+                                    borderRadius: 6, padding: "1px 8px", display: "flex", alignItems: "center", gap: 4,
+                                  }}>
+                                    <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 800, color: roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090" }}>
+                                      {roi >= 0 ? "+" : ""}{roi.toFixed(1)}%
+                                    </span>
+                                  </div>
+
+                                  {/* Card */}
+                                  <CardDraft index={idx} setor={setor} abrirModalSell={abrirModalSell} />
+
+                                  {/* Botão de Seleção - abaixo do card */}
+                                  <div style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: "4px",
+                                    marginBottom: "2px",
+                                  }}>
+                                    <button
+                                      onClick={() => toggleSelecao(setor, idx, ed.nome)}
+                                      style={{
+                                        padding: "6px 12px",
+                                        borderRadius: "6px",
+                                        border: "none",
+                                        fontFamily: "'Rajdhani',sans-serif",
+                                        fontSize: "10px",
+                                        fontWeight: 700,
+                                        cursor: "pointer",
+                                        transition: "all 0.2s ease",
+                                        background: estaSelecionado
+                                          ? "linear-gradient(135deg, #7aff9a, #34d399)"
+                                          : atingiuLimite
+                                            ? "rgba(255,255,255,0.1)"
+                                            : "rgba(255,255,255,0.15)",
+                                        color: estaSelecionado
+                                          ? "#1a1a1a"
+                                          : atingiuLimite
+                                            ? "rgba(255,255,255,0.3)"
+                                            : "rgba(255,255,255,0.7)",
+                                        boxShadow: estaSelecionado
+                                          ? "0 0 15px rgba(52, 211, 153, 0.4)"
+                                          : "none",
+                                        border: estaSelecionado
+                                          ? "1px solid #34d399"
+                                          : "1px solid rgba(255,255,255,0.1)",
+                                        transform: estaSelecionado ? "scale(1.02)" : "scale(1)",
+                                        pointerEvents: atingiuLimite && !estaSelecionado ? "none" : "auto",
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        if (!estaSelecionado && !atingiuLimite) {
+                                          e.currentTarget.style.background = "rgba(255,255,255,0.25)";
+                                          e.currentTarget.style.transform = "scale(1.05)";
+                                        }
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        if (!estaSelecionado && !atingiuLimite) {
+                                          e.currentTarget.style.background = "rgba(255,255,255,0.15)";
+                                          e.currentTarget.style.transform = "scale(1)";
+                                        }
+                                      }}
+                                    >
+                                      {estaSelecionado ? "✓ Selecionado" : "Selecionar"}
+                                    </button>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* ── CONTADOR DE SELEÇÕES ── */}
+                      <span style={{
+                        marginLeft: "auto",
+                        fontSize: 10,
+                        color: "rgba(255,255,255,.3)",
+                        fontFamily: "'Rajdhani',sans-serif",
+                        marginRight: "12px",
+                      }}>
+                        {cartasSelecionadas.length}/{getLimiteSelecao()} selecionados
+                      </span>
+                      {modalSellOpen && (
+                        <SellModal
+                          setor={modalProps.setor}
+                          nomeLicença={modalProps.nomeLicença}
+                          index={modalProps.index}
+                          onClose={() => setModalSellOpen(false)}
+                        />
+                      )}
+
+                      {/* ── BARRA DE CAPACIDADE ────────────────────────── */}
+                      <div style={{
+                        background: "rgba(0,0,0,.3)", border: "1px solid rgba(255,255,255,.08)",
+                        borderRadius: 10, padding: "8px 14px", flexShrink: 0,
+                        display: "flex", alignItems: "center", gap: 12,
+                      }}>
+                        <span style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".12em", color: "rgba(255,255,255,.35)", whiteSpace: "nowrap" }}>
+                          Capacidade
+                        </span>
+                        <div style={{ flex: 1, height: 7, background: "rgba(255,255,255,.08)", borderRadius: 4, overflow: "hidden" }}>
+                          <div style={{
+                            height: "100%", width: `${percCapacidade}%`,
+                            background: corBarra, borderRadius: 4,
+                            transition: "width .4s ease",
+                            boxShadow: `0 0 8px ${corBarra}88`,
+                          }} />
+                        </div>
+                        <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,.5)", whiteSpace: "nowrap" }}>
+                          {edAtual} / {edMax} edifícios
+                        </span>
+                        {percCapacidade >= 80 && (
+                          <button onClick={() => { setBusinessLicenceModal(true); buttonOpenAudio(); }}
+                            style={{
+                              background: "linear-gradient(135deg,#4C14A9,#6411D9)",
+                              border: "none", borderRadius: 7, padding: "4px 12px",
+                              fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 700,
+                              color: "#fff", cursor: "pointer", whiteSpace: "nowrap", letterSpacing: ".06em",
+                            }}>
+                            Evoluir empresa →
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {ativo === "ecossistema" && (
+                  <div className="w-full h-full">
+                    <Techtree/>
+                  </div>
+                )}
+                {ativo === "carteira" && (() => {
+                  const setoresCores = {
+                    agricultura: { cor1: "#003816", cor3: "#0C9123", cor4: "#4CAF50" },
+                    tecnologia: { cor1: "#A64B00", cor3: "#FF6F00", cor4: "#FF8C42" },
+                    industria: { cor1: "#1A1A1A", cor3: "#808080", cor4: "#B3B3B3" },
+                    comercio: { cor1: "#660000", cor3: "#E60000", cor4: "#FF4D4D" },
+                    imobiliario: { cor1: "#000066", cor3: "#3333CC", cor4: "#6666FF" },
+                    energia: { cor1: "#665200", cor3: "#E6B800", cor4: "#FFD966" },
+                  };
+                  const setoresNomes = {
+                    agricultura: "Agricultura",
+                    tecnologia: "Tecnologia",
+                    industria: "Indústria",
+                    comercio: "Comércio",
+                    imobiliario: "Imobiliário",
+                    energia: "Energia",
+                    todos: "Todos"
+                  };
+
+                  const dadosCarteiraEdificios = economiaSetores.centralEdificios;
+
+                  const {
+                    todosEdificios,
+                    receitaMensalTotal,
+                    impostosTotais,
+                    lucroLiquido,
+                    setoresAtivosSet,
+                    edAtual,
+                    tiposUnicos,
+                    setoresComEdificios
+                  } = processarCarteira(dados, economiaSetores, carteiraFiltroSetor, carteiraOrdem);
+
+                  const edMax = dadosCarteiraEdificios.quantidadeEdificiosMax || 1;
+                  const percCapacidade = Math.min((edAtual / edMax) * 100, 100);
+                  const corBarra = percCapacidade >= 90 ? "#ff4d4d" : percCapacidade >= 70 ? "#FFD700" : "#7aff9a";
+
+                  const btnBase = {
+                    border: "none", borderRadius: 8, padding: "5px 12px", cursor: "pointer",
+                    fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 700,
+                    letterSpacing: ".06em", transition: "all .15s", whiteSpace: "nowrap",
+                  };
+                  const btnAtivo = { ...btnBase, background: "rgba(255,255,255,.18)", color: "#fff" };
+                  const btnInativo = { ...btnBase, background: "rgba(255,255,255,.06)", color: "rgba(255,255,255,.4)" };
+
+                  return (
+                    <div key={carteiraKey} className="flex-1 w-full rounded-[20px] flex flex-col gap-[10px]" style={{ minHeight: 0 }}>
+                      <Tooltip style={tooltipStyle} id="tooltip-carteira" />
+
+                      {/* ── BARRA DE FILTROS E ORDENAÇÃO ───────────────── */}
+                      <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        background: "rgba(0,0,0,.25)",
+                        border: "1px solid rgba(255,255,255,.07)",
+                        borderRadius: 12,
+                        padding: "7px 12px",
+                        flexShrink: 0,
+                        flexWrap: "wrap",
+                      }}>
+                        {/* ── ORDENAR ── */}
+                        <div style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap" }}>
+                          <span style={{
+                            fontSize: 8,
+                            fontWeight: 700,
+                            textTransform: "uppercase",
+                            letterSpacing: ".1em",
+                            color: "rgba(255,255,255,.3)",
+                            marginRight: 2
+                          }}>
+                            Ordenar
+                          </span>
+                          {[
+                            { key: "setor", label: "Setor" },
+                            { key: "roi_desc", label: "ROI ↓" },
+                            { key: "roi_asc", label: "ROI ↑" },
+                            { key: "fatu_desc", label: "Fatu ↓" },
+                            { key: "fatu_asc", label: "Fatu ↑" },
+                          ].map(({ key, label }) => (
+                            <button key={key}
+                              onClick={() => setCarteiraOrdem(key)}
+                              style={{
+                                ...btnBase,
+                                padding: "3px 7px",
+                                fontSize: 8,
+                                background: carteiraOrdem === key ? "rgba(255,255,255,.18)" : "rgba(255,255,255,.05)",
+                                color: carteiraOrdem === key ? "#fff" : "rgba(255,255,255,.4)",
+                              }}>
+                              {label}
+                            </button>
+                          ))}
+                        </div>
+
+                        <div style={{
+                          width: 1,
+                          height: 20,
+                          background: "rgba(255,255,255,.1)",
+                          margin: "0 4px",
+                          flexShrink: 0,
+                        }} />
+
+                        {/* ── QUANTIDADE ── */}
+                        <div style={{ display: "flex", alignItems: "center", gap: 3, flexWrap: "wrap" }}>
+                          <span style={{
+                            fontSize: 8,
+                            fontWeight: 700,
+                            textTransform: "uppercase",
+                            letterSpacing: ".1em",
+                            color: "rgba(255,255,255,.3)",
+                            marginRight: 2
+                          }}>
+                            Qtd
+                          </span>
+                          {["todos", "1", "2", "3"].map(q => (
+                            <button key={q}
+                              onClick={() => setFiltroQuantidade(q)}
+                              style={{
+                                ...btnBase,
+                                padding: "3px 7px",
+                                fontSize: 8,
+                                background: filtroQuantidade === q ? "rgba(255,255,255,.18)" : "rgba(255,255,255,.05)",
+                                color: filtroQuantidade === q ? "#fff" : "rgba(255,255,255,.4)",
+                              }}>
+                              {getLabelQuantidade(q)}
+                            </button>
+                          ))}
+                        </div>
+
+                        <div style={{
+                          width: 1,
+                          height: 20,
+                          background: "rgba(255,255,255,.1)",
+                          margin: "0 4px",
+                          flexShrink: 0,
+                        }} />
+
+                        {/* ── SETOR ── */}
+                        <div style={{ display: "flex", alignItems: "center", gap: 3, flexWrap: "wrap", flex: "1 1 auto" }}>
+                          <span style={{
+                            fontSize: 8,
+                            fontWeight: 700,
+                            textTransform: "uppercase",
+                            letterSpacing: ".1em",
+                            color: "rgba(255,255,255,.3)",
+                            marginRight: 2
+                          }}>
+                            Setor
+                          </span>
+                          {["todos", ...setoresArr].map(s => {
+                            const sc = s !== "todos" ? setoresCores[s] : null;
+                            const isAtivo = carteiraFiltroSetor === s;
+                            const temCards = s === "todos" || setoresAtivosSet.has(s);
+                            return (
+                              <button key={s}
+                                onClick={() => setCarteiraFiltroSetor(s)}
+                                style={{
+                                  ...btnBase,
+                                  padding: "3px 7px",
+                                  fontSize: 8,
+                                  background: isAtivo ? (sc ? sc.cor3 : "rgba(255,255,255,.2)") : "rgba(255,255,255,.05)",
+                                  color: isAtivo ? "#fff" : temCards ? "rgba(255,255,255,.45)" : "rgba(255,255,255,.15)",
+                                  opacity: temCards ? 1 : 0.5,
+                                }}>
+                                {setoresNomes[s].slice(0, 4)}
+                              </button>
                             );
                           })}
                         </div>
-                      )}
-                    </div>
 
-
-
-                    {/* ── CONTADOR DE SELEÇÕES ── (adicione próximo ao contador de edifícios) */}
-                    <span style={{
-                      marginLeft: "auto",
-                      fontSize: 10,
-                      color: "rgba(255,255,255,.3)",
-                      fontFamily: "'Rajdhani',sans-serif",
-                      marginRight: "12px",
-                    }}>
-                      {cartasSelecionadas.length}/{getLimiteSelecao()} selecionados
-                    </span>
-                    {modalSellOpen && (
-                      <SellModal
-                        setor={modalProps.setor}
-                        nomeLicença={modalProps.nomeLicença}
-                        index={modalProps.index}
-                        onClose={() => setModalSellOpen(false)}
-                      />
-                    )}
-
-                    {/* ── BARRA DE CAPACIDADE ────────────────────────── */}
-                    <div style={{
-                      background: "rgba(0,0,0,.3)", border: "1px solid rgba(255,255,255,.08)",
-                      borderRadius: 10, padding: "8px 14px", flexShrink: 0,
-                      display: "flex", alignItems: "center", gap: 12,
-                    }}>
-                      <span style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".12em", color: "rgba(255,255,255,.35)", whiteSpace: "nowrap" }}>
-                        Capacidade
-                      </span>
-                      <div style={{ flex: 1, height: 7, background: "rgba(255,255,255,.08)", borderRadius: 4, overflow: "hidden" }}>
                         <div style={{
-                          height: "100%", width: `${percCapacidade}%`,
-                          background: corBarra, borderRadius: 4,
-                          transition: "width .4s ease",
-                          boxShadow: `0 0 8px ${corBarra}88`,
+                          width: 1,
+                          height: 20,
+                          background: "rgba(255,255,255,.1)",
+                          margin: "0 4px",
+                          flexShrink: 0,
                         }} />
-                      </div>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,.5)", whiteSpace: "nowrap" }}>
-                        {edAtual} / {edMax} edifícios
-                      </span>
-                      {percCapacidade >= 80 && (
-                        <button onClick={() => { setBusinessLicenceModal(true); buttonOpenAudio(); }}
-                          style={{
-                            background: "linear-gradient(135deg,#4C14A9,#6411D9)",
-                            border: "none", borderRadius: 7, padding: "4px 12px",
-                            fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 700,
-                            color: "#fff", cursor: "pointer", whiteSpace: "nowrap", letterSpacing: ".06em",
+
+                        {/* ── SELEÇÃO ── */}
+                        <div style={{ display: "flex", alignItems: "center", gap: 3, flexWrap: "wrap" }}>
+                          <button
+                            onClick={() => setFiltroSelecionados(!filtroSelecionados)}
+                            style={{
+                              ...btnBase,
+                              padding: "3px 8px",
+                              fontSize: 8,
+                              background: filtroSelecionados ? "rgba(52, 211, 153, .2)" : "rgba(255,255,255,.05)",
+                              color: filtroSelecionados ? "#34d399" : "rgba(255,255,255,.4)",
+                              border: filtroSelecionados ? "1px solid #34d399" : "1px solid transparent",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 2,
+                            }}>
+                            <span style={{ fontSize: 10 }}>⭐</span>
+                            {filtroSelecionados ? "Sel." : "Todos"}
+                          </button>
+
+                          {cartasSelecionadas.length > 0 && (
+                            <button
+                              onClick={limparSelecoes}
+                              style={{
+                                ...btnBase,
+                                padding: "3px 6px",
+                                fontSize: 8,
+                                background: "rgba(255,77,77,.15)",
+                                color: "#ff4d4d",
+                                border: "1px solid rgba(255,77,77,.2)",
+                              }}>
+                              ✕
+                            </button>
+                          )}
+                        </div>
+
+                        {/* ── CONTADORES ── */}
+                        <div style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 6,
+                          marginLeft: "auto",
+                          flexWrap: "wrap",
+                        }}>
+                          <div style={{
+                            display: "flex",
+                            gap: 6,
+                            flexWrap: "wrap",
+                            marginLeft: "auto",
+                            flex: "0 1 auto",
                           }}>
-                          Evoluir empresa →
-                        </button>
+                            {[
+                              { icon: setoresImg, tip: "Setores ativos", val: `${setoresComEdificios}` },
+                              { icon: soma, tip: "Total de edifícios", val: `${edAtual}` },
+                            ].map(({ icon, tip, val }, i) => (
+                              <div
+                                key={i}
+                                data-tooltip-id="tooltip-carteira"
+                                data-tooltip-html={tip}
+                                style={{
+                                  backgroundColor: setorAtivo.cor3,
+                                  minWidth: "50px",
+                                  flex: "0 1 auto",
+                                }}
+                                className="rounded-[8px] h-[28px] fonteBold text-white flex items-center justify-between sombra px-[4px]"
+                              >
+                                <div style={{
+                                  backgroundColor: setorAtivo.cor4,
+                                  width: "20px",
+                                  height: "20px",
+                                  minWidth: "16px",
+                                }}
+                                  className="rounded-[6px] flex items-center justify-center">
+                                  <img
+                                    src={icon}
+                                    className="h-[50%] aspect-square"
+                                    style={{ minWidth: "8px" }}
+                                  />
+                                </div>
+                                <span className="text-white fonteBold text-[11px] ml-[3px]">{val}</span>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* ── SEPARADOR ── */}
+                          <div style={{
+                            width: 1,
+                            height: 20,
+                            background: "rgba(255,255,255,.1)",
+                            margin: "0 4px",
+                            flexShrink: 0,
+                          }} />
+                          <div className="flex items-center justify-between gap-4 px-2">
+                            <SlotDisplay />
+                            {verificarSlots().estaAcimaDoLimite && (
+                              <button
+                                onClick={async () => {
+                                  const confirmar = confirm("⚠️ Você está com cartas excedentes! Deseja liquidar automaticamente as cartas com pior desempenho?");
+                                  if (confirmar) {
+                                    await executarLiquidacaoAutomatica(dados, atualizarDadosProf2, economiaSetores, atualizarEco);
+                                    setCarteiraKey(prev => prev + 1);
+                                  }
+                                }}
+                                className="px-4 py-1.5 rounded-lg text-xs font-bold bg-red-500/20 border border-red-500/30 text-red-400 hover:bg-red-500/30 transition-all"
+                              >
+                                🗑️ Liquidar Excedentes
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* ── GRID DE CARDS ──────────────────────────────── */}
+                      <div
+                        style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%, ${setorAtivo.cor4} 100%)` }}
+                        className="flex-1 overflow-y-auto mt-0 scrollbar-custom rounded-[10px]"
+                      >
+                        {todosEdificios.length === 0 ? (
+                          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, opacity: .4 }}>
+                            <span style={{ fontSize: 22 }}>📭</span>
+                            <span style={{ color: "#fff", fontSize: 13, fontFamily: "'Rajdhani',sans-serif" }}>
+                              {carteiraFiltroSetor !== "todos" ? `Nenhum edifício em ${setoresNomes[carteiraFiltroSetor]}` : "Nenhum edifício na carteira ainda"}
+                            </span>
+                          </div>
+                        ) : (
+                          <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] h-[400px] pt-[20px] pl-[20px]">
+                            {todosEdificios
+                              .filter(({ ed }) => {
+                                if (filtroQuantidade !== "todos") {
+                                  return filtrarPorQuantidade(ed, filtroQuantidade);
+                                }
+                                return true;
+                              })
+                              .filter(({ ed, setor, idx }) => {
+                                if (filtroSelecionados) {
+                                  const chave = `${setor}-${idx}`;
+                                  return cartasSelecionadas.some(item => item.chave === chave);
+                                }
+                                return true;
+                              })
+                              .map(({ ed, idx, setor, roi, categoria }) => {
+                                const chave = `${setor}-${idx}`;
+                                const estaSelecionado = cartasSelecionadas.some(item => item.chave === chave);
+                                const limite = getLimiteSelecao();
+                                const atingiuLimite = cartasSelecionadas.length >= limite && !estaSelecionado;
+                                const quantidade = getQuantidadeEdificio(ed);
+
+                                // 🔥 REGRA: Se quantidade > 3, mostra alerta
+                                const excedeLimite = quantidade > 3;
+
+                                return (
+                                  <div key={`${setor}-${idx}`} style={{ position: "relative" }}>
+                                    <div style={{
+                                      position: "absolute", top: -8, right: 10, zIndex: 2,
+                                      background: roi >= 10 ? "#1a4a1a" : roi >= 0 ? "#2a2a1a" : "#4a1a1a",
+                                      border: `1px solid ${roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090"}`,
+                                      borderRadius: 6, padding: "1px 8px", display: "flex", alignItems: "center", gap: 4,
+                                    }}>
+                                      <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 800, color: roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090" }}>
+                                        {roi >= 0 ? "+" : ""}{roi.toFixed(1)}%
+                                      </span>
+                                    </div>
+
+                                    {/* Badge de quantidade excedente */}
+                                    {excedeLimite && (
+                                      <div style={{
+                                        position: "absolute", top: -8, left: 10, zIndex: 2,
+                                        background: "#ff4d4d",
+                                        border: "1px solid #ff4d4d",
+                                        borderRadius: 6, padding: "1px 8px",
+                                        display: "flex", alignItems: "center", gap: 4,
+                                      }}>
+                                        <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 9, fontWeight: 800, color: "#fff" }}>
+                                          ⚠️ {quantidade}/3
+                                        </span>
+                                      </div>
+                                    )}
+
+                                    {/* Card */}
+                                    <CardDraft index={idx} setor={setor} abrirModalSell={abrirModalSell} />
+
+                                    {/* Botão de Seleção */}
+                                    <div style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      marginTop: "4px",
+                                      marginBottom: "2px",
+                                    }}>
+                                      <button
+                                        className="w-[90%] mt-2 mb-4"
+                                        onClick={() => toggleSelecao(setor, idx, ed.nome)}
+                                        style={{
+                                          padding: "3px 12px",
+                                          borderRadius: "6px",
+                                          border: "none",
+                                          fontFamily: "'Rajdhani',sans-serif",
+                                          fontSize: "10px",
+                                          fontWeight: 700,
+                                          cursor: "pointer",
+                                          transition: "all 0.2s ease",
+                                          background: estaSelecionado
+                                            ? "linear-gradient(135deg, #7aff9a, #34d399)"
+                                            : atingiuLimite
+                                              ? "rgba(255,255,255,0.1)"
+                                              : "rgba(255,255,255,0.15)",
+                                          color: estaSelecionado
+                                            ? "#1a1a1a"
+                                            : atingiuLimite
+                                              ? "rgba(255,255,255,0.3)"
+                                              : "rgba(255,255,255,0.7)",
+                                          boxShadow: estaSelecionado
+                                            ? "0 0 15px rgba(52, 211, 153, 0.4)"
+                                            : "none",
+                                          border: estaSelecionado
+                                            ? "1px solid #34d399"
+                                            : "1px solid rgba(255,255,255,0.1)",
+                                          transform: estaSelecionado ? "scale(1.02)" : "scale(1)",
+                                          pointerEvents: atingiuLimite && !estaSelecionado ? "none" : "auto",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          if (!estaSelecionado && !atingiuLimite) {
+                                            e.currentTarget.style.background = "rgba(255,255,255,0.25)";
+                                            e.currentTarget.style.transform = "scale(1.05)";
+                                          }
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          if (!estaSelecionado && !atingiuLimite) {
+                                            e.currentTarget.style.background = "rgba(255,255,255,0.15)";
+                                            e.currentTarget.style.transform = "scale(1)";
+                                          }
+                                        }}
+                                      >
+                                        {estaSelecionado ? "✓ Selecionado" : "Selecionar"}
+                                      </button>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                          </div>
+                        )}
+                      </div>
+                      {modalSellOpen && (
+                        <SellModal
+                          setor={modalProps.setor}
+                          nomeLicença={modalProps.nomeLicença}
+                          index={modalProps.index}
+                          onClose={() => setModalSellOpen(false)}
+                        />
                       )}
                     </div>
-                  </div>
-                );
-              })()}
-
-              {ativo === "ecossistema" && (
-                <div className="w-full h-full">
-                  <Techtree/>
-                </div>
-              )}
-              {ativo === "carteira" && (() => {
-                const setoresCores = {
-                  agricultura: { cor1: "#003816", cor3: "#0C9123", cor4: "#4CAF50" },
-                  tecnologia: { cor1: "#A64B00", cor3: "#FF6F00", cor4: "#FF8C42" },
-                  industria: { cor1: "#1A1A1A", cor3: "#808080", cor4: "#B3B3B3" },
-                  comercio: { cor1: "#660000", cor3: "#E60000", cor4: "#FF4D4D" },
-                  imobiliario: { cor1: "#000066", cor3: "#3333CC", cor4: "#6666FF" },
-                  energia: { cor1: "#665200", cor3: "#E6B800", cor4: "#FFD966" },
-                };
-                const setoresNomes = {
-                  agricultura: "Agricultura",
-                  tecnologia: "Tecnologia",
-                  industria: "Indústria",
-                  comercio: "Comércio",
-                  imobiliario: "Imobiliário",
-                  energia: "Energia",
-                  todos: "Todos"
-                };
-
-                const dadosCarteiraEdificios = economiaSetores.centralEdificios;
-
-                const {
-                  todosEdificios,
-                  receitaMensalTotal,
-                  impostosTotais,
-                  lucroLiquido,
-                  setoresAtivosSet,
-                  edAtual,
-                  tiposUnicos,
-                  setoresComEdificios
-                } = processarCarteira(dados, economiaSetores, carteiraFiltroSetor, carteiraOrdem);
-
-                const edMax = dadosCarteiraEdificios.quantidadeEdificiosMax || 1;
-                const percCapacidade = Math.min((edAtual / edMax) * 100, 100);
-                const corBarra = percCapacidade >= 90 ? "#ff4d4d" : percCapacidade >= 70 ? "#FFD700" : "#7aff9a";
-
-                const btnBase = {
-                  border: "none", borderRadius: 8, padding: "5px 12px", cursor: "pointer",
-                  fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 700,
-                  letterSpacing: ".06em", transition: "all .15s", whiteSpace: "nowrap",
-                };
-                const btnAtivo = { ...btnBase, background: "rgba(255,255,255,.18)", color: "#fff" };
-                const btnInativo = { ...btnBase, background: "rgba(255,255,255,.06)", color: "rgba(255,255,255,.4)" };
-
-                return (
-  <div key={carteiraKey} className="flex-1 w-full rounded-[20px] flex flex-col gap-[10px]" style={{ minHeight: 0 }}>
-    <Tooltip style={tooltipStyle} id="tooltip-carteira" />
-    
-    {/* ── SLOT DISPLAY E BOTÃO DE LIQUIDAÇÃO ── */}
-
-
-    {/* ── BARRA DE FILTROS E ORDENAÇÃO ───────────────── */}
-    <div style={{
-      display: "flex",
-      alignItems: "center",
-      gap: 8,
-      background: "rgba(0,0,0,.25)",
-      border: "1px solid rgba(255,255,255,.07)",
-      borderRadius: 12,
-      padding: "7px 12px",
-      flexShrink: 0,
-      flexWrap: "wrap",
-    }}>
-      {/* ── MÉTRICAS (ÍCONES) DO LADO DIREITO ── */}
-
-
-      {/* ── ORDENAR ── */}
-      <div style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap" }}>
-        <span style={{
-          fontSize: 8,
-          fontWeight: 700,
-          textTransform: "uppercase",
-          letterSpacing: ".1em",
-          color: "rgba(255,255,255,.3)",
-          marginRight: 2
-        }}>
-          Ordenar
-        </span>
-        {[
-          { key: "setor", label: "Setor" },
-          { key: "roi_desc", label: "ROI ↓" },
-          { key: "roi_asc", label: "ROI ↑" },
-          { key: "fatu_desc", label: "Fatu ↓" },
-          { key: "fatu_asc", label: "Fatu ↑" },
-        ].map(({ key, label }) => (
-          <button key={key}
-            onClick={() => setCarteiraOrdem(key)}
-            style={{
-              ...btnBase,
-              padding: "3px 7px",
-              fontSize: 8,
-              background: carteiraOrdem === key ? "rgba(255,255,255,.18)" : "rgba(255,255,255,.05)",
-              color: carteiraOrdem === key ? "#fff" : "rgba(255,255,255,.4)",
-            }}>
-            {label}
-          </button>
-        ))}
-      </div>
-
-      <div style={{
-        width: 1,
-        height: 20,
-        background: "rgba(255,255,255,.1)",
-        margin: "0 4px",
-        flexShrink: 0,
-      }} />
-
-      {/* ── QUANTIDADE ── */}
-      <div style={{ display: "flex", alignItems: "center", gap: 3, flexWrap: "wrap" }}>
-        <span style={{
-          fontSize: 8,
-          fontWeight: 700,
-          textTransform: "uppercase",
-          letterSpacing: ".1em",
-          color: "rgba(255,255,255,.3)",
-          marginRight: 2
-        }}>
-          Qtd
-        </span>
-        {["todos", "1", "2", "3"].map(q => (
-          <button key={q}
-            onClick={() => setFiltroQuantidade(q)}
-            style={{
-              ...btnBase,
-              padding: "3px 7px",
-              fontSize: 8,
-              background: filtroQuantidade === q ? "rgba(255,255,255,.18)" : "rgba(255,255,255,.05)",
-              color: filtroQuantidade === q ? "#fff" : "rgba(255,255,255,.4)",
-            }}>
-            {getLabelQuantidade(q)}
-          </button>
-        ))}
-      </div>
-
-      <div style={{
-        width: 1,
-        height: 20,
-        background: "rgba(255,255,255,.1)",
-        margin: "0 4px",
-        flexShrink: 0,
-      }} />
-
-      {/* ── SETOR ── */}
-      <div style={{ display: "flex", alignItems: "center", gap: 3, flexWrap: "wrap", flex: "1 1 auto" }}>
-        <span style={{
-          fontSize: 8,
-          fontWeight: 700,
-          textTransform: "uppercase",
-          letterSpacing: ".1em",
-          color: "rgba(255,255,255,.3)",
-          marginRight: 2
-        }}>
-          Setor
-        </span>
-        {["todos", ...setoresArr].map(s => {
-          const sc = s !== "todos" ? setoresCores[s] : null;
-          const isAtivo = carteiraFiltroSetor === s;
-          const temCards = s === "todos" || setoresAtivosSet.has(s);
-          return (
-            <button key={s}
-              onClick={() => setCarteiraFiltroSetor(s)}
-              style={{
-                ...btnBase,
-                padding: "3px 7px",
-                fontSize: 8,
-                background: isAtivo ? (sc ? sc.cor3 : "rgba(255,255,255,.2)") : "rgba(255,255,255,.05)",
-                color: isAtivo ? "#fff" : temCards ? "rgba(255,255,255,.45)" : "rgba(255,255,255,.15)",
-                opacity: temCards ? 1 : 0.5,
-              }}>
-              {setoresNomes[s].slice(0, 4)}
-            </button>
-          );
-        })}
-      </div>
-
-      <div style={{
-        width: 1,
-        height: 20,
-        background: "rgba(255,255,255,.1)",
-        margin: "0 4px",
-        flexShrink: 0,
-      }} />
-
-      {/* ── SELEÇÃO ── */}
-      <div style={{ display: "flex", alignItems: "center", gap: 3, flexWrap: "wrap" }}>
-        <button
-          onClick={() => setFiltroSelecionados(!filtroSelecionados)}
-          style={{
-            ...btnBase,
-            padding: "3px 8px",
-            fontSize: 8,
-            background: filtroSelecionados ? "rgba(52, 211, 153, .2)" : "rgba(255,255,255,.05)",
-            color: filtroSelecionados ? "#34d399" : "rgba(255,255,255,.4)",
-            border: filtroSelecionados ? "1px solid #34d399" : "1px solid transparent",
-            display: "flex",
-            alignItems: "center",
-            gap: 2,
-          }}>
-          <span style={{ fontSize: 10 }}>⭐</span>
-          {filtroSelecionados ? "Sel." : "Todos"}
-        </button>
-
-        {cartasSelecionadas.length > 0 && (
-          <button
-            onClick={limparSelecoes}
-            style={{
-              ...btnBase,
-              padding: "3px 6px",
-              fontSize: 8,
-              background: "rgba(255,77,77,.15)",
-              color: "#ff4d4d",
-              border: "1px solid rgba(255,77,77,.2)",
-            }}>
-            ✕
-          </button>
-        )}
-      </div>
-
-      {/* ── CONTADORES ── */}
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 6,
-        marginLeft: "auto",
-        flexWrap: "wrap",
-      }}>
-              <div style={{
-        display: "flex",
-        gap: 6,
-        flexWrap: "wrap",
-        marginLeft: "auto",
-        flex: "0 1 auto",
-      }}>
-        {[
-          { icon: setoresImg, tip: "Setores ativos", val: `${setoresComEdificios}` },
-          { icon: soma, tip: "Total de edifícios", val: `${edAtual}` },
-        ].map(({ icon, tip, val }, i) => (
-          <div
-            key={i}
-            data-tooltip-id="tooltip-carteira"
-            data-tooltip-html={tip}
-            style={{
-              backgroundColor: setorAtivo.cor3,
-              minWidth: "50px",
-              flex: "0 1 auto",
-            }}
-            className="rounded-[8px] h-[28px] fonteBold text-white flex items-center justify-between sombra px-[4px]"
-          >
-            <div style={{
-              backgroundColor: setorAtivo.cor4,
-              width: "20px",
-              height: "20px",
-              minWidth: "16px",
-            }}
-              className="rounded-[6px] flex items-center justify-center">
-              <img
-                src={icon}
-                className="h-[50%] aspect-square"
-                style={{ minWidth: "8px" }}
-              />
-            </div>
-            <span className="text-white fonteBold text-[11px] ml-[3px]">{val}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* ── SEPARADOR ── */}
-      <div style={{
-        width: 1,
-        height: 20,
-        background: "rgba(255,255,255,.1)",
-        margin: "0 4px",
-        flexShrink: 0,
-      }} />
-    <div className="flex items-center justify-between gap-4 px-2">
-      <SlotDisplay />
-      {verificarSlots().estaAcimaDoLimite && (
-        <button
-          onClick={async () => {
-            const confirmar = confirm("⚠️ Você está com cartas excedentes! Deseja liquidar automaticamente as cartas com pior desempenho?");
-            if (confirmar) {
-              await executarLiquidacaoAutomatica(dados, atualizarDadosProf2, economiaSetores, atualizarEco);
-              setCarteiraKey(prev => prev + 1);
-            }
-          }}
-          className="px-4 py-1.5 rounded-lg text-xs font-bold bg-red-500/20 border border-red-500/30 text-red-400 hover:bg-red-500/30 transition-all"
-        >
-          🗑️ Liquidar Excedentes
-        </button>
-      )}
-    </div>
-      </div>
-    </div>
-
-    {/* ── GRID DE CARDS ──────────────────────────────── */}
-    <div
-      style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%, ${setorAtivo.cor4} 100%)` }}
-      className="flex-1 overflow-y-auto mt-0 scrollbar-custom rounded-[10px]"
-    >
-      {todosEdificios.length === 0 ? (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, opacity: .4 }}>
-          <span style={{ fontSize: 22 }}>📭</span>
-          <span style={{ color: "#fff", fontSize: 13, fontFamily: "'Rajdhani',sans-serif" }}>
-            {carteiraFiltroSetor !== "todos" ? `Nenhum edifício em ${setoresNomes[carteiraFiltroSetor]}` : "Nenhum edifício na carteira ainda"}
-          </span>
-        </div>
-      ) : (
-        <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] h-[400px] pt-[20px] pl-[20px]">
-          {todosEdificios
-            .filter(({ ed }) => {
-              if (filtroQuantidade !== "todos") {
-                return filtrarPorQuantidade(ed, filtroQuantidade);
-              }
-              return true;
-            })
-            .filter(({ ed, setor, idx }) => {
-              if (filtroSelecionados) {
-                const chave = `${setor}-${idx}`;
-                return cartasSelecionadas.some(item => item.chave === chave);
-              }
-              return true;
-            })
-            .map(({ ed, idx, setor, roi, categoria }) => {
-              const chave = `${setor}-${idx}`;
-              const estaSelecionado = cartasSelecionadas.some(item => item.chave === chave);
-              const limite = getLimiteSelecao();
-              const atingiuLimite = cartasSelecionadas.length >= limite && !estaSelecionado;
-              const quantidade = getQuantidadeEdificio(ed);
-
-              // 🔥 REGRA: Se quantidade > 3, mostra alerta
-              const excedeLimite = quantidade > 3;
-
-              return (
-                <div key={`${setor}-${idx}`} style={{ position: "relative" }}>
-                  <div style={{
-                    position: "absolute", top: -8, right: 10, zIndex: 2,
-                    background: roi >= 10 ? "#1a4a1a" : roi >= 0 ? "#2a2a1a" : "#4a1a1a",
-                    border: `1px solid ${roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090"}`,
-                    borderRadius: 6, padding: "1px 8px", display: "flex", alignItems: "center", gap: 4,
-                  }}>
-                    <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 800, color: roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090" }}>
-                      {roi >= 0 ? "+" : ""}{roi.toFixed(1)}%
-                    </span>
-                  </div>
-
-                  {/* Badge de quantidade excedente */}
-                  {excedeLimite && (
-                    <div style={{
-                      position: "absolute", top: -8, left: 10, zIndex: 2,
-                      background: "#ff4d4d",
-                      border: "1px solid #ff4d4d",
-                      borderRadius: 6, padding: "1px 8px",
-                      display: "flex", alignItems: "center", gap: 4,
-                    }}>
-                      <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 9, fontWeight: 800, color: "#fff" }}>
-                        ⚠️ {quantidade}/3
-                      </span>
-                    </div>
-                  )}
-
-                  {/* Card */}
-                  <CardDraft index={idx} setor={setor} abrirModalSell={abrirModalSell} />
-
-                  {/* Botão de Seleção */}
-                  <div style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "4px",
-                    marginBottom: "2px",
-                  }}>
-                    <button
-                      className="w-[90%] mt-2 mb-4"
-                      onClick={() => toggleSelecao(setor, idx, ed.nome)}
-                      style={{
-                        padding: "3px 12px",
-                        borderRadius: "6px",
-                        border: "none",
-                        fontFamily: "'Rajdhani',sans-serif",
-                        fontSize: "10px",
-                        fontWeight: 700,
-                        cursor: "pointer",
-                        transition: "all 0.2s ease",
-                        background: estaSelecionado
-                          ? "linear-gradient(135deg, #7aff9a, #34d399)"
-                          : atingiuLimite
-                            ? "rgba(255,255,255,0.1)"
-                            : "rgba(255,255,255,0.15)",
-                        color: estaSelecionado
-                          ? "#1a1a1a"
-                          : atingiuLimite
-                            ? "rgba(255,255,255,0.3)"
-                            : "rgba(255,255,255,0.7)",
-                        boxShadow: estaSelecionado
-                          ? "0 0 15px rgba(52, 211, 153, 0.4)"
-                          : "none",
-                        border: estaSelecionado
-                          ? "1px solid #34d399"
-                          : "1px solid rgba(255,255,255,0.1)",
-                        transform: estaSelecionado ? "scale(1.02)" : "scale(1)",
-                        pointerEvents: atingiuLimite && !estaSelecionado ? "none" : "auto",
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!estaSelecionado && !atingiuLimite) {
-                          e.currentTarget.style.background = "rgba(255,255,255,0.25)";
-                          e.currentTarget.style.transform = "scale(1.05)";
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!estaSelecionado && !atingiuLimite) {
-                          e.currentTarget.style.background = "rgba(255,255,255,0.15)";
-                          e.currentTarget.style.transform = "scale(1)";
-                        }
-                      }}
-                    >
-                      {estaSelecionado ? "✓ Selecionado" : "Selecionar"}
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-        </div>
-      )}
-    </div>
-
-    {modalSellOpen && (
-      <SellModal
-        setor={modalProps.setor}
-        nomeLicença={modalProps.nomeLicença}
-        index={modalProps.index}
-        onClose={() => setModalSellOpen(false)}
-      />
-    )}
-  </div>
-);
-              })()}
-
-
-            </div>
-          ) : (
-            // Container sem licença comprada
-            <div className="w-full h-full flex flex-col items-center justify-center p-4">
-              <div
-                className="p-4 rounded-[30px] w-[90%] h-[90%] flex flex-col self-center items-center justify-between"
-                style={{ backgroundColor: setorAtivo.cor2 }}
-              >
+                  );
+                })()}
+              </div>
+            ) : (
+              // Container sem licença comprada
+              <div className="w-full h-full flex flex-col items-center justify-center p-4">
                 <div
-                  className="w-[90%] text-center rounded-[10px]"
-                  style={{ backgroundColor: setorAtivo.cor3 }}
+                  className="p-4 rounded-[30px] w-[90%] h-[90%] flex flex-col self-center items-center justify-between"
+                  style={{ backgroundColor: setorAtivo.cor2 }}
                 >
-                  <h1 className="text-white text-3xl fonteBold text-[40px]">
-                    Licença Global de {ativo}{" "}
-                  </h1>
-                </div>
-                <p className="text-white p-[40px]">{setorAtivo.descLicença}</p>
-                <div className="flex justify-center gap-[20px] w-full ">
                   <div
-                    className="text-white flex items-center justify-around w-[20%] rounded-[10px]"
-                    style={{ backgroundColor: setorAtivo.cor1 }}
+                    className="w-[90%] text-center rounded-[10px]"
+                    style={{ backgroundColor: setorAtivo.cor3 }}
                   >
-                    <img className="w-[20px]" src={DolarImg} />
-                    <h1 className="fonteBold">{licenciaValor}</h1>
+                    <h1 className="text-white text-3xl fonteBold text-[40px]">
+                      Licença Global de {ativo}{" "}
+                    </h1>
                   </div>
-                  <div className="w-[20%]">
-                    <button
-                      onClick={LiberarLicença}
-                      className="bg-[#350973] text-white fonteBold w-full rounded-[10px] h-[40px]"
+                  <p className="text-white p-[40px]">{setorAtivo.descLicença}</p>
+                  <div className="flex justify-center gap-[20px] w-full ">
+                    <div
+                      className="text-white flex items-center justify-around w-[20%] rounded-[10px]"
+                      style={{ backgroundColor: setorAtivo.cor1 }}
                     >
-                      Comprar
-                    </button>
+                      <img className="w-[20px]" src={DolarImg} />
+                      <h1 className="fonteBold">{licenciaValor}</h1>
+                    </div>
+                    <div className="w-[20%]">
+                      <button
+                        onClick={LiberarLicença}
+                        className="bg-[#350973] text-white fonteBold w-full rounded-[10px] h-[40px]"
+                      >
+                        Comprar
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div >
+
+        {/* 🔥 MODAL DE CONCLUSÃO - FORA DO DASHBOARD E FORA DE QUALQUER BLOCO CONDICIONAL */}
+        {modalConclusao && (() => {
+          const dadosFinais = calcularDadosFinais();
+          
+          return (
+            <div className="flex justify-center items-center z-[9999] bg-black bg-opacity-95 w-[100vw] h-[100vh] fixed top-0 left-0 select-none">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5, y: -100 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.5, type: "spring", stiffness: 120 }}
+                className="w-[90vw] max-w-[800px] bg-gradient-to-br from-[#6A00FF] via-[#8B00FF] to-[#F27405] rounded-[30px] p-8 relative shadow-2xl"
+              >
+                <div className="bg-[#1a0a3b] rounded-[20px] p-8 flex flex-col items-center gap-6 max-h-[80vh] overflow-y-auto">
+                  <motion.h1
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.4 }}
+                    className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#F27405] to-[#FFD700] text-center"
+                  >
+                    🎉 PARABÉNS! 🎉
+                  </motion.h1>
+
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 0.4 }}
+                    className="text-white text-xl text-center font-bold"
+                  >
+                    Você completou 360 dias de jogo!
+                  </motion.p>
+
+                  <div className="w-full h-[3px] bg-gradient-to-r from-transparent via-[#F27405] to-transparent"></div>
+
+                  {/* Grid de estatísticas */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mt-4">
+                    <div className="bg-[#2a0a5a] rounded-[15px] p-4">
+                      <p className="text-[#C79FFF] text-sm font-medium">💰 Faturamento Total</p>
+                      <p className="text-white text-2xl font-bold">R$ {formatarNumero(dadosFinais.faturamentoTotal)}</p>
+                    </div>
+
+                    <div className="bg-[#2a0a5a] rounded-[15px] p-4">
+                      <p className="text-[#C79FFF] text-sm font-medium">⚡ Power-Ups</p>
+                      <p className="text-white text-2xl font-bold">
+                        ↑ +{dadosFinais.somaPowerUpsAumFatu.toFixed(1)}%
+                      </p>
+                      <p className="text-white text-lg font-bold">
+                        ↓ -{dadosFinais.somaPowerUpsRedCusto.toFixed(1)}%
+                      </p>
+                    </div>
+
+                    <div className="bg-[#2a0a5a] rounded-[15px] p-4">
+                      <p className="text-[#C79FFF] text-sm font-medium">📊 ROE Médio</p>
+                      <p className="text-white text-2xl font-bold">
+                        {dadosFinais.roeMedio > 0 ? '+' : ''}{dadosFinais.roeMedio.toFixed(2)}%
+                      </p>
+                    </div>
+
+                    <div className="bg-[#2a0a5a] rounded-[15px] p-4">
+                      <p className="text-[#C79FFF] text-sm font-medium">🏦 Patrimônio Histórico</p>
+                      <p className="text-white text-2xl font-bold">R$ {formatarNumero(dadosFinais.patrimonioHistoricoTotal)}</p>
+                    </div>
+
+                    <div className="bg-[#2a0a5a] rounded-[15px] p-4">
+                      <p className="text-[#C79FFF] text-sm font-medium">📦 Inventário Histórico</p>
+                      <p className="text-white text-2xl font-bold">R$ {formatarNumero(dadosFinais.somaInventarioHistorico)}</p>
+                    </div>
+
+                    <div className="bg-[#2a0a5a] rounded-[15px] p-4">
+                      <p className="text-[#C79FFF] text-sm font-medium">💎 Saldo Disponível</p>
+                      <p className="text-white text-2xl font-bold">R$ {formatarNumero(dadosFinais.saldoTotal)}</p>
+                    </div>
+                  </div>
+
+                  <div className="w-full h-[3px] bg-gradient-to-r from-transparent via-[#F27405] to-transparent"></div>
+
+                  {/* Botão único para encerrar */}
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={fecharModalConclusao}
+                    className="w-full max-w-[300px] bg-gradient-to-r from-[#F27405] to-[#FF8C00] text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-orange-500/50 transition-all duration-300"
+                  >
+                    Encerrar Jogo
+                  </motion.button>
+                </div>
+              </motion.div>
+            </div>
+          );
+        })()}
+      </>
     );
   }
   if (vision === "mapa") {
@@ -2410,6 +2511,7 @@ const verificarAcao = useSlotVerification();
       </div>
     )
   }
+
   if (vision === "outro") {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">
@@ -2483,38 +2585,6 @@ const verificarAcao = useSlotVerification();
                 </button>
               </div>
             </motion.div>
-            {/* <div className="absolute bottom-4 left-4 z-[10] flex flex-col gap-2">
-
-                <button
-                  onClick={() => setVision("dashboard")}
-                  data-tooltip-id="saldo-tip"
-                  data-tooltip-content="Abrir dashboard"
-                  className="w-[100px] h-[100px] bg-laranja rounded-[15px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] transition-transform"
-                >
-                  <img
-                    className="w-[70px] h-[70px]"
-                    src={computador}
-                    alt="Abrir dashboard"
-                  />
-                </button>
-
-              </div> */}
-            {/* <div className="absolute opacity-[90] bottom-4 right-4 z-[10] flex flex-col gap-2">
-
-                <button
-                  onClick={() => setAtivo("grafico")} // Corrigido: setAtivo em vez de setorAtivo
-                  data-tooltip-id="saldo-tip"
-                  data-tooltip-content="Escritório"
-                  className="w-[100px] h-[100px] bg-laranja rounded-[15px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05] transition-transform"
-                >
-                  <img
-                    className="w-[70px] h-[70px]"
-                    src={imgchefeIcon}
-                    alt="Abrir gráficos"
-                  />
-                </button>
-              </div> */}
-
           </div>
         </div>
       </div>
@@ -2523,7 +2593,6 @@ const verificarAcao = useSlotVerification();
   if (vision === "bank") {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">
-        {/* <CreditCard /> */}
         <BankDetailsInterface />
       </div>
     );

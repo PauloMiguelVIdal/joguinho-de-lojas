@@ -11,6 +11,18 @@ import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 import { LoadingScreen } from "./LoadingScreen";
 import { executarLiquidacaoAutomatica } from "./SlotManager";
 
+// 🔥 CONSTANTES MOVIDAS PARA O TOPO
+const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
+const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+
+const FATOR_ECONOMIA = {
+    recessão: 0.4,
+    declinio: 0.8,
+    estável: 1,
+    progressiva: 1.1,
+    aquecida: 1.25
+};
+
 export function SystemTurn() {
     const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
     const {
@@ -229,7 +241,6 @@ export function SystemTurn() {
     // 🔥 NOVO useEffect: ABRE PACOTES INICIAIS QUANDO O JOGO INICIA
     useEffect(() => {
         if (jogoIniciado && !pacotesIniciaisAbertos && dados.dia === 0) {
-            // Pequeno delay para garantir que o contexto esteja pronto
             const timer = setTimeout(() => {
                 abrirPacotesIniciais();
             }, 500);
@@ -245,17 +256,6 @@ export function SystemTurn() {
         padding: "6px 10px",
         fontWeight: "600",
         fontSize: "14px",
-    };
-
-    const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
-    const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-
-    const FATOR_ECONOMIA = {
-        recessão: 0.4,
-        declinio: 0.8,
-        estável: 1,
-        progressiva: 1.1,
-        aquecida: 1.25
     };
 
     // 🔥 FUNÇÃO PARA EXECUTAR LIQUIDAÇÃO DE EXCEDENTES
@@ -287,30 +287,39 @@ export function SystemTurn() {
         console.log("🎁 [SystemTurn] Abrindo 2 pacotes comuns para o jogador...");
         setPacotesIniciaisAbertos(true);
         
-        // Simula a abertura dos pacotes com delays
         setTimeout(() => {
             console.log("🎁 [SystemTurn] Abrindo pacote comum #1...");
-            // Aqui você pode adicionar a lógica real de abertura do pacote
         }, 500);
         
         setTimeout(() => {
             console.log("🎁 [SystemTurn] Abrindo pacote comum #2...");
-            // Aqui você pode adicionar a lógica real de abertura do pacote
         }, 1500);
     };
 
-    // 🔥 TIMER PRINCIPAL
+    // 🔥 TIMER PRINCIPAL - CORRIGIDO
     useEffect(() => {
         if (!jogoIniciado) return;
         if (diasPendentes > 0 || estaProcessando) return;
+        
+        // 🔥 SE O JOGO JÁ CHEGOU AO FIM, NÃO FAZ NADA
+        if (dados.dia >= 360) {
+            console.log("🏁 [SystemTurn] Jogo finalizado! Timer desativado.");
+            return;
+        }
 
         const interval = setInterval(() => {
             setCountdown(prev => {
                 if (prev <= 1) {
-                    const totalDias = 30;
-
-                    // 🔥 REMOVIDA A CHAMADA DE abrirPacotesIniciais DAQUI
-                    // Agora ela é chamada no useEffect específico
+                    // 🔥 VERIFICA SE O PRÓXIMO MÊS ULTRAPASSA 360
+                    const diasRestantesParaFim = 360 - dados.dia;
+                    
+                    if (diasRestantesParaFim <= 0) {
+                        console.log("🏁 [SystemTurn] Jogo finalizado! Parando timer.");
+                        return 60;
+                    }
+                    
+                    // 🔥 Se tem menos de 30 dias restantes, processa apenas os dias restantes
+                    const totalDias = Math.min(30, diasRestantesParaFim);
 
                     impostoMensalRef.current = 0;
                     faturamentoMensalRef.current = 0;
@@ -392,10 +401,19 @@ export function SystemTurn() {
         return () => clearInterval(interval);
     }, [diasPendentes, estaProcessando, dados.cartasSelecionadas, jogoIniciado, dados.dia]);
 
-    // 🔥 PROCESSAMENTO DOS 30 DIAS
+    // 🔥 PROCESSAMENTO DOS DIAS - CORRIGIDO
     useEffect(() => {
         if (!jogoIniciado) return;
         if (diasPendentes <= 0 || processandoRef.current) return;
+        
+        // 🔥 VERIFICA SE O JOGO JÁ CHEGOU AO FIM
+        if (dados.dia >= 360) {
+            console.log("🏁 [SystemTurn] Jogo finalizado! Parando processamento.");
+            setDiasPendentes(0);
+            setEstaProcessando(false);
+            processandoRef.current = false;
+            return;
+        }
 
         const resultado = forcarAtualizacaoCartas();
         if (resultado.nomes.length === 0) {
@@ -407,6 +425,16 @@ export function SystemTurn() {
         setEstaProcessando(true);
 
         const processarProximoDia = () => {
+            // 🔥 VERIFICA SE JÁ CHEGOU AO FIM
+            if (dadosRef.current.dia >= 360) {
+                console.log("🏁 [SystemTurn] Jogo finalizado! Parando processamento.");
+                setDiasPendentes(0);
+                setEstaProcessando(false);
+                processandoRef.current = false;
+                setMostrarLoading(false);
+                return;
+            }
+
             if (diasRestantesRef.current <= 0) {
                 console.log(`✅ [Processamento] FINALIZADO!`);
                 finalizarProcessamentoMensal();
@@ -424,6 +452,76 @@ export function SystemTurn() {
             const diaAtual = dadosAtuais.dia;
             const proximoDia = diaAtual + 1;
 
+            // 🔥 VERIFICA SE O PRÓXIMO DIA ULTRAPASSA 360
+            if (proximoDia > 360) {
+                console.log("🏁 [SystemTurn] Próximo dia ultrapassa 360! Finalizando.");
+                setDiasPendentes(0);
+                setEstaProcessando(false);
+                processandoRef.current = false;
+                setMostrarLoading(false);
+                return;
+            }
+
+            // 🔥 SE O PRÓXIMO DIA FOR 360, PROCESSA E FINALIZA
+            if (proximoDia === 360) {
+                const resultadoDia = calcularFaturamentoDoDia(proximoDia, dadosAtuais);
+                const { faturamentoDiario, detalhesEdificios, totalAumFatu, totalRedCusto } = resultadoDia;
+                
+                calcularPatrimonioSetores(dadosAtuais);
+                
+                const impostoSobreFatuDia = calcularImpostoSobreFaturamentoDiario(dadosAtuais);
+                
+                faturamentoMensalRef.current += faturamentoDiario;
+                impostoFaturamentoMensalRef.current += impostoSobreFatuDia;
+                
+                // 🔥 Não precisa de imposto fixo no último dia
+                const impostoTotalDia = impostoSobreFatuDia;
+                
+                atualizarDados("dia", proximoDia);
+                dadosRef.current = { ...dadosAtuais, dia: proximoDia };
+                
+                const novoSaldo = saldoAtual + faturamentoDiario - impostoTotalDia;
+                atualizarEco("saldo", novoSaldo);
+                saldoRef.current = novoSaldo;
+                
+                // Atualiza power-ups
+                const powerUpsAumFatu = economiaSetores.powerUps?.aumentoFaturamentoDiario || [];
+                const powerUpsRedCusto = economiaSetores.powerUps?.reducaoCustoDiario || [];
+                const novoAumFatu = [...powerUpsAumFatu, totalAumFatu];
+                const novoRedCusto = [...powerUpsRedCusto, totalRedCusto];
+                
+                if (novoAumFatu.length > 360) {
+                    novoAumFatu.splice(0, novoAumFatu.length - 360);
+                }
+                if (novoRedCusto.length > 360) {
+                    novoRedCusto.splice(0, novoRedCusto.length - 360);
+                }
+                
+                atualizarEco("powerUps", {
+                    ...economiaSetores.powerUps,
+                    aumentoFaturamentoDiario: novoAumFatu,
+                    reducaoCustoDiario: novoRedCusto,
+                    aumentoFaturamentoAtual: totalAumFatu,
+                    reducaoCustoAtual: totalRedCusto,
+                });
+                
+                console.log("───────────────────────────────────────────────────────────────");
+                console.log(`📅 DIA ${proximoDia} - 🏁 ÚLTIMO DIA!`);
+                console.log(`   📊 Faturamento Bruto: R$ ${faturamentoDiario.toFixed(2)}`);
+                console.log(`   📊 Imposto: R$ ${impostoSobreFatuDia.toFixed(2)}`);
+                console.log(`   📊 Saldo Final: R$ ${novoSaldo.toFixed(2)}`);
+                console.log("───────────────────────────────────────────────────────────────");
+                
+                // 🔥 FINALIZA O JOGO
+                console.log("🏁 [SystemTurn] Jogo finalizado no dia 360!");
+                setDiasPendentes(0);
+                setEstaProcessando(false);
+                processandoRef.current = false;
+                setMostrarLoading(false);
+                return;
+            }
+
+            // Processamento normal do dia
             const resultadoDia = calcularFaturamentoDoDia(proximoDia, dadosAtuais);
             const { faturamentoDiario, detalhesEdificios, totalAumFatu, totalRedCusto } = resultadoDia;
 
@@ -461,15 +559,13 @@ export function SystemTurn() {
                 impostoSobreFaturamentoDiário: impostoSobreFatuDia,
             });
 
-            // 🔥 ATUALIZA POWER-UPS - APENAS O VALOR DO DIA EM ARRAY
+            // 🔥 ATUALIZA POWER-UPS
             const powerUpsAumFatu = economiaSetores.powerUps?.aumentoFaturamentoDiario || [];
             const powerUpsRedCusto = economiaSetores.powerUps?.reducaoCustoDiario || [];
             
-            // 🔥 ADICIONA O VALOR DO DIA AO ARRAY
             const novoAumFatu = [...powerUpsAumFatu, totalAumFatu];
             const novoRedCusto = [...powerUpsRedCusto, totalRedCusto];
             
-            // 🔥 MANTÉM APENAS OS ÚLTIMOS 360 DIAS
             if (novoAumFatu.length > 360) {
                 novoAumFatu.splice(0, novoAumFatu.length - 360);
             }
@@ -527,7 +623,7 @@ export function SystemTurn() {
 
         setTimeout(processarProximoDia, 500);
 
-    }, [diasPendentes, jogoIniciado]);
+    }, [diasPendentes, jogoIniciado, dados.dia]);
 
     // 🔥 FUNÇÃO PARA FINALIZAR O PROCESSAMENTO MENSAL
     const finalizarProcessamentoMensal = () => {
@@ -784,7 +880,7 @@ export function SystemTurn() {
                 const valorFatuFinal = faturamentoUnitario * (1 + aumFatu / 100);
                 const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
                 const fatorEconomico = FATOR_ECONOMIA[economiaSetor] || 1;
-                const faturamentoDiario = valorFatuFinal * quantidade * fatorEconomico ;
+                const faturamentoDiario = valorFatuFinal * quantidade * fatorEconomico;
 
                 faturamentoTotalSetor += faturamentoDiario;
                 faturamentoEdificios += faturamentoDiario;
