@@ -88,7 +88,80 @@ ChartJS.register(
 
 const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
+// 🔥 RANKS DOS EDIFÍCIOS
+const RankS = [
+    "Usina Hidrelétrica", "Reator Nuclear Convencional", "Usina De Fusão Nuclear",
+    "Shopping Popular", "Shopping Center", "Fábrica De Computadores",
+    "Construtora De Infraestruturas", "Aeroporto", "Porto", "Mineradora Radioativa",
+    "Plataforma De Petróleo", "Montadora De Veículos Elétricos", "Fábrica De Automóveis",
+    "Refinaria", "Fábrica De Chips", "Fábrica De Semicondutores", "Fábrica De Robôs",
+    "Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves"
+];
 
+const RankA = [
+    "Cooperativa Agrícola", "Usina De Biomassa", "Transporte Petrolífero",
+    "Marketplace Online", "Plataforma De Streaming", "Fábrica De Smartphones",
+    "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestiveis",
+    "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Aeroespacial",
+    "Centro De Pesquisa Em Materiais Avançados", "Centro De Pesquisa Em IA",
+    "Mineradora De Pedras Preciosas", "Mega Mercado", "Prédio De Alto Padrão",
+    "Tanque De Armazenamento Biocombustível", "Fábrica De Plásticos",
+    "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica",
+    "Fundição De Alumínio", "Fábrica De Ligas Metálicas", "Fábrica De Peças Automotivas",
+    "Refinaria De Biocombustíveis", "Biofábrica", "Fábrica De Eletrônicos",
+    "Empresa De Automação Industrial", "Estaleiro"
+];
+
+const RankB = [
+    "Centro De Comércio De Plantações", "Empresa De Comercio Energético",
+    "Empresa De Consultoria Energética", "Centro De Pesquisa Em Energias Renováveis",
+    "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis",
+    "Usina De Biomassa", "Usina Termolétrica", "Joalheria", "Concessionária De Veículos",
+    "Centro De Distribuição", "Armazém Logístico", "Servidor Em Nuvem", "Data Center",
+    "Empresa De Desenvolvimento De Software", "Empresa De Jogos Digitais",
+    "Empresa De Telecomunicações", "Plataforma De Redes Sociais", "Marketplace Online",
+    "Instituto De Tecnologia Alimentar", "Centro De Pesquisa Agrícola",
+    "Instituto De Biotecnologia", "Laboratório De Nanotecnologia",
+    "Centro De Pesquisa Em Eletrônicos", "Laboratório De Design De Produtos",
+    "Laboratório De Novos Combustíveis", "Centro De Engenharia Avançada",
+    "Centro De Pesquisa Em Robótica", "Construtora", "Imobiliária Residencial",
+    "Imobiliária Comercial", "Mineradora", "Centro De Coleta De Biomassa",
+    "Fábrica De Fertilizante", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
+    "Fábrica De Plásticos", "Alto-Forno", "Indústria De Componentes Mecânicos",
+    "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas",
+    "Fábrica De Peças Automotivas", "Fábrica De Placas Eletrônicas", "Fábrica De Eletrônicos"
+];
+
+const RankC = [
+    "Plantação De Grãos", "Plantação De Vegetais", "Pomares", "Fazenda Administrativa",
+    "Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos", "Armazém", "Silo",
+    "Depósito De Resíduos Orgânicos", "Madeireira", "Área Florestal", "Terreno De Mineração",
+    "Plantação De Eucalipto", "Plantação De Plantas Medicinais", "Subestação De Energia",
+    "Rede De Distribuição Elétrica", "Usina Solar", "Fábrica De Turbinas Eólicas",
+    "Fábrica De Painéis Solares", "Fábrica De Baterias", "Estação De Carregamento",
+    "Centro De Reciclagem De Baterias", "Parque Eólico", "Feira", "Loja De Móveis",
+    "Restaurante", "Livraria", "Mercado", "Adega", "Padaria", "Açougue",
+    "Loja De Conveniência", "Posto De Combustíveis", "Redes De Fast-food", "Petshop",
+    "Farmácia", "Cafeteria", "Loja De Departamentos", "Loja De Calçados",
+    "Loja De Vestuário", "Loja De Gadgets E Wearables", "Loja De Games",
+    "Loja De Celulares", "Loja De Informática", "Loja De Eletrônicos",
+    "Centro De Transporte E Entrega", "Startup", "Centro De Pesquisa Química",
+    "Cartório E Licenças", "Terraplanagem E Pavimentação", "Construtora De Pequenas Obras",
+    "Escritório De Design De Interiores", "Escritório De Arquitetura",
+    "Consultoria Em Engenharia Civil", "Fábrica De Móveis", "Fábrica De Ração",
+    "Fábrica De Embalagem", "Fábrica De Bebidas", "Fábrica De Pães", "Fábrica Textil",
+    "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose",
+    "Fábrica De Papel", "Fábrica De Livros"
+];
+
+// 🔥 FUNÇÃO PARA OBTER O RANK DE UM EDIFÍCIO
+const getRankDoEdificio = (nomeEdificio) => {
+    if (RankS.includes(nomeEdificio)) return { rank: "S", cor: "#FFD700", label: "S", ordem: 1 };
+    if (RankA.includes(nomeEdificio)) return { rank: "A", cor: "#C0C0C0", label: "A", ordem: 2 };
+    if (RankB.includes(nomeEdificio)) return { rank: "B", cor: "#CD7F32", label: "B", ordem: 3 };
+    if (RankC.includes(nomeEdificio)) return { rank: "C", cor: "#8B8B8B", label: "C", ordem: 4 };
+    return { rank: "C", cor: "#8B8B8B", label: "C", ordem: 4 };
+};
 
 const ESTOQUES = new Set([
   "Armazém", "Silo", "Depósito De Resíduos Orgânicos", "Data Center",
@@ -132,9 +205,6 @@ const FATOR_ECONOMIA = {
   progressiva: 1.1,
   aquecida: 1.25
 };
-
-
-
 
 const getCategoria = (nome) => {
   if (ESTOQUES.has(nome)) return "estoque";
@@ -193,7 +263,6 @@ const calcROI = (ed, dados, economiaSetor, mapaEdificios, calcularCustoRecurso) 
   if (!ed || !dados) return 0;
 
   try {
-    // ===== ECONOMIA (USA O ESTADO ATUAL DO SETOR) =====
     const fatorEconomico = FATOR_ECONOMIA[economiaSetor] || 1;
 
     const quantidadeAtual = ed.quantidade || 0;
@@ -265,7 +334,6 @@ const processarCarteira = (dados, economiaSetores, carteiraFiltroSetor, carteira
     const chave = `${ed.nome}_${ed.quantidade}`;
     if (cacheROI.has(chave)) return cacheROI.get(chave);
 
-    // 🔥 CORREÇÃO: Usa o estado atual da economia do setor
     const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || 'estável';
 
     const resultado = calcROI(ed, dados, economiaSetor, mapaEdificios, calcularCustoRecurso);
@@ -277,12 +345,18 @@ const processarCarteira = (dados, economiaSetores, carteiraFiltroSetor, carteira
   setoresArr.forEach(s => {
     dados[s]?.edificios?.forEach((ed, idx) => {
       if (ed.quantidade > 0) {
+        const rankInfo = getRankDoEdificio(ed.nome);
         todosEdificios.push({
           ed,
           idx,
           setor: s,
           roi: calcularROI(ed, s),
-          categoria: getCategoria(ed.nome)
+          categoria: getCategoria(ed.nome),
+          rank: rankInfo,
+          lucroLiquido: (ed.finanças?.faturamentoUnitário || 0) * 30 * ed.quantidade - 
+                        ((ed.finanças?.impostoSobreFatu || 0) * (ed.finanças?.faturamentoUnitário || 0) * 30 * ed.quantidade + 
+                         (ed.finanças?.impostoFixo || 0) * ed.quantidade),
+          valor: (ed.custoConstrucao || 0) * ed.quantidade
         });
       }
     });
@@ -291,21 +365,19 @@ const processarCarteira = (dados, economiaSetores, carteiraFiltroSetor, carteira
   if (carteiraFiltroSetor !== "todos") {
     todosEdificios = todosEdificios.filter(e => e.setor === carteiraFiltroSetor);
   }
-if (carteiraOrdem === "fatu_desc") todosEdificios.sort((a, b) => {
-  const fatA = (a.ed.finanças?.faturamentoUnitário || 0) * (a.ed.quantidade || 0);
-  const fatB = (b.ed.finanças?.faturamentoUnitário || 0) * (b.ed.quantidade || 0);
-  return fatB - fatA;
-});
-else if (carteiraOrdem === "fatu_asc") todosEdificios.sort((a, b) => {
-  const fatA = (a.ed.finanças?.faturamentoUnitário || 0) * (a.ed.quantidade || 0);
-  const fatB = (b.ed.finanças?.faturamentoUnitário || 0) * (b.ed.quantidade || 0);
-  return fatA - fatB;
-});
+
+  // 🔥 NOVAS ORDENAÇÕES
   if (carteiraOrdem === "roi_desc") todosEdificios.sort((a, b) => b.roi - a.roi);
   else if (carteiraOrdem === "roi_asc") todosEdificios.sort((a, b) => a.roi - b.roi);
-  else if (carteiraOrdem === "categoria") todosEdificios.sort((a, b) => a.categoria.localeCompare(b.categoria));
+  else if (carteiraOrdem === "lucro_desc") todosEdificios.sort((a, b) => b.lucroLiquido - a.lucroLiquido);
+  else if (carteiraOrdem === "lucro_asc") todosEdificios.sort((a, b) => a.lucroLiquido - b.lucroLiquido);
+  else if (carteiraOrdem === "valor_desc") todosEdificios.sort((a, b) => b.valor - a.valor);
+  else if (carteiraOrdem === "valor_asc") todosEdificios.sort((a, b) => a.valor - b.valor);
   else if (carteiraOrdem === "setor") todosEdificios.sort((a, b) => a.setor.localeCompare(b.setor));
   else if (carteiraOrdem === "nome") todosEdificios.sort((a, b) => a.ed.nome.localeCompare(b.ed.nome));
+  else if (carteiraOrdem === "categoria") todosEdificios.sort((a, b) => a.categoria.localeCompare(b.categoria));
+  else if (carteiraOrdem === "rank_desc") todosEdificios.sort((a, b) => a.rank.ordem - b.rank.ordem);
+  else if (carteiraOrdem === "rank_asc") todosEdificios.sort((a, b) => b.rank.ordem - a.rank.ordem);
 
   let receitaMensalTotal = 0, impostosTotais = 0;
   setoresArr.forEach(s => {
@@ -348,25 +420,19 @@ else if (carteiraOrdem === "fatu_asc") todosEdificios.sort((a, b) => {
   };
 };
 
-
 export default function DashboardDraft() {
-
-
-  const { dados, atualizarDadosProf2, atualizarDados } = useContext(
-    CentraldeDadosContext
-  );
-  const { economiaSetores, setEconomiaSetores,atualizarEco } = useContext(
-    DadosEconomyGlobalContext
-  );
+  const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
+  const { economiaSetores, setEconomiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
   const [ativo, setAtivo] = useState("carteira");
   const [carteiraOrdem, setCarteiraOrdem] = useState("setor");
   const [carteiraFiltroSetor, setCarteiraFiltroSetor] = useState("todos");
   const [carteiraKey, setCarteiraKey] = useState(0);
   const [modalConclusao, setModalConclusao] = useState(false);
+  const [cartasParaVender, setCartasParaVender] = useState([]);
+  const [modoVendaRapida, setModoVendaRapida] = useState(false);
 
-const verificarSlots = useSlotVerification();
+  const verificarSlots = useSlotVerification();
 
-  // ===== NOVO: Estado para os dados da carteira =====
   const [carteiraDados, setCarteiraDados] = useState({
     todosEdificios: [],
     receitaMensalTotal: 0,
@@ -378,27 +444,18 @@ const verificarSlots = useSlotVerification();
     setoresComEdificios: 0
   });
 
-const verificarAcao = useSlotVerification();
+  const verificarAcao = useSlotVerification();
 
-  // useEffect(() => {
-  //   setAtivo('carteira');
-  // }, [dados.dia])
-  // const [graficoView, setGraficoView] = useState('ecossistema'); // 'grafico' | 'techtree' | 'producao' | 'ecossistema'
-
-  // No topo do Dashboard, APÓS os outros useState:
   const snapshotDados = JSON.stringify(
     ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"].map(s =>
       (dados[s]?.edificios || []).map(ed => ({ nome: ed.nome, q: ed.quantidade }))
     )
   );
 
-  // Adicione este useEffect logo abaixo:
-
   const [cartasSelecionadas, setCartasSelecionadas] = useState([]);
-  const [filtroQuantidade, setFiltroQuantidade] = useState("todos"); // "todos", "1", "2-5", "6-10", "10+"
-  const [filtroSelecionados, setFiltroSelecionados] = useState(false); // true = mostrar apenas selecionados
+  const [filtroQuantidade, setFiltroQuantidade] = useState("todos");
+  const [filtroSelecionados, setFiltroSelecionados] = useState(false);
 
-  // Função para calcular o limite de cartas baseado no dia
   const getLimiteSelecao = useCallback(() => {
     const dia = dados.dia || 0;
     if (dia > 300) return 20;
@@ -409,63 +466,103 @@ const verificarAcao = useSlotVerification();
   }, [dados.dia]);
 
   const calcularDadosFinais = useCallback(() => {
-  // 1. Faturamento total durante todo o jogo
-  const faturamentoTotal = dados.faturamento?.arrayFatuDiário?.reduce((acc, val) => acc + val, 0) || 0;
+    const faturamentoTotal = dados.faturamento?.arrayFatuDiário?.reduce((acc, val) => acc + val, 0) || 0;
+    const powerUpsAumFatu = economiaSetores.powerUps?.aumentoFaturamentoDiario || [];
+    const powerUpsRedCusto = economiaSetores.powerUps?.reducaoCustoDiario || [];
+    const somaPowerUpsAumFatu = powerUpsAumFatu.reduce((acc, val) => acc + val, 0);
+    const somaPowerUpsRedCusto = powerUpsRedCusto.reduce((acc, val) => acc + val, 0);
+    const patrimonioHistorico = economiaSetores.patrimonioInventarioHistorico || [];
+    const roeMedio = patrimonioHistorico.length > 0 
+      ? (patrimonioHistorico.reduce((acc, val) => acc + val, 0) / patrimonioHistorico.length) 
+      : 0;
+    const inventarioHistorico = economiaSetores.patrimonioInventarioHistorico || [];
+    const somaInventarioHistorico = inventarioHistorico.reduce((acc, val) => acc + val, 0);
+    const patrimonioHistoricoTotal = setoresArr.reduce((total, setor) => {
+      const historico = economiaSetores[setor]?.economiaSetor?.patrimonioHistorico || [];
+      return total + historico.reduce((acc, val) => acc + val, 0);
+    }, 0);
+    const saldoTotal = economiaSetores.saldo || 0;
 
-  // 2. Soma de todas as pontuações de powerUp (aum fatu e red custo)
-  const powerUpsAumFatu = economiaSetores.powerUps?.aumentoFaturamentoDiario || [];
-  const powerUpsRedCusto = economiaSetores.powerUps?.reducaoCustoDiario || [];
-  const somaPowerUpsAumFatu = powerUpsAumFatu.reduce((acc, val) => acc + val, 0);
-  const somaPowerUpsRedCusto = powerUpsRedCusto.reduce((acc, val) => acc + val, 0);
-  const totalPowerUps = somaPowerUpsAumFatu + somaPowerUpsRedCusto;
+    return {
+      faturamentoTotal,
+      somaPowerUpsAumFatu,
+      somaPowerUpsRedCusto,
+      roeMedio,
+      somaInventarioHistorico,
+      patrimonioHistoricoTotal,
+      saldoTotal
+    };
+  }, [dados, economiaSetores]);
 
-  // 3. ROE médio de todo o jogo (Retorno sobre o Patrimônio)
-  const patrimonioHistorico = economiaSetores.patrimonioInventarioHistorico || [];
-  const roeMedio = patrimonioHistorico.length > 0 
-    ? (patrimonioHistorico.reduce((acc, val) => acc + val, 0) / patrimonioHistorico.length) 
-    : 0;
+  useEffect(() => {
+    if (dados.dia >= 360 && !modalConclusao) {
+      setModalConclusao(true);
+    }
+  }, [dados.dia, modalConclusao]);
 
-  // 4. Soma total de inventário histórico durante o jogo
-  const inventarioHistorico = economiaSetores.patrimonioInventarioHistorico || [];
-  const somaInventarioHistorico = inventarioHistorico.reduce((acc, val) => acc + val, 0);
+  const fecharModalConclusao = useCallback(() => {
+    setModalConclusao(false);
+  }, []);
 
-  // 5. Soma total de patrimônio histórico
-  const patrimonioHistoricoTotal = setoresArr.reduce((total, setor) => {
-    const historico = economiaSetores[setor]?.economiaSetor?.patrimonioHistorico || [];
-    return total + historico.reduce((acc, val) => acc + val, 0);
-  }, 0);
+  // 🔥 FUNÇÃO PARA ALTERNAR SELEÇÃO DE CARTA PARA VENDA RÁPIDA
+  const toggleSelecaoVenda = useCallback((setor, index, nomeEdificio) => {
+    const chave = `${setor}-${index}`;
+    setCartasParaVender(prev => {
+      const jaSelecionado = prev.some(item => item.chave === chave);
+      if (jaSelecionado) {
+        return prev.filter(item => item.chave !== chave);
+      } else {
+        return [...prev, { chave, setor, index, nome: nomeEdificio }];
+      }
+    });
+  }, []);
 
-  // 6. Total de dinheiro disponível de saldo
-  const saldoTotal = economiaSetores.saldo || 0;
+  // 🔥 FUNÇÃO PARA EXECUTAR VENDA RÁPIDA
+  const executarVendaRapida = useCallback(async () => {
+    if (cartasParaVender.length === 0) {
+      alert("Selecione pelo menos uma carta para vender!");
+      return;
+    }
 
-  return {
-    faturamentoTotal,
-    somaPowerUpsAumFatu,
-    somaPowerUpsRedCusto,
-    totalPowerUps,
-    roeMedio,
-    somaInventarioHistorico,
-    patrimonioHistoricoTotal,
-    saldoTotal
-  };
-}, [dados, economiaSetores]);
+    const confirmar = confirm(`Deseja vender ${cartasParaVender.length} carta(s) selecionada(s)?`);
+    if (!confirmar) return;
 
-// Adicione este useEffect para monitorar o fim do jogo:
+    let totalRecebido = 0;
+    let vendidos = [];
 
-useEffect(() => {
-  if (dados.dia >= 360 && !modalConclusao) {
-    setModalConclusao(true);
-  }
-}, [dados.dia, modalConclusao]);
+    for (const item of cartasParaVender) {
+      const edificio = dados[item.setor]?.edificios?.[item.index];
+      if (!edificio || edificio.quantidade <= 0) continue;
 
-// Funções para os botões do modal:
+      const valorVenda = (edificio.custoConstrucao || 0) * 0.7 * edificio.quantidade;
+      totalRecebido += valorVenda;
+      
+      vendidos.push({
+        nome: edificio.nome,
+        quantidade: edificio.quantidade,
+        valor: valorVenda
+      });
 
-const fecharModalConclusao = useCallback(() => {
-  setModalConclusao(false);
-  // Aqui você pode adicionar lógica para reiniciar o jogo ou redirecionar
-}, []);
+      const path = [item.setor, "edificios", item.index, "quantidade"];
+      await atualizarDadosProf2(path, 0);
+    }
 
-  // Função para alternar seleção de uma carta
+    const saldoAtual = economiaSetores.saldo || 0;
+    await atualizarEco("saldo", saldoAtual + totalRecebido);
+
+    setCartasParaVender([]);
+    setModoVendaRapida(false);
+
+    let mensagem = `✅ Venda rápida concluída!\n\n`;
+    vendidos.forEach(v => {
+      mensagem += `- ${v.nome}: ${v.quantidade} unidade(s) → R$ ${v.valor.toFixed(2)}\n`;
+    });
+    mensagem += `\n💰 Total recebido: R$ ${totalRecebido.toFixed(2)}`;
+    alert(mensagem);
+
+    setCarteiraKey(prev => prev + 1);
+  }, [cartasParaVender, dados, atualizarDadosProf2, atualizarEco, economiaSetores.saldo]);
+
   const toggleSelecao = useCallback((setor, index, nomeEdificio) => {
     const chave = `${setor}-${index}`;
     const limite = getLimiteSelecao();
@@ -495,25 +592,21 @@ const fecharModalConclusao = useCallback(() => {
     });
   }, [getLimiteSelecao, atualizarDados]);
 
-  // Carregar seleções salvas ao iniciar
   useEffect(() => {
     if (dados.cartasSelecionadas) {
       setCartasSelecionadas(dados.cartasSelecionadas);
     }
   }, [dados.cartasSelecionadas]);
 
-  // Função para limpar todas as seleções
   const limparSelecoes = useCallback(() => {
     setCartasSelecionadas([]);
     atualizarDados("cartasSelecionadas", []);
   }, [atualizarDados]);
 
-  // Função para obter a quantidade de um edifício
   const getQuantidadeEdificio = (ed) => {
     return ed.quantidade || 0;
   };
 
-  // Função para filtrar por quantidade
   const filtrarPorQuantidade = (ed, filtro) => {
     const qtd = getQuantidadeEdificio(ed);
     switch (filtro) {
@@ -525,7 +618,6 @@ const fecharModalConclusao = useCallback(() => {
     }
   };
 
-  // Função para obter o label do filtro de quantidade
   const getLabelQuantidade = (filtro) => {
     switch (filtro) {
       case "1": return "1";
@@ -534,34 +626,20 @@ const fecharModalConclusao = useCallback(() => {
       default: return "Todos";
     }
   };
+
   useEffect(() => {
-    // console.log("[Dashboard] snapshot mudou, ativo:", ativo, "carteiraKey antes:", carteiraKey);
     if (ativo === "carteira") {
       setCarteiraKey(prev => prev + 1);
     }
   }, [snapshotDados]);
 
-
-  // { id: "ecossistema", img: ecossistemaImg, cor3: "#4C14A9", cor4: "#6411D9" }
-
-  // {ativo === "ecossistema" && (
-  //   <div className="w-full h-full">
-  //     <EcosystemMap />
-  //   </div>
-  // )}
-
-
   const [modalSell, setModalSell] = useState(false);
-  // const economiaSetor = dados[ativo].economiaSetor.estadoAtual
-  // console.log(economiaSetor)
-  const patrimonioTotal = economiaSetores.patrimonio
+  const patrimonioTotal = economiaSetores.patrimonio;
   const vision = dados.vision.visionAtual;
   const [changeAudio] = useSound(changeSectoryAudio);
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
   const [buttonWalletOpenAudio] = useSound(walletOpenAudio);
-  // Adicione este estado no início do componente Dashboard (junto com os outros useState):
-
 
   const setVision = (newVision) => {
     atualizarDados("vision", {
@@ -570,7 +648,6 @@ const fecharModalConclusao = useCallback(() => {
     });
   };
   const abrirMapa = () => setVision("mapa");
-  // const abrirDashboard = () => setVision("dashboard")
   const abrirBanco = () => setVision("bank");
 
   const [modalSellOpen, setModalSellOpen] = useState(false);
@@ -580,27 +657,12 @@ const fecharModalConclusao = useCallback(() => {
     index: 0,
   });
 
-
   useEffect(() => {
     if (ativo === "carteira") {
-      // console.log("[Carteira] Recalculando dados...");
       const novosDados = processarCarteira(dados, economiaSetores, carteiraFiltroSetor, carteiraOrdem);
       setCarteiraDados(novosDados);
     }
   }, [dados, economiaSetores, carteiraFiltroSetor, carteiraOrdem, ativo]);
-
-
-  // useEffect(() => {
-  //   if (dados.dia >= 270) {
-
-  //     setAtivo("carteira")
-
-  //   }
-  // }, [dados.dia])
-
-
-
-
 
   const abrirModalSell = (setor, index) => {
     setModalProps({ setor, index });
@@ -610,11 +672,11 @@ const fecharModalConclusao = useCallback(() => {
   const controls = useAnimation();
 
   const gradientes = [
-    "linear-gradient(to top, #ff9966, #ff5e62, #2c3e50)", // pôr do sol
-    "linear-gradient(to top, #141e30, #243b55, #0f2027)", // noite
-    "linear-gradient(to top, #0f2027, #203a43, #2c5364)", // madrugada
-    "linear-gradient(to top, #2c5364, #203a43, #fbb034)", // nascer do sol
-    "linear-gradient(to top, #fbb034, #ffdd00, #ffeeee)", // meio-dia
+    "linear-gradient(to top, #ff9966, #ff5e62, #2c3e50)",
+    "linear-gradient(to top, #141e30, #243b55, #0f2027)",
+    "linear-gradient(to top, #0f2027, #203a43, #2c5364)",
+    "linear-gradient(to top, #2c5364, #203a43, #fbb034)",
+    "linear-gradient(to top, #fbb034, #ffdd00, #ffeeee)",
   ];
 
   const animarCicloDia = async () => {
@@ -626,11 +688,6 @@ const fecharModalConclusao = useCallback(() => {
       },
     });
   };
-
-  // disponibiliza no contexto para o botão usar
-  // useEffect(() => {
-  //   atualizarDados("animarCicloDia", animarCicloDia);
-  // }, [dados.dia]);
 
   const tooltipStyle = {
     backgroundColor: "#FFFFFF",
@@ -666,10 +723,10 @@ const fecharModalConclusao = useCallback(() => {
   };
 
   const formatarNumero = (num) => {
-    if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T"; // Trilhões
-    if (num >= 1e9) return (num / 1e9).toFixed(1).replace(".0", "") + "B"; // Bilhões
-    if (num >= 1e6) return (num / 1e6).toFixed(1).replace(".0", "") + "M"; // Milhões
-    if (num >= 1e3) return (num / 1e3).toFixed(1).replace(".0", "") + "K"; // Milhares
+    if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
+    if (num >= 1e9) return (num / 1e9).toFixed(1).replace(".0", "") + "B";
+    if (num >= 1e6) return (num / 1e6).toFixed(1).replace(".0", "") + "M";
+    if (num >= 1e3) return (num / 1e3).toFixed(1).replace(".0", "") + "K";
     return num.toString();
   };
 
@@ -684,7 +741,7 @@ const fecharModalConclusao = useCallback(() => {
         <div
           style={{
             position: "absolute",
-            top: ref.current.getBoundingClientRect().top - 40, // sobe o tooltip
+            top: ref.current.getBoundingClientRect().top - 40,
             left:
               ref.current.getBoundingClientRect().left +
               ref.current.offsetWidth / 2,
@@ -694,7 +751,7 @@ const fecharModalConclusao = useCallback(() => {
             padding: "6px 10px",
             borderRadius: "6px",
             ontWeight: "600",
-            whiteSpace: "pre-line", // respeita \n como quebra de linha
+            whiteSpace: "pre-line",
             zIndex: 2147483647,
             pointerEvents: "none",
             maxWidth: "400px",
@@ -725,8 +782,7 @@ const fecharModalConclusao = useCallback(() => {
       id: "agricultura",
       corClasse: "bg-[#4CAF50]",
       img: agricultura,
-      descLicença:
-        "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!",
+      descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!",
       cor1: "#003816",
       cor2: "#4CAF50",
       cor3: "#0C9123",
@@ -736,8 +792,7 @@ const fecharModalConclusao = useCallback(() => {
       id: "tecnologia",
       corClasse: "bg-[#FF8C42]",
       img: tecnologia,
-      descLicença:
-        "Com a Licença Global de Tecnologia, você desbloqueia inovações que podem transformar sua infraestrutura, otimizar processos e maximizar os lucros. Invista no futuro agora!",
+      descLicença: "Com a Licença Global de Tecnologia, você desbloqueia inovações que podem transformar sua infraestrutura, otimizar processos e maximizar os lucros. Invista no futuro agora!",
       cor1: "#A64B00 ",
       cor2: "#D45A00 ",
       cor3: "#FF6F00 ",
@@ -747,8 +802,7 @@ const fecharModalConclusao = useCallback(() => {
       id: "industria",
       corClasse: "bg-[#B3B3B3]",
       img: industria,
-      descLicença:
-        "Com a Licença Global de Indústria, você acessa fábricas avançadas e processos de produção que aceleram sua evolução e aumentam a eficiência. Não fique para trás!",
+      descLicença: "Com a Licença Global de Indústria, você acessa fábricas avançadas e processos de produção que aceleram sua evolução e aumentam a eficiência. Não fique para trás!",
       cor1: "#1A1A1A ",
       cor2: "#4D4D4D  ",
       cor3: "#808080  ",
@@ -758,8 +812,7 @@ const fecharModalConclusao = useCallback(() => {
       id: "comercio",
       corClasse: "bg-[#FF4D4D]",
       img: comercio,
-      descLicença:
-        "Com a Licença Global de Comércio, você tem acesso a novos mercados, estratégias de vendas e expansão que podem levar seus negócios a um novo nível. Não perca essa oportunidade!",
+      descLicença: "Com a Licença Global de Comércio, você tem acesso a novos mercados, estratégias de vendas e expansão que podem levar seus negócios a um novo nível. Não perca essa oportunidade!",
       cor1: "#660000  ",
       cor2: "#A31919  ",
       cor3: "#E60000  ",
@@ -769,8 +822,7 @@ const fecharModalConclusao = useCallback(() => {
       id: "imobiliario",
       corClasse: "bg-[#6666FF]",
       img: imobiliario,
-      descLicença:
-        "Com a Licença Global Imobiliária, você pode investir em novos terrenos, expandir suas construções e maximizar os retornos do mercado imobiliário. Abra as portas para grandes lucros!",
+      descLicença: "Com a Licença Global Imobiliária, você pode investir em novos terrenos, expandir suas construções e maximizar os retornos do mercado imobiliário. Abra as portas para grandes lucros!",
       cor1: "#000066  ",
       cor2: "#1A1A8C  ",
       cor3: "#3333CC  ",
@@ -780,8 +832,7 @@ const fecharModalConclusao = useCallback(() => {
       id: "energia",
       corClasse: "bg-[#FFD966]",
       img: energia,
-      descLicença:
-        "Com a Licença Global de Energia, você ativa fontes de energia sustentáveis e de alta performance, garantindo uma operação eficiente e lucrativa. Potencialize seu setor energético agora!",
+      descLicença: "Com a Licença Global de Energia, você ativa fontes de energia sustentáveis e de alta performance, garantindo uma operação eficiente e lucrativa. Potencialize seu setor energético agora!",
       cor1: "#665200   ",
       cor2: "#A37F19   ",
       cor3: "#E6B800",
@@ -796,24 +847,6 @@ const fecharModalConclusao = useCallback(() => {
       cor3: "#6A00FF ",
       cor4: "#934CFF ",
     },
-    // {
-    //   id: "mercado",
-    //   corClasse: "bg-[#6A00FF]",
-    //   img: mercado,
-    //   cor1: "#6A00FF ",
-    //   cor2: "#6A00FF ",
-    //   cor3: "#6A00FF ",
-    //   cor4: "#6A00FF ",
-    // },
-    // {
-    //   id: "gerenciamento",
-    //   corClasse: "bg-[#934CFF]",
-    //   img: gerenciamento,
-    //   cor1: "#7c7879ff ",
-    //   cor2: "#4C14A9 ",
-    //   cor3: "#6A00FF ",
-    //   cor4: "#934CFF ",
-    // },
     {
       id: "grafico",
       corClasse: "bg-gradient-to-br from-[#6A00FF] to-[#E60000]",
@@ -823,16 +856,6 @@ const fecharModalConclusao = useCallback(() => {
       cor3: "#6A00FF ",
       cor4: "#6A00FF ",
     },
-    // {
-    //   id: "ecossistema",
-    //   corClasse: "bg-[#6A00FF]",
-    //   img: ecossistema,
-    //   cor1: "#6A00FF ",
-    //   cor2: "#6A00FF ",
-    //   cor3: "#6A00FF ",
-    //   cor4: "#6A00FF ",
-    // },
-    // { id: "mapa", corClasse: "bg-[#E60000]", img: maps, cor1: "#6A00FF ", cor2: "#6A00FF ", cor3:  "bg-gradient-to-br from-[#6A00FF] to-[#E60000]", cor4: "#6A00FF ", },
   ];
 
   const corEconomia = (cor) => {
@@ -849,8 +872,6 @@ const fecharModalConclusao = useCallback(() => {
         return "bg-[#006400]";
     }
   };
-
-
 
   const coresEdificiosGradiente = {
     terrenos: {
@@ -878,8 +899,6 @@ const fecharModalConclusao = useCallback(() => {
       glow: "rgba(58, 14, 140, 0.3)",
     },
   };
-
-
 
   const createGradientEdificios = (ctx, edificio) => {
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
@@ -1039,55 +1058,29 @@ const fecharModalConclusao = useCallback(() => {
         window.chartInstanceEdificios.destroy();
       }
     };
-  }, [
-    ativo,
-    dados.dia,
-    dados.terrenos,
-    dados.lojasP,
-    dados.lojasM,
-    dados.lojasG,
-  ]);
+  }, [ativo, dados.dia, dados.terrenos, dados.lojasP, dados.lojasM, dados.lojasG]);
 
   const alterarEconomiaSetor = () => {
     atualizarDadosProf2([ativo, "economiaSetor", "estadoAtual"], "recessão");
   };
 
-  // Pegando o setor ativo
   const setorAtivo = setores.find((setor) => setor.id === ativo);
   const setorInfo = setores.find((setor) => setor.id === setorAtivo);
   const setorCarteira = setores.find((setor) => setor.id === "carteira");
-  const setorGerenciamento = setores.find(
-    (setor) => setor.id === "gerenciamento"
-  );
+  const setorGerenciamento = setores.find((setor) => setor.id === "gerenciamento");
 
-
-  // console.log("setorAtivo:", setorAtivo);
-  // console.log("edificios:", dados[setorAtivo]?.edificios);
-  // console.log("edificios length:", dados[setorAtivo]?.edificios?.length);
-  // console.log("setorAtivo:", setorAtivo, "| dados keys:", Object.keys(dados));
-
-
-
-  // Definindo as cores dinâmicas
   const corClasse = setorAtivo ? setorAtivo.corClasse : "bg-[#358Q973]";
 
-  // Pegando os dados do setor ativo
-  const setorDados = dados[ativo]; // Dados do setor ativo
+  const setorDados = dados[ativo];
   const licençaComprada = setorDados.licençaGlobal.comprado;
   const licenciaValor = setorDados.licençaGlobal.valor;
 
-  // Dados do gráfico
   const licençasNecessárias = ["Silo", "Plantação De Legumes"];
   const arrayLicenseNece = licençasNecessárias;
 
   const dadosDia = dados.terrenos.arrayFatu.map((_, index) => index + 1);
-  const dadosFatu = dados.faturamento.arrayFatuDiário.map(
-    (_, index) => index + 1
-  );
-  const dadosDiaSetores =
-    economiaSetores.agricultura.economiaSetor.ArrayFatuHistory.map(
-      (_, index) => index + 270
-    );
+  const dadosFatu = dados.faturamento.arrayFatuDiário.map((_, index) => index + 1);
+  const dadosDiaSetores = economiaSetores.agricultura.economiaSetor.ArrayFatuHistory.map((_, index) => index + 270);
 
   const chartRefSetores = useRef(null);
 
@@ -1095,7 +1088,6 @@ const fecharModalConclusao = useCallback(() => {
     if (ativo === "grafico" && dados.dia > 270 && chartRefSetores.current) {
       const ctx = chartRefSetores.current.getContext("2d");
 
-      // 🔥 MODIFICAÇÃO: Usar ArrayFatuMonth em vez de ArrayFatuHistory
       const datasetsSetores = [
         "agricultura",
         "tecnologia",
@@ -1107,12 +1099,11 @@ const fecharModalConclusao = useCallback(() => {
         const gradient = createGradient(ctx, setorSelecionado);
         const cores = coresSetoresGradiente[setorSelecionado];
 
-        // 🔥 MUDANÇA AQUI: ArrayFatuMonth em vez de ArrayFatuHistory
         const dadosSetor = economiaSetores[setorSelecionado]?.economiaSetor?.ArrayFatuMonth || [];
 
         return {
           label: setorSelecionado.toUpperCase(),
-          data: dadosSetor, // ✅ Agora usando ArrayFatuMonth
+          data: dadosSetor,
           borderColor: cores.end,
           backgroundColor: gradient,
           tension: 0.4,
@@ -1131,17 +1122,15 @@ const fecharModalConclusao = useCallback(() => {
       });
       const dadosSetor = economiaSetores.agricultura?.economiaSetor?.ArrayFatuMonth || [];
 
-      // 🔥 MODIFICAÇÃO: Labels agora representam meses, não dias
       const labelsMeses = dadosSetor.map((_, index) => {
         const dia = (index + 1) * 30;
         return `Dia ${dia}`;
       });
 
-      // Configuração do gráfico futurista
       const configSetores = {
         type: "line",
         data: {
-          labels: labelsMeses, // ✅ Agora usando labels mensais
+          labels: labelsMeses,
           datasets: datasetsSetores,
         },
         options: {
@@ -1177,7 +1166,6 @@ const fecharModalConclusao = useCallback(() => {
               displayColors: true,
               callbacks: {
                 title: function (items) {
-                  // Mostra o mês e o dia correspondente
                   const index = items[0].dataIndex;
                   const dia = (index + 1) * 30;
                   return `Mês ${index + 1} (Dia ${dia})`;
@@ -1213,7 +1201,6 @@ const fecharModalConclusao = useCallback(() => {
                   size: 11,
                   weight: "500",
                 },
-                // Mostra a cada 3 meses para não poluir
                 stepSize: 3,
               },
               border: {
@@ -1252,7 +1239,6 @@ const fecharModalConclusao = useCallback(() => {
         },
       };
 
-      // Criar o gráfico
       if (window.chartInstanceSetores) {
         window.chartInstanceSetores.destroy();
       }
@@ -1265,7 +1251,6 @@ const fecharModalConclusao = useCallback(() => {
       }
     };
   }, [ativo, dados.dia, economiaSetores]);
-
 
   const cores = {
     terrenos: "#FF7F32 ",
@@ -1336,25 +1321,6 @@ const fecharModalConclusao = useCallback(() => {
     return gradient;
   };
 
-  // const datasetsSetores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"].map(
-  //   (setorSelecionado) => ({
-  //     label: setorSelecionado,
-  //     data: economiaSetores[setorSelecionado]?.economiaSetor.ArrayFatuHistory || [],
-  //     borderColor: coresSetores[setorSelecionado]?.replace("0.5", "1") || "#000000",
-  //     backgroundColor: coresSetores[setorSelecionado] || "#000000",
-  //     tension: 0.4,
-  //     fill: true,
-  //     pointRadius: 0,
-  //     pointHoverRadius: 5,
-  //     pointBorderWidth: 1,
-  //   })
-  // );
-
-  // const dataSetores = {
-  //   labels: dadosDiaSetores,
-  //   datasets: datasetsSetores,
-  // };
-
   const data = {
     labels: dadosDia,
     datasets: datasets,
@@ -1405,9 +1371,7 @@ const fecharModalConclusao = useCallback(() => {
     (categoriaFinanceira) => ({
       label: categoriaFinanceira,
       data: arraysFinanceiros[categoriaFinanceira] || [],
-      borderColor:
-        coresDespesasFatu[categoriaFinanceira]?.replace("0.5", "1") ||
-        "#000000",
+      borderColor: coresDespesasFatu[categoriaFinanceira]?.replace("0.5", "1") || "#000000",
       backgroundColor: coresDespesasFatu[categoriaFinanceira] || "#000000",
       tension: 0.4,
       fill: true,
@@ -1434,7 +1398,6 @@ const fecharModalConclusao = useCallback(() => {
         const novoSaldo = economiaSetores.saldo - licenciaValor;
         atualizarDados("saldo", novoSaldo);
         atualizarDadosProf2([ativo, "licençaGlobal", "comprado"], true);
-        // Liberar licenças específicas
         arrayLicenseNece.forEach((licenca) => {
           const licençaIndex = dados[ativo].licençasSetor.findIndex(
             (l) => l.nome === licenca
@@ -1446,7 +1409,6 @@ const fecharModalConclusao = useCallback(() => {
             );
           }
         });
-        // alert("Licença comprada com sucesso!");
       }
     } else {
       alert("Saldo insuficiente para comprar a licença.");
@@ -1488,8 +1450,6 @@ const fecharModalConclusao = useCallback(() => {
       },
     },
   };
-
-
 
   const configDespesasFatu = {
     type: "line",
@@ -1563,7 +1523,6 @@ const fecharModalConclusao = useCallback(() => {
     },
   };
 
-
   const [licencaModal, setLicencaModal] = useState({ open: false, scrollToIndex: null });
   const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
 
@@ -1572,7 +1531,6 @@ const fecharModalConclusao = useCallback(() => {
     : dados.setorAtivo;
 
   const edificiosPorNome = useMemo(() => {
-    // console.count("edificiosPorNome recriado"); // ← deve ser raro
     const mapa = {};
     ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"].forEach(setor => {
       if (!dados[setor]?.edificios) return;
@@ -1582,7 +1540,6 @@ const fecharModalConclusao = useCallback(() => {
     });
     return mapa;
   }, [dados]);
-
 
   useEffect(() => {
     const sinal = dados.abrirModalLicencas;
@@ -1604,345 +1561,19 @@ const fecharModalConclusao = useCallback(() => {
     return () => clearTimeout(timer);
   }, [licencaModal.open, licencaModal.scrollToIndex]);
 
-
-
-
-
-
-  {
-    modalSell && (
-      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/90">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[80vw] h-[80vh] bg-[#350973] rounded-[20px] relative flex flex-col items-center justify-around"
-        >
-          <h1 className="text-center text-white p-[10px] text-[50px] fonteBold">
-            Fim
-          </h1>
-
-          <div className="w-[80%] h-[15px] bg-gradient-to-l from-laranja to-roxo rounded-[7px]"></div>
-
-          <h2 className="text-center text-white opacity-80 text-[35px] fonteLight"></h2>
-
-          <button
-            className="absolute right-[20px] bottom-[20px] text-white bg-laranja px-[25px] py-[15px] rounded-[40px] fonteBold hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
-            onClick={() => {
-              setModalSell(false), buttonCloseAudio();
-            }}
-          >
-            entendido
-          </button>
-        </motion.div>
-      </div>
-    );
-  }
-
   if (vision === "dashboard") {
     return (
       <>
         <div
           className={`${corClasse} w-full h-full border-[#350973] rounded-[20px] flex justify-between`}
         >
-          {/* Dashboard */}
           <div
-            className={`h-full rounded-[0px] items-center justify-center transition-all rounded-[40px] duration-300 bg-[${setorAtivo.cor2
-              }] ${dados.dia >= 270 ? "w-[calc(100%)]" : "w-[calc(100%)]"}`}
+            className={`h-full rounded-[0px] items-center justify-center transition-all rounded-[40px] duration-300 bg-[${setorAtivo.cor2}] ${dados.dia >= 270 ? "w-[calc(100%)]" : "w-[calc(100%)]"}`}
           >
-            {/* Renderiza o conteúdo baseado no estado da licença */}
             {licençaComprada ? (
-              // Container com licença comprada
               <div className="w-full h-full p-4 flex flex-col" style={{ minHeight: 0, overflow: "hidden" }}>
                 {ativo === "grafico" && <TechTree />}
 
-                {ativo === "teste" && (() => {
-                  const setoresCores = {
-                    agricultura: { cor1: "#003816", cor3: "#0C9123", cor4: "#4CAF50" },
-                    tecnologia: { cor1: "#A64B00", cor3: "#FF6F00", cor4: "#FF8C42" },
-                    industria: { cor1: "#1A1A1A", cor3: "#808080", cor4: "#B3B3B3" },
-                    comercio: { cor1: "#660000", cor3: "#E60000", cor4: "#FF4D4D" },
-                    imobiliario: { cor1: "#000066", cor3: "#3333CC", cor4: "#6666FF" },
-                    energia: { cor1: "#665200", cor3: "#E6B800", cor4: "#FFD966" },
-                  };
-                  const setoresNomes = {
-                    agricultura: "Agricultura",
-                    tecnologia: "Tecnologia",
-                    industria: "Indústria",
-                    comercio: "Comércio",
-                    imobiliario: "Imobiliário",
-                    energia: "Energia",
-                    todos: "Todos"
-                  };
-
-                  const dadosCarteiraEdificios = economiaSetores.centralEdificios;
-
-                  const {
-                    todosEdificios,
-                    receitaMensalTotal,
-                    impostosTotais,
-                    lucroLiquido,
-                    setoresAtivosSet,
-                    edAtual,
-                    tiposUnicos,
-                    setoresComEdificios
-                  } = processarCarteira(dados, economiaSetores, carteiraFiltroSetor, carteiraOrdem);
-
-                  const edMax = dadosCarteiraEdificios.quantidadeEdificiosMax || 1;
-                  const percCapacidade = Math.min((edAtual / edMax) * 100, 100);
-                  const corBarra = percCapacidade >= 90 ? "#ff4d4d" : percCapacidade >= 70 ? "#FFD700" : "#7aff9a";
-
-                  const btnBase = {
-                    border: "none", borderRadius: 8, padding: "5px 12px", cursor: "pointer",
-                    fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 700,
-                    letterSpacing: ".06em", transition: "all .15s", whiteSpace: "nowrap",
-                  };
-                  const btnAtivo = { ...btnBase, background: "rgba(255,255,255,.18)", color: "#fff" };
-                  const btnInativo = { ...btnBase, background: "rgba(255,255,255,.06)", color: "rgba(255,255,255,.4)" };
-
-                  return (
-                    <div key={carteiraKey} className="flex-1 w-full rounded-[20px] flex flex-col gap-[10px]" style={{ minHeight: 0 }}>
-                      <Tooltip style={tooltipStyle} id="tooltip-carteira" />
-
-                      {/* ── HEADER ─────────────────────────────────────── */}
-                      <div className="h-[50px] w-full flex gap-[10px] items-center">
-                        <div style={{ backgroundColor: setorAtivo.cor3 }}
-                          className="rounded-[20px] px-4 h-full fonteBold text-white flex items-center justify-center text-[20px] sombra shrink-0">
-                          Carteira
-                        </div>
-                        <div style={{ backgroundColor: setorAtivo.cor3 }}
-                          className="rounded-[20px] px-4 h-full fonteBold text-white flex items-center text-[15px] sombra shrink-0">
-                          {dadosCarteiraEdificios.classificacaoPorteEmpresa}
-                        </div>
-                        <div className="w-full flex gap-[10px]" style={{ height: 44 }}>
-                          {[
-                            { icon: limitar, tip: "Limite por tipo", val: String(dadosCarteiraEdificios.quantidadeUnicoMax) },
-                            { icon: setoresImg, tip: "Setores ativos", val: `${setoresComEdificios}/${dadosCarteiraEdificios.quantidadeSetoresMax}` },
-                            { icon: diversidade, tip: "Tipos de edifícios", val: `${tiposUnicos}/${dadosCarteiraEdificios.quantidadeDiversosEdificiosMax}` },
-                            { icon: soma, tip: "Total de edifícios", val: `${edAtual}/${dadosCarteiraEdificios.quantidadeEdificiosMax}` },
-                          ].map(({ icon, tip, val }, i) => (
-                            <div key={i} data-tooltip-id="tooltip-carteira" data-tooltip-html={tip}
-                              style={{ backgroundColor: setorAtivo.cor3 }}
-                              className="flex-1 rounded-[12px] h-full fonteBold text-white flex items-center justify-between sombra px-[4px]">
-                              <div style={{ backgroundColor: setorAtivo.cor4 }} className="h-[80%] aspect-square rounded-[10px] flex items-center justify-center">
-                                <img src={icon} className="h-[55%] aspect-square" />
-                              </div>
-                              <span className="text-white fonteBold text-[15px] mr-[8px]">{val}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* ── BARRA DE FILTROS E ORDENAÇÃO ───────────────── */}
-                      <div style={{
-                        display: "flex", alignItems: "center", gap: 8,
-                        background: "rgba(0,0,0,.25)", border: "1px solid rgba(255,255,255,.07)",
-                        borderRadius: 12, padding: "7px 12px", flexShrink: 0, flexWrap: "wrap",
-                      }}>
-                        <span style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".14em", color: "rgba(255,255,255,.3)", marginRight: 4 }}>
-                          Ordenar
-                        </span>
-                        {[
-                          { key: "setor", label: "Por setor" },
-                          { key: "roi_desc", label: "ROI ↓" },
-                          { key: "roi_asc", label: "ROI ↑" },
-                          { key: "categoria", label: "Categoria" },
-                          { key: "nome", label: "A–Z" },
-                        ].map(({ key, label }) => (
-                          <button key={key}
-                            onClick={() => setCarteiraOrdem(key)}
-                            style={carteiraOrdem === key ? btnAtivo : btnInativo}>
-                            {label}
-                          </button>
-                        ))}
-
-                        <div style={{ width: 1, height: 20, background: "rgba(255,255,255,.1)", margin: "0 4px" }} />
-                        <span style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".14em", color: "rgba(255,255,255,.3)", marginRight: 4 }}>
-                          Setor
-                        </span>
-
-                        {["todos", ...setoresArr].map(s => {
-                          const sc = s !== "todos" ? setoresCores[s] : null;
-                          const isAtivo = carteiraFiltroSetor === s;
-                          const temCards = s === "todos" || setoresAtivosSet.has(s);
-                          return (
-                            <button key={s}
-                              onClick={() => setCarteiraFiltroSetor(s)}
-                              style={{
-                                ...btnBase,
-                                background: isAtivo ? (sc ? sc.cor3 : "rgba(255,255,255,.2)") : "rgba(255,255,255,.05)",
-                                color: isAtivo ? "#fff" : temCards ? "rgba(255,255,255,.45)" : "rgba(255,255,255,.15)",
-                                border: isAtivo && sc ? `1px solid ${sc.cor4}` : "1px solid transparent",
-                                opacity: temCards ? 1 : 0.5,
-                              }}>
-                              {setoresNomes[s]}
-                            </button>
-                          );
-                        })}
-
-
-                        <span style={{ marginLeft: "auto", fontSize: 10, color: "rgba(255,255,255,.3)", fontFamily: "'Rajdhani',sans-serif" }}>
-                          {todosEdificios.length} edifício{todosEdificios.length !== 1 ? "s" : ""}
-                        </span>
-                      </div>
-
-                      {/* ── GRID DE CARDS ──────────────────────────────── */}
-                      <div
-                        style={{ background: `linear-gradient(135deg, ${setorAtivo.cor1} 0%, ${setorAtivo.cor4} 100%)` }}
-                        className="flex-1 overflow-y-auto mt-0 scrollbar-custom rounded-[10px]"
-                      >
-                        {todosEdificios.length === 0 ? (
-                          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, opacity: .4 }}>
-                            <span style={{ fontSize: 22 }}>📭</span>
-                            <span style={{ color: "#fff", fontSize: 13, fontFamily: "'Rajdhani',sans-serif" }}>
-                              {carteiraFiltroSetor !== "todos" ? `Nenhum edifício em ${setoresNomes[carteiraFiltroSetor]}` : "Nenhum edifício na carteira ainda"}
-                            </span>
-                          </div>
-                        ) : (
-                          <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] h-[400px] pt-[20px] pl-[20px]">
-                            {todosEdificios.map(({ ed, idx, setor, roi, categoria }) => {
-                              const chave = `${setor}-${idx}`;
-                              const estaSelecionado = cartasSelecionadas.some(item => item.chave === chave);
-                              const limite = getLimiteSelecao();
-                              const atingiuLimite = cartasSelecionadas.length >= limite && !estaSelecionado;
-
-                              return (
-                                <div key={`${setor}-${idx}`} style={{ position: "relative" }}>
-                                  <div style={{
-                                    position: "absolute", top: -8, right: 10, zIndex: 2,
-                                    background: roi >= 10 ? "#1a4a1a" : roi >= 0 ? "#2a2a1a" : "#4a1a1a",
-                                    border: `1px solid ${roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090"}`,
-                                    borderRadius: 6, padding: "1px 8px", display: "flex", alignItems: "center", gap: 4,
-                                  }}>
-                                    <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 800, color: roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090" }}>
-                                      {roi >= 0 ? "+" : ""}{roi.toFixed(1)}%
-                                    </span>
-                                  </div>
-
-                                  {/* Card */}
-                                  <CardDraft index={idx} setor={setor} abrirModalSell={abrirModalSell} />
-
-                                  {/* Botão de Seleção - abaixo do card */}
-                                  <div style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    marginTop: "4px",
-                                    marginBottom: "2px",
-                                  }}>
-                                    <button
-                                      onClick={() => toggleSelecao(setor, idx, ed.nome)}
-                                      style={{
-                                        padding: "6px 12px",
-                                        borderRadius: "6px",
-                                        border: "none",
-                                        fontFamily: "'Rajdhani',sans-serif",
-                                        fontSize: "10px",
-                                        fontWeight: 700,
-                                        cursor: "pointer",
-                                        transition: "all 0.2s ease",
-                                        background: estaSelecionado
-                                          ? "linear-gradient(135deg, #7aff9a, #34d399)"
-                                          : atingiuLimite
-                                            ? "rgba(255,255,255,0.1)"
-                                            : "rgba(255,255,255,0.15)",
-                                        color: estaSelecionado
-                                          ? "#1a1a1a"
-                                          : atingiuLimite
-                                            ? "rgba(255,255,255,0.3)"
-                                            : "rgba(255,255,255,0.7)",
-                                        boxShadow: estaSelecionado
-                                          ? "0 0 15px rgba(52, 211, 153, 0.4)"
-                                          : "none",
-                                        border: estaSelecionado
-                                          ? "1px solid #34d399"
-                                          : "1px solid rgba(255,255,255,0.1)",
-                                        transform: estaSelecionado ? "scale(1.02)" : "scale(1)",
-                                        pointerEvents: atingiuLimite && !estaSelecionado ? "none" : "auto",
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        if (!estaSelecionado && !atingiuLimite) {
-                                          e.currentTarget.style.background = "rgba(255,255,255,0.25)";
-                                          e.currentTarget.style.transform = "scale(1.05)";
-                                        }
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        if (!estaSelecionado && !atingiuLimite) {
-                                          e.currentTarget.style.background = "rgba(255,255,255,0.15)";
-                                          e.currentTarget.style.transform = "scale(1)";
-                                        }
-                                      }}
-                                    >
-                                      {estaSelecionado ? "✓ Selecionado" : "Selecionar"}
-                                    </button>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* ── CONTADOR DE SELEÇÕES ── */}
-                      <span style={{
-                        marginLeft: "auto",
-                        fontSize: 10,
-                        color: "rgba(255,255,255,.3)",
-                        fontFamily: "'Rajdhani',sans-serif",
-                        marginRight: "12px",
-                      }}>
-                        {cartasSelecionadas.length}/{getLimiteSelecao()} selecionados
-                      </span>
-                      {modalSellOpen && (
-                        <SellModal
-                          setor={modalProps.setor}
-                          nomeLicença={modalProps.nomeLicença}
-                          index={modalProps.index}
-                          onClose={() => setModalSellOpen(false)}
-                        />
-                      )}
-
-                      {/* ── BARRA DE CAPACIDADE ────────────────────────── */}
-                      <div style={{
-                        background: "rgba(0,0,0,.3)", border: "1px solid rgba(255,255,255,.08)",
-                        borderRadius: 10, padding: "8px 14px", flexShrink: 0,
-                        display: "flex", alignItems: "center", gap: 12,
-                      }}>
-                        <span style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".12em", color: "rgba(255,255,255,.35)", whiteSpace: "nowrap" }}>
-                          Capacidade
-                        </span>
-                        <div style={{ flex: 1, height: 7, background: "rgba(255,255,255,.08)", borderRadius: 4, overflow: "hidden" }}>
-                          <div style={{
-                            height: "100%", width: `${percCapacidade}%`,
-                            background: corBarra, borderRadius: 4,
-                            transition: "width .4s ease",
-                            boxShadow: `0 0 8px ${corBarra}88`,
-                          }} />
-                        </div>
-                        <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,.5)", whiteSpace: "nowrap" }}>
-                          {edAtual} / {edMax} edifícios
-                        </span>
-                        {percCapacidade >= 80 && (
-                          <button onClick={() => { setBusinessLicenceModal(true); buttonOpenAudio(); }}
-                            style={{
-                              background: "linear-gradient(135deg,#4C14A9,#6411D9)",
-                              border: "none", borderRadius: 7, padding: "4px 12px",
-                              fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 700,
-                              color: "#fff", cursor: "pointer", whiteSpace: "nowrap", letterSpacing: ".06em",
-                            }}>
-                            Evoluir empresa →
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })()}
-
-                {ativo === "ecossistema" && (
-                  <div className="w-full h-full">
-                    <Techtree/>
-                  </div>
-                )}
                 {ativo === "carteira" && (() => {
                   const setoresCores = {
                     agricultura: { cor1: "#003816", cor3: "#0C9123", cor4: "#4CAF50" },
@@ -2019,8 +1650,12 @@ const fecharModalConclusao = useCallback(() => {
                             { key: "setor", label: "Setor" },
                             { key: "roi_desc", label: "ROI ↓" },
                             { key: "roi_asc", label: "ROI ↑" },
-                            { key: "fatu_desc", label: "Fatu ↓" },
-                            { key: "fatu_asc", label: "Fatu ↑" },
+                            { key: "lucro_desc", label: "Lucro ↓" },
+                            { key: "lucro_asc", label: "Lucro ↑" },
+                            { key: "valor_desc", label: "Valor ↓" },
+                            { key: "valor_asc", label: "Valor ↑" },
+                            { key: "rank_desc", label: "Rank (S→C)" },
+                            { key: "rank_asc", label: "Rank (C→S)" },
                           ].map(({ key, label }) => (
                             <button key={key}
                               onClick={() => setCarteiraOrdem(key)}
@@ -2155,6 +1790,33 @@ const fecharModalConclusao = useCallback(() => {
                           )}
                         </div>
 
+                        {/* ── BOTÃO MODO VENDA RÁPIDA ── */}
+                        <button
+                          onClick={() => {
+                            if (modoVendaRapida && cartasParaVender.length > 0) {
+                              executarVendaRapida();
+                            } else {
+                              setModoVendaRapida(!modoVendaRapida);
+                              if (!modoVendaRapida) {
+                                setCartasParaVender([]);
+                              }
+                            }
+                          }}
+                          style={{
+                            ...btnBase,
+                            padding: "3px 10px",
+                            fontSize: 8,
+                            background: modoVendaRapida ? "rgba(255, 77, 77, .3)" : "rgba(255,255,255,.05)",
+                            color: modoVendaRapida ? "#ff4d4d" : "rgba(255,255,255,.4)",
+                            border: modoVendaRapida ? "1px solid #ff4d4d" : "1px solid transparent",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 3,
+                          }}>
+                          <span>🗑️</span>
+                          {modoVendaRapida ? `Vender (${cartasParaVender.length})` : "Venda Rápida"}
+                        </button>
+
                         {/* ── CONTADORES ── */}
                         <div style={{
                           display: "flex",
@@ -2203,7 +1865,6 @@ const fecharModalConclusao = useCallback(() => {
                             ))}
                           </div>
 
-                          {/* ── SEPARADOR ── */}
                           <div style={{
                             width: 1,
                             height: 20,
@@ -2259,33 +1920,48 @@ const fecharModalConclusao = useCallback(() => {
                                 }
                                 return true;
                               })
-                              .map(({ ed, idx, setor, roi, categoria }) => {
+                              .map(({ ed, idx, setor, roi, categoria, rank, lucroLiquido, valor }) => {
                                 const chave = `${setor}-${idx}`;
                                 const estaSelecionado = cartasSelecionadas.some(item => item.chave === chave);
+                                const estaSelecionadoVenda = cartasParaVender.some(item => item.chave === chave);
                                 const limite = getLimiteSelecao();
                                 const atingiuLimite = cartasSelecionadas.length >= limite && !estaSelecionado;
                                 const quantidade = getQuantidadeEdificio(ed);
-
-                                // 🔥 REGRA: Se quantidade > 3, mostra alerta
                                 const excedeLimite = quantidade > 3;
 
                                 return (
                                   <div key={`${setor}-${idx}`} style={{ position: "relative" }}>
+                                    {/* 🔥 BADGE DE RANK - Superior Direito */}
                                     <div style={{
                                       position: "absolute", top: -8, right: 10, zIndex: 2,
-                                      background: roi >= 10 ? "#1a4a1a" : roi >= 0 ? "#2a2a1a" : "#4a1a1a",
-                                      border: `1px solid ${roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090"}`,
-                                      borderRadius: 6, padding: "1px 8px", display: "flex", alignItems: "center", gap: 4,
+                                      background: rank.cor,
+                                      border: `2px solid ${rank.cor}`,
+                                      borderRadius: 6, padding: "1px 8px",
+                                      display: "flex", alignItems: "center", gap: 4,
+                                      boxShadow: `0 0 15px ${rank.cor}55`,
                                     }}>
-                                      <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 800, color: roi >= 10 ? "#7aff9a" : roi >= 0 ? "#FFD700" : "#ff9090" }}>
-                                        {roi >= 0 ? "+" : ""}{roi.toFixed(1)}%
+                                      <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 800, color: "#fff", textShadow: "0 0 8px rgba(0,0,0,0.5)" }}>
+                                        {rank.label}
+                                      </span>
+                                    </div>
+
+                                    {/* 🔥 BADGE DE VALOR - Superior Esquerdo */}
+                                    <div style={{
+                                      position: "absolute", top: -8, left: 10, zIndex: 2,
+                                      background: "rgba(0,0,0,0.7)",
+                                      border: "1px solid rgba(255,255,255,0.2)",
+                                      borderRadius: 6, padding: "1px 8px",
+                                      display: "flex", alignItems: "center", gap: 4,
+                                    }}>
+                                      <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 9, fontWeight: 700, color: "#C79FFF" }}>
+                                        R$ {formatarNumero(valor)}
                                       </span>
                                     </div>
 
                                     {/* Badge de quantidade excedente */}
                                     {excedeLimite && (
                                       <div style={{
-                                        position: "absolute", top: -8, left: 10, zIndex: 2,
+                                        position: "absolute", top: 20, left: 10, zIndex: 2,
                                         background: "#ff4d4d",
                                         border: "1px solid #ff4d4d",
                                         borderRadius: 6, padding: "1px 8px",
@@ -2300,18 +1976,20 @@ const fecharModalConclusao = useCallback(() => {
                                     {/* Card */}
                                     <CardDraft index={idx} setor={setor} abrirModalSell={abrirModalSell} />
 
-                                    {/* Botão de Seleção */}
+                                    {/* ── BOTÕES DE AÇÃO ── */}
                                     <div style={{
                                       display: "flex",
                                       justifyContent: "center",
                                       marginTop: "4px",
                                       marginBottom: "2px",
+                                      gap: "4px",
                                     }}>
+                                      {/* Botão Selecionar - maior altura */}
                                       <button
-                                        className="w-[90%] mt-2 mb-4"
+                                        className="w-[45%] mt-2 mb-4"
                                         onClick={() => toggleSelecao(setor, idx, ed.nome)}
                                         style={{
-                                          padding: "3px 12px",
+                                          padding: "8px 12px",
                                           borderRadius: "6px",
                                           border: "none",
                                           fontFamily: "'Rajdhani',sans-serif",
@@ -2337,6 +2015,7 @@ const fecharModalConclusao = useCallback(() => {
                                             : "1px solid rgba(255,255,255,0.1)",
                                           transform: estaSelecionado ? "scale(1.02)" : "scale(1)",
                                           pointerEvents: atingiuLimite && !estaSelecionado ? "none" : "auto",
+                                          height: "32px",
                                         }}
                                         onMouseEnter={(e) => {
                                           if (!estaSelecionado && !atingiuLimite) {
@@ -2353,6 +2032,65 @@ const fecharModalConclusao = useCallback(() => {
                                       >
                                         {estaSelecionado ? "✓ Selecionado" : "Selecionar"}
                                       </button>
+
+                                      {/* Botão Venda Rápida - ícone 🗑️ */}
+                                      <button
+                                        className="w-[45%] mt-2 mb-4"
+                                        onClick={() => {
+                                          if (modoVendaRapida) {
+                                            toggleSelecaoVenda(setor, idx, ed.nome);
+                                          } else {
+                                            alert("Ative o modo 'Venda Rápida' no filtro superior para vender cartas!");
+                                          }
+                                        }}
+                                        style={{
+                                          padding: "8px 12px",
+                                          borderRadius: "6px",
+                                          border: "none",
+                                          fontFamily: "'Rajdhani',sans-serif",
+                                          fontSize: "10px",
+                                          fontWeight: 700,
+                                          cursor: modoVendaRapida ? "pointer" : "not-allowed",
+                                          transition: "all 0.2s ease",
+                                          background: estaSelecionadoVenda
+                                            ? "linear-gradient(135deg, #ff4d4d, #cc0000)"
+                                            : modoVendaRapida
+                                              ? "rgba(255,77,77,0.2)"
+                                              : "rgba(255,255,255,0.05)",
+                                          color: estaSelecionadoVenda
+                                            ? "#fff"
+                                            : modoVendaRapida
+                                              ? "rgba(255,77,77,0.7)"
+                                              : "rgba(255,255,255,0.3)",
+                                          boxShadow: estaSelecionadoVenda
+                                            ? "0 0 15px rgba(255,77,77,0.4)"
+                                            : "none",
+                                          border: estaSelecionadoVenda
+                                            ? "1px solid #ff4d4d"
+                                            : "1px solid rgba(255,255,255,0.1)",
+                                          transform: estaSelecionadoVenda ? "scale(1.02)" : "scale(1)",
+                                          height: "32px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                          gap: "4px",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          if (!estaSelecionadoVenda && modoVendaRapida) {
+                                            e.currentTarget.style.background = "rgba(255,77,77,0.3)";
+                                            e.currentTarget.style.transform = "scale(1.05)";
+                                          }
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          if (!estaSelecionadoVenda && modoVendaRapida) {
+                                            e.currentTarget.style.background = "rgba(255,77,77,0.2)";
+                                            e.currentTarget.style.transform = "scale(1)";
+                                          }
+                                        }}
+                                      >
+                                        <span>🗑️</span>
+                                        {estaSelecionadoVenda ? "Vender" : "Vender"}
+                                      </button>
                                     </div>
                                   </div>
                                 );
@@ -2360,6 +2098,7 @@ const fecharModalConclusao = useCallback(() => {
                           </div>
                         )}
                       </div>
+
                       {modalSellOpen && (
                         <SellModal
                           setor={modalProps.setor}
@@ -2373,7 +2112,6 @@ const fecharModalConclusao = useCallback(() => {
                 })()}
               </div>
             ) : (
-              // Container sem licença comprada
               <div className="w-full h-full flex flex-col items-center justify-center p-4">
                 <div
                   className="p-4 rounded-[30px] w-[90%] h-[90%] flex flex-col self-center items-center justify-between"
@@ -2444,7 +2182,6 @@ const fecharModalConclusao = useCallback(() => {
 
                   <div className="w-full h-[3px] bg-gradient-to-r from-transparent via-[#F27405] to-transparent"></div>
 
-                  {/* Grid de estatísticas */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mt-4">
                     <div className="bg-[#2a0a5a] rounded-[15px] p-4">
                       <p className="text-[#C79FFF] text-sm font-medium">💰 Faturamento Total</p>
@@ -2486,7 +2223,6 @@ const fecharModalConclusao = useCallback(() => {
 
                   <div className="w-full h-[3px] bg-gradient-to-r from-transparent via-[#F27405] to-transparent"></div>
 
-                  {/* Botão único para encerrar */}
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -2503,10 +2239,10 @@ const fecharModalConclusao = useCallback(() => {
       </>
     );
   }
+
   if (vision === "mapa") {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">
-
         <MapWorld />
       </div>
     )
@@ -2520,19 +2256,15 @@ const fecharModalConclusao = useCallback(() => {
             <motion.div
               animate={controls}
               initial={{
-                background:
-                  "linear-gradient(to top, #fbb034, #ffdd00, #ffeeee)",
+                background: "linear-gradient(to top, #fbb034, #ffdd00, #ffeeee)",
               }}
               className="gradiente w-full flex-1 rounded-[20px] flex justify-center items-center relative overflow-hidden"
             >
-              {/* Terreno */}
               <img
                 src={solo}
                 alt="Terreno"
                 className="w-[700px] h-[600px] top-[100px] relative z-[1]"
               />
-
-              {/* Prédio */}
               <div className="absolute bottom-[-100px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[5]">
                 <img
                   src={buildBusiness}
@@ -2540,17 +2272,12 @@ const fecharModalConclusao = useCallback(() => {
                   className="w-[400px] h-auto"
                 />
               </div>
-
-              {/* Camada de luz */}
               <motion.div
                 animate={controls}
                 initial={{ background: gradientes[0] }}
                 className="absolute inset-0 z-[15] opacity-[30%] pointer-events-none mix-blend-soft-light"
               />
-
-              {/* Container dos botões no canto inferior direito */}
               <div className="absolute top-4 left-4 z-[5] flex flex-col gap-2">
-                {/* Botão do Computador */}
                 <button
                   onClick={() => {
                     abrirBanco(), buttonOpenAudio();
@@ -2567,7 +2294,6 @@ const fecharModalConclusao = useCallback(() => {
                 </button>
               </div>
               <div className="absolute top-4 right-4 z-[5] flex flex-col gap-2">
-                {/* Botão do Computador */}
                 <button
                   onClick={() => {
                     setBusinessLicenceModal(true);
@@ -2590,6 +2316,7 @@ const fecharModalConclusao = useCallback(() => {
       </div>
     );
   }
+
   if (vision === "bank") {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">
@@ -2597,6 +2324,7 @@ const fecharModalConclusao = useCallback(() => {
       </div>
     );
   }
+
   if (vision === "bankInterface") {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">
@@ -2604,6 +2332,7 @@ const fecharModalConclusao = useCallback(() => {
       </div>
     );
   }
+
   if (vision === "licençaEmpre") {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">
@@ -2611,6 +2340,7 @@ const fecharModalConclusao = useCallback(() => {
       </div>
     );
   }
+
   if (vision === "financas") {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">

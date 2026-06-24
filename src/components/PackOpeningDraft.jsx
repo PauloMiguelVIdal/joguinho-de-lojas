@@ -97,10 +97,10 @@ const PACK_CONFIG = {
         cor4: "#1f014e",
         quantidade: 4,
         probabilidades: {
-            S: 2,
-            A: 8,
-            B: 30,
-            C: 60
+            S: 1,
+            A: 5,
+            B: 24,
+            C: 70
         }
     },
     epico: {
@@ -111,10 +111,10 @@ const PACK_CONFIG = {
         cor4: "#442000",
         quantidade: 5,
         probabilidades: {
-            S: 8,
-            A: 22,
-            B: 40,
-            C: 30
+            S: 5,
+            A: 15,
+            B: 30,
+            C: 50
         }
     },
     lendario: {
@@ -125,9 +125,9 @@ const PACK_CONFIG = {
         cor4: "#6411D9",
         quantidade: 6,
         probabilidades: {
-            S: 20,
+            S: 10,
             A: 35,
-            B: 30,
+            B: 40,
             C: 15
         }
     }

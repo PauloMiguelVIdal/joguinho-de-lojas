@@ -89,7 +89,12 @@ const PACK_CONFIG = {
         cor3: "#fde4ce",
         cor4: "#1f014e",
         quantidade: 3,
-        probabilidades: { S: 0, A: 0, B: 10, C: 90 }
+        probabilidades: {
+            S: 0,
+            A: 0,
+            B: 10,
+            C: 90
+        }
     },
     raro: {
         nome: "Raro",
@@ -98,7 +103,12 @@ const PACK_CONFIG = {
         cor3: "#fde4ce",
         cor4: "#1f014e",
         quantidade: 4,
-        probabilidades: { S: 2, A: 8, B: 30, C: 60 }
+        probabilidades: {
+            S: 1,
+            A: 5,
+            B: 24,
+            C: 70
+        }
     },
     epico: {
         nome: "Épico",
@@ -107,7 +117,12 @@ const PACK_CONFIG = {
         cor3: "#bd5800",
         cor4: "#442000",
         quantidade: 5,
-        probabilidades: { S: 8, A: 22, B: 40, C: 30 }
+        probabilidades: {
+            S: 5,
+            A: 15,
+            B: 30,
+            C: 50
+        }
     },
     lendario: {
         nome: "Lendário",
@@ -116,7 +131,12 @@ const PACK_CONFIG = {
         cor3: "#bd5800",
         cor4: "#6411D9",
         quantidade: 6,
-        probabilidades: { S: 20, A: 35, B: 30, C: 15 }
+        probabilidades: {
+            S: 10,
+            A: 35,
+            B: 40,
+            C: 15
+        }
     }
 };
 

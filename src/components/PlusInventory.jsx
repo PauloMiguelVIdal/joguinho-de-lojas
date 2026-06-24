@@ -40,10 +40,10 @@ export function PlusInventory() {
 
     // 🔥 CALCULA O PREÇO DO PRÓXIMO SLOT (5x o preço anterior)
     const calcularPrecoSlot = (quantidadeComprada) => {
-        if (quantidadeComprada === 0) return 50000;
-        let preco = 50000;
+        if (quantidadeComprada === 0) return 100000;
+        let preco = 100000;
         for (let i = 0; i < quantidadeComprada; i++) {
-            preco = preco * 5;
+            preco = preco * 2;
         }
         return preco;
     };
