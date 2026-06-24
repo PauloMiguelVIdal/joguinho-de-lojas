@@ -43,8 +43,8 @@ function Economys() {
     imobiliario,
     energia
   };
-  if (dados.dia < 270) return null;
-  if (dados.dia >= 270) {
+
+
     return (
       <div className="grid grid-cols-3 grid-rows-2 gap-2 h-full w-full self-center place-items-center">
         {setores.map((setor, index) => {
@@ -91,7 +91,7 @@ function Economys() {
         })}
       </div>
     );
-  }
+
 }
 
 export default Economys;

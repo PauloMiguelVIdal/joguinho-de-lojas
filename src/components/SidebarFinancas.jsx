@@ -63,52 +63,7 @@ const fmtBRL = (n) => {
 
 // ─── Seção colapsável (estilo compacto) ─────────────────────────────────────
 
-function Section({ dot, title, badge, children, defaultOpen = true }) {
-    const [open, setOpen] = useState(defaultOpen);
-    return (
-        <div style={{
-            background: "rgba(0,0,0,.22)",
-            border: "1px solid rgba(255,255,255,.07)",
-            borderRadius: 10, overflow: "hidden", flexShrink: 0,
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-        }}>
-            <button onClick={() => setOpen(v => !v)} style={{
-                width: "100%", display: "flex", alignItems: "center", gap: 6,
-                padding: "6px 10px", border: "none", cursor: "pointer",
-                background: "rgba(0,0,0,.18)", fontFamily: "inherit",
-                borderBottom: open ? "1px solid rgba(255,255,255,.05)" : "none",
-                flexShrink: 0,
-            }}>
-                <div style={{
-                    width: 6, height: 6, borderRadius: "50%",
-                    background: dot, boxShadow: `0 0 4px ${dot}`, flexShrink: 0,
-                }} />
-                <span style={{
-                    fontSize: 8, fontWeight: 800, letterSpacing: ".12em",
-                    textTransform: "uppercase", color: "rgba(255,255,255,.42)",
-                    flex: 1, textAlign: "left",
-                }}>
-                    {title}
-                </span>
-                {badge != null && (
-                    <span style={{
-                        fontSize: 7, fontWeight: 900, padding: "1px 5px", borderRadius: 99,
-                        background: "rgba(255,255,255,.08)", color: "rgba(255,255,255,.35)",
-                        marginRight: 3,
-                    }}>
-                        {badge}
-                    </span>
-                )}
-                <ChevronDown size={10} color="rgba(255,255,255,.2)"
-                    style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform .2s", flexShrink: 0 }}
-                />
-            </button>
-            {open && <div style={{ padding: "7px 9px", flex: 1, overflowY: "auto" }}>{children}</div>}
-        </div>
-    );
-}
+
 
 // ─── Barra de progresso ───────────────────────────────────────────────────────
 
@@ -130,70 +85,86 @@ function Bar({ value, max, color = "#FFD966" }) {
 
 // ─── 1. Economia dos setores (versão compacta) ──────────────────────────────────
 
+// ─── 1. Economia dos setores (com comportamento igual ao exemplo) ──────────────
+
+// ─── 1. Economia dos setores (bem aproveitado) ──────────────────────────────────
+
 function SecaoEconomia({ economiaSetores }) {
     const { dados } = useContext(CentraldeDadosContext);
     const dia = dados.dia;
 
-    if (dia < 270) return null;
+    // if (dia < 270) return null;
 
     return (
-        <Section dot="#a78bfa" title="Economia">
-            <div style={{ 
-                display: "grid", 
-                gridTemplateColumns: "repeat(6, 1fr)", 
-                gap: 4,
-            }}>
+        <div className="flex flex-col h-full w-[320px]">
+            {/* Grid ocupando 100% da altura */}
+            <div className="grid grid-cols-6 h-[50px] w-full gap-6">
                 {SETORES.map(setor => {
                     const estado = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
                     const eco = ECO_CONFIG[estado] || { bg: "#555", label: estado, dot: "#aaa" };
 
                     return (
-                        <React.Fragment key={setor}>
-                            <div
-                                data-tooltip-id={`sb-eco-${setor}`}
+                        <div
+                            key={setor}
+                            data-tooltip-id={`sb-eco-${setor}`}
+                            className=" rounded-lg flex items-center justify-center h-[50px] w-[50px]"
+                            style={{
+                                background: `linear-gradient(135deg, rgba(53,9,115,0.8) 0%, rgba(53,9,115,0.4) 100%)`,
+                                border: `2px solid ${eco.bg}`,
+                                boxShadow: `0 0 10px ${eco.bg}33, inset 0 0 20px ${eco.bg}11`,
+                              
+                            }}
+                            onMouseEnter={e => {
+                                e.currentTarget.style.boxShadow = `0 0 20px ${eco.bg}66, inset 0 0 30px ${eco.bg}22`;
+                            }}
+                            onMouseLeave={e => {
+                                e.currentTarget.style.boxShadow = `0 0 10px ${eco.bg}33, inset 0 0 20px ${eco.bg}11`;
+                            }}
+                        >
+                            <img
+                                src={IMAGENS[setor]}
+                                alt={setor}
+                                className="w-[55%] h-[55%] object-contain"
                                 style={{
-                                    aspectRatio: "1",
-                                    background: "rgba(53,9,115,.6)",
-                                    border: `2px solid ${eco.bg}`,
-                                    borderRadius: 8,
-                                    display: "flex", alignItems: "center", justifyContent: "center",
-                                    cursor: "default", transition: "transform .15s, box-shadow .15s",
-                                    boxShadow: `0 0 6px ${eco.bg}55`,
+                                    filter: `drop-shadow(0 0 4px ${eco.bg}44)`,
                                 }}
-                                onMouseEnter={e => {
-                                    e.currentTarget.style.transform = "scale(1.06)";
-                                    e.currentTarget.style.boxShadow = `0 0 12px ${eco.bg}99`;
-                                }}
-                                onMouseLeave={e => {
-                                    e.currentTarget.style.transform = "scale(1)";
-                                    e.currentTarget.style.boxShadow = `0 0 6px ${eco.bg}55`;
-                                }}
-                            >
-                                <img
-                                    src={IMAGENS[setor]}
-                                    alt={setor}
-                                    style={{ width: "50%", height: "50%", objectFit: "contain" }}
-                                />
-                            </div>
-
-                            <Tooltip id={`sb-eco-${setor}`}
-                                style={{ background: "#fff", color: "#350973", borderRadius: 6, fontWeight: 700, fontSize: 10 }}
-                                border="1px solid #350973"
-                                html={`
-                                    <b>${setor.charAt(0).toUpperCase() + setor.slice(1)}</b> — ${estado}<br/>
-                                    <span style="font-size:10px;opacity:.65">
-                                      Rec 40% · Dec 80% · Est 100% · Prog 110% · Aq 125%
-                                    </span>
-                                `}
                             />
-                        </React.Fragment>
+                            
+                            {/* Indicador de estado */}
+                            {/* <div 
+                                className=" bottom-0.5 right-0.5 w-1.5 h-1.5 rounded-full"
+                                style={{ 
+                                    background: eco.bg,
+                                    boxShadow: `0 0 6px ${eco.bg}`,
+                                }}
+                            /> */}
+                        </div>
                     );
                 })}
             </div>
-        </Section>
+
+            {/* Tooltips para cada setor */}
+            {SETORES.map(setor => {
+                const estado = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
+                const eco = ECO_CONFIG[estado] || { bg: "#555", label: estado, dot: "#aaa" };
+                return (
+                    <Tooltip 
+                        key={`tooltip-${setor}`}
+                        id={`sb-eco-${setor}`}
+                        style={{ background: "#fff", color: "#350973", borderRadius: 6, fontWeight: 700, fontSize: 10 }}
+                        border="1px solid #350973"
+                        html={`
+                            <b>${setor.charAt(0).toUpperCase() + setor.slice(1)}</b> — ${estado}<br/>
+                            <span style="font-size:10px;opacity:.65">
+                                Rec 40% · Dec 80% · Est 100% · Prog 110% · Aq 125%
+                            </span>
+                        `}
+                    />
+                );
+            })}
+        </div>
     );
 }
-
 // ─── 2. Financeiro mensal (versão compacta) ─────────────────────────────────────
 
 function SecaoFinancas({ economiaSetores }) {
@@ -376,71 +347,14 @@ const AlertaExpansao = ({ onOpen }) => {
 };
 
 // ─── COMPONENTE PRINCIPAL ─── LAYOUT EM ROW ─────────────────────────────────
-
 export default function SidebarFinancas({ onOpen }) {
     const { dados } = useContext(CentraldeDadosContext);
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
     const dia = dados.dia;
 
     return (
-        <div className="scrollbar-custom" style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 6,
-            height: "100%",
-            padding: "2px 2px 6px",
-            overflowX: "hidden",
-            scrollbarWidth: "thin",
-        }}>
-            {/* ─── COLUNA ESQUERDA: FINANÇAS ─── */}
-            <div style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 6,
-                minHeight: 0,
-                overflow: "hidden",
-            }}>
-                {/* <SecaoFinancas economiaSetores={economiaSetores} /> */}
-                {/* <SecaoEvento />
-                <AlertaExpansao onOpen={onOpen} /> */}
-            </div>
-
-            {/* ─── COLUNA DIREITA: ECONOMIA ─── */}
-            <div style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 6,
-                minHeight: 0,
-                overflow: "hidden",
-            }}>
-                <SecaoEconomia economiaSetores={economiaSetores} />
-                
-                {/* Espaço extra para info adicional se quiser */}
-                {/* {dia >= 270 && (
-                    <Section dot="#fbbf24" title="Resumo" defaultOpen={false}>
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: 3,
-                            fontSize: 9,
-                            color: "rgba(255,255,255,.5)",
-                        }}>
-                            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                <span>Setores ativos</span>
-                                <span style={{ color: "#fff", fontWeight: 700 }}>
-                                    {SETORES.filter(s => economiaSetores[s]?.economiaSetor?.estadoAtual).length}/6
-                                </span>
-                            </div>
-                            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                <span>Economia estável</span>
-                                <span style={{ color: "#fff", fontWeight: 700 }}>
-                                    {SETORES.filter(s => economiaSetores[s]?.economiaSetor?.estadoAtual === "estável").length}
-                                </span>
-                            </div>
-                        </div>
-                    </Section>
-                )} */}
-            </div>
+        <div className="h-full w-full flex items-center">
+            <SecaoEconomia economiaSetores={economiaSetores} />
         </div>
     );
 }

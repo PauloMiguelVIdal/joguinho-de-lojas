@@ -11,7 +11,9 @@ import DashboardDraft from "./components/DashboardDraft.jsx";
 import { LicenceModalBusiness } from "./components/licenseButton.jsx";
 import { BusinessLicenceModal } from "./components/BusinessLicenseModal.jsx";
 import DashboardMiniDraft from "./components/DashboardMiniDrafts.jsx";
-
+import { ModalShop } from "./components/ModalShop.jsx";
+import LojaGImg from "../public/outrasImagens/lojaG.png";
+import { PlusInventory } from "./components/PlusInventory.jsx";
 // const PayTexes = lazy(() => import("./components/PayTexes.jsx"));
 const ButtonChange = lazy(() => import("./components/ButtonChange.jsx"));
 const Events = lazy(() => import("./components/events.jsx"));
@@ -36,7 +38,7 @@ const ToggleButton = lazy(() => import("./components/ToggleButton.jsx"));
 const InfoPage = lazy(() => import("./components/Info.jsx").then(m => ({ default: m.InfoPage })));
 const ModalInfo = lazy(() => import("./components/ModalInfo.jsx"));
 const UpgradeCards = lazy(() => import("./components/UpgradeCards.jsx"));
-// const Mapworld = lazy(() => import("./components/MapWorld.jsx"));
+const Mapworld = lazy(() => import("./components/MapWorld.jsx"));
 const SidebarFinancas = lazy(() => import("./components/SidebarFinancas.jsx"));
 import { PackOpening } from "./components/PackOpening.jsx";
 import { PackOpeningDraft } from "./components/PackOpeningDraft.jsx";
@@ -70,6 +72,14 @@ function Interface() {
   const [dashboardAberto, setDashboardAberto] = useState(true);
   const [sidebarDirAberta, setSidebarDirAberta] = useState(true);
   const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
+
+  const [modalShopOpen, setModalShopOpen] = useState(false);
+
+  // Botão para abrir
+
+
+  // Modal
+
   // const setorAtivo = dados.setorAtivo
 
   // const setVision = (newVision) => {
@@ -89,10 +99,10 @@ function Interface() {
         style={{
           position: 'fixed',
           inset: 0,
-          zIndex: 0,
+          // zIndex: 100000,
         }}
       >
-        {/* <Mapworld /> */}
+        <Mapworld />
       </div>
 
       {/* ═══════════════════════════════════════════════════════
@@ -103,6 +113,9 @@ function Interface() {
           onConfirmar={() => { limparSalvo(); window.location.reload(); }}
           onCancelar={() => setModalFalenciaOpen(false)}
         />
+      )}
+      {modalShopOpen && (
+        <ModalShop onCancelar={() => setModalShopOpen(false)} />
       )}
       {/* <NewStage /> */}
       {/* <ModalExcesso /> */}
@@ -137,9 +150,9 @@ function Interface() {
           position: 'fixed',
           top: 0,
           left: 0,
-          right: 0,
+          // right: 0,
           height: '80px',
-          width:'50vw',
+          width: '75vw',
           zIndex: 50,
           display: 'flex',
           alignItems: 'center',
@@ -159,6 +172,11 @@ function Interface() {
         <div className="flex w-full items-center justify-center col-start-8 col-end-9 gap-[10px]">
 
           <Day />
+
+          <button className="h-[50px] aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+            onClick={() => setModalShopOpen(true)}>
+            <img className="w-[60%]" src={LojaGImg} alt="" />
+          </button>
           {/* <TaxesYear /> */}
           <EconomyGlobal />
           {/* <RaffledBuildings /> */}
@@ -237,6 +255,7 @@ function Interface() {
             <IconToggle aberto={sidebarDirAberta} />
             Dados
           </button> */}
+          <SidebarFinancas onOpen={() => setBusinessLicenceModal(true)} />
 
           <Buttons />
         </div>
@@ -283,15 +302,19 @@ function Interface() {
       <div
         style={{
           position: 'fixed',
-          top:'13vh',
-          right:'0',
-          height:'27vh',
-          width:'50vw',
+          height: '60vh',
+          // height: 'calc(70vh - 80px)',
+          // top:'80px',
+          top: '0px',
+          // bottom:'80px',
+          right: '0',
+          // height:'32vh',
+          width: '25vw',
           // Respeita a sidebar esquerda se estiver aberta
-     
+
           // Respeita a sidebar direita se estiver aberta
-        
-       
+
+
           zIndex: 20,
           borderRadius: 20,
           overflow: 'hidden',
@@ -305,17 +328,15 @@ function Interface() {
           boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
         }}
       >
-        <DashboardMiniDraft/>
+        <DashboardMiniDraft />
       </div>
-
 <div
   style={{
     position: 'fixed',
-    top: '80px',
-    height: 'calc(100vh - 120px)', // Altura dinâmica baseada na viewport
-    maxHeight: '32vh', // Limite máximo
-    minHeight: '200px', // Limite mínimo
-    width: '50vw',
+    height: '20vh',
+    bottom: '0px',
+    right: '15vw',
+    width: '10vw',
     zIndex: 20,
     borderRadius: 20,
     overflow: 'hidden',
@@ -328,19 +349,48 @@ function Interface() {
     boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
   }}
 >
-  <DisplayInformations />
+  {/* 🔥 CORRIGIDO: PlusInventory (sem o "r" extra) */}
+  <PlusInventory />
 </div>
       <div
         style={{
           position: 'fixed',
-          bottom: 0,
-          height:'60vh',
-          width:'100vw',
+          // top: '80px',
+          top: '60vh',
+          // height: 'calc(100vh - 120px)', // Altura dinâmica baseada na viewport
+          height: '20vh', // Altura dinâmica baseada na viewport
+          maxHeight: '32vh', // Limite máximo
+          minHeight: '200px', // Limite mínimo
+          width: '25vw',
+          right: 0,
+          zIndex: 20,
+          borderRadius: 20,
+          overflow: 'hidden',
+          transition: 'left 0.3s cubic-bezier(0.4,0,0.2,1), right 0.3s cubic-bezier(0.4,0,0.2,1)',
+          opacity: dashboardAberto ? 1 : 0,
+          pointerEvents: dashboardAberto ? 'auto' : 'none',
+          transform: dashboardAberto ? 'scale(1)' : 'scale(0.97)',
+          transformOrigin: 'top center',
+          background: 'linear-gradient(to bottom, #6411D9, #350973)',
+          boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+        }}
+      >
+        <DisplayInformations />
+      </div>
+      <div
+        style={{
+          position: 'fixed',
+          top: '80px',
+          // bottom: 0,
+          left: 0,
+          height: 'calc(100vh - 80px)',
+          // height:'90vh',
+          width: '75vw',
           // Respeita a sidebar esquerda se estiver aberta
-          left: sidebarEsqAberta ? 'calc(20vw + 8px)' : 8,
-          // Respeita a sidebar direita se estiver aberta
-          right: sidebarDirAberta ? 'calc(15  vw + 8px)' : 8,
-       
+          // left: sidebarEsqAberta ? 'calc(20vw + 8px)' : 8,
+          // // Respeita a sidebar direita se estiver aberta
+          // right: sidebarDirAberta ? 'calc(15  vw + 8px)' : 8,
+
           zIndex: 20,
           borderRadius: 20,
           overflow: 'hidden',
@@ -365,7 +415,7 @@ function Interface() {
       {/* ═══════════════════════════════════════════════════════
           CAMADA 3 — SIDEBAR DIREITA
       ════════════════════════════════════════════════════════ */}
-      <div
+      {/* <div
         style={{
           position: 'fixed',
           top: 0,
@@ -391,9 +441,8 @@ function Interface() {
             overflow: 'hidden',
           }}
         >
-          <SidebarFinancas onOpen={() => setBusinessLicenceModal(true)} />
         </div>
-      </div>
+      </div> */}
 
       {/* Botão toggle da sidebar direita — flutua na borda */}
       {/* <button
