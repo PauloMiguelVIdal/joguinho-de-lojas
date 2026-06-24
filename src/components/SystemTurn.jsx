@@ -26,7 +26,7 @@ export function SystemTurn() {
     // 🔥 VERIFICA SE O JOGO JÁ FOI INICIADO
     const jogoIniciado = dados.jogoIniciado || false;
 
-    const [countdown, setCountdown] = useState(15);
+    const [countdown, setCountdown] = useState(30);
     const [diasPendentes, setDiasPendentes] = useState(0);
     const [estaProcessando, setEstaProcessando] = useState(false);
 
@@ -226,6 +226,18 @@ export function SystemTurn() {
         saldoRef.current = economiaSetores.saldo;
     }, [economiaSetores.saldo]);
 
+    // 🔥 NOVO useEffect: ABRE PACOTES INICIAIS QUANDO O JOGO INICIA
+    useEffect(() => {
+        if (jogoIniciado && !pacotesIniciaisAbertos && dados.dia === 0) {
+            // Pequeno delay para garantir que o contexto esteja pronto
+            const timer = setTimeout(() => {
+                abrirPacotesIniciais();
+            }, 500);
+            
+            return () => clearTimeout(timer);
+        }
+    }, [jogoIniciado, pacotesIniciaisAbertos, dados.dia]);
+
     const tooltipStyle = {
         backgroundColor: "#FFFFFF",
         color: "#350973",
@@ -275,12 +287,15 @@ export function SystemTurn() {
         console.log("🎁 [SystemTurn] Abrindo 2 pacotes comuns para o jogador...");
         setPacotesIniciaisAbertos(true);
         
+        // Simula a abertura dos pacotes com delays
         setTimeout(() => {
             console.log("🎁 [SystemTurn] Abrindo pacote comum #1...");
+            // Aqui você pode adicionar a lógica real de abertura do pacote
         }, 500);
         
         setTimeout(() => {
             console.log("🎁 [SystemTurn] Abrindo pacote comum #2...");
+            // Aqui você pode adicionar a lógica real de abertura do pacote
         }, 1500);
     };
 
@@ -294,9 +309,8 @@ export function SystemTurn() {
                 if (prev <= 1) {
                     const totalDias = 30;
 
-                    if (dados.dia === 0 && !pacotesIniciaisAbertos) {
-                        abrirPacotesIniciais();
-                    }
+                    // 🔥 REMOVIDA A CHAMADA DE abrirPacotesIniciais DAQUI
+                    // Agora ela é chamada no useEffect específico
 
                     impostoMensalRef.current = 0;
                     faturamentoMensalRef.current = 0;
@@ -376,7 +390,7 @@ export function SystemTurn() {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [diasPendentes, estaProcessando, dados.cartasSelecionadas, jogoIniciado, dados.dia, pacotesIniciaisAbertos]);
+    }, [diasPendentes, estaProcessando, dados.cartasSelecionadas, jogoIniciado, dados.dia]);
 
     // 🔥 PROCESSAMENTO DOS 30 DIAS
     useEffect(() => {
@@ -770,7 +784,7 @@ export function SystemTurn() {
                 const valorFatuFinal = faturamentoUnitario * (1 + aumFatu / 100);
                 const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
                 const fatorEconomico = FATOR_ECONOMIA[economiaSetor] || 1;
-                const faturamentoDiario = valorFatuFinal * quantidade * fatorEconomico * 30 ;
+                const faturamentoDiario = valorFatuFinal * quantidade * fatorEconomico ;
 
                 faturamentoTotalSetor += faturamentoDiario;
                 faturamentoEdificios += faturamentoDiario;

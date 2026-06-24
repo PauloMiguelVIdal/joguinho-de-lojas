@@ -22,13 +22,13 @@ const RankA = [
     "Marketplace Online", "Plataforma De Streaming", "Fábrica De Smartphones",
     "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestiveis",
     "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Aeroespacial",
-    "Centro De Engenharia Avançada", "Centro De Pesquisa Em Materiais Avançados",
-    "Centro De Pesquisa Em IA", "Mineradora De Pedras Preciosas", "Mega Mercado",
-    "Prédio De Alto Padrão", "Tanque De Armazenamento Biocombustível",
-    "Fábrica De Plásticos", "Fábrica De Químicos Especializados", "Alto-Forno",
-    "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas",
-    "Fábrica De Peças Automotivas", "Refinaria De Biocombustíveis", "Biofábrica",
-    "Fábrica De Eletrônicos", "Empresa De Automação Industrial", "Estaleiro"
+    "Centro De Pesquisa Em Materiais Avançados", "Centro De Pesquisa Em IA",
+    "Mineradora De Pedras Preciosas", "Mega Mercado", "Prédio De Alto Padrão",
+    "Tanque De Armazenamento Biocombustível", "Fábrica De Plásticos",
+    "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica",
+    "Fundição De Alumínio", "Fábrica De Ligas Metálicas", "Fábrica De Peças Automotivas",
+    "Refinaria De Biocombustíveis", "Biofábrica", "Fábrica De Eletrônicos",
+    "Empresa De Automação Industrial", "Estaleiro"
 ];
 
 const RankB = [
@@ -134,14 +134,6 @@ const PACK_CONFIG = {
 };
 
 // ── FUNÇÕES AUXILIARES ───────────────────────────────────────────
-const getRaridade = (custo) => {
-    if (custo >= 5_000_000) return "lendario";
-    if (custo >= 500_000) return "epico";
-    if (custo >= 100_000) return "raro";
-    if (custo >= 20_000) return "incomum";
-    return "comum";
-};
-
 const SETORES_CONFIG = [
     { id: "agricultura", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50" },
     { id: "tecnologia", cor1: "#A64B00", cor2: "#D45A00", cor3: "#FF6F00", cor4: "#FF8C42" },
@@ -150,11 +142,6 @@ const SETORES_CONFIG = [
     { id: "imobiliario", cor1: "#000066", cor2: "#1A1A8C", cor3: "#3333CC", cor4: "#6666FF" },
     { id: "energia", cor1: "#665200", cor2: "#A37F19", cor3: "#E6B800", cor4: "#FFD966" },
 ];
-
-const RARIDADE_STARS = { comum: 1, incomum: 2, raro: 3, epico: 4, lendario: 5 };
-const RARIDADE_LABEL = { comum: "Comum", incomum: "Incomum", raro: "Raro", epico: "Épico", lendario: "Lendário" };
-
-const getImageUrl = (nome) => `/imagens/${nome}.png`;
 
 const setoresArr = [
     "agricultura",
@@ -176,7 +163,7 @@ const sortearRank = (probabilidades) => {
             return rank;
         }
     }
-    return 'C'; // fallback
+    return 'C';
 };
 
 // ── FUNÇÃO PARA SORTEAR CARTA DE UM RANK ESPECÍFICO ─────────────
@@ -204,13 +191,11 @@ const sortearCartasDoPacote = (tipoPacote) => {
     const usedCards = new Set();
     const quantidades = config.quantidade || 3;
 
-    // Tenta sortear a quantidade de cartas
     for (let i = 0; i < quantidades; i++) {
         let tentativas = 0;
         let carta = null;
         let rank = null;
 
-        // Tenta sortear uma carta única
         while (tentativas < 20) {
             rank = sortearRank(config.probabilidades);
             carta = sortearCartaDoRank(rank);
@@ -223,7 +208,6 @@ const sortearCartasDoPacote = (tipoPacote) => {
             carta = null;
         }
 
-        // Se não conseguiu uma carta única, tenta qualquer uma
         if (!carta) {
             for (const r of ['C', 'B', 'A', 'S']) {
                 const tentativa = sortearCartaDoRank(r);
@@ -248,6 +232,7 @@ const sortearCartasDoPacote = (tipoPacote) => {
 
 // ── FUNÇÃO PARA DETERMINAR O TIPO DE PACOTE PELO DIA ────────────
 const getTipoPacotePorDia = (dia) => {
+    if (dia === 0) return 'comum';
     if (dia <= 90) return 'comum';
     if (dia <= 180) return 'raro';
     if (dia <= 270) return 'epico';
@@ -331,7 +316,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
     transparent 100%
   )`;
 
-  // Nome do pacote para exibição
   const nomePacote = PACK_CONFIG[tipo]?.nome || tipo;
 
   return (
@@ -401,7 +385,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
         }}
       />
 
-      {/* Sombra de base premium */}
       <div style={{
         position: "absolute",
         inset: "10px",
@@ -424,7 +407,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
         `,
         overflow: "hidden",
       }}>
-        {/* Textura premium */}
         <div style={{
           position: "absolute", 
           inset: 0, 
@@ -435,7 +417,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
           `,
         }} />
 
-        {/* Brilho metálico dinâmico */}
         <motion.div
           style={{
             position: "absolute", 
@@ -454,7 +435,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
           }}
         />
 
-        {/* Borda interna com brilho */}
         <div style={{
           position: "absolute",
           inset: 3,
@@ -463,7 +443,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
           pointerEvents: "none",
         }} />
 
-        {/* Topo com efeito de ouro/platina */}
         <motion.div
           style={{
             position: "absolute", 
@@ -496,14 +475,12 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
           }}
           transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          {/* Brilho do topo */}
           <div style={{
             position: "absolute", 
             inset: 0,
             background: `linear-gradient(135deg, transparent 20%, ${tema.cor4}33 50%, transparent 80%)`,
           }} />
           
-          {/* Detalhe da borda superior */}
           <div style={{
             position: "absolute", 
             top: 0, 
@@ -513,7 +490,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
             background: `linear-gradient(90deg, transparent 0%, ${tema.cor4}66 50%, transparent 100%)`,
           }} />
           
-          {/* Traço decorativo do topo */}
           <div style={{
             position: "absolute", 
             bottom: 0, 
@@ -524,7 +500,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
             opacity: 0.4,
           }} />
           
-          {/* Selo/emblema */}
           <div style={{
             position: "absolute",
             top: 10,
@@ -537,7 +512,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
           }} />
         </motion.div>
 
-        {/* Logo Premium com efeito 3D */}
         <div style={{
           position: "absolute", 
           top: "50%", 
@@ -570,7 +544,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
             }}
           />
           
-          {/* Brilho no logo */}
           <div style={{
             position: "absolute",
             inset: 0,
@@ -580,7 +553,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
           }} />
         </div>
 
-        {/* Estrelas decorativas refinadas */}
         <div style={{
           position: "absolute", 
           top: 86, 
@@ -594,7 +566,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
           fontWeight: 300,
         }}>✦ ✦ ✦</div>
 
-        {/* Nome do Pacote */}
         <motion.div
           style={{
             position: "absolute", 
@@ -620,7 +591,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
           {nomePacote}
         </motion.div>
 
-        {/* Barra decorativa inferior */}
         <div style={{
           position: "absolute",
           bottom: 60,
@@ -631,7 +601,6 @@ const Pacote = ({ fase, onOpen, tema, tipo }) => {
         }} />
       </div>
 
-      {/* Ondas de choque premium durante abertura */}
       {["opening"].includes(fase) && (
         <>
           <motion.div
@@ -689,6 +658,10 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
   const [buttonCloseAudio] = useSound(closeAudio);
   const [jaSorteouHoje, setJaSorteouHoje] = useState(false);
   const [tipoPacoteAtual, setTipoPacoteAtual] = useState('comum');
+  const [pacotesIniciaisAbertos, setPacotesIniciaisAbertos] = useState(false);
+  const [quantosPacotesAbertos, setQuantosPacotesAbertos] = useState(0);
+  const [aguardandoProximoPacote, setAguardandoProximoPacote] = useState(false);
+  const TOTAL_PACOTES_INICIAIS = 2;
 
   // 🔥 DETERMINA O TIPO DE PACOTE BASEADO NO DIA
   useEffect(() => {
@@ -707,43 +680,50 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
     };
   }, [tipoPacoteAtual]);
 
-  const fecharModal = () => {
-    setModal(false);
-    setJaSorteouHoje(false);
+  // 🔥 FUNÇÃO PARA RESETAR O ESTADO PARA UM NOVO SORTEIO
+  const resetarParaNovoSorteio = useCallback(() => {
     setFase("idle");
-  };
+    setJaSorteouHoje(false);
+    setCartasSorteadas([]);
+    setParticles([]);
+    setAguardandoProximoPacote(false);
+  }, []);
 
-  // ── Spawn de Partículas ──────────────────────────────────────
-  const spawnParticles = useCallback(() => {
-    const colors = [
-      temaAtual.cor4,
-      temaAtual.cor3,
-      "#ffffff",
-      `${temaAtual.cor4}aa`,
-      `${temaAtual.cor3}88`,
-    ];
+  const fecharModal = useCallback(() => {
+    setModal(false);
+    
+    // 🔥 Reseta o estado para o próximo sorteio
+    resetarParaNovoSorteio();
+    
+    // 🔥 Se ainda não abriu todos os pacotes iniciais, abre o próximo
+    if (dados.dia === 0 && quantosPacotesAbertos < TOTAL_PACOTES_INICIAIS && !aguardandoProximoPacote) {
+      setAguardandoProximoPacote(true);
+      setTimeout(() => {
+        abrirProximoPacoteInicial();
+      }, 300);
+    }
+  }, [dados.dia, quantosPacotesAbertos, aguardandoProximoPacote, resetarParaNovoSorteio]);
 
-    const list = Array.from({ length: 60 }, (_, i) => {
-      const angle = Math.random() * 2 * Math.PI;
-      const dist = 80 + Math.random() * 200;
+  // 🔥 FUNÇÃO PARA ABRIR O PRÓXIMO PACOTE INICIAL
+  const abrirProximoPacoteInicial = useCallback(() => {
+    if (quantosPacotesAbertos >= TOTAL_PACOTES_INICIAIS) {
+      setPacotesIniciaisAbertos(true);
+      setAguardandoProximoPacote(false);
+      return;
+    }
 
-      return {
-        id: i,
-        x: "50%",
-        y: "20%",
-        color: colors[Math.floor(Math.random() * colors.length)],
-        dx: Math.cos(angle) * dist,
-        dy: Math.sin(angle) * dist,
-        delay: Math.random() * 0.3,
-      };
-    });
+    console.log(`🎁 [PackOpening] Abrindo pacote inicial #${quantosPacotesAbertos + 1} de ${TOTAL_PACOTES_INICIAIS}`);
+    
+    // Reseta o estado para o próximo pacote
+    resetarParaNovoSorteio();
+    setQuantosPacotesAbertos(prev => prev + 1);
+    setAguardandoProximoPacote(false);
+    
+    // Abre o modal e inicia o sorteio
+    setModal(true);
+  }, [quantosPacotesAbertos, resetarParaNovoSorteio]);
 
-    setParticles(list);
-
-    setTimeout(() => setParticles([]), 1800);
-  }, [temaAtual]);
-
-  // ── Função Principal de Sorteio ─────────────────────────────
+  // 🔥 EFETIVAMENTE ABRE O PACOTE (chamado pelo modal)
   const realizarSorteio = useCallback(() => {
     if (jaSorteouHoje || fase !== "idle") return;
 
@@ -801,7 +781,37 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
     setTimeout(() => setFase("revealed"), 1500);
 
     console.log(`✅ Sorteio concluído! ${upgrades.length} upgrades aplicados.`);
-  }, [dados, atualizarDados, atualizarDadosProf2, fase, jaSorteouHoje, spawnParticles, tipoPacoteAtual]);
+  }, [dados, atualizarDados, atualizarDadosProf2, fase, jaSorteouHoje, tipoPacoteAtual]);
+
+  // ── Spawn de Partículas ──────────────────────────────────────
+  const spawnParticles = useCallback(() => {
+    const colors = [
+      temaAtual.cor4,
+      temaAtual.cor3,
+      "#ffffff",
+      `${temaAtual.cor4}aa`,
+      `${temaAtual.cor3}88`,
+    ];
+
+    const list = Array.from({ length: 60 }, (_, i) => {
+      const angle = Math.random() * 2 * Math.PI;
+      const dist = 80 + Math.random() * 200;
+
+      return {
+        id: i,
+        x: "50%",
+        y: "20%",
+        color: colors[Math.floor(Math.random() * colors.length)],
+        dx: Math.cos(angle) * dist,
+        dy: Math.sin(angle) * dist,
+        delay: Math.random() * 0.3,
+      };
+    });
+
+    setParticles(list);
+
+    setTimeout(() => setParticles([]), 1800);
+  }, [temaAtual]);
 
   // ── handleOpen (clique manual no pacote) ────────────────────
   const handleOpen = () => {
@@ -809,17 +819,40 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
     realizarSorteio();
   };
 
-  // ── useEffect: Detecta quando é dia de sorteio (múltiplos de 30) ──
+  // 🔥 NOVO useEffect: ABRE PACOTES INICIAIS NO DIA 0
   useEffect(() => {
+    const jogoIniciado = dados.jogoIniciado || false;
+    const diaZero = dados.dia === 0;
+    const pacotesNaoAbertos = !pacotesIniciaisAbertos && quantosPacotesAbertos < TOTAL_PACOTES_INICIAIS;
+
+    if (jogoIniciado && diaZero && pacotesNaoAbertos && !modal && fase === "idle" && !aguardandoProximoPacote) {
+      console.log("🎯 [PackOpening] Jogo iniciado no dia 0! Abrindo pacotes iniciais...");
+      
+      const timer = setTimeout(() => {
+        abrirProximoPacoteInicial();
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [dados.jogoIniciado, dados.dia, pacotesIniciaisAbertos, quantosPacotesAbertos, modal, fase, aguardandoProximoPacote, abrirProximoPacoteInicial]);
+
+  // 🔥 useEffect: Detecta quando é dia de sorteio (múltiplos de 30, exceto dia 0)
+  useEffect(() => {
+    if (dados.dia === 0) return;
+    if (pacotesIniciaisAbertos === false && dados.dia > 0) {
+      // Se os pacotes iniciais não foram abertos por algum motivo, marca como abertos
+      setPacotesIniciaisAbertos(true);
+    }
+    
     const isDiaDeSorteio = dados.dia > 0 && dados.dia % 30 === 0;
     const ultimoSorteio = dados.ultimoSorteio500 || 0;
     const jaSorteioNesteDia = ultimoSorteio === dados.dia;
 
-    if (isDiaDeSorteio && !jaSorteioNesteDia && fase === "idle" && !modal) {
+    if (isDiaDeSorteio && !jaSorteioNesteDia && fase === "idle" && !modal && !aguardandoProximoPacote) {
       console.log(`🎯 Dia ${dados.dia}: Sorteio automático de pacote ${tipoPacoteAtual} ativado!`);
       setModal(true);
     }
-  }, [dados.dia, dados.ultimoSorteio500, fase, modal, tipoPacoteAtual]);
+  }, [dados.dia, dados.ultimoSorteio500, fase, modal, tipoPacoteAtual, pacotesIniciaisAbertos, aguardandoProximoPacote]);
 
   // ── useEffect: Quando o modal abre, inicia o sorteio ──────
   useEffect(() => {
@@ -934,7 +967,6 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
                 transition: "all 0.3s ease",
               }}
             >
-              {/* Brilho do botão */}
               <motion.div
                 style={{
                   position: "absolute",
@@ -948,7 +980,6 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
                 transition={{ duration: 0.8, ease: "easeInOut" }}
               />
               
-              {/* Sombra interna do botão */}
               <div style={{
                 position: "absolute",
                 inset: 0,
@@ -977,7 +1008,6 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
                 maxWidth: "900px",
               }}
             >
-              {/* Título */}
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -1008,7 +1038,6 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
                 </p>
               </motion.div>
 
-              {/* Cartas em linha */}
               <motion.div
                 style={{
                   display: "flex",
@@ -1058,7 +1087,6 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
                 ))}
               </motion.div>
 
-              {/* Botão Entendido */}
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -1091,7 +1119,10 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
                   boxShadow: `0 4px 20px ${temaAtual.cor4}33`,
                 }}
               >
-                Entendido ✓
+                {quantosPacotesAbertos < TOTAL_PACOTES_INICIAIS && dados.dia === 0
+                  ? `Próximo Pacote (${quantosPacotesAbertos}/${TOTAL_PACOTES_INICIAIS}) ✓`
+                  : "Entendido ✓"
+                }
               </motion.button>
             </motion.div>
           )}
@@ -1100,4 +1131,4 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
     );
   }
   return null;
-};  
+};

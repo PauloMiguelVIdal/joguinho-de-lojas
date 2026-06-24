@@ -81,21 +81,21 @@ export default function EconomyGlobal() {
     //   // console.log("useEffect chamado5! Economia:", novaEconomia);
     // }
 
-    if (dados.dia % 90 === 0 && dados.dia <= 269) {
-      const novaEconomia = selecionarItem(estadosEconômicos);
-      atualizarDados('modalEconomiaGlobal', {
-        ...dados.modalEconomiaGlobal,
-        estadoModal: true
-      });
-      atualizarEco("economiaGlobal", novaEconomia);
-      console.log("useEffect chamado5! Economia:", novaEconomia);
-    }
+    // if (dados.dia % 90 === 0 && dados.dia <= 269) {
+    //   const novaEconomia = selecionarItem(estadosEconômicos);
+    //   atualizarDados('modalEconomiaGlobal', {
+    //     ...dados.modalEconomiaGlobal,
+    //     estadoModal: true
+    //   });
+    //   atualizarEco("economiaGlobal", novaEconomia);
+    //   console.log("useEffect chamado5! Economia:", novaEconomia);
+    // }
   }, [dados.dia]);
 
   // Sorteia e atualiza a economia dos setores + soma
   useEffect(() => {
     if (dados.dia % 30 === 0
-      // && dados.dia >= 270
+      && dados.dia >= 30
     ) {
 
       setores.forEach((setor) => {
