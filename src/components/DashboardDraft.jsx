@@ -358,7 +358,7 @@ export default function DashboardDraft() {
   const { economiaSetores, setEconomiaSetores,atualizarEco } = useContext(
     DadosEconomyGlobalContext
   );
-  const [ativo, setAtivo] = useState("grafico");
+  const [ativo, setAtivo] = useState("carteira");
   const [carteiraOrdem, setCarteiraOrdem] = useState("setor");
   const [carteiraFiltroSetor, setCarteiraFiltroSetor] = useState("todos");
   const [carteiraKey, setCarteiraKey] = useState(0);
