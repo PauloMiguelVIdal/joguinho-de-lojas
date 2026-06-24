@@ -58,8 +58,7 @@ export const LoadingScreen = ({ visible, onComplete }) => {
     if (!visible) return null;
 
     return (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center">
-            {/* FUNDO COM DEGRADE ROXO */}
+<div className="fixed bottom-0 inset-x-0 z-[9999] flex items-center justify-center" style={{ height: 'calc(100vh - 80px)', }}>            {/* FUNDO COM DEGRADE ROXO */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a3b] via-[#350973] to-[#6411D9]" />
 
             {/* MAPA - CENTRO DAS ATENÇÕES */}

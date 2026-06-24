@@ -1,8 +1,6 @@
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Localizador } from "./localizador";
 import { CentraldeDadosContext } from '../centralDeDadosContext';
-
-
 
 // ─── Cartas decorativas de fundo ─────────────────────────────────────────────
 const edificiosDecorativos = [
@@ -32,7 +30,7 @@ const edificiosDecorativos = [
     { nome: "Estaleiro",                 pos: { left: "95%", top: "50%", rotate: "4deg",   delay: "8.5s",  duration: "23s", opacity: .3  }, nivel: 3 },
 ];
 
-// ─── Overlays por nível — constantes fora do componente ──────────────────────
+// ─── Overlays por nível ──────────────────────────────────────────────────────
 const NIVEL_OVERLAY = {
     1: "transparent",
     2: "rgba(100,17,217,0.35)",
@@ -51,9 +49,9 @@ const NIVEL_GLOW = {
 
 // ─── Componente ───────────────────────────────────────────────────────────────
 const InputName = () => {
-  const { dados, atualizarDados } = useContext(CentraldeDadosContext)
-    const inicioGame    = dados.inicioGame;
-    const modalInicio   = dados.modalInicio;
+    const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+    const inicioGame = dados.inicioGame;
+    const modalInicio = dados.modalInicio;
 
     // ── Estado local ──────────────────────────────────────────
     const [novoNome, setNovoNome] = useState("");
@@ -68,9 +66,15 @@ const InputName = () => {
             alert("Campo não preenchido");
             return;
         }
-        // Fecha a tela de nome e abre o tutorial de onboarding
-        atualizarDados("inicioGame", { ...inicioGame, nomeEmpresa: novoNome, estadoModal: false });
+        // 🔥 Fecha a tela de nome e MARCA O JOGO COMO INICIADO
+        atualizarDados("inicioGame", { 
+            ...inicioGame, 
+            nomeEmpresa: novoNome, 
+            estadoModal: false,
+            jogoIniciado: true // 🔥 NOVO: flag que indica que o jogo começou
+        });
         atualizarDados("modalInicio", { ...modalInicio, estadoModal: true });
+        atualizarDados("jogoIniciado", true); // 🔥 NOVO: flag global
     };
 
     return (
@@ -84,7 +88,6 @@ const InputName = () => {
                 linear-gradient(90deg, rgba(100,17,217,0.08) 1px, transparent 1px)`,
             backgroundSize: "48px 48px",
         }}>
-
             {/* Glow central */}
             <div style={{
                 position: "absolute", top: "50%", left: "50%",
@@ -120,13 +123,12 @@ const InputName = () => {
                         overflow: "visible",
                     }}
                 >
-                    {/* Overlay de nível */}
                     <div style={{
                         position: "absolute", inset: 0,
                         borderRadius: 20,
                         background: NIVEL_OVERLAY[ed.nivel],
-                        border:     NIVEL_BORDER[ed.nivel],
-                        boxShadow:  NIVEL_GLOW[ed.nivel],
+                        border: NIVEL_BORDER[ed.nivel],
+                        boxShadow: NIVEL_GLOW[ed.nivel],
                         zIndex: 5,
                         pointerEvents: "none",
                     }} />
@@ -144,7 +146,6 @@ const InputName = () => {
                 padding: "44px 40px 40px",
                 boxShadow: "0 0 0 1px rgba(143,90,218,0.15), 0 30px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(143,90,218,0.2)",
             }}>
-
                 {/* Linha decorativa no topo */}
                 <div style={{
                     position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
