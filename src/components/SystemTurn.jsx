@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState, useRef,useCallback } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import PróximoImg from "../../public/outrasImagens/proximo.png";
 import Sorteio from "./Sorteio";
@@ -12,7 +12,8 @@ import { LoadingScreen } from "./LoadingScreen";
 import { executarLiquidacaoAutomatica } from "./SlotManager";
 import musicaTemaLoading from "../../public/sounds/Swinging Sweet.ogg";
 import musicaCentral from "../../public/sounds/S31-The Gears of Progress.ogg";
-import { useCallback } from "react";
+import clockAudio from "../../public/sounds/freesound_community-kitchen-timer-87485.mp3";
+
 // 🔥 CONSTANTES MOVIDAS PARA O TOPO
 const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
 const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
@@ -65,16 +66,16 @@ export function SystemTurn() {
     // 🔥 SOUND HOOKS
     const [buttonNextDayAudio] = useSound(nextDayAudio);
     const [buttonNewStageAudio] = useSound(newStageAudio);
-    
-    // 🔥 ÁUDIO DE LOADING - volume mais baixo
     const [playAudioMapa, { stop: stopAudioMapa, sound: audioMapaSound }] = useSound(musicaTemaLoading, {
         volume: 0.4,
         loop: true,
     });
-    
-    // 🔥 ÁUDIO CENTRAL - volume mais alto
     const [playAudioCentral, { stop: stopAudioCentral, sound: audioCentralSound }] = useSound(musicaCentral, {
-        volume: 0.25,
+        volume: 0.02,
+        loop: true,
+    });
+    const [playClockAudio, { stop: stopClockAudio, sound: clockSound }] = useSound(clockAudio, {
+        volume: 0.3,
         loop: true,
     });
 
@@ -82,6 +83,7 @@ export function SystemTurn() {
     const audioEstadoRef = useRef({
         loadingTocando: false,
         centralTocando: false,
+        clockTocando: false,
         transicaoEmAndamento: false
     });
 
@@ -96,11 +98,17 @@ export function SystemTurn() {
             audioEstadoRef.current.loadingTocando = false;
         }
         
+        // Para o áudio do clock se estiver tocando
+        if (audioEstadoRef.current.clockTocando) {
+            stopClockAudio();
+            audioEstadoRef.current.clockTocando = false;
+        }
+        
         // Toca o áudio central
         playAudioCentral();
         audioEstadoRef.current.centralTocando = true;
         console.log("🎵 [SystemTurn] Áudio central iniciado");
-    }, [playAudioCentral, stopAudioMapa]);
+    }, [playAudioCentral, stopAudioMapa, stopClockAudio]);
 
     // 🔥 FUNÇÃO PARA TOCAR ÁUDIO DE LOADING COM SEGURANÇA
     const tocarAudioLoading = useCallback(() => {
@@ -113,11 +121,40 @@ export function SystemTurn() {
             audioEstadoRef.current.centralTocando = false;
         }
         
+        // Para o áudio do clock se estiver tocando
+        if (audioEstadoRef.current.clockTocando) {
+            stopClockAudio();
+            audioEstadoRef.current.clockTocando = false;
+        }
+        
         // Toca o áudio de loading
         playAudioMapa();
         audioEstadoRef.current.loadingTocando = true;
         console.log("🎵 [SystemTurn] Áudio de loading iniciado");
-    }, [playAudioMapa, stopAudioCentral]);
+    }, [playAudioMapa, stopAudioCentral, stopClockAudio]);
+
+    // 🔥 FUNÇÃO PARA TOCAR O CLOCK
+    const tocarClock = useCallback(() => {
+        if (audioEstadoRef.current.clockTocando) return;
+        if (audioEstadoRef.current.transicaoEmAndamento) return;
+        
+        // Para o áudio central se estiver tocando
+        if (audioEstadoRef.current.centralTocando) {
+            stopAudioCentral();
+            audioEstadoRef.current.centralTocando = false;
+        }
+        
+        // Para o áudio de loading se estiver tocando
+        if (audioEstadoRef.current.loadingTocando) {
+            stopAudioMapa();
+            audioEstadoRef.current.loadingTocando = false;
+        }
+        
+        // Toca o áudio do clock
+        playClockAudio();
+        audioEstadoRef.current.clockTocando = true;
+        console.log("🎵 [SystemTurn] Áudio do clock iniciado");
+    }, [playClockAudio, stopAudioCentral, stopAudioMapa]);
 
     // 🔥 FUNÇÃO PARA PARAR TODOS OS ÁUDIOS
     const pararTodosAudios = useCallback(() => {
@@ -129,9 +166,13 @@ export function SystemTurn() {
             stopAudioCentral();
             audioEstadoRef.current.centralTocando = false;
         }
+        if (audioEstadoRef.current.clockTocando) {
+            stopClockAudio();
+            audioEstadoRef.current.clockTocando = false;
+        }
         audioEstadoRef.current.transicaoEmAndamento = false;
         console.log("🎵 [SystemTurn] Todos os áudios parados");
-    }, [stopAudioMapa, stopAudioCentral]);
+    }, [stopAudioMapa, stopAudioCentral, stopClockAudio]);
 
     // 🔥 CONTROLE DO ÁUDIO - VERSÃO CORRIGIDA
     useEffect(() => {
@@ -164,37 +205,65 @@ export function SystemTurn() {
         }
     }, [mostrarLoading, jogoIniciado, dados.dia, diasPendentes, estaProcessando, tocarAudioLoading, tocarAudioCentral, stopAudioMapa]);
 
-    // 🔥 CONTROLE DO ÁUDIO CENTRAL - baseado no estado do jogo
+    // 🔥 CONTROLE DO CLOCK - baseado no countdown
     useEffect(() => {
-        // Se o jogo não foi iniciado ou já acabou, para todos os áudios
-        if (!jogoIniciado || dados.dia >= 360) {
-            pararTodosAudios();
-            return;
-        }
-
-        // Se está processando ou tem dias pendentes, para o áudio central
+        // Se está processando ou com dias pendentes, para o clock
         if (diasPendentes > 0 || estaProcessando) {
-            if (audioEstadoRef.current.centralTocando) {
-                stopAudioCentral();
-                audioEstadoRef.current.centralTocando = false;
-                console.log("🎵 [SystemTurn] Áudio central parado (processamento ativo)");
+            if (audioEstadoRef.current.clockTocando) {
+                stopClockAudio();
+                audioEstadoRef.current.clockTocando = false;
+                console.log("🎵 [SystemTurn] Áudio do clock parado (processamento ativo)");
             }
             return;
         }
 
-        // Se está em modo idle (countdown rodando) e o loading não está ativo, toca o áudio central
-        if (mostrarLoading === false && audioEstadoRef.current.loadingTocando === false) {
-            const timer = setTimeout(() => {
-                tocarAudioCentral();
-            }, 200);
-            return () => clearTimeout(timer);
+        // Se o jogo não foi iniciado ou já acabou
+        if (!jogoIniciado || dados.dia >= 360) {
+            if (audioEstadoRef.current.clockTocando) {
+                stopClockAudio();
+                audioEstadoRef.current.clockTocando = false;
+            }
+            return;
         }
 
-        // Cleanup
+        // Se está em modo idle e o loading não está ativo
+        if (mostrarLoading === false && audioEstadoRef.current.loadingTocando === false) {
+            // 🔥 SE O COUNTDOWN FOR MENOR OU IGUAL A 10, TOCA O CLOCK
+            if (countdown <= 10 && countdown > 0) {
+                // Verifica se já não está tocando
+                if (!audioEstadoRef.current.clockTocando) {
+                    tocarClock();
+                }
+            } else {
+                // Se o countdown for maior que 10, para o clock e toca o central
+                if (audioEstadoRef.current.clockTocando) {
+                    stopClockAudio();
+                    audioEstadoRef.current.clockTocando = false;
+                    console.log("🎵 [SystemTurn] Áudio do clock parado (countdown > 10)");
+                }
+                // Toca o central se não estiver tocando
+                if (!audioEstadoRef.current.centralTocando && !audioEstadoRef.current.loadingTocando) {
+                    const timer = setTimeout(() => {
+                        tocarAudioCentral();
+                    }, 200);
+                    return () => clearTimeout(timer);
+                }
+            }
+        }
+
         return () => {
-            // Não para o áudio aqui para evitar cortes
+            // Cleanup
         };
-    }, [jogoIniciado, dados.dia, diasPendentes, estaProcessando, mostrarLoading, tocarAudioCentral, stopAudioCentral, pararTodosAudios]);
+    }, [countdown, mostrarLoading, jogoIniciado, dados.dia, diasPendentes, estaProcessando, tocarClock, tocarAudioCentral, stopClockAudio, stopAudioCentral]);
+
+    // 🔥 CONTROLE DO CLOCK - quando o countdown chega a 0, para imediatamente
+    useEffect(() => {
+        if (countdown === 0 && audioEstadoRef.current.clockTocando) {
+            stopClockAudio();
+            audioEstadoRef.current.clockTocando = false;
+            console.log("🎵 [SystemTurn] Áudio do clock parado (countdown = 0)");
+        }
+    }, [countdown, stopClockAudio]);
 
     // 🔥 FUNÇÃO PARA CRIAR MAPA DE EDIFÍCIOS
     const criarMapaEdificios = (dadosAtuais) => {

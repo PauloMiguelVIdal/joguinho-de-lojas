@@ -54,6 +54,7 @@ import closeAudio from "../../public/sounds/closeAudio.mp3";
 import openAudio from "../../public/sounds/openAudio.mp3";
 import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3";
 import audioSel from "../../public/sounds/nextDayAudio.mp3";
+import clock from "../../public/sounds/freesound_community-kitchen-timer-87485.mp3";
 import { PackOpening } from "./PackOpening.jsx";
 import {
   Chart as ChartJS,
@@ -91,77 +92,77 @@ const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobi
 
 // 🔥 RANKS DOS EDIFÍCIOS
 const RankS = [
-    "Usina Hidrelétrica", "Reator Nuclear Convencional", "Usina De Fusão Nuclear",
-    "Shopping Popular", "Shopping Center", "Fábrica De Computadores",
-    "Construtora De Infraestruturas", "Aeroporto", "Porto", "Mineradora Radioativa",
-    "Plataforma De Petróleo", "Montadora De Veículos Elétricos", "Fábrica De Automóveis",
-    "Refinaria", "Fábrica De Chips", "Fábrica De Semicondutores", "Fábrica De Robôs",
-    "Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves"
+  "Usina Hidrelétrica", "Reator Nuclear Convencional", "Usina De Fusão Nuclear",
+  "Shopping Popular", "Shopping Center", "Fábrica De Computadores",
+  "Construtora De Infraestruturas", "Aeroporto", "Porto", "Mineradora Radioativa",
+  "Plataforma De Petróleo", "Montadora De Veículos Elétricos", "Fábrica De Automóveis",
+  "Refinaria", "Fábrica De Chips", "Fábrica De Semicondutores", "Fábrica De Robôs",
+  "Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves"
 ];
 
 const RankA = [
-    "Cooperativa Agrícola", "Usina De Biomassa", "Transporte Petrolífero",
-    "Marketplace Online", "Plataforma De Streaming", "Fábrica De Smartphones",
-    "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestiveis",
-    "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Aeroespacial",
-    "Centro De Pesquisa Em Materiais Avançados", "Centro De Pesquisa Em IA",
-    "Mineradora De Pedras Preciosas", "Mega Mercado", "Prédio De Alto Padrão",
-    "Tanque De Armazenamento Biocombustível", "Fábrica De Plásticos",
-    "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica",
-    "Fundição De Alumínio", "Fábrica De Ligas Metálicas", "Fábrica De Peças Automotivas",
-    "Refinaria De Biocombustíveis", "Biofábrica", "Fábrica De Eletrônicos",
-    "Empresa De Automação Industrial", "Estaleiro"
+  "Cooperativa Agrícola", "Usina De Biomassa", "Transporte Petrolífero",
+  "Marketplace Online", "Plataforma De Streaming", "Fábrica De Smartphones",
+  "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestiveis",
+  "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Aeroespacial",
+  "Centro De Pesquisa Em Materiais Avançados", "Centro De Pesquisa Em IA",
+  "Mineradora De Pedras Preciosas", "Mega Mercado", "Prédio De Alto Padrão",
+  "Tanque De Armazenamento Biocombustível", "Fábrica De Plásticos",
+  "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica",
+  "Fundição De Alumínio", "Fábrica De Ligas Metálicas", "Fábrica De Peças Automotivas",
+  "Refinaria De Biocombustíveis", "Biofábrica", "Fábrica De Eletrônicos",
+  "Empresa De Automação Industrial", "Estaleiro"
 ];
 
 const RankB = [
-    "Centro De Comércio De Plantações", "Empresa De Comercio Energético",
-    "Empresa De Consultoria Energética", "Centro De Pesquisa Em Energias Renováveis",
-    "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis",
-    "Usina De Biomassa", "Usina Termolétrica", "Joalheria", "Concessionária De Veículos",
-    "Centro De Distribuição", "Armazém Logístico", "Servidor Em Nuvem", "Data Center",
-    "Empresa De Desenvolvimento De Software", "Empresa De Jogos Digitais",
-    "Empresa De Telecomunicações", "Plataforma De Redes Sociais", "Marketplace Online",
-    "Instituto De Tecnologia Alimentar", "Centro De Pesquisa Agrícola",
-    "Instituto De Biotecnologia", "Laboratório De Nanotecnologia",
-    "Centro De Pesquisa Em Eletrônicos", "Laboratório De Design De Produtos",
-    "Laboratório De Novos Combustíveis", "Centro De Engenharia Avançada",
-    "Centro De Pesquisa Em Robótica", "Construtora", "Imobiliária Residencial",
-    "Imobiliária Comercial", "Mineradora", "Centro De Coleta De Biomassa",
-    "Fábrica De Fertilizante", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
-    "Fábrica De Plásticos", "Alto-Forno", "Indústria De Componentes Mecânicos",
-    "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas",
-    "Fábrica De Peças Automotivas", "Fábrica De Placas Eletrônicas", "Fábrica De Eletrônicos"
+  "Centro De Comércio De Plantações", "Empresa De Comercio Energético",
+  "Empresa De Consultoria Energética", "Centro De Pesquisa Em Energias Renováveis",
+  "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis",
+  "Usina De Biomassa", "Usina Termolétrica", "Joalheria", "Concessionária De Veículos",
+  "Centro De Distribuição", "Armazém Logístico", "Servidor Em Nuvem", "Data Center",
+  "Empresa De Desenvolvimento De Software", "Empresa De Jogos Digitais",
+  "Empresa De Telecomunicações", "Plataforma De Redes Sociais", "Marketplace Online",
+  "Instituto De Tecnologia Alimentar", "Centro De Pesquisa Agrícola",
+  "Instituto De Biotecnologia", "Laboratório De Nanotecnologia",
+  "Centro De Pesquisa Em Eletrônicos", "Laboratório De Design De Produtos",
+  "Laboratório De Novos Combustíveis", "Centro De Engenharia Avançada",
+  "Centro De Pesquisa Em Robótica", "Construtora", "Imobiliária Residencial",
+  "Imobiliária Comercial", "Mineradora", "Centro De Coleta De Biomassa",
+  "Fábrica De Fertilizante", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
+  "Fábrica De Plásticos", "Alto-Forno", "Indústria De Componentes Mecânicos",
+  "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas",
+  "Fábrica De Peças Automotivas", "Fábrica De Placas Eletrônicas", "Fábrica De Eletrônicos"
 ];
 
 const RankC = [
-    "Plantação De Grãos", "Plantação De Vegetais", "Pomares", "Fazenda Administrativa",
-    "Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos", "Armazém", "Silo",
-    "Depósito De Resíduos Orgânicos", "Madeireira", "Área Florestal", "Terreno De Mineração",
-    "Plantação De Eucalipto", "Plantação De Plantas Medicinais", "Subestação De Energia",
-    "Rede De Distribuição Elétrica", "Usina Solar", "Fábrica De Turbinas Eólicas",
-    "Fábrica De Painéis Solares", "Fábrica De Baterias", "Estação De Carregamento",
-    "Centro De Reciclagem De Baterias", "Parque Eólico", "Feira", "Loja De Móveis",
-    "Restaurante", "Livraria", "Mercado", "Adega", "Padaria", "Açougue",
-    "Loja De Conveniência", "Posto De Combustíveis", "Redes De Fast-food", "Petshop",
-    "Farmácia", "Cafeteria", "Loja De Departamentos", "Loja De Calçados",
-    "Loja De Vestuário", "Loja De Gadgets E Wearables", "Loja De Games",
-    "Loja De Celulares", "Loja De Informática", "Loja De Eletrônicos",
-    "Centro De Transporte E Entrega", "Startup", "Centro De Pesquisa Química",
-    "Cartório E Licenças", "Terraplanagem E Pavimentação", "Construtora De Pequenas Obras",
-    "Escritório De Design De Interiores", "Escritório De Arquitetura",
-    "Consultoria Em Engenharia Civil", "Fábrica De Móveis", "Fábrica De Ração",
-    "Fábrica De Embalagem", "Fábrica De Bebidas", "Fábrica De Pães", "Fábrica Textil",
-    "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose",
-    "Fábrica De Papel", "Fábrica De Livros"
+  "Plantação De Grãos", "Plantação De Vegetais", "Pomares", "Fazenda Administrativa",
+  "Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos", "Armazém", "Silo",
+  "Depósito De Resíduos Orgânicos", "Madeireira", "Área Florestal", "Terreno De Mineração",
+  "Plantação De Eucalipto", "Plantação De Plantas Medicinais", "Subestação De Energia",
+  "Rede De Distribuição Elétrica", "Usina Solar", "Fábrica De Turbinas Eólicas",
+  "Fábrica De Painéis Solares", "Fábrica De Baterias", "Estação De Carregamento",
+  "Centro De Reciclagem De Baterias", "Parque Eólico", "Feira", "Loja De Móveis",
+  "Restaurante", "Livraria", "Mercado", "Adega", "Padaria", "Açougue",
+  "Loja De Conveniência", "Posto De Combustíveis", "Redes De Fast-food", "Petshop",
+  "Farmácia", "Cafeteria", "Loja De Departamentos", "Loja De Calçados",
+  "Loja De Vestuário", "Loja De Gadgets E Wearables", "Loja De Games",
+  "Loja De Celulares", "Loja De Informática", "Loja De Eletrônicos",
+  "Centro De Transporte E Entrega", "Startup", "Centro De Pesquisa Química",
+  "Cartório E Licenças", "Terraplanagem E Pavimentação", "Construtora De Pequenas Obras",
+  "Escritório De Design De Interiores", "Escritório De Arquitetura",
+  "Consultoria Em Engenharia Civil", "Fábrica De Móveis", "Fábrica De Ração",
+  "Fábrica De Embalagem", "Fábrica De Bebidas", "Fábrica De Pães", "Fábrica Textil",
+  "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose",
+  "Fábrica De Papel", "Fábrica De Livros"
 ];
 
 // 🔥 FUNÇÃO PARA OBTER O RANK DE UM EDIFÍCIO
 const getRankDoEdificio = (nomeEdificio) => {
-    if (RankS.includes(nomeEdificio)) return { rank: "S", cor: "#FFD700", label: "S", ordem: 1 };
-    if (RankA.includes(nomeEdificio)) return { rank: "A", cor: "#C0C0C0", label: "A", ordem: 2 };
-    if (RankB.includes(nomeEdificio)) return { rank: "B", cor: "#CD7F32", label: "B", ordem: 3 };
-    if (RankC.includes(nomeEdificio)) return { rank: "C", cor: "#8B8B8B", label: "C", ordem: 4 };
-    return { rank: "C", cor: "#8B8B8B", label: "C", ordem: 4 };
+  if (RankS.includes(nomeEdificio)) return { rank: "S", cor: "#FFD700", label: "S", ordem: 1 };
+  if (RankA.includes(nomeEdificio)) return { rank: "A", cor: "#C0C0C0", label: "A", ordem: 2 };
+  if (RankB.includes(nomeEdificio)) return { rank: "B", cor: "#CD7F32", label: "B", ordem: 3 };
+  if (RankC.includes(nomeEdificio)) return { rank: "C", cor: "#8B8B8B", label: "C", ordem: 4 };
+  return { rank: "C", cor: "#8B8B8B", label: "C", ordem: 4 };
 };
 
 const ESTOQUES = new Set([
@@ -354,9 +355,9 @@ const processarCarteira = (dados, economiaSetores, carteiraFiltroSetor, carteira
           roi: calcularROI(ed, s),
           categoria: getCategoria(ed.nome),
           rank: rankInfo,
-          lucroLiquido: (ed.finanças?.faturamentoUnitário || 0) * 30 * ed.quantidade - 
-                        ((ed.finanças?.impostoSobreFatu || 0) * (ed.finanças?.faturamentoUnitário || 0) * 30 * ed.quantidade + 
-                         (ed.finanças?.impostoFixo || 0) * ed.quantidade),
+          lucroLiquido: (ed.finanças?.faturamentoUnitário || 0) * 30 * ed.quantidade -
+            ((ed.finanças?.impostoSobreFatu || 0) * (ed.finanças?.faturamentoUnitário || 0) * 30 * ed.quantidade +
+              (ed.finanças?.impostoFixo || 0) * ed.quantidade),
           valor: (ed.custoConstrucao || 0) * ed.quantidade
         });
       }
@@ -473,8 +474,8 @@ export default function DashboardDraft() {
     const somaPowerUpsAumFatu = powerUpsAumFatu.reduce((acc, val) => acc + val, 0);
     const somaPowerUpsRedCusto = powerUpsRedCusto.reduce((acc, val) => acc + val, 0);
     const patrimonioHistorico = economiaSetores.patrimonioInventarioHistorico || [];
-    const roeMedio = patrimonioHistorico.length > 0 
-      ? (patrimonioHistorico.reduce((acc, val) => acc + val, 0) / patrimonioHistorico.length) 
+    const roeMedio = patrimonioHistorico.length > 0
+      ? (patrimonioHistorico.reduce((acc, val) => acc + val, 0) / patrimonioHistorico.length)
       : 0;
     const inventarioHistorico = economiaSetores.patrimonioInventarioHistorico || [];
     const somaInventarioHistorico = inventarioHistorico.reduce((acc, val) => acc + val, 0);
@@ -537,7 +538,7 @@ export default function DashboardDraft() {
 
       const valorVenda = (edificio.custoConstrucao || 0) * 0.7 * edificio.quantidade;
       totalRecebido += valorVenda;
-      
+
       vendidos.push({
         nome: edificio.nome,
         quantidade: edificio.quantidade,
@@ -1990,9 +1991,9 @@ export default function DashboardDraft() {
                                       <button
                                         className="w-[45%] mt-2 mb-4"
                                         onClick={() => {
-  toggleSelecao(setor, idx, ed.nome);
-  selecionarButton();
-}}
+                                          toggleSelecao(setor, idx, ed.nome);
+                                          selecionarButton();
+                                        }}
                                         style={{
                                           padding: "8px 12px",
                                           borderRadius: "6px",
@@ -2157,7 +2158,7 @@ export default function DashboardDraft() {
         {/* 🔥 MODAL DE CONCLUSÃO - FORA DO DASHBOARD E FORA DE QUALQUER BLOCO CONDICIONAL */}
         {modalConclusao && (() => {
           const dadosFinais = calcularDadosFinais();
-          
+
           return (
             <div className="flex justify-center items-center z-[9999] bg-black bg-opacity-95 w-[100vw] h-[100vh] fixed top-0 left-0 select-none">
               <motion.div
