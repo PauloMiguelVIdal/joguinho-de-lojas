@@ -3120,24 +3120,13 @@ const CentraldeDadosProvider = ({ children }) => {
           dependências: [
             { construção: "fazendaAdministrativa", quantidade: 0 },
           ],
-            nível1: {
-              status: true,
-              quantidadeMínima: 1,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível2: {
-              status: true,
-              quantidadeMínima: 2,
-              redCusto: 0,
-              aumFatu: 0,
-            },
-            nível3: {
-              status: true,
-              quantidadeMínima: 3,
-              redCusto: 0,
-              aumFatu: 0,
-            },
+powerUp: {
+  redCustoAtual: 0,
+  aumFatuAtual: 0,
+  nível1: { status: true, quantidadeMínima: 1, redCusto: 0, aumFatu: 0 },
+  nível2: { status: true, quantidadeMínima: 2, redCusto: 0, aumFatu: 0 },
+  nível3: { status: true, quantidadeMínima: 3, redCusto: 0, aumFatu: 0 },
+}
         },
         {
           nome: "Servidor Em Nuvem",
@@ -26804,44 +26793,44 @@ RecebeMelhoraEficiencia: [
         valor: 20000,
       },
       licençasSetor: {},
-      produtos: {
-        plantaçãoDeGrãos: {
-          quantidade: 60,
-          lojasNecessárias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
-          },
+      // produtos: {
+      //   plantaçãoDeGrãos: {
+      //     quantidade: 60,
+      //     lojasNecessárias: {
+      //       terrenos: 20,
+      //       lojasP: 1,
+      //       lojasM: 0,
+      //       lojasG: 0,
+      //     },
 
-          construçõesNecessárias: [],
+      //     construçõesNecessárias: [],
 
-          licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
+      //     licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
 
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
+      //     melhoraEficiencia: [
+      //       "Fábrica De Rações",
+      //       "Biofábrica",
+      //       "Mercado",
+      //       "Feira Livre",
+      //     ],
 
-          receitas: [
-            { construção: "depósitoDeResíduosOrgânicos", quantidade: 0 },
-          ],
+      //     receitas: [
+      //       { construção: "depósitoDeResíduosOrgânicos", quantidade: 0 },
+      //     ],
 
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
-          ],
+      //     dependências: [
+      //       { construção: "fazendaAdministrativa", quantidade: 0 },
+      //     ],
 
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 10, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 50, impacto: 15 },
-          },
-        },
-      },
+      //     powerUp: {
+      //       redCustoAtual: 0,
+      //       aumFatuAtual: 0,
+      //       nível1: { status: true, quantidadeMínima: 1, },
+      //       nível2: { status: true, quantidadeMínima: 10, },
+      //       nível3: { status: true, quantidadeMínima: 50, impacto: 15 },
+      //     },
+      //   },
+      // },
     },
     gerenciamento: {
       economiaSetor: {
@@ -26852,44 +26841,44 @@ RecebeMelhoraEficiencia: [
         valor: 20000,
       },
       licençasSetor: {},
-      produtos: {
-        plantaçãoDeGrãos: {
-          quantidade: 60,
-          lojasNecessárias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
-          },
+      // produtos: {
+      //   plantaçãoDeGrãos: {
+      //     quantidade: 60,
+      //     lojasNecessárias: {
+      //       terrenos: 20,
+      //       lojasP: 1,
+      //       lojasM: 0,
+      //       lojasG: 0,
+      //     },
 
-          construçõesNecessárias: [],
+      //     construçõesNecessárias: [],
 
-          licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
+      //     licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
 
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
+      //     melhoraEficiencia: [
+      //       "Fábrica De Rações",
+      //       "Biofábrica",
+      //       "Mercado",
+      //       "Feira Livre",
+      //     ],
 
-          receitas: [
-            { construção: "depósitoDeResíduosOrgânicos", quantidade: 0 },
-          ],
+      //     receitas: [
+      //       { construção: "depósitoDeResíduosOrgânicos", quantidade: 0 },
+      //     ],
 
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
-          ],
+      //     dependências: [
+      //       { construção: "fazendaAdministrativa", quantidade: 0 },
+      //     ],
 
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 10, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 50, impacto: 15 },
-          },
-        },
-      },
+      //     powerUp: {
+      //       redCustoAtual: 0,
+      //       aumFatuAtual: 0,
+      //       nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+      //       nível2: { status: true, quantidadeMínima: 10, impacto: 10 },
+      //       nível3: { status: true, quantidadeMínima: 50, impacto: 15 },
+      //     },
+      //   },
+      // },
     },
     ecossistema: {
       economiaSetor: {
@@ -26900,44 +26889,44 @@ RecebeMelhoraEficiencia: [
         valor: 20000,
       },
       licençasSetor: {},
-      produtos: {
-        plantaçãoDeGrãos: {
-          quantidade: 60,
-          lojasNecessárias: {
-            terrenos: 20,
-            lojasP: 1,
-            lojasM: 0,
-            lojasG: 0,
-          },
+      // produtos: {
+      //   plantaçãoDeGrãos: {
+      //     quantidade: 60,
+      //     lojasNecessárias: {
+      //       terrenos: 20,
+      //       lojasP: 1,
+      //       lojasM: 0,
+      //       lojasG: 0,
+      //     },
 
-          construçõesNecessárias: [],
+      //     construçõesNecessárias: [],
 
-          licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
+      //     licençasNecessárias: [{ construção: "fazendaAdministrativa" }],
 
-          melhoraEficiencia: [
-            "Fábrica De Rações",
-            "Biofábrica",
-            "Mercado",
-            "Feira Livre",
-          ],
+      //     melhoraEficiencia: [
+      //       "Fábrica De Rações",
+      //       "Biofábrica",
+      //       "Mercado",
+      //       "Feira Livre",
+      //     ],
 
-          receitas: [
-            { construção: "depósitoDeResíduosOrgânicos", quantidade: 0 },
-          ],
+      //     receitas: [
+      //       { construção: "depósitoDeResíduosOrgânicos", quantidade: 0 },
+      //     ],
 
-          dependências: [
-            { construção: "fazendaAdministrativa", quantidade: 0 },
-          ],
+      //     dependências: [
+      //       { construção: "fazendaAdministrativa", quantidade: 0 },
+      //     ],
 
-          powerUp: {
-            redCustoAtual: 0,
-            aumFatuAtual: 0,
-            nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
-            nível2: { status: true, quantidadeMínima: 10, impacto: 10 },
-            nível3: { status: true, quantidadeMínima: 50, impacto: 15 },
-          },
-        },
-      },
+      //     powerUp: {
+      //       redCustoAtual: 0,
+      //       aumFatuAtual: 0,
+      //       nível1: { status: true, quantidadeMínima: 1, impacto: 5 },
+      //       nível2: { status: true, quantidadeMínima: 10, impacto: 10 },
+      //       nível3: { status: true, quantidadeMínima: 50, impacto: 15 },
+      //     },
+      //   },
+      // },
     },
   });
 

@@ -84,103 +84,103 @@ export default function PayTexes() {
   );
 
   // Cálculo de impostos diário e mensal
-  useEffect(() => {
-    if (dados.dia < 270) {
-      let impostoFixoTotal = 0;
-      let impostoFaturamentoMensal = 0;
-      let impostoDiarioTotal = 0;
+  // useEffect(() => {
+  //   if (dados.dia < 270) {
+  //     let impostoFixoTotal = 0;
+  //     let impostoFaturamentoMensal = 0;
+  //     let impostoDiarioTotal = 0;
 
-      // console.log("=== CÁLCULO DE IMPOSTOS - DIA", dados.dia, "===");
+  //     // console.log("=== CÁLCULO DE IMPOSTOS - DIA", dados.dia, "===");
 
-      const dadosAtualizados = {}; // Armazena os dados atualizados de cada loja
+  //     const dadosAtualizados = {}; // Armazena os dados atualizados de cada loja
 
-      todasLojas.forEach((loja) => {
-        const dadosLoja = dados[loja];
-        if (!dadosLoja) {
-          console.warn(`⚠️ Dados não encontrados para a loja: ${loja}`);
-          return;
-        }
+  //     todasLojas.forEach((loja) => {
+  //       const dadosLoja = dados[loja];
+  //       if (!dadosLoja) {
+  //         console.warn(`⚠️ Dados não encontrados para a loja: ${loja}`);
+  //         return;
+  //       }
 
-        const faturamentoDiario = parseFloat(dadosLoja.faturamentoTotal || 0);
-        const impostoFixo =
-          (dadosLoja.quantidade || 0) * (dadosLoja.impostoFixo || 0);
-        const impostoSobreFaturamento =
-          faturamentoDiario * (dadosLoja.impostoSobreFaturamento || 0);
+  //       const faturamentoDiario = parseFloat(dadosLoja.faturamentoTotal || 0);
+  //       const impostoFixo =
+  //         (dadosLoja.quantidade || 0) * (dadosLoja.impostoFixo || 0);
+  //       const impostoSobreFaturamento =
+  //         faturamentoDiario * (dadosLoja.impostoSobreFaturamento || 0);
 
-        const novoArrayFatu = [
-          ...(dadosLoja.arrayFatu || []),
-          faturamentoDiario,
-        ].slice(-360);
-        const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
-        const impostoMensalSobreFaturamento =
-          somaMensalFatu * (dadosLoja.impostoSobreFaturamento || 0);
+  //       const novoArrayFatu = [
+  //         ...(dadosLoja.arrayFatu || []),
+  //         faturamentoDiario,
+  //       ].slice(-360);
+  //       const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
+  //       const impostoMensalSobreFaturamento =
+  //         somaMensalFatu * (dadosLoja.impostoSobreFaturamento || 0);
 
-        // console.log(`--- ${loja.toUpperCase()} ---`);
-        // console.log("Faturamento diário:", faturamentoDiario);
-        // console.log("Imposto fixo (quant * valor):", impostoFixo);
-        // console.log("Imposto sobre faturamento diário:", impostoSobreFaturamento);
-        // console.log("Array Fatu atualizado:", novoArrayFatu);
-        // console.log("Soma mensal faturamento:", somaMensalFatu);
-        // console.log("Imposto mensal sobre faturamento:", impostoMensalSobreFaturamento);
+  //       // console.log(`--- ${loja.toUpperCase()} ---`);
+  //       // console.log("Faturamento diário:", faturamentoDiario);
+  //       // console.log("Imposto fixo (quant * valor):", impostoFixo);
+  //       // console.log("Imposto sobre faturamento diário:", impostoSobreFaturamento);
+  //       // console.log("Array Fatu atualizado:", novoArrayFatu);
+  //       // console.log("Soma mensal faturamento:", somaMensalFatu);
+  //       // console.log("Imposto mensal sobre faturamento:", impostoMensalSobreFaturamento);
 
-        dadosAtualizados[loja] = {
-          ...dadosLoja,
-          arrayFatu: novoArrayFatu,
-          somaArrayFatu: somaMensalFatu,
-          valorImpostoSobreFaturamento: impostoSobreFaturamento,
-          valorImpostoFixoTotal: impostoFixo,
-        };
+  //       dadosAtualizados[loja] = {
+  //         ...dadosLoja,
+  //         arrayFatu: novoArrayFatu,
+  //         somaArrayFatu: somaMensalFatu,
+  //         valorImpostoSobreFaturamento: impostoSobreFaturamento,
+  //         valorImpostoFixoTotal: impostoFixo,
+  //       };
 
-        impostoFixoTotal += impostoFixo;
-        impostoFaturamentoMensal += impostoMensalSobreFaturamento;
-        impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
+  //       impostoFixoTotal += impostoFixo;
+  //       impostoFaturamentoMensal += impostoMensalSobreFaturamento;
+  //       impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
 
-        console.log(dadosAtualizados[loja], `⚠️ Dados da loja: ${loja}`);
-      });
+  //       console.log(dadosAtualizados[loja], `⚠️ Dados da loja: ${loja}`);
+  //     });
 
-      // Atualiza todos os dados das lojas DEPOIS do loop
-      Object.entries(dadosAtualizados).forEach(
-        ([loja, dadosAtualizadosLoja]) => {
-          atualizarDados(loja, dadosAtualizadosLoja);
-        }
-      );
+  //     // Atualiza todos os dados das lojas DEPOIS do loop
+  //     Object.entries(dadosAtualizados).forEach(
+  //       ([loja, dadosAtualizadosLoja]) => {
+  //         atualizarDados(loja, dadosAtualizadosLoja);
+  //       }
+  //     );
 
-      const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
+  //     const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
 
-      console.log("=== RESUMO DOS IMPOSTOS ===");
-      console.log("Imposto Fixo Total:", impostoFixoTotal);
-      console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
-      console.log("Imposto Diário Total:", impostoDiarioTotal);
-      console.log("Imposto Mensal Total:", impostoMensalTotal);
+  //     console.log("=== RESUMO DOS IMPOSTOS ===");
+  //     console.log("Imposto Fixo Total:", impostoFixoTotal);
+  //     console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
+  //     console.log("Imposto Diário Total:", impostoDiarioTotal);
+  //     console.log("Imposto Mensal Total:", impostoMensalTotal);
 
-      atualizarEco("imposto", {
-        impostoFixoMensal: impostoFixoTotal,
-        impostoDiário: impostoDiarioTotal,
-        impostoMensal: impostoMensalTotal,
-        impostoFaturamentoMensal: impostoFaturamentoMensal,
-        impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
-      });
+  //     atualizarEco("imposto", {
+  //       impostoFixoMensal: impostoFixoTotal,
+  //       impostoDiário: impostoDiarioTotal,
+  //       impostoMensal: impostoMensalTotal,
+  //       impostoFaturamentoMensal: impostoFaturamentoMensal,
+  //       impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
+  //     });
 
-      console.log("=== RESUMO DOS IMPOSTOS ===");
-      console.log("Imposto Fixo Total:", impostoFixoTotal);
-      console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
-      console.log("Imposto Diário Total:", impostoDiarioTotal);
-      console.log("Imposto Mensal Total:", impostoMensalTotal);
-    } else if (dados.dia === 269) {
-      // console.log("=== DIA 250: ZERANDO IMPOSTOS ===");
-      todasLojas.forEach((loja) => {
-        const dadosLoja = dados[loja];
-        // console.log(`Zerando dados da loja: ${loja}`);
-        atualizarDados(loja, {
-          ...dadosLoja,
-          faturamentoUnitário: 0,
-          faturamentoUnitárioPadrão: 0,
-          impostoFixo: 0,
-          impostoSobreFaturamento: 0,
-        });
-      });
-    }
-  }, [dados.dia]);
+  //     console.log("=== RESUMO DOS IMPOSTOS ===");
+  //     console.log("Imposto Fixo Total:", impostoFixoTotal);
+  //     console.log("Imposto Faturamento Mensal:", impostoFaturamentoMensal);
+  //     console.log("Imposto Diário Total:", impostoDiarioTotal);
+  //     console.log("Imposto Mensal Total:", impostoMensalTotal);
+  //   } else if (dados.dia === 269) {
+  //     // console.log("=== DIA 250: ZERANDO IMPOSTOS ===");
+  //     todasLojas.forEach((loja) => {
+  //       const dadosLoja = dados[loja];
+  //       // console.log(`Zerando dados da loja: ${loja}`);
+  //       atualizarDados(loja, {
+  //         ...dadosLoja,
+  //         faturamentoUnitário: 0,
+  //         faturamentoUnitárioPadrão: 0,
+  //         impostoFixo: 0,
+  //         impostoSobreFaturamento: 0,
+  //       });
+  //     });
+  //   }
+  // }, [dados.dia]);
 
   const mapaEdificioParaSetor = {
     // Agricultura

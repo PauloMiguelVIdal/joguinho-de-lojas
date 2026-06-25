@@ -24,7 +24,7 @@ const BanCards = () => {
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
   const [buttonNewStageAudio] = useSound(newStageAudio);
-
+selecionarButton
   useEffect(() => {
     if (dados.dia === 380) {
       setIsModalObjOpen(true);

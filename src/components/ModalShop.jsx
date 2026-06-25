@@ -104,10 +104,10 @@ const PACK_CONFIG = {
         cor4: "#1f014e",
         quantidade: 4,
         probabilidades: {
-            S: 1,
-            A: 5,
+            S: 2,
+            A: 8,
             B: 24,
-            C: 70
+            C: 65
         }
     },
     epico: {
@@ -132,10 +132,10 @@ const PACK_CONFIG = {
         cor4: "#6411D9",
         quantidade: 6,
         probabilidades: {
-            S: 10,
-            A: 35,
-            B: 40,
-            C: 15
+            S: 12,
+            A: 45,
+            B: 35,
+            C: 8
         }
     }
 };
@@ -145,9 +145,9 @@ const PACK_CONFIG = {
 // ═══════════════════════════════════════════════════════════════════
 const PACK_PRICES = {
     comum: 1000000,
-    raro: 20000000,
-    epico: 100000000,
-    lendario: 100000000
+    raro: 10000000,
+    epico: 20000000,
+    lendario: 50000000
 };
 
 // ═══════════════════════════════════════════════════════════════════

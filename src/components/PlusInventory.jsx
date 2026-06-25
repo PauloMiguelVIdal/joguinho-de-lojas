@@ -7,14 +7,14 @@ import "react-tooltip/dist/react-tooltip.css";
 
 // ─── CONFIGURAÇÃO DOS LIMITES POR DIA ──────────────────────────────
 const getLimitesPorDia = (dia) => {
-    const LIMITE_CONFIG = {
-        fases: [
-            { diaMax: 90, limiteBase: 15, slotsExtrasMax: 5 },
-            { diaMax: 180, limiteBase: 20, slotsExtrasMax: 10 },
-            { diaMax: 270, limiteBase: 25, slotsExtrasMax: 15 },
-            { diaMax: Infinity, limiteBase: 30, slotsExtrasMax: 20 }
-        ]
-    };
+const LIMITE_CONFIG = {
+    fases: [
+        { diaMax: 90, limiteBase: 10, slotsExtrasMax: 5 },
+        { diaMax: 180, limiteBase: 15, slotsExtrasMax: 5 },
+        { diaMax: 270, limiteBase: 20, slotsExtrasMax: 5 },
+        { diaMax: Infinity, limiteBase: 25, slotsExtrasMax: 5 }
+    ]
+};
     const fase = LIMITE_CONFIG.fases.find(f => dia <= f.diaMax) || LIMITE_CONFIG.fases[LIMITE_CONFIG.fases.length - 1];
     return {
         limiteBase: fase.limiteBase,
