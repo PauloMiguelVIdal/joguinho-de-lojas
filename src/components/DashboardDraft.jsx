@@ -2371,63 +2371,62 @@ export default function DashboardDraft() {
                                       </button>
 
                                       {/* Botão Venda Rápida - ícone 🗑️ */}
-                                      <button
-                                        className="w-[45%] mt-2 mb-4"
-                                        onClick={() => {
-                                          if (modoVendaRapida) {
-                                            toggleSelecaoVenda(setor, idx, ed.nome);
-                                          } else {
-                                            // alert("Ative o modo 'Venda Rápida' no filtro superior para vender cartas!");
-                                          }
-                                        }}
-                                        style={{
-                                          padding: "8px 12px",
-                                          borderRadius: "6px",
-                                          border: "none",
-                                          fontFamily: "'Rajdhani',sans-serif",
-                                          fontSize: "10px",
-                                          fontWeight: 700,
-                                          cursor: modoVendaRapida ? "pointer" : "not-allowed",
-                                          transition: "all 0.2s ease",
-                                          background: estaSelecionadoVenda
-                                            ? "linear-gradient(135deg, #ff4d4d, #cc0000)"
-                                            : modoVendaRapida
-                                              ? "rgba(255,77,77,0.2)"
-                                              : "rgba(255,255,255,0.05)",
-                                          color: estaSelecionadoVenda
-                                            ? "#fff"
-                                            : modoVendaRapida
-                                              ? "rgba(255,77,77,0.7)"
-                                              : "rgba(255,255,255,0.3)",
-                                          boxShadow: estaSelecionadoVenda
-                                            ? "0 0 15px rgba(255,77,77,0.4)"
-                                            : "none",
-                                          border: estaSelecionadoVenda
-                                            ? "1px solid #ff4d4d"
-                                            : "1px solid rgba(255,255,255,0.1)",
-                                          transform: estaSelecionadoVenda ? "scale(1.02)" : "scale(1)",
-                                          height: "32px",
-                                          display: "flex",
-                                          alignItems: "center",
-                                          justifyContent: "center",
-                                          gap: "4px",
-                                        }}
-                                        onMouseEnter={(e) => {
-                                          if (!estaSelecionadoVenda && modoVendaRapida) {
-                                            e.currentTarget.style.background = "rgba(255,77,77,0.3)";
-                                            e.currentTarget.style.transform = "scale(1.05)";
-                                          }
-                                        }}
-                                        onMouseLeave={(e) => {
-                                          if (!estaSelecionadoVenda && modoVendaRapida) {
-                                            e.currentTarget.style.background = "rgba(255,77,77,0.2)";
-                                            e.currentTarget.style.transform = "scale(1)";
-                                          }
-                                        }}
-                                      >
-                                        <span>🗑️</span>
-                                        {estaSelecionadoVenda ? "Vender" : "Vender"}
-                                      </button>
+{/* Botão Venda Rápida - ícone 🗑️ */}
+<button
+  className="w-[45%] mt-2 mb-4"
+  onClick={() => {
+    if (modoVendaRapida) {
+      toggleSelecaoVenda(setor, idx, ed.nome);
+    }
+  }}
+  style={{
+    padding: "8px 12px",
+    borderRadius: "6px",
+    border: estaSelecionadoVenda
+      ? "1px solid #ff4d4d"
+      : "1px solid rgba(255,255,255,0.1)",
+    fontFamily: "'Rajdhani',sans-serif",
+    fontSize: "10px",
+    fontWeight: 700,
+    transition: "all 0.2s ease",
+    background: estaSelecionadoVenda
+      ? "linear-gradient(135deg, #ff4d4d, #cc0000)"
+      : modoVendaRapida
+        ? "rgba(255,77,77,0.2)"
+        : "rgba(255,255,255,0.05)",
+    color: estaSelecionadoVenda
+      ? "#fff"
+      : modoVendaRapida
+        ? "rgba(255,77,77,0.7)"
+        : "rgba(255,255,255,0.3)",
+    boxShadow: estaSelecionadoVenda
+      ? "0 0 15px rgba(255,77,77,0.4)"
+      : "none",
+    transform: estaSelecionadoVenda ? "scale(1.02)" : "scale(1)",
+    height: "32px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "4px",
+    cursor: modoVendaRapida ? "pointer" : "not-allowed",
+    pointerEvents: modoVendaRapida ? "auto" : "none",
+  }}
+  onMouseEnter={(e) => {
+    if (!estaSelecionadoVenda && modoVendaRapida) {
+      e.currentTarget.style.background = "rgba(255,77,77,0.3)";
+      e.currentTarget.style.transform = "scale(1.05)";
+    }
+  }}
+  onMouseLeave={(e) => {
+    if (!estaSelecionadoVenda && modoVendaRapida) {
+      e.currentTarget.style.background = "rgba(255,77,77,0.2)";
+      e.currentTarget.style.transform = "scale(1)";
+    }
+  }}
+>
+  <span>🗑️</span>
+  {estaSelecionadoVenda ? "Vender" : "Vender"}
+</button>
                                     </div>
                                   </div>
                                 );
