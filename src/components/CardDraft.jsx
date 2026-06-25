@@ -43,21 +43,6 @@ import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3";
 
 const getImageUrl = (nome) => `/imagens/${nome}.png`;
 
-
-// const [ativo, setAtivo] = useState("grafico");
-// // if setor carteira e quantidade maior que 0 poder clicar else desativar ir até o edifício 
-// const goCardPanel = () =>{
-//   setAtivo('gerenciamento')
-//         <ManagerPanelInterface
-//           edificioId={edificioSelecionado}
-//           onBack={() => setEdificioSelecionado(null)}
-//         />
-
-//                              setAtivo(setor.id);
-//                             changeAudio();
-//                             atualizarDadosProf2(["setorAtivo"], setor.id);
-// }
-// Componente MiniPowerUpResumo - para ser usado dentro do CardDraft
 // Componente MiniPowerUpResumo - para ser usado dentro do CardDraft
 const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
   const { dados } = useContext(CentraldeDadosContext);
@@ -69,7 +54,6 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
   const quantidadeMinimaPowerUpNv2 = dados[setor].edificios[index].powerUp.nível2.quantidadeMínima;
   const quantidadeMinimaPowerUpNv3 = dados[setor].edificios[index].powerUp.nível3.quantidadeMínima;
 
-  // Determina o nível do power-up atual
   const powerUpSelecionado = quantidadeAtivo >= quantidadeMinimaPowerUpNv3
     ? "powerUpNv3"
     : quantidadeAtivo >= quantidadeMinimaPowerUpNv2
@@ -87,7 +71,6 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
 
   const corAtual = corPowerUp(powerUpSelecionado);
 
-  // Função para obter a quantidade de um edifício
   const getQuantidade = (nome) => {
     for (const s of setoresArr) {
       const idx = dados[s]?.edificios?.findIndex((e) => e.nome === nome);
@@ -98,60 +81,46 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
     return 0;
   };
 
-  // Processa as listas
   const forneceLista = dados[setor].edificios[index].ForneceMelhoraEficiencia || [];
   const recebeLista = dados[setor].edificios[index].RecebeMelhoraEficiencia || [];
 
-  // 🔥 FUNÇÃO DE ORDENAÇÃO: Ativos primeiro, depois por valor
   const ordenarLista = (lista, tipo) => {
     return [...lista].sort((a, b) => {
       const qtdA = getQuantidade(a.nome);
       const qtdB = getQuantidade(b.nome);
       const ativoA = qtdA > 0;
       const ativoB = qtdB > 0;
-      
-      // Primeiro critério: ativos vêm primeiro
       if (ativoA && !ativoB) return -1;
       if (!ativoA && ativoB) return 1;
-      
-      // Segundo critério: maior valor do power-up primeiro
       const q = quantidadeAtivo;
       const pu = q >= quantidadeMinimaPowerUpNv3 ? "nível3" : q >= quantidadeMinimaPowerUpNv2 ? "nível2" : "nível1";
       const valorA = a[tipo]?.[pu] || 0;
       const valorB = b[tipo]?.[pu] || 0;
-      
       return valorB - valorA;
     });
   };
 
-  // Ordena as listas
   const forneceOrdenada = ordenarLista(forneceLista, "aumFatu");
   const recebeOrdenada = ordenarLista(recebeLista, "redCusto");
-
-  // Pega apenas os 3 primeiros de cada lista após ordenação
   const top3Fornece = forneceOrdenada.slice(0, 3);
   const top3Recebe = recebeOrdenada.slice(0, 3);
 
-  // Função para calcular o valor do power-up baseado no nível atual
   const getValorPowerUp = (ed, tipo) => {
     const q = quantidadeAtivo;
     const pu = q >= quantidadeMinimaPowerUpNv3 ? "nível3" : q >= quantidadeMinimaPowerUpNv2 ? "nível2" : "nível1";
     return ed[tipo]?.[pu] || 0;
   };
 
-  // Formata o nome do edifício para abreviação (máx 3 caracteres)
   const abreviarNome = (nome) => {
     if (!nome) return "";
     const palavras = nome.split(" ");
     if (palavras.length >= 2) {
-      // Pega a primeira letra de cada palavra, máximo 3
       let abrev = palavras.map(p => p[0]).join("").toUpperCase();
       return abrev.slice(0, 3);
     }
     return nome.slice(0, 3).toUpperCase();
   };
 
-  // Renderiza um item individual
   const renderItem = (ed, tipo, isFornece) => {
     const qtd = getQuantidade(ed.nome);
     const ativo = qtd > 0;
@@ -166,7 +135,6 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
         }`}
         style={{ borderLeft: ativo ? `3px solid ${corAtual}` : "3px solid rgba(255,255,255,0.1)" }}
       >
-        {/* Ícone do edifício */}
         <div className="w-5 h-5 flex items-center justify-center rounded-md bg-black/30 flex-shrink-0">
           <img
             src={imgSrc}
@@ -175,18 +143,12 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
             alt=""
           />
         </div>
-
-        {/* Nome abreviado */}
         <span className="text-white text-[8px] font-bold leading-tight flex-shrink-0">
           {abreviarNome(ed.nome)}
         </span>
-
-        {/* Indicador de ativo */}
         {ativo && (
           <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: corAtual }} />
         )}
-
-        {/* Valor do power-up */}
         <span
           className={`text-[8px] font-bold ml-auto px-1.5 py-0.5 rounded-full ${
             ativo ? "text-white" : "text-white/40"
@@ -202,7 +164,6 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
     );
   };
 
-  // Se não houver nenhum power-up, não renderiza
   if (forneceLista.length === 0 && recebeLista.length === 0) {
     return null;
   }
@@ -210,7 +171,6 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
   return (
     <div className="w-full mt-1">
       <div className="flex gap-1">
-        {/* Lado Esquerdo: Redução de Custo (Recebe) */}
         <div className="flex-1 bg-black/20 rounded-lg p-1.5">
           <div className="flex items-center gap-1 mb-1">
             <span className="text-[7px] font-bold text-white/50 uppercase tracking-wider">⬇ Redução</span>
@@ -224,8 +184,6 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
             )}
           </div>
         </div>
-
-        {/* Lado Direito: Aumento de Faturamento (Fornece) */}
         <div className="flex-1 bg-black/20 rounded-lg p-1.5">
           <div className="flex items-center gap-1 mb-1">
             <span className="text-[7px] font-bold text-white/50 uppercase tracking-wider">⬆ Aumento</span>
@@ -240,8 +198,6 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
           </div>
         </div>
       </div>
-
-      {/* Indicador de mais itens */}
       {(forneceLista.length > 3 || recebeLista.length > 3) && (
         <div className="text-center mt-0.5">
           <span className="text-[6px] text-white/30 font-bold">
@@ -253,16 +209,14 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
   );
 };
 
-
-
 export const CardDraft = ({ index, setor, abrirModalSell }) => {
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
   const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
 
   const setorAtivo = setor;
   if (!dados[setorAtivo] || !dados[setorAtivo].edificios || !dados[setorAtivo].edificios[index]) {
-  return null;
-}
+    return null;
+  }
   const [changeAudio] = useSound(changeSectoryAudio);
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
@@ -281,6 +235,7 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
   const setorInfo = setores.find((s) => s.id === setorAtivo);
   const nomeAtivo = dados[setorAtivo]?.edificios[index]?.nome;
   const nomeAtual = dados[setorAtivo].edificios[index].nome;
+
   // ── CATEGORIA ─────────────────────────────────────────────
   const productions = [
     "Plantação De Grãos", "Fazenda De Vacas", "Plantação De Eucalipto", "Granja De Aves", "Criação De Ovinos",
@@ -333,7 +288,6 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
   const handleShow = (id) => setVisibleId(id);
 
   const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-// console.log("setor recebido:", setor, "| dados disponíveis:", Object.keys(dados));
 
   // ── DADOS DO EDIFÍCIO ──────────────────────────────────────
   const arrayConstResources = dados[setorAtivo]?.edificios[index]?.recursoDeConstrução;
@@ -545,159 +499,138 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
     return { borderRadius: "20px" };
   };
 
-  // ── DADOS PARA PRODUÇÃO ────────────────────────────────────
-
-
-
+  // ── MODAL POWER-UPS ────────────────────────────────────────
   const openModalPowerUps = () => setModalPowerUp(true);
   const fecharModalPowerUp = () => setModalPowerUp(false);
 
-  // ── MODAL POWER-UPS ────────────────────────────────────────
-    if (modalPowerup === true) {
-      return (
-        <div className="fixed inset-0 flex justify-center items-center z-[150] bg-black/90 backdrop-blur-sm">
-          <motion.div
-            style={{ backgroundColor: setorInfo.cor1, borderColor: setorInfo.cor4 }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="w-[90vw] h-[85vh] rounded-[24px] border-2 flex flex-col justify-between items-center relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+  if (modalPowerup === true) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center z-[150] bg-black/90 backdrop-blur-sm">
+        <motion.div
+          style={{ backgroundColor: setorInfo.cor1, borderColor: setorInfo.cor4 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="w-[90vw] h-[85vh] rounded-[24px] border-2 flex flex-col justify-between items-center relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+        >
+          <button
+            className="absolute top-4 right-4 w-[45px] h-[45px] flex justify-center items-center rounded-xl hover:scale-110 active:scale-95 transition-all z-10 shadow-lg"
+            style={{ backgroundColor: setorInfo.cor4 }}
+            onClick={fecharModalPowerUp}
           >
-            {/* Botão Fechar - Estilo Premium */}
-            <button
-              className="absolute top-4 right-4 w-[45px] h-[45px] flex justify-center items-center rounded-xl hover:scale-110 active:scale-95 transition-all z-10 shadow-lg"
-              style={{ backgroundColor: setorInfo.cor4 }}
-              onClick={fecharModalPowerUp}
-            >
-              <img src={fechar} alt="Fechar" className="w-[50%]" />
-            </button>
-  
-            {/* Header - Nome do Edifício */}
-            <div
-              style={{ backgroundColor: setorInfo.cor2, borderColor: setorInfo.cor4 }}
-              className="flex w-full h-[15%] border-b-2 text-[45px] fonteBold text-white justify-center items-center italic tracking-tighter shadow-xl"
-            >
-              {nomeAtual}
-            </div>
-  
-            {/* Container Principal das Listas */}
-            <div className="flex-1 w-full p-6 overflow-hidden">
-              <div className="flex justify-around h-full w-full gap-4">
-  
-                {["Fornece", "Recebe"].map((label, li) => {
-                  const lista = li === 0 ? dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia : dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia;
-                  const acRed = li === 0 ? acumuladorPowerUpRedCustoFornece : acumuladorPowerUpRedCustoRecebe;
-                  const acAum = li === 0 ? acumuladorPowerUpAumFatuFornece : acumuladorPowerUpAumFatuRecebe;
-  
-                  return (
-                    <div key={label} className="w-[49%] h-full flex flex-col items-center">
-                      {/* Subtítulo Fornece/Recebe */}
-                      <div
-                        style={{ backgroundColor: setorInfo.cor2, borderColor: setorInfo.cor4 }}
-                        className="w-full h-[10%] border-l-4 fonteBold text-white flex items-center pl-6 rounded-r-xl text-[30px] mb-4 uppercase tracking-widest shadow-md"
-                      >
-                        {label}
-                      </div>
-  
-                      {/* Área da Tabela com Scroll */}
-                      <div className="w-full h-[75%] overflow-y-auto pr-2 scrollbar-premium">
-                        <table className="w-full border-separate border-spacing-y-2">
-                          <thead>
-                            <tr className="text-[11px] uppercase text-white/40 tracking-[0.2em]">
-                              <th className="text-left pl-4 pb-2 font-black">Ativo Sinergia</th>
-                              <th colSpan="3" className="pb-2 text-center" style={{ color: setorInfo.cor4 }}>Redução Custo</th>
-                              <th className="px-2 pb-2">|</th>
-                              <th colSpan="3" className="pb-2 text-center" style={{ color: setorInfo.cor4 }}>Aumento Fatu.</th>
-                            </tr>
-                          </thead>
-  
-                          {lista.map((edM, i) => {
-                            let se = null, idx = -1;
-                            const qtd = (nome) => {
-                              for (const s of setoresArr) {
-                                se = s;
-                                idx = dados[s].edificios.findIndex((e) => e.nome === nome);
-                                if (idx !== -1) return { q: dados[s].edificios[idx].quantidade, setor: s };
-                              } return { q: 0, setor: "" };
-                            };
-  
-                            const infoM = qtd(edM.nome);
-                            const infoBase = qtd(nomeAtual);
-                            const q = infoBase.q;
-  
-                            // Lógica de cores e níveis
-                            const pu = q >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" : q >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" : "powerUpNv1";
-                            const cL = infoM.q > 0 ? corPowerUp(pu) : corPadrão;
-                            const b1 = cL === "#8F5ADA" ? corPowerUp("powerUpNv1") : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : pu === "powerUpNv3" ? corPowerUp("powerUpNv3") : corPadrão;
-                            const b2 = pu === "powerUpNv1" ? corPadrão : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
-                            const b3 = pu === "powerUpNv1" ? corPadrão : pu === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
-  
-                            return (
-                              <tbody key={i}>
-                                <tr style={{ backgroundColor: "rgba(255,255,255,0.03)" }} className="group hover:bg-white/10 transition-all">
-                                  {/* Nome + Imagem do Edifício */}
-                                  <td style={{ borderLeft: `4px solid ${cL}` }} className="py-3 pl-2 rounded-l-xl">
-                                    <div className="flex items-center gap-3">
-                                      <div className="w-10 h-10 flex items-center justify-center bg-black/40 rounded-lg p-1 border border-white/5 shadow-inner">
-                                        <img
-                                          src={getImageUrl(edM.nome)}
-                                          className="max-w-full max-h-full object-contain"
-                                          onError={(e) => e.target.src = PróximoImg}
-                                        />
-                                      </div>
-                                      <span className="text-white text-[14px] fonteBold leading-tight">{edM.nome}</span>
+            <img src={fechar} alt="Fechar" className="w-[50%]" />
+          </button>
+
+          <div
+            style={{ backgroundColor: setorInfo.cor2, borderColor: setorInfo.cor4 }}
+            className="flex w-full h-[15%] border-b-2 text-[45px] fonteBold text-white justify-center items-center italic tracking-tighter shadow-xl"
+          >
+            {nomeAtual}
+          </div>
+
+          <div className="flex-1 w-full p-6 overflow-hidden">
+            <div className="flex justify-around h-full w-full gap-4">
+              {["Fornece", "Recebe"].map((label, li) => {
+                const lista = li === 0 ? dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia : dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia;
+                const acRed = li === 0 ? acumuladorPowerUpRedCustoFornece : acumuladorPowerUpRedCustoRecebe;
+                const acAum = li === 0 ? acumuladorPowerUpAumFatuFornece : acumuladorPowerUpAumFatuRecebe;
+
+                return (
+                  <div key={label} className="w-[49%] h-full flex flex-col items-center">
+                    <div
+                      style={{ backgroundColor: setorInfo.cor2, borderColor: setorInfo.cor4 }}
+                      className="w-full h-[10%] border-l-4 fonteBold text-white flex items-center pl-6 rounded-r-xl text-[30px] mb-4 uppercase tracking-widest shadow-md"
+                    >
+                      {label}
+                    </div>
+
+                    <div className="w-full h-[75%] overflow-y-auto pr-2 scrollbar-premium">
+                      <table className="w-full border-separate border-spacing-y-2">
+                        <thead>
+                          <tr className="text-[11px] uppercase text-white/40 tracking-[0.2em]">
+                            <th className="text-left pl-4 pb-2 font-black">Ativo Sinergia</th>
+                            <th colSpan="3" className="pb-2 text-center" style={{ color: setorInfo.cor4 }}>Redução Custo</th>
+                            <th className="px-2 pb-2">|</th>
+                            <th colSpan="3" className="pb-2 text-center" style={{ color: setorInfo.cor4 }}>Aumento Fatu.</th>
+                          </tr>
+                        </thead>
+
+                        {lista.map((edM, i) => {
+                          let se = null, idx = -1;
+                          const qtd = (nome) => {
+                            for (const s of setoresArr) {
+                              se = s;
+                              idx = dados[s].edificios.findIndex((e) => e.nome === nome);
+                              if (idx !== -1) return { q: dados[s].edificios[idx].quantidade, setor: s };
+                            } return { q: 0, setor: "" };
+                          };
+
+                          const infoM = qtd(edM.nome);
+                          const infoBase = qtd(nomeAtual);
+                          const q = infoBase.q;
+
+                          const pu = q >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" : q >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" : "powerUpNv1";
+                          const cL = infoM.q > 0 ? corPowerUp(pu) : corPadrão;
+                          const b1 = cL === "#8F5ADA" ? corPowerUp("powerUpNv1") : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : pu === "powerUpNv3" ? corPowerUp("powerUpNv3") : corPadrão;
+                          const b2 = pu === "powerUpNv1" ? corPadrão : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
+                          const b3 = pu === "powerUpNv1" ? corPadrão : pu === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
+
+                          return (
+                            <tbody key={i}>
+                              <tr style={{ backgroundColor: "rgba(255,255,255,0.03)" }} className="group hover:bg-white/10 transition-all">
+                                <td style={{ borderLeft: `4px solid ${cL}` }} className="py-3 pl-2 rounded-l-xl">
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 flex items-center justify-center bg-black/40 rounded-lg p-1 border border-white/5 shadow-inner">
+                                      <img
+                                        src={getImageUrl(edM.nome)}
+                                        className="max-w-full max-h-full object-contain"
+                                        onError={(e) => e.target.src = PróximoImg}
+                                      />
                                     </div>
-                                  </td>
-  
-                                  {/* Colunas de Redução */}
-                                  <td style={{ backgroundColor: b1 }} className="text-center text-white text-[11px] border-r border-black/20 font-black italic">N1<br />{edM.redCusto.nível1}%</td>
-                                  <td style={{ backgroundColor: b2 }} className="text-center text-white text-[11px] border-r border-black/20 font-black italic">N2<br />{edM.redCusto.nível2}%</td>
-                                  <td style={{ backgroundColor: b3 }} className="text-center text-white text-[11px] rounded-r-none font-black italic">N3<br />{edM.redCusto.nível3}%</td>
-  
-                                  <td className="w-2 bg-transparent"></td>
-  
-                                  {/* Colunas de Aumento */}
-                                  <td style={{ backgroundColor: b1 }} className="text-center text-white text-[11px] border-r border-black/20 font-black italic">N1<br />{edM.aumFatu.nível1}%</td>
-                                  <td style={{ backgroundColor: b2 }} className="text-center text-white text-[11px] border-r border-black/20 font-black italic">N2<br />{edM.aumFatu.nível2}%</td>
-                                  <td style={{ backgroundColor: b3 }} className="text-center text-white text-[11px] rounded-r-xl font-black italic">N3<br />{edM.aumFatu.nível3}%</td>
-                                </tr>
-                              </tbody>
-                            );
-                          })}
-                        </table>
+                                    <span className="text-white text-[14px] fonteBold leading-tight">{edM.nome}</span>
+                                  </div>
+                                </td>
+                                <td style={{ backgroundColor: b1 }} className="text-center text-white text-[11px] border-r border-black/20 font-black italic">N1<br />{edM.redCusto.nível1}%</td>
+                                <td style={{ backgroundColor: b2 }} className="text-center text-white text-[11px] border-r border-black/20 font-black italic">N2<br />{edM.redCusto.nível2}%</td>
+                                <td style={{ backgroundColor: b3 }} className="text-center text-white text-[11px] rounded-r-none font-black italic">N3<br />{edM.redCusto.nível3}%</td>
+                                <td className="w-2 bg-transparent"></td>
+                                <td style={{ backgroundColor: b1 }} className="text-center text-white text-[11px] border-r border-black/20 font-black italic">N1<br />{edM.aumFatu.nível1}%</td>
+                                <td style={{ backgroundColor: b2 }} className="text-center text-white text-[11px] border-r border-black/20 font-black italic">N2<br />{edM.aumFatu.nível2}%</td>
+                                <td style={{ backgroundColor: b3 }} className="text-center text-white text-[11px] rounded-r-xl font-black italic">N3<br />{edM.aumFatu.nível3}%</td>
+                              </tr>
+                            </tbody>
+                          );
+                        })}
+                      </table>
+                    </div>
+
+                    <div className="w-full h-[12%] flex justify-between gap-3 mt-4">
+                      <div
+                        style={{ backgroundColor: setorInfo.cor2, borderBottomColor: setorInfo.cor4 }}
+                        className="flex-1 rounded-xl border-b-4 flex flex-col items-center justify-center text-white shadow-lg"
+                      >
+                        <span className="text-[10px] uppercase font-black opacity-40 tracking-tighter">Redução Total</span>
+                        <span className="text-[24px] fonteBold">-{acRed}%</span>
                       </div>
-  
-                      {/* Rodapé da Coluna com Totais (Style Unificado para evitar erro Vite) */}
-                      <div className="w-full h-[12%] flex justify-between gap-3 mt-4">
-                        <div
-                          style={{ backgroundColor: setorInfo.cor2, borderBottomColor: setorInfo.cor4 }}
-                          className="flex-1 rounded-xl border-b-4 flex flex-col items-center justify-center text-white shadow-lg"
-                        >
-                          <span className="text-[10px] uppercase font-black opacity-40 tracking-tighter">Redução Total</span>
-                          <span className="text-[24px] fonteBold">-{acRed}%</span>
-                        </div>
-                        <div
-                          style={{ backgroundColor: setorInfo.cor2, borderBottomColor: setorInfo.cor4 }}
-                          className="flex-1 rounded-xl border-b-4 flex flex-col items-center justify-center text-white shadow-lg"
-                        >
-                          <span className="text-[10px] uppercase font-black opacity-40 tracking-tighter">Aumento Total</span>
-                          <span className="text-[24px] fonteBold">+{acAum}%</span>
-                        </div>
+                      <div
+                        style={{ backgroundColor: setorInfo.cor2, borderBottomColor: setorInfo.cor4 }}
+                        className="flex-1 rounded-xl border-b-4 flex flex-col items-center justify-center text-white shadow-lg"
+                      >
+                        <span className="text-[10px] uppercase font-black opacity-40 tracking-tighter">Aumento Total</span>
+                        <span className="text-[24px] fonteBold">+{acAum}%</span>
                       </div>
                     </div>
-                  );
-                })}
-  
-              </div>
+                  </div>
+                );
+              })}
             </div>
-  
-            {/* Detalhe visual inferior */}
-            <div className="w-full h-1" style={{ backgroundColor: setorInfo.cor4 }} />
-          </motion.div>
-        </div>
-      );
-    }
+          </div>
+          <div className="w-full h-1" style={{ backgroundColor: setorInfo.cor4 }} />
+        </motion.div>
+      </div>
+    );
+  }
 
   // ── MODAL EDITAR NOME ──────────────────────────────────────
   if (dados.modalEditável.estadoModal) {
@@ -718,9 +651,9 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
     );
   }
 
-  // ═══════════════════════════════════════════════════════════
+  // ════════════════════════════════════════
   //  CARD PRINCIPAL
-  // ═══════════════════════════════════════════════════════════
+  // ════════════════════════════════════════
   return (
     <motion.div
       style={{ background: getGradientByLevel(), ...getBordaDinamica() }}
@@ -765,34 +698,10 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                   {dados[setorAtivo].edificios[index].nomeEditável || nomeAtivo}
                 </h1>
               </div>
-              {/* <button
-                onClick={() => abrirModal({ setor, index })}
-                style={{ backgroundColor: setorInfo.cor2, flexShrink: 0 }}
-                className="h-full aspect-square rounded-[10px] flex items-center justify-center hover:brightness-110"
-              >
-                <img className="w-[45%]" src={editar} alt="" />
-              </button> */}
             </div>
 
             {/* CORPO */}
             <div className="w-full flex flex-col justify-around gap-[4px]" style={{ flex: 1, padding: "4px 0" }}>
-
-              {/* Linha 2: Renda/dia + ROI */}
-              {/* <div style={{ background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "5px 8px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div className="flex flex-col gap-[1px]">
-                  <span style={{ fontSize: 7.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "rgba(255,255,255,.38)" }}>Renda / dia</span>
-                  <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 20, fontWeight: 700, color: "#C87AFF", lineHeight: 1 }}>
-                    + {formatarNumero(valorFatuFinal)}
-                  </span>
-                </div>
-                <div style={{ background: "rgba(0,0,0,.28)", borderRadius: 7, padding: "4px 7px", minWidth: 52, textAlign: "center" }}>
-                  <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>Payback</div>
-                  <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 13, fontWeight: 700, color: "#C87AFF", lineHeight: 1 }}>
-                    {paybackDias ? `${paybackDias}d` : "∞"}
-                  </div>
-                </div>
-              </div> */}
-
               {/* Linha 3: Fatu mensal + ROI + botões */}
               <div className="flex gap-[4px]" style={{ minHeight: 42 }}>
                 <div style={{ flex: 1, background: "rgba(0,0,0,.28)", borderRadius: 7, padding: "5px 8px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -818,7 +727,6 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                       : `linear-gradient(135deg,${setorInfo.cor2},${setorInfo.cor3})`,
                     display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2
                   }}
-                //   onClick={() => { handleShow("powerUp"); handleFlip(); }}
                   onClick={() => { openModalPowerUps() }}
                   className="hover:scale-105 transition-transform"
                 >
@@ -836,57 +744,11 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                   <img src={DolarImg} style={{ height: "55%" }} alt="" />
                 </div>
               </div>
-
-              {/* Linha 4: Imóveis base + custo construção */}
-              {/* <div style={{ background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "5px 8px", display: "flex", flexDirection: "column", gap: 3 }}>
-                <span style={{ fontSize: 6.5, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.3)" }}>Imóveis base</span>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div className="flex gap-[3px] flex-wrap">
-                    {[
-                      { img: terrenoImg, key: "terrenos" },
-                      { img: LojaPImg, key: "lojasP" },
-                      { img: LojaMImg, key: "lojasM" },
-                      { img: LojaGImg, key: "lojasG" },
-                    ].map(({ img, key }) => {
-                      const nec = dados[setorAtivo].edificios[index].lojasNecessarias[key];
-                      if (!nec) return null;
-                      return (
-                        <div key={key} style={{ width: 22, height: 22, borderRadius: 4, background: setorInfo.cor1, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                          <img src={img} style={{ height: "70%", width: "70%", objectFit: "contain" }} alt="" />
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 3, background: setorInfo.cor3, borderRadius: 5, padding: "2px 6px" }}>
-                    <img src={ConstuirImg} style={{ height: 11 }} alt="" />
-                    <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 700, color: "#fff" }}>
-                      {formatarNumero(custoConstrução)}
-                    </span>
-                  </div>
-                </div>
-              </div> */}
-
-              {/* Linha 5: Recursos de construção se existir */}
-              {/* {(arrayConstNece?.length > 0 || arrayConstResources?.length > 0) && (
-                <div style={{ background: "rgba(0,0,0,.32)", borderRadius: 7, padding: "5px 8px", display: "flex", flexDirection: "column", gap: 3 }}>
-                  <span style={{ fontSize: 6.5, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.3)" }}>Requisitos</span>
-                  <div className="flex gap-[3px]">
-                    {[...(arrayConstNece || []), ...(arrayConstResources || [])].slice(0, 5).map((nome) => (
-                      <div key={nome} style={{ width: 17, height: 17, borderRadius: 4, background: setorInfo.cor1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <img src={getImageUrl(nome)} style={{ height: "70%", width: "70%", objectFit: "contain" }} alt={nome} />
-                        {!booleanPreReq(nome) && <span style={{ position: "absolute", bottom: -2, right: -2, width: 5, height: 5, borderRadius: "50%", background: "#fff", display: "block" }} />}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )} */}
-
-              {/* Linha 6: Categorias de armazenamento */}
-
-
             </div>
- <MiniPowerUpResumo setor={setor} index={index} setorInfo={setorInfo} />
-            {/* FOOTER: quantidade + botão vender */}
+            
+            <MiniPowerUpResumo setor={setor} index={index} setorInfo={setorInfo} />
+
+            {/* FOOTER: quantidade + botão vender COM POWER-UPS */}
             <div className="w-full flex flex-col gap-[4px]">
               <div className="flex gap-[5px] items-center" style={{ height: 24 }}>
                 <div style={{
@@ -900,17 +762,63 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                     {quantidadeAtivo}
                   </span>
                 </div>
+                
+                {/* 🔥 BOTÃO VENDER COM POWER-UPS */}
                 <button
                   onClick={() => { abrirModalSell(setor, index); buttonOpenAudio(); }}
                   style={{
                     flex: 1, height: 24, borderRadius: 8, border: "none",
                     fontFamily: "'Nunito',sans-serif", fontSize: 11, fontWeight: 700,
                     cursor: "pointer", color: "#fff", letterSpacing: ".04em",
-                    background: "linear-gradient(135deg,#6411D9,#F27405)"
+                    background: "linear-gradient(135deg,#6411D9,#F27405)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 6,
                   }}
                   className="fonteBold"
                 >
-                  Vender
+                  <span>Vender</span>
+                  
+                  {/* 🔥 MOSTRA OS POWER-UPS NO BOTÃO */}
+                  <div className="flex items-center gap-2 ml-1">
+                    {/* Aumento de Faturamento */}
+                    {acumuladorPowerUpAumFatuFornece > 0 && (
+                      <span style={{
+                        fontSize: 8,
+                        fontWeight: 700,
+                        color: "#7aff9a",
+                        background: "rgba(0,0,0,0.3)",
+                        padding: "0 4px",
+                        borderRadius: 3,
+                      }}>
+                        ↑{acumuladorPowerUpAumFatuFornece}%
+                      </span>
+                    )}
+                    {/* Redução de Custo */}
+                    {acumuladorPowerUpRedCustoFornece > 0 && (
+                      <span style={{
+                        fontSize: 8,
+                        fontWeight: 700,
+                        color: "#ff9090",
+                        background: "rgba(0,0,0,0.3)",
+                        padding: "0 4px",
+                        borderRadius: 3,
+                      }}>
+                        ↓{acumuladorPowerUpRedCustoFornece}%
+                      </span>
+                    )}
+                    {/* Se não tiver nenhum power-up ativo */}
+                    {acumuladorPowerUpAumFatuFornece === 0 && acumuladorPowerUpRedCustoFornece === 0 && (
+                      <span style={{
+                        fontSize: 7,
+                        fontWeight: 700,
+                        color: "rgba(255,255,255,0.3)",
+                      }}>
+                        sem PU
+                      </span>
+                    )}
+                  </div>
                 </button>
               </div>
             </div>
@@ -919,13 +827,12 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
         </div>
 
         {/* ════════════════════════════════════════
-            VERSO DO CARD
+            VERSO DO CARD (mantido igual)
         ════════════════════════════════════════ */}
         <div
           className={`absolute w-full h-full flex items-center justify-center rounded-[20px] text-white cursor-pointer ${flipped ? "pointer-events-auto z-50" : "pointer-events-none"}`}
           style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", background: `linear-gradient(135deg,${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)` }}
         >
-
           {/* ── Verso: Power Ups ── */}
           {visibleId === "powerUp" && (
             <div onClick={() => handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
@@ -1095,7 +1002,6 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
               </div>
             </div>
           )}
-
         </div>
       </motion.div>
     </motion.div>
