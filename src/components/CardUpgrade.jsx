@@ -526,7 +526,7 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                             </div>
 
                             {/* Informações de upgrade */}
-                            <div style={{
+                            {/* <div style={{
                                 padding: "4px 12px", borderRadius: 6, flexShrink: 0,
                                 background: "rgba(0,0,0,0.4)",
                                 border: `1px solid ${rankConfig.cor}44`,
@@ -537,7 +537,7 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                             }}>
                                 <span style={{ color: "#34d399" }}>↑ +{fatu}%</span>
                                 <span style={{ color: "#f87171" }}>↓ -{redCusto}%</span>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState, useRef,useCallback } from "react";
+import React, { useContext, useEffect, useState, useRef, useCallback } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
-import PróximoImg from "../../public/outrasImagens/proximo.png";
-import Sorteio from "./Sorteio";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
@@ -41,9 +39,24 @@ export function SystemTurn() {
     // 🔥 VERIFICA SE O JOGO JÁ FOI INICIADO
     const jogoIniciado = dados.jogoIniciado || false;
 
-    const [countdown, setCountdown] = useState(30);
+    // 🔥 FUNÇÃO PARA CALCULAR O TEMPO DO COUNTDOWN BASEADO NO DIA
+    const getTempoCountdown = useCallback(() => {
+        const dia = dados.dia || 0;
+        if (dia > 180) return 90; // 1 minuto e 30 segundos
+        if (dia > 90) return 60; // 1 minuto
+        return 30; // 30 segundos
+    }, [dados.dia]);
+
+    const [countdown, setCountdown] = useState(getTempoCountdown());
     const [diasPendentes, setDiasPendentes] = useState(0);
     const [estaProcessando, setEstaProcessando] = useState(false);
+
+    // 🔥 ATUALIZA O COUNTDOWN QUANDO O DIA MUDA
+    useEffect(() => {
+        if (!jogoIniciado) return;
+        if (diasPendentes > 0 || estaProcessando) return;
+        setCountdown(getTempoCountdown());
+    }, [dados.dia, jogoIniciado, diasPendentes, estaProcessando, getTempoCountdown]);
 
     const processandoRef = useRef(false);
     const dadosRef = useRef(dados);
@@ -66,15 +79,15 @@ export function SystemTurn() {
     // 🔥 SOUND HOOKS
     const [buttonNextDayAudio] = useSound(nextDayAudio);
     const [buttonNewStageAudio] = useSound(newStageAudio);
-    const [playAudioMapa, { stop: stopAudioMapa, sound: audioMapaSound }] = useSound(musicaTemaLoading, {
+    const [playAudioMapa, { stop: stopAudioMapa }] = useSound(musicaTemaLoading, {
         volume: 0.4,
         loop: true,
     });
-    const [playAudioCentral, { stop: stopAudioCentral, sound: audioCentralSound }] = useSound(musicaCentral, {
+    const [playAudioCentral, { stop: stopAudioCentral }] = useSound(musicaCentral, {
         volume: 0.02,
         loop: true,
     });
-    const [playClockAudio, { stop: stopClockAudio, sound: clockSound }] = useSound(clockAudio, {
+    const [playClockAudio, { stop: stopClockAudio }] = useSound(clockAudio, {
         volume: 0.3,
         loop: true,
     });
@@ -92,19 +105,14 @@ export function SystemTurn() {
         if (audioEstadoRef.current.centralTocando) return;
         if (audioEstadoRef.current.transicaoEmAndamento) return;
         
-        // Para o áudio de loading se estiver tocando
         if (audioEstadoRef.current.loadingTocando) {
             stopAudioMapa();
             audioEstadoRef.current.loadingTocando = false;
         }
-        
-        // Para o áudio do clock se estiver tocando
         if (audioEstadoRef.current.clockTocando) {
             stopClockAudio();
             audioEstadoRef.current.clockTocando = false;
         }
-        
-        // Toca o áudio central
         playAudioCentral();
         audioEstadoRef.current.centralTocando = true;
         console.log("🎵 [SystemTurn] Áudio central iniciado");
@@ -115,19 +123,14 @@ export function SystemTurn() {
         if (audioEstadoRef.current.loadingTocando) return;
         if (audioEstadoRef.current.transicaoEmAndamento) return;
         
-        // Para o áudio central se estiver tocando
         if (audioEstadoRef.current.centralTocando) {
             stopAudioCentral();
             audioEstadoRef.current.centralTocando = false;
         }
-        
-        // Para o áudio do clock se estiver tocando
         if (audioEstadoRef.current.clockTocando) {
             stopClockAudio();
             audioEstadoRef.current.clockTocando = false;
         }
-        
-        // Toca o áudio de loading
         playAudioMapa();
         audioEstadoRef.current.loadingTocando = true;
         console.log("🎵 [SystemTurn] Áudio de loading iniciado");
@@ -138,19 +141,14 @@ export function SystemTurn() {
         if (audioEstadoRef.current.clockTocando) return;
         if (audioEstadoRef.current.transicaoEmAndamento) return;
         
-        // Para o áudio central se estiver tocando
         if (audioEstadoRef.current.centralTocando) {
             stopAudioCentral();
             audioEstadoRef.current.centralTocando = false;
         }
-        
-        // Para o áudio de loading se estiver tocando
         if (audioEstadoRef.current.loadingTocando) {
             stopAudioMapa();
             audioEstadoRef.current.loadingTocando = false;
         }
-        
-        // Toca o áudio do clock
         playClockAudio();
         audioEstadoRef.current.clockTocando = true;
         console.log("🎵 [SystemTurn] Áudio do clock iniciado");
@@ -176,7 +174,6 @@ export function SystemTurn() {
 
     // 🔥 CONTROLE DO ÁUDIO - VERSÃO CORRIGIDA
     useEffect(() => {
-        // Se o componente for desmontar, para tudo
         return () => {
             pararTodosAudios();
         };
@@ -184,19 +181,15 @@ export function SystemTurn() {
 
     // 🔥 CONTROLE DO ÁUDIO BASEADO NO ESTADO DO LOADING
     useEffect(() => {
-        // Se está mostrando loading
         if (mostrarLoading) {
             tocarAudioLoading();
         } else {
-            // Se não está mostrando loading, verifica se deve tocar o central
             if (jogoIniciado && dados.dia < 360 && !diasPendentes > 0 && !estaProcessando) {
-                // Pequeno delay para transição suave
                 const timer = setTimeout(() => {
                     tocarAudioCentral();
                 }, 300);
                 return () => clearTimeout(timer);
             } else {
-                // Se não deve tocar o central, para o loading se estiver tocando
                 if (audioEstadoRef.current.loadingTocando) {
                     stopAudioMapa();
                     audioEstadoRef.current.loadingTocando = false;
@@ -207,7 +200,6 @@ export function SystemTurn() {
 
     // 🔥 CONTROLE DO CLOCK - baseado no countdown
     useEffect(() => {
-        // Se está processando ou com dias pendentes, para o clock
         if (diasPendentes > 0 || estaProcessando) {
             if (audioEstadoRef.current.clockTocando) {
                 stopClockAudio();
@@ -217,7 +209,6 @@ export function SystemTurn() {
             return;
         }
 
-        // Se o jogo não foi iniciado ou já acabou
         if (!jogoIniciado || dados.dia >= 360) {
             if (audioEstadoRef.current.clockTocando) {
                 stopClockAudio();
@@ -226,22 +217,17 @@ export function SystemTurn() {
             return;
         }
 
-        // Se está em modo idle e o loading não está ativo
         if (mostrarLoading === false && audioEstadoRef.current.loadingTocando === false) {
-            // 🔥 SE O COUNTDOWN FOR MENOR OU IGUAL A 10, TOCA O CLOCK
             if (countdown <= 10 && countdown > 0) {
-                // Verifica se já não está tocando
                 if (!audioEstadoRef.current.clockTocando) {
                     tocarClock();
                 }
             } else {
-                // Se o countdown for maior que 10, para o clock e toca o central
                 if (audioEstadoRef.current.clockTocando) {
                     stopClockAudio();
                     audioEstadoRef.current.clockTocando = false;
                     console.log("🎵 [SystemTurn] Áudio do clock parado (countdown > 10)");
                 }
-                // Toca o central se não estiver tocando
                 if (!audioEstadoRef.current.centralTocando && !audioEstadoRef.current.loadingTocando) {
                     const timer = setTimeout(() => {
                         tocarAudioCentral();
@@ -250,10 +236,6 @@ export function SystemTurn() {
                 }
             }
         }
-
-        return () => {
-            // Cleanup
-        };
     }, [countdown, mostrarLoading, jogoIniciado, dados.dia, diasPendentes, estaProcessando, tocarClock, tocarAudioCentral, stopClockAudio, stopAudioCentral]);
 
     // 🔥 CONTROLE DO CLOCK - quando o countdown chega a 0, para imediatamente
@@ -506,7 +488,6 @@ export function SystemTurn() {
         if (!jogoIniciado) return;
         if (diasPendentes > 0 || estaProcessando) return;
         
-        // 🔥 SE O JOGO JÁ CHEGOU AO FIM, NÃO FAZ NADA
         if (dados.dia >= 360) {
             console.log("🏁 [SystemTurn] Jogo finalizado! Timer desativado.");
             return;
@@ -515,15 +496,13 @@ export function SystemTurn() {
         const interval = setInterval(() => {
             setCountdown(prev => {
                 if (prev <= 1) {
-                    // 🔥 VERIFICA SE O PRÓXIMO MÊS ULTRAPASSA 360
                     const diasRestantesParaFim = 360 - dados.dia;
                     
                     if (diasRestantesParaFim <= 0) {
                         console.log("🏁 [SystemTurn] Jogo finalizado! Parando timer.");
-                        return 60;
+                        return getTempoCountdown();
                     }
                     
-                    // 🔥 Se tem menos de 30 dias restantes, processa apenas os dias restantes
                     const totalDias = Math.min(30, diasRestantesParaFim);
 
                     impostoMensalRef.current = 0;
@@ -596,7 +575,7 @@ export function SystemTurn() {
                     diasRestantesRef.current = totalDias;
                     setDiasPendentes(totalDias);
 
-                    return 60;
+                    return getTempoCountdown();
                 }
 
                 return prev - 1;
@@ -604,19 +583,19 @@ export function SystemTurn() {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [diasPendentes, estaProcessando, dados.cartasSelecionadas, jogoIniciado, dados.dia]);
+    }, [diasPendentes, estaProcessando, dados.cartasSelecionadas, jogoIniciado, dados.dia, getTempoCountdown]);
 
     // 🔥 PROCESSAMENTO DOS DIAS - CORRIGIDO
     useEffect(() => {
         if (!jogoIniciado) return;
         if (diasPendentes <= 0 || processandoRef.current) return;
         
-        // 🔥 VERIFICA SE O JOGO JÁ CHEGOU AO FIM
         if (dados.dia >= 360) {
             console.log("🏁 [SystemTurn] Jogo finalizado! Parando processamento.");
             setDiasPendentes(0);
             setEstaProcessando(false);
             processandoRef.current = false;
+            setMostrarLoading(false);
             return;
         }
 
@@ -630,7 +609,6 @@ export function SystemTurn() {
         setEstaProcessando(true);
 
         const processarProximoDia = () => {
-            // 🔥 VERIFICA SE JÁ CHEGOU AO FIM
             if (dadosRef.current.dia >= 360) {
                 console.log("🏁 [SystemTurn] Jogo finalizado! Parando processamento.");
                 setDiasPendentes(0);
@@ -643,14 +621,13 @@ export function SystemTurn() {
             if (diasRestantesRef.current <= 0) {
                 console.log(`✅ [Processamento] FINALIZADO!`);
                 finalizarProcessamentoMensal();
-                setCountdown(60);
+                setCountdown(getTempoCountdown());
                 setDiasPendentes(0);
                 setEstaProcessando(false);
                 processandoRef.current = false;
                 return;
             }
 
-            // 🔥 O ÁUDIO É CONTROLADO PELO useEffect do mostrarLoading
             setMostrarLoading(true);
 
             const dadosAtuais = dadosRef.current;
@@ -658,7 +635,6 @@ export function SystemTurn() {
             const diaAtual = dadosAtuais.dia;
             const proximoDia = diaAtual + 1;
 
-            // 🔥 VERIFICA SE O PRÓXIMO DIA ULTRAPASSA 360
             if (proximoDia > 360) {
                 console.log("🏁 [SystemTurn] Próximo dia ultrapassa 360! Finalizando.");
                 setDiasPendentes(0);
@@ -668,62 +644,75 @@ export function SystemTurn() {
                 return;
             }
 
-            // 🔥 SE O PRÓXIMO DIA FOR 360, PROCESSA E FINALIZA
+            // 🔥 SE O PRÓXIMO DIA FOR 360, PROCESSA COM DELAY MAIOR
             if (proximoDia === 360) {
-                const resultadoDia = calcularFaturamentoDoDia(proximoDia, dadosAtuais);
-                const { faturamentoDiario, detalhesEdificios, totalAumFatu, totalRedCusto } = resultadoDia;
-                
-                calcularPatrimonioSetores(dadosAtuais);
-                
-                const impostoSobreFatuDia = calcularImpostoSobreFaturamentoDiario(dadosAtuais);
-                
-                faturamentoMensalRef.current += faturamentoDiario;
-                impostoFaturamentoMensalRef.current += impostoSobreFatuDia;
-                
-                // 🔥 Não precisa de imposto fixo no último dia
-                const impostoTotalDia = impostoSobreFatuDia;
-                
-                atualizarDados("dia", proximoDia);
-                dadosRef.current = { ...dadosAtuais, dia: proximoDia };
-                
-                const novoSaldo = saldoAtual + faturamentoDiario - impostoTotalDia;
-                atualizarEco("saldo", novoSaldo);
-                saldoRef.current = novoSaldo;
-                
-                // Atualiza power-ups
-                const powerUpsAumFatu = economiaSetores.powerUps?.aumentoFaturamentoDiario || [];
-                const powerUpsRedCusto = economiaSetores.powerUps?.reducaoCustoDiario || [];
-                const novoAumFatu = [...powerUpsAumFatu, totalAumFatu];
-                const novoRedCusto = [...powerUpsRedCusto, totalRedCusto];
-                
-                if (novoAumFatu.length > 360) {
-                    novoAumFatu.splice(0, novoAumFatu.length - 360);
-                }
-                if (novoRedCusto.length > 360) {
-                    novoRedCusto.splice(0, novoRedCusto.length - 360);
-                }
-                
-                atualizarEco("powerUps", {
-                    ...economiaSetores.powerUps,
-                    aumentoFaturamentoDiario: novoAumFatu,
-                    reducaoCustoDiario: novoRedCusto,
-                    aumentoFaturamentoAtual: totalAumFatu,
-                    reducaoCustoAtual: totalRedCusto,
-                });
-                
-                console.log("───────────────────────────────────────────────────────────────");
-                console.log(`📅 DIA ${proximoDia} - 🏁 ÚLTIMO DIA!`);
-                console.log(`   📊 Faturamento Bruto: R$ ${faturamentoDiario.toFixed(2)}`);
-                console.log(`   📊 Imposto: R$ ${impostoSobreFatuDia.toFixed(2)}`);
-                console.log(`   📊 Saldo Final: R$ ${novoSaldo.toFixed(2)}`);
-                console.log("───────────────────────────────────────────────────────────────");
-                
-                // 🔥 FINALIZA O JOGO
-                console.log("🏁 [SystemTurn] Jogo finalizado no dia 360!");
-                setDiasPendentes(0);
-                setEstaProcessando(false);
-                processandoRef.current = false;
-                setMostrarLoading(false);
+                setTimeout(() => {
+                    try {
+                        const resultadoDia = calcularFaturamentoDoDia(proximoDia, dadosAtuais);
+                        const { faturamentoDiario, detalhesEdificios, totalAumFatu, totalRedCusto } = resultadoDia;
+                        
+                        calcularPatrimonioSetores(dadosAtuais);
+                        const impostoSobreFatuDia = calcularImpostoSobreFaturamentoDiario(dadosAtuais);
+                        
+                        faturamentoMensalRef.current += faturamentoDiario;
+                        impostoFaturamentoMensalRef.current += impostoSobreFatuDia;
+                        const impostoTotalDia = impostoSobreFatuDia;
+                        
+                        atualizarDados("dia", proximoDia);
+                        dadosRef.current = { ...dadosAtuais, dia: proximoDia };
+                        
+                        const novoSaldo = saldoAtual + faturamentoDiario - impostoTotalDia;
+                        atualizarEco("saldo", novoSaldo);
+                        saldoRef.current = novoSaldo;
+                        
+                        const powerUpsAumFatu = economiaSetores.powerUps?.aumentoFaturamentoDiario || [];
+                        const powerUpsRedCusto = economiaSetores.powerUps?.reducaoCustoDiario || [];
+                        const novoAumFatu = [...powerUpsAumFatu, totalAumFatu];
+                        const novoRedCusto = [...powerUpsRedCusto, totalRedCusto];
+                        
+                        if (novoAumFatu.length > 360) {
+                            novoAumFatu.splice(0, novoAumFatu.length - 360);
+                        }
+                        if (novoRedCusto.length > 360) {
+                            novoRedCusto.splice(0, novoRedCusto.length - 360);
+                        }
+                        
+                        atualizarEco("powerUps", {
+                            ...economiaSetores.powerUps,
+                            aumentoFaturamentoDiario: novoAumFatu,
+                            reducaoCustoDiario: novoRedCusto,
+                            aumentoFaturamentoAtual: totalAumFatu,
+                            reducaoCustoAtual: totalRedCusto,
+                        });
+                        
+                        console.log("───────────────────────────────────────────────────────────────");
+                        console.log(`📅 DIA ${proximoDia} - 🏁 ÚLTIMO DIA!`);
+                        console.log(`   📊 Faturamento Bruto: R$ ${faturamentoDiario.toFixed(2)}`);
+                        console.log(`   📊 Imposto: R$ ${impostoSobreFatuDia.toFixed(2)}`);
+                        console.log(`   📊 Saldo Final: R$ ${novoSaldo.toFixed(2)}`);
+                        console.log("───────────────────────────────────────────────────────────────");
+                        
+                        console.log("🏁 [SystemTurn] Jogo finalizado no dia 360!");
+                        
+                        setTimeout(() => {
+                            setDiasPendentes(0);
+                            setEstaProcessando(false);
+                            processandoRef.current = false;
+                            setMostrarLoading(false);
+                            
+                            if (window.dispatchEvent) {
+                                window.dispatchEvent(new Event('resize'));
+                            }
+                        }, 1000);
+                        
+                    } catch (error) {
+                        console.error("❌ Erro no último dia:", error);
+                        setDiasPendentes(0);
+                        setEstaProcessando(false);
+                        processandoRef.current = false;
+                        setMostrarLoading(false);
+                    }
+                }, 300);
                 return;
             }
 
@@ -732,7 +721,6 @@ export function SystemTurn() {
             const { faturamentoDiario, detalhesEdificios, totalAumFatu, totalRedCusto } = resultadoDia;
 
             calcularPatrimonioSetores(dadosAtuais);
-
             const impostoSobreFatuDia = calcularImpostoSobreFaturamentoDiario(dadosAtuais);
 
             faturamentoMensalRef.current += faturamentoDiario;
@@ -746,7 +734,6 @@ export function SystemTurn() {
             }
 
             const impostoTotalDia = impostoSobreFatuDia;
-
             atualizarDados("dia", proximoDia);
             dadosRef.current = { ...dadosAtuais, dia: proximoDia };
 
@@ -765,7 +752,6 @@ export function SystemTurn() {
                 impostoSobreFaturamentoDiário: impostoSobreFatuDia,
             });
 
-            // 🔥 ATUALIZA POWER-UPS
             const powerUpsAumFatu = economiaSetores.powerUps?.aumentoFaturamentoDiario || [];
             const powerUpsRedCusto = economiaSetores.powerUps?.reducaoCustoDiario || [];
             
@@ -829,7 +815,7 @@ export function SystemTurn() {
 
         setTimeout(processarProximoDia, 500);
 
-    }, [diasPendentes, jogoIniciado, dados.dia]);
+    }, [diasPendentes, jogoIniciado, dados.dia, getTempoCountdown]);
 
     // 🔥 FUNÇÃO PARA FINALIZAR O PROCESSAMENTO MENSAL
     const finalizarProcessamentoMensal = () => {
@@ -1169,20 +1155,41 @@ export function SystemTurn() {
                 visible={mostrarLoading} 
                 onComplete={() => setMostrarLoading(false)} 
             />
+            
+            {/* 🔥 TIMER COM ESTÉTICA VERMELHA E TEMPO VARIÁVEL */}
             <div
                 data-tooltip-id="saldo-tip"
                 data-tooltip-content={
                     diasPendentes > 0 || estaProcessando
                         ? `Processando ${30 - (diasPendentes || 0)}/30 dias...`
-                        : "Próxima simulação em 60 segundos"
+                        : countdown > 10 
+                            ? `Próxima simulação em ${countdown} segundos`
+                            : `⚠️ ÚLTIMOS ${countdown} SEGUNDOS!`
                 }
-                className="h-[50px] min-w-[120px] bg-laranja rounded-[10px] flex items-center justify-center px-4 font-bold text-white"
+                className="h-[50px] min-w-[120px] rounded-[10px] flex items-center justify-center px-4 font-bold text-white transition-all duration-300"
+                style={{
+                    backgroundColor: countdown <= 10 && countdown > 0 ? '#cc0000' : '#F27405',
+                    boxShadow: countdown <= 10 && countdown > 0 ? '0 0 40px rgba(255,0,0,0.6)' : '0 0 20px rgba(242,116,5,0.3)',
+                    animation: countdown <= 10 && countdown > 0 ? 'pulse-timer 0.8s infinite' : 'none',
+                    border: countdown <= 10 && countdown > 0 ? '2px solid #ff3333' : 'none',
+                    transform: countdown <= 10 && countdown > 0 ? 'scale(1.02)' : 'scale(1)',
+                }}
             >
                 {diasPendentes > 0 || estaProcessando
                     ? `${30 - (diasPendentes || 0)}/30`
-                    : `00:${String(countdown).padStart(2, "0")}`}
+                    : countdown <= 10 && countdown > 0
+                        ? `⚠️ ${String(countdown).padStart(2, "0")}s`
+                        : `${String(countdown).padStart(2, "0")}s`}
             </div>
+            
             <TooltipPadrao id="saldo-tip" />
+            
+            <style>{`
+                @keyframes pulse-timer {
+                    0%, 100% { transform: scale(1); opacity: 1; }
+                    50% { transform: scale(1.05); opacity: 0.85; }
+                }
+            `}</style>
         </div>
     );
 }

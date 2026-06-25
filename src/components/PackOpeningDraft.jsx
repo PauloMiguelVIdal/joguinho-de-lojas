@@ -134,7 +134,6 @@ const PACK_CONFIG = {
     }
 };
 
-
 // ── FUNÇÕES AUXILIARES ───────────────────────────────────────────
 const SETORES_CONFIG = [
     { id: "agricultura", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50" },
@@ -184,7 +183,7 @@ const sortearCartaDoRank = (rank) => {
     return pool[idx];
 };
 
-// ── FUNÇÃO PARA SORTEAR CARTAS DE UM PACOTE ──────────────────────
+// ── FUNÇÃO PARA SORTEAR CARTAS DE UM PACOTE (CORRIGIDA) ──────────
 const sortearCartasDoPacote = (tipoPacote) => {
     const config = PACK_CONFIG[tipoPacote];
     if (!config) return [];
@@ -192,39 +191,100 @@ const sortearCartasDoPacote = (tipoPacote) => {
     const cartasSorteadas = [];
     const usedCards = new Set();
     const quantidades = config.quantidade || 3;
+    
+    // 🔥 CRIA UM POOL DE TODAS AS CARTAS DISPONÍVEIS POR RANK
+    const getPoolPorRank = (rank) => {
+        switch(rank) {
+            case 'S': return [...RankS];
+            case 'A': return [...RankA];
+            case 'B': return [...RankB];
+            case 'C': return [...RankC];
+            default: return [...RankC];
+        }
+    };
 
+    // 🔥 FUNÇÃO PARA SORTEAR UMA CARTA ÚNICA DE UM RANK ESPECÍFICO
+    const sortearCartaUnicaDoRank = (rank, used) => {
+        const pool = getPoolPorRank(rank);
+        const disponiveis = pool.filter(carta => !used.has(carta));
+        if (disponiveis.length === 0) return null;
+        const idx = Math.floor(Math.random() * disponiveis.length);
+        return disponiveis[idx];
+    };
+
+    // 🔥 SORTEIA AS CARTAS
     for (let i = 0; i < quantidades; i++) {
-        let tentativas = 0;
         let carta = null;
         let rank = null;
+        let tentativas = 0;
+        const maxTentativas = 50;
 
-        while (tentativas < 20) {
+        // Tenta sortear um rank baseado nas probabilidades
+        while (tentativas < maxTentativas && !carta) {
             rank = sortearRank(config.probabilidades);
-            carta = sortearCartaDoRank(rank);
-            
-            if (carta && !usedCards.has(carta)) {
-                usedCards.add(carta);
+            const tentativa = sortearCartaUnicaDoRank(rank, usedCards);
+            if (tentativa) {
+                carta = tentativa;
                 break;
             }
             tentativas++;
-            carta = null;
         }
 
+        // Se não conseguiu com o rank sorteado, tenta em ordem de prioridade
         if (!carta) {
-            for (const r of ['C', 'B', 'A', 'S']) {
-                const tentativa = sortearCartaDoRank(r);
-                if (tentativa && !usedCards.has(tentativa)) {
+            const ranksPrioridade = ['C', 'B', 'A', 'S'];
+            for (const r of ranksPrioridade) {
+                const tentativa = sortearCartaUnicaDoRank(r, usedCards);
+                if (tentativa) {
                     carta = tentativa;
-                    usedCards.add(carta);
+                    rank = r;
+                    break;
+                }
+            }
+        }
+
+        // Se ainda não encontrou, significa que todas as cartas foram usadas
+        if (!carta) {
+            console.warn(`⚠️ Não foi possível sortear a carta ${i + 1} do pacote ${tipoPacote}`);
+            // Tenta qualquer carta disponível (pode repetir)
+            for (const r of ['C', 'B', 'A', 'S']) {
+                const pool = getPoolPorRank(r);
+                const disponiveis = pool.filter(c => !usedCards.has(c));
+                if (disponiveis.length > 0) {
+                    carta = disponiveis[Math.floor(Math.random() * disponiveis.length)];
+                    rank = r;
                     break;
                 }
             }
         }
 
         if (carta) {
+            usedCards.add(carta);
             cartasSorteadas.push({
                 nome: carta,
                 rank: rank || 'C'
+            });
+        }
+    }
+
+    // 🔥 GARANTE QUE SEMPRE RETORNE A QUANTIDADE EXATA DE CARTAS
+    // Se por algum motivo veio menos cartas, preenche com cartas aleatórias (permite repetição)
+    while (cartasSorteadas.length < quantidades) {
+        const rank = sortearRank(config.probabilidades);
+        const pool = getPoolPorRank(rank);
+        if (pool.length > 0) {
+            const idx = Math.floor(Math.random() * pool.length);
+            cartasSorteadas.push({
+                nome: pool[idx],
+                rank: rank
+            });
+        } else {
+            // Fallback: usa Rank C
+            const poolC = getPoolPorRank('C');
+            const idx = Math.floor(Math.random() * poolC.length);
+            cartasSorteadas.push({
+                nome: poolC[idx],
+                rank: 'C'
             });
         }
     }
@@ -1056,7 +1116,7 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
                   fontWeight: 400,
                   marginTop: 4,
                 }}>
-                  {cartasSorteadas.length} cartas aprimoradas
+                  {cartasSorteadas.length} cartas recebidas
                 </p>
               </motion.div>
 
