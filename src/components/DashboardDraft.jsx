@@ -53,6 +53,7 @@ import changeSectoryAudio from "../../public/sounds/changeSectoryAudio.mp3";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import openAudio from "../../public/sounds/openAudio.mp3";
 import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3";
+import audioSel from "../../public/sounds/nextDayAudio.mp3";
 import { PackOpening } from "./PackOpening.jsx";
 import {
   Chart as ChartJS,
@@ -640,6 +641,7 @@ export default function DashboardDraft() {
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
   const [buttonWalletOpenAudio] = useSound(walletOpenAudio);
+  const [selecionarButton] = useSound(audioSel);
 
   const setVision = (newVision) => {
     atualizarDados("vision", {
@@ -1987,7 +1989,10 @@ export default function DashboardDraft() {
                                       {/* Botão Selecionar - maior altura */}
                                       <button
                                         className="w-[45%] mt-2 mb-4"
-                                        onClick={() => toggleSelecao(setor, idx, ed.nome)}
+                                        onClick={() => {
+  toggleSelecao(setor, idx, ed.nome);
+  selecionarButton();
+}}
                                         style={{
                                           padding: "8px 12px",
                                           borderRadius: "6px",

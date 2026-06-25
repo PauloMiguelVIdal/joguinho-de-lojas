@@ -6,6 +6,7 @@ import logo from '../../public/outrasImagens/logo Joguinho.png';
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import useSound from "use-sound";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
+import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 
 // ── RANKS DOS EDIFÍCIOS ───────────────────────────────────────────
 const RankS = [
@@ -656,6 +657,9 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
   const [particles, setParticles] = useState([]);
   const [modal, setModal] = useState(false);
   const [buttonCloseAudio] = useSound(closeAudio);
+  const [buttonNewStageAudio] = useSound(newStageAudio);
+  const [audioTocado, setAudioTocado] = useState(false);
+  
   const [jaSorteouHoje, setJaSorteouHoje] = useState(false);
   const [tipoPacoteAtual, setTipoPacoteAtual] = useState('comum');
   const [pacotesIniciaisAbertos, setPacotesIniciaisAbertos] = useState(false);
@@ -687,6 +691,7 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
     setCartasSorteadas([]);
     setParticles([]);
     setAguardandoProximoPacote(false);
+    setAudioTocado(false);
   }, []);
 
   const fecharModal = useCallback(() => {
@@ -818,6 +823,16 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
     if (fase !== "idle") return;
     realizarSorteio();
   };
+
+  // 🔥 useEffect PARA TOCAR O ÁUDIO QUANDO O PACOTE ABRIR
+  useEffect(() => {
+    if (modal && fase === "opening" && !audioTocado) {
+      // Toca o áudio newStage quando o pacote está abrindo
+      buttonNewStageAudio();
+      setAudioTocado(true);
+      console.log("🎵 [PackOpening] Áudio newStage tocado!");
+    }
+  }, [modal, fase, audioTocado, buttonNewStageAudio]);
 
   // 🔥 NOVO useEffect: ABRE PACOTES INICIAIS NO DIA 0
   useEffect(() => {

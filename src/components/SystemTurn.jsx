@@ -10,7 +10,9 @@ import nextDayAudio from "../../public/sounds/nextDayAudio.mp3";
 import newStageAudio from "../../public/sounds/newStageAudio.mp3";
 import { LoadingScreen } from "./LoadingScreen";
 import { executarLiquidacaoAutomatica } from "./SlotManager";
-
+import musicaTemaLoading from "../../public/sounds/Swinging Sweet.ogg";
+import musicaCentral from "../../public/sounds/S31-The Gears of Progress.ogg";
+import { useCallback } from "react";
 // 🔥 CONSTANTES MOVIDAS PARA O TOPO
 const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
 const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
@@ -59,6 +61,140 @@ export function SystemTurn() {
     // 🔥 REF PARA CARTAS SELECIONADAS
     const cartasSelecionadasRef = useRef([]);
     const cartasSelecionadasMapRef = useRef(new Map());
+
+    // 🔥 SOUND HOOKS
+    const [buttonNextDayAudio] = useSound(nextDayAudio);
+    const [buttonNewStageAudio] = useSound(newStageAudio);
+    
+    // 🔥 ÁUDIO DE LOADING - volume mais baixo
+    const [playAudioMapa, { stop: stopAudioMapa, sound: audioMapaSound }] = useSound(musicaTemaLoading, {
+        volume: 0.4,
+        loop: true,
+    });
+    
+    // 🔥 ÁUDIO CENTRAL - volume mais alto
+    const [playAudioCentral, { stop: stopAudioCentral, sound: audioCentralSound }] = useSound(musicaCentral, {
+        volume: 0.25,
+        loop: true,
+    });
+
+    // 🔥 REF PARA CONTROLAR O ESTADO DO ÁUDIO
+    const audioEstadoRef = useRef({
+        loadingTocando: false,
+        centralTocando: false,
+        transicaoEmAndamento: false
+    });
+
+    // 🔥 FUNÇÃO PARA TOCAR ÁUDIO CENTRAL COM SEGURANÇA
+    const tocarAudioCentral = useCallback(() => {
+        if (audioEstadoRef.current.centralTocando) return;
+        if (audioEstadoRef.current.transicaoEmAndamento) return;
+        
+        // Para o áudio de loading se estiver tocando
+        if (audioEstadoRef.current.loadingTocando) {
+            stopAudioMapa();
+            audioEstadoRef.current.loadingTocando = false;
+        }
+        
+        // Toca o áudio central
+        playAudioCentral();
+        audioEstadoRef.current.centralTocando = true;
+        console.log("🎵 [SystemTurn] Áudio central iniciado");
+    }, [playAudioCentral, stopAudioMapa]);
+
+    // 🔥 FUNÇÃO PARA TOCAR ÁUDIO DE LOADING COM SEGURANÇA
+    const tocarAudioLoading = useCallback(() => {
+        if (audioEstadoRef.current.loadingTocando) return;
+        if (audioEstadoRef.current.transicaoEmAndamento) return;
+        
+        // Para o áudio central se estiver tocando
+        if (audioEstadoRef.current.centralTocando) {
+            stopAudioCentral();
+            audioEstadoRef.current.centralTocando = false;
+        }
+        
+        // Toca o áudio de loading
+        playAudioMapa();
+        audioEstadoRef.current.loadingTocando = true;
+        console.log("🎵 [SystemTurn] Áudio de loading iniciado");
+    }, [playAudioMapa, stopAudioCentral]);
+
+    // 🔥 FUNÇÃO PARA PARAR TODOS OS ÁUDIOS
+    const pararTodosAudios = useCallback(() => {
+        if (audioEstadoRef.current.loadingTocando) {
+            stopAudioMapa();
+            audioEstadoRef.current.loadingTocando = false;
+        }
+        if (audioEstadoRef.current.centralTocando) {
+            stopAudioCentral();
+            audioEstadoRef.current.centralTocando = false;
+        }
+        audioEstadoRef.current.transicaoEmAndamento = false;
+        console.log("🎵 [SystemTurn] Todos os áudios parados");
+    }, [stopAudioMapa, stopAudioCentral]);
+
+    // 🔥 CONTROLE DO ÁUDIO - VERSÃO CORRIGIDA
+    useEffect(() => {
+        // Se o componente for desmontar, para tudo
+        return () => {
+            pararTodosAudios();
+        };
+    }, [pararTodosAudios]);
+
+    // 🔥 CONTROLE DO ÁUDIO BASEADO NO ESTADO DO LOADING
+    useEffect(() => {
+        // Se está mostrando loading
+        if (mostrarLoading) {
+            tocarAudioLoading();
+        } else {
+            // Se não está mostrando loading, verifica se deve tocar o central
+            if (jogoIniciado && dados.dia < 360 && !diasPendentes > 0 && !estaProcessando) {
+                // Pequeno delay para transição suave
+                const timer = setTimeout(() => {
+                    tocarAudioCentral();
+                }, 300);
+                return () => clearTimeout(timer);
+            } else {
+                // Se não deve tocar o central, para o loading se estiver tocando
+                if (audioEstadoRef.current.loadingTocando) {
+                    stopAudioMapa();
+                    audioEstadoRef.current.loadingTocando = false;
+                }
+            }
+        }
+    }, [mostrarLoading, jogoIniciado, dados.dia, diasPendentes, estaProcessando, tocarAudioLoading, tocarAudioCentral, stopAudioMapa]);
+
+    // 🔥 CONTROLE DO ÁUDIO CENTRAL - baseado no estado do jogo
+    useEffect(() => {
+        // Se o jogo não foi iniciado ou já acabou, para todos os áudios
+        if (!jogoIniciado || dados.dia >= 360) {
+            pararTodosAudios();
+            return;
+        }
+
+        // Se está processando ou tem dias pendentes, para o áudio central
+        if (diasPendentes > 0 || estaProcessando) {
+            if (audioEstadoRef.current.centralTocando) {
+                stopAudioCentral();
+                audioEstadoRef.current.centralTocando = false;
+                console.log("🎵 [SystemTurn] Áudio central parado (processamento ativo)");
+            }
+            return;
+        }
+
+        // Se está em modo idle (countdown rodando) e o loading não está ativo, toca o áudio central
+        if (mostrarLoading === false && audioEstadoRef.current.loadingTocando === false) {
+            const timer = setTimeout(() => {
+                tocarAudioCentral();
+            }, 200);
+            return () => clearTimeout(timer);
+        }
+
+        // Cleanup
+        return () => {
+            // Não para o áudio aqui para evitar cortes
+        };
+    }, [jogoIniciado, dados.dia, diasPendentes, estaProcessando, mostrarLoading, tocarAudioCentral, stopAudioCentral, pararTodosAudios]);
 
     // 🔥 FUNÇÃO PARA CRIAR MAPA DE EDIFÍCIOS
     const criarMapaEdificios = (dadosAtuais) => {
@@ -445,6 +581,7 @@ export function SystemTurn() {
                 return;
             }
 
+            // 🔥 O ÁUDIO É CONTROLADO PELO useEffect do mostrarLoading
             setMostrarLoading(true);
 
             const dadosAtuais = dadosRef.current;
@@ -684,9 +821,6 @@ export function SystemTurn() {
             border="1px solid #350973"
         />
     );
-
-    const [buttonNextDayAudio] = useSound(nextDayAudio);
-    const [buttonNewStageAudio] = useSound(newStageAudio);
 
     // 🔥 FUNÇÃO PARA VERIFICAR SE UM EDIFÍCIO ESTÁ SELECIONADO
     const isEdificioSelecionado = (ed) => {
