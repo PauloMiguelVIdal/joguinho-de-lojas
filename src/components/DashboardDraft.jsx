@@ -1814,7 +1814,6 @@ export default function DashboardDraft() {
                             <button key={key}
                               onClick={() => setCarteiraOrdem(key)}
                               style={{
-                                border: "none",
                                 borderRadius: 6,
                                 padding: "4px 12px",
                                 cursor: "pointer",
@@ -1826,6 +1825,7 @@ export default function DashboardDraft() {
                                 whiteSpace: "nowrap",
                                 background: carteiraOrdem === key ? "rgba(255,255,255,.18)" : "rgba(255,255,255,.05)",
                                 color: carteiraOrdem === key ? "#fff" : "rgba(255,255,255,.4)",
+                                border: "none",
                               }}>
                               {label}
                             </button>
@@ -1932,13 +1932,11 @@ export default function DashboardDraft() {
                         }}>
 
                           {/* ── AÇÕES (ESQUERDA) ── */}
-                          {/* ── AÇÕES (ESQUERDA) ── */}
                           <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                             {/* Seleção */}
                             <button
                               onClick={() => setFiltroSelecionados(!filtroSelecionados)}
                               style={{
-                                border: "none",
                                 borderRadius: 6,
                                 padding: "5px 14px",
                                 cursor: "pointer",
@@ -1962,7 +1960,6 @@ export default function DashboardDraft() {
                               <button
                                 onClick={limparSelecoes}
                                 style={{
-                                  border: "none",
                                   borderRadius: 6,
                                   padding: "5px 14px",
                                   cursor: "pointer",
@@ -2003,7 +2000,6 @@ export default function DashboardDraft() {
                                 }
                               }}
                               style={{
-                                border: "none",
                                 borderRadius: 6,
                                 padding: "5px 18px",
                                 cursor: "pointer",
@@ -2025,7 +2021,6 @@ export default function DashboardDraft() {
                               {modoVendaRapida ? (
                                 <>
                                   {cartasParaVender.length > 0 ? (
-                                    // 🔥 MOSTRA QUANTIDADE E VALOR TOTAL
                                     <span>
                                       ({cartasParaVender.length}) por R$ {
                                         cartasParaVender.reduce((total, item) => {
@@ -2056,7 +2051,6 @@ export default function DashboardDraft() {
                                   setCartasParaVender(novasSelecoes);
                                 }}
                                 style={{
-                                  border: "none",
                                   borderRadius: 6,
                                   padding: "4px 12px",
                                   cursor: "pointer",
@@ -2328,7 +2322,7 @@ export default function DashboardDraft() {
                                         style={{
                                           padding: "8px 12px",
                                           borderRadius: "6px",
-                                          border: "none",
+                                          border: estaSelecionado ? "1px solid #34d399" : "1px solid rgba(255,255,255,0.1)",
                                           fontFamily: "'Rajdhani',sans-serif",
                                           fontSize: "10px",
                                           fontWeight: 700,
@@ -2347,9 +2341,6 @@ export default function DashboardDraft() {
                                           boxShadow: estaSelecionado
                                             ? "0 0 15px rgba(52, 211, 153, 0.4)"
                                             : "none",
-                                          border: estaSelecionado
-                                            ? "1px solid #34d399"
-                                            : "1px solid rgba(255,255,255,0.1)",
                                           transform: estaSelecionado ? "scale(1.02)" : "scale(1)",
                                           pointerEvents: atingiuLimite && !estaSelecionado ? "none" : "auto",
                                           height: "32px",
@@ -2371,62 +2362,61 @@ export default function DashboardDraft() {
                                       </button>
 
                                       {/* Botão Venda Rápida - ícone 🗑️ */}
-{/* Botão Venda Rápida - ícone 🗑️ */}
-<button
-  className="w-[45%] mt-2 mb-4"
-  onClick={() => {
-    if (modoVendaRapida) {
-      toggleSelecaoVenda(setor, idx, ed.nome);
-    }
-  }}
-  style={{
-    padding: "8px 12px",
-    borderRadius: "6px",
-    border: estaSelecionadoVenda
-      ? "1px solid #ff4d4d"
-      : "1px solid rgba(255,255,255,0.1)",
-    fontFamily: "'Rajdhani',sans-serif",
-    fontSize: "10px",
-    fontWeight: 700,
-    transition: "all 0.2s ease",
-    background: estaSelecionadoVenda
-      ? "linear-gradient(135deg, #ff4d4d, #cc0000)"
-      : modoVendaRapida
-        ? "rgba(255,77,77,0.2)"
-        : "rgba(255,255,255,0.05)",
-    color: estaSelecionadoVenda
-      ? "#fff"
-      : modoVendaRapida
-        ? "rgba(255,77,77,0.7)"
-        : "rgba(255,255,255,0.3)",
-    boxShadow: estaSelecionadoVenda
-      ? "0 0 15px rgba(255,77,77,0.4)"
-      : "none",
-    transform: estaSelecionadoVenda ? "scale(1.02)" : "scale(1)",
-    height: "32px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "4px",
-    cursor: modoVendaRapida ? "pointer" : "not-allowed",
-    pointerEvents: modoVendaRapida ? "auto" : "none",
-  }}
-  onMouseEnter={(e) => {
-    if (!estaSelecionadoVenda && modoVendaRapida) {
-      e.currentTarget.style.background = "rgba(255,77,77,0.3)";
-      e.currentTarget.style.transform = "scale(1.05)";
-    }
-  }}
-  onMouseLeave={(e) => {
-    if (!estaSelecionadoVenda && modoVendaRapida) {
-      e.currentTarget.style.background = "rgba(255,77,77,0.2)";
-      e.currentTarget.style.transform = "scale(1)";
-    }
-  }}
->
-  <span>🗑️</span>
-  {estaSelecionadoVenda ? "Vender" : "Vender"}
-</button>
+                                      <button
+                                        className="w-[45%] mt-2 mb-4"
+                                        onClick={() => {
+                                          if (modoVendaRapida) {
+                                            toggleSelecaoVenda(setor, idx, ed.nome);
+                                          }
+                                        }}
+                                        style={{
+                                          padding: "8px 12px",
+                                          borderRadius: "6px",
+                                          border: estaSelecionadoVenda
+                                            ? "1px solid #ff4d4d"
+                                            : "1px solid rgba(255,255,255,0.1)",
+                                          fontFamily: "'Rajdhani',sans-serif",
+                                          fontSize: "10px",
+                                          fontWeight: 700,
+                                          transition: "all 0.2s ease",
+                                          background: estaSelecionadoVenda
+                                            ? "linear-gradient(135deg, #ff4d4d, #cc0000)"
+                                            : modoVendaRapida
+                                              ? "rgba(255,77,77,0.2)"
+                                              : "rgba(255,255,255,0.05)",
+                                          color: estaSelecionadoVenda
+                                            ? "#fff"
+                                            : modoVendaRapida
+                                              ? "rgba(255,77,77,0.7)"
+                                              : "rgba(255,255,255,0.3)",
+                                          boxShadow: estaSelecionadoVenda
+                                            ? "0 0 15px rgba(255,77,77,0.4)"
+                                            : "none",
+                                          transform: estaSelecionadoVenda ? "scale(1.02)" : "scale(1)",
+                                          height: "32px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                          gap: "4px",
+                                          cursor: modoVendaRapida ? "pointer" : "not-allowed",
+                                          pointerEvents: modoVendaRapida ? "auto" : "none",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          if (!estaSelecionadoVenda && modoVendaRapida) {
+                                            e.currentTarget.style.background = "rgba(255,77,77,0.3)";
+                                            e.currentTarget.style.transform = "scale(1.05)";
+                                          }
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          if (!estaSelecionadoVenda && modoVendaRapida) {
+                                            e.currentTarget.style.background = "rgba(255,77,77,0.2)";
+                                            e.currentTarget.style.transform = "scale(1)";
+                                          }
+                                        }}
+                                      >
+                                        <span>🗑️</span>
+                                        {estaSelecionadoVenda ? "Vender" : "Vender"}
+                                      </button>
                                     </div>
                                   </div>
                                 );
