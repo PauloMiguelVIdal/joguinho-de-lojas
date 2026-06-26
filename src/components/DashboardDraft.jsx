@@ -575,7 +575,7 @@ export default function DashboardDraft() {
   const [carteiraKey, setCarteiraKey] = useState(0);
   const [modalConclusao, setModalConclusao] = useState(false);
   const [cartasParaVender, setCartasParaVender] = useState([]);
-  const [modoVendaRapida, setModoVendaRapida] = useState(false);
+  const [modoVendaRapida, setModoVendaRapida] = useState(true);
 
   const verificarSlots = useSlotVerification();
 
@@ -693,7 +693,7 @@ export default function DashboardDraft() {
     await atualizarEco("saldo", saldoAtual + totalRecebido);
 
     setCartasParaVender([]);
-    setModoVendaRapida(false);
+    setModoVendaRapida(true);
     setCarteiraKey(prev => prev + 1);
 
     // Mostra um toast ou notificação rápida
@@ -1992,7 +1992,7 @@ export default function DashboardDraft() {
                                 if (modoVendaRapida && cartasParaVender.length > 0) {
                                   executarVendaRapida();
                                 } else if (modoVendaRapida) {
-                                  setModoVendaRapida(false);
+                                  setModoVendaRapida(true);
                                   setCartasParaVender([]);
                                 } else {
                                   setModoVendaRapida(true);

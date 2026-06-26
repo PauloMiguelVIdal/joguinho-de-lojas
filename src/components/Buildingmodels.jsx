@@ -1416,7 +1416,7 @@ export const MODELOS = {
     tipo: 'composto',
     partes: [
       { modeloId: 97, offset: [0, 0, 0], escala: 1, rotacao: 0 },
-      { modeloId: 96, offset: [-0.0, 0.05, 0.0], escala: 0.4, rotacao: Math.PI / -0.66 },
+      { modeloId: 96, offset: [-0.0, 0.05, 0.0], escala: 0.2, rotacao: Math.PI / -0.66 },
     ]
   },
   476: {
@@ -1659,7 +1659,7 @@ export const MODELOS = {
     label: 'terraplanagem',
     tipo: 'composto',
     partes: [
-      { modeloId: 111, offset: [0, 0.001, 0], escala: 1, rotacao: 0 },
+      // { modeloId: 111, offset: [0, 0.001, 0], escala: 1, rotacao: 0 },
       { modeloId: 124, offset: [0, 0, 0], escala: 1, rotacao: 0 },
     ]
   },
@@ -2368,14 +2368,14 @@ export const EDIFICIO_PARA_MODELO = {
   "Adega": 481,
   "Loja De Conveniência": 481,
   "Posto De Combustíveis": 482,
-  "Rede De Fast-Food": 475,
-  "Loja De Departamentos": 475,
-  "Loja De Calçados": 475,
-  "Loja De Vestuário": 475,
-  "Loja De Gadgets E Wearables": 475,
-  "Loja De Games": 475,
-  "Loja De Celulares": 475,
-  "Loja De Informática": 475,
+  "Rede De Fast-Food": 481,
+  "Loja De Departamentos": 481,
+  "Loja De Calçados": 481,
+  "Loja De Vestuário": 481,
+  "Loja De Gadgets E Wearables": 481,
+  "Loja De Games": 481,
+  "Loja De Celulares": 481,
+  "Loja De Informática": 481,
   "Centro De Transporte E Entrega": 483,
   "Centro De Distribuição": 483,
   "Armazém Logístico": 484,

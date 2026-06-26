@@ -146,9 +146,9 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
         <span className="text-white text-[8px] font-bold leading-tight flex-shrink-0">
           {abreviarNome(ed.nome)}
         </span>
-        {ativo && (
+        {/* {ativo && (
           <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: corAtual }} />
-        )}
+        )} */}
         <span
           className={`text-[8px] font-bold ml-auto px-1.5 py-0.5 rounded-full ${
             ativo ? "text-white" : "text-white/40"
@@ -198,13 +198,13 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
           </div>
         </div>
       </div>
-      {(forneceLista.length > 3 || recebeLista.length > 3) && (
+      {/* {(forneceLista.length > 3 || recebeLista.length > 3) && (
         <div className="text-center mt-0.5">
           <span className="text-[6px] text-white/30 font-bold">
             +{Math.max(0, forneceLista.length - 3)} mais
           </span>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
@@ -672,10 +672,11 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
         <div className="absolute bottom-0 right-0 w-[50px] h-[50px] z-20 flex items-center justify-center rounded-tl-2xl rounded-br-2xl" >
           <div className="absolute inset-0 rounded-tl-2xl rounded-br-2xl" style={{ backgroundColor: setorInfo.cor3, filter: "brightness(0.8)", boxShadow: "-2px -2px 10px rgba(0,0,0,0.3)" }} />
           <div className="w-[50px] h-[50px] flex items-center justify-center rounded-tl-2xl rounded-br-2xl" style={{ backgroundColor: "rgba(0,0,0,0.2)", backdropFilter: "blur(4px)" }}>
-            {isProducao && <img src={passive} className="w-[24px] opacity-90" alt="" />}
+            {/* {isProducao && <img src={passive} className="w-[24px] opacity-90" alt="" />}
             {isVenda && <img src={passive} className="w-[24px] opacity-90" alt="" />}
             {isEstoque && <img src={passive} className="w-[24px] opacity-90" alt="" />}
-            {isPassiva && <img src={passive} className="w-[24px] opacity-90" alt="" />}
+            {isPassiva && <img src={passive} className="w-[24px] opacity-90" alt="" />} */}
+            <h1 className="text-white text-[20px] fonteBold " >{quantidadeAtivo}</h1>
           </div>
         </div>
 
@@ -748,87 +749,71 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
             
             <MiniPowerUpResumo setor={setor} index={index} setorInfo={setorInfo} />
 
-            {/* FOOTER: quantidade + botão vender COM POWER-UPS */}
+            
             <div className="w-full flex flex-col gap-[4px]">
               <div className="flex gap-[5px] items-center" style={{ height: 24 }}>
-                <div style={{
-                  height: 24, minWidth: 36, borderRadius: 7,
-                  background: quantidadeAtivo > 0 ? "rgba(100,17,217,.2)" : "rgba(0,0,0,.28)",
-                  border: quantidadeAtivo > 0 ? `1px solid ${corPowerUpAtual}` : "1px solid rgba(255,255,255,.12)",
-                  display: "flex", alignItems: "center", justifyContent: "center", gap: 3, padding: "0 7px", flexShrink: 0
-                }}>
-                  {quantidadeAtivo > 0 && <span style={{ width: 5, height: 5, borderRadius: "50%", background: corPowerUpAtual, display: "inline-block" }} />}
-                  <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 14, fontWeight: 700, color: quantidadeAtivo > 0 ? "#fff" : "#fff" }}>
-                    {quantidadeAtivo}
-                  </span>
-                </div>
+            
                 
-                {/* 🔥 BOTÃO VENDER COM POWER-UPS */}
-                <button
-                  onClick={() => { abrirModalSell(setor, index); buttonOpenAudio(); }}
-                  style={{
-                    flex: 1, height: 24, borderRadius: 8, border: "none",
-                    fontFamily: "'Nunito',sans-serif", fontSize: 11, fontWeight: 700,
-                    cursor: "pointer", color: "#fff", letterSpacing: ".04em",
-                    background: "linear-gradient(135deg,#6411D9,#F27405)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 6,
-                  }}
-                  className="fonteBold"
-                >
-                  <span>Vender</span>
+             
+
                   
-                  {/* 🔥 MOSTRA OS POWER-UPS NO BOTÃO */}
-                  <div className="flex items-center gap-2 ml-1">
-                    {/* Aumento de Faturamento */}
-                    {acumuladorPowerUpAumFatuFornece > 0 && (
-                      <span style={{
-                        fontSize: 8,
-                        fontWeight: 700,
-                        color: "#7aff9a",
-                        background: "rgba(0,0,0,0.3)",
-                        padding: "0 4px",
-                        borderRadius: 3,
-                      }}>
-                        ↑{acumuladorPowerUpAumFatuFornece}%
-                      </span>
-                    )}
-                    {/* Redução de Custo */}
-                    {acumuladorPowerUpRedCustoFornece > 0 && (
-                      <span style={{
-                        fontSize: 8,
-                        fontWeight: 700,
-                        color: "#ff9090",
-                        background: "rgba(0,0,0,0.3)",
-                        padding: "0 4px",
-                        borderRadius: 3,
-                      }}>
-                        ↓{acumuladorPowerUpRedCustoFornece}%
-                      </span>
-                    )}
-                    {/* Se não tiver nenhum power-up ativo */}
-                    {acumuladorPowerUpAumFatuFornece === 0 && acumuladorPowerUpRedCustoFornece === 0 && (
-                      <span style={{
-                        fontSize: 7,
-                        fontWeight: 700,
-                        color: "rgba(255,255,255,0.3)",
-                      }}>
-                        sem PU
-                      </span>
-                    )}
-                  </div>
-                </button>
+                 
+               <div className="flex items-center gap-2 mt-2 ml-1">
+  {/* Verifica se há pelo menos um power-up ativo */}
+  {acumuladorPowerUpAumFatuFornece > 0 || acumuladorPowerUpRedCustoFornece > 0 ? (
+    <>
+      {/* Aumento de Faturamento */}
+      {acumuladorPowerUpAumFatuFornece > 0 && (
+        <span style={{
+          fontSize: 16,
+          fontWeight: 700,
+          color: "#7aff9a",
+          background: "rgba(0,0,0,0.3)",
+          padding: "0 6px",
+          borderRadius: 3,
+          minWidth: "32px",
+          textAlign: "center",
+        }}>
+          ↑{acumuladorPowerUpAumFatuFornece}%
+        </span>
+      )}
+      
+      {/* Redução de Custo */}
+      {acumuladorPowerUpRedCustoFornece > 0 && (
+        <span style={{
+          fontSize: 16,
+          fontWeight: 700,
+          color: "#ff9090",
+          background: "rgba(0,0,0,0.3)",
+          padding: "0 6px",
+          borderRadius: 3,
+          minWidth: "32px",
+          textAlign: "center",
+        }}>
+          ↓{acumuladorPowerUpRedCustoFornece}%
+        </span>
+      )}
+    </>
+  ) : (
+    /* Sem power-up - mostra apenas o texto */
+    <span style={{
+      fontSize: 10,
+      fontWeight: 700,
+      color: "rgba(255,255,255,0.25)",
+      fontStyle: "italic",
+    }}>
+      Não Fornece Powerup
+    </span>
+  )}
+</div>
+              
               </div>
             </div>
 
           </div>
         </div>
 
-        {/* ════════════════════════════════════════
-            VERSO DO CARD (mantido igual)
-        ════════════════════════════════════════ */}
+
         <div
           className={`absolute w-full h-full flex items-center justify-center rounded-[20px] text-white cursor-pointer ${flipped ? "pointer-events-auto z-50" : "pointer-events-none"}`}
           style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", background: `linear-gradient(135deg,${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)` }}
