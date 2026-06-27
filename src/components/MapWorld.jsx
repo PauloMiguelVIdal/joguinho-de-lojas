@@ -1,6 +1,7 @@
 // ============================================================
 //  MapWorld.jsx - Versão Resumida (4 camadas)
 //  Apenas rotação - sem zoom, sem pan
+//  Raio: 6
 // ============================================================
 
 import React, { useState, useMemo, useContext, useEffect, useRef } from 'react'
@@ -14,7 +15,7 @@ import { BuildingModel } from './BuildingModel'
 import { resolverModeloSede, MODELOS, EDIFICIO_PARA_MODELO } from './buildingModels'
 import { useFrame } from '@react-three/fiber'
 
-const HEX_SIZE = 0.6
+const HEX_SIZE = 0.6 // Mantido o mesmo valor original
 
 const hexToWorld = (hex, size) => ({
   x: size * 1.73 * (hex.q + hex.r / 2),
@@ -33,7 +34,6 @@ const SETOR_CONFIG = {
   energia:      { label: 'Energia',     cor1: '#665200', cor3: '#E6B800', cor4: '#FFD966' },
 }
 
-const getImageUrl = (nome) => `/imagens/${nome}.png`
 const SETORES = ['agricultura', 'tecnologia', 'comercio', 'industria', 'imobiliario', 'energia']
 
 const HEX_DIRECTIONS = [[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]]
@@ -58,7 +58,7 @@ const SkyDome = ({ dayProgress }) => {
   useEffect(() => { uniforms.uProgress.value = dayProgress }, [dayProgress, uniforms])
 
   return (
-    <mesh scale={[10.1, 7, 10.1]} position={[0, 0.01, 0]}>
+    <mesh scale={[8, 6, 8]} position={[0, 0.01, 0]}>
       <sphereGeometry args={[1, 64, 32, 0, Math.PI * 2, 0, Math.PI / 2]} />
       <shaderMaterial
         side={THREE.BackSide}
@@ -110,7 +110,7 @@ const Ocean = () => {
 
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]} receiveShadow>
-      <circleGeometry args={[10, 64]} />
+      <circleGeometry args={[8, 64]} />
       <shaderMaterial
         transparent
         uniforms={uniforms}
@@ -262,7 +262,6 @@ export default function MapWorld() {
 
   const [selectedKey, setSelectedKey] = useState(null)
   const [dayProgress, setDayProgress] = useState(0)
-  const [tagsVisiveis] = useState(false)
 
   // ── Edifícios ativos ────────────────────────────────────────
   const edificiosAtivos = useMemo(() => {
@@ -283,10 +282,10 @@ export default function MapWorld() {
     return lista
   }, [dados])
 
-  // ── Hex Grid ────────────────────────────────────────────────
+  // ── Hex Grid ── 🔥 RAIO 6 (mantendo HEX_SIZE original) ──
   const hexGrid = useMemo(() => {
     const Tile = defineHex({ dimensions: HEX_SIZE, orientation: 'pointy' })
-    return Array.from(new Grid(Tile, spiral({ center: [0, 0], radius: 9 })))
+    return Array.from(new Grid(Tile, spiral({ center: [0, 0], radius: 6 })))
   }, [])
 
   // ── Posicionamento automático ──────────────────────────────
@@ -335,7 +334,7 @@ export default function MapWorld() {
   // ── Render ──────────────────────────────────────────────────
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative', borderRadius: 20, overflow: 'hidden' }}>
-      <Canvas shadows camera={{ position: [18, 18, 18], fov: 20 }}>
+      <Canvas shadows camera={{ position: [18, 18, 18], fov: 26 }}>
         {/* CAMADA 1: CÉU */}
         <SkyDome dayProgress={dayProgress} />
         
@@ -368,13 +367,13 @@ export default function MapWorld() {
           })}
         </group>
 
-        <ContactShadows position={[0, 0.02, 0]} opacity={0.4} scale={35} blur={2.2} color="#1a3a10" />
+        <ContactShadows position={[0, 0.02, 0]} opacity={0.4} scale={30} blur={2.2} color="#1a3a10" />
         
         {/* 🔥 ORBIT CONTROLS - APENAS ROTAÇÃO */}
         <OrbitControls
           enablePan={false}
           enableZoom={false}
-          enableRotate={true}
+          enableRotate={false}
           rotateSpeed={0.5}
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={Math.PI / 2.8}

@@ -1,5 +1,5 @@
 // ============================================================
-//  BuildingModel.jsx
+//  BuildingModel.jsx - CORRIGIDO
 // ============================================================
 
 import React, { useMemo, useState, useEffect, Component } from 'react'
@@ -144,7 +144,7 @@ function ModeloComColormap({ glbPath, colormap, escalaVec, posY, rotacao, rotaca
         (rotacaoCorrecao?.[1] ?? 0) + (rotacao ?? 0),
         rotacaoCorrecao?.[2] ?? 0,
       ]}
-      scale={escalaVec}
+      scale={escalaVec ?? [1, 1, 1]}
     />
   )
 }
@@ -180,7 +180,7 @@ function ModeloSemColormap({ glbPath, escalaVec, posY, rotacao, rotacaoCorrecao,
         (rotacaoCorrecao?.[1] ?? 0) + (rotacao ?? 0),
         rotacaoCorrecao?.[2] ?? 0,
       ]}
-      scale={escalaVec}
+      scale={escalaVec ?? [1, 1, 1]}
     />
   )
 }
@@ -207,7 +207,7 @@ function ModeloLoader({ config, corFallback }) {
             escalaVec={config.escalaVec}
             posY={config.posY}
             rotacao={config.rotacao}
-            rotacaoCorrecao={config.rotacaoCorrecao} // 👈 AQUI
+            rotacaoCorrecao={config.rotacaoCorrecao}
             corTint={config.corTint}
           />
         ) : (
@@ -216,7 +216,7 @@ function ModeloLoader({ config, corFallback }) {
             escalaVec={config.escalaVec}
             posY={config.posY}
             rotacao={config.rotacao}
-            rotacaoCorrecao={config.rotacaoCorrecao} // 👈 AQUI
+            rotacaoCorrecao={config.rotacaoCorrecao}
             corTint={config.corTint}
           />
         )}
@@ -224,22 +224,20 @@ function ModeloLoader({ config, corFallback }) {
     </ModelErrorBoundary>
   )
 }
+
 // ─────────────────────────────────────────────────────────────
-//  COMPONENTE PÚBLICO
-//
-//  Props:
-//    nomeEdificio      → string exata do edifício (ou null)
-//    corFallback       → cor hex para o fallback
-//    posicaoBase       → [x, y, z] posição no grupo pai
-//    _overrideConfig   → config completa já resolvida (sede)
-//    _overrideModeloId → ID numérico direto de MODELOS
-//                        (satélites de cluster)
+//  COMPONENTE PÚBLICO - CORRIGIDO PARA COMPOSTOS
 // ─────────────────────────────────────────────────────────────
-export function BuildingModel({ nomeEdificio, corFallback = '#888888', posicaoBase = [0, 0, 0], _overrideConfig = null, _overrideModeloId = null }) {
+export function BuildingModel({ 
+  nomeEdificio, 
+  corFallback = '#888888', 
+  posicaoBase = [0, 0, 0], 
+  _overrideConfig = null, 
+  _overrideModeloId = null 
+}) {
   const config = _overrideConfig
     ?? (_overrideModeloId != null ? resolverModelo(null, _overrideModeloId) : null)
     ?? resolverModelo(nomeEdificio)
-
 
   // 🔹 SIMPLES
   if (config?.tipo === 'simples') {
@@ -250,20 +248,30 @@ export function BuildingModel({ nomeEdificio, corFallback = '#888888', posicaoBa
     )
   }
 
-  // 🔥 COMPOSTO
+  // 🔥 COMPOSTO - CORRIGIDO
   if (config?.tipo === 'composto') {
     return (
       <group position={posicaoBase}>
-        {config.partes.map((parte, i) => (
-          <group
-            key={i}
-            position={parte.offset}
-            rotation={[0, parte.rotacaoExtra ?? 0, 0]}
-            scale={parte.escalaVec.map(v => v * (parte.escalaExtra ?? 1))}
-          >
-            <ModeloLoader config={parte} corFallback={corFallback} />
-          </group>
-        ))}
+        {config.partes.map((parte, i) => {
+          // Garantir que cada parte tenha seus próprios valores
+          const escalaFinal = parte.escalaVec 
+            ? parte.escalaVec.map(v => v * (parte.escalaExtra ?? 1))
+            : [1, 1, 1]
+          
+          const posFinal = parte.offset || [0, 0, 0]
+          const rotFinal = (parte.rotacaoExtra ?? 0) + (parte.rotacao ?? 0)
+
+          return (
+            <group
+              key={i}
+              position={posFinal}
+              rotation={[0, rotFinal, 0]}
+              scale={escalaFinal}
+            >
+              <ModeloLoader config={parte} corFallback={corFallback} />
+            </group>
+          )
+        })}
       </group>
     )
   }
