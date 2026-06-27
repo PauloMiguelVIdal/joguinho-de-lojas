@@ -100,12 +100,12 @@ export const getRankPorDia = (dia) => {
 // ============================================================
 // COMPONENTE PARA DRAFT INICIAL (4C + 1B)
 // ============================================================
-export const DraftSystemInicial = ({ 
-  onClose, 
+export const DraftSystemInicial = ({
+  onClose,
   onComplete,
   quantidadeOpcoes = 3,
   titulo = "📋 Draft Inicial",
-  instrucao = "📌 Escolha 4 cartas Classe C e 1 carta Classe B para começar sua jornada!"
+  instrucao = "📌 Escolha as suas cartas para começar sua jornada!"
 }) => {
   const { dados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
@@ -170,9 +170,9 @@ export const DraftSystemInicial = ({
   const gerarOpcoesRodada = useCallback((rank) => {
     const disponiveis = getCartasDisponiveis(rank);
     const listaCompleta = getListaPorRank(rank);
-    
+
     let opcoesGeradas = [];
-    
+
     if (disponiveis.length >= quantidadeOpcoes) {
       const embaralhadas = shuffleArray(disponiveis);
       opcoesGeradas = embaralhadas.slice(0, quantidadeOpcoes);
@@ -204,24 +204,34 @@ export const DraftSystemInicial = ({
   }, [dados, setoresArr, atualizarDadosProf2, getSetorDaCarta]);
 
   // ── LÓGICA DO DRAFT ────────────────────────────────────────
+  // No DraftSystemInicial, substitua a função iniciarProximaRodada:
+
   const iniciarProximaRodada = useCallback(() => {
     const rodadaCAtual = cartasEscolhidas.filter(c => c.tipo === 'C').length;
     const rodadaBAtual = cartasEscolhidas.filter(c => c.tipo === 'B').length;
-    
-    let tipo = 'C';
-    if (rodadaCAtual >= 4 && rodadaBAtual < 1) {
-      tipo = 'B';
-    } else if (rodadaCAtual >= 4 && rodadaBAtual >= 1) {
+
+    // Se já temos 4 Rank C e 1 Rank B, finaliza e FECHA IMEDIATAMENTE
+    if (rodadaCAtual >= 4 && rodadaBAtual >= 1) {
       setDraftFinalizado(true);
       setAnimando(false);
-      if (onComplete) onComplete(cartasEscolhidas);
+      // 🔥 FECHA IMEDIATAMENTE E CHAMA onComplete
+      if (onComplete) {
+        onComplete(cartasEscolhidas);
+      }
       return;
+    }
+
+    // Se ainda não temos 4 Rank C, continua com Rank C
+    let tipo = 'C';
+    if (rodadaCAtual >= 4) {
+      // Se já temos 4 Rank C, mas ainda não temos Rank B
+      tipo = 'B';
     }
 
     setTipoRodadaAtual(tipo);
     setOpcaoSelecionada(null);
     setAnimando(false);
-    
+
     const novasOpcoes = gerarOpcoesRodada(tipo);
     setOpcoes(novasOpcoes);
     setRodadaAtual(prev => prev + 1);
@@ -234,7 +244,7 @@ export const DraftSystemInicial = ({
     setRodadaAtual(0);
     setDraftFinalizado(false);
     setOpcaoSelecionada(null);
-    
+
     const primeirasOpcoes = gerarOpcoesRodada('C');
     setOpcoes(primeirasOpcoes);
     setTipoRodadaAtual('C');
@@ -243,22 +253,22 @@ export const DraftSystemInicial = ({
 
   const selecionarCarta = useCallback((carta) => {
     if (animando || opcaoSelecionada) return;
-    
+
     setAnimando(true);
     setOpcaoSelecionada(carta);
-    
+
     cartasUsadasRef.current.add(carta);
     setCartasUsadas(prev => new Set(prev).add(carta));
-    
+
     const novaCarta = {
       nome: carta,
       tipo: tipoRodadaAtual,
       rodada: rodadaAtual
     };
-    
+
     setCartasEscolhidas(prev => [...prev, novaCarta]);
     aplicarCartaAoJogo(carta);
-    
+
     setTimeout(() => {
       iniciarProximaRodada();
     }, 800);
@@ -286,13 +296,7 @@ export const DraftSystemInicial = ({
         transition={{ duration: 0.4, type: "spring", stiffness: 120 }}
         className="relative w-[95vw] max-w-[1400px] max-h-[92vh] bg-gradient-to-br from-[#350973] via-[#6411D9] to-[#8F5ADA] rounded-[30px] p-6 shadow-2xl border-2 border-[#C79FFF]/30 overflow-hidden"
       >
-        {/* ── BOTÃO FECHAR ── */}
-        <button
-          onClick={() => { if (onClose) onClose(); }}
-          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/30 hover:bg-black/50 transition-all flex items-center justify-center z-10"
-        >
-          <img src={fechar} alt="Fechar" className="w-5 h-5 invert" />
-        </button>
+
 
         {/* ── HEADER ── */}
         <div className="text-center mb-3">
@@ -301,7 +305,7 @@ export const DraftSystemInicial = ({
           </h2>
           {!draftFinalizado && (
             <p className="text-white/70 text-sm mt-1">
-              Rodada {rodadaAtual} de {totalRodadas} • 
+              Rodada {rodadaAtual} de {totalRodadas} •
               <span style={{ color: getRankInfo(tipoRodadaAtual).cor }}>
                 {getRankInfo(tipoRodadaAtual).emoji} {getRankInfo(tipoRodadaAtual).label}
               </span>
@@ -314,129 +318,79 @@ export const DraftSystemInicial = ({
           )}
         </div>
 
-        {/* ── BARRA DE PROGRESSO ── */}
-        {!draftFinalizado && (
-          <div className="w-full h-2 bg-black/30 rounded-full mb-3 overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-[#7aff9a] to-[#FFD700] rounded-full transition-all duration-500"
-              style={{ width: `${(rodadaAtual / totalRodadas) * 100}%` }}
-            />
-          </div>
-        )}
 
         {/* ── CONTEÚDO PRINCIPAL ── */}
         <div className="flex gap-4 h-[calc(92vh-120px)]">
           {/* ── COLUNA ESQUERDA: OPÇÕES ── */}
           <div className="flex-1 min-w-0">
-            {draftFinalizado ? (
-              <div className="flex flex-col items-center justify-center h-full">
-                <div className="text-center mb-4">
-                  <p className="text-white/80 text-lg">
-                    🎉 Draft inicial concluído com sucesso!
-                  </p>
-                  <p className="text-white/60 text-sm mt-1">
-                    {cartasEscolhidas.length} cartas adicionadas ao seu inventário
-                  </p>
-                </div>
-                
-                <div className="flex flex-wrap gap-2 justify-center max-h-[200px] overflow-y-auto p-2">
-                  {cartasEscolhidas.map((carta, idx) => {
-                    const rankInfo = getRankInfo(carta.tipo);
+            <div className="flex flex-col h-full">
+              {/* ── TEXTO DE INSTRUÇÃO ── */}
+              <div className="text-center mb-4 flex-shrink-0">
+                <p className="text-white/80 text-[20px] font-medium">
+                  {instrucao}
+                </p>
+                <p className="text-white/40 text-xs mt-1">
+                  {getRankInfo(tipoRodadaAtual).emoji} {getRankInfo(tipoRodadaAtual).label} - {getRankInfo(tipoRodadaAtual).desc}
+                </p>
+                <p className="text-white/30 text-xs mt-1">
+                  {cartasEscolhidas.filter(c => c.tipo === 'C').length} Classe C • {cartasEscolhidas.filter(c => c.tipo === 'B').length} Classe B
+                </p>
+              </div>
+
+              {/* ── OPÇÕES EM CARDS ── */}
+              <div className="flex-1 overflow-y-auto pr-2 scrollbar-custom">
+                <div className="flex flex-wrap justify-around gap-4 pb-4">
+                  {opcoes.map((carta, index) => {
+                    const isSelecionada = opcaoSelecionada === carta;
+                    const isDesabilitada = animando || !!opcaoSelecionada;
+                    const info = getSetorDaCarta(carta);
+                    const rankInfo = getRankInfo(tipoRodadaAtual);
+
                     return (
-                      <span
-                        key={idx}
-                        className={`px-3 py-1 rounded-full text-xs font-bold border`}
-                        style={{
-                          backgroundColor: `${rankInfo.cor}22`,
-                          color: rankInfo.cor,
-                          borderColor: `${rankInfo.cor}55`
-                        }}
-                      >
-                        {carta.nome} {rankInfo.emoji}
-                      </span>
+                      <div key={index} className="flex flex-col items-center gap-2">
+                        {info && (
+                          <div
+                            className={`transition-all duration-300 ${isDesabilitada && !isSelecionada ? 'opacity-40 pointer-events-none' : 'cursor-pointer'
+                              } ${isSelecionada ? 'scale-105' : ''}`}
+                            onClick={() => !isDesabilitada && selecionarCarta(carta)}
+                            style={{
+                              boxShadow: isSelecionada ? `0 0 30px ${rankInfo.cor}66` : 'none'
+                            }}
+                          >
+                            <CardDraft
+                              index={info.index}
+                              setor={info.setor}
+                              abrirModalSell={() => { }}
+                            />
+                          </div>
+                        )}
+
+                        <button
+                          onClick={() => !isDesabilitada && selecionarCarta(carta)}
+                          disabled={isDesabilitada}
+                          className={`px-6 py-2 rounded-lg font-bold text-sm transition-all ${isSelecionada
+                              ? 'bg-[#34d399] text-[#1a1a1a] shadow-lg shadow-[#34d399]/30'
+                              : isDesabilitada
+                                ? 'bg-white/10 text-white/30 cursor-not-allowed'
+                                : `bg-gradient-to-r from-[#6411D9] to-[#8F5ADA] hover:from-[#8F5ADA] hover:to-[#6411D9] text-white hover:scale-105`
+                            }`}
+                        >
+                          {isSelecionada ? '✓ Selecionado' : 'Selecionar'}
+                        </button>
+                      </div>
                     );
                   })}
                 </div>
-
-                <button
-                  onClick={onComplete}
-                  className="mt-6 px-8 py-3 bg-[#34d399] hover:bg-[#2dbf8a] text-[#1a1a1a] font-bold rounded-xl transition-all hover:scale-105"
-                >
-                  ✅ Continuar Jogo
-                </button>
               </div>
-            ) : (
-              <div className="flex flex-col h-full">
-                {/* ── TEXTO DE INSTRUÇÃO ── */}
-                <div className="text-center mb-4 flex-shrink-0">
-                  <p className="text-white/80 text-sm font-medium">
-                    {instrucao}
-                  </p>
-                  <p className="text-white/40 text-xs mt-1">
-                    {getRankInfo(tipoRodadaAtual).emoji} {getRankInfo(tipoRodadaAtual).label} - {getRankInfo(tipoRodadaAtual).desc}
-                  </p>
-                  <p className="text-white/30 text-xs mt-1">
-                    {cartasEscolhidas.filter(c => c.tipo === 'C').length}/4 Classe C • {cartasEscolhidas.filter(c => c.tipo === 'B').length}/1 Classe B
-                  </p>
-                </div>
-
-                {/* ── OPÇÕES EM CARDS ── */}
-                <div className="flex-1 overflow-y-auto pr-2 scrollbar-custom">
-                  <div className="flex flex-wrap justify-around gap-4 pb-4">
-                    {opcoes.map((carta, index) => {
-                      const isSelecionada = opcaoSelecionada === carta;
-                      const isDesabilitada = animando || !!opcaoSelecionada;
-                      const info = getSetorDaCarta(carta);
-                      const rankInfo = getRankInfo(tipoRodadaAtual);
-
-                      return (
-                        <div key={index} className="flex flex-col items-center gap-2">
-                          {info && (
-                            <div 
-                              className={`transition-all duration-300 ${
-                                isDesabilitada && !isSelecionada ? 'opacity-40 pointer-events-none' : 'cursor-pointer'
-                              } ${isSelecionada ? 'scale-105' : ''}`}
-                              onClick={() => !isDesabilitada && selecionarCarta(carta)}
-                              style={{
-                                boxShadow: isSelecionada ? `0 0 30px ${rankInfo.cor}66` : 'none'
-                              }}
-                            >
-                              <CardDraft 
-                                index={info.index} 
-                                setor={info.setor} 
-                                abrirModalSell={() => {}}
-                              />
-                            </div>
-                          )}
-                          
-                          <button
-                            onClick={() => !isDesabilitada && selecionarCarta(carta)}
-                            disabled={isDesabilitada}
-                            className={`px-6 py-2 rounded-lg font-bold text-sm transition-all ${
-                              isSelecionada 
-                                ? 'bg-[#34d399] text-[#1a1a1a] shadow-lg shadow-[#34d399]/30'
-                                : isDesabilitada
-                                  ? 'bg-white/10 text-white/30 cursor-not-allowed'
-                                  : `bg-gradient-to-r from-[#6411D9] to-[#8F5ADA] hover:from-[#8F5ADA] hover:to-[#6411D9] text-white hover:scale-105`
-                            }`}
-                          >
-                            {isSelecionada ? '✓ Selecionado' : 'Selecionar'}
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            )}
+            </div>
           </div>
 
           {/* ── COLUNA DIREITA: HISTÓRICO ── */}
           <div className="w-[320px] flex-shrink-0 bg-black/30 rounded-2xl p-4 flex flex-col border border-white/10">
             <h3 className="text-white font-bold text-center text-sm uppercase tracking-wider mb-3 border-b border-white/10 pb-2">
-              📜 Cartas Escolhidas ({cartasEscolhidas.length}/5)
+              📜 Cartas Escolhidas ({cartasEscolhidas.length})
             </h3>
-            
+
             <div className="flex-1 overflow-y-auto scrollbar-custom">
               {cartasEscolhidas.length === 0 ? (
                 <div className="text-white/30 text-center text-sm mt-8">
@@ -448,7 +402,7 @@ export const DraftSystemInicial = ({
                     const info = getSetorDaCarta(carta.nome);
                     const rankInfo = getRankInfo(carta.tipo);
                     return (
-                      <div 
+                      <div
                         key={idx}
                         className={`p-2 rounded-lg flex items-center gap-3 transition-all border`}
                         style={{
@@ -458,8 +412,8 @@ export const DraftSystemInicial = ({
                       >
                         <div className="w-8 h-8 rounded-lg bg-black/30 flex items-center justify-center flex-shrink-0">
                           {info && (
-                            <img 
-                              src={`/imagens/${carta.nome}.png`} 
+                            <img
+                              src={`/imagens/${carta.nome}.png`}
                               alt={carta.nome}
                               className="w-6 h-6 object-contain"
                               onError={(e) => e.target.style.display = 'none'}
@@ -487,8 +441,8 @@ export const DraftSystemInicial = ({
             {/* ── RESUMO ── */}
             <div className="mt-3 pt-3 border-t border-white/10">
               <div className="flex justify-between text-xs text-white/60">
-                <span>Classe C: {cartasEscolhidas.filter(c => c.tipo === 'C').length}/4</span>
-                <span>Classe B: {cartasEscolhidas.filter(c => c.tipo === 'B').length}/1</span>
+                <span>Classe C: {cartasEscolhidas.filter(c => c.tipo === 'C').length}</span>
+                <span>Classe B: {cartasEscolhidas.filter(c => c.tipo === 'B').length}</span>
               </div>
             </div>
           </div>
@@ -500,8 +454,8 @@ export const DraftSystemInicial = ({
 
 
 
-export const DraftSystemContinuo = ({ 
-  onClose, 
+export const DraftSystemContinuo = ({
+  onClose,
   onComplete,
   diaAtual,
   quantidadeOpcoes = 3,
@@ -524,7 +478,7 @@ export const DraftSystemContinuo = ({
 
   // ── REFS ──────────────────────────────────────────────────
   const cartasUsadasRef = useRef(new Set());
-  const totalRodadas = 1; // Sempre 1 rodada por vez
+  const totalRodadas = 1;
 
   // ── FUNÇÃO PARA EMBARALHAR ──────────────────────────────
   const shuffleArray = (array) => {
@@ -566,15 +520,11 @@ export const DraftSystemContinuo = ({
   // ── FUNÇÃO PARA OBTER CARTAS DISPONÍVEIS ──────────────────
   const getCartasDisponiveis = useCallback((rank) => {
     const lista = getListaPorRank(rank);
-    
     const disponiveis = lista.filter(nome => {
-      // Verifica se já foi usada no draft
       if (cartasUsadasRef.current.has(nome)) return false;
-      // Verifica se o jogador já possui
       if (jogadorPossuiCarta(nome)) return false;
       return true;
     });
-
     return disponiveis;
   }, [getListaPorRank, jogadorPossuiCarta]);
 
@@ -582,22 +532,20 @@ export const DraftSystemContinuo = ({
   const gerarOpcoesRodada = useCallback((rank) => {
     const disponiveis = getCartasDisponiveis(rank);
     const listaCompleta = getListaPorRank(rank);
-    
+
     let opcoesGeradas = [];
-    
+
     if (disponiveis.length >= quantidadeOpcoes) {
       const embaralhadas = shuffleArray(disponiveis);
       opcoesGeradas = embaralhadas.slice(0, quantidadeOpcoes);
     } else {
       const disponiveisCompletas = [...disponiveis];
-      
       for (const nome of listaCompleta) {
         if (!disponiveisCompletas.includes(nome) && !cartasUsadasRef.current.has(nome)) {
           disponiveisCompletas.push(nome);
         }
         if (disponiveisCompletas.length >= quantidadeOpcoes) break;
       }
-      
       let tentativas = 0;
       while (disponiveisCompletas.length < quantidadeOpcoes && tentativas < 100) {
         const extra = listaCompleta[Math.floor(Math.random() * listaCompleta.length)];
@@ -606,11 +554,9 @@ export const DraftSystemContinuo = ({
         }
         tentativas++;
       }
-      
       const embaralhadas = shuffleArray(disponiveisCompletas);
       opcoesGeradas = embaralhadas.slice(0, quantidadeOpcoes);
     }
-    
     return opcoesGeradas;
   }, [getCartasDisponiveis, getListaPorRank, quantidadeOpcoes]);
 
@@ -632,17 +578,13 @@ export const DraftSystemContinuo = ({
   // ── INICIAR PRÓXIMA RODADA ────────────────────────────────
   const iniciarProximaRodada = useCallback(() => {
     const rank = getRankPorDia(diaAtual);
-    
     setTipoRodadaAtual(rank);
     setOpcaoSelecionada(null);
     setAnimando(false);
-    
     const novasOpcoes = gerarOpcoesRodada(rank);
     setOpcoes(novasOpcoes);
     setRodadaAtual(prev => prev + 1);
-    
     if (novasOpcoes.length === 0) {
-      // Se não há opções disponíveis, finaliza o draft
       setDraftFinalizado(true);
       if (onComplete) onComplete(cartasEscolhidas);
     }
@@ -658,12 +600,10 @@ export const DraftSystemContinuo = ({
     setDraftFinalizado(false);
     setOpcaoSelecionada(null);
     setInventarioAtualizado(0);
-    
     const primeirasOpcoes = gerarOpcoesRodada(rank);
     setOpcoes(primeirasOpcoes);
     setTipoRodadaAtual(rank);
     setRodadaAtual(1);
-    
     if (primeirasOpcoes.length === 0) {
       setDraftFinalizado(true);
       if (onComplete) onComplete([]);
@@ -673,29 +613,29 @@ export const DraftSystemContinuo = ({
   // ── SELECIONAR CARTA ──────────────────────────────────────
   const selecionarCarta = useCallback((carta) => {
     if (animando || opcaoSelecionada) return;
-    
     setAnimando(true);
     setOpcaoSelecionada(carta);
-    
     cartasUsadasRef.current.add(carta);
     setCartasUsadas(prev => new Set(prev).add(carta));
-    
     const novaCarta = {
       nome: carta,
       tipo: tipoRodadaAtual,
       rodada: rodadaAtual,
       dia: diaAtual
     };
-    
     setCartasEscolhidas(prev => [...prev, novaCarta]);
     aplicarCartaAoJogo(carta);
-    
     setTimeout(() => {
       setDraftFinalizado(true);
       setAnimando(false);
-      if (onComplete) onComplete([...cartasEscolhidas, novaCarta]);
+      if (onComplete) {
+        onComplete([...cartasEscolhidas, novaCarta]);
+      }
+      if (onClose) {
+        onClose();
+      }
     }, 800);
-  }, [animando, opcaoSelecionada, tipoRodadaAtual, rodadaAtual, diaAtual, cartasEscolhidas, onComplete, aplicarCartaAoJogo]);
+  }, [animando, opcaoSelecionada, tipoRodadaAtual, rodadaAtual, diaAtual, cartasEscolhidas, onComplete, onClose, aplicarCartaAoJogo]);
 
   // ── INICIAR DRAFT AUTOMATICAMENTE ──────────────────────
   useEffect(() => {
@@ -720,209 +660,104 @@ export const DraftSystemContinuo = ({
         className="relative w-[95vw] max-w-[1400px] max-h-[92vh] bg-gradient-to-br from-[#350973] via-[#6411D9] to-[#8F5ADA] rounded-[30px] p-6 shadow-2xl border-2 border-[#C79FFF]/30 overflow-hidden"
       >
         {/* ── BOTÃO FECHAR ── */}
-        <button
-          onClick={() => { 
-            if (onClose) onClose(); 
-          }}
+        {/* <button
+          onClick={onClose}
           className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/30 hover:bg-black/50 transition-all flex items-center justify-center z-10"
         >
           <img src={fechar} alt="Fechar" className="w-5 h-5 invert" />
-        </button>
+        </button> */}
 
         {/* ── HEADER ── */}
-        <div className="text-center mb-3">
+        <div className="text-center mb-4">
           <h2 className="text-2xl font-bold text-white">
-            {draftFinalizado ? "✅ Draft Concluído!" : titulo}
+            {titulo}
           </h2>
-          {!draftFinalizado && (
-            <p className="text-white/70 text-sm mt-1">
-              Dia {diaAtual} • 
-              <span style={{ color: getRankInfo(tipoRodadaAtual).cor }}>
-                {getRankInfo(tipoRodadaAtual).emoji} {getRankInfo(tipoRodadaAtual).label}
-              </span>
-            </p>
-          )}
-          {draftFinalizado && (
-            <p className="text-white/60 text-sm mt-1">
-              {cartasEscolhidas.length > 0 
-                ? `Você escolheu: ${cartasEscolhidas[cartasEscolhidas.length - 1].nome}`
-                : "Nenhuma carta disponível para este rank"}
-            </p>
-          )}
+          <div className="flex items-center justify-center gap-3 mt-1">
+            <span 
+              className="px-4 py-1 rounded-full text-sm font-bold"
+              style={{
+                backgroundColor: `${getRankInfo(tipoRodadaAtual).cor}33`,
+                color: getRankInfo(tipoRodadaAtual).cor,
+                border: `1px solid ${getRankInfo(tipoRodadaAtual).cor}55`
+              }}
+            >
+              {getRankInfo(tipoRodadaAtual).emoji} {getRankInfo(tipoRodadaAtual).label}
+            </span>
+            <span className="text-white/40 text-sm">
+              {getRankInfo(tipoRodadaAtual).desc}
+            </span>
+          </div>
         </div>
 
-        {/* ── CONTEÚDO PRINCIPAL ── */}
-        <div className="flex gap-4 h-[calc(92vh-120px)]">
-          {/* ── COLUNA ESQUERDA: OPÇÕES ── */}
-          <div className="flex-1 min-w-0">
-            {draftFinalizado ? (
-              <div className="flex flex-col items-center justify-center h-full">
-                <div className="text-center mb-4">
-                  <p className="text-white/80 text-lg">
-                    {cartasEscolhidas.length > 0 
-                      ? `✅ Você escolheu ${cartasEscolhidas[cartasEscolhidas.length - 1].nome}`
-                      : "⚠️ Nenhuma carta disponível para este rank"}
-                  </p>
-                </div>
-                
-                <div className="flex flex-wrap gap-2 justify-center max-h-[200px] overflow-y-auto p-2">
-                  {cartasEscolhidas.map((carta, idx) => {
-                    const rankInfo = getRankInfo(carta.tipo);
-                    return (
-                      <span
-                        key={idx}
-                        className={`px-3 py-1 rounded-full text-xs font-bold border`}
-                        style={{
-                          backgroundColor: `${rankInfo.cor}22`,
-                          color: rankInfo.cor,
-                          borderColor: `${rankInfo.cor}55`
-                        }}
-                      >
-                        {carta.nome} {rankInfo.emoji} (Dia {carta.dia})
-                      </span>
-                    );
-                  })}
-                </div>
+        {/* ── TEXTO DE INSTRUÇÃO ── */}
+        <div className="text-center mb-4">
+          <p className="text-white/80 text-lg font-medium">
+            {instrucao}
+          </p>
+        </div>
 
-                <button
-                  onClick={onClose}
-                  className="mt-6 px-8 py-3 bg-[#34d399] hover:bg-[#2dbf8a] text-[#1a1a1a] font-bold rounded-xl transition-all hover:scale-105"
+        {/* ── OPÇÕES EM CARDS - GRID 3 COLUNAS ── */}
+        <div className="h-[calc(92vh-220px)] overflow-y-auto pr-2 scrollbar-custom">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-4">
+            {opcoes.map((carta, index) => {
+              const isSelecionada = opcaoSelecionada === carta;
+              const isDesabilitada = animando || !!opcaoSelecionada;
+              const info = getSetorDaCarta(carta);
+              const rankInfo = getRankInfo(tipoRodadaAtual);
+
+              return (
+                <div 
+                  key={index} 
+                  className="flex flex-col items-center gap-3 bg-black/20 rounded-2xl p-4 border border-white/10 hover:border-white/20 transition-all duration-300"
                 >
-                  ✅ Continuar Jogo
-                </button>
-              </div>
-            ) : (
-              <div className="flex flex-col h-full">
-                {/* ── TEXTO DE INSTRUÇÃO ── */}
-                <div className="text-center mb-4 flex-shrink-0">
-                  <p className="text-white/80 text-sm font-medium">
-                    {instrucao}
+                  {info && (
+                    <div 
+                      className={`w-full flex items-center justify-center transition-all duration-300 ${
+                        isDesabilitada && !isSelecionada ? 'opacity-40 pointer-events-none' : 'cursor-pointer'
+                      } ${isSelecionada ? 'scale-105' : 'hover:scale-102'}`}
+                      onClick={() => !isDesabilitada && selecionarCarta(carta)}
+                      style={{
+                        boxShadow: isSelecionada ? `0 0 30px ${rankInfo.cor}66` : 'none'
+                      }}
+                    >
+                      <CardDraft 
+                        index={info.index} 
+                        setor={info.setor} 
+                        abrirModalSell={() => {}}
+                      />
+                    </div>
+                  )}
+
+                  {/* ── NOME DA CARTA ── */}
+                  <p className="text-white/80 text-sm font-medium text-center truncate w-full px-2">
+                    {/* {carta} */}
                   </p>
-                  <p className="text-white/40 text-xs mt-1">
-                    {getRankInfo(tipoRodadaAtual).emoji} {getRankInfo(tipoRodadaAtual).label} - {getRankInfo(tipoRodadaAtual).desc}
-                  </p>
-                </div>
 
-                {/* ── OPÇÕES EM CARDS COM JUSTIFY AROUND ── */}
-                <div className="flex-1 overflow-y-auto pr-2 scrollbar-custom">
-                  <div className="flex flex-wrap justify-around gap-4 pb-4">
-                    {opcoes.map((carta, index) => {
-                      const isSelecionada = opcaoSelecionada === carta;
-                      const isDesabilitada = animando || !!opcaoSelecionada;
-                      const info = getSetorDaCarta(carta);
-                      const rankInfo = getRankInfo(tipoRodadaAtual);
-
-                      return (
-                        <div key={index} className="flex flex-col items-center gap-2">
-                          {info && (
-                            <div 
-                              className={`transition-all duration-300 ${
-                                isDesabilitada && !isSelecionada ? 'opacity-40 pointer-events-none' : 'cursor-pointer'
-                              } ${isSelecionada ? 'scale-105' : ''}`}
-                              onClick={() => !isDesabilitada && selecionarCarta(carta)}
-                              style={{
-                                boxShadow: isSelecionada ? `0 0 30px ${rankInfo.cor}66` : 'none'
-                              }}
-                            >
-                              <CardDraft 
-                                index={info.index} 
-                                setor={info.setor} 
-                                abrirModalSell={() => {}}
-                              />
-                            </div>
-                          )}
-                          
-                          {/* ── BOTÃO SELECIONAR ── */}
-                          <button
-                            onClick={() => !isDesabilitada && selecionarCarta(carta)}
-                            disabled={isDesabilitada}
-                            className={`px-6 py-2 rounded-lg font-bold text-sm transition-all ${
-                              isSelecionada 
-                                ? 'bg-[#34d399] text-[#1a1a1a] shadow-lg shadow-[#34d399]/30'
-                                : isDesabilitada
-                                  ? 'bg-white/10 text-white/30 cursor-not-allowed'
-                                  : `bg-gradient-to-r from-[#6411D9] to-[#8F5ADA] hover:from-[#8F5ADA] hover:to-[#6411D9] text-white hover:scale-105`
-                            }`}
-                          >
-                            {isSelecionada ? '✓ Selecionado' : 'Selecionar'}
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  {/* ── BOTÃO SELECIONAR ── */}
+                  <button
+                    onClick={() => !isDesabilitada && selecionarCarta(carta)}
+                    disabled={isDesabilitada}
+                    className={`w-full py-2.5 rounded-lg font-bold text-sm transition-all ${
+                      isSelecionada 
+                        ? 'bg-[#34d399] text-[#1a1a1a] shadow-lg shadow-[#34d399]/30'
+                        : isDesabilitada
+                          ? 'bg-white/10 text-white/30 cursor-not-allowed'
+                          : `bg-gradient-to-r from-[#6411D9] to-[#8F5ADA] hover:from-[#8F5ADA] hover:to-[#6411D9] text-white hover:scale-105`
+                    }`}
+                  >
+                    {isSelecionada ? '✓ Selecionado' : 'Selecionar'}
+                  </button>
                 </div>
-              </div>
-            )}
+              );
+            })}
           </div>
+        </div>
 
-          {/* ── COLUNA DIREITA: HISTÓRICO ── */}
-          <div className="w-[320px] flex-shrink-0 bg-black/30 rounded-2xl p-4 flex flex-col border border-white/10">
-            <h3 className="text-white font-bold text-center text-sm uppercase tracking-wider mb-3 border-b border-white/10 pb-2">
-              📜 Histórico ({cartasEscolhidas.length} cartas)
-            </h3>
-            
-            <div className="flex-1 overflow-y-auto scrollbar-custom">
-              {cartasEscolhidas.length === 0 ? (
-                <div className="text-white/30 text-center text-sm mt-8">
-                  Nenhuma carta escolhida ainda
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {cartasEscolhidas.map((carta, idx) => {
-                    const info = getSetorDaCarta(carta.nome);
-                    const rankInfo = getRankInfo(carta.tipo);
-                    return (
-                      <div 
-                        key={idx}
-                        className={`p-2 rounded-lg flex items-center gap-3 transition-all border`}
-                        style={{
-                          backgroundColor: `${rankInfo.cor}15`,
-                          borderColor: `${rankInfo.cor}30`
-                        }}
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-black/30 flex items-center justify-center flex-shrink-0">
-                          {info && (
-                            <img 
-                              src={`/imagens/${carta.nome}.png`} 
-                              alt={carta.nome}
-                              className="w-6 h-6 object-contain"
-                              onError={(e) => e.target.style.display = 'none'}
-                            />
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-white text-xs font-bold truncate">
-                            {carta.nome}
-                          </p>
-                          <p className="text-white/40 text-[10px]">
-                            Dia {carta.dia} • {rankInfo.emoji} {rankInfo.label}
-                          </p>
-                        </div>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-white/10 text-white/60">
-                          #{idx + 1}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
-            {/* ── RESUMO POR RANK ── */}
-            <div className="mt-3 pt-3 border-t border-white/10">
-              <div className="flex flex-wrap justify-between text-xs text-white/60 gap-1">
-                {RANKS_ORDEM.map(rank => {
-                  const rankInfo = getRankInfo(rank);
-                  const escolhidas = cartasEscolhidas.filter(c => c.tipo === rank).length;
-                  return (
-                    <span key={rank} style={{ color: rankInfo.cor }}>
-                      {rankInfo.emoji} {escolhidas}
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+        {/* ── INDICADOR DE PROGRESSO ── */}
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-2 text-white/40 text-xs">
+          <span>Dia {diaAtual}</span>
+          <span className="w-1 h-1 rounded-full bg-white/20"></span>
+          <span>{cartasEscolhidas.length} carta(s) escolhida(s)</span>
         </div>
       </motion.div>
     </div>

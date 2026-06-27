@@ -144,44 +144,45 @@ export function SystemTurn() {
         setDraftInicialAberto(true);
     }, [jogoIniciado, dados.dia, draftInicialConcluido, draftInicialAberto]);
 
-    // ── VERIFICA SE DEVE ABRIR DRAFT CONTÍNUO ──
-    useEffect(() => {
-        if (!jogoIniciado) return;
-        if (draftInicialAberto) return;
-        if (!draftInicialConcluido) return;
-        if (draftAberto) return;
-        if (draftConcluido) return;
-        if (dados.dia <= 0) return;
-        if (dados.dia >= 360) return;
-        
-        const dia = dados.dia || 0;
-        const rankAtual = getRankPorDia(dia);
-        const rankAnterior = getRankPorDia(dia - 1);
-        
-        // ABRE DRAFT EM CADA DIA QUE MUDA DE RANK OU NO DIA 1
-        // E TAMBÉM QUANDO O DIA É MÚLTIPLO DE 30 (CADA MÊS)
-        const deveAbrir = 
-            dia === 1 || 
-            (rankAtual !== rankAnterior && dia > 0) ||
-            (dia % 30 === 0 && dia > 0);
-        
-        if (deveAbrir && ultimoDiaDraft !== dia) {
-            console.log(`📋 [SystemTurn] Abrindo draft contínuo para dia ${dia} - Rank ${rankAtual}`);
-            abrirDraft(dia);
-        }
-    }, [jogoIniciado, dados.dia, draftAberto, draftConcluido, ultimoDiaDraft, abrirDraft, draftInicialAberto, draftInicialConcluido]);
+// PRIMEIRO useEffect (disparo imediato)
+useEffect(() => {
+  if (!jogoIniciado) return;
+  if (draftInicialAberto) return;
+  if (!draftInicialConcluido) return;
+  if (draftAberto) return;
+  if (dados.dia <= 0) return;
+  if (dados.dia >= 360) return;
+  // ❌ REMOVA: if (draftConcluido) return;
 
-    // ── FECHA DRAFT QUANDO CONCLUÍDO ──
-    useEffect(() => {
-        if (draftConcluido && draftAberto) {
-            console.log(`📋 [SystemTurn] Draft contínuo concluído, fechando...`);
-            setTimeout(() => {
-                fecharDraft();
-                // Reseta para permitir próximo draft
-                setDraftConcluido(false);
-            }, 1500);
-        }
-    }, [draftConcluido, draftAberto, fecharDraft]);
+  const dia = dados.dia || 0;
+  const deveAbrir = (dia % 30 === 0 && dia > 0);
+
+  if (deveAbrir && ultimoDiaDraft !== dia) {
+    abrirDraft(dia);
+  }
+}, [jogoIniciado, dados.dia, draftAberto, ultimoDiaDraft, abrirDraft, draftInicialAberto, draftInicialConcluido]);
+
+// SEGUNDO useEffect (pós-processamento)
+useEffect(() => {
+  if (!jogoIniciado) return;
+  if (draftInicialAberto) return;
+  if (!draftInicialConcluido) return;
+  if (draftAberto) return;
+  if (dados.dia <= 0) return;
+  if (dados.dia >= 360) return;
+  if (estaProcessando) return;
+  if (diasPendentes > 0) return;
+  // ❌ REMOVA: if (draftConcluido) return;
+
+  const dia = dados.dia || 0;
+  const deveAbrir = (dia % 30 === 0 && dia > 0);
+
+  if (deveAbrir && ultimoDiaDraft !== dia) {
+    abrirDraft(dia);
+  }
+}, [jogoIniciado, dados.dia, draftAberto, ultimoDiaDraft, abrirDraft, draftInicialAberto, draftInicialConcluido, estaProcessando, diasPendentes]);
+
+// ── FECHA DRAFT QUANDO CONCLUÍDO ──
 
     // ── FUNÇÃO PARA CONCLUIR DRAFT INICIAL ──
     const handleDraftInicialComplete = useCallback((cartas) => {
@@ -1285,7 +1286,7 @@ export function SystemTurn() {
                     onComplete={handleDraftInicialComplete}
                     quantidadeOpcoes={3}
                     titulo="📋 Draft Inicial"
-                    instrucao="📌 Escolha 4 cartas Classe C e 1 carta Classe B para começar sua jornada!"
+                    instrucao="📌 Escolha as suas cartas para começar sua jornada!"
                 />
             )}
 

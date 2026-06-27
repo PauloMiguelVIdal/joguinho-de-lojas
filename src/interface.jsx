@@ -130,7 +130,7 @@ function Interface() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 px',
-          background: 'linear-gradient(180deg, rgb(53, 9, 115) 0%, rgba(53,9,115,0.85) 100%)',
+          background: 'linear-gradient(180deg, #350973, #6411D9',
           borderBottom: '1px solid rgba(147,76,255,0.3)',
           boxShadow: '0 2px 5vh rgba(0,0,0,0.5)',
         }}
@@ -203,7 +203,7 @@ function Interface() {
           style={{
             position: 'fixed',
             top: '60vh',
-            height: '20vh',
+            height: '24vh',
             maxHeight: '32vh',
             minHeight: '200px',
             width: '25vw',

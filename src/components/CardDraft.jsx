@@ -100,7 +100,7 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
     });
   };
 
-  const forneceOrdenada = ordenarLista(forneceLista, "aumFatu");
+  const forneceOrdenada = ordenarLista(recebeLista, "aumFatu");
   const recebeOrdenada = ordenarLista(recebeLista, "redCusto");
   const top3Fornece = forneceOrdenada.slice(0, 3);
   const top3Recebe = recebeOrdenada.slice(0, 3);

@@ -368,7 +368,7 @@ export default function DisplayInformations() {
               </span>
             </div>
             <span style={{
-              fontSize: "18px",
+              fontSize: "12px",
               fontWeight: 800,
               color: cor,
               fontFamily: "'Rajdhani',sans-serif",

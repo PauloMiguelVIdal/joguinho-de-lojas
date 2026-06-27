@@ -56,7 +56,7 @@ function App() {
       <DadosEconomyGlobalProvider>
         <div
           ref={containerRef}
-          className="h-[100vh] w-[100vw] relative bg-gray-900"
+          className="h-[100vh] w-[100vw] relative bg-[#350973]"
         >
           {/* Botão de Tela Cheia */}
           <button
