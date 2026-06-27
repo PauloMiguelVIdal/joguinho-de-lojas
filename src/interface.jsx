@@ -44,6 +44,8 @@ import { PackOpening } from "./components/PackOpening.jsx";
 import { PackOpeningDraft } from "./components/PackOpeningDraft.jsx";
 import { ModalFalencia } from "./notificação.jsx";
 import DisplayInformations from "./components/DisplayInformations.jsx";
+// import { DraftSystem, useDraftSystem, DraftButton } from "./components/DraftSystem";
+
 // Ícone de toggle simples (chevron)
 const IconToggle = ({ aberto, horizontal = false }) => (
   <svg
@@ -74,36 +76,13 @@ function Interface() {
   const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
 
   const [modalShopOpen, setModalShopOpen] = useState(false);
+  const jogoIniciado = dados.jogoIniciado || false;
+  const renderizando = dados.dia % 30 !== 0
+  const ajusteLargura = renderizando || jogoIniciado
 
-  // Botão para abrir
-
-
-  // Modal
-
-  // const setorAtivo = dados.setorAtivo
-
-  // const setVision = (newVision) => {
-  //   atualizarDados("vision", { ...dados.vision, visionAtual: newVision });
-  // }
-
-  // Altura da topbar para que as outras camadas não fiquem atrás dela
-  ; // px — ajuste se a sua Informations tiver altura diferente
-
+    // const { draftAberto, draftConcluido, cartasSelecionadas, abrirDraft, fecharDraft, handleComplete } = useDraftSystem();
   return (
     <Suspense fallback={<div className="w-screen h-screen bg-gray-900" />}>
-
-      {/* ═══════════════════════════════════════════════════════
-          CAMADA 0 — MAPA (fundo fixo, ocupa tela toda)
-      ════════════════════════════════════════════════════════ */}
-      {/* <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 100000,
-        }}
-      >
-        <Mapworld />
-      </div> */}
 
       {/* ═══════════════════════════════════════════════════════
           MODAIS / OVERLAYS (z-index alto — acima de tudo)
@@ -117,23 +96,8 @@ function Interface() {
       {modalShopOpen && (
         <ModalShop onCancelar={() => setModalShopOpen(false)} />
       )}
-      {/* <NewStage /> */}
-      {/* <ModalExcesso /> */}
-      {/* <CardSpecials /> */}
       <InputName />
-      {/* <Offers /> */}
-      {/* <Events /> */}
-      {/* <Employees /> */}
-      {/* <Notificação /> */}
-      {/* <ModalAlert />
-      <ModalPerson />
-      <ModalInfo /> */}
-      {/* <PackOpening
-        onClose={() => setAbrirPack(false)}
-      /> */}
-      <PackOpeningDraft
-        onClose={() => setAbrirPack(false)}
-      />
+      <PackOpeningDraft onClose={() => setAbrirPack(false)} />
 
       {businessLicenceModal && (
         <BusinessLicenceModal
@@ -141,338 +105,145 @@ function Interface() {
           onSorteio={() => console.log('Sorteio realizado!')}
         />
       )}
+          {/* {draftAberto && (
+      <DraftSystem 
+        onClose={fecharDraft}
+        onComplete={handleComplete}
+        numeroRodadasC={4}
+        numeroRodadasB={1}
+        quantidadeOpcoes={3}
+      />
+    )} */}
+
       {/* ═══════════════════════════════════════════════════════
           CAMADA 5 — TOPBAR (sempre sobrepõe tudo)
-          Posição: fixa no topo, largura total
       ════════════════════════════════════════════════════════ */}
       <div
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          // right: 0,
           height: '80px',
-          width: '75vw',
+          width: renderizando ? '100vw' : '75vw',
           zIndex: 50,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 px',
           background: 'linear-gradient(180deg, rgb(53, 9, 115) 0%, rgba(53,9,115,0.85) 100%)',
-          // backdropFilter: 'blur(12px)',
           borderBottom: '1px solid rgba(147,76,255,0.3)',
           boxShadow: '0 2px 5vh rgba(0,0,0,0.5)',
         }}
       >
-        {/* Informações centrais (nome empresa, saldo, dia...) */}
         <div className="grid gap-[10px] col-start-1 col-end-8 w-full place-items-center">
           <Informations className="grid col-start-1 col-end-8" />
         </div>
-        {/* Controles da direita */}
         <div className="flex w-full items-center justify-center col-start-8 col-end-9 gap-[10px]">
-
           <Day />
-
           <button className="h-[50px] aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
             onClick={() => setModalShopOpen(true)}>
             <img className="w-[60%]" src={LojaGImg} alt="" />
           </button>
-          {/* <TaxesYear /> */}
           <EconomyGlobal />
-          {/* <RaffledBuildings /> */}
-          {/* <UpgradeCards /> */}
-          {/* <LicenceModalBusiness
-            onOpen={() => setBusinessLicenceModal(true)}
-          /> */}
-
-          {/* Botão Falência */}
-          {/* <button
-            className="h-[50px] relative aspect-square bg-laranja rounded-[10px] flex items-center justify-center"
-            onClick={() => setModalFalenciaOpen(true)}
-            data-tooltip-content="Declarar falência"
-            style={{
-              background: '#FF0000',
-              borderRadius: 8,
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'transform 0.15s',
-            }}
-            onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.08)'}
-            onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-          >
-            <img className="h-[70%] aspect-square" src={finishGame} alt="Falência" />
-          </button> */}
-
-          {/* Botão toggle Dashboard */}
-          {/* <button
-            onClick={() => setDashboardAberto(v => !v)}
-            title={dashboardAberto ? 'Ocultar painel' : 'Mostrar painel'}
-            style={{
-              background: dashboardAberto
-                ? 'linear-gradient(135deg, #4C14A9, #6411D9)'
-                : 'rgba(255,255,255,0.1)',
-              border: dashboardAberto
-                ? '1px solid rgba(199,159,255,0.4)'
-                : '1px solid rgba(255,255,255,0.15)',
-              borderRadius: 8,
-              padding: '6px 10px',
-              cursor: 'pointer',
-              color: '#fff',
-              display: 'flex', alignItems: 'center', gap: 5,
-              fontSize: 11, fontWeight: 700,
-              fontFamily: "'Rajdhani', sans-serif",
-              letterSpacing: '.06em',
-              transition: 'all 0.2s',
-            }}
-          >
-            <IconToggle aberto={dashboardAberto} horizontal />
-            Painel
-          </button>
-
-   
-          <button
-            onClick={() => setSidebarDirAberta(v => !v)}
-            title={sidebarDirAberta ? 'Ocultar sidebar direita' : 'Mostrar sidebar direita'}
-            style={{
-              background: sidebarDirAberta
-                ? 'linear-gradient(135deg, #4C14A9, #6411D9)'
-                : 'rgba(255,255,255,0.1)',
-              border: sidebarDirAberta
-                ? '1px solid rgba(199,159,255,0.4)'
-                : '1px solid rgba(255,255,255,0.15)',
-              borderRadius: 8,
-              padding: '6px 10px',
-              cursor: 'pointer',
-              color: '#fff',
-              display: 'flex', alignItems: 'center', gap: 5,
-              fontSize: 11, fontWeight: 700,
-              fontFamily: "'Rajdhani', sans-serif",
-              letterSpacing: '.06em',
-              transition: 'all 0.2s',
-            }}
-          >
-            <IconToggle aberto={sidebarDirAberta} />
-            Dados
-          </button> */}
+              {/* <DraftButton onOpen={abrirDraft} /> */}
           <SidebarFinancas onOpen={() => setBusinessLicenceModal(true)} />
-
           <Buttons />
         </div>
       </div>
 
-
-
-
-
-      {/* <button
-        onClick={() => setSidebarEsqAberta(v => !v)}
-        title={sidebarEsqAberta ? 'Ocultar sidebar' : 'Mostrar sidebar'}
-        style={{
-          position: 'fixed',
-          top: '50%',
-          left: sidebarEsqAberta ? 'calc(15 vw - 1px)' : 0,
-          transform: 'translateY(-50%)',
-          zIndex: 35,
-          background: 'linear-gradient(135deg, #4C14A9, #6411D9)',
-          border: '1px solid rgba(199,159,255,0.35)',
-          borderLeft: sidebarEsqAberta ? 'none' : '1px solid rgba(199,159,255,0.35)',
-          borderRadius: sidebarEsqAberta ? '0 8px 8px 0' : '0 8px 8px 0',
-          width: 20,
-          height: 60,
-          cursor: 'pointer',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: 'rgba(255,255,255,0.7)',
-          transition: 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: '2px 0 12px rgba(0,0,0,0.3)',
-        }}
-      >
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
-          style={{ transform: sidebarEsqAberta ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.25s' }}
-        >
-          <polyline points="9 18 15 12 9 6" />
-        </svg>
-      </button> */}
-
       {/* ═══════════════════════════════════════════════════════
-          CAMADA 2 — DASHBOARD CENTRAL
-          Flutua entre as sidebars
+          CAMADA 2 — DASHBOARD CENTRAL (DashboardMiniDraft)
       ════════════════════════════════════════════════════════ */}
-      <div
-        style={{
-          position: 'fixed',
-          height: '60vh',
-          // height: 'calc(70vh - 80px)',
-          // top:'80px',
-          top: '0px',
-          // bottom:'80px',
-          right: '0',
-          // height:'32vh',
-          width: '25vw',
-          // Respeita a sidebar esquerda se estiver aberta
-
-          // Respeita a sidebar direita se estiver aberta
-
-
-          zIndex: 20,
-          borderRadius: 20,
-          overflow: 'hidden',
-          transition: 'left 0.3s cubic-bezier(0.4,0,0.2,1), right 0.3s cubic-bezier(0.4,0,0.2,1)',
-          // Quando fechado, reduz opacidade e escala
-          opacity: dashboardAberto ? 1 : 0,
-          pointerEvents: dashboardAberto ? 'auto' : 'none',
-          transform: dashboardAberto ? 'scale(1)' : 'scale(0.97)',
-          transformOrigin: 'top center',
-          background: 'linear-gradient(to bottom, #6411D9, #350973)',
-          boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
-        }}
-      >
-        <DashboardMiniDraft />
-      </div>
-<div
-  style={{
-    position: 'fixed',
-    height: '20vh',
-    bottom: '0px',
-    right: '15vw',
-    width: '10vw',
-    zIndex: 20,
-    borderRadius: 20,
-    overflow: 'hidden',
-    transition: 'left 0.3s cubic-bezier(0.4,0,0.2,1), right 0.3s cubic-bezier(0.4,0,0.2,1)',
-    opacity: dashboardAberto ? 1 : 0,
-    pointerEvents: dashboardAberto ? 'auto' : 'none',
-    transform: dashboardAberto ? 'scale(1)' : 'scale(0.97)',
-    transformOrigin: 'top center',
-    background: 'linear-gradient(to bottom, #6411D9, #350973)',
-    boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
-  }}
->
-  {/* 🔥 CORRIGIDO: PlusInventory (sem o "r" extra) */}
-  <PlusInventory />
-</div>
-      <div
-        style={{
-          position: 'fixed',
-          // top: '80px',
-          top: '60vh',
-          // height: 'calc(100vh - 120px)', // Altura dinâmica baseada na viewport
-          height: '20vh', // Altura dinâmica baseada na viewport
-          maxHeight: '32vh', // Limite máximo
-          minHeight: '200px', // Limite mínimo
-          width: '25vw',
-          right: 0,
-          zIndex: 20,
-          borderRadius: 20,
-          overflow: 'hidden',
-          transition: 'left 0.3s cubic-bezier(0.4,0,0.2,1), right 0.3s cubic-bezier(0.4,0,0.2,1)',
-          opacity: dashboardAberto ? 1 : 0,
-          pointerEvents: dashboardAberto ? 'auto' : 'none',
-          transform: dashboardAberto ? 'scale(1)' : 'scale(0.97)',
-          transformOrigin: 'top center',
-          background: 'linear-gradient(to bottom, #6411D9, #350973)',
-          boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
-        }}
-      >
-        <DisplayInformations />
-      </div>
-      <div
-        style={{
-          position: 'fixed',
-          top: '80px',
-          // bottom: 0,
-          left: 0,
-          height: 'calc(100vh - 80px)',
-          // height:'90vh',
-          width: '75vw',
-          // Respeita a sidebar esquerda se estiver aberta
-          // left: sidebarEsqAberta ? 'calc(20vw + 8px)' : 8,
-          // // Respeita a sidebar direita se estiver aberta
-          // right: sidebarDirAberta ? 'calc(15  vw + 8px)' : 8,
-
-          zIndex: 20,
-          borderRadius: 20,
-          overflow: 'hidden',
-          transition: 'left 0.3s cubic-bezier(0.4,0,0.2,1), right 0.3s cubic-bezier(0.4,0,0.2,1)',
-          // Quando fechado, reduz opacidade e escala
-          opacity: dashboardAberto ? 1 : 0,
-          pointerEvents: dashboardAberto ? 'auto' : 'none',
-          transform: dashboardAberto ? 'scale(1)' : 'scale(0.97)',
-          transformOrigin: 'top center',
-          background: 'linear-gradient(to bottom, #6411D9, #350973)',
-          boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
-        }}
-      >
-        {vision === "financas" ? (
-          <PatrimonioInterface />
-        ) : (
-          <DashboardDraft />
-          // <Dashboard/>
-        )}
-      </div>
-
-      {/* ═══════════════════════════════════════════════════════
-          CAMADA 3 — SIDEBAR DIREITA
-      ════════════════════════════════════════════════════════ */}
-      {/* <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          // bottom: '40vh',
-          height: '13vh',
-          width: sidebarDirAberta ? '50vw' : 0,
-          zIndex: 30,
-          overflow: 'hidden',
-          transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        }}
-      >
+      {dashboardAberto && (
         <div
           style={{
-            width: '50vw',
-            height: '100%',
-            background: 'rgb(20, 6, 50)',
-            // backdropFilter: 'blur(16px)',
-            // WebkitBackdropFilter: 'blur(16px)',
-            borderLeft: '1px solid rgba(147,76,255,0.2)',
-            borderRadius:'20px',
-            paddingTop: 0,
+            position: 'fixed',
+            height: '60vh',
+            top: '0px',
+            right: '0',
+            width: '25vw',
+            zIndex: 20,
+            borderRadius: 20,
             overflow: 'hidden',
+            background: 'linear-gradient(to bottom, #6411D9, #350973)',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
           }}
         >
+          <DashboardMiniDraft />
         </div>
-      </div> */}
+      )}
 
-      {/* Botão toggle da sidebar direita — flutua na borda */}
-      {/* <button
-        onClick={() => setSidebarDirAberta(v => !v)}
-        title={sidebarDirAberta ? 'Ocultar dados' : 'Mostrar dados'}
-        style={{
-          position: 'fixed',
-          top: '50%',
-          right: sidebarDirAberta ? 'calc(15vw - 1px)' : 0,
-          transform: 'translateY(-50%)',
-          zIndex: 35,
-          background: 'linear-gradient(135deg, #4C14A9, #6411D9)',
-          border: '1px solid rgba(199,159,255,0.35)',
-          borderRadius: '8px 0 0 8px',
-          width: 20,
-          height: 60,
-          cursor: 'pointer',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: 'rgba(255,255,255,0.7)',
-          transition: 'right 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: '-2px 0 12px rgba(0,0,0,0.3)',
-        }}
-      >
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
-          style={{ transform: sidebarDirAberta ? 'rotate(0deg)' : 'rotate(180deg)', transition: 'transform 0.25s' }}
+      {/* ═══════════════════════════════════════════════════════
+          PlusInventory - só renderiza se dashboardAberto for true
+      ════════════════════════════════════════════════════════ */}
+      {dashboardAberto && (
+        <div
+          style={{
+            position: 'fixed',
+            height: '20vh',
+            bottom: '0px',
+            right: '15vw',
+            width: '10vw',
+            zIndex: 20,
+            borderRadius: 20,
+            overflow: 'hidden',
+            background: 'linear-gradient(to bottom, #6411D9, #350973)',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+          }}
         >
-          <polyline points="9 18 15 12 9 6" />
-        </svg>
-      </button> */}
+          <PlusInventory />
+        </div>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════
+          DisplayInformations - só renderiza se dashboardAberto for true
+      ════════════════════════════════════════════════════════ */}
+      {dashboardAberto && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '60vh',
+            height: '20vh',
+            maxHeight: '32vh',
+            minHeight: '200px',
+            width: '25vw',
+            right: 0,
+            zIndex: 20,
+            borderRadius: 20,
+            overflow: 'hidden',
+            background: 'linear-gradient(to bottom, #6411D9, #350973)',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+          }}
+        >
+          <DisplayInformations />
+        </div>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════
+          DashboardDraft (principal) - só renderiza se dashboardAberto for true
+      ════════════════════════════════════════════════════════ */}
+      {dashboardAberto && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '80px',
+            left: 0,
+            height: 'calc(100vh - 80px)',
+            width: '75vw',
+            zIndex: 20,
+            borderRadius: 20,
+            overflow: 'hidden',
+            background: 'linear-gradient(to bottom, #6411D9, #350973)',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+          }}
+        >
+          {vision === "financas" ? (
+            <PatrimonioInterface />
+          ) : (
+            <DashboardDraft />
+          )}
+        </div>
+      )}
 
     </Suspense>
   )

@@ -49,7 +49,7 @@ export default function Informations() {
                     </h1>
                 </div>
                 <div data-tooltip-id="saldo-tip"
-                    data-tooltip-content="Esse é o seu saldo" className="ml-[20px] rounded-[5px] bg-gradient-to-l to-white via-white from-white w-[150px] flex items-center h-[50px] place-content-between pl-[10px] pr-[15px] ">
+                    data-tooltip-content="Esse é o seu saldo" className="ml-[20px] rounded-[5px] bg-gradient-to-l to-white via-white from-white w-[130px] flex items-center h-[50px] place-content-between pl-[10px] pr-[15px] ">
                     <h1 className="fonteBold text-[#350973] text-[20px]">R$</h1>
                     <h1 className="fonteBold text-[#350973] text-[20px]"
                     >

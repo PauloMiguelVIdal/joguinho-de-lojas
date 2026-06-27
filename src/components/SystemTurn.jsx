@@ -11,6 +11,7 @@ import { executarLiquidacaoAutomatica } from "./SlotManager";
 import musicaTemaLoading from "../../public/sounds/Swinging Sweet.ogg";
 import musicaCentral from "../../public/sounds/S31-The Gears of Progress.ogg";
 import clockAudio from "../../public/sounds/freesound_community-kitchen-timer-87485.mp3";
+import { DraftSystemContinuo, DraftSystemInicial, useDraftContinuo, getRankPorDia } from "./DraftSystem.jsx";
 
 // 🔥 CONSTANTES MOVIDAS PARA O TOPO
 const todasLojas = ["terrenos", "lojasP", "lojasM", "lojasG"];
@@ -42,9 +43,9 @@ export function SystemTurn() {
     // 🔥 FUNÇÃO PARA CALCULAR O TEMPO DO COUNTDOWN BASEADO NO DIA
     const getTempoCountdown = useCallback(() => {
         const dia = dados.dia || 0;
-        if (dia > 180) return 90; // 1 minuto e 30 segundos
-        if (dia > 90) return 60; // 1 minuto
-        return 30; // 30 segundos
+        if (dia > 180) return 90;
+        if (dia > 90) return 60;
+        return 30;
     }, [dados.dia]);
 
     const [countdown, setCountdown] = useState(getTempoCountdown());
@@ -75,6 +76,10 @@ export function SystemTurn() {
     // 🔥 REF PARA CARTAS SELECIONADAS
     const cartasSelecionadasRef = useRef([]);
     const cartasSelecionadasMapRef = useRef(new Map());
+    
+    // 🔥 FLAG PARA EVITAR LOOP INFINITO
+    const atualizandoCartasRef = useRef(false);
+    const ultimoHashCartasRef = useRef("");
 
     // 🔥 SOUND HOOKS
     const [buttonNextDayAudio] = useSound(nextDayAudio);
@@ -100,7 +105,114 @@ export function SystemTurn() {
         transicaoEmAndamento: false
     });
 
-    // 🔥 FUNÇÃO PARA TOCAR ÁUDIO CENTRAL COM SEGURANÇA
+    // ── DRAFT CONTÍNUO ──
+    const [draftAberto, setDraftAberto] = useState(false);
+    const [draftConcluido, setDraftConcluido] = useState(false);
+    const [cartasSelecionadas, setCartasSelecionadas] = useState([]);
+    const [ultimoDiaDraft, setUltimoDiaDraft] = useState(-1);
+
+    const abrirDraft = useCallback((dia) => {
+        console.log(`📋 [SystemTurn] Abrindo draft para dia ${dia}`);
+        setDraftAberto(true);
+        setDraftConcluido(false);
+        setUltimoDiaDraft(dia);
+    }, []);
+
+    const fecharDraft = useCallback(() => {
+        console.log(`📋 [SystemTurn] Fechando draft`);
+        setDraftAberto(false);
+    }, []);
+
+    const handleComplete = useCallback((cartas) => {
+        console.log(`📋 [SystemTurn] Draft concluído com ${cartas.length} cartas`);
+        setCartasSelecionadas(cartas);
+        setDraftConcluido(true);
+    }, []);
+
+    // ── DRAFT INICIAL (4 C + 1 B) ──
+    const [draftInicialAberto, setDraftInicialAberto] = useState(false);
+    const [draftInicialConcluido, setDraftInicialConcluido] = useState(false);
+
+    // 🔥 VERIFICA SE DEVE ABRIR O DRAFT INICIAL (DIA 0)
+    useEffect(() => {
+        if (!jogoIniciado) return;
+        if (draftInicialConcluido) return;
+        if (draftInicialAberto) return;
+        if (dados.dia > 0) return;
+        
+        console.log("📋 [SystemTurn] Abrindo draft inicial (4C + 1B)");
+        setDraftInicialAberto(true);
+    }, [jogoIniciado, dados.dia, draftInicialConcluido, draftInicialAberto]);
+
+    // ── VERIFICA SE DEVE ABRIR DRAFT CONTÍNUO ──
+    useEffect(() => {
+        if (!jogoIniciado) return;
+        if (draftInicialAberto) return;
+        if (!draftInicialConcluido) return;
+        if (draftAberto) return;
+        if (draftConcluido) return;
+        if (dados.dia <= 0) return;
+        if (dados.dia >= 360) return;
+        
+        const dia = dados.dia || 0;
+        const rankAtual = getRankPorDia(dia);
+        const rankAnterior = getRankPorDia(dia - 1);
+        
+        // ABRE DRAFT EM CADA DIA QUE MUDA DE RANK OU NO DIA 1
+        // E TAMBÉM QUANDO O DIA É MÚLTIPLO DE 30 (CADA MÊS)
+        const deveAbrir = 
+            dia === 1 || 
+            (rankAtual !== rankAnterior && dia > 0) ||
+            (dia % 30 === 0 && dia > 0);
+        
+        if (deveAbrir && ultimoDiaDraft !== dia) {
+            console.log(`📋 [SystemTurn] Abrindo draft contínuo para dia ${dia} - Rank ${rankAtual}`);
+            abrirDraft(dia);
+        }
+    }, [jogoIniciado, dados.dia, draftAberto, draftConcluido, ultimoDiaDraft, abrirDraft, draftInicialAberto, draftInicialConcluido]);
+
+    // ── FECHA DRAFT QUANDO CONCLUÍDO ──
+    useEffect(() => {
+        if (draftConcluido && draftAberto) {
+            console.log(`📋 [SystemTurn] Draft contínuo concluído, fechando...`);
+            setTimeout(() => {
+                fecharDraft();
+                // Reseta para permitir próximo draft
+                setDraftConcluido(false);
+            }, 1500);
+        }
+    }, [draftConcluido, draftAberto, fecharDraft]);
+
+    // ── FUNÇÃO PARA CONCLUIR DRAFT INICIAL ──
+    const handleDraftInicialComplete = useCallback((cartas) => {
+        console.log(`📋 [SystemTurn] Draft inicial concluído com ${cartas.length} cartas`);
+        setDraftInicialConcluido(true);
+        setDraftInicialAberto(false);
+        
+        // Abre pacotes iniciais APÓS o draft inicial
+        setTimeout(() => {
+            console.log("🎁 [SystemTurn] Abrindo pacotes iniciais...");
+            abrirPacotesIniciais();
+        }, 500);
+    }, []);
+
+    // ── FUNÇÃO PARA ABRIR PACOTES INICIAIS ──
+    const abrirPacotesIniciais = useCallback(() => {
+        if (pacotesIniciaisAbertos) return;
+        
+        console.log("🎁 [SystemTurn] Abrindo 2 pacotes comuns para o jogador...");
+        setPacotesIniciaisAbertos(true);
+        
+        setTimeout(() => {
+            console.log("🎁 [SystemTurn] Pacote comum #1 aberto!");
+        }, 500);
+        
+        setTimeout(() => {
+            console.log("🎁 [SystemTurn] Pacote comum #2 aberto!");
+        }, 1500);
+    }, [pacotesIniciaisAbertos]);
+
+    // 🔥 FUNÇÃO PARA TOCAR ÁUDIO CENTRAL
     const tocarAudioCentral = useCallback(() => {
         if (audioEstadoRef.current.centralTocando) return;
         if (audioEstadoRef.current.transicaoEmAndamento) return;
@@ -118,7 +230,7 @@ export function SystemTurn() {
         console.log("🎵 [SystemTurn] Áudio central iniciado");
     }, [playAudioCentral, stopAudioMapa, stopClockAudio]);
 
-    // 🔥 FUNÇÃO PARA TOCAR ÁUDIO DE LOADING COM SEGURANÇA
+    // 🔥 FUNÇÃO PARA TOCAR ÁUDIO DE LOADING
     const tocarAudioLoading = useCallback(() => {
         if (audioEstadoRef.current.loadingTocando) return;
         if (audioEstadoRef.current.transicaoEmAndamento) return;
@@ -172,7 +284,7 @@ export function SystemTurn() {
         console.log("🎵 [SystemTurn] Todos os áudios parados");
     }, [stopAudioMapa, stopAudioCentral, stopClockAudio]);
 
-    // 🔥 CONTROLE DO ÁUDIO - VERSÃO CORRIGIDA
+    // 🔥 CONTROLE DO ÁUDIO
     useEffect(() => {
         return () => {
             pararTodosAudios();
@@ -184,7 +296,7 @@ export function SystemTurn() {
         if (mostrarLoading) {
             tocarAudioLoading();
         } else {
-            if (jogoIniciado && dados.dia < 360 && !diasPendentes > 0 && !estaProcessando) {
+            if (jogoIniciado && dados.dia < 360 && !diasPendentes > 0 && !estaProcessando && !draftAberto && !draftInicialAberto) {
                 const timer = setTimeout(() => {
                     tocarAudioCentral();
                 }, 300);
@@ -196,15 +308,15 @@ export function SystemTurn() {
                 }
             }
         }
-    }, [mostrarLoading, jogoIniciado, dados.dia, diasPendentes, estaProcessando, tocarAudioLoading, tocarAudioCentral, stopAudioMapa]);
+    }, [mostrarLoading, jogoIniciado, dados.dia, diasPendentes, estaProcessando, tocarAudioLoading, tocarAudioCentral, stopAudioMapa, draftAberto, draftInicialAberto]);
 
-    // 🔥 CONTROLE DO CLOCK - baseado no countdown
+    // 🔥 CONTROLE DO CLOCK
     useEffect(() => {
-        if (diasPendentes > 0 || estaProcessando) {
+        if (diasPendentes > 0 || estaProcessando || draftAberto || draftInicialAberto) {
             if (audioEstadoRef.current.clockTocando) {
                 stopClockAudio();
                 audioEstadoRef.current.clockTocando = false;
-                console.log("🎵 [SystemTurn] Áudio do clock parado (processamento ativo)");
+                console.log("🎵 [SystemTurn] Áudio do clock parado");
             }
             return;
         }
@@ -226,7 +338,6 @@ export function SystemTurn() {
                 if (audioEstadoRef.current.clockTocando) {
                     stopClockAudio();
                     audioEstadoRef.current.clockTocando = false;
-                    console.log("🎵 [SystemTurn] Áudio do clock parado (countdown > 10)");
                 }
                 if (!audioEstadoRef.current.centralTocando && !audioEstadoRef.current.loadingTocando) {
                     const timer = setTimeout(() => {
@@ -236,9 +347,9 @@ export function SystemTurn() {
                 }
             }
         }
-    }, [countdown, mostrarLoading, jogoIniciado, dados.dia, diasPendentes, estaProcessando, tocarClock, tocarAudioCentral, stopClockAudio, stopAudioCentral]);
+    }, [countdown, mostrarLoading, jogoIniciado, dados.dia, diasPendentes, estaProcessando, tocarClock, tocarAudioCentral, stopClockAudio, stopAudioCentral, draftAberto, draftInicialAberto]);
 
-    // 🔥 CONTROLE DO CLOCK - quando o countdown chega a 0, para imediatamente
+    // 🔥 CONTROLE DO CLOCK - quando o countdown chega a 0
     useEffect(() => {
         if (countdown === 0 && audioEstadoRef.current.clockTocando) {
             stopClockAudio();
@@ -337,54 +448,89 @@ export function SystemTurn() {
         return { patrimonioSetores, patrimonioTotalInventario };
     };
 
-    // 🔥 FUNÇÃO PARA FORÇAR ATUALIZAÇÃO DAS CARTAS SELECIONADAS
-    const forcarAtualizacaoCartas = () => {
-        const cartas = dados.cartasSelecionadas || [];
-        const nomes = [];
-        const mapa = new Map();
-        
-        cartas.forEach((carta) => {
-            let nome = null;
-            let quantidade = 0;
-            let ed = null;
-            
-            if (carta.nome) {
-                nome = carta.nome;
-                for (const setor of setoresArr) {
-                    const encontrado = dados[setor]?.edificios?.find(e => e.nome === nome);
-                    if (encontrado) {
-                        ed = encontrado;
-                        quantidade = encontrado.quantidade || 0;
-                        break;
-                    }
-                }
-            } else if (carta.setor !== undefined && carta.index !== undefined) {
-                ed = dados[carta.setor]?.edificios?.[carta.index];
-                if (ed) {
-                    nome = ed.nome;
-                    quantidade = ed.quantidade || 0;
-                }
-            }
-            
-            if (nome && ed) {
-                nomes.push(nome);
-                mapa.set(nome, { 
-                    nome, 
-                    quantidade, 
-                    ed,
-                    setor: carta.setor || ed.setor,
-                    index: carta.index
-                });
-            }
-        });
-        
-        cartasSelecionadasRef.current = nomes;
-        cartasSelecionadasMapRef.current = mapa;
-        return { nomes, mapa };
+    // 🔥 FUNÇÃO PARA GERAR HASH DAS CARTAS SELECIONADAS
+    const gerarHashCartas = (cartas) => {
+        return JSON.stringify(cartas.map(c => 
+            c.nome || (c.setor !== undefined && c.index !== undefined ? `${c.setor}-${c.index}` : '')
+        ).sort());
     };
 
+    // 🔥 FUNÇÃO PARA FORÇAR ATUALIZAÇÃO DAS CARTAS SELECIONADAS
+    const forcarAtualizacaoCartas = useCallback(() => {
+        if (atualizandoCartasRef.current) {
+            console.log("⚠️ [SystemTurn] Atualização de cartas já em andamento, ignorando...");
+            return { nomes: cartasSelecionadasRef.current, mapa: cartasSelecionadasMapRef.current };
+        }
+
+        atualizandoCartasRef.current = true;
+        
+        try {
+            const cartas = dados.cartasSelecionadas || [];
+            const hashAtual = gerarHashCartas(cartas);
+            
+            if (hashAtual === ultimoHashCartasRef.current) {
+                console.log("ℹ️ [SystemTurn] Hash de cartas não mudou, mantendo atual");
+                atualizandoCartasRef.current = false;
+                return { nomes: cartasSelecionadasRef.current, mapa: cartasSelecionadasMapRef.current };
+            }
+            
+            console.log(`🔄 [SystemTurn] Hash mudou de "${ultimoHashCartasRef.current}" para "${hashAtual}"`);
+            ultimoHashCartasRef.current = hashAtual;
+            
+            const nomes = [];
+            const mapa = new Map();
+            
+            cartas.forEach((carta) => {
+                let nome = null;
+                let quantidade = 0;
+                let ed = null;
+                
+                if (carta.nome) {
+                    nome = carta.nome;
+                    for (const setor of setoresArr) {
+                        const encontrado = dados[setor]?.edificios?.find(e => e.nome === nome);
+                        if (encontrado) {
+                            ed = encontrado;
+                            quantidade = encontrado.quantidade || 0;
+                            break;
+                        }
+                    }
+                } else if (carta.setor !== undefined && carta.index !== undefined) {
+                    ed = dados[carta.setor]?.edificios?.[carta.index];
+                    if (ed) {
+                        nome = ed.nome;
+                        quantidade = ed.quantidade || 0;
+                    }
+                }
+                
+                if (nome && ed) {
+                    nomes.push(nome);
+                    mapa.set(nome, { 
+                        nome, 
+                        quantidade, 
+                        ed,
+                        setor: carta.setor || ed.setor,
+                        index: carta.index
+                    });
+                }
+            });
+            
+            cartasSelecionadasRef.current = nomes;
+            cartasSelecionadasMapRef.current = mapa;
+            console.log(`✅ [SystemTurn] Cartas atualizadas: ${nomes.length} edifícios`);
+            
+            atualizandoCartasRef.current = false;
+            return { nomes, mapa };
+            
+        } catch (error) {
+            console.error("❌ [SystemTurn] Erro ao atualizar cartas:", error);
+            atualizandoCartasRef.current = false;
+            return { nomes: cartasSelecionadasRef.current, mapa: cartasSelecionadasMapRef.current };
+        }
+    }, [dados.cartasSelecionadas, dados]);
+
     // 🔥 FUNÇÃO PARA CARREGAR AS CARTAS SELECIONADAS
-    const carregarCartasSelecionadas = () => {
+    const carregarCartasSelecionadas = useCallback(() => {
         const resultado = forcarAtualizacaoCartas();
         if (resultado.nomes.length === 0) {
             const cartas = dados.cartasSelecionadas || [];
@@ -403,38 +549,27 @@ export function SystemTurn() {
             return nomes;
         }
         return resultado.nomes;
-    };
+    }, [forcarAtualizacaoCartas, dados.cartasSelecionadas, dados]);
 
     // 🔥 CARREGA AS CARTAS INICIALMENTE
     useEffect(() => {
-        if (jogoIniciado) {
-            carregarCartasSelecionadas();
+        if (jogoIniciado && !atualizandoCartasRef.current) {
+            const hash = gerarHashCartas(dados.cartasSelecionadas || []);
+            if (hash !== ultimoHashCartasRef.current) {
+                carregarCartasSelecionadas();
+            }
         }
     }, [jogoIniciado]);
 
-    // 🔥 CORREÇÃO: Atualiza o ref sempre que dados mudar
+    // 🔥 Atualiza o ref sempre que dados mudar
     useEffect(() => {
         dadosRef.current = dados;
-        if (!estaProcessando && jogoIniciado) {
-            carregarCartasSelecionadas();
-        }
-    }, [dados, estaProcessando, jogoIniciado]);
+    }, [dados]);
 
-    // 🔥 CORREÇÃO: Atualiza o saldo ref sempre que mudar
+    // 🔥 Atualiza o saldo ref sempre que mudar
     useEffect(() => {
         saldoRef.current = economiaSetores.saldo;
     }, [economiaSetores.saldo]);
-
-    // 🔥 NOVO useEffect: ABRE PACOTES INICIAIS QUANDO O JOGO INICIA
-    useEffect(() => {
-        if (jogoIniciado && !pacotesIniciaisAbertos && dados.dia === 0) {
-            const timer = setTimeout(() => {
-                abrirPacotesIniciais();
-            }, 500);
-            
-            return () => clearTimeout(timer);
-        }
-    }, [jogoIniciado, pacotesIniciaisAbertos, dados.dia]);
 
     const tooltipStyle = {
         backgroundColor: "#FFFFFF",
@@ -467,26 +602,12 @@ export function SystemTurn() {
         }
     };
 
-    // 🔥 FUNÇÃO PARA ABRIR PACOTES INICIAIS (DIA 0)
-    const abrirPacotesIniciais = () => {
-        if (pacotesIniciaisAbertos) return;
-        
-        console.log("🎁 [SystemTurn] Abrindo 2 pacotes comuns para o jogador...");
-        setPacotesIniciaisAbertos(true);
-        
-        setTimeout(() => {
-            console.log("🎁 [SystemTurn] Abrindo pacote comum #1...");
-        }, 500);
-        
-        setTimeout(() => {
-            console.log("🎁 [SystemTurn] Abrindo pacote comum #2...");
-        }, 1500);
-    };
-
-    // 🔥 TIMER PRINCIPAL - CORRIGIDO
+    // 🔥 TIMER PRINCIPAL
     useEffect(() => {
         if (!jogoIniciado) return;
         if (diasPendentes > 0 || estaProcessando) return;
+        if (draftInicialAberto) return;
+        if (draftAberto) return;
         
         if (dados.dia >= 360) {
             console.log("🏁 [SystemTurn] Jogo finalizado! Timer desativado.");
@@ -583,12 +704,14 @@ export function SystemTurn() {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [diasPendentes, estaProcessando, dados.cartasSelecionadas, jogoIniciado, dados.dia, getTempoCountdown]);
+    }, [diasPendentes, estaProcessando, dados.cartasSelecionadas, jogoIniciado, dados.dia, getTempoCountdown, draftInicialAberto, draftAberto]);
 
-    // 🔥 PROCESSAMENTO DOS DIAS - CORRIGIDO
+    // 🔥 PROCESSAMENTO DOS DIAS
     useEffect(() => {
         if (!jogoIniciado) return;
         if (diasPendentes <= 0 || processandoRef.current) return;
+        if (draftInicialAberto) return;
+        if (draftAberto) return;
         
         if (dados.dia >= 360) {
             console.log("🏁 [SystemTurn] Jogo finalizado! Parando processamento.");
@@ -644,7 +767,6 @@ export function SystemTurn() {
                 return;
             }
 
-            // 🔥 SE O PRÓXIMO DIA FOR 360, PROCESSA COM DELAY MAIOR
             if (proximoDia === 360) {
                 setTimeout(() => {
                     try {
@@ -815,7 +937,7 @@ export function SystemTurn() {
 
         setTimeout(processarProximoDia, 500);
 
-    }, [diasPendentes, jogoIniciado, dados.dia, getTempoCountdown]);
+    }, [diasPendentes, jogoIniciado, dados.dia, getTempoCountdown, draftInicialAberto, draftAberto]);
 
     // 🔥 FUNÇÃO PARA FINALIZAR O PROCESSAMENTO MENSAL
     const finalizarProcessamentoMensal = () => {
@@ -1155,6 +1277,29 @@ export function SystemTurn() {
                 visible={mostrarLoading} 
                 onComplete={() => setMostrarLoading(false)} 
             />
+            
+            {/* ── DRAFT INICIAL (4 CARTAS C + 1 CARTA B) ── */}
+            {draftInicialAberto && (
+                <DraftSystemInicial 
+                    onClose={() => {}}
+                    onComplete={handleDraftInicialComplete}
+                    quantidadeOpcoes={3}
+                    titulo="📋 Draft Inicial"
+                    instrucao="📌 Escolha 4 cartas Classe C e 1 carta Classe B para começar sua jornada!"
+                />
+            )}
+
+            {/* ── DRAFT CONTÍNUO (1 CARTA POR RANK) ── */}
+            {draftAberto && (
+                <DraftSystemContinuo 
+                    diaAtual={dados.dia || 0}
+                    onClose={fecharDraft}
+                    onComplete={handleComplete}
+                    quantidadeOpcoes={3}
+                    titulo={`📋 Draft - Dia ${dados.dia || 0}`}
+                    instrucao={`📌 Escolha uma carta ${getRankPorDia(dados.dia || 0)} para sua coleção!`}
+                />
+            )}
             
             {/* 🔥 TIMER COM ESTÉTICA VERMELHA E TEMPO VARIÁVEL */}
             <div

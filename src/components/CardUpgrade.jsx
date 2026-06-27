@@ -85,7 +85,7 @@ const getRank = (nome) => {
         "Marketplace Online", "Plataforma De Streaming", "Fábrica De Smartphones",
         "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestiveis",
         "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Aeroespacial",
-        "Centro De Engenharia Avançada", "Centro De Pesquisa Em Materiais Avançados",
+        "Centro De Engenharia Avançada", "Centro De Pesquisa Em Materiais",
         "Centro De Pesquisa Em IA", "Mineradora De Pedras Preciosas", "Mega Mercado",
         "Prédio De Alto Padrão", "Tanque De Armazenamento Biocombustível",
         "Fábrica De Plásticos", "Fábrica De Químicos Especializados", "Alto-Forno",
@@ -95,7 +95,7 @@ const getRank = (nome) => {
     ];
 
     const RankB = [
-        "Centro De Comércio De Plantações", "Empresa De Comercio Energético",
+        "Centro De Comércio De Plantações", "Empresa De Comércio Energético",
         "Empresa De Consultoria Energética", "Centro De Pesquisa Em Energias Renováveis",
         "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis",
         "Usina De Biomassa", "Usina Termolétrica", "Joalheria", "Concessionária De Veículos",
@@ -108,7 +108,7 @@ const getRank = (nome) => {
         "Laboratório De Novos Combustíveis", "Centro De Engenharia Avançada",
         "Centro De Pesquisa Em Robótica", "Construtora", "Imobiliária Residencial",
         "Imobiliária Comercial", "Mineradora", "Centro De Coleta De Biomassa",
-        "Fábrica De Fertilizante", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
+        "Fábrica De Fertilizantes", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
         "Fábrica De Plásticos", "Alto-Forno", "Indústria De Componentes Mecânicos",
         "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas",
         "Fábrica De Peças Automotivas", "Fábrica De Placas Eletrônicas", "Fábrica De Eletrônicos"

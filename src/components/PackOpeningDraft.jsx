@@ -23,7 +23,7 @@ const RankA = [
     "Marketplace Online", "Plataforma De Streaming", "Fábrica De Smartphones",
     "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestiveis",
     "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Aeroespacial",
-    "Centro De Pesquisa Em Materiais Avançados", "Centro De Pesquisa Em IA",
+    "Centro De Pesquisa Em Materiais", "Centro De Pesquisa Em IA",
     "Mineradora De Pedras Preciosas", "Mega Mercado", "Prédio De Alto Padrão",
     "Tanque De Armazenamento Biocombustível", "Fábrica De Plásticos",
     "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica",
@@ -33,7 +33,7 @@ const RankA = [
 ];
 
 const RankB = [
-    "Centro De Comércio De Plantações", "Empresa De Comercio Energético",
+    "Centro De Comércio De Plantações", "Empresa De Comércio Energético",
     "Empresa De Consultoria Energética", "Centro De Pesquisa Em Energias Renováveis",
     "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis",
     "Usina De Biomassa", "Usina Termolétrica", "Joalheria", "Concessionária De Veículos",
@@ -46,7 +46,7 @@ const RankB = [
     "Laboratório De Novos Combustíveis", "Centro De Engenharia Avançada",
     "Centro De Pesquisa Em Robótica", "Construtora", "Imobiliária Residencial",
     "Imobiliária Comercial", "Mineradora", "Centro De Coleta De Biomassa",
-    "Fábrica De Fertilizante", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
+    "Fábrica De Fertilizantes", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
     "Fábrica De Plásticos", "Alto-Forno", "Indústria De Componentes Mecânicos",
     "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas",
     "Fábrica De Peças Automotivas", "Fábrica De Placas Eletrônicas", "Fábrica De Eletrônicos"
@@ -61,15 +61,15 @@ const RankC = [
     "Fábrica De Painéis Solares", "Fábrica De Baterias", "Estação De Carregamento",
     "Centro De Reciclagem De Baterias", "Parque Eólico", "Feira", "Loja De Móveis",
     "Restaurante", "Livraria", "Mercado", "Adega", "Padaria", "Açougue",
-    "Loja De Conveniência", "Posto De Combustíveis", "Redes De Fast-food", "Petshop",
+    "Loja De Conveniência", "Posto De Combustíveis", "Rede De Fast-Food", "Petshop",
     "Farmácia", "Cafeteria", "Loja De Departamentos", "Loja De Calçados",
     "Loja De Vestuário", "Loja De Gadgets E Wearables", "Loja De Games",
     "Loja De Celulares", "Loja De Informática", "Loja De Eletrônicos",
     "Centro De Transporte E Entrega", "Startup", "Centro De Pesquisa Química",
     "Cartório E Licenças", "Terraplanagem E Pavimentação", "Construtora De Pequenas Obras",
     "Escritório De Design De Interiores", "Escritório De Arquitetura",
-    "Consultoria Em Engenharia Civil", "Fábrica De Móveis", "Fábrica De Ração",
-    "Fábrica De Embalagem", "Fábrica De Bebidas", "Fábrica De Pães", "Fábrica Textil",
+    "Consultoria Em Engenharia Civil", "Fábrica De Móveis", "Fábrica De Rações",
+    "Fábrica De Embalagem", "Fábrica De Bebidas", "Fábrica De Pães", "Fábrica Têxtil",
     "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose",
     "Fábrica De Papel", "Fábrica De Livros"
 ];
@@ -726,7 +726,7 @@ export const PackOpeningDraft = ({ onClose, onSorteio }) => {
   const [pacotesIniciaisAbertos, setPacotesIniciaisAbertos] = useState(false);
   const [quantosPacotesAbertos, setQuantosPacotesAbertos] = useState(0);
   const [aguardandoProximoPacote, setAguardandoProximoPacote] = useState(false);
-  const TOTAL_PACOTES_INICIAIS = 2;
+  const TOTAL_PACOTES_INICIAIS = 1;
 
   // 🔥 DETERMINA O TIPO DE PACOTE BASEADO NO DIA
   useEffect(() => {

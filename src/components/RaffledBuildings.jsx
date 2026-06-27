@@ -121,7 +121,7 @@ const RaffledBuildings = () => {
 
   const RankB = [
     "Centro De Comércio De Plantações",
-    "Empresa De Comercio Energético",
+    "Empresa De Comércio Energético",
     "Empresa De Consultoria Energética",
     "Centro De Pesquisa Em Energias Renováveis",
     "Centro De Pesquisa Energética",
@@ -153,7 +153,7 @@ const RaffledBuildings = () => {
     "Imobiliária Comercial",
     "Mineradora",
     "Centro De Coleta De Biomassa",
-    "Fábrica De Fertilizante",
+    "Fábrica De Fertilizantes",
     "Fábrica De Medicamentos",
     "Laboratório Farmacêutico",
     "Fábrica De Plásticos",
@@ -201,7 +201,7 @@ const RaffledBuildings = () => {
     "Açougue",
     "Loja De Conveniência",
     "Posto De Combustíveis",
-    "Redes De Fast-food",
+    "Rede De Fast-Food",
     "Petshop",
     "Farmácia",
     "Cafeteria",

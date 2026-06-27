@@ -204,9 +204,9 @@ export default function PayTexes() {
 
     // Indústria
     "Fábrica De Móveis": "industria",
-    "Fábrica De Ração": "industria",
+    "Fábrica De Rações": "industria",
     "Fábrica De Embalagem": "industria",
-    "Fábrica De Fertilizante": "industria",
+    "Fábrica De Fertilizantes": "industria",
     "Fábrica De Bebidas": "industria",
     "Fábrica De Pães": "industria",
     "Fábrica De Turbinas Eólicas": "industria",
@@ -260,7 +260,7 @@ export default function PayTexes() {
     Açougue: "comercio",
     "Loja De Conveniência": "comercio",
     "Posto De Gasolina": "comercio",
-    "Redes De Fast-food": "comercio",
+    "Rede De Fast-Food": "comercio",
     "Loja De Eletrônicos": "comercio",
     Joalheria: "comercio",
     "Concessionária De Veículos": "comercio",

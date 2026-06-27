@@ -20,7 +20,7 @@ export const Office = () => {
 
         {/* Texto central */}
         <p className="flex-1 text-center">
-          Chefe, ofereceram <b>180.000</b> na sua fábrica de ração. <br />
+          Chefe, ofereceram <b>180.000</b> na sua Fábrica De Rações. <br />
           Atualmente o preço de mercado é <b>170.000</b>. <br />
           Você deseja aceitar?
         </p>
