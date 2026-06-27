@@ -1,6 +1,5 @@
 // ============================================================
-//  MapWorld.jsx - Versão Resumida (4 camadas)
-//  Apenas rotação - sem zoom, sem pan
+//  MapWorld.jsx - Versão Adaptada (com suporte a compostos)
 //  Raio: 6
 // ============================================================
 
@@ -15,12 +14,27 @@ import { BuildingModel } from './BuildingModel'
 import { resolverModeloSede, MODELOS, EDIFICIO_PARA_MODELO } from './buildingModels'
 import { useFrame } from '@react-three/fiber'
 
-const HEX_SIZE = 0.6 // Mantido o mesmo valor original
+const HEX_SIZE = 0.6
 
 const hexToWorld = (hex, size) => ({
   x: size * 1.73 * (hex.q + hex.r / 2),
   z: size * 1.5 * hex.r,
 })
+
+// ─────────────────────────────────────────────────────────────
+//  FUNÇÕES DE VERIFICAÇÃO
+// ─────────────────────────────────────────────────────────────
+function edificioEhComposto(nomeEdificio) {
+  const modeloId = EDIFICIO_PARA_MODELO[nomeEdificio]
+  if (!modeloId) return false
+  return MODELOS[modeloId]?.tipo === 'composto'
+}
+
+function edificioEhCluster(nomeEdificio) {
+  const modeloId = EDIFICIO_PARA_MODELO[nomeEdificio]
+  if (!modeloId) return false
+  return MODELOS[modeloId]?.tamanho === 7
+}
 
 // ─────────────────────────────────────────────────────────────
 //  Configurações e Constantes
@@ -38,11 +52,6 @@ const SETORES = ['agricultura', 'tecnologia', 'comercio', 'industria', 'imobilia
 
 const HEX_DIRECTIONS = [[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]]
 const vizinhosDeHex = (q, r) => HEX_DIRECTIONS.map(([dq, dr]) => `${q + dq},${r + dr}`)
-
-const edificioEhCluster = (nome) => {
-  const modeloId = EDIFICIO_PARA_MODELO[nome]
-  return modeloId ? MODELOS[modeloId]?.tamanho === 7 : false
-}
 
 // ─────────────────────────────────────────────────────────────
 //  CAMADA 1: CÉU E ATMOSFERA
@@ -177,17 +186,44 @@ const HexBase = ({ corTopo = '#5a9e44' }) => {
   )
 }
 
-const HexTile = ({ hex, building, onClick, selected }) => {
+// ─────────────────────────────────────────────────────────────
+//  HexTileClusterSatelite - PARA EDIFÍCIOS CLUSTER
+// ─────────────────────────────────────────────────────────────
+const HexTileClusterSatelite = ({ hex, corTopo, modeloId, corFallback }) => {
+  const { x, z } = hexToWorld(hex, HEX_SIZE)
+  return (
+    <group position={[x, 0, z]}>
+      <HexBase corTopo={corTopo} />
+      {modeloId != null && (
+        <BuildingModel
+          nomeEdificio={null}
+          corFallback={corFallback || '#888888'}
+          posicaoBase={[0, 0.22, 0]}
+          _overrideModeloId={modeloId}
+        />
+      )}
+    </group>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────
+//  HexTile
+// ─────────────────────────────────────────────────────────────
+const HexTile = ({ hex, building, onClick, selected, moveMode = false }) => {
   const [hovered, setHover] = useState(false)
   const { x, z } = hexToWorld(hex, HEX_SIZE)
   const cfg = building ? SETOR_CONFIG[building.setor] : null
+  const yPos = hovered ? 0.08 : 0
 
   return (
     <group
-      position={[x, hovered ? 0.08 : 0, z]}
-      onPointerOver={() => setHover(true)}
+      position={[x, yPos, z]}
+      onPointerOver={(e) => { e.stopPropagation(); setHover(true) }}
       onPointerOut={() => setHover(false)}
-      onClick={onClick}
+      onClick={(e) => {
+        e.stopPropagation()
+        if (building || moveMode) onClick(hex)
+      }}
     >
       <HexBase corTopo={building ? cfg?.cor3 : undefined} />
       
@@ -203,6 +239,13 @@ const HexTile = ({ hex, building, onClick, selected }) => {
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.21, 0]}>
           <ringGeometry args={[HEX_SIZE * 0.9, HEX_SIZE * 1.0, 6]} />
           <meshBasicMaterial color={selected ? '#F27405' : '#ffffff'} transparent opacity={selected ? 1 : 0.4} />
+        </mesh>
+      )}
+      
+      {moveMode && !building && hovered && (
+        <mesh position={[0, 0.22, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[HEX_SIZE * 0.45, HEX_SIZE * 0.58, 6]} />
+          <meshBasicMaterial color="#F27405" transparent opacity={0.75} />
         </mesh>
       )}
     </group>
@@ -262,6 +305,7 @@ export default function MapWorld() {
 
   const [selectedKey, setSelectedKey] = useState(null)
   const [dayProgress, setDayProgress] = useState(0)
+  const [moveMode, setMoveMode] = useState(false)
 
   // ── Edifícios ativos ────────────────────────────────────────
   const edificiosAtivos = useMemo(() => {
@@ -275,6 +319,7 @@ export default function MapWorld() {
             setor,
             quantidade: ed.quantidade,
             ehCluster: edificioEhCluster(ed.nome),
+            ehComposto: edificioEhComposto(ed.nome),
           })
         }
       })
@@ -282,7 +327,7 @@ export default function MapWorld() {
     return lista
   }, [dados])
 
-  // ── Hex Grid ── 🔥 RAIO 6 (mantendo HEX_SIZE original) ──
+  // ── Hex Grid ── RAIO 6 ──
   const hexGrid = useMemo(() => {
     const Tile = defineHex({ dimensions: HEX_SIZE, orientation: 'pointy' })
     return Array.from(new Grid(Tile, spiral({ center: [0, 0], radius: 6 })))
@@ -296,8 +341,19 @@ export default function MapWorld() {
     const posOcupadas = new Set(['0,0'])
     const novasPosicoes = {}
 
-    const clusters = edificiosAtivos.filter(e => e.ehCluster)
-    const simples = edificiosAtivos.filter(e => !e.ehCluster)
+    // Primeiro, preservar edifícios já posicionados
+    const idsAtivos = new Set(edificiosAtivos.map(e => e.id))
+    Object.entries(posicoes).forEach(([key, id]) => {
+      if (idsAtivos.has(id)) {
+        novasPosicoes[key] = id
+        posOcupadas.add(key)
+        const ed = edificiosAtivos.find(e => e.id === id)
+        if (ed?.ehCluster) {
+          const [q, r] = key.split(',').map(Number)
+          vizinhosDeHex(q, r).forEach(vk => posOcupadas.add(vk))
+        }
+      }
+    })
 
     const keys = hexGrid.map(h => `${h.q},${h.r}`)
       .sort((a, b) => {
@@ -308,24 +364,72 @@ export default function MapWorld() {
 
     const proximoLivre = () => keys.find(k => !posOcupadas.has(k) && gridKeys.has(k)) || null
 
-    ;[...clusters, ...simples].forEach(ed => {
+    const idsJaAlocados = new Set(Object.values(novasPosicoes))
+    const clusters = edificiosAtivos.filter(ed => ed.ehCluster && !idsJaAlocados.has(ed.id))
+    const simples = edificiosAtivos.filter(ed => !ed.ehCluster && !idsJaAlocados.has(ed.id))
+
+    // Posicionar clusters primeiro
+    clusters.forEach(ed => {
+      const central = proximoLivre(k => {
+        const [cq, cr] = k.split(',').map(Number)
+        return vizinhosDeHex(cq, cr).every(vk => !posOcupadas.has(vk) && gridKeys.has(vk))
+      })
+      if (central) {
+        const [cq, cr] = central.split(',').map(Number)
+        novasPosicoes[central] = ed.id
+        posOcupadas.add(central)
+        vizinhosDeHex(cq, cr).forEach(vk => posOcupadas.add(vk))
+      }
+    })
+
+    // Depois os simples
+    simples.forEach(ed => {
       const pos = proximoLivre()
       if (pos) {
         novasPosicoes[pos] = ed.id
         posOcupadas.add(pos)
-        if (ed.ehCluster) {
-          const [q, r] = pos.split(',').map(Number)
-          vizinhosDeHex(q, r).forEach(vk => posOcupadas.add(vk))
-        }
       }
     })
 
     setPosicoes(novasPosicoes)
   }, [edificiosAtivos, hexGrid])
 
+  // ── Satélites dos clusters ──────────────────────────────────
+  const satelites = useMemo(() => {
+    const mapa = {}
+    Object.entries(posicoes).forEach(([key, id]) => {
+      const ed = edificiosAtivos.find(e => e.id === id)
+      if (!ed?.ehCluster) return
+
+      const cfg = SETOR_CONFIG[ed.setor]
+      const cor = cfg?.cor3 || '#5a9e44'
+      const corFall = cfg?.cor4 || '#888888'
+      const modeloId = EDIFICIO_PARA_MODELO[ed.nome]
+      const modeloDef = modeloId ? MODELOS[modeloId] : null
+      const defSats = modeloDef?.satelites || []
+
+      const [q, r] = key.split(',').map(Number)
+      vizinhosDeHex(q, r).forEach((vk, i) => {
+        if (!posicoes[vk]) {
+          mapa[vk] = {
+            corTopo: cor,
+            corFallback: corFall,
+            modeloId: defSats[i]?.modeloId ?? null,
+          }
+        }
+      })
+    })
+    return mapa
+  }, [posicoes, edificiosAtivos])
+
   // ── Handle Click ────────────────────────────────────────────
   const handleHexClick = (hex) => {
     const key = `${hex.q},${hex.r}`
+    if (moveMode) {
+      // Lógica de movimento (se necessário)
+      setMoveMode(false)
+      return
+    }
     if (posicoes[key]) {
       setSelectedKey(selectedKey === key ? null : key)
     }
@@ -348,9 +452,26 @@ export default function MapWorld() {
         <group>
           <Sede nomeEmpresa={nomeEmpresa} porte={porte} />
 
+          {/* Satélites de clusters */}
+          {Object.entries(satelites).map(([key, { corTopo, modeloId, corFallback }]) => {
+            const hex = hexGrid.find(h => `${h.q},${h.r}` === key)
+            if (!hex) return null
+            return (
+              <HexTileClusterSatelite
+                key={`sat-${key}`}
+                hex={hex}
+                corTopo={corTopo}
+                modeloId={modeloId}
+                corFallback={corFallback}
+              />
+            )
+          })}
+
+          {/* Tiles normais */}
           {hexGrid.map(hex => {
             const key = `${hex.q},${hex.r}`
             if (key === '0,0') return null
+            if (satelites[key]) return null
             
             const edId = posicoes[key]
             const building = edId ? edificiosAtivos.find(e => e.id === edId) || null : null
@@ -360,8 +481,9 @@ export default function MapWorld() {
                 key={key}
                 hex={hex}
                 building={building}
-                onClick={() => handleHexClick(hex)}
+                onClick={handleHexClick}
                 selected={key === selectedKey}
+                moveMode={moveMode}
               />
             )
           })}
@@ -369,11 +491,11 @@ export default function MapWorld() {
 
         <ContactShadows position={[0, 0.02, 0]} opacity={0.4} scale={30} blur={2.2} color="#1a3a10" />
         
-        {/* 🔥 ORBIT CONTROLS - APENAS ROTAÇÃO */}
+        {/* ORBIT CONTROLS - APENAS ROTAÇÃO */}
         <OrbitControls
           enablePan={false}
           enableZoom={false}
-          enableRotate={false}
+          enableRotate={true}
           rotateSpeed={0.5}
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={Math.PI / 2.8}
