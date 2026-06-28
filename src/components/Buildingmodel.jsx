@@ -1,8 +1,8 @@
 // ============================================================
-//  BuildingModel.jsx - CORRIGIDO
+//  BuildingModel.jsx - Versão Balanceada
 // ============================================================
 
-import React, { useMemo, useState, useEffect, Component } from 'react'
+import React, { useMemo, useState, useEffect, Component, useCallback } from 'react'
 import { useGLTF, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 import { resolverModelo } from './buildingModels'
@@ -23,6 +23,9 @@ async function checarArquivo(path) {
   return glbCache[path]
 }
 
+// ─────────────────────────────────────────────────────────────
+//  HOOK useResolverCaminho
+// ─────────────────────────────────────────────────────────────
 function useResolverCaminho(arquivoBase) {
   const caminhos = useMemo(() => {
     if (!arquivoBase) return []
@@ -63,6 +66,8 @@ function useResolverCaminho(arquivoBase) {
     }
 
     if (resultado.status === 'loading') resolver()
+    
+    return () => { cancelled = true }
   }, [caminhos, arquivoBase])
 
   return resultado
@@ -92,43 +97,48 @@ class ModelErrorBoundary extends Component {
 // ─────────────────────────────────────────────────────────────
 //  Fallback visual
 // ─────────────────────────────────────────────────────────────
-export function ModeloFallback({ cor = '#888888' }) {
+export const ModeloFallback = React.memo(({ cor = '#888888' }) => {
+  const geometryBox = useMemo(() => new THREE.BoxGeometry(0.28, 0.18, 0.28), [])
+  const geometryCone = useMemo(() => new THREE.ConeGeometry(0.22, 0.16, 4), [])
+  
   return (
     <group>
       <mesh position={[0, 0.09, 0]} castShadow>
-        <boxGeometry args={[0.28, 0.18, 0.28]} />
+        <primitive object={geometryBox} />
         <meshStandardMaterial color="#d4c4a0" roughness={0.8} />
       </mesh>
       <mesh position={[0, 0.24, 0]} rotation={[0, Math.PI / 4, 0]} castShadow>
-        <coneGeometry args={[0.22, 0.16, 4]} />
+        <primitive object={geometryCone} />
         <meshStandardMaterial color={cor} roughness={0.7} />
       </mesh>
     </group>
   )
-}
+})
 
 // ─────────────────────────────────────────────────────────────
 //  Loader COM colormap
 // ─────────────────────────────────────────────────────────────
 function ModeloComColormap({ glbPath, colormap, escalaVec, posY, rotacao, rotacaoCorrecao, corTint }) {
   const { scene } = useGLTF(glbPath)
-  const textura   = useTexture(colormap)
+  const textura = useTexture(colormap)
 
   const clonado = useMemo(() => {
-    textura.flipY       = false
-    textura.colorSpace  = THREE.SRGBColorSpace
+    textura.flipY = false
+    textura.colorSpace = THREE.SRGBColorSpace
     textura.needsUpdate = true
 
     const clone = scene.clone(true)
     clone.traverse(node => {
       if (!node.isMesh) return
-      const mat       = node.material.clone()
-      mat.map         = textura
-      mat.roughness   = 0.85
-      mat.metalness   = 0.05
-      mat.color       = corTint ? new THREE.Color(...corTint) : new THREE.Color(1, 1, 1)
+      const mat = node.material.clone()
+      mat.map = textura
+      mat.roughness = 0.85
+      mat.metalness = 0.05
+      if (corTint) {
+        mat.color = new THREE.Color(...corTint)
+      }
       mat.needsUpdate = true
-      node.material   = mat
+      node.material = mat
       node.castShadow = true
       node.receiveShadow = true
     })
@@ -161,11 +171,11 @@ function ModeloSemColormap({ glbPath, escalaVec, posY, rotacao, rotacaoCorrecao,
       if (!node.isMesh) return
       const mat = node.material.clone()
       if (corTint) {
-        mat.color       = new THREE.Color(...corTint)
+        mat.color = new THREE.Color(...corTint)
         mat.needsUpdate = true
       }
-      node.material      = mat
-      node.castShadow    = true
+      node.material = mat
+      node.castShadow = true
       node.receiveShadow = true
     })
     return clone
@@ -191,7 +201,7 @@ function ModeloSemColormap({ glbPath, escalaVec, posY, rotacao, rotacaoCorrecao,
 function ModeloLoader({ config, corFallback }) {
   const { path, status } = useResolverCaminho(config?.glbPath ?? null)
 
-  const fallbackEl = <ModeloFallback cor={corFallback} />
+  const fallbackEl = useMemo(() => <ModeloFallback cor={corFallback} />, [corFallback])
 
   if (!config?.glbPath) return fallbackEl
   if (status === 'loading') return fallbackEl
@@ -226,18 +236,20 @@ function ModeloLoader({ config, corFallback }) {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  COMPONENTE PÚBLICO - CORRIGIDO PARA COMPOSTOS
+//  COMPONENTE PÚBLICO
 // ─────────────────────────────────────────────────────────────
-export function BuildingModel({ 
+export const BuildingModel = React.memo(({ 
   nomeEdificio, 
   corFallback = '#888888', 
   posicaoBase = [0, 0, 0], 
   _overrideConfig = null, 
   _overrideModeloId = null 
-}) {
-  const config = _overrideConfig
-    ?? (_overrideModeloId != null ? resolverModelo(null, _overrideModeloId) : null)
-    ?? resolverModelo(nomeEdificio)
+}) => {
+  const config = useMemo(() => {
+    return _overrideConfig
+      ?? (_overrideModeloId != null ? resolverModelo(null, _overrideModeloId) : null)
+      ?? resolverModelo(nomeEdificio)
+  }, [_overrideConfig, _overrideModeloId, nomeEdificio])
 
   // 🔹 SIMPLES
   if (config?.tipo === 'simples') {
@@ -248,29 +260,27 @@ export function BuildingModel({
     )
   }
 
-  // 🔥 COMPOSTO - CORRIGIDO
-// Substitua a seção COMPOSTO por:
-if (config?.tipo === 'composto') {
-  return (
-    <group position={posicaoBase}>
-      {config.partes.map((parte, i) => (
-        <group
-          key={i}
-          position={parte.offset || [0, 0, 0]}
-          rotation={[0, parte.rotacaoExtra ?? 0, 0]}
-          scale={parte.escalaVec.map(v => v * (parte.escalaExtra ?? 1))}
-        >
-          <ModeloLoader config={parte} corFallback={corFallback} />
-        </group>
-      ))}
-    </group>
-  )
-}
+  // 🔥 COMPOSTO
+  if (config?.tipo === 'composto') {
+    return (
+      <group position={posicaoBase}>
+        {config.partes.map((parte, i) => (
+          <group
+            key={i}
+            position={parte.offset || [0, 0, 0]}
+            rotation={[0, parte.rotacaoExtra ?? 0, 0]}
+            scale={parte.escalaVec.map(v => v * (parte.escalaExtra ?? 1))}
+          >
+            <ModeloLoader config={parte} corFallback={corFallback} />
+          </group>
+        ))}
+      </group>
+    )
+  }
 
-  // Config inválida ou tipo desconhecido → fallback
   return (
     <group position={posicaoBase}>
       <ModeloFallback cor={corFallback} />
     </group>
   )
-}
+})

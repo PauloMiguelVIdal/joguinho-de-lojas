@@ -1,9 +1,9 @@
 // ============================================================
-//  MapWorld.jsx - Versão Adaptada (com suporte a compostos)
+//  MapWorld.jsx - Versão Balanceada (Performance + Qualidade)
 //  Raio: 6
 // ============================================================
 
-import React, { useState, useMemo, useContext, useEffect, useRef } from 'react'
+import React, { useState, useMemo, useContext, useEffect, useRef, useCallback } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { ContactShadows, OrbitControls, Html } from '@react-three/drei'
 import { defineHex, Grid, spiral } from 'honeycomb-grid'
@@ -22,19 +22,29 @@ const hexToWorld = (hex, size) => ({
 })
 
 // ─────────────────────────────────────────────────────────────
-//  FUNÇÕES DE VERIFICAÇÃO
+//  FUNÇÕES DE VERIFICAÇÃO (COM CACHE)
 // ─────────────────────────────────────────────────────────────
-function edificioEhComposto(nomeEdificio) {
-  const modeloId = EDIFICIO_PARA_MODELO[nomeEdificio]
-  if (!modeloId) return false
-  return MODELOS[modeloId]?.tipo === 'composto'
-}
+const edificioEhComposto = (() => {
+  const cache = new Map()
+  return (nomeEdificio) => {
+    if (cache.has(nomeEdificio)) return cache.get(nomeEdificio)
+    const modeloId = EDIFICIO_PARA_MODELO[nomeEdificio]
+    const result = modeloId ? MODELOS[modeloId]?.tipo === 'composto' : false
+    cache.set(nomeEdificio, result)
+    return result
+  }
+})()
 
-function edificioEhCluster(nomeEdificio) {
-  const modeloId = EDIFICIO_PARA_MODELO[nomeEdificio]
-  if (!modeloId) return false
-  return MODELOS[modeloId]?.tamanho === 7
-}
+const edificioEhCluster = (() => {
+  const cache = new Map()
+  return (nomeEdificio) => {
+    if (cache.has(nomeEdificio)) return cache.get(nomeEdificio)
+    const modeloId = EDIFICIO_PARA_MODELO[nomeEdificio]
+    const result = modeloId ? MODELOS[modeloId]?.tamanho === 7 : false
+    cache.set(nomeEdificio, result)
+    return result
+  }
+})()
 
 // ─────────────────────────────────────────────────────────────
 //  Configurações e Constantes
@@ -56,7 +66,7 @@ const vizinhosDeHex = (q, r) => HEX_DIRECTIONS.map(([dq, dr]) => `${q + dq},${r 
 // ─────────────────────────────────────────────────────────────
 //  CAMADA 1: CÉU E ATMOSFERA
 // ─────────────────────────────────────────────────────────────
-const SkyDome = ({ dayProgress }) => {
+const SkyDome = React.memo(({ dayProgress }) => {
   const uniforms = useMemo(() => ({
     topColor:    { value: new THREE.Color('#4c2da0') },
     middleColor: { value: new THREE.Color('#dbb2ff') },
@@ -103,12 +113,12 @@ const SkyDome = ({ dayProgress }) => {
       />
     </mesh>
   )
-}
+})
 
 // ─────────────────────────────────────────────────────────────
 //  CAMADA 2: MAR / OCEANO
 // ─────────────────────────────────────────────────────────────
-const Ocean = () => {
+const Ocean = React.memo(() => {
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },
     uColorBase:   { value: new THREE.Color('#0066cc') },
@@ -154,12 +164,12 @@ const Ocean = () => {
       />
     </mesh>
   )
-}
+})
 
 // ─────────────────────────────────────────────────────────────
 //  CAMADA 3: TERRA E EDIFÍCIOS
 // ─────────────────────────────────────────────────────────────
-const HexBase = ({ corTopo = '#5a9e44' }) => {
+const HexBase = React.memo(({ corTopo = '#5a9e44' }) => {
   const shape = useMemo(() => {
     const s = new THREE.Shape()
     for (let i = 0; i < 6; i++) {
@@ -184,12 +194,12 @@ const HexBase = ({ corTopo = '#5a9e44' }) => {
       </mesh>
     </group>
   )
-}
+})
 
 // ─────────────────────────────────────────────────────────────
-//  HexTileClusterSatelite - PARA EDIFÍCIOS CLUSTER
+//  HexTileClusterSatelite
 // ─────────────────────────────────────────────────────────────
-const HexTileClusterSatelite = ({ hex, corTopo, modeloId, corFallback }) => {
+const HexTileClusterSatelite = React.memo(({ hex, corTopo, modeloId, corFallback }) => {
   const { x, z } = hexToWorld(hex, HEX_SIZE)
   return (
     <group position={[x, 0, z]}>
@@ -204,18 +214,22 @@ const HexTileClusterSatelite = ({ hex, corTopo, modeloId, corFallback }) => {
       )}
     </group>
   )
-}
+})
 
 // ─────────────────────────────────────────────────────────────
 //  HexTile
 // ─────────────────────────────────────────────────────────────
-const HexTile = ({ hex, building, onClick, selected, moveMode }) => {
+const HexTile = React.memo(({ hex, building, onClick, selected, moveMode }) => {
   const { x, z } = hexToWorld(hex, HEX_SIZE)
+  
+  const handleClick = useCallback(() => {
+    onClick(hex)
+  }, [onClick, hex])
   
   return (
     <group 
       position={[x, 0, z]}
-      onClick={() => onClick(hex)}
+      onClick={handleClick}
     >
       <HexBase corTopo={building ? SETOR_CONFIG[building.setor]?.cor3 : undefined} />
       
@@ -228,13 +242,13 @@ const HexTile = ({ hex, building, onClick, selected, moveMode }) => {
       )}
     </group>
   )
-}
+})
 
 // ─────────────────────────────────────────────────────────────
 //  CAMADA 4: SEDE E LUZES
 // ─────────────────────────────────────────────────────────────
-const Sede = ({ nomeEmpresa, porte }) => {
-  const config = resolverModeloSede(porte)
+const Sede = React.memo(({ nomeEmpresa, porte }) => {
+  const config = useMemo(() => resolverModeloSede(porte), [porte])
   
   return (
     <group position={[0, 0, 0]}>
@@ -260,30 +274,32 @@ const Sede = ({ nomeEmpresa, porte }) => {
       </Html>
     </group>
   )
-}
+})
 
-const Lights = () => (
+// ─────────────────────────────────────────────────────────────
+//  LUZES (COM SOMBRAS DE QUALIDADE)
+// ─────────────────────────────────────────────────────────────
+const Lights = React.memo(() => (
   <>
-    <directionalLight position={[15, 20, 10]} intensity={1.5} color="#ffffff" castShadow />
+    <directionalLight 
+      position={[15, 20, 10]} 
+      intensity={1.5} 
+      color="#ffffff" 
+      castShadow 
+      shadow-mapSize={[2048, 2048]}  // 🔥 Mantido para qualidade
+      shadow-bias={-0.001}
+      shadow-camera-near={0.5}
+      shadow-camera-far={50}
+      shadow-camera-left={-20}
+      shadow-camera-right={20}
+      shadow-camera-top={20}
+      shadow-camera-bottom={-20}
+    />
     <ambientLight intensity={0.4} color="#ffffff" />
     <pointLight position={[-10, 5, 10]} intensity={0.8} color="#dbb2ff" />
     <hemisphereLight args={['#ffee00', '#ff5500', 0.5]} />
   </>
-)
-
-// Adicione no MapWorld
-// const posicoesOcupadas = useMemo(() => {
-//   const ocupadas = new Set()
-//   Object.keys(posicoes).forEach(key => ocupadas.add(key))
-//   Object.keys(satelites).forEach(key => ocupadas.add(key))
-//   return ocupadas
-// }, [posicoes, satelites])
-
-// // Use para debug
-// console.log('Posições ocupadas:', Array.from(posicoesOcupadas))
-// console.log('Total de tiles:', hexGrid.length)
-// console.log('Edifícios:', edificiosAtivos.length)
-
+))
 
 // ─────────────────────────────────────────────────────────────
 //  COMPONENTE PRINCIPAL
@@ -299,7 +315,7 @@ export default function MapWorld() {
   const [dayProgress, setDayProgress] = useState(0)
   const [moveMode, setMoveMode] = useState(false)
 
-  // ── Edifícios ativos ────────────────────────────────────────
+  // ── Edifícios ativos ──────────────────────────────────────────
   const edificiosAtivos = useMemo(() => {
     const lista = []
     SETORES.forEach(setor => {
@@ -319,36 +335,46 @@ export default function MapWorld() {
     return lista
   }, [dados])
 
-  // ── Hex Grid ── RAIO 6 ──
+  // ── Hex Grid ──────────────────────────────────────────────────
   const hexGrid = useMemo(() => {
     const Tile = defineHex({ dimensions: HEX_SIZE, orientation: 'pointy' })
     return Array.from(new Grid(Tile, spiral({ center: [0, 0], radius: 6 })))
   }, [])
 
-  // ── Posicionamento automático ──────────────────────────────
+  // ── Hex Map para lookup O(1) ──────────────────────────────────
+  const hexMap = useMemo(() => {
+    const map = new Map()
+    hexGrid.forEach(h => map.set(`${h.q},${h.r}`, h))
+    return map
+  }, [hexGrid])
+
+  // ── Edifício Map para lookup O(1) ─────────────────────────────
+  const edificioPorId = useMemo(() => {
+    const map = new Map()
+    edificiosAtivos.forEach(e => map.set(e.id, e))
+    return map
+  }, [edificiosAtivos])
+
+  // ── Posicionamento automático ──────────────────────────────────
   const [posicoes, setPosicoes] = useState({})
 
   useEffect(() => {
     const gridKeys = new Set(hexGrid.map(h => `${h.q},${h.r}`))
     
-    // 🔥 IMPORTANTE: A sede (0,0) NUNCA pode ser ocupada por edifícios
     const posOcupadas = new Set(['0,0'])
     const novasPosicoes = {}
 
-    // Primeiro, preservar edifícios já posicionados
     const idsAtivos = new Set(edificiosAtivos.map(e => e.id))
     Object.entries(posicoes).forEach(([key, id]) => {
-      // 🔥 PULA se for a sede
       if (key === '0,0') return
       
       if (idsAtivos.has(id)) {
         novasPosicoes[key] = id
         posOcupadas.add(key)
-        const ed = edificiosAtivos.find(e => e.id === id)
+        const ed = edificioPorId.get(id)
         if (ed?.ehCluster) {
           const [q, r] = key.split(',').map(Number)
           vizinhosDeHex(q, r).forEach(vk => {
-            // 🔥 NUNCA marcar a sede como ocupada
             if (vk !== '0,0') posOcupadas.add(vk)
           })
         }
@@ -364,7 +390,7 @@ export default function MapWorld() {
 
     const proximoLivre = (predicado = null) => {
       for (const k of keys) {
-        if (k === '0,0') continue // 🔥 NUNCA usar a sede
+        if (k === '0,0') continue
         if (posOcupadas.has(k)) continue
         if (predicado && !predicado(k)) continue
         return k
@@ -376,13 +402,11 @@ export default function MapWorld() {
     const clusters = edificiosAtivos.filter(ed => ed.ehCluster && !idsJaAlocados.has(ed.id))
     const simples = edificiosAtivos.filter(ed => !ed.ehCluster && !idsJaAlocados.has(ed.id))
 
-    // Posicionar clusters primeiro
     clusters.forEach(ed => {
       const central = proximoLivre(k => {
         const [cq, cr] = k.split(',').map(Number)
-        // 🔥 Verifica se todos os vizinhos estão livres (exceto a sede)
         return vizinhosDeHex(cq, cr).every(vk => {
-          if (vk === '0,0') return false // 🔥 NUNCA ocupar a sede
+          if (vk === '0,0') return false
           return !posOcupadas.has(vk) && gridKeys.has(vk)
         })
       })
@@ -391,12 +415,11 @@ export default function MapWorld() {
         novasPosicoes[central] = ed.id
         posOcupadas.add(central)
         vizinhosDeHex(cq, cr).forEach(vk => {
-          if (vk !== '0,0') posOcupadas.add(vk) // 🔥 NUNCA marcar a sede
+          if (vk !== '0,0') posOcupadas.add(vk)
         })
       }
     })
 
-    // Depois os simples
     simples.forEach(ed => {
       const pos = proximoLivre()
       if (pos) {
@@ -406,13 +429,13 @@ export default function MapWorld() {
     })
 
     setPosicoes(novasPosicoes)
-  }, [edificiosAtivos, hexGrid])
+  }, [edificiosAtivos, hexGrid, edificioPorId])
 
-  // ── Satélites dos clusters ──────────────────────────────────
+  // ── Satélites dos clusters ─────────────────────────────────────
   const satelites = useMemo(() => {
     const mapa = {}
     Object.entries(posicoes).forEach(([key, id]) => {
-      const ed = edificiosAtivos.find(e => e.id === id)
+      const ed = edificioPorId.get(id)
       if (!ed?.ehCluster) return
 
       const cfg = SETOR_CONFIG[ed.setor]
@@ -424,7 +447,6 @@ export default function MapWorld() {
 
       const [q, r] = key.split(',').map(Number)
       vizinhosDeHex(q, r).forEach((vk, i) => {
-        // 🔥 NUNCA renderizar satélite na sede
         if (vk === '0,0') return
         if (!posicoes[vk]) {
           mapa[vk] = {
@@ -436,24 +458,39 @@ export default function MapWorld() {
       })
     })
     return mapa
-  }, [posicoes, edificiosAtivos])
+  }, [posicoes, edificioPorId])
 
-  // ── Handle Click ────────────────────────────────────────────
-  const handleHexClick = (hex) => {
+  // ── Tiles para renderizar (FILTRADO) ──────────────────────────
+  const tilesToRender = useMemo(() => {
+    return hexGrid
+      .map(h => ({ hex: h, key: `${h.q},${h.r}` }))
+      .filter(({ key }) => key !== '0,0' && !satelites[key])
+  }, [hexGrid, satelites])
+
+  // ── Handle Click ──────────────────────────────────────────────
+  const handleHexClick = useCallback((hex) => {
     const key = `${hex.q},${hex.r}`
     if (moveMode) {
       setMoveMode(false)
       return
     }
     if (posicoes[key]) {
-      setSelectedKey(selectedKey === key ? null : key)
+      setSelectedKey(prev => prev === key ? null : key)
     }
-  }
+  }, [moveMode, posicoes])
 
-  // ── Render ──────────────────────────────────────────────────
+  // ── Render ──────────────────────────────────────────────────────
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative', borderRadius: 20, overflow: 'hidden' }}>
-      <Canvas shadows camera={{ position: [18, 18, 18], fov: 26 }}>
+      <Canvas 
+        frameloop="demand"
+        shadows // 🔥 Mantém sombras de qualidade
+        gl={{
+          antialias: true, // 🔥 Mantém qualidade visual
+          powerPreference: "high-performance",
+        }}
+        camera={{ position: [18, 18, 18], fov: 26 }}
+      >
         {/* CAMADA 1: CÉU */}
         <SkyDome dayProgress={dayProgress} />
         
@@ -469,11 +506,11 @@ export default function MapWorld() {
 
           {/* Satélites de clusters */}
           {Object.entries(satelites).map(([key, { corTopo, modeloId, corFallback }]) => {
-            // 🔥 Proteção extra: NUNCA renderizar satélite na sede
             if (key === '0,0') return null
             
-            const hex = hexGrid.find(h => `${h.q},${h.r}` === key)
+            const hex = hexMap.get(key)
             if (!hex) return null
+            
             return (
               <HexTileClusterSatelite
                 key={`sat-${key}`}
@@ -486,18 +523,9 @@ export default function MapWorld() {
           })}
 
           {/* Tiles normais */}
-          {hexGrid.map(hex => {
-            const key = `${hex.q},${hex.r}`
-            
-            // VERIFICAÇÃO 1: Sede (NUNCA renderizar sobre a sede)
-            if (key === '0,0') return null
-            
-            // VERIFICAÇÃO 2: Satélite (NUNCA renderizar onde tem satélite)
-            if (satelites[key]) return null
-            
-            // VERIFICAÇÃO 3: Posição ocupada por edifício
+          {tilesToRender.map(({ hex, key }) => {
             const edId = posicoes[key]
-            const building = edId ? edificiosAtivos.find(e => e.id === edId) || null : null
+            const building = edId ? edificioPorId.get(edId) || null : null
             
             return (
               <HexTile
@@ -512,7 +540,13 @@ export default function MapWorld() {
           })}
         </group>
 
-        <ContactShadows position={[0, 0.02, 0]} opacity={0.4} scale={30} blur={2.2} color="#1a3a10" />
+        <ContactShadows 
+          position={[0, 0.02, 0]} 
+          opacity={0.4}  // 🔥 Mantido para qualidade
+          scale={30}     // 🔥 Mantido para qualidade
+          blur={2.2}     // 🔥 Mantido para qualidade
+          color="#1a3a10" 
+        />
         
         <OrbitControls
           enablePan={false}

@@ -125,7 +125,7 @@ function Interface() {
           top: 0,
           left: 0,
           height: '80px',
-          width: dados.dia<=180 ? '100vw' : '75vw',
+          width: dados.dia<=240 ? '100vw' : '75vw',
           zIndex: 50,
           display: 'flex',
           alignItems: 'center',
@@ -160,7 +160,7 @@ function Interface() {
           style={{
             position: 'fixed',
             height: '60vh',
-            top: dados.dia<=180?'80px':'0px',
+            top: dados.dia<=240?'80px':'0px',
             right: '0',
             width: '25vw',
             zIndex: 20,
