@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useCallback } from "react";
-import { useContext, useState } from "react";
+import React, { useEffect, useMemo, useCallback, useState, useRef, memo } from "react";
+import { useContext } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import porcem from "../../public/outrasImagens/simbolo-de-porcentagem.png";
 import terrenoImg from "../../public/outrasImagens/terreno.png";
@@ -30,12 +30,10 @@ import imgSomaImposto from "../../public/outrasImagens/imgSomaImpostos.png";
 import imgImpostoFixo from "../../public/outrasImagens/imgImpostoFixo.png";
 import imgFaturamentoDiario from "../../public/outrasImagens/imgFaturamentoDiario.png";
 import imgImpostoSFatu from "../../public/outrasImagens/imgImpostoSfatu.png";
-import { useRef } from "react";
 import { createPortal } from "react-dom";
 import useSound from "use-sound";
 
 import editar from "../../public/outrasImagens/editar.png";
-
 import changeSectoryAudio from "../../public/sounds/changeSectoryAudio.mp3";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import openAudio from "../../public/sounds/openAudio.mp3";
@@ -43,75 +41,128 @@ import walletOpenAudio from "../../public/sounds/walletOpenAudio.mp3";
 
 const getImageUrl = (nome) => `/imagens/${nome}.png`;
 
-// Componente MiniPowerUpResumo - para ser usado dentro do CardDraft
-const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
-  const { dados } = useContext(CentraldeDadosContext);
-  const [showDetalhes, setShowDetalhes] = useState(false);
+// ─── CONSTANTES FORA DO COMPONENTE ────────────────────────────
+const SETORES_ARR = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
-  const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+const SETORES = [
+  { id: "agricultura", img: agricultura, cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50" },
+  { id: "tecnologia", img: tecnologia, cor1: "#A64B00", cor2: "#D45A00", cor3: "#FF6F00", cor4: "#FF8C42" },
+  { id: "industria", img: industria, cor1: "#1A1A1A", cor2: "#4D4D4D", cor3: "#808080", cor4: "#B3B3B3" },
+  { id: "comercio", img: comercio, cor1: "#660000", cor2: "#A31919", cor3: "#E60000", cor4: "#FF4D4D" },
+  { id: "imobiliario", img: imobiliario, cor1: "#000066", cor2: "#1A1A8C", cor3: "#3333CC", cor4: "#6666FF" },
+  { id: "energia", img: energia, cor1: "#665200", cor2: "#A37F19", cor3: "#E6B800", cor4: "#FFD966" },
+  { id: "grafico", img: grafico, cor1: "#6A00FF", cor2: "#6A00FF", cor3: "#6A00FF", cor4: "#6A00FF" },
+];
+
+const PRODUCTIONS = [
+  "Plantação De Grãos", "Fazenda De Vacas", "Plantação De Eucalipto", "Granja De Aves", "Criação De Ovinos",
+  "Serraria", "Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos",
+  "Fábrica De Dispositivos Vestíveis", "Fábrica De Rações", "Fábrica De Embalagens", "Fábrica De Fertilizantes",
+  "Fábrica Têxtil", "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose", "Fábrica De Papel",
+  "Fábrica De Livros", "Fábrica De Medicamentos", "Laboratório Farmacêutico", "Fábrica De Plásticos",
+  "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica", "Fundição De Alumínio",
+  "Fábrica De Ligas Metálicas", "Indústria De Componentes Mecânicos", "Fábrica De Chapas Metálicas",
+  "Fábrica De Estruturas Metálicas", "Fábrica De Peças Automotivas", "Montadora De Veículos Elétricos",
+  "Fábrica De Automóveis", "Refinaria", "Biofábrica", "Fábrica De Chips", "Fábrica De Placas Eletrônicas",
+  "Fábrica De Semicondutores", "Fábrica De Robôs", "Fábrica De Motores", "Fábrica De Foguetes",
+  "Fábrica De Aeronaves", "Estaleiro", "Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias",
+];
+
+const SELL_FINAL = [
+  "Livraria", "Mercado", "Açougue", "Petshop", "Farmácia", "Loja De Calçados", "Loja De Vestuário",
+  "Loja De Gadgets E Wearables", "Loja De Games", "Loja De Celulares", "Loja De Informática",
+  "Loja De Eletrônicos", "Concessionária De Veículos",
+];
+
+const EDIFICIOS_DE_ARMAZENAMENTO = [
+  "Armazém", "Silo", "Depósito De Resíduos Orgânicos", "Data Center", "Servidor Em Nuvem", "Armazém Logístico",
+  "Centro De Distribuição", "Fábrica De Tanque De Armazenamento Biocombustível", "Centro De Coleta De Biomassa",
+  "Campo De Estocagem", "Armazém De Materiais Brutos", "Câmara Fria", "Container Modular", "Pátio De Veículos",
+  "Armazém Industrial", "Armazém De Materiais Sensíveis", "Hangar", "Pátio De Mineração",
+];
+
+// ─── TOOLTIP CUSTOM (memoizado) ──────────────────────────────
+const TooltipCustom = memo(({ text, children }) => {
+  const [show, setShow] = useState(false);
+  const ref = useRef();
+  const tooltip = show && ref.current && createPortal(
+    <div style={{ 
+      position: "absolute", 
+      top: ref.current.getBoundingClientRect().top - 40, 
+      left: ref.current.getBoundingClientRect().left + ref.current.offsetWidth / 2, 
+      transform: "translateX(-50%)", 
+      backgroundColor: "#FFFFFF", 
+      color: "#350973", 
+      padding: "6px 10px", 
+      borderRadius: "6px", 
+      fontWeight: "600", 
+      whiteSpace: "pre-line", 
+      zIndex: 2147483647, 
+      pointerEvents: "none", 
+      maxWidth: "400px" 
+    }}>
+      {text}
+    </div>,
+    document.body
+  );
+  return (
+    <>
+      <div ref={ref} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)} className="relative flex items-center justify-center">
+        {children}
+      </div>
+      {tooltip}
+    </>
+  );
+});
+
+// ─── MINI POWER UP RESUMO (memoizado) ────────────────────────
+const MiniPowerUpResumo = memo(({ setor, index, setorInfo }) => {
+  const { dados } = useContext(CentraldeDadosContext);
+
   const nomeAtivo = dados[setor]?.edificios[index]?.nome;
   const quantidadeAtivo = dados[setor].edificios[index].quantidade;
   const quantidadeMinimaPowerUpNv2 = dados[setor].edificios[index].powerUp.nível2.quantidadeMínima;
   const quantidadeMinimaPowerUpNv3 = dados[setor].edificios[index].powerUp.nível3.quantidadeMínima;
 
-  const powerUpSelecionado = quantidadeAtivo >= quantidadeMinimaPowerUpNv3
-    ? "powerUpNv3"
-    : quantidadeAtivo >= quantidadeMinimaPowerUpNv2
-    ? "powerUpNv2"
-    : "powerUpNv1";
+  const powerUpSelecionado = useMemo(() => {
+    return quantidadeAtivo >= quantidadeMinimaPowerUpNv3
+      ? "powerUpNv3"
+      : quantidadeAtivo >= quantidadeMinimaPowerUpNv2
+      ? "powerUpNv2"
+      : "powerUpNv1";
+  }, [quantidadeAtivo, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
 
-  const corPowerUp = (pu) => {
+  const corPowerUp = useCallback((pu) => {
     switch (pu) {
       case "powerUpNv1": return "#8F5ADA";
       case "powerUpNv2": return "#6411D9";
       case "powerUpNv3": return "#350973";
       default: return "#6411D9";
     }
-  };
+  }, []);
 
   const corAtual = corPowerUp(powerUpSelecionado);
 
-  const getQuantidade = (nome) => {
-    for (const s of setoresArr) {
+  const getQuantidade = useCallback((nome) => {
+    for (const s of SETORES_ARR) {
       const idx = dados[s]?.edificios?.findIndex((e) => e.nome === nome);
       if (idx !== -1 && idx !== undefined) {
         return dados[s].edificios[idx].quantidade;
       }
     }
     return 0;
-  };
+  }, [dados]);
 
   const forneceLista = dados[setor].edificios[index].ForneceMelhoraEficiencia || [];
   const recebeLista = dados[setor].edificios[index].RecebeMelhoraEficiencia || [];
 
-  const ordenarLista = (lista, tipo) => {
-    return [...lista].sort((a, b) => {
-      const qtdA = getQuantidade(a.nome);
-      const qtdB = getQuantidade(b.nome);
-      const ativoA = qtdA > 0;
-      const ativoB = qtdB > 0;
-      if (ativoA && !ativoB) return -1;
-      if (!ativoA && ativoB) return 1;
-      const q = quantidadeAtivo;
-      const pu = q >= quantidadeMinimaPowerUpNv3 ? "nível3" : q >= quantidadeMinimaPowerUpNv2 ? "nível2" : "nível1";
-      const valorA = a[tipo]?.[pu] || 0;
-      const valorB = b[tipo]?.[pu] || 0;
-      return valorB - valorA;
-    });
-  };
-
-  const forneceOrdenada = ordenarLista(recebeLista, "aumFatu");
-  const recebeOrdenada = ordenarLista(recebeLista, "redCusto");
-  const top3Fornece = forneceOrdenada.slice(0, 3);
-  const top3Recebe = recebeOrdenada.slice(0, 3);
-
-  const getValorPowerUp = (ed, tipo) => {
+  const getValorPowerUp = useCallback((ed, tipo) => {
     const q = quantidadeAtivo;
     const pu = q >= quantidadeMinimaPowerUpNv3 ? "nível3" : q >= quantidadeMinimaPowerUpNv2 ? "nível2" : "nível1";
     return ed[tipo]?.[pu] || 0;
-  };
+  }, [quantidadeAtivo, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
 
-  const abreviarNome = (nome) => {
+  const abreviarNome = useCallback((nome) => {
     if (!nome) return "";
     const palavras = nome.split(" ");
     if (palavras.length >= 2) {
@@ -119,9 +170,9 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
       return abrev.slice(0, 3);
     }
     return nome.slice(0, 3).toUpperCase();
-  };
+  }, []);
 
-  const renderItem = (ed, tipo, isFornece) => {
+  const renderItem = useCallback((ed, tipo, isFornece) => {
     const qtd = getQuantidade(ed.nome);
     const ativo = qtd > 0;
     const valor = getValorPowerUp(ed, tipo);
@@ -141,14 +192,12 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
             className="w-4 h-4 object-contain"
             onError={(e) => e.target.src = PróximoImg}
             alt=""
+            loading="lazy"
           />
         </div>
         <span className="text-white text-[8px] font-bold leading-tight flex-shrink-0">
           {abreviarNome(ed.nome)}
         </span>
-        {/* {ativo && (
-          <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: corAtual }} />
-        )} */}
         <span
           className={`text-[8px] font-bold ml-auto px-1.5 py-0.5 rounded-full ${
             ativo ? "text-white" : "text-white/40"
@@ -162,7 +211,40 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
         </span>
       </div>
     );
-  };
+  }, [corAtual, getQuantidade, getValorPowerUp, abreviarNome]);
+
+  // ─── ORDENAÇÃO MEMOIZADA ────────────────────────────────────
+  const top3Fornece = useMemo(() => {
+    return [...forneceLista]
+      .sort((a, b) => {
+        const qtdA = getQuantidade(a.nome);
+        const qtdB = getQuantidade(b.nome);
+        const ativoA = qtdA > 0;
+        const ativoB = qtdB > 0;
+        if (ativoA && !ativoB) return -1;
+        if (!ativoA && ativoB) return 1;
+        const valorA = getValorPowerUp(a, "aumFatu");
+        const valorB = getValorPowerUp(b, "aumFatu");
+        return valorB - valorA;
+      })
+      .slice(0, 3);
+  }, [forneceLista, getQuantidade, getValorPowerUp]);
+
+  const top3Recebe = useMemo(() => {
+    return [...recebeLista]
+      .sort((a, b) => {
+        const qtdA = getQuantidade(a.nome);
+        const qtdB = getQuantidade(b.nome);
+        const ativoA = qtdA > 0;
+        const ativoB = qtdB > 0;
+        if (ativoA && !ativoB) return -1;
+        if (!ativoA && ativoB) return 1;
+        const valorA = getValorPowerUp(a, "redCusto");
+        const valorB = getValorPowerUp(b, "redCusto");
+        return valorB - valorA;
+      })
+      .slice(0, 3);
+  }, [recebeLista, getQuantidade, getValorPowerUp]);
 
   if (forneceLista.length === 0 && recebeLista.length === 0) {
     return null;
@@ -198,147 +280,148 @@ const MiniPowerUpResumo = ({ setor, index, setorInfo }) => {
           </div>
         </div>
       </div>
-      {/* {(forneceLista.length > 3 || recebeLista.length > 3) && (
-        <div className="text-center mt-0.5">
-          <span className="text-[6px] text-white/30 font-bold">
-            +{Math.max(0, forneceLista.length - 3)} mais
-          </span>
-        </div>
-      )} */}
     </div>
   );
-};
+});
 
-export const CardDraft = ({ index, setor, abrirModalSell }) => {
+// ─── COMPONENTE PRINCIPAL ──────────────────────────────────────
+export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
   const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
 
-  const setorAtivo = setor;
-  if (!dados[setorAtivo] || !dados[setorAtivo].edificios || !dados[setorAtivo].edificios[index]) {
+  // ─── VALIDAÇÃO INICIAL ──────────────────────────────────────
+  if (!dados[setor] || !dados[setor].edificios || !dados[setor].edificios[index]) {
     return null;
   }
+
   const [changeAudio] = useSound(changeSectoryAudio);
   const [buttonCloseAudio] = useSound(closeAudio);
   const [buttonOpenAudio] = useSound(openAudio);
   const [buttonWalletOpenAudio] = useSound(walletOpenAudio);
 
-  const setores = [
-    { id: "agricultura", img: agricultura, cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50" },
-    { id: "tecnologia", img: tecnologia, cor1: "#A64B00", cor2: "#D45A00", cor3: "#FF6F00", cor4: "#FF8C42" },
-    { id: "industria", img: industria, cor1: "#1A1A1A", cor2: "#4D4D4D", cor3: "#808080", cor4: "#B3B3B3" },
-    { id: "comercio", img: comercio, cor1: "#660000", cor2: "#A31919", cor3: "#E60000", cor4: "#FF4D4D" },
-    { id: "imobiliario", img: imobiliario, cor1: "#000066", cor2: "#1A1A8C", cor3: "#3333CC", cor4: "#6666FF" },
-    { id: "energia", img: energia, cor1: "#665200", cor2: "#A37F19", cor3: "#E6B800", cor4: "#FFD966" },
-    { id: "grafico", img: grafico, cor1: "#6A00FF", cor2: "#6A00FF", cor3: "#6A00FF", cor4: "#6A00FF" },
-  ];
+  // ─── DADOS DO EDIFÍCIO (extraídos uma vez) ──────────────────
+  const edificio = dados[setor].edificios[index];
+  const nomeAtivo = edificio.nome;
+  const nomeEditavel = edificio.nomeEditável || nomeAtivo;
+  const quantidadeAtivo = edificio.quantidade;
+  const quantidadeMinimaPowerUpNv2 = edificio.powerUp.nível2.quantidadeMínima;
+  const quantidadeMinimaPowerUpNv3 = edificio.powerUp.nível3.quantidadeMínima;
+  const custoConstrucao = edificio.custoConstrucao;
+  const arrayConstResources = edificio.recursoDeConstrução || [];
+  const arrayConstNece = edificio.construçõesNecessárias || [];
+  const valorFatu = edificio.finanças.faturamentoUnitário;
+  const valorImpostoFixo = edificio.finanças.impostoFixo;
+  const impostoSobreFatu = edificio.finanças.impostoSobreFatu;
+  const lojasNecessarias = edificio.lojasNecessarias;
 
-  const setorInfo = setores.find((s) => s.id === setorAtivo);
-  const nomeAtivo = dados[setorAtivo]?.edificios[index]?.nome;
-  const nomeAtual = dados[setorAtivo].edificios[index].nome;
+  // ─── SETOR INFO (memoizado) ─────────────────────────────────
+  const setorInfo = useMemo(() => SETORES.find((s) => s.id === setor), [setor]);
 
-  // ── CATEGORIA ─────────────────────────────────────────────
-  const productions = [
-    "Plantação De Grãos", "Fazenda De Vacas", "Plantação De Eucalipto", "Granja De Aves", "Criação De Ovinos",
-    "Serraria", "Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos",
-    "Fábrica De Dispositivos Vestíveis", "Fábrica De Rações", "Fábrica De Embalagens", "Fábrica De Fertilizantes",
-    "Fábrica Têxtil", "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose", "Fábrica De Papel",
-    "Fábrica De Livros", "Fábrica De Medicamentos", "Laboratório Farmacêutico", "Fábrica De Plásticos",
-    "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica", "Fundição De Alumínio",
-    "Fábrica De Ligas Metálicas", "Indústria De Componentes Mecânicos", "Fábrica De Chapas Metálicas",
-    "Fábrica De Estruturas Metálicas", "Fábrica De Peças Automotivas", "Montadora De Veículos Elétricos",
-    "Fábrica De Automóveis", "Refinaria", "Biofábrica", "Fábrica De Chips", "Fábrica De Placas Eletrônicas",
-    "Fábrica De Semicondutores", "Fábrica De Robôs", "Fábrica De Motores", "Fábrica De Foguetes",
-    "Fábrica De Aeronaves", "Estaleiro", "Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias",
-  ];
-  const sellFinal = [
-    "Livraria", "Mercado", "Açougue", "Petshop", "Farmácia", "Loja De Calçados", "Loja De Vestuário",
-    "Loja De Gadgets E Wearables", "Loja De Games", "Loja De Celulares", "Loja De Informática",
-    "Loja De Eletrônicos", "Concessionária De Veículos",
-  ];
-  const edificiosDeArmazenamento = [
-    "Armazém", "Silo", "Depósito De Resíduos Orgânicos", "Data Center", "Servidor Em Nuvem", "Armazém Logístico",
-    "Centro De Distribuição", "Fábrica De Tanque De Armazenamento Biocombustível", "Centro De Coleta De Biomassa",
-    "Campo De Estocagem", "Armazém De Materiais Brutos", "Câmara Fria", "Container Modular", "Pátio De Veículos",
-    "Armazém Industrial", "Armazém De Materiais Sensíveis", "Hangar", "Pátio De Mineração",
-  ];
-
-  const categoriaEdificio = (() => {
-    if (edificiosDeArmazenamento.includes(nomeAtivo)) return "estoque";
-    if (productions.includes(nomeAtivo)) return "producao";
-    if (sellFinal.includes(nomeAtivo)) return "venda";
+  // ─── CATEGORIA (memoizada) ──────────────────────────────────
+  const categoriaEdificio = useMemo(() => {
+    if (EDIFICIOS_DE_ARMAZENAMENTO.includes(nomeAtivo)) return "estoque";
+    if (PRODUCTIONS.includes(nomeAtivo)) return "producao";
+    if (SELL_FINAL.includes(nomeAtivo)) return "venda";
     return "passiva";
-  })();
+  }, [nomeAtivo]);
 
   const isEstoque = categoriaEdificio === "estoque";
   const isProducao = categoriaEdificio === "producao";
   const isVenda = categoriaEdificio === "venda";
   const isPassiva = categoriaEdificio === "passiva";
 
-  // ── STATES ────────────────────────────────────────────────
+  // ─── STATES ──────────────────────────────────────────────────
   const [flipped, setFlipped] = useState(false);
   const [visibleId, setVisibleId] = useState("finançasEd");
   const [modalPowerup, setModalPowerUp] = useState(false);
   const [inputNome, setInputNome] = useState("");
+
+  // ─── ACUMULADORES POWERUP ──────────────────────────────────
   const [acumuladorPowerUpRedCustoRecebe, setAcumuladorPowerUpRedCustoRecebe] = useState(0);
   const [acumuladorPowerUpAumFatuRecebe, setAcumuladorPowerUpAumFatuRecebe] = useState(0);
   const [acumuladorPowerUpRedCustoFornece, setAcumuladorPowerUpRedCustoFornece] = useState(0);
   const [acumuladorPowerUpAumFatuFornece, setAcumuladorPowerUpAumFatuFornece] = useState(0);
 
-  const handleFlip = () => setFlipped(!flipped);
-  const handleShow = (id) => setVisibleId(id);
+  // ─── HANDLERS (memoizados) ──────────────────────────────────
+  const handleFlip = useCallback(() => setFlipped(prev => !prev), []);
+  const handleShow = useCallback((id) => setVisibleId(id), []);
+  const fecharModalPowerUp = useCallback(() => setModalPowerUp(false), []);
+  const openModalPowerUps = useCallback(() => setModalPowerUp(true), []);
 
-  const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+  // ─── POWERUP SELECIONADO (memoizado) ────────────────────────
+  const powerUpSelecionado = useMemo(() => {
+    return quantidadeAtivo >= quantidadeMinimaPowerUpNv3
+      ? "powerUpNv3"
+      : quantidadeAtivo >= quantidadeMinimaPowerUpNv2
+      ? "powerUpNv2"
+      : "powerUpNv1";
+  }, [quantidadeAtivo, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
 
-  // ── DADOS DO EDIFÍCIO ──────────────────────────────────────
-  const arrayConstResources = dados[setorAtivo]?.edificios[index]?.recursoDeConstrução;
-  const arrayConstNece = dados[setorAtivo]?.edificios[index]?.construçõesNecessárias;
-  const quantidadeAtivo = dados[setorAtivo].edificios[index].quantidade;
-  const quantidadeMinimaPowerUpNv2 = dados[setorAtivo].edificios[index].powerUp.nível2.quantidadeMínima;
-  const quantidadeMinimaPowerUpNv3 = dados[setorAtivo].edificios[index].powerUp.nível3.quantidadeMínima;
-  const corPadrão = { backgroundColor: setorInfo.cor2 };
-
-  const corPowerUp = (pu) => {
+  const corPowerUp = useCallback((pu) => {
     switch (pu) {
       case "powerUpNv1": return "#8F5ADA";
       case "powerUpNv2": return "#6411D9";
       case "powerUpNv3": return "#350973";
-      default: return corPadrão;
+      default: return "#6411D9";
     }
-  };
-
-  const powerUpSelecionado = quantidadeAtivo >= quantidadeMinimaPowerUpNv3
-    ? "powerUpNv3"
-    : quantidadeAtivo >= quantidadeMinimaPowerUpNv2
-    ? "powerUpNv2"
-    : "powerUpNv1";
+  }, []);
 
   const corPowerUpAtual = corPowerUp(powerUpSelecionado);
 
-  // ── FINANÇAS ───────────────────────────────────────────────
-  const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
-  const fatorEconomico = { recessão: 0.4, declinio: 0.8, estável: 1, progressiva: 1.1, aquecida: 1.25 }[economiaSetor];
-  const valorFatu = dados[setorAtivo].edificios[index].finanças.faturamentoUnitário;
-  const valorImpostoFixo = dados[setorAtivo].edificios[index].finanças.impostoFixo;
-  const impostoSobreFatu = dados[setorAtivo].edificios[index].finanças.impostoSobreFatu;
-  const custoConstrução = dados[setorAtivo].edificios[index].custoConstrucao;
+  // ─── FUNÇÃO BOOLEAN PRE-REQ (memoizada) ─────────────────────
+  const booleanPreReq = useCallback((nomeEd) => {
+    for (const s of SETORES_ARR) {
+      const idx = dados[s].edificios.findIndex((ed) => ed.nome === nomeEd);
+      if (idx !== -1) return dados[s].edificios[idx].quantidade > 0;
+    }
+    return false;
+  }, [dados]);
 
-  const impostoSobreFatuFinal = impostoSobreFatu - impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100);
-  const valorFatuFinal = valorFatu + valorFatu * (acumuladorPowerUpAumFatuRecebe / 100);
-  const valorImpostoFixoFinal = valorImpostoFixo - valorImpostoFixo * (acumuladorPowerUpRedCustoRecebe / 100);
+  // ─── FUNÇÃO GET QUANTIDADE (memoizada) ──────────────────────
+  const getQuantidade = useCallback((nome) => {
+    for (const s of SETORES_ARR) {
+      const idx = dados[s]?.edificios?.findIndex((e) => e.nome === nome);
+      if (idx !== -1 && idx !== undefined) {
+        return dados[s].edificios[idx].quantidade;
+      }
+    }
+    return 0;
+  }, [dados]);
 
-  const quantidadeTerrenosNec = dados[setorAtivo].edificios[index].lojasNecessarias.terrenos;
-  const quantidadeLojasPNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasP;
-  const quantidadeLojasMNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasM;
-  const quantidadeLojasGNec = dados[setorAtivo].edificios[index].lojasNecessarias.lojasG;
+  // ─── CÁLCULOS FINANCEIROS (memoizados) ─────────────────────
+  const fatorEconomico = useMemo(() => {
+    const estado = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
+    return { recessão: 0.4, declinio: 0.8, estável: 1, progressiva: 1.1, aquecida: 1.25 }[estado] || 1;
+  }, [economiaSetores, setor]);
 
-  const CustoTotalSomadoLojas =
-    quantidadeTerrenosNec * dados.terrenos.preçoConstrução +
-    quantidadeLojasPNec * (dados.lojasP.preçoConstrução + dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
-    quantidadeLojasMNec * (dados.lojasM.preçoConstrução + dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
-    quantidadeLojasGNec * (dados.lojasG.preçoConstrução + dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução);
+  const impostoSobreFatuFinal = useMemo(() => 
+    impostoSobreFatu - impostoSobreFatu * (acumuladorPowerUpRedCustoRecebe / 100),
+  [impostoSobreFatu, acumuladorPowerUpRedCustoRecebe]);
 
-  function calcularCustoRecurso(nomeRecurso, nivel = 1) {
-    for (const s of setoresArr) {
+  const valorFatuFinal = useMemo(() => 
+    valorFatu + valorFatu * (acumuladorPowerUpAumFatuRecebe / 100),
+  [valorFatu, acumuladorPowerUpAumFatuRecebe]);
+
+  const valorImpostoFixoFinal = useMemo(() => 
+    valorImpostoFixo - valorImpostoFixo * (acumuladorPowerUpRedCustoRecebe / 100),
+  [valorImpostoFixo, acumuladorPowerUpRedCustoRecebe]);
+
+  const fatuMensal = useMemo(() => 
+    Math.round((valorFatuFinal * 30 * fatorEconomico) * 100) / 100,
+  [valorFatuFinal, fatorEconomico]);
+
+  const valorImpostoSobreFatuCalc = useMemo(() => 
+    fatuMensal * impostoSobreFatuFinal,
+  [fatuMensal, impostoSobreFatuFinal]);
+
+  const lucroLiquido = useMemo(() => 
+    fatuMensal - valorImpostoSobreFatuCalc - valorImpostoFixoFinal,
+  [fatuMensal, valorImpostoSobreFatuCalc, valorImpostoFixoFinal]);
+
+  // ─── CÁLCULO CUSTO RECURSOS ─────────────────────────────────
+  const calcularCustoRecurso = useCallback((nomeRecurso, nivel = 1) => {
+    let total = 0;
+    for (const s of SETORES_ARR) {
       const ed = dados[s]?.edificios?.find((e) => e.nome === nomeRecurso);
       if (ed) {
         const c = ed.custoConstrucao || 0;
@@ -346,7 +429,7 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
         const pN = ed.lojasNecessarias.lojasP || 0;
         const mN = ed.lojasNecessarias.lojasM || 0;
         const gN = ed.lojasNecessarias.lojasG || 0;
-        let total = c
+        total += c
           + tN * dados.terrenos.preçoConstrução
           + pN * (dados.lojasP.preçoConstrução + dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
           + mN * (dados.lojasM.preçoConstrução + dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução)
@@ -357,154 +440,137 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
         return total;
       }
     }
-    return 0;
-  }
+    return total;
+  }, [dados]);
 
   const custoRecursos = useMemo(() => {
     let total = 0;
-    arrayConstResources?.forEach((nome) => { total += calcularCustoRecurso(nome); });
+    arrayConstResources.forEach((nome) => { total += calcularCustoRecurso(nome); });
     return total;
-  }, [arrayConstResources, dados.terrenos.preçoConstrução, dados.lojasP.preçoConstrução, dados.lojasM.preçoConstrução, dados.lojasG.preçoConstrução]);
+  }, [arrayConstResources, calcularCustoRecurso]);
 
- const fatuMensal = Math.round((valorFatuFinal * 30 * fatorEconomico) * 100) / 100;
+  const CustoTotalSomadoLojas = useMemo(() => {
+    const tN = lojasNecessarias.terrenos || 0;
+    const pN = lojasNecessarias.lojasP || 0;
+    const mN = lojasNecessarias.lojasM || 0;
+    const gN = lojasNecessarias.lojasG || 0;
+    return tN * dados.terrenos.preçoConstrução +
+      pN * (dados.lojasP.preçoConstrução + dados.lojasP.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
+      mN * (dados.lojasM.preçoConstrução + dados.lojasM.quantidadeNecTerreno * dados.terrenos.preçoConstrução) +
+      gN * (dados.lojasG.preçoConstrução + dados.lojasG.quantidadeNecTerreno * dados.terrenos.preçoConstrução);
+  }, [lojasNecessarias, dados]);
 
-  const valorImpostoSobreFatuCalc = fatuMensal * impostoSobreFatuFinal;
-  const valorFinalMês = fatuMensal - valorImpostoSobreFatuCalc - valorImpostoFixoFinal;
-  const rentabilidade = (valorFinalMês / (CustoTotalSomadoLojas + custoRecursos + custoConstrução)) * 100;
-  const paybackDias = rentabilidade > 0 ? Math.ceil((100 / rentabilidade) * 30) : null;
+  const rentabilidade = useMemo(() => {
+    const total = CustoTotalSomadoLojas + custoRecursos + custoConstrucao;
+    return total > 0 ? (lucroLiquido / total) * 100 : 0;
+  }, [lucroLiquido, CustoTotalSomadoLojas, custoRecursos, custoConstrucao]);
 
-  const formatarNumero = (num) => {
+  // ─── FORMATAR NÚMERO (memoizado) ────────────────────────────
+  const formatarNumero = useCallback((num) => {
     if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
     if (num >= 1e9) return (num / 1e9).toFixed(1).replace(".0", "") + "B";
     if (num >= 1e6) return (num / 1e6).toFixed(1).replace(".0", "") + "M";
     if (num >= 1e3) return (num / 1e3).toFixed(1).replace(".0", "") + "K";
     return num.toString();
-  };
+  }, []);
 
-  const booleanPreReq = useCallback((nomeEd) => {
-    for (const s of setoresArr) {
-      const idx = dados[s].edificios.findIndex((ed) => ed.nome === nomeEd);
-      if (idx !== -1) return dados[s].edificios[idx].quantidade > 0;
-    }
-    return false;
-  }, [dados]);
-
-  // ── POWERUP ACUMULADORES ───────────────────────────────────
+  // ─── EFECTS PARA POWERUPS ────────────────────────────────────
   useEffect(() => {
     let r = 0, a = 0;
-    dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia.forEach((ed) => {
-      const qtd = (nome) => {
-        for (const s of setoresArr) {
-          const idx = dados[s].edificios.findIndex((e) => e.nome === nome);
-          if (idx !== -1) return dados[s].edificios[idx].quantidade;
-        }
-        return 0;
-      };
-      const qtdM = qtd(ed.nome), q = qtd(nomeAtivo);
-      const pu = q >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" : q >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" : "powerUpNv1";
+    const lista = edificio.ForneceMelhoraEficiencia || [];
+    for (const ed of lista) {
+      const qtdM = getQuantidade(ed.nome);
       if (qtdM > 0) {
-        r += pu === "powerUpNv1" ? ed.redCusto.nível1 : pu === "powerUpNv2" ? ed.redCusto.nível2 : ed.redCusto.nível3;
-        a += pu === "powerUpNv1" ? ed.aumFatu.nível1 : pu === "powerUpNv2" ? ed.aumFatu.nível2 : ed.aumFatu.nível3;
+        const pu = quantidadeAtivo >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" 
+          : quantidadeAtivo >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" 
+          : "powerUpNv1";
+        r += pu === "powerUpNv1" ? ed.redCusto.nível1 
+          : pu === "powerUpNv2" ? ed.redCusto.nível2 
+          : ed.redCusto.nível3;
+        a += pu === "powerUpNv1" ? ed.aumFatu.nível1 
+          : pu === "powerUpNv2" ? ed.aumFatu.nível2 
+          : ed.aumFatu.nível3;
       }
-    });
+    }
     setAcumuladorPowerUpRedCustoFornece(r);
     setAcumuladorPowerUpAumFatuFornece(a);
-  }, [dados, setorAtivo, index]);
+  }, [edificio.ForneceMelhoraEficiencia, getQuantidade, quantidadeAtivo, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
 
   useEffect(() => {
     let r = 0, a = 0;
-    dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia.forEach((ed) => {
-      const qtd = (nome) => {
-        for (const s of setoresArr) {
-          const idx = dados[s].edificios.findIndex((e) => e.nome === nome);
-          if (idx !== -1) return dados[s].edificios[idx].quantidade;
-        }
-        return 0;
-      };
-      const qtdM = qtd(ed.nome), q = qtd(nomeAtivo);
-      const pu = q >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" : q >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" : "powerUpNv1";
+    const lista = edificio.RecebeMelhoraEficiencia || [];
+    for (const ed of lista) {
+      const qtdM = getQuantidade(ed.nome);
       if (qtdM > 0) {
-        r += pu === "powerUpNv1" ? ed.redCusto.nível1 : pu === "powerUpNv2" ? ed.redCusto.nível2 : ed.redCusto.nível3;
-        a += pu === "powerUpNv1" ? ed.aumFatu.nível1 : pu === "powerUpNv2" ? ed.aumFatu.nível2 : ed.aumFatu.nível3;
+        const pu = quantidadeAtivo >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" 
+          : quantidadeAtivo >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" 
+          : "powerUpNv1";
+        r += pu === "powerUpNv1" ? ed.redCusto.nível1 
+          : pu === "powerUpNv2" ? ed.redCusto.nível2 
+          : ed.redCusto.nível3;
+        a += pu === "powerUpNv1" ? ed.aumFatu.nível1 
+          : pu === "powerUpNv2" ? ed.aumFatu.nível2 
+          : ed.aumFatu.nível3;
       }
-    });
+    }
     setAcumuladorPowerUpRedCustoRecebe(r);
     setAcumuladorPowerUpAumFatuRecebe(a);
-  }, [dados, setorAtivo, index]);
+  }, [edificio.RecebeMelhoraEficiencia, getQuantidade, quantidadeAtivo, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
 
-  // ── EDITAR NOME ────────────────────────────────────────────
-  function abrirModal({ index, setor }) {
+  // ─── EDITAR NOME ─────────────────────────────────────────────
+  const abrirModal = useCallback(() => {
     atualizarDados("modalEditável", { ...dados.modalEditável, estadoModal: true, index, setor });
-  }
+  }, [atualizarDados, dados.modalEditável, index, setor]);
 
-  function editarNomeEditavel() {
+  const editarNomeEditavel = useCallback(() => {
     if (inputNome) {
-      const indexModificar = dados.modalEditável.index;
-      const setorModificar = dados.modalEditável.setor;
-      atualizarDadosProf2([setorModificar, "edificios", indexModificar, "nomeEditável"], inputNome);
+      atualizarDadosProf2([setor, "edificios", index, "nomeEditável"], inputNome);
       atualizarDados("modalEditável", { ...dados.modalEditável, estadoModal: false });
       setInputNome("");
     } else {
       alert("Campo não preenchido");
     }
-  }
+  }, [inputNome, atualizarDadosProf2, atualizarDados, dados.modalEditável, setor, index]);
 
-  // ── TOOLTIP CUSTOM ─────────────────────────────────────────
-  function TooltipCustom({ text, children }) {
-    const [show, setShow] = useState(false);
-    const ref = useRef();
-    const tooltip = show && ref.current && createPortal(
-      <div style={{ position: "absolute", top: ref.current.getBoundingClientRect().top - 40, left: ref.current.getBoundingClientRect().left + ref.current.offsetWidth / 2, transform: "translateX(-50%)", backgroundColor: "#FFFFFF", color: "#350973", padding: "6px 10px", borderRadius: "6px", fontWeight: "600", whiteSpace: "pre-line", zIndex: 2147483647, pointerEvents: "none", maxWidth: "400px" }}>{text}</div>,
-      document.body
-    );
-    return (
-      <>
-        <div ref={ref} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)} className="relative flex items-center justify-center">{children}</div>
-        {tooltip}
-      </>
-    );
-  }
-
-  // ── GRADIENTES ────────────────────────────────────────────
-  const gradientLevel = () => {
+  // ─── GRADIENTES E ESTILOS (memoizados) ──────────────────────
+  const gradientLevel = useMemo(() => {
     if (powerUpSelecionado === "powerUpNv3") return "#FFD700";
     if (powerUpSelecionado === "powerUpNv2") return "#6411D9";
     return setorInfo.cor2;
-  };
+  }, [powerUpSelecionado, setorInfo]);
 
-  const getGradientByLevel = () => {
+  const getGradientByLevel = useMemo(() => {
     if (powerUpSelecionado === "powerUpNv3")
       return `linear-gradient(135deg, #7a5500 0%, #b8870b 20%, #F27405 40%, #FFD700 60%, #F27405 80%, #7a5500 100%)`;
     if (powerUpSelecionado === "powerUpNv2")
       return `linear-gradient(135deg, #350973 0%, #6411D9 25%, #8F5ADA 50%, #6411D9 75%, #350973 100%)`;
     return `transparent`;
-  };
+  }, [powerUpSelecionado]);
 
-  const getGradient = () => {
+  const getGradient = useMemo(() => {
+    const c1 = setorInfo.cor1, c2 = setorInfo.cor2, c3 = setorInfo.cor3, c4 = setorInfo.cor4;
+    const g = gradientLevel;
     if (isProducao)
-      return `radial-gradient(circle at 2% 50%, ${setorInfo.cor1}99 0%, ${setorInfo.cor4}FF 40%, ${gradientLevel()}CC 70%, ${setorInfo.cor4}FF 80%, ${setorInfo.cor2}B3 85%, ${setorInfo.cor1}99 92%, ${setorInfo.cor2}B3 98%, ${setorInfo.cor4}FF 100%)`;
+      return `radial-gradient(circle at 2% 50%, ${c1}99 0%, ${c4}FF 40%, ${g}CC 70%, ${c4}FF 80%, ${c2}B3 85%, ${c1}99 92%, ${c2}B3 98%, ${c4}FF 100%)`;
     if (isVenda)
-      return `radial-gradient(circle at 100% 0%, ${setorInfo.cor1}11 0%, ${gradientLevel()}CC 12%, ${setorInfo.cor4}CC 28%, ${setorInfo.cor3}FF 48%, ${setorInfo.cor3}FF 62%, ${gradientLevel()}99 80%, ${setorInfo.cor1}11 100%)`;
+      return `radial-gradient(circle at 100% 0%, ${c1}11 0%, ${g}CC 12%, ${c4}CC 28%, ${c3}FF 48%, ${c3}FF 62%, ${g}99 80%, ${c1}11 100%)`;
     if (isEstoque)
-      return `linear-gradient(190deg, ${gradientLevel()}15 0%, ${setorInfo.cor4}EE 28%, ${setorInfo.cor3}CC 50%, ${setorInfo.cor4}EE 70%, ${setorInfo.cor1}77 100%)`;
+      return `linear-gradient(190deg, ${g}15 0%, ${c4}EE 28%, ${c3}CC 50%, ${c4}EE 70%, ${c1}77 100%)`;
     if (isPassiva)
-      return `linear-gradient(135deg, ${gradientLevel()}FF 0%, ${setorInfo.cor2}77 15%, ${setorInfo.cor3}BB 35%, ${setorInfo.cor4}FF 52%, ${setorInfo.cor3}99 70%, ${setorInfo.cor1}FF 100%)`;
-    return `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor3} 50%, ${setorInfo.cor4} 100%)`;
-  };
+      return `linear-gradient(135deg, ${g}FF 0%, ${c2}77 15%, ${c3}BB 35%, ${c4}FF 52%, ${c3}99 70%, ${c1}FF 100%)`;
+    return `linear-gradient(135deg, ${c1} 0%, ${c3} 50%, ${c4} 100%)`;
+  }, [setorInfo, gradientLevel, isProducao, isVenda, isEstoque, isPassiva]);
 
-  const getBordaDinamica = () => {
+  const getBordaDinamica = useMemo(() => {
     if (isProducao) return { border: `2px solid ${setorInfo.cor1}55`, boxShadow: `0 0 0 1px ${setorInfo.cor3}88`, borderRadius: "25px 10px 25px 10px" };
     if (isEstoque) return { border: `2px solid ${setorInfo.cor2}`, boxShadow: `0 0 0 3px ${setorInfo.cor3}88`, borderRadius: "20px" };
     if (isVenda) return { borderRadius: "20px 5px 20px 5px", border: `1.5px solid ${setorInfo.cor3}` };
     if (isPassiva) return { border: `1px solid ${setorInfo.cor3}55`, boxShadow: `0 0 0 1px ${setorInfo.cor1}88`, borderRadius: "20px" };
     return { borderRadius: "20px" };
-  };
+  }, [isProducao, isEstoque, isVenda, isPassiva, setorInfo]);
 
-  // ── MODAL POWER-UPS ────────────────────────────────────────
-  const openModalPowerUps = () => setModalPowerUp(true);
-  const fecharModalPowerUp = () => setModalPowerUp(false);
-
-  if (modalPowerup === true) {
+  // ─── MODAL POWERUP ──────────────────────────────────────────
+  if (modalPowerup) {
     return (
       <div className="fixed inset-0 flex justify-center items-center z-[150] bg-black/90 backdrop-blur-sm">
         <motion.div
@@ -527,13 +593,15 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
             style={{ backgroundColor: setorInfo.cor2, borderColor: setorInfo.cor4 }}
             className="flex w-full h-[15%] border-b-2 text-[45px] fonteBold text-white justify-center items-center italic tracking-tighter shadow-xl"
           >
-            {nomeAtual}
+            {nomeAtivo}
           </div>
 
           <div className="flex-1 w-full p-6 overflow-hidden">
             <div className="flex justify-around h-full w-full gap-4">
               {["Fornece", "Recebe"].map((label, li) => {
-                const lista = li === 0 ? dados[setorAtivo].edificios[index].ForneceMelhoraEficiencia : dados[setorAtivo].edificios[index].RecebeMelhoraEficiencia;
+                const lista = li === 0 
+                  ? (edificio.ForneceMelhoraEficiencia || []) 
+                  : (edificio.RecebeMelhoraEficiencia || []);
                 const acRed = li === 0 ? acumuladorPowerUpRedCustoFornece : acumuladorPowerUpRedCustoRecebe;
                 const acAum = li === 0 ? acumuladorPowerUpAumFatuFornece : acumuladorPowerUpAumFatuRecebe;
 
@@ -558,24 +626,22 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                         </thead>
 
                         {lista.map((edM, i) => {
-                          let se = null, idx = -1;
-                          const qtd = (nome) => {
-                            for (const s of setoresArr) {
-                              se = s;
-                              idx = dados[s].edificios.findIndex((e) => e.nome === nome);
-                              if (idx !== -1) return { q: dados[s].edificios[idx].quantidade, setor: s };
-                            } return { q: 0, setor: "" };
-                          };
-
-                          const infoM = qtd(edM.nome);
-                          const infoBase = qtd(nomeAtual);
-                          const q = infoBase.q;
-
-                          const pu = q >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" : q >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" : "powerUpNv1";
-                          const cL = infoM.q > 0 ? corPowerUp(pu) : corPadrão;
-                          const b1 = cL === "#8F5ADA" ? corPowerUp("powerUpNv1") : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : pu === "powerUpNv3" ? corPowerUp("powerUpNv3") : corPadrão;
-                          const b2 = pu === "powerUpNv1" ? corPadrão : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") : corPowerUp("powerUpNv3");
-                          const b3 = pu === "powerUpNv1" ? corPadrão : pu === "powerUpNv2" ? corPadrão : corPowerUp("powerUpNv3");
+                          const infoM = getQuantidade(edM.nome);
+                          const q = quantidadeAtivo;
+                          const pu = q >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" 
+                            : q >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" 
+                            : "powerUpNv1";
+                          const cL = infoM > 0 ? corPowerUp(pu) : setorInfo.cor2;
+                          const b1 = cL === "#8F5ADA" ? corPowerUp("powerUpNv1") 
+                            : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") 
+                            : pu === "powerUpNv3" ? corPowerUp("powerUpNv3") 
+                            : setorInfo.cor2;
+                          const b2 = pu === "powerUpNv1" ? setorInfo.cor2 
+                            : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") 
+                            : corPowerUp("powerUpNv3");
+                          const b3 = pu === "powerUpNv1" ? setorInfo.cor2 
+                            : pu === "powerUpNv2" ? setorInfo.cor2 
+                            : corPowerUp("powerUpNv3");
 
                           return (
                             <tbody key={i}>
@@ -587,6 +653,7 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                                         src={getImageUrl(edM.nome)}
                                         className="max-w-full max-h-full object-contain"
                                         onError={(e) => e.target.src = PróximoImg}
+                                        loading="lazy"
                                       />
                                     </div>
                                     <span className="text-white text-[14px] fonteBold leading-tight">{edM.nome}</span>
@@ -633,19 +700,39 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
     );
   }
 
-  // ── MODAL EDITAR NOME ──────────────────────────────────────
-  if (dados.modalEditável.estadoModal) {
+  // ─── MODAL EDITAR NOME ──────────────────────────────────────
+  if (dados.modalEditável.estadoModal && dados.modalEditável.index === index && dados.modalEditável.setor === setor) {
     return (
       <div className="flex justify-center items-center z-10 bg-black opacity-[98%] w-[100vw] h-[100vh] fixed inset-0 select-none">
-        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.3, ease: "easeOut" }} className="w-[550px] h-[200px] bg-[#350973] rounded-[20px] z-20 flex-col flex justify-between">
-          <button className="bg-laranja relative top-[-20px] right-[-530px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95" onClick={() => { buttonCloseAudio(); atualizarDados("modalEditável", { ...dados.modalEditável, estadoModal: false }); }}>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }} 
+          animate={{ opacity: 1, scale: 1 }} 
+          exit={{ opacity: 0, scale: 0.8 }} 
+          transition={{ duration: 0.3, ease: "easeOut" }} 
+          className="w-[550px] h-[200px] bg-[#350973] rounded-[20px] z-20 flex-col flex justify-between"
+        >
+          <button 
+            className="bg-laranja relative top-[-20px] right-[-530px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95" 
+            onClick={() => { buttonCloseAudio(); atualizarDados("modalEditável", { ...dados.modalEditável, estadoModal: false }); }}
+          >
             <img src={fechar} alt="" className="w-[60%]" />
           </button>
           <h2 className="text-white text-center text-[25px] fonteBold mt-[20px]">Qual o novo nome do edifício?</h2>
           <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
           <div className="flex justify-center w-full items-center">
-            <input type="text" placeholder="Nome edifício" onChange={(e) => setInputNome(e.target.value.toUpperCase())} value={inputNome} className="placeholder:text-white text-white placeholder:opacity-70 z-50 text-[25px] fonteBold w-[100%] pl-[15px] h-[60px] bg-[#290064] bg-opacity-[90%] rounded-[17.50px]" />
-            <button onClick={editarNomeEditavel} className="flex justify-center items-center h-[60px] w-[60px] ml-[10px] aspect-square text-[20px] fonteBold bg-laranja rounded-[20px] text-white hover:scale-105 hover:bg-orange-600 z-50">✓</button>
+            <input 
+              type="text" 
+              placeholder="Nome edifício" 
+              onChange={(e) => setInputNome(e.target.value.toUpperCase())} 
+              value={inputNome} 
+              className="placeholder:text-white text-white placeholder:opacity-70 z-50 text-[25px] fonteBold w-[100%] pl-[15px] h-[60px] bg-[#290064] bg-opacity-[90%] rounded-[17.50px]" 
+            />
+            <button 
+              onClick={editarNomeEditavel} 
+              className="flex justify-center items-center h-[60px] w-[60px] ml-[10px] aspect-square text-[20px] fonteBold bg-laranja rounded-[20px] text-white hover:scale-105 hover:bg-orange-600 z-50"
+            >
+              ✓
+            </button>
           </div>
         </motion.div>
       </div>
@@ -657,7 +744,7 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
   // ════════════════════════════════════════
   return (
     <motion.div
-      style={{ background: getGradientByLevel(), ...getBordaDinamica() }}
+      style={{ background: getGradientByLevel, ...getBordaDinamica }}
       className="w-[220px] h-[320px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
       initial={{ scale: 1 }}
       whileHover={{ scale: 1.05 }}
@@ -670,14 +757,10 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Badge categoria */}
-        <div className="absolute bottom-0 right-0 w-[50px] h-[50px] z-20 flex items-center justify-center rounded-tl-2xl rounded-br-2xl" >
+        <div className="absolute bottom-0 right-0 w-[50px] h-[50px] z-20 flex items-center justify-center rounded-tl-2xl rounded-br-2xl">
           <div className="absolute inset-0 rounded-tl-2xl rounded-br-2xl" style={{ backgroundColor: setorInfo.cor3, filter: "brightness(0.8)", boxShadow: "-2px -2px 10px rgba(0,0,0,0.3)" }} />
           <div className="w-[50px] h-[50px] flex items-center justify-center rounded-tl-2xl rounded-br-2xl" style={{ backgroundColor: "rgba(0,0,0,0.2)", backdropFilter: "blur(4px)" }}>
-            {/* {isProducao && <img src={passive} className="w-[24px] opacity-90" alt="" />}
-            {isVenda && <img src={passive} className="w-[24px] opacity-90" alt="" />}
-            {isEstoque && <img src={passive} className="w-[24px] opacity-90" alt="" />}
-            {isPassiva && <img src={passive} className="w-[24px] opacity-90" alt="" />} */}
-            <h1 className="text-white text-[20px] fonteBold " >{quantidadeAtivo}</h1>
+            <h1 className="text-white text-[20px] fonteBold">{quantidadeAtivo}</h1>
           </div>
         </div>
 
@@ -686,18 +769,18 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
         ════════════════════════════════════════ */}
         <div
           className="absolute w-full h-full flex items-center justify-center rounded-xl"
-          style={{ background: getGradient(), mixBlendMode: "color-dodge", backfaceVisibility: "hidden" }}
+          style={{ background: getGradient, mixBlendMode: "color-dodge", backfaceVisibility: "hidden" }}
         >
           <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
 
             {/* HEADER com editar nome */}
             <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[22%] rounded-[10px] flex justify-between drop-shadow-xs">
               <div style={{ background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
-                <img className="h-[70%]" src={getImageUrl(nomeAtivo)} alt="" />
+                <img className="h-[70%]" src={getImageUrl(nomeAtivo)} alt="" loading="lazy" />
               </div>
               <div className="flex p-[6px] justify-center items-center flex-1">
                 <h1 className="text-white fonteBold text-center text-[10px] leading-tight">
-                  {dados[setorAtivo].edificios[index].nomeEditável || nomeAtivo}
+                  {nomeEditavel}
                 </h1>
               </div>
             </div>
@@ -729,7 +812,7 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                       : `linear-gradient(135deg,${setorInfo.cor2},${setorInfo.cor3})`,
                     display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2
                   }}
-                  onClick={() => { openModalPowerUps() }}
+                  onClick={openModalPowerUps}
                   className="hover:scale-105 transition-transform"
                 >
                   <img src={PróximoImg} style={{ height: 12, transform: "rotate(270deg)", opacity: .9 }} alt="" />
@@ -750,78 +833,67 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
             
             <MiniPowerUpResumo setor={setor} index={index} setorInfo={setorInfo} />
 
-            
             <div className="w-full flex flex-col gap-[4px]">
               <div className="flex gap-[5px] items-center" style={{ height: 24 }}>
-            
-                
-             
-
-                  
-                 
-               <div className="flex items-center gap-2 mt-2 ml-1">
-  {/* Verifica se há pelo menos um power-up ativo */}
-  {acumuladorPowerUpAumFatuFornece > 0 || acumuladorPowerUpRedCustoFornece > 0 ? (
-    <>
-      {/* Aumento de Faturamento */}
-      {acumuladorPowerUpAumFatuFornece > 0 && (
-        <span style={{
-          fontSize: 16,
-          fontWeight: 700,
-          color: "#7aff9a",
-          background: "rgba(0,0,0,0.3)",
-          padding: "0 6px",
-          borderRadius: 3,
-          minWidth: "32px",
-          textAlign: "center",
-        }}>
-          ↑{acumuladorPowerUpAumFatuFornece}%
-        </span>
-      )}
-      
-      {/* Redução de Custo */}
-      {acumuladorPowerUpRedCustoFornece > 0 && (
-        <span style={{
-          fontSize: 16,
-          fontWeight: 700,
-          color: "#ff9090",
-          background: "rgba(0,0,0,0.3)",
-          padding: "0 6px",
-          borderRadius: 3,
-          minWidth: "32px",
-          textAlign: "center",
-        }}>
-          ↓{acumuladorPowerUpRedCustoFornece}%
-        </span>
-      )}
-    </>
-  ) : (
-    /* Sem power-up - mostra apenas o texto */
-    <span style={{
-      fontSize: 10,
-      fontWeight: 700,
-      color: "rgba(255,255,255,0.25)",
-      fontStyle: "italic",
-    }}>
-      Não Fornece Powerup
-    </span>
-  )}
-</div>
-              
+                <div className="flex items-center gap-2 mt-2 ml-1">
+                  {acumuladorPowerUpAumFatuFornece > 0 || acumuladorPowerUpRedCustoFornece > 0 ? (
+                    <>
+                      {acumuladorPowerUpAumFatuFornece > 0 && (
+                        <span style={{
+                          fontSize: 16,
+                          fontWeight: 700,
+                          color: "#7aff9a",
+                          background: "rgba(0,0,0,0.3)",
+                          padding: "0 6px",
+                          borderRadius: 3,
+                          minWidth: "32px",
+                          textAlign: "center",
+                        }}>
+                          ↑{acumuladorPowerUpAumFatuFornece}%
+                        </span>
+                      )}
+                      {acumuladorPowerUpRedCustoFornece > 0 && (
+                        <span style={{
+                          fontSize: 16,
+                          fontWeight: 700,
+                          color: "#ff9090",
+                          background: "rgba(0,0,0,0.3)",
+                          padding: "0 6px",
+                          borderRadius: 3,
+                          minWidth: "32px",
+                          textAlign: "center",
+                        }}>
+                          ↓{acumuladorPowerUpRedCustoFornece}%
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    <span style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: "rgba(255,255,255,0.25)",
+                      fontStyle: "italic",
+                    }}>
+                      Não Fornece Powerup
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 
           </div>
         </div>
 
-
+        {/* ════════════════════════════════════════
+            VERSO DO CARD
+        ════════════════════════════════════════ */}
         <div
           className={`absolute w-full h-full flex items-center justify-center rounded-[20px] text-white cursor-pointer ${flipped ? "pointer-events-auto z-50" : "pointer-events-none"}`}
           style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", background: `linear-gradient(135deg,${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)` }}
         >
           {/* ── Verso: Power Ups ── */}
           {visibleId === "powerUp" && (
-            <div onClick={() => handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
+            <div onClick={handleFlip} className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
               <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between">
                 <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%,${corPowerUpAtual} 30%,#350973 70%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                   <img className="h-[70%] rotate-[270deg]" src={PróximoImg} alt="" />
@@ -833,13 +905,17 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
               <div className="h-[20%] w-full flex justify-between flex-col items-center">
                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] h-full">
                   <div className="w-full rounded-[20px] flex justify-around items-center h-full">
-                    {[{ bg: "#8F5ADA", nv: "nível1" }, { bg: "#6411D9", nv: "nível2" }, { bg: "#350973", nv: "nível3" }].map(({ bg, nv }) => (
+                    {[
+                      { bg: "#8F5ADA", nv: "nível1" }, 
+                      { bg: "#6411D9", nv: "nível2" }, 
+                      { bg: "#350973", nv: "nível3" }
+                    ].map(({ bg, nv }) => (
                       <div key={nv} style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]">
                         <div style={{ backgroundColor: bg }} className="w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 cursor-pointer">
-                          <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} />
+                          <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} alt="" />
                         </div>
                         <div className="flex justify-center items-center w-full">
-                          <h2 className="text-white text-[10px] fonteBold">{dados[setorAtivo].edificios[index].powerUp[nv].quantidadeMínima}</h2>
+                          <h2 className="text-white text-[10px] fonteBold">{edificio.powerUp[nv].quantidadeMínima}</h2>
                         </div>
                       </div>
                     ))}
@@ -847,7 +923,7 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                 </div>
               </div>
               <div style={{ backgroundColor: setorInfo.cor2 }} className="h-[50%] w-full rounded-[10px] flex flex-col items-center justify-around">
-                <p className="text-white text-[10px] h-[65%] p-[5px]">{dados[setorAtivo].edificios[index].desc}</p>
+                <p className="text-white text-[10px] h-[65%] p-[5px]">{edificio.desc}</p>
                 <button onClick={openModalPowerUps} className="w-[85%] h-[25%] z-50 text-white text-[10px] bg-[#6411D9] rounded-[10px] hover:scale-[1.10] duration-300 ease-in-out">
                   Todos power ups
                 </button>
@@ -857,7 +933,7 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
 
           {/* ── Verso: Finanças ── */}
           {visibleId === "finançasEd" && (
-            <div onClick={() => handleFlip()} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center relative z-[20] overflow-visible" style={{ pointerEvents: "auto" }}>
+            <div onClick={handleFlip} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center relative z-[20] overflow-visible" style={{ pointerEvents: "auto" }}>
               <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between">
                 <div className="h-full aspect-square rounded-[10px] flex items-center justify-center" style={{ background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }}>
                   <img className="h-[70%]" src={DolarImg} alt="" />
@@ -880,7 +956,7 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                   { img: imgPercFatu, text: "Porcentagem do imposto sobre faturamento.", val: `${(impostoSobreFatu * 100).toFixed(0)}%` }
                 ],
                 [
-                  { img: imgLucro, text: "Lucro líquido mensal.", val: formatarNumero(valorFatu * 30 - (valorFatu * 30 * impostoSobreFatu + valorImpostoFixo)) },
+                  { img: imgLucro, text: "Lucro líquido mensal.", val: formatarNumero(lucroLiquido) },
                   { img: imgSomaImposto, text: "Total de impostos mensais.", val: formatarNumero(valorFatu * 30 * impostoSobreFatu + valorImpostoFixo) }
                 ],
               ].map((row, ri) => (
@@ -888,7 +964,9 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                   {row.map(({ img, text, val }, ci) => (
                     <div key={ci} style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-between rounded-[10px] items-center h-full w-[45%]">
                       <div className="h-full flex items-center justify-center aspect-square rounded-[10px]" style={{ backgroundColor: setorInfo.cor1 }}>
-                        <TooltipCustom text={text}><img className="h-[20px]" src={img} alt="" /></TooltipCustom>
+                        <TooltipCustom text={text}>
+                          <img className="h-[20px]" src={img} alt="" />
+                        </TooltipCustom>
                       </div>
                       <h2 className="text-white mr-[8px] text-[15px] fonteBold">{val}</h2>
                     </div>
@@ -900,7 +978,7 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
 
           {/* ── Verso: Imóveis necessários ── */}
           {visibleId === "lojasNec" && (
-            <div onClick={() => handleFlip()} className="w-[90%] h-[92%] flex flex-col self-center gap-3 p-1 overflow-hidden">
+            <div onClick={handleFlip} className="w-[90%] h-[92%] flex flex-col self-center gap-3 p-1 overflow-hidden">
               <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[60px] min-h-[60px] rounded-[10px] flex justify-between overflow-hidden drop-shadow-sm shrink-0">
                 <div style={{ background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-full aspect-square flex items-center justify-center">
                   <img className="h-[60%]" src={terrenoImg} alt="" />
@@ -916,12 +994,12 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                   { img: LojaMImg, key: "lojasM", qtdAtual: dados.lojasM.quantidade },
                   { img: LojaGImg, key: "lojasG", qtdAtual: dados.lojasG.quantidade },
                 ].map(({ img, key, qtdAtual }) => {
-                  const necessarios = dados[setorAtivo].edificios[index].lojasNecessarias[key];
+                  const necessarios = lojasNecessarias[key];
                   const temSuficiente = qtdAtual >= necessarios;
                   return (
                     <div key={key} className="w-full h-[65px] flex items-center gap-3 bg-black/20 p-2 rounded-xl border border-white/5 shrink-0">
                       <div style={{ backgroundColor: setorInfo.cor1 }} className="h-11 w-11 rounded-lg flex items-center justify-center shrink-0">
-                        <img className="h-[65%] object-contain" src={img} alt="" />
+                        <img className="h-[65%] object-contain" src={img} alt="" loading="lazy" />
                       </div>
                       <div className="flex-1 flex flex-row items-center justify-center gap-2">
                         <span className={`text-[18px] font-bold ${temSuficiente ? "text-green-400" : "text-white"}`}>{qtdAtual}</span>
@@ -941,7 +1019,7 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
 
           {/* ── Verso: Construções necessárias ── */}
           {visibleId === "constNece" && (
-            <div onClick={() => handleFlip()} className="w-[90%] h-[90%] flex flex-col self-center gap-3">
+            <div onClick={handleFlip} className="w-[90%] h-[90%] flex flex-col self-center gap-3">
               <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[60px] min-h-[60px] rounded-[10px] flex justify-between overflow-hidden drop-shadow-sm">
                 <div style={{ background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-full aspect-square flex items-center justify-center">
                   <img className="h-[60%]" src={constNece} alt="" />
@@ -951,14 +1029,14 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                 </div>
               </div>
               <div className="flex-1 overflow-y-auto pr-1 flex flex-col gap-4 scrollbar-custom">
-                {arrayConstResources?.length > 0 && (
+                {arrayConstResources.length > 0 && (
                   <div className="flex flex-col gap-2">
                     <h2 className="text-white/50 text-[10px] font-bold uppercase px-1">Recursos (Consumidos)</h2>
                     {arrayConstResources.map((nome, idx) => (
                       <div key={`res-${idx}`} className="flex items-center justify-between bg-white/5 p-2 rounded-lg border border-white/5">
                         <div className="flex items-center gap-3">
                           <div style={{ backgroundColor: setorInfo.cor3 }} className="w-8 h-8 rounded-md flex items-center justify-center relative">
-                            <img className="h-[70%] w-[70%] object-contain" src={getImageUrl(nome)} alt={nome} />
+                            <img className="h-[70%] w-[70%] object-contain" src={getImageUrl(nome)} alt={nome} loading="lazy" />
                             {!booleanPreReq(nome) && <span className="absolute -top-1 -right-1 flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span></span>}
                           </div>
                           <span className="text-[11px] text-white/90 font-medium uppercase">{nome}</span>
@@ -968,14 +1046,14 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
                     ))}
                   </div>
                 )}
-                {arrayConstNece?.length > 0 && (
+                {arrayConstNece.length > 0 && (
                   <div className="flex flex-col gap-2">
                     <h2 className="text-white/50 text-[10px] font-bold uppercase px-1">Edifícios (Posse)</h2>
                     {arrayConstNece.map((nome, idx) => (
                       <div key={`nece-${idx}`} className="flex items-center justify-between bg-white/5 p-2 rounded-lg border border-white/5">
                         <div className="flex items-center gap-3">
                           <div style={{ backgroundColor: setorInfo.cor3 }} className="w-8 h-8 rounded-md flex items-center justify-center relative">
-                            <img className="h-[70%] w-[70%] object-contain" src={getImageUrl(nome)} alt={nome} />
+                            <img className="h-[70%] w-[70%] object-contain" src={getImageUrl(nome)} alt={nome} loading="lazy" />
                             {!booleanPreReq(nome) && <span className="absolute -top-1 -right-1 flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span></span>}
                           </div>
                           <span className="text-[11px] text-white/90 font-medium uppercase">{nome}</span>
@@ -992,4 +1070,4 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
       </motion.div>
     </motion.div>
   );
-};
+});

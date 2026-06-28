@@ -120,56 +120,74 @@ const getRank = (nome) => {
     return 'C';
 };
 
-// ─── SUBCOMPONENTES AUXILIARES ───────────────────────────────────
+// ─── SUBCOMPONENTES AUXILIARES OTIMIZADOS ──────────────────────
 
-const _ImoveisBaseIcons = ({ dados, setorAtivo, index, cor1, onClickLojas }) => (
-    <div className="flex gap-[3px] flex-wrap">
-        {[
-            { img: terrenoImg, key: "terrenos", qtd: dados.terrenos.quantidade },
-            { img: LojaPImg, key: "lojasP", qtd: dados.lojasP.quantidade },
-            { img: LojaMImg, key: "lojasM", qtd: dados.lojasM.quantidade },
-            { img: LojaGImg, key: "lojasG", qtd: dados.lojasG.quantidade },
-        ].map(({ img, key, qtd }) => {
-            const nec = dados[setorAtivo].edificios[index].lojasNecessarias[key];
-            if (!nec) return null;
-            return (
-                <div
-                    key={key}
-                    style={{ width: 25, height: 25, borderRadius: 4, background: cor1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
-                    onClick={onClickLojas}
-                    data-tooltip-id="tooltip-faturado"
-                    data-tooltip-html={`Necessário: ${nec} | Atual: ${qtd}`}
-                >
-                    <img src={img} style={{ height: "70%", width: "70%", objectFit: "contain" }} alt="" />
-                    {qtd < nec && <span style={{ position: "absolute", bottom: -2, right: -2, width: 5, height: 5, borderRadius: "50%", background: "#fff", display: "block" }} />}
-                </div>
-            );
-        })}
-    </div>
-);
+// ✅ Otimizado com React.memo para evitar re-renders desnecessários
+const ImoveisBaseIcons = React.memo(({ dados, setorAtivo, index, cor1, onClickLojas }) => {
+    // Dados extraídos uma única vez
+    const edificio = dados[setorAtivo].edificios[index];
+    const lojasNecessarias = edificio.lojasNecessarias;
+    const { terrenos, lojasP, lojasM, lojasG } = dados;
 
-const _ConstNecIcons = ({ arrayConstNece, arrayConstResources, cor1, onClickConstr, booleanPreReq }) => {
-    const lista = [...(arrayConstNece || []), ...(arrayConstResources || [])].slice(0, 4);
-    if (!lista.length) return <span style={{ fontSize: 8, color: "rgba(255,255,255,.25)" }}>—</span>;
+    const icons = useMemo(() => [
+        { img: terrenoImg, key: "terrenos", qtd: terrenos.quantidade, nec: lojasNecessarias.terrenos },
+        { img: LojaPImg, key: "lojasP", qtd: lojasP.quantidade, nec: lojasNecessarias.lojasP },
+        { img: LojaMImg, key: "lojasM", qtd: lojasM.quantidade, nec: lojasNecessarias.lojasM },
+        { img: LojaGImg, key: "lojasG", qtd: lojasG.quantidade, nec: lojasNecessarias.lojasG },
+    ], [terrenos, lojasP, lojasM, lojasG, lojasNecessarias]);
+
     return (
-        <div className="flex gap-[3px]">
-            {lista.map((nome) => (
-                <div
-                    key={nome}
-                    style={{ width: 17, height: 17, borderRadius: 4, background: cor1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
-                    onClick={onClickConstr}
-                    data-tooltip-id="tooltip-faturado"
-                    data-tooltip-html={`Necessário: ${nome}`}
-                >
-                    <img src={getImageUrl(nome)} style={{ height: "70%", width: "70%", objectFit: "contain" }} alt={nome} />
-                    {!booleanPreReq(nome) && <span style={{ position: "absolute", bottom: -2, right: -2, width: 5, height: 5, borderRadius: "50%", background: "#fff", display: "block" }} />}
-                </div>
-            ))}
+        <div className="flex gap-[3px] flex-wrap">
+            {icons.map(({ img, key, qtd, nec }) => {
+                if (!nec) return null;
+                const hasWarning = qtd < nec;
+                return (
+                    <div
+                        key={key}
+                        style={{ width: 25, height: 25, borderRadius: 4, background: cor1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                        onClick={onClickLojas}
+                        data-tooltip-id="tooltip-faturado"
+                        data-tooltip-html={`Necessário: ${nec} | Atual: ${qtd}`}
+                    >
+                        <img src={img} style={{ height: "70%", width: "70%", objectFit: "contain" }} alt="" />
+                        {hasWarning && <span style={{ position: "absolute", bottom: -2, right: -2, width: 5, height: 5, borderRadius: "50%", background: "#fff", display: "block" }} />}
+                    </div>
+                );
+            })}
         </div>
     );
-};
+});
 
-const _ActionButtons = ({ setorInfo, corPowerUpAtual, onClickFinancas, onClickPowerUp }) => (
+const ConstNecIcons = React.memo(({ arrayConstNece, arrayConstResources, cor1, onClickConstr, booleanPreReq }) => {
+    const lista = useMemo(() => {
+        const combined = [...(arrayConstNece || []), ...(arrayConstResources || [])];
+        return combined.slice(0, 4);
+    }, [arrayConstNece, arrayConstResources]);
+
+    if (!lista.length) return <span style={{ fontSize: 8, color: "rgba(255,255,255,.25)" }}>—</span>;
+
+    return (
+        <div className="flex gap-[3px]">
+            {lista.map((nome) => {
+                const isAvailable = booleanPreReq(nome);
+                return (
+                    <div
+                        key={nome}
+                        style={{ width: 17, height: 17, borderRadius: 4, background: cor1, position: "relative", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                        onClick={onClickConstr}
+                        data-tooltip-id="tooltip-faturado"
+                        data-tooltip-html={`Necessário: ${nome}`}
+                    >
+                        <img src={getImageUrl(nome)} style={{ height: "70%", width: "70%", objectFit: "contain" }} alt={nome} />
+                        {!isAvailable && <span style={{ position: "absolute", bottom: -2, right: -2, width: 5, height: 5, borderRadius: "50%", background: "#fff", display: "block" }} />}
+                    </div>
+                );
+            })}
+        </div>
+    );
+});
+
+const ActionButtons = React.memo(({ setorInfo, corPowerUpAtual, onClickFinancas, onClickPowerUp }) => (
     <div className="flex gap-[3px]">
         <div
             style={{ width: 22, height: 22, borderRadius: 6, backgroundColor: setorInfo.cor1, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0 }}
@@ -190,9 +208,9 @@ const _ActionButtons = ({ setorInfo, corPowerUpAtual, onClickFinancas, onClickPo
             <img src={PróximoImg} style={{ height: "65%", transform: "rotate(270deg)" }} alt="" />
         </div>
     </div>
-);
+));
 
-const _ImoveisECustoRow = ({ dados, setorAtivo, index, cor1, setorInfo, custoConstrucao, formatarNumero, onClickLojas }) => (
+const ImoveisECustoRow = React.memo(({ dados, setorAtivo, index, cor1, setorInfo, custoConstrucao, formatarNumero, onClickLojas }) => (
     <div className="flex gap-[3px]" style={{ minHeight: 30 }}>
         <div
             style={{ width: "70%", background: "rgba(0,0,0,.32)", borderRadius: 6, padding: "4px 7px", display: "flex", flexDirection: "column", gap: 2, cursor: "pointer" }}
@@ -201,7 +219,7 @@ const _ImoveisECustoRow = ({ dados, setorAtivo, index, cor1, setorInfo, custoCon
             data-tooltip-html="Imóveis base necessários para construir"
         >
             <span style={{ fontSize: 6.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: "rgba(255,255,255,.3)" }}>Imóveis base</span>
-            <_ImoveisBaseIcons dados={dados} setorAtivo={setorAtivo} index={index} cor1={cor1} onClickLojas={onClickLojas} />
+            <ImoveisBaseIcons dados={dados} setorAtivo={setorAtivo} index={index} cor1={cor1} onClickLojas={onClickLojas} />
         </div>
         <div
             style={{ width: "30%", background: setorInfo.cor3, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", gap: 3 }}
@@ -214,12 +232,13 @@ const _ImoveisECustoRow = ({ dados, setorAtivo, index, cor1, setorInfo, custoCon
             </span>
         </div>
     </div>
-);
+));
 
-const _ConstrERecursosRow = ({ arrayConstNece, arrayConstResources, cor1, onClickConstr, booleanPreReq }) => {
+const ConstrERecursosRow = React.memo(({ arrayConstNece, arrayConstResources, cor1, onClickConstr, booleanPreReq }) => {
     const temConstr = (arrayConstNece || []).length > 0;
     const temRecursos = (arrayConstResources || []).length > 0;
     if (!temConstr && !temRecursos) return null;
+
     return (
         <div className="flex gap-[3px]" style={{ minHeight: 30 }}>
             <div
@@ -230,7 +249,7 @@ const _ConstrERecursosRow = ({ arrayConstNece, arrayConstResources, cor1, onClic
             >
                 <span style={{ fontSize: 6.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: "rgba(255,255,255,.3)" }}>Constr. nec.</span>
                 {temConstr
-                    ? <_ConstNecIcons arrayConstNece={arrayConstNece} arrayConstResources={[]} cor1={cor1} onClickConstr={onClickConstr} booleanPreReq={booleanPreReq} />
+                    ? <ConstNecIcons arrayConstNece={arrayConstNece} arrayConstResources={[]} cor1={cor1} onClickConstr={onClickConstr} booleanPreReq={booleanPreReq} />
                     : <span style={{ fontSize: 8, color: "rgba(255,255,255,.2)" }}>—</span>
                 }
             </div>
@@ -242,93 +261,130 @@ const _ConstrERecursosRow = ({ arrayConstNece, arrayConstResources, cor1, onClic
             >
                 <span style={{ fontSize: 6.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: "rgba(255,255,255,.3)" }}>Recursos</span>
                 {temRecursos
-                    ? <_ConstNecIcons arrayConstNece={[]} arrayConstResources={arrayConstResources} cor1={cor1} onClickConstr={onClickConstr} booleanPreReq={booleanPreReq} />
+                    ? <ConstNecIcons arrayConstNece={[]} arrayConstResources={arrayConstResources} cor1={cor1} onClickConstr={onClickConstr} booleanPreReq={booleanPreReq} />
                     : <span style={{ fontSize: 8, color: "rgba(255,255,255,.2)" }}>—</span>
                 }
             </div>
         </div>
     );
-};
+});
 
-// ─── CANVAS DE PARTÍCULAS ────────────────────────────────────────
+// ─── CANVAS DE PARTÍCULAS — ⚡ OTIMIZADO ⚡ ──────────────────────
 
-const StarsCanvas = () => {
-    const canvasRef = React.useRef(null);
+const StarsCanvas = React.memo(() => {
+    const canvasRef = useRef(null);
+    const animationRef = useRef(null);
+    const isMountedRef = useRef(true);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
-        let width, height;
+        let width = 0;
+        let height = 0;
         let stars = [];
-        const starCount = 80;
+        let frameCounter = 0;
+        const STAR_COUNT = 40; // ✅ Reduzido de 80 para 40 (ninguém percebe a diferença)
+        const UPDATE_INTERVAL = 2; // ✅ Atualiza a cada 2 frames (30fps em vez de 60fps)
 
         const resizeCanvas = () => {
-            const rect = canvas.parentElement.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-            width = canvas.width;
-            height = canvas.height;
+            const rect = canvas.parentElement?.getBoundingClientRect();
+            if (!rect) return;
+            
+            const dpr = window.devicePixelRatio || 1;
+            width = rect.width;
+            height = rect.height;
+            
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+            
+            ctx.scale(dpr, dpr);
         };
 
         const createStars = () => {
-            stars = [];
-            for (let i = 0; i < starCount; i++) {
-                stars.push({
+            stars = new Array(STAR_COUNT);
+            for (let i = 0; i < STAR_COUNT; i++) {
+                stars[i] = {
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    radius: Math.random() * 1.5 + 0.5,
-                    opacity: Math.random() * 0.5 + 0.3,
-                    speed: Math.random() * 0.005 + 0.002
-                });
+                    radius: Math.random() * 1.2 + 0.3, // ✅ Menores
+                    opacity: Math.random() * 0.3 + 0.2,
+                    speed: Math.random() * 0.003 + 0.001,
+                    phase: Math.random() * Math.PI * 2 // ✅ Para animação suave sem random
+                };
             }
         };
 
+        // ✅ Desenha todas as estrelas em UM ÚNICO beginPath
         const drawStars = () => {
             ctx.clearRect(0, 0, width, height);
-
-            stars.forEach(star => {
-                ctx.beginPath();
+            
+            // ✅ UM ÚNICO beginPath para TODAS as estrelas
+            ctx.beginPath();
+            
+            for (let i = 0; i < stars.length; i++) {
+                const star = stars[i];
+                ctx.moveTo(star.x + star.radius, star.y);
                 ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-
-                const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.radius);
-                gradient.addColorStop(0, `rgba(200, 200, 255, ${star.opacity})`);
-                gradient.addColorStop(0.5, `rgba(150, 150, 255, ${star.opacity * 0.5})`);
-                gradient.addColorStop(1, 'rgba(100, 100, 255, 0)');
-
-                ctx.fillStyle = gradient;
-                ctx.shadowColor = 'rgba(150, 150, 255, 0.3)';
-                ctx.shadowBlur = 4;
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            });
+            }
+            
+            // ✅ Preenche todas de uma vez
+            ctx.fillStyle = 'rgba(200, 200, 255, 0.4)';
+            ctx.shadowColor = 'rgba(150, 150, 255, 0.15)';
+            ctx.shadowBlur = 3;
+            ctx.fill();
+            ctx.shadowBlur = 0;
         };
 
+        // ✅ Animação otimizada com requestAnimationFrame controlado
         const animateStars = () => {
-            stars.forEach(star => {
-                star.opacity += (Math.random() - 0.5) * 0.02;
-                star.opacity = Math.max(0.2, Math.min(0.8, star.opacity));
-            });
-            drawStars();
-            requestAnimationFrame(animateStars);
+            if (!isMountedRef.current) return;
+
+            frameCounter++;
+            
+            // ✅ Atualiza apenas a cada 2 frames (30fps)
+            if (frameCounter % UPDATE_INTERVAL === 0) {
+                const time = Date.now() * 0.001;
+                
+                for (let i = 0; i < stars.length; i++) {
+                    const star = stars[i];
+                    // ✅ Usa seno para animação suave (sem Math.random)
+                    star.opacity = 0.2 + 0.3 * (0.5 + 0.5 * Math.sin(time * star.speed + star.phase));
+                }
+                
+                drawStars();
+            }
+
+            animationRef.current = requestAnimationFrame(animateStars);
         };
 
+        // ─── INIT ──────────────────────────────────────────────
         resizeCanvas();
         createStars();
         drawStars();
         animateStars();
 
-        window.addEventListener('resize', () => {
+        // ─── RESIZE ─────────────────────────────────────────────
+        const handleResize = () => {
             resizeCanvas();
             createStars();
             drawStars();
-        });
-
-        return () => {
-            window.removeEventListener('resize', resizeCanvas);
         };
-    }, []);
+
+        window.addEventListener('resize', handleResize);
+
+        // ─── CLEANUP ────────────────────────────────────────────
+        return () => {
+            isMountedRef.current = false;
+            if (animationRef.current) {
+                cancelAnimationFrame(animationRef.current);
+            }
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []); // ✅ Sem dependências — monta uma única vez
 
     return (
         <canvas
@@ -344,9 +400,9 @@ const StarsCanvas = () => {
             }}
         />
     );
-};
+});
 
-// ─── COMPONENTE PRINCIPAL ────────────────────────────────────────
+// ─── COMPONENTE PRINCIPAL OTIMIZADO ─────────────────────────────
 
 const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
     const { economiaSetores, setEconomiaSetores, atualizarEco, verificarLimites } = useContext(DadosEconomyGlobalContext);
@@ -360,9 +416,8 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
     const rank = getRank(nomeAtual);
     const rankConfig = RANK_CONFIG[rank];
 
-    // ... (restante do código mantido igual até a parte dos setores)
-
-    const setores = [
+    // ─── SETORES (memoizado) ──────────────────────────────────
+    const setores = useMemo(() => [
         { id: "agricultura", corClasse: "bg-[#4CAF50]", img: agricultura, descLicença: "Com a Licença Global de Agricultura, você terá acesso a cultivos exclusivos, otimização de produções e melhorias que aumentarão sua rentabilidade. Liberte o potencial do setor agrícola agora mesmo!", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50" },
         { id: "tecnologia", corClasse: "bg-[#FF8C42]", img: tecnologia, descLicença: "Com a Licença Global de Tecnologia, você desbloqueia inovações que podem transformar sua infraestrutura, otimizar processos e maximizar os lucros. Invista no futuro agora!", cor1: "#A64B00", cor2: "#D45A00", cor3: "#FF6F00", cor4: "#FF8C42" },
         { id: "industria", corClasse: "bg-[#B3B3B3]", img: industria, descLicença: "Com a Licença Global de Indústria, você acessa fábricas avançadas e processos de produção que aceleram sua evolução e aumentam a eficiência. Não fique para trás!", cor1: "#1A1A1A", cor2: "#4D4D4D", cor3: "#808080", cor4: "#B3B3B3" },
@@ -370,44 +425,39 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
         { id: "imobiliario", corClasse: "bg-[#6666FF]", img: imobiliario, descLicença: "Com a Licença Global Imobiliária, você pode investir em novos terrenos, expandir suas construções e maximizar os retornos do mercado imobiliário. Abra as portas para grandes lucros!", cor1: "#000066", cor2: "#1A1A8C", cor3: "#3333CC", cor4: "#6666FF" },
         { id: "energia", corClasse: "bg-[#FFD966]", img: energia, descLicença: "Com a Licença Global de Energia, você ativa fontes de energia sustentáveis e de alta performance, garantindo uma operação eficiente e lucrativa. Potencialize seu setor energético agora!", cor1: "#665200", cor2: "#A37F19", cor3: "#E6B800", cor4: "#FFD966" },
         { id: "grafico", corClasse: "bg-[#6A00FF]", img: grafico, cor1: "#6A00FF", cor2: "#6A00FF", cor3: "#6A00FF", cor4: "#6A00FF" },
-    ];
+    ], []);
 
-    const setorInfo = setores.find((s) => s.id === setorAtivo);
+    const setorInfo = useMemo(() => setores.find((s) => s.id === setorAtivo), [setores, setorAtivo]);
 
-    // ─── RANK-BASED STYLES ────────────────────────────────────────
-
-    const getRankGradient = () => {
+    // ─── RANK-BASED STYLES (memoizados) ──────────────────────
+    const rankGradient = useMemo(() => {
         const cor = rankConfig.cor;
         return `radial-gradient(circle at 30% 30%, ${cor}22 0%, transparent 70%)`;
-    };
+    }, [rankConfig]);
 
-    const getRankBorder = () => {
-        return {
-            border: `2px solid ${rankConfig.corBorder}`,
-            boxShadow: rankConfig.boxShadow,
-            borderRadius: "20px",
-        };
-    };
+    const rankBorder = useMemo(() => ({
+        border: `2px solid ${rankConfig.corBorder}`,
+        boxShadow: rankConfig.boxShadow,
+        borderRadius: "20px",
+    }), [rankConfig]);
 
-    const getRankBadgeStyle = () => {
-        return {
-            position: "absolute",
-            top: 8,
-            right: 8,
-            zIndex: 15,
-            fontSize: 10,
-            fontWeight: 900,
-            textTransform: "uppercase",
-            letterSpacing: ".1em",
-            padding: "4px 12px",
-            borderRadius: 6,
-            background: `${rankConfig.cor}33`,
-            color: rankConfig.cor,
-            border: `1px solid ${rankConfig.cor}66`,
-            backdropFilter: "blur(8px)",
-            boxShadow: `0 0 20px ${rankConfig.cor}22`,
-        };
-    };
+    const rankBadgeStyle = useMemo(() => ({
+        position: "absolute",
+        top: 8,
+        right: 8,
+        zIndex: 15,
+        fontSize: 10,
+        fontWeight: 900,
+        textTransform: "uppercase",
+        letterSpacing: ".1em",
+        padding: "4px 12px",
+        borderRadius: 6,
+        background: `${rankConfig.cor}33`,
+        color: rankConfig.cor,
+        border: `1px solid ${rankConfig.cor}66`,
+        backdropFilter: "blur(8px)",
+        boxShadow: `0 0 20px ${rankConfig.cor}22`,
+    }), [rankConfig]);
 
     // ─── RENDER ────────────────────────────────────────────────────
 
@@ -420,7 +470,7 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                 style={{
                     position: "relative", width: "100%", height: "100%",
                     background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor2} 100%)`,
-                    ...getRankBorder(),
+                    ...rankBorder,
                     overflow: "hidden",
                     transformStyle: "preserve-3d",
                     boxShadow: `0 20px 60px rgba(0,0,0,0.4)`,
@@ -435,12 +485,12 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                 {/* ── Fundo com gradiente do rank ── */}
                 <div style={{
                     position: "absolute", inset: 0,
-                    background: getRankGradient(),
+                    background: rankGradient,
                     pointerEvents: "none",
                     zIndex: 0,
                 }} />
 
-                {/* ── Estrelas de fundo ── */}
+                {/* ── Estrelas de fundo OTIMIZADAS ── */}
                 <StarsCanvas />
 
                 {/* ── CONTEÚDO ── */}
@@ -458,7 +508,7 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                     </div>
 
                     {/* Overlay de gradiente frontal */}
-                    <div className="absolute w-full h-full flex items-center justify-center rounded-xl" style={{ background: getRankGradient(), mixBlendMode: "color-dodge", opacity: 0.15 }} />
+                    <div className="absolute w-full h-full flex items-center justify-center rounded-xl" style={{ background: rankGradient, mixBlendMode: "color-dodge", opacity: 0.15 }} />
 
                     {/* Conteúdo legível */}
                     <div className="absolute w-full h-full flex items-center justify-center rounded-xl z-10">
@@ -467,7 +517,7 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                             <div className="flex-1 flex flex-col items-center justify-center gap-[10px] w-full">
 
                                 {/* Badge de Rank */}
-                                <div style={getRankBadgeStyle()}>
+                                <div style={rankBadgeStyle}>
                                     {rankConfig.label}
                                 </div>
 
@@ -490,6 +540,7 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                                         <img
                                             src={getImageUrl(nomeAtual)}
                                             alt={nomeAtual}
+                                            loading="lazy"
                                             style={{
                                                 width: "70%", height: "70%", objectFit: "contain",
                                                 filter: `drop-shadow(0 0 8px ${rankConfig.cor}88)`,
@@ -524,20 +575,6 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                                     {nomeAtual}
                                 </h1>
                             </div>
-
-                            {/* Informações de upgrade */}
-                            {/* <div style={{
-                                padding: "4px 12px", borderRadius: 6, flexShrink: 0,
-                                background: "rgba(0,0,0,0.4)",
-                                border: `1px solid ${rankConfig.cor}44`,
-                                display: "flex", alignItems: "center", gap: 12,
-                                fontSize: 9, fontWeight: 700,
-                                color: "#fff",
-                                backdropFilter: "blur(8px)",
-                            }}>
-                                <span style={{ color: "#34d399" }}>↑ +{fatu}%</span>
-                                <span style={{ color: "#f87171" }}>↓ -{redCusto}%</span>
-                            </div> */}
                         </div>
                     </div>
                 </div>
