@@ -118,7 +118,7 @@ selecionarButton
     "Centro De Pesquisa Energética",
     "Usina Termelétrica A Biocombustíveis",
     "Usina De Biomassa",
-    "Usina Termolétrica",
+    "Usina Termelétrica",
     "Joalheria",
     "Concessionária De Veículos",
     "Centro De Distribuição",

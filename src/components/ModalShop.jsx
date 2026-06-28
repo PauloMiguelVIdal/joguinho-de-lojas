@@ -40,7 +40,7 @@ const RankB = [
     "Centro De Comércio De Plantações", "Empresa De Comércio Energético",
     "Empresa De Consultoria Energética", "Centro De Pesquisa Em Energias Renováveis",
     "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis",
-    "Usina De Biomassa", "Usina Termolétrica", "Joalheria", "Concessionária De Veículos",
+    "Usina De Biomassa", "Usina Termelétrica", "Joalheria", "Concessionária De Veículos",
     "Centro De Distribuição", "Armazém Logístico", "Servidor Em Nuvem", "Data Center",
     "Empresa De Desenvolvimento De Software", "Empresa De Jogos Digitais",
     "Empresa De Telecomunicações", "Plataforma De Redes Sociais", "Marketplace Online",

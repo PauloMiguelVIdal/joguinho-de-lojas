@@ -101,7 +101,7 @@ export const CardSpecials = () =>{
     
     const arrayConstrutora = [
         "Centro De Comércio De Plantações",
-        "Usina Termolétrica",
+        "Usina Termelétrica",
         "Concessionária De Veículos",
         "Empresa De Desenvolvimento De Software",
         "Empresa De Jogos Digitais",

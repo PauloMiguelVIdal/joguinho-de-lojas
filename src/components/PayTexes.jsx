@@ -303,7 +303,7 @@ export default function PayTexes() {
     "Usina De Biomassa": "energia",
     "Usina Hidrelétrica": "energia",
     "Parque Eólico": "energia",
-    "Usina Termolétrica": "energia",
+    "Usina Termelétrica": "energia",
     "Reator Nuclear Convencional": "energia",
     "Usina De Fusão Nuclear": "energia",
   };
