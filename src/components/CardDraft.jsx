@@ -54,7 +54,8 @@ const SETORES = [
   { id: "grafico", img: grafico, cor1: "#6A00FF", cor2: "#6A00FF", cor3: "#6A00FF", cor4: "#6A00FF" },
 ];
 
-const PRODUCTIONS = [
+// ─── SETS PARA BUSCA O(1) ─────────────────────────────────────
+const PRODUCTIONS_SET = new Set([
   "Plantação De Grãos", "Fazenda De Vacas", "Plantação De Eucalipto", "Granja De Aves", "Criação De Ovinos",
   "Serraria", "Fábrica De Smartphones", "Fábrica De Computadores", "Fábrica De Consoles De Jogos",
   "Fábrica De Dispositivos Vestíveis", "Fábrica De Rações", "Fábrica De Embalagens", "Fábrica De Fertilizantes",
@@ -66,25 +67,33 @@ const PRODUCTIONS = [
   "Fábrica De Automóveis", "Refinaria", "Biofábrica", "Fábrica De Chips", "Fábrica De Placas Eletrônicas",
   "Fábrica De Semicondutores", "Fábrica De Robôs", "Fábrica De Motores", "Fábrica De Foguetes",
   "Fábrica De Aeronaves", "Estaleiro", "Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias",
-];
+]);
 
-const SELL_FINAL = [
+const SELL_FINAL_SET = new Set([
   "Livraria", "Mercado", "Açougue", "Petshop", "Farmácia", "Loja De Calçados", "Loja De Vestuário",
   "Loja De Gadgets E Wearables", "Loja De Games", "Loja De Celulares", "Loja De Informática",
   "Loja De Eletrônicos", "Concessionária De Veículos",
-];
+]);
 
-const EDIFICIOS_DE_ARMAZENAMENTO = [
+const EDIFICIOS_DE_ARMAZENAMENTO_SET = new Set([
   "Armazém", "Silo", "Depósito De Resíduos Orgânicos", "Data Center", "Servidor Em Nuvem", "Armazém Logístico",
   "Centro De Distribuição", "Fábrica De Tanque De Armazenamento Biocombustível", "Centro De Coleta De Biomassa",
   "Campo De Estocagem", "Armazém De Materiais Brutos", "Câmara Fria", "Container Modular", "Pátio De Veículos",
   "Armazém Industrial", "Armazém De Materiais Sensíveis", "Hangar", "Pátio De Mineração",
-];
+]);
+
+// ─── MAPA DE CORES POR POWERUP ────────────────────────────────
+const POWERUP_CORES = {
+  powerUpNv1: "#8F5ADA",
+  powerUpNv2: "#6411D9",
+  powerUpNv3: "#350973",
+};
 
 // ─── TOOLTIP CUSTOM (memoizado) ──────────────────────────────
 const TooltipCustom = memo(({ text, children }) => {
   const [show, setShow] = useState(false);
   const ref = useRef();
+  
   const tooltip = show && ref.current && createPortal(
     <div style={{ 
       position: "absolute", 
@@ -105,6 +114,7 @@ const TooltipCustom = memo(({ text, children }) => {
     </div>,
     document.body
   );
+  
   return (
     <>
       <div ref={ref} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)} className="relative flex items-center justify-center">
@@ -118,11 +128,13 @@ const TooltipCustom = memo(({ text, children }) => {
 // ─── MINI POWER UP RESUMO (memoizado) ────────────────────────
 const MiniPowerUpResumo = memo(({ setor, index, setorInfo }) => {
   const { dados } = useContext(CentraldeDadosContext);
+  const edificio = dados[setor]?.edificios[index];
+  
+  if (!edificio) return null;
 
-  const nomeAtivo = dados[setor]?.edificios[index]?.nome;
-  const quantidadeAtivo = dados[setor].edificios[index].quantidade;
-  const quantidadeMinimaPowerUpNv2 = dados[setor].edificios[index].powerUp.nível2.quantidadeMínima;
-  const quantidadeMinimaPowerUpNv3 = dados[setor].edificios[index].powerUp.nível3.quantidadeMínima;
+  const quantidadeAtivo = edificio.quantidade;
+  const quantidadeMinimaPowerUpNv2 = edificio.powerUp.nível2.quantidadeMínima;
+  const quantidadeMinimaPowerUpNv3 = edificio.powerUp.nível3.quantidadeMínima;
 
   const powerUpSelecionado = useMemo(() => {
     return quantidadeAtivo >= quantidadeMinimaPowerUpNv3
@@ -132,16 +144,7 @@ const MiniPowerUpResumo = memo(({ setor, index, setorInfo }) => {
       : "powerUpNv1";
   }, [quantidadeAtivo, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
 
-  const corPowerUp = useCallback((pu) => {
-    switch (pu) {
-      case "powerUpNv1": return "#8F5ADA";
-      case "powerUpNv2": return "#6411D9";
-      case "powerUpNv3": return "#350973";
-      default: return "#6411D9";
-    }
-  }, []);
-
-  const corAtual = corPowerUp(powerUpSelecionado);
+  const corAtual = POWERUP_CORES[powerUpSelecionado] || POWERUP_CORES.powerUpNv2;
 
   const getQuantidade = useCallback((nome) => {
     for (const s of SETORES_ARR) {
@@ -153,8 +156,8 @@ const MiniPowerUpResumo = memo(({ setor, index, setorInfo }) => {
     return 0;
   }, [dados]);
 
-  const forneceLista = dados[setor].edificios[index].ForneceMelhoraEficiencia || [];
-  const recebeLista = dados[setor].edificios[index].RecebeMelhoraEficiencia || [];
+  const forneceLista = edificio.ForneceMelhoraEficiencia || [];
+  const recebeLista = edificio.RecebeMelhoraEficiencia || [];
 
   const getValorPowerUp = useCallback((ed, tipo) => {
     const q = quantidadeAtivo;
@@ -166,8 +169,7 @@ const MiniPowerUpResumo = memo(({ setor, index, setorInfo }) => {
     if (!nome) return "";
     const palavras = nome.split(" ");
     if (palavras.length >= 2) {
-      let abrev = palavras.map(p => p[0]).join("").toUpperCase();
-      return abrev.slice(0, 3);
+      return palavras.map(p => p[0]).join("").toUpperCase().slice(0, 3);
     }
     return nome.slice(0, 3).toUpperCase();
   }, []);
@@ -213,7 +215,6 @@ const MiniPowerUpResumo = memo(({ setor, index, setorInfo }) => {
     );
   }, [corAtual, getQuantidade, getValorPowerUp, abreviarNome]);
 
-  // ─── ORDENAÇÃO MEMOIZADA ────────────────────────────────────
   const top3Fornece = useMemo(() => {
     return [...forneceLista]
       .sort((a, b) => {
@@ -317,11 +318,11 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
   // ─── SETOR INFO (memoizado) ─────────────────────────────────
   const setorInfo = useMemo(() => SETORES.find((s) => s.id === setor), [setor]);
 
-  // ─── CATEGORIA (memoizada) ──────────────────────────────────
+  // ─── CATEGORIA (memoizada com Set) ──────────────────────────
   const categoriaEdificio = useMemo(() => {
-    if (EDIFICIOS_DE_ARMAZENAMENTO.includes(nomeAtivo)) return "estoque";
-    if (PRODUCTIONS.includes(nomeAtivo)) return "producao";
-    if (SELL_FINAL.includes(nomeAtivo)) return "venda";
+    if (EDIFICIOS_DE_ARMAZENAMENTO_SET.has(nomeAtivo)) return "estoque";
+    if (PRODUCTIONS_SET.has(nomeAtivo)) return "producao";
+    if (SELL_FINAL_SET.has(nomeAtivo)) return "venda";
     return "passiva";
   }, [nomeAtivo]);
 
@@ -357,16 +358,7 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
       : "powerUpNv1";
   }, [quantidadeAtivo, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
 
-  const corPowerUp = useCallback((pu) => {
-    switch (pu) {
-      case "powerUpNv1": return "#8F5ADA";
-      case "powerUpNv2": return "#6411D9";
-      case "powerUpNv3": return "#350973";
-      default: return "#6411D9";
-    }
-  }, []);
-
-  const corPowerUpAtual = corPowerUp(powerUpSelecionado);
+  const corPowerUpAtual = POWERUP_CORES[powerUpSelecionado] || POWERUP_CORES.powerUpNv2;
 
   // ─── FUNÇÃO BOOLEAN PRE-REQ (memoizada) ─────────────────────
   const booleanPreReq = useCallback((nomeEd) => {
@@ -445,7 +437,9 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
 
   const custoRecursos = useMemo(() => {
     let total = 0;
-    arrayConstResources.forEach((nome) => { total += calcularCustoRecurso(nome); });
+    for (const nome of arrayConstResources) {
+      total += calcularCustoRecurso(nome);
+    }
     return total;
   }, [arrayConstResources, calcularCustoRecurso]);
 
@@ -474,16 +468,14 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
     return num.toString();
   }, []);
 
-  // ─── EFECTS PARA POWERUPS ────────────────────────────────────
+  // ─── EFECTS PARA POWERUPS (com dependências reduzidas) ─────
   useEffect(() => {
     let r = 0, a = 0;
     const lista = edificio.ForneceMelhoraEficiencia || [];
     for (const ed of lista) {
       const qtdM = getQuantidade(ed.nome);
       if (qtdM > 0) {
-        const pu = quantidadeAtivo >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" 
-          : quantidadeAtivo >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" 
-          : "powerUpNv1";
+        const pu = powerUpSelecionado;
         r += pu === "powerUpNv1" ? ed.redCusto.nível1 
           : pu === "powerUpNv2" ? ed.redCusto.nível2 
           : ed.redCusto.nível3;
@@ -494,7 +486,7 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
     }
     setAcumuladorPowerUpRedCustoFornece(r);
     setAcumuladorPowerUpAumFatuFornece(a);
-  }, [edificio.ForneceMelhoraEficiencia, getQuantidade, quantidadeAtivo, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
+  }, [edificio.ForneceMelhoraEficiencia, getQuantidade, powerUpSelecionado]);
 
   useEffect(() => {
     let r = 0, a = 0;
@@ -502,9 +494,7 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
     for (const ed of lista) {
       const qtdM = getQuantidade(ed.nome);
       if (qtdM > 0) {
-        const pu = quantidadeAtivo >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" 
-          : quantidadeAtivo >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" 
-          : "powerUpNv1";
+        const pu = powerUpSelecionado;
         r += pu === "powerUpNv1" ? ed.redCusto.nível1 
           : pu === "powerUpNv2" ? ed.redCusto.nível2 
           : ed.redCusto.nível3;
@@ -515,7 +505,7 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
     }
     setAcumuladorPowerUpRedCustoRecebe(r);
     setAcumuladorPowerUpAumFatuRecebe(a);
-  }, [edificio.RecebeMelhoraEficiencia, getQuantidade, quantidadeAtivo, quantidadeMinimaPowerUpNv2, quantidadeMinimaPowerUpNv3]);
+  }, [edificio.RecebeMelhoraEficiencia, getQuantidade, powerUpSelecionado]);
 
   // ─── EDITAR NOME ─────────────────────────────────────────────
   const abrirModal = useCallback(() => {
@@ -628,20 +618,17 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
                         {lista.map((edM, i) => {
                           const infoM = getQuantidade(edM.nome);
                           const q = quantidadeAtivo;
-                          const pu = q >= quantidadeMinimaPowerUpNv3 ? "powerUpNv3" 
-                            : q >= quantidadeMinimaPowerUpNv2 ? "powerUpNv2" 
-                            : "powerUpNv1";
-                          const cL = infoM > 0 ? corPowerUp(pu) : setorInfo.cor2;
-                          const b1 = cL === "#8F5ADA" ? corPowerUp("powerUpNv1") 
-                            : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") 
-                            : pu === "powerUpNv3" ? corPowerUp("powerUpNv3") 
-                            : setorInfo.cor2;
+                          const pu = powerUpSelecionado;
+                          const cL = infoM > 0 ? corPowerUpAtual : setorInfo.cor2;
+                          const b1 = pu === "powerUpNv1" ? POWERUP_CORES.powerUpNv1 
+                            : pu === "powerUpNv2" ? POWERUP_CORES.powerUpNv2 
+                            : POWERUP_CORES.powerUpNv3;
                           const b2 = pu === "powerUpNv1" ? setorInfo.cor2 
-                            : pu === "powerUpNv2" ? corPowerUp("powerUpNv2") 
-                            : corPowerUp("powerUpNv3");
+                            : pu === "powerUpNv2" ? POWERUP_CORES.powerUpNv2 
+                            : POWERUP_CORES.powerUpNv3;
                           const b3 = pu === "powerUpNv1" ? setorInfo.cor2 
                             : pu === "powerUpNv2" ? setorInfo.cor2 
-                            : corPowerUp("powerUpNv3");
+                            : POWERUP_CORES.powerUpNv3;
 
                           return (
                             <tbody key={i}>
@@ -764,9 +751,7 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
           </div>
         </div>
 
-        {/* ════════════════════════════════════════
-            FRENTE DO CARD
-        ════════════════════════════════════════ */}
+        {/* FRENTE DO CARD */}
         <div
           className="absolute w-full h-full flex items-center justify-center rounded-xl"
           style={{ background: getGradient, mixBlendMode: "color-dodge", backfaceVisibility: "hidden" }}
@@ -787,7 +772,6 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
 
             {/* CORPO */}
             <div className="w-full flex flex-col justify-around gap-[4px]" style={{ flex: 1, padding: "4px 0" }}>
-              {/* Linha 3: Fatu mensal + ROI + botões */}
               <div className="flex gap-[4px]" style={{ minHeight: 42 }}>
                 <div style={{ flex: 1, background: "rgba(0,0,0,.28)", borderRadius: 7, padding: "5px 8px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                   <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>Fatu. mensal</div>
@@ -884,9 +868,7 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
           </div>
         </div>
 
-        {/* ════════════════════════════════════════
-            VERSO DO CARD
-        ════════════════════════════════════════ */}
+        {/* VERSO DO CARD */}
         <div
           className={`absolute w-full h-full flex items-center justify-center rounded-[20px] text-white cursor-pointer ${flipped ? "pointer-events-auto z-50" : "pointer-events-none"}`}
           style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", background: `linear-gradient(135deg,${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)` }}
@@ -906,9 +888,9 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
                 <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] h-full">
                   <div className="w-full rounded-[20px] flex justify-around items-center h-full">
                     {[
-                      { bg: "#8F5ADA", nv: "nível1" }, 
-                      { bg: "#6411D9", nv: "nível2" }, 
-                      { bg: "#350973", nv: "nível3" }
+                      { bg: POWERUP_CORES.powerUpNv1, nv: "nível1" }, 
+                      { bg: POWERUP_CORES.powerUpNv2, nv: "nível2" }, 
+                      { bg: POWERUP_CORES.powerUpNv3, nv: "nível3" }
                     ].map(({ bg, nv }) => (
                       <div key={nv} style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]">
                         <div style={{ backgroundColor: bg }} className="w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 cursor-pointer">
