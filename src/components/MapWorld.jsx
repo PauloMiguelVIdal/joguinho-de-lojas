@@ -1,5 +1,5 @@
 // ============================================================
-//  MapWorld.jsx - Versão Balanceada (Performance + Qualidade)
+//  MapWorld.jsx - Com Suporte a Configuração Gráfica
 //  Raio: 6
 // ============================================================
 
@@ -13,6 +13,7 @@ import { DadosEconomyGlobalContext } from '../dadosEconomyGlobal'
 import { BuildingModel } from './BuildingModel'
 import { resolverModeloSede, MODELOS, EDIFICIO_PARA_MODELO } from './buildingModels'
 import { useFrame } from '@react-three/fiber'
+import { useGraphicsConfig } from './GraphicsConfigContext'
 
 const HEX_SIZE = 0.6
 
@@ -22,7 +23,7 @@ const hexToWorld = (hex, size) => ({
 })
 
 // ─────────────────────────────────────────────────────────────
-//  FUNÇÕES DE VERIFICAÇÃO (COM CACHE)
+//  FUNÇÕES DE VERIFICAÇÃO (COM CACHE PARA PERFORMANCE)
 // ─────────────────────────────────────────────────────────────
 const edificioEhComposto = (() => {
   const cache = new Map()
@@ -169,7 +170,7 @@ const Ocean = React.memo(() => {
 // ─────────────────────────────────────────────────────────────
 //  CAMADA 3: TERRA E EDIFÍCIOS
 // ─────────────────────────────────────────────────────────────
-const HexBase = React.memo(({ corTopo = '#5a9e44' }) => {
+const HexBase = React.memo(({ corTopo = '#5a9e44', config = {} }) => {
   const shape = useMemo(() => {
     const s = new THREE.Shape()
     for (let i = 0; i < 6; i++) {
@@ -182,13 +183,23 @@ const HexBase = React.memo(({ corTopo = '#5a9e44' }) => {
     return s
   }, [])
 
+  const hasShadows = config?.hexShadows ?? true
+
   return (
     <group>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} castShadow receiveShadow>
+      <mesh 
+        rotation={[-Math.PI / 2, 0, 0]} 
+        castShadow={hasShadows} 
+        receiveShadow={hasShadows}
+      >
         <extrudeGeometry args={[shape, { depth: 0.2, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.015, bevelSegments: 2 }]} />
         <meshStandardMaterial color="#4a7230" roughness={0.9} metalness={0} />
       </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.2, 0]} receiveShadow>
+      <mesh 
+        rotation={[-Math.PI / 2, 0, 0]} 
+        position={[0, 0.2, 0]} 
+        receiveShadow={hasShadows}
+      >
         <shapeGeometry args={[shape]} />
         <meshStandardMaterial color={corTopo} roughness={0.8} metalness={0} />
       </mesh>
@@ -199,17 +210,18 @@ const HexBase = React.memo(({ corTopo = '#5a9e44' }) => {
 // ─────────────────────────────────────────────────────────────
 //  HexTileClusterSatelite
 // ─────────────────────────────────────────────────────────────
-const HexTileClusterSatelite = React.memo(({ hex, corTopo, modeloId, corFallback }) => {
+const HexTileClusterSatelite = React.memo(({ hex, corTopo, modeloId, corFallback, config = {} }) => {
   const { x, z } = hexToWorld(hex, HEX_SIZE)
   return (
     <group position={[x, 0, z]}>
-      <HexBase corTopo={corTopo} />
+      <HexBase corTopo={corTopo} config={config} />
       {modeloId != null && (
         <BuildingModel
           nomeEdificio={null}
           corFallback={corFallback || '#888888'}
           posicaoBase={[0, 0.22, 0]}
           _overrideModeloId={modeloId}
+          graphicsConfig={config}
         />
       )}
     </group>
@@ -219,7 +231,7 @@ const HexTileClusterSatelite = React.memo(({ hex, corTopo, modeloId, corFallback
 // ─────────────────────────────────────────────────────────────
 //  HexTile
 // ─────────────────────────────────────────────────────────────
-const HexTile = React.memo(({ hex, building, onClick, selected, moveMode }) => {
+const HexTile = React.memo(({ hex, building, onClick, selected, moveMode, config = {} }) => {
   const { x, z } = hexToWorld(hex, HEX_SIZE)
   
   const handleClick = useCallback(() => {
@@ -231,13 +243,14 @@ const HexTile = React.memo(({ hex, building, onClick, selected, moveMode }) => {
       position={[x, 0, z]}
       onClick={handleClick}
     >
-      <HexBase corTopo={building ? SETOR_CONFIG[building.setor]?.cor3 : undefined} />
+      <HexBase corTopo={building ? SETOR_CONFIG[building.setor]?.cor3 : undefined} config={config} />
       
       {building && (
         <BuildingModel
           nomeEdificio={building.nome}
           corFallback={SETOR_CONFIG[building.setor]?.cor4 || '#888888'}
           posicaoBase={[0, 0.22, 0]}
+          graphicsConfig={config}
         />
       )}
     </group>
@@ -247,17 +260,18 @@ const HexTile = React.memo(({ hex, building, onClick, selected, moveMode }) => {
 // ─────────────────────────────────────────────────────────────
 //  CAMADA 4: SEDE E LUZES
 // ─────────────────────────────────────────────────────────────
-const Sede = React.memo(({ nomeEmpresa, porte }) => {
-  const config = useMemo(() => resolverModeloSede(porte), [porte])
+const Sede = React.memo(({ nomeEmpresa, porte, config = {} }) => {
+  const sedeConfig = useMemo(() => resolverModeloSede(porte), [porte])
   
   return (
     <group position={[0, 0, 0]}>
-      <HexBase corTopo="#4a7230" />
+      <HexBase corTopo="#4a7230" config={config} />
       <BuildingModel
         nomeEdificio={null}
         corFallback="#888888"
         posicaoBase={[0, 0.22, 0]}
-        _overrideConfig={config}
+        _overrideConfig={sedeConfig}
+        graphicsConfig={config}
       />
       <Html position={[0, 3.0, 0]} center distanceFactor={8}>
         <div style={{
@@ -277,29 +291,41 @@ const Sede = React.memo(({ nomeEmpresa, porte }) => {
 })
 
 // ─────────────────────────────────────────────────────────────
-//  LUZES (COM SOMBRAS DE QUALIDADE)
+//  LUZES (COM CONFIGURAÇÃO DINÂMICA)
 // ─────────────────────────────────────────────────────────────
-const Lights = React.memo(() => (
-  <>
-    <directionalLight 
-      position={[15, 20, 10]} 
-      intensity={1.5} 
-      color="#ffffff" 
-      castShadow 
-      shadow-mapSize={[2048, 2048]}  // 🔥 Mantido para qualidade
-      shadow-bias={-0.001}
-      shadow-camera-near={0.5}
-      shadow-camera-far={50}
-      shadow-camera-left={-20}
-      shadow-camera-right={20}
-      shadow-camera-top={20}
-      shadow-camera-bottom={-20}
-    />
-    <ambientLight intensity={0.4} color="#ffffff" />
-    <pointLight position={[-10, 5, 10]} intensity={0.8} color="#dbb2ff" />
-    <hemisphereLight args={['#ffee00', '#ff5500', 0.5]} />
-  </>
-))
+const Lights = React.memo(({ config = {} }) => {
+  const hasShadows = config?.shadows ?? true
+  const mapSize = config?.shadowMapSize ?? 1024
+  const bias = config?.shadowBias ?? -0.001
+  const near = config?.shadowCameraNear ?? 0.5
+  const far = config?.shadowCameraFar ?? 50
+  const left = config?.shadowCameraLeft ?? -20
+  const right = config?.shadowCameraRight ?? 20
+  const top = config?.shadowCameraTop ?? 20
+  const bottom = config?.shadowCameraBottom ?? -20
+
+  return (
+    <>
+      <directionalLight 
+        position={[15, 20, 10]} 
+        intensity={1.5} 
+        color="#ffffff" 
+        castShadow={hasShadows}
+        shadow-mapSize={[mapSize, mapSize]}
+        shadow-bias={bias}
+        shadow-camera-near={near}
+        shadow-camera-far={far}
+        shadow-camera-left={left}
+        shadow-camera-right={right}
+        shadow-camera-top={top}
+        shadow-camera-bottom={bottom}
+      />
+      <ambientLight intensity={0.4} color="#ffffff" />
+      <pointLight position={[-10, 5, 10]} intensity={0.8} color="#dbb2ff" />
+      <hemisphereLight args={['#ffee00', '#ff5500', 0.5]} />
+    </>
+  )
+})
 
 // ─────────────────────────────────────────────────────────────
 //  COMPONENTE PRINCIPAL
@@ -307,6 +333,7 @@ const Lights = React.memo(() => (
 export default function MapWorld() {
   const { dados } = useContext(CentraldeDadosContext)
   const { economiaSetores } = useContext(DadosEconomyGlobalContext)
+  const { config: graphicsConfig } = useGraphicsConfig()
   
   const nomeEmpresa = dados.inicioGame?.nomeEmpresa || 'Empresa'
   const porte = economiaSetores?.centralEdificios?.classificacaoPorteEmpresa || 'Micro Empresa'
@@ -315,7 +342,7 @@ export default function MapWorld() {
   const [dayProgress, setDayProgress] = useState(0)
   const [moveMode, setMoveMode] = useState(false)
 
-  // ── Edifícios ativos ──────────────────────────────────────────
+  // ── Edifícios ativos ────────────────────────────────────────
   const edificiosAtivos = useMemo(() => {
     const lista = []
     SETORES.forEach(setor => {
@@ -335,27 +362,27 @@ export default function MapWorld() {
     return lista
   }, [dados])
 
-  // ── Hex Grid ──────────────────────────────────────────────────
+  // ── Hex Grid ── RAIO 6 ──
   const hexGrid = useMemo(() => {
     const Tile = defineHex({ dimensions: HEX_SIZE, orientation: 'pointy' })
     return Array.from(new Grid(Tile, spiral({ center: [0, 0], radius: 6 })))
   }, [])
 
-  // ── Hex Map para lookup O(1) ──────────────────────────────────
+  // ── Hex Map para lookup O(1) ──────────────────────────────
   const hexMap = useMemo(() => {
     const map = new Map()
     hexGrid.forEach(h => map.set(`${h.q},${h.r}`, h))
     return map
   }, [hexGrid])
 
-  // ── Edifício Map para lookup O(1) ─────────────────────────────
+  // ── Edifício Map para lookup O(1) ─────────────────────────
   const edificioPorId = useMemo(() => {
     const map = new Map()
     edificiosAtivos.forEach(e => map.set(e.id, e))
     return map
   }, [edificiosAtivos])
 
-  // ── Posicionamento automático ──────────────────────────────────
+  // ── Posicionamento automático ──────────────────────────────
   const [posicoes, setPosicoes] = useState({})
 
   useEffect(() => {
@@ -431,7 +458,7 @@ export default function MapWorld() {
     setPosicoes(novasPosicoes)
   }, [edificiosAtivos, hexGrid, edificioPorId])
 
-  // ── Satélites dos clusters ─────────────────────────────────────
+  // ── Satélites dos clusters ──────────────────────────────────
   const satelites = useMemo(() => {
     const mapa = {}
     Object.entries(posicoes).forEach(([key, id]) => {
@@ -460,14 +487,14 @@ export default function MapWorld() {
     return mapa
   }, [posicoes, edificioPorId])
 
-  // ── Tiles para renderizar (FILTRADO) ──────────────────────────
+  // ── Tiles para renderizar (FILTRADO) ──────────────────────
   const tilesToRender = useMemo(() => {
     return hexGrid
       .map(h => ({ hex: h, key: `${h.q},${h.r}` }))
       .filter(({ key }) => key !== '0,0' && !satelites[key])
   }, [hexGrid, satelites])
 
-  // ── Handle Click ──────────────────────────────────────────────
+  // ── Handle Click ────────────────────────────────────────────
   const handleHexClick = useCallback((hex) => {
     const key = `${hex.q},${hex.r}`
     if (moveMode) {
@@ -479,14 +506,20 @@ export default function MapWorld() {
     }
   }, [moveMode, posicoes])
 
-  // ── Render ──────────────────────────────────────────────────────
+  // ── Configuração do Canvas ─────────────────────────────────
+  const canvasConfig = useMemo(() => ({
+    shadows: graphicsConfig.shadows,
+    antialias: graphicsConfig.antialias,
+  }), [graphicsConfig])
+
+  // ── Render ──────────────────────────────────────────────────
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative', borderRadius: 20, overflow: 'hidden' }}>
       <Canvas 
         frameloop="demand"
-        shadows // 🔥 Mantém sombras de qualidade
+        shadows={canvasConfig.shadows}
         gl={{
-          antialias: true, // 🔥 Mantém qualidade visual
+          antialias: canvasConfig.antialias,
           powerPreference: "high-performance",
         }}
         camera={{ position: [18, 18, 18], fov: 26 }}
@@ -494,15 +527,26 @@ export default function MapWorld() {
         {/* CAMADA 1: CÉU */}
         <SkyDome dayProgress={dayProgress} />
         
-        {/* CAMADA 2: MAR */}
-        <Ocean />
+        {/* CAMADA 2: MAR (desligado em performance) */}
+        {graphicsConfig.oceanWaves ? (
+          <Ocean />
+        ) : (
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]} receiveShadow>
+            <circleGeometry args={[8, 32]} />
+            <meshStandardMaterial color="#003366" roughness={0.3} metalness={0.1} />
+          </mesh>
+        )}
         
         {/* CAMADA 4: LUZES */}
-        <Lights />
+        <Lights config={graphicsConfig} />
 
         {/* CAMADA 3: TERRA E EDIFÍCIOS */}
         <group>
-          <Sede nomeEmpresa={nomeEmpresa} porte={porte} />
+          <Sede 
+            nomeEmpresa={nomeEmpresa} 
+            porte={porte} 
+            config={graphicsConfig}
+          />
 
           {/* Satélites de clusters */}
           {Object.entries(satelites).map(([key, { corTopo, modeloId, corFallback }]) => {
@@ -518,6 +562,7 @@ export default function MapWorld() {
                 corTopo={corTopo}
                 modeloId={modeloId}
                 corFallback={corFallback}
+                config={graphicsConfig}
               />
             )
           })}
@@ -535,6 +580,7 @@ export default function MapWorld() {
                 onClick={handleHexClick}
                 selected={key === selectedKey}
                 moveMode={moveMode}
+                config={graphicsConfig}
               />
             )
           })}
@@ -542,9 +588,9 @@ export default function MapWorld() {
 
         <ContactShadows 
           position={[0, 0.02, 0]} 
-          opacity={0.4}  // 🔥 Mantido para qualidade
-          scale={30}     // 🔥 Mantido para qualidade
-          blur={2.2}     // 🔥 Mantido para qualidade
+          opacity={graphicsConfig.contactShadowsOpacity} 
+          scale={graphicsConfig.contactShadowsScale} 
+          blur={graphicsConfig.contactShadowsBlur} 
           color="#1a3a10" 
         />
         
@@ -558,8 +604,8 @@ export default function MapWorld() {
           target={[0, 0, 0]}
           enableDamping={true}
           dampingFactor={0.08}
-          autoRotate={true}
-          autoRotateSpeed={1.2}
+          autoRotate={graphicsConfig.autoRotate}
+          autoRotateSpeed={graphicsConfig.autoRotateSpeed}
         />
       </Canvas>
     </div>

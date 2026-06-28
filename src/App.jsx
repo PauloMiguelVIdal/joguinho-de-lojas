@@ -17,7 +17,8 @@ import {
   Filler,
   Legend,
 } from "chart.js";
-
+import { GraphicsConfigProvider } from './components/GraphicsConfigContext'
+import QualityToggle from './components/QualityToggle'
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -52,29 +53,40 @@ function App() {
   }, []);
 
   return (
-    <CentraldeDadosProvider>
-      <DadosEconomyGlobalProvider>
-        <div
-          ref={containerRef}
-          className="h-[100vh] w-[100vw] relative bg-[#350973]"
-        >
-          {/* Botão de Tela Cheia */}
-          <button
-            onClick={toggleFullscreen}
-            className="absolute top-4 right-4 z-[10000]"
+    <GraphicsConfigProvider>
+      <CentraldeDadosProvider>
+        <DadosEconomyGlobalProvider>
+          <div
+            ref={containerRef}
+            className="h-[100vh] w-[100vw] relative bg-[#350973]"
           >
-            <img
-              className="w-[30px] h-[30px]"
-              src={isFullscreen ? reduzirTela : telaCheia}
-              alt={isFullscreen ? "Sair da Tela Cheia" : "Tela Cheia"}
-            />
-          </button>
+            <div  className="z-[10000]" style={{
+              position: 'absolute',
+              bottom: '24px',
+              right: '24px',
+             
+            }}>
+              <QualityToggle />
+            </div>
+            {/* Botão de Tela Cheia */}
+            <button
+              onClick={toggleFullscreen}
+              className="absolute top-4 right-4 z-[10000]"
+            >
+              <img
+                className="w-[30px] h-[30px]"
+                src={isFullscreen ? reduzirTela : telaCheia}
+                alt={isFullscreen ? "Sair da Tela Cheia" : "Tela Cheia"}
+              />
+            </button>
 
-          {/* Seu jogo */}
-          <Interface />
-        </div>
-      </DadosEconomyGlobalProvider>
-    </CentraldeDadosProvider>
+            {/* Seu jogo */}
+            <Interface />
+          </div>
+        </DadosEconomyGlobalProvider>
+      </CentraldeDadosProvider>
+    </GraphicsConfigProvider>
+
   );
 }
 

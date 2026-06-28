@@ -1,8 +1,8 @@
 // ============================================================
-//  BuildingModel.jsx - Versão Balanceada
+//  BuildingModel.jsx - Com Suporte a Configuração Gráfica
 // ============================================================
 
-import React, { useMemo, useState, useEffect, Component, useCallback } from 'react'
+import React, { useMemo, useState, useEffect, Component } from 'react'
 import { useGLTF, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 import { resolverModelo } from './buildingModels'
@@ -23,9 +23,6 @@ async function checarArquivo(path) {
   return glbCache[path]
 }
 
-// ─────────────────────────────────────────────────────────────
-//  HOOK useResolverCaminho
-// ─────────────────────────────────────────────────────────────
 function useResolverCaminho(arquivoBase) {
   const caminhos = useMemo(() => {
     if (!arquivoBase) return []
@@ -87,6 +84,9 @@ class ModelErrorBoundary extends Component {
       console.warn('[BuildingModel]', error?.message)
     }
   }
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.hasError !== nextState.hasError
+  }
   render() {
     return this.state.hasError
       ? (this.props.fallback ?? null)
@@ -95,32 +95,44 @@ class ModelErrorBoundary extends Component {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  Fallback visual
+//  Fallback visual (COM GEOMETRIAS MEMOIZADAS)
 // ─────────────────────────────────────────────────────────────
-export const ModeloFallback = React.memo(({ cor = '#888888' }) => {
+export function ModeloFallback({ cor = '#888888', config = {} }) {
+  const hasShadows = config?.buildingShadows ?? true
+  
   const geometryBox = useMemo(() => new THREE.BoxGeometry(0.28, 0.18, 0.28), [])
   const geometryCone = useMemo(() => new THREE.ConeGeometry(0.22, 0.16, 4), [])
   
   return (
     <group>
-      <mesh position={[0, 0.09, 0]} castShadow>
+      <mesh position={[0, 0.09, 0]} castShadow={hasShadows}>
         <primitive object={geometryBox} />
         <meshStandardMaterial color="#d4c4a0" roughness={0.8} />
       </mesh>
-      <mesh position={[0, 0.24, 0]} rotation={[0, Math.PI / 4, 0]} castShadow>
+      <mesh position={[0, 0.24, 0]} rotation={[0, Math.PI / 4, 0]} castShadow={hasShadows}>
         <primitive object={geometryCone} />
         <meshStandardMaterial color={cor} roughness={0.7} />
       </mesh>
     </group>
   )
-})
+}
 
 // ─────────────────────────────────────────────────────────────
 //  Loader COM colormap
 // ─────────────────────────────────────────────────────────────
-function ModeloComColormap({ glbPath, colormap, escalaVec, posY, rotacao, rotacaoCorrecao, corTint }) {
+function ModeloComColormap({ 
+  glbPath, 
+  colormap, 
+  escalaVec, 
+  posY, 
+  rotacao, 
+  rotacaoCorrecao, 
+  corTint,
+  config = {} 
+}) {
   const { scene } = useGLTF(glbPath)
   const textura = useTexture(colormap)
+  const hasShadows = config?.buildingShadows ?? true
 
   const clonado = useMemo(() => {
     textura.flipY = false
@@ -139,11 +151,11 @@ function ModeloComColormap({ glbPath, colormap, escalaVec, posY, rotacao, rotaca
       }
       mat.needsUpdate = true
       node.material = mat
-      node.castShadow = true
-      node.receiveShadow = true
+      node.castShadow = hasShadows
+      node.receiveShadow = hasShadows
     })
     return clone
-  }, [scene, textura, corTint])
+  }, [scene, textura, corTint, hasShadows])
 
   return (
     <primitive
@@ -162,8 +174,17 @@ function ModeloComColormap({ glbPath, colormap, escalaVec, posY, rotacao, rotaca
 // ─────────────────────────────────────────────────────────────
 //  Loader SEM colormap
 // ─────────────────────────────────────────────────────────────
-function ModeloSemColormap({ glbPath, escalaVec, posY, rotacao, rotacaoCorrecao, corTint }) {
+function ModeloSemColormap({ 
+  glbPath, 
+  escalaVec, 
+  posY, 
+  rotacao, 
+  rotacaoCorrecao, 
+  corTint,
+  config = {} 
+}) {
   const { scene } = useGLTF(glbPath)
+  const hasShadows = config?.buildingShadows ?? true
 
   const clonado = useMemo(() => {
     const clone = scene.clone(true)
@@ -175,11 +196,11 @@ function ModeloSemColormap({ glbPath, escalaVec, posY, rotacao, rotacaoCorrecao,
         mat.needsUpdate = true
       }
       node.material = mat
-      node.castShadow = true
-      node.receiveShadow = true
+      node.castShadow = hasShadows
+      node.receiveShadow = hasShadows
     })
     return clone
-  }, [scene, corTint])
+  }, [scene, corTint, hasShadows])
 
   return (
     <primitive
@@ -198,10 +219,13 @@ function ModeloSemColormap({ glbPath, escalaVec, posY, rotacao, rotacaoCorrecao,
 // ─────────────────────────────────────────────────────────────
 //  Loader interno
 // ─────────────────────────────────────────────────────────────
-function ModeloLoader({ config, corFallback }) {
+function ModeloLoader({ config, corFallback, graphicsConfig = {} }) {
   const { path, status } = useResolverCaminho(config?.glbPath ?? null)
 
-  const fallbackEl = useMemo(() => <ModeloFallback cor={corFallback} />, [corFallback])
+  const fallbackEl = useMemo(
+    () => <ModeloFallback cor={corFallback} config={graphicsConfig} />,
+    [corFallback, graphicsConfig]
+  )
 
   if (!config?.glbPath) return fallbackEl
   if (status === 'loading') return fallbackEl
@@ -219,6 +243,7 @@ function ModeloLoader({ config, corFallback }) {
             rotacao={config.rotacao}
             rotacaoCorrecao={config.rotacaoCorrecao}
             corTint={config.corTint}
+            config={graphicsConfig}
           />
         ) : (
           <ModeloSemColormap
@@ -228,6 +253,7 @@ function ModeloLoader({ config, corFallback }) {
             rotacao={config.rotacao}
             rotacaoCorrecao={config.rotacaoCorrecao}
             corTint={config.corTint}
+            config={graphicsConfig}
           />
         )}
       </React.Suspense>
@@ -236,15 +262,16 @@ function ModeloLoader({ config, corFallback }) {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  COMPONENTE PÚBLICO
+//  COMPONENTE PÚBLICO - COM SUPORTE A CONFIGURAÇÃO GRÁFICA
 // ─────────────────────────────────────────────────────────────
-export const BuildingModel = React.memo(({ 
+export function BuildingModel({ 
   nomeEdificio, 
   corFallback = '#888888', 
   posicaoBase = [0, 0, 0], 
   _overrideConfig = null, 
-  _overrideModeloId = null 
-}) => {
+  _overrideModeloId = null,
+  graphicsConfig = {}
+}) {
   const config = useMemo(() => {
     return _overrideConfig
       ?? (_overrideModeloId != null ? resolverModelo(null, _overrideModeloId) : null)
@@ -255,7 +282,11 @@ export const BuildingModel = React.memo(({
   if (config?.tipo === 'simples') {
     return (
       <group position={posicaoBase}>
-        <ModeloLoader config={config} corFallback={corFallback} />
+        <ModeloLoader 
+          config={config} 
+          corFallback={corFallback}
+          graphicsConfig={graphicsConfig}
+        />
       </group>
     )
   }
@@ -271,16 +302,21 @@ export const BuildingModel = React.memo(({
             rotation={[0, parte.rotacaoExtra ?? 0, 0]}
             scale={parte.escalaVec.map(v => v * (parte.escalaExtra ?? 1))}
           >
-            <ModeloLoader config={parte} corFallback={corFallback} />
+            <ModeloLoader 
+              config={parte} 
+              corFallback={corFallback}
+              graphicsConfig={graphicsConfig}
+            />
           </group>
         ))}
       </group>
     )
   }
 
+  // Config inválida → fallback
   return (
     <group position={posicaoBase}>
-      <ModeloFallback cor={corFallback} />
+      <ModeloFallback cor={corFallback} config={graphicsConfig} />
     </group>
   )
-})
+}

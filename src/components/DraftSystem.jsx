@@ -294,7 +294,7 @@ export const DraftSystemInicial = ({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.8, y: 50 }}
         transition={{ duration: 0.4, type: "spring", stiffness: 120 }}
-        className="relative w-[95vw] max-w-[1400px] max-h-[92vh] bg-gradient-to-br from-[#350973] via-[#6411D9] to-[#8F5ADA] rounded-[30px] p-6 shadow-2xl border-2 border-[#C79FFF]/30 overflow-hidden"
+        className="relative w-[95vw] max-w-[1400px] max-h-[92vh] bg-gradient-to-br flex items-center flex-col justify-around  from-[#350973] via-[#6411D9] to-[#8F5ADA] rounded-[30px] p-6 shadow-2xl border-2 border-[#C79FFF]/30 overflow-hidden"
       >
 
 
@@ -338,50 +338,61 @@ export const DraftSystemInicial = ({
               </div>
 
               {/* ── OPÇÕES EM CARDS ── */}
-              <div className="flex-1 overflow-y-auto pr-2 scrollbar-custom">
-                <div className="flex flex-wrap justify-around gap-4 pb-4">
-                  {opcoes.map((carta, index) => {
-                    const isSelecionada = opcaoSelecionada === carta;
-                    const isDesabilitada = animando || !!opcaoSelecionada;
-                    const info = getSetorDaCarta(carta);
-                    const rankInfo = getRankInfo(tipoRodadaAtual);
+        <div className="h-[calc(92vh-220px)] overflow-y-auto flex items-center scrollbar-custom">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-4">
+            {opcoes.map((carta, index) => {
+              const isSelecionada = opcaoSelecionada === carta;
+              const isDesabilitada = animando || !!opcaoSelecionada;
+              const info = getSetorDaCarta(carta);
+              const rankInfo = getRankInfo(tipoRodadaAtual);
 
-                    return (
-                      <div key={index} className="flex flex-col items-center gap-2">
-                        {info && (
-                          <div
-                            className={`transition-all duration-300 ${isDesabilitada && !isSelecionada ? 'opacity-40 pointer-events-none' : 'cursor-pointer'
-                              } ${isSelecionada ? 'scale-105' : ''}`}
-                            onClick={() => !isDesabilitada && selecionarCarta(carta)}
-                            style={{
-                              boxShadow: isSelecionada ? `0 0 30px ${rankInfo.cor}66` : 'none'
-                            }}
-                          >
-                            <CardDraft
-                              index={info.index}
-                              setor={info.setor}
-                              abrirModalSell={() => { }}
-                            />
-                          </div>
-                        )}
+              return (
+                <div 
+                  key={index} 
+                  className="flex flex-col items-center gap-3 bg-black/20 rounded-2xl p-4 border border-white/10 hover:border-white/20 transition-all duration-300"
+                >
+                  {info && (
+                    <div 
+                      className={`w-full flex items-center justify-center transition-all duration-300 ${
+                        isDesabilitada && !isSelecionada ? 'opacity-40 pointer-events-none' : 'cursor-pointer'
+                      } ${isSelecionada ? 'scale-105' : 'hover:scale-102'}`}
+                      onClick={() => !isDesabilitada && selecionarCarta(carta)}
+                      style={{
+                        boxShadow: isSelecionada ? `0 0 30px ${rankInfo.cor}66` : 'none'
+                      }}
+                    >
+                      <CardDraft 
+                        index={info.index} 
+                        setor={info.setor} 
+                        abrirModalSell={() => {}}
+                      />
+                    </div>
+                  )}
 
-                        <button
-                          onClick={() => !isDesabilitada && selecionarCarta(carta)}
-                          disabled={isDesabilitada}
-                          className={`px-6 py-2 rounded-lg font-bold text-sm transition-all ${isSelecionada
-                              ? 'bg-[#34d399] text-[#1a1a1a] shadow-lg shadow-[#34d399]/30'
-                              : isDesabilitada
-                                ? 'bg-white/10 text-white/30 cursor-not-allowed'
-                                : `bg-gradient-to-r from-[#6411D9] to-[#8F5ADA] hover:from-[#8F5ADA] hover:to-[#6411D9] text-white hover:scale-105`
-                            }`}
-                        >
-                          {isSelecionada ? '✓ Selecionado' : 'Selecionar'}
-                        </button>
-                      </div>
-                    );
-                  })}
+                  {/* ── NOME DA CARTA ── */}
+                  <p className="text-white/80 text-sm font-medium text-center truncate w-full px-2">
+                    {/* {carta} */}
+                  </p>
+
+                  {/* ── BOTÃO SELECIONAR ── */}
+                  <button
+                    onClick={() => !isDesabilitada && selecionarCarta(carta)}
+                    disabled={isDesabilitada}
+                    className={`w-full py-2.5 rounded-lg font-bold text-sm transition-all ${
+                      isSelecionada 
+                        ? 'bg-[#34d399] text-[#1a1a1a] shadow-lg shadow-[#34d399]/30'
+                        : isDesabilitada
+                          ? 'bg-white/10 text-white/30 cursor-not-allowed'
+                          : `bg-gradient-to-r from-[#6411D9] to-[#8F5ADA] hover:from-[#8F5ADA] hover:to-[#6411D9] text-white hover:scale-105`
+                    }`}
+                  >
+                    {isSelecionada ? '✓ Selecionado' : 'Selecionar'}
+                  </button>
                 </div>
-              </div>
+              );
+            })}
+          </div>
+        </div>
             </div>
           </div>
 
@@ -657,7 +668,7 @@ export const DraftSystemContinuo = ({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.8, y: 50 }}
         transition={{ duration: 0.4, type: "spring", stiffness: 120 }}
-        className="relative w-[95vw] max-w-[1400px] max-h-[92vh] bg-gradient-to-br from-[#350973] via-[#6411D9] to-[#8F5ADA] rounded-[30px] p-6 shadow-2xl border-2 border-[#C79FFF]/30 overflow-hidden"
+        className="relative w-[95vw] flex justify-between flex-col items-center max-w-[1400px] max-h-[92vh] bg-gradient-to-br from-[#350973] via-[#6411D9] to-[#8F5ADA] rounded-[30px] p-6 shadow-2xl border-2 border-[#C79FFF]/30 overflow-hidden"
       >
         {/* ── BOTÃO FECHAR ── */}
         {/* <button
@@ -697,7 +708,7 @@ export const DraftSystemContinuo = ({
         </div>
 
         {/* ── OPÇÕES EM CARDS - GRID 3 COLUNAS ── */}
-        <div className="h-[calc(92vh-220px)] overflow-y-auto pr-2 scrollbar-custom">
+        <div className="h-[calc(92vh-220px)] overflow-y-auto flex items-center pr-2 scrollbar-custom">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-4">
             {opcoes.map((carta, index) => {
               const isSelecionada = opcaoSelecionada === carta;
