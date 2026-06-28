@@ -249,32 +249,23 @@ export function BuildingModel({
   }
 
   // 🔥 COMPOSTO - CORRIGIDO
-  if (config?.tipo === 'composto') {
-    return (
-      <group position={posicaoBase}>
-        {config.partes.map((parte, i) => {
-          // Garantir que cada parte tenha seus próprios valores
-          const escalaFinal = parte.escalaVec 
-            ? parte.escalaVec.map(v => v * (parte.escalaExtra ?? 1))
-            : [1, 1, 1]
-          
-          const posFinal = parte.offset || [0, 0, 0]
-          const rotFinal = (parte.rotacaoExtra ?? 0) + (parte.rotacao ?? 0)
-
-          return (
-            <group
-              key={i}
-              position={posFinal}
-              rotation={[0, rotFinal, 0]}
-              scale={escalaFinal}
-            >
-              <ModeloLoader config={parte} corFallback={corFallback} />
-            </group>
-          )
-        })}
-      </group>
-    )
-  }
+// Substitua a seção COMPOSTO por:
+if (config?.tipo === 'composto') {
+  return (
+    <group position={posicaoBase}>
+      {config.partes.map((parte, i) => (
+        <group
+          key={i}
+          position={parte.offset || [0, 0, 0]}
+          rotation={[0, parte.rotacaoExtra ?? 0, 0]}
+          scale={parte.escalaVec.map(v => v * (parte.escalaExtra ?? 1))}
+        >
+          <ModeloLoader config={parte} corFallback={corFallback} />
+        </group>
+      ))}
+    </group>
+  )
+}
 
   // Config inválida ou tipo desconhecido → fallback
   return (

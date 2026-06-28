@@ -366,7 +366,8 @@ export const CardDraft = ({ index, setor, abrirModalSell }) => {
     return total;
   }, [arrayConstResources, dados.terrenos.preçoConstrução, dados.lojasP.preçoConstrução, dados.lojasM.preçoConstrução, dados.lojasG.preçoConstrução]);
 
-  const fatuMensal = valorFatuFinal * 30 * fatorEconomico;
+ const fatuMensal = Math.round((valorFatuFinal * 30 * fatorEconomico) * 100) / 100;
+
   const valorImpostoSobreFatuCalc = fatuMensal * impostoSobreFatuFinal;
   const valorFinalMês = fatuMensal - valorImpostoSobreFatuCalc - valorImpostoFixoFinal;
   const rentabilidade = (valorFinalMês / (CustoTotalSomadoLojas + custoRecursos + custoConstrução)) * 100;

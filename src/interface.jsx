@@ -38,7 +38,7 @@ const ToggleButton = lazy(() => import("./components/ToggleButton.jsx"));
 const InfoPage = lazy(() => import("./components/Info.jsx").then(m => ({ default: m.InfoPage })));
 const ModalInfo = lazy(() => import("./components/ModalInfo.jsx"));
 const UpgradeCards = lazy(() => import("./components/UpgradeCards.jsx"));
-const Mapworld = lazy(() => import("./components/MapWorld.jsx"));
+// const Mapworld = lazy(() => import("./components/MapWorld.jsx"));
 const SidebarFinancas = lazy(() => import("./components/SidebarFinancas.jsx"));
 import { PackOpening } from "./components/PackOpening.jsx";
 import { PackOpeningDraft } from "./components/PackOpeningDraft.jsx";
@@ -77,8 +77,9 @@ function Interface() {
 
   const [modalShopOpen, setModalShopOpen] = useState(false);
   const jogoIniciado = dados.jogoIniciado || false;
-  const renderizando = dados.dia % 30 !== 0
-  const ajusteLargura = renderizando || jogoIniciado
+  const renderizando = dados.dia % 30 !== 0 || dados.dia === 0
+  const ajusteLargura = renderizando 
+  // || jogoIniciado
 
     // const { draftAberto, draftConcluido, cartasSelecionadas, abrirDraft, fecharDraft, handleComplete } = useDraftSystem();
   return (
@@ -124,7 +125,7 @@ function Interface() {
           top: 0,
           left: 0,
           height: '80px',
-          width: renderizando ? '100vw' : '75vw',
+          width: dados.dia<=180 ? '100vw' : '75vw',
           zIndex: 50,
           display: 'flex',
           alignItems: 'center',
@@ -159,7 +160,7 @@ function Interface() {
           style={{
             position: 'fixed',
             height: '60vh',
-            top: '0px',
+            top: dados.dia<=180?'80px':'0px',
             right: '0',
             width: '25vw',
             zIndex: 20,

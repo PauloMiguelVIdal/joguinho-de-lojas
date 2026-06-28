@@ -2269,7 +2269,7 @@ export default function Dashboard() {
     return (
       <div className="w-full h-full border-[#350973] rounded-[20px] flex">
 
-        <MapWorld />
+        {/* <MapWorld /> */}
       </div>
     )
   }

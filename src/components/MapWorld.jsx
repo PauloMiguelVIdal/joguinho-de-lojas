@@ -225,8 +225,13 @@ const HexTile = ({ hex, building, onClick, selected, moveMode = false }) => {
         if (building || moveMode) onClick(hex)
       }}
     >
-      <HexBase corTopo={building ? cfg?.cor3 : undefined} />
-      
+      {/* PASSA hovered e selected, remove o ring externo */}
+      <HexBase
+        corTopo={building ? cfg?.cor3 : undefined}
+        hovered={hovered}
+        selected={selected}
+      />
+
       {building && (
         <BuildingModel
           nomeEdificio={building.nome}
@@ -234,14 +239,19 @@ const HexTile = ({ hex, building, onClick, selected, moveMode = false }) => {
           posicaoBase={[0, 0.22, 0]}
         />
       )}
-      
-      {(selected || hovered) && (
+
+      {/* Ring de seleção quando há edifício (corTopo presente, o interno não renderiza) */}
+      {(selected || hovered) && building && (
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.21, 0]}>
           <ringGeometry args={[HEX_SIZE * 0.9, HEX_SIZE * 1.0, 6]} />
-          <meshBasicMaterial color={selected ? '#F27405' : '#ffffff'} transparent opacity={selected ? 1 : 0.4} />
+          <meshBasicMaterial
+            color={selected ? '#F27405' : '#ffffff'}
+            transparent
+            opacity={selected ? 1 : 0.4}
+          />
         </mesh>
       )}
-      
+
       {moveMode && !building && hovered && (
         <mesh position={[0, 0.22, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <ringGeometry args={[HEX_SIZE * 0.45, HEX_SIZE * 0.58, 6]} />
