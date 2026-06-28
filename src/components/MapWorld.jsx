@@ -209,54 +209,22 @@ const HexTileClusterSatelite = ({ hex, corTopo, modeloId, corFallback }) => {
 // ─────────────────────────────────────────────────────────────
 //  HexTile
 // ─────────────────────────────────────────────────────────────
-const HexTile = ({ hex, building, onClick, selected, moveMode = false }) => {
-  const [hovered, setHover] = useState(false)
+const HexTile = ({ hex, building, onClick, selected, moveMode }) => {
   const { x, z } = hexToWorld(hex, HEX_SIZE)
-  const cfg = building ? SETOR_CONFIG[building.setor] : null
-  const yPos = hovered ? 0.08 : 0
-
+  
   return (
-    <group
-      position={[x, yPos, z]}
-      onPointerOver={(e) => { e.stopPropagation(); setHover(true) }}
-      onPointerOut={() => setHover(false)}
-      onClick={(e) => {
-        e.stopPropagation()
-        if (building || moveMode) onClick(hex)
-      }}
+    <group 
+      position={[x, 0, z]}
+      onClick={() => onClick(hex)}
     >
-      {/* PASSA hovered e selected, remove o ring externo */}
-      <HexBase
-        corTopo={building ? cfg?.cor3 : undefined}
-        hovered={hovered}
-        selected={selected}
-      />
-
+      <HexBase corTopo={building ? SETOR_CONFIG[building.setor]?.cor3 : undefined} />
+      
       {building && (
         <BuildingModel
           nomeEdificio={building.nome}
-          corFallback={cfg?.cor4 || '#888888'}
+          corFallback={SETOR_CONFIG[building.setor]?.cor4 || '#888888'}
           posicaoBase={[0, 0.22, 0]}
         />
-      )}
-
-      {/* Ring de seleção quando há edifício (corTopo presente, o interno não renderiza) */}
-      {(selected || hovered) && building && (
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.21, 0]}>
-          <ringGeometry args={[HEX_SIZE * 0.9, HEX_SIZE * 1.0, 6]} />
-          <meshBasicMaterial
-            color={selected ? '#F27405' : '#ffffff'}
-            transparent
-            opacity={selected ? 1 : 0.4}
-          />
-        </mesh>
-      )}
-
-      {moveMode && !building && hovered && (
-        <mesh position={[0, 0.22, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[HEX_SIZE * 0.45, HEX_SIZE * 0.58, 6]} />
-          <meshBasicMaterial color="#F27405" transparent opacity={0.75} />
-        </mesh>
       )}
     </group>
   )
@@ -303,6 +271,20 @@ const Lights = () => (
   </>
 )
 
+// Adicione no MapWorld
+// const posicoesOcupadas = useMemo(() => {
+//   const ocupadas = new Set()
+//   Object.keys(posicoes).forEach(key => ocupadas.add(key))
+//   Object.keys(satelites).forEach(key => ocupadas.add(key))
+//   return ocupadas
+// }, [posicoes, satelites])
+
+// // Use para debug
+// console.log('Posições ocupadas:', Array.from(posicoesOcupadas))
+// console.log('Total de tiles:', hexGrid.length)
+// console.log('Edifícios:', edificiosAtivos.length)
+
+
 // ─────────────────────────────────────────────────────────────
 //  COMPONENTE PRINCIPAL
 // ─────────────────────────────────────────────────────────────
@@ -348,19 +330,27 @@ export default function MapWorld() {
 
   useEffect(() => {
     const gridKeys = new Set(hexGrid.map(h => `${h.q},${h.r}`))
+    
+    // 🔥 IMPORTANTE: A sede (0,0) NUNCA pode ser ocupada por edifícios
     const posOcupadas = new Set(['0,0'])
     const novasPosicoes = {}
 
     // Primeiro, preservar edifícios já posicionados
     const idsAtivos = new Set(edificiosAtivos.map(e => e.id))
     Object.entries(posicoes).forEach(([key, id]) => {
+      // 🔥 PULA se for a sede
+      if (key === '0,0') return
+      
       if (idsAtivos.has(id)) {
         novasPosicoes[key] = id
         posOcupadas.add(key)
         const ed = edificiosAtivos.find(e => e.id === id)
         if (ed?.ehCluster) {
           const [q, r] = key.split(',').map(Number)
-          vizinhosDeHex(q, r).forEach(vk => posOcupadas.add(vk))
+          vizinhosDeHex(q, r).forEach(vk => {
+            // 🔥 NUNCA marcar a sede como ocupada
+            if (vk !== '0,0') posOcupadas.add(vk)
+          })
         }
       }
     })
@@ -372,7 +362,15 @@ export default function MapWorld() {
         return (aq*aq + ar*ar) - (bq*bq + br*br)
       })
 
-    const proximoLivre = () => keys.find(k => !posOcupadas.has(k) && gridKeys.has(k)) || null
+    const proximoLivre = (predicado = null) => {
+      for (const k of keys) {
+        if (k === '0,0') continue // 🔥 NUNCA usar a sede
+        if (posOcupadas.has(k)) continue
+        if (predicado && !predicado(k)) continue
+        return k
+      }
+      return null
+    }
 
     const idsJaAlocados = new Set(Object.values(novasPosicoes))
     const clusters = edificiosAtivos.filter(ed => ed.ehCluster && !idsJaAlocados.has(ed.id))
@@ -382,13 +380,19 @@ export default function MapWorld() {
     clusters.forEach(ed => {
       const central = proximoLivre(k => {
         const [cq, cr] = k.split(',').map(Number)
-        return vizinhosDeHex(cq, cr).every(vk => !posOcupadas.has(vk) && gridKeys.has(vk))
+        // 🔥 Verifica se todos os vizinhos estão livres (exceto a sede)
+        return vizinhosDeHex(cq, cr).every(vk => {
+          if (vk === '0,0') return false // 🔥 NUNCA ocupar a sede
+          return !posOcupadas.has(vk) && gridKeys.has(vk)
+        })
       })
       if (central) {
         const [cq, cr] = central.split(',').map(Number)
         novasPosicoes[central] = ed.id
         posOcupadas.add(central)
-        vizinhosDeHex(cq, cr).forEach(vk => posOcupadas.add(vk))
+        vizinhosDeHex(cq, cr).forEach(vk => {
+          if (vk !== '0,0') posOcupadas.add(vk) // 🔥 NUNCA marcar a sede
+        })
       }
     })
 
@@ -420,6 +424,8 @@ export default function MapWorld() {
 
       const [q, r] = key.split(',').map(Number)
       vizinhosDeHex(q, r).forEach((vk, i) => {
+        // 🔥 NUNCA renderizar satélite na sede
+        if (vk === '0,0') return
         if (!posicoes[vk]) {
           mapa[vk] = {
             corTopo: cor,
@@ -436,7 +442,6 @@ export default function MapWorld() {
   const handleHexClick = (hex) => {
     const key = `${hex.q},${hex.r}`
     if (moveMode) {
-      // Lógica de movimento (se necessário)
       setMoveMode(false)
       return
     }
@@ -464,6 +469,9 @@ export default function MapWorld() {
 
           {/* Satélites de clusters */}
           {Object.entries(satelites).map(([key, { corTopo, modeloId, corFallback }]) => {
+            // 🔥 Proteção extra: NUNCA renderizar satélite na sede
+            if (key === '0,0') return null
+            
             const hex = hexGrid.find(h => `${h.q},${h.r}` === key)
             if (!hex) return null
             return (
@@ -480,12 +488,17 @@ export default function MapWorld() {
           {/* Tiles normais */}
           {hexGrid.map(hex => {
             const key = `${hex.q},${hex.r}`
+            
+            // VERIFICAÇÃO 1: Sede (NUNCA renderizar sobre a sede)
             if (key === '0,0') return null
+            
+            // VERIFICAÇÃO 2: Satélite (NUNCA renderizar onde tem satélite)
             if (satelites[key]) return null
             
+            // VERIFICAÇÃO 3: Posição ocupada por edifício
             const edId = posicoes[key]
             const building = edId ? edificiosAtivos.find(e => e.id === edId) || null : null
-
+            
             return (
               <HexTile
                 key={key}
@@ -501,7 +514,6 @@ export default function MapWorld() {
 
         <ContactShadows position={[0, 0.02, 0]} opacity={0.4} scale={30} blur={2.2} color="#1a3a10" />
         
-        {/* ORBIT CONTROLS - APENAS ROTAÇÃO */}
         <OrbitControls
           enablePan={false}
           enableZoom={false}
