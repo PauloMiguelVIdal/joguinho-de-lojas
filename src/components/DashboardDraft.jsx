@@ -272,6 +272,63 @@ const TooltipComponent = memo(({ text, children }) => {
   );
 });
 
+// ─── COMPONENTE MODAL DE CONFIRMAÇÃO DE LIQUIDAÇÃO ──────────────
+const ModalConfirmacaoLiquidacao = memo(({ isOpen, onClose, onConfirm, excedente }) => {
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 flex justify-center items-center z-[9999] bg-black/70 backdrop-blur-sm">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="bg-[#1a0a3b] rounded-[24px] p-6 max-w-[420px] w-full border-2 border-red-500/30 shadow-2xl"
+            >
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-white text-xl font-bold">⚠️ Confirmar Liquidação</h2>
+                    <button
+                        onClick={onClose}
+                        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-all"
+                    >
+                        <img src={fechar} className="w-4 h-4" alt="Fechar" />
+                    </button>
+                </div>
+
+                <div className="text-white/80 text-sm leading-relaxed mb-6">
+                    <p className="mb-2">
+                        Você está com <span className="text-red-400 font-bold">{excedente}</span> carta(s) excedente(s)!
+                    </p>
+                    <p className="mb-2">
+                        ⚠️ As cartas com <span className="text-yellow-400 font-bold">menor ROI</span> serão vendidas primeiro.
+                    </p>
+                    <p>
+                        💰 Você receberá <span className="text-green-400 font-bold">70%</span> do valor de construção de cada carta.
+                    </p>
+                </div>
+
+                <div className="flex gap-3 justify-end">
+                    <button
+                        onClick={onClose}
+                        className="px-4 py-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-all text-sm font-medium"
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        onClick={() => {
+                            onConfirm();
+                            onClose();
+                        }}
+                        className="px-4 py-2 rounded-lg bg-gradient-to-r from-red-600 to-red-400 text-white font-bold text-sm hover:scale-105 transition-all shadow-lg hover:shadow-red-500/30"
+                    >
+                        🗑️ Liquidar {excedente} carta(s)
+                    </button>
+                </div>
+            </motion.div>
+        </div>
+    );
+});
+
 // ─── COMPONENTE PRINCIPAL ─────────────────────────────────────────
 export default function DashboardDraft() {
   const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
@@ -299,6 +356,52 @@ export default function DashboardDraft() {
   const [modalProps, setModalProps] = useState({ setor: "", nomeLicença: "", index: 0 });
   const [licencaModal, setLicencaModal] = useState({ open: false, scrollToIndex: null });
   const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
+  const [modalLiquidacaoOpen, setModalLiquidacaoOpen] = useState(false);
+
+  // ─── FUNÇÕES DO MODAL DE LIQUIDAÇÃO ─────────────────────────────
+  const abrirModalLiquidacao = useCallback(() => {
+    setModalLiquidacaoOpen(true);
+  }, []);
+
+  const fecharModalLiquidacao = useCallback(() => {
+    setModalLiquidacaoOpen(false);
+  }, []);
+
+  const [carteiraDados, setCarteiraDados] = useState({
+    todosEdificios: [],
+    receitaMensalTotal: 0,
+    impostosTotais: 0,
+    lucroLiquido: 0,
+    setoresAtivosSet: new Set(),
+    edAtual: 0,
+    tiposUnicos: 0,
+    setoresComEdificios: 0,
+    limiteAtual: 0,
+    excedente: 0
+  });
+
+  // ─── FUNÇÃO PARA EXECUTAR A LIQUIDAÇÃO ──────────────────────────
+  const executarLiquidacao = useCallback(async () => {
+    const { excedente } = carteiraDados;
+    if (excedente <= 0) {
+      return;
+    }
+
+    try {
+      const resultado = await executarLiquidacaoAutomatica(
+        dados, 
+        atualizarDadosProf2, 
+        economiaSetores, 
+        atualizarEco
+      );
+      
+      if (resultado.sucesso && resultado.liquidados > 0) {
+        setCarteiraKey(prev => prev + 1);
+      }
+    } catch (error) {
+      console.error("❌ Erro na liquidação:", error);
+    }
+  }, [dados, atualizarDadosProf2, economiaSetores, atualizarEco, carteiraDados]);
 
   const verificarSlots = useSlotVerification();
 
@@ -423,7 +526,6 @@ export default function DashboardDraft() {
       }
 
       if (prev.length >= limite) {
-        alert(`Limite de ${limite} cartas selecionadas atingido!`);
         return prev;
       }
 
@@ -666,18 +768,7 @@ export default function DashboardDraft() {
   }, []);
 
   // ─── ESTADO DA CARTEIRA ─────────────────────────────────────────
-  const [carteiraDados, setCarteiraDados] = useState({
-    todosEdificios: [],
-    receitaMensalTotal: 0,
-    impostosTotais: 0,
-    lucroLiquido: 0,
-    setoresAtivosSet: new Set(),
-    edAtual: 0,
-    tiposUnicos: 0,
-    setoresComEdificios: 0,
-    limiteAtual: 0,
-    excedente: 0
-  });
+
 
   // ─── FUNÇÃO DE LIBERAR LICENÇA ─────────────────────────────────
   const LiberarLicença = useCallback(() => {
@@ -687,7 +778,7 @@ export default function DashboardDraft() {
 
     if (economiaSetores.saldo >= licenciaValor) {
       if (licençaComprada) {
-        alert("Licença já comprada.");
+
         return;
       }
       const novoSaldo = economiaSetores.saldo - licenciaValor;
@@ -697,7 +788,7 @@ export default function DashboardDraft() {
         atualizarDadosProf2([ativo, "licençasSetor", idx, "status"], true);
       });
     } else {
-      alert("Saldo insuficiente para comprar a licença.");
+
     }
   }, [dados, ativo, economiaSetores.saldo, atualizarDados, atualizarDadosProf2]);
 
@@ -1110,14 +1201,10 @@ export default function DashboardDraft() {
                             )}
                           </div>
 
+                          {/* ─── BOTÃO LIQUIDAR COM MODAL ─── */}
                           {excedente > 0 && (
                             <button
-                              onClick={async () => {
-                                if (confirm(`⚠️ Você está com ${excedente} carta(s) excedente(s)! Deseja liquidar?`)) {
-                                  await executarLiquidacaoAutomatica(dados, atualizarDadosProf2, economiaSetores, atualizarEco);
-                                  setCarteiraKey(prev => prev + 1);
-                                }
-                              }}
+                              onClick={abrirModalLiquidacao}
                               style={{
                                 padding: "4px 16px",
                                 borderRadius: 6,
@@ -1405,6 +1492,14 @@ export default function DashboardDraft() {
           )}
         </div>
       </div>
+
+      {/* ─── MODAL DE CONFIRMAÇÃO DE LIQUIDAÇÃO ──────────────────── */}
+      <ModalConfirmacaoLiquidacao
+        isOpen={modalLiquidacaoOpen}
+        onClose={fecharModalLiquidacao}
+        onConfirm={executarLiquidacao}
+        excedente={carteiraDados.excedente}
+      />
 
       {/* MODAL DE CONCLUSÃO */}
       {modalConclusao && (() => {

@@ -23936,11 +23936,6 @@ RecebeMelhoraEficiencia: [
 
           ForneceMelhoraEficiencia: [
             {
-              nome: "Fábrica De Baterias",
-              redCusto: { nível1: 2, nível2: 3, nível3: 4 },
-              aumFatu: { nível1: 0, nível2: 0, nível3: 0 },
-            },
-            {
               nome: "Montadora De Veículos Elétricos",
               redCusto: { nível1: 1, nível2: 2, nível3: 1 },
               aumFatu: { nível1: 0, nível2: 0, nível3: 0 },

@@ -9,10 +9,10 @@ import "react-tooltip/dist/react-tooltip.css";
 const getLimitesPorDia = (dia) => {
 const LIMITE_CONFIG = {
     fases: [
-        { diaMax: 90, limiteBase: 20, slotsExtrasMax: 5 },
-        { diaMax: 180, limiteBase: 25, slotsExtrasMax: 5 },
-        { diaMax: 270, limiteBase: 30, slotsExtrasMax: 10 },
-        { diaMax: Infinity, limiteBase: 35, slotsExtrasMax: 15 }
+        { diaMax: 90, limiteBase: 15, slotsExtrasMax: 5 },
+        { diaMax: 180, limiteBase: 20, slotsExtrasMax: 5 },
+        { diaMax: 270, limiteBase: 25, slotsExtrasMax: 10 },
+        { diaMax: Infinity, limiteBase: 30, slotsExtrasMax: 15 }
     ]
 };
     const fase = LIMITE_CONFIG.fases.find(f => dia <= f.diaMax) || LIMITE_CONFIG.fases[LIMITE_CONFIG.fases.length - 1];
