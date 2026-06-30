@@ -31,37 +31,11 @@ const RankS = [
 ];
 
 const RankA = [
-    "Cooperativa Agrícola", "Usina De Biomassa", "Transporte Petrolífero",
-    "Marketplace Online", "Plataforma De Streaming", "Fábrica De Smartphones",
-    "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestiveis",
-    "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Aeroespacial",
-    "Centro De Pesquisa Em Materiais", "Centro De Pesquisa Em IA",
-    "Mineradora De Pedras Preciosas", "Mega Mercado", "Prédio De Alto Padrão",
-    "Tanque De Armazenamento Biocombustível", "Fábrica De Plásticos",
-    "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica",
-    "Fundição De Alumínio", "Fábrica De Ligas Metálicas", "Fábrica De Peças Automotivas",
-    "Refinaria De Biocombustíveis", "Biofábrica", "Fábrica De Eletrônicos",
-    "Empresa De Automação Industrial", "Estaleiro"
+    "Cooperativa Agrícola"
 ];
 
 const RankB = [
-    "Centro De Comércio De Plantações", "Empresa De Comércio Energético",
-    "Empresa De Consultoria Energética", "Centro De Pesquisa Em Energias Renováveis",
-    "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis",
-    "Usina De Biomassa", "Usina Termelétrica", "Joalheria", "Concessionária De Veículos",
-    "Centro De Distribuição", "Armazém Logístico", "Servidor Em Nuvem", "Data Center",
-    "Empresa De Desenvolvimento De Software", "Empresa De Jogos Digitais",
-    "Empresa De Telecomunicações", "Plataforma De Redes Sociais", "Marketplace Online",
-    "Instituto De Tecnologia Alimentar", "Centro De Pesquisa Agrícola",
-    "Instituto De Biotecnologia", "Laboratório De Nanotecnologia",
-    "Centro De Pesquisa Em Eletrônicos", "Laboratório De Design De Produtos",
-    "Laboratório De Novos Combustíveis", "Centro De Engenharia Avançada",
-    "Centro De Pesquisa Em Robótica", "Construtora", "Imobiliária Residencial",
-    "Imobiliária Comercial", "Mineradora", "Centro De Coleta De Biomassa",
-    "Fábrica De Fertilizantes", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
-    "Fábrica De Plásticos", "Alto-Forno", "Indústria De Componentes Mecânicos",
-    "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas",
-    "Fábrica De Peças Automotivas", "Fábrica De Placas Eletrônicas", "Fábrica De Eletrônicos"
+    "Centro De Comércio De Plantações"
 ];
 
 const RankC = [
@@ -81,7 +55,7 @@ const RankC = [
     "Cartório E Licenças", "Terraplanagem E Pavimentação", "Construtora De Pequenas Obras",
     "Escritório De Design De Interiores", "Escritório De Arquitetura",
     "Consultoria Em Engenharia Civil", "Fábrica De Móveis", "Fábrica De Rações",
-    "Fábrica De Embalagem", "Fábrica De Bebidas", "Fábrica De Pães", "Fábrica Têxtil",
+    "Fábrica De Embalagens", "Fábrica De Bebidas", "Fábrica De Pães", "Fábrica Têxtil",
     "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose",
     "Fábrica De Papel", "Fábrica De Livros"
 ];

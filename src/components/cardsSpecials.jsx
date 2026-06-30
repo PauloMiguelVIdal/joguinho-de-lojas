@@ -54,7 +54,7 @@ export const CardSpecials = () =>{
         "Terraplanagem E Pavimentação",
         "Fábrica De Móveis",
         "Fábrica De Rações",
-        "Fábrica De Embalagem",
+        "Fábrica De Embalagens",
         "Fábrica De Bebidas",
         "Fábrica De Pães",
         "Fábrica De Calçados",

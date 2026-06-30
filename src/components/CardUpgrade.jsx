@@ -83,12 +83,11 @@ const getRank = (nome) => {
     const RankA = [
         "Cooperativa Agrícola", "Usina De Biomassa", "Transporte Petrolífero",
         "Marketplace Online", "Plataforma De Streaming", "Fábrica De Smartphones",
-        "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestiveis",
+        "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestíveis",
         "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Aeroespacial",
         "Centro De Engenharia Avançada", "Centro De Pesquisa Em Materiais",
         "Centro De Pesquisa Em IA", "Mineradora De Pedras Preciosas", "Mega Mercado",
-        "Prédio De Alto Padrão", "Tanque De Armazenamento Biocombustível",
-        "Fábrica De Plásticos", "Fábrica De Químicos Especializados", "Alto-Forno",
+        "Prédio De Alto Padrão", "Tanque De Armazenamento Biocombustível", "Fábrica De Químicos Especializados", "Alto-Forno",
         "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas",
         "Fábrica De Peças Automotivas", "Refinaria De Biocombustíveis", "Biofábrica",
         "Fábrica De Eletrônicos", "Empresa De Automação Industrial", "Estaleiro"
@@ -97,8 +96,7 @@ const getRank = (nome) => {
     const RankB = [
         "Centro De Comércio De Plantações", "Empresa De Comércio Energético",
         "Empresa De Consultoria Energética", "Centro De Pesquisa Em Energias Renováveis",
-        "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis",
-        "Usina De Biomassa", "Usina Termelétrica", "Joalheria", "Concessionária De Veículos",
+        "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis", "Usina Termelétrica", "Joalheria", "Concessionária De Veículos",
         "Centro De Distribuição", "Armazém Logístico", "Servidor Em Nuvem", "Data Center",
         "Empresa De Desenvolvimento De Software", "Empresa De Jogos Digitais",
         "Empresa De Telecomunicações", "Plataforma De Redes Sociais", "Marketplace Online",
@@ -109,9 +107,9 @@ const getRank = (nome) => {
         "Centro De Pesquisa Em Robótica", "Construtora", "Imobiliária Residencial",
         "Imobiliária Comercial", "Mineradora", "Centro De Coleta De Biomassa",
         "Fábrica De Fertilizantes", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
-        "Fábrica De Plásticos", "Alto-Forno", "Indústria De Componentes Mecânicos",
+        "Fábrica De Plásticos", "Indústria De Componentes Mecânicos",
         "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas",
-        "Fábrica De Peças Automotivas", "Fábrica De Placas Eletrônicas", "Fábrica De Eletrônicos"
+        "Fábrica De Placas Eletrônicas",
     ];
 
     if (RankS.includes(nome)) return 'S';

@@ -122,6 +122,7 @@ function Interface() {
       <div
         style={{
           position: 'fixed',
+          
           top: 0,
           left: 0,
           height: '80px',
@@ -159,7 +160,7 @@ function Interface() {
         <div
           style={{
             position: 'fixed',
-            height: '60vh',
+            height: '17vh',
             top: dados.dia<=240?'80px':'0px',
             right: '0',
             width: '25vw',
@@ -204,9 +205,9 @@ function Interface() {
           style={{
             position: 'fixed',
             top: '60vh',
-            height: '24vh',
+            height: '10vh',
             maxHeight: '32vh',
-            minHeight: '200px',
+            minHeight: '190px',
             width: '25vw',
             right: 0,
             zIndex: 20,

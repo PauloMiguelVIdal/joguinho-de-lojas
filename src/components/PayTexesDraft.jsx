@@ -70,7 +70,7 @@ export default function PayTexesDraft() {
     // Indústria
     "Fábrica De Móveis": "industria",
     "Fábrica De Rações": "industria",
-    "Fábrica De Embalagem": "industria",
+    "Fábrica De Embalagens": "industria",
     "Fábrica De Fertilizantes": "industria",
     "Fábrica De Bebidas": "industria",
     "Fábrica De Pães": "industria",
