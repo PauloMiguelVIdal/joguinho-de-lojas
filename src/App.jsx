@@ -56,6 +56,8 @@ function App() {
     <GraphicsConfigProvider>
       <CentraldeDadosProvider>
         <DadosEconomyGlobalProvider>
+        
+
           <div
             ref={containerRef}
             className="h-[100vh] w-[100vw] relative bg-[#350973]"
@@ -83,6 +85,8 @@ function App() {
             {/* Seu jogo */}
             <Interface />
           </div>
+              
+
         </DadosEconomyGlobalProvider>
       </CentraldeDadosProvider>
     </GraphicsConfigProvider>

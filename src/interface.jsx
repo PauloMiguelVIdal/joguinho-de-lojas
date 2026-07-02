@@ -1,4 +1,4 @@
-import React, { useContext, lazy, Suspense, useState } from "react";
+import React, { useContext, useCallback, lazy, Suspense, useState } from "react";
 import Notificação from "./notificação.jsx";
 import Informations from "./components/Informations.jsx";
 import Dashboard from "./components/Dashboard.jsx";
@@ -14,6 +14,8 @@ import DashboardMiniDraft from "./components/DashboardMiniDrafts.jsx";
 import { ModalShop } from "./components/ModalShop.jsx";
 import LojaGImg from "../public/outrasImagens/lojaG.png";
 import { PlusInventory } from "./components/PlusInventory.jsx";
+import ObjectiveTracker from "./components/ObjetiveTracker.jsx";
+
 // const PayTexes = lazy(() => import("./components/PayTexes.jsx"));
 const ButtonChange = lazy(() => import("./components/ButtonChange.jsx"));
 const Events = lazy(() => import("./components/events.jsx"));
@@ -44,6 +46,8 @@ import { PackOpening } from "./components/PackOpening.jsx";
 import { PackOpeningDraft } from "./components/PackOpeningDraft.jsx";
 import { ModalFalencia } from "./notificação.jsx";
 import DisplayInformations from "./components/DisplayInformations.jsx";
+import { ModalCartasRecebidas } from "./components/ModalCartasRecebidas.jsx";
+
 // import { DraftSystem, useDraftSystem, DraftButton } from "./components/DraftSystem";
 
 // Ícone de toggle simples (chevron)
@@ -66,8 +70,11 @@ const IconToggle = ({ aberto, horizontal = false }) => (
 function Interface() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext)
   const vision = dados.vision.visionAtual
+  // ─── ESTADO PARA O PACOTE ──────────────────────────────────
+  const [packModalOpen, setPackModalOpen] = useState(false);
 
-  const [modalFalenciaOpen, setModalFalenciaOpen] = useState(false);
+
+
 
   // ── Visibilidade das camadas ──────────────────────────────
   const [sidebarEsqAberta, setSidebarEsqAberta] = useState(false);
@@ -75,13 +82,39 @@ function Interface() {
   const [sidebarDirAberta, setSidebarDirAberta] = useState(true);
   const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
 
+  const [cartasModalOpen, setCartasModalOpen] = useState(false);
+  const [cartasParaMostrar, setCartasParaMostrar] = useState([]);
   const [modalShopOpen, setModalShopOpen] = useState(false);
   const jogoIniciado = dados.jogoIniciado || false;
   const renderizando = dados.dia % 30 !== 0 || dados.dia === 0
-  const ajusteLargura = renderizando 
+  const ajusteLargura = renderizando
   // || jogoIniciado
 
-    // const { draftAberto, draftConcluido, cartasSelecionadas, abrirDraft, fecharDraft, handleComplete } = useDraftSystem();
+  // ─── HANDLE PACK RECEIVED ──────────────────────────────────
+  const handlePackReceived = useCallback(() => {
+    setPackModalOpen(true);
+  }, []);
+
+  // ─── HANDLE PACK CLOSE ─────────────────────────────────────
+  const handlePackClose = useCallback(() => {
+    setPackModalOpen(false);
+  }, []);
+  const [modalFalenciaOpen, setModalFalenciaOpen] = useState(false);
+
+
+  // ─── HANDLE CARTAS RECEBIDAS ──────────────────────────────
+  const handleCartasRecebidas = useCallback((cartas) => {
+    setCartasParaMostrar(cartas);
+    setCartasModalOpen(true);
+  }, []);
+
+  // ─── HANDLE CARTAS MODAL CLOSE ────────────────────────────
+  const handleCartasModalClose = useCallback(() => {
+    setCartasModalOpen(false);
+    setCartasParaMostrar([]);
+  }, []);
+
+  // const { draftAberto, draftConcluido, cartasSelecionadas, abrirDraft, fecharDraft, handleComplete } = useDraftSystem();
   return (
     <Suspense fallback={<div className="w-screen h-screen bg-gray-900" />}>
 
@@ -92,6 +125,21 @@ function Interface() {
         <ModalFalencia
           onConfirmar={() => { limparSalvo(); window.location.reload(); }}
           onCancelar={() => setModalFalenciaOpen(false)}
+        />
+      )}
+      {packModalOpen && (
+        <PackOpeningDraft
+          onClose={handlePackClose}
+          onSorteio={() => {
+            console.log("🎁 Pacote aberto com sucesso!");
+          }}
+        />
+      )}
+      {cartasModalOpen && (
+        <ModalCartasRecebidas
+          isOpen={cartasModalOpen}
+          onClose={handleCartasModalClose}
+          cartas={cartasParaMostrar}
         />
       )}
       {modalShopOpen && (
@@ -106,7 +154,7 @@ function Interface() {
           onSorteio={() => console.log('Sorteio realizado!')}
         />
       )}
-          {/* {draftAberto && (
+      {/* {draftAberto && (
       <DraftSystem 
         onClose={fecharDraft}
         onComplete={handleComplete}
@@ -122,11 +170,11 @@ function Interface() {
       <div
         style={{
           position: 'fixed',
-          
+
           top: 0,
           left: 0,
           height: '80px',
-          width: dados.dia<=240 ? '100vw' : '75vw',
+          width: dados.dia <= 240 ? '100vw' : '75vw',
           zIndex: 50,
           display: 'flex',
           alignItems: 'center',
@@ -147,7 +195,7 @@ function Interface() {
             <img className="w-[60%]" src={LojaGImg} alt="" />
           </button>
           <EconomyGlobal />
-              {/* <DraftButton onOpen={abrirDraft} /> */}
+          {/* <DraftButton onOpen={abrirDraft} /> */}
           <SidebarFinancas onOpen={() => setBusinessLicenceModal(true)} />
           <Buttons />
         </div>
@@ -161,7 +209,7 @@ function Interface() {
           style={{
             position: 'fixed',
             height: '17vh',
-            top: dados.dia<=240?'80px':'0px',
+            top: dados.dia <= 240 ? '80px' : '0px',
             right: '0',
             width: '25vw',
             zIndex: 20,
@@ -172,6 +220,28 @@ function Interface() {
           }}
         >
           <DashboardMiniDraft />
+        </div>
+      )}
+      {dashboardAberto && (
+        <div
+          style={{
+            position: 'fixed',
+            height: '35vh',
+            top: '25vh',
+            right: '0',
+            width: '25vw',
+            zIndex: 20,
+            borderRadius: 20,
+            overflow: 'hidden',
+            background: 'linear-gradient(to bottom, #6411D9, #350973)',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+          }}
+        >
+          <ObjectiveTracker
+            onPackReceived={handlePackReceived}
+          onCartasRecebidas={handleCartasRecebidas}
+          />
+          
         </div>
       )}
 

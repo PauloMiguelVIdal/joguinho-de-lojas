@@ -1,4 +1,3 @@
-// PackOpeningDraft.jsx
 import React, { useState, useCallback, useContext, useEffect, useMemo, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LocalizadorUpgrade } from "./LocalizadorUpgrade";
