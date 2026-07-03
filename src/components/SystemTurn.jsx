@@ -12,6 +12,7 @@ import musicaTemaLoading from "../../public/sounds/Swinging Sweet.ogg";
 import musicaCentral from "../../public/sounds/S31-The Gears of Progress.ogg";
 import clockAudio from "../../public/sounds/freesound_community-kitchen-timer-87485.mp3";
 import { DraftSystemContinuo, DraftSystemInicial, useDraftContinuo, getRankPorDia } from "./DraftSystem.jsx";
+import { ModalSetorSelection } from "./ModalSetorSelection.jsx";
 
 // ─── CONSTANTES (FORA DO COMPONENTE) ──────────────────────────────
 const TODAS_LOJAS = ["terrenos", "lojasP", "lojasM", "lojasG"];
@@ -82,7 +83,9 @@ export const SystemTurn = memo(() => {
     const [ultimoDiaDraft, setUltimoDiaDraft] = useState(-1);
     const [draftInicialAberto, setDraftInicialAberto] = useState(false);
     const [draftInicialConcluido, setDraftInicialConcluido] = useState(false);
-
+    const [setorSelecionado, setSetorSelecionado] = useState(null);
+    const [modalSetorOpen, setModalSetorOpen] = useState(false);
+    const [aguardandoSetor, setAguardandoSetor] = useState(false);
     // ─── REFS ────────────────────────────────────────────────────
     const processandoRef = useRef(false);
     const dadosRef = useRef(dados);
@@ -740,6 +743,19 @@ export const SystemTurn = memo(() => {
     }, [mostrarLoading, jogoIniciado, dados.dia, diasPendentes, estaProcessando, tocarAudioLoading, tocarAudioCentral, stopAudioMapa, draftAberto, draftInicialAberto]);
 
     useEffect(() => {
+        if (!jogoIniciado) return;
+        if (dados.dia > 0) return;
+        if (setorSelecionado) return; // Já escolheu o setor
+        if (modalSetorOpen) return; // Modal já está aberto
+        if (draftInicialAberto) return; // Draft já está aberto
+        if (pacotesIniciaisAbertos) return; // Pacotes já abertos
+
+        // Inicia com o modal de seleção de setor
+        setModalSetorOpen(true);
+        setAguardandoSetor(true);
+    }, [jogoIniciado, dados.dia, setorSelecionado, modalSetorOpen, draftInicialAberto, pacotesIniciaisAbertos]);
+
+    useEffect(() => {
         if (diasPendentes > 0 || estaProcessando || draftAberto || draftInicialAberto) {
             if (audioEstadoRef.current.clockTocando) {
                 stopClockAudio();
@@ -807,16 +823,38 @@ export const SystemTurn = memo(() => {
     }, [jogoIniciado, dados.dia, draftAberto, ultimoDiaDraft, draftInicialAberto, draftInicialConcluido]);
 
     // ─── HANDLERS DRAFT ──────────────────────────────────────────
+
     const abrirPacotesIniciais = useCallback(() => {
         if (pacotesIniciaisAbertos) return;
         setPacotesIniciaisAbertos(true);
     }, [pacotesIniciaisAbertos]);
 
+
+
+
+
+
+    const handleSetorSelecionado = useCallback((setor) => {
+        setSetorSelecionado(setor);
+        setAguardandoSetor(false);
+        setModalSetorOpen(false);
+
+        // Salva o setor escolhido no contexto/dados
+        atualizarDados("setorEscolhido", setor);
+
+        // Após escolher o setor, abre o draft inicial
+        setDraftInicialAberto(true);
+    }, [atualizarDados]);
+
+    // ─── HANDLE DRAFT INICIAL COMPLETE (MODIFICADO) ──────────────
     const handleDraftInicialComplete = useCallback((cartas) => {
         setDraftInicialConcluido(true);
         setDraftInicialAberto(false);
-        setTimeout(abrirPacotesIniciais, 500);
-    }, [abrirPacotesIniciais]);
+
+        // Após o draft, abre os pacotes iniciais
+        abrirPacotesIniciais();
+    }, []);
+
 
     const handleComplete = useCallback((cartas) => {
         setCartasSelecionadas(cartas);
@@ -1039,7 +1077,16 @@ export const SystemTurn = memo(() => {
                 visible={mostrarLoading}
                 onComplete={() => setMostrarLoading(false)}
             />
-
+            {modalSetorOpen && (
+                <ModalSetorSelection
+                    isOpen={modalSetorOpen}
+                    onClose={() => {
+                        setModalSetorOpen(false);
+                        setAguardandoSetor(false);
+                    }}
+                    onSelect={handleSetorSelecionado}
+                />
+            )}
             {/* DRAFT INICIAL */}
             {draftInicialAberto && (
                 <DraftSystemInicial
@@ -1063,6 +1110,7 @@ export const SystemTurn = memo(() => {
                 />
             )}
 
+
             {/* TIMER */}
             <div
                 data-tooltip-id="saldo-tip"
@@ -1073,7 +1121,7 @@ export const SystemTurn = memo(() => {
                             ? `Próxima simulação em ${countdown} segundos`
                             : `⚠️ ÚLTIMOS ${countdown} SEGUNDOS!`
                 }
-                className="h-[50px] min-w-[120px] rounded-[10px] flex items-center justify-center px-4 font-bold text-white transition-all duration-300"
+                className="h-[50px] min-w-[100px] rounded-[10px] flex items-center justify-center px-4 font-bold text-white transition-all duration-300"
                 style={{
                     backgroundColor: countdown <= 10 && countdown > 0 ? '#cc0000' : '#F27405',
                     boxShadow: countdown <= 10 && countdown > 0 ? '0 0 40px rgba(255,0,0,0.6)' : '0 0 20px rgba(242,116,5,0.3)',

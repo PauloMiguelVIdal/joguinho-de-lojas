@@ -14,7 +14,7 @@ const dia = dados.dia
 
 return (
     <div className="flex items-center w-full h-full mr-[50px]">
-      <div className="flex items-center gap-[10px] w-full">
+      {/* <div className="flex items-center gap-[10px] w-full"> */}
 
         {/* <NextDay /> */}
         <SystemTurn />
@@ -31,7 +31,7 @@ return (
           </>
         )}
 
-      </div>
+      {/* </div> */}
     </div>
   );
 }

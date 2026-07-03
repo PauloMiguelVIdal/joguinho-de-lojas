@@ -13,6 +13,7 @@ const CentraldeDadosProvider = ({ children }) => {
     CardsSorteados: [],
     cartasSelecionadas:[],
     setorAtivo: "agricultura",
+      setorEscolhido: null, 
     fimGame: false,
     nomeEmpresa: "",
     animarCicloDia: null,

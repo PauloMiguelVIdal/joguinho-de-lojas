@@ -42,7 +42,7 @@ export default function Informations() {
 
     return (
         <div className="h-full w-full flex flex-col align-center text-center place-content-around rounded-[20px] min-h-[50px]">
-            <div className="flex w-full items-center justify-between pr-[10px]">
+            <div className="flex w-full items-center justify-between">
                 <div className="flex-1">
                     <h1 className="fonteBold text-white text-[30px]">
                         {dados.inicioGame.nomeEmpresa}

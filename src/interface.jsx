@@ -15,7 +15,7 @@ import { ModalShop } from "./components/ModalShop.jsx";
 import LojaGImg from "../public/outrasImagens/lojaG.png";
 import { PlusInventory } from "./components/PlusInventory.jsx";
 import ObjectiveTracker from "./components/ObjetiveTracker.jsx";
-
+import { SystemTurn } from "./components/SystemTurn.jsx";
 // const PayTexes = lazy(() => import("./components/PayTexes.jsx"));
 const ButtonChange = lazy(() => import("./components/ButtonChange.jsx"));
 const Events = lazy(() => import("./components/events.jsx"));
@@ -88,7 +88,7 @@ function Interface() {
   const jogoIniciado = dados.jogoIniciado || false;
   const renderizando = dados.dia % 30 !== 0 || dados.dia === 0
   const ajusteLargura = renderizando
-  // || jogoIniciado
+
 
   // ─── HANDLE PACK RECEIVED ──────────────────────────────────
   const handlePackReceived = useCallback(() => {
@@ -170,13 +170,12 @@ function Interface() {
       <div
         style={{
           position: 'fixed',
-
           top: 0,
           left: 0,
           height: '80px',
-          width: dados.dia <= 240 ? '100vw' : '75vw',
+          width: dados.dia % 30 !== 0 ? '100vw' : '75vw',
           zIndex: 50,
-          display: 'flex',
+          display: jogoIniciado ? 'flex' : 'none',
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 px',
@@ -185,21 +184,25 @@ function Interface() {
           boxShadow: '0 2px 5vh rgba(0,0,0,0.5)',
         }}
       >
-        <div className="grid gap-[10px] col-start-1 col-end-8 w-full place-items-center">
+        <div className="flex w-full items-center justify-center col-start-8 col-end-9 gap-[10px] mr-[10px]">
           <Informations className="grid col-start-1 col-end-8" />
-        </div>
-        <div className="flex w-full items-center justify-center col-start-8 col-end-9 gap-[10px]">
           <Day />
-          <button className="h-[50px] aspect-square bg-laranja rounded-[10px] flex items-center justify-center hover:bg-[#E56100] active:scale-95 hover:scale-[1.05]"
+          <SystemTurn />
+          {/* <DraftButton onOpen={abrirDraft} /> */}
+          <button className="h-[50px] w-[200px] flex justify-between bg-laranja/70 rounded-[5px] flex hover:scale-[1.05]"
             onClick={() => setModalShopOpen(true)}>
-            <img className="w-[60%]" src={LojaGImg} alt="" />
+            <div className="flex justify-center items-center">
+              <p className="text-white w-[100px] text-[18px] fonteBold text-space-[10px] word-spacing:10px leading-none">ABRIR<br /> LOJA</p>
+            </div>
+            <div className="h-[100%] aspect-square bg-laranja rounded-[10px] flex items-center justify-center active:scale-95 hover:bg-[#E56100]">
+              <img className="h-[70%]" src={LojaGImg} alt="" />
+            </div>
           </button>
           <EconomyGlobal />
-          {/* <DraftButton onOpen={abrirDraft} /> */}
-          <SidebarFinancas onOpen={() => setBusinessLicenceModal(true)} />
-          <Buttons />
         </div>
-      </div>
+        <div style={{ marginRight: dados.dia % 30 !== 0 ? '50px' : '0px' }} className="h-full w-[800px] flex items-center">
+          <SidebarFinancas onOpen={() => setBusinessLicenceModal(true)} />
+        </div>      </div>
 
       {/* ═══════════════════════════════════════════════════════
           CAMADA 2 — DASHBOARD CENTRAL (DashboardMiniDraft)
@@ -209,7 +212,7 @@ function Interface() {
           style={{
             position: 'fixed',
             height: '17vh',
-            top: dados.dia <= 240 ? '80px' : '0px',
+            top: dados.dia <= 240 ? '0px' : '0px',
             right: '0',
             width: '25vw',
             zIndex: 20,
@@ -239,9 +242,9 @@ function Interface() {
         >
           <ObjectiveTracker
             onPackReceived={handlePackReceived}
-          onCartasRecebidas={handleCartasRecebidas}
+            onCartasRecebidas={handleCartasRecebidas}
+            setorInicial={dados.setorEscolhido || "comercio"}
           />
-          
         </div>
       )}
 
