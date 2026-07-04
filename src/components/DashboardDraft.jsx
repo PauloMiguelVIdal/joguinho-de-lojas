@@ -69,6 +69,9 @@ import ecossistema from '../../public/outrasImagens/setores/ecossistema.png';
 import { CardDraftMini } from "./CardDraftMini.jsx";
 import { SlotDisplay, executarLiquidacaoAutomatica, useSlotVerification } from "./SlotManager";
 import { createPortal } from "react-dom";
+import DisplayInformations from "./DisplayInformations.jsx";
+// import DashboardMiniDraft from "./DashboardMiniDraft.jsx";
+import { PlusInventory } from "./PlusInventory.jsx";
 
 ChartJS.register(
   CategoryScale,
@@ -93,47 +96,47 @@ const FATOR_ECONOMIA = {
 };
 
 // ─── RANKS DOS EDIFÍCIOS ──────────────────────────────────────────
-    const RankS = [
-        "Usina Hidrelétrica", "Reator Nuclear Convencional", "Usina De Fusão Nuclear",
-        "Shopping Popular", "Shopping Center", "Fábrica De Computadores",
-        "Construtora De Infraestruturas", "Aeroporto", "Porto", "Mineradora Radioativa",
-        "Plataforma De Petróleo", "Montadora De Veículos Elétricos", "Fábrica De Automóveis",
-        "Refinaria", "Fábrica De Chips", "Fábrica De Semicondutores", "Fábrica De Robôs",
-        "Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves"
-    ];
+const RankS = [
+  "Usina Hidrelétrica", "Reator Nuclear Convencional", "Usina De Fusão Nuclear",
+  "Shopping Popular", "Shopping Center", "Fábrica De Computadores",
+  "Construtora De Infraestruturas", "Aeroporto", "Porto", "Mineradora Radioativa",
+  "Plataforma De Petróleo", "Montadora De Veículos Elétricos", "Fábrica De Automóveis",
+  "Refinaria", "Fábrica De Chips", "Fábrica De Semicondutores", "Fábrica De Robôs",
+  "Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves"
+];
 
-    const RankA = [
-        "Cooperativa Agrícola", "Usina De Biomassa", "Transporte Petrolífero",
-        "Marketplace Online", "Plataforma De Streaming", "Fábrica De Smartphones",
-        "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestíveis",
-        "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Aeroespacial",
-        "Centro De Engenharia Avançada", "Centro De Pesquisa Em Materiais",
-        "Centro De Pesquisa Em IA", "Mineradora De Pedras Preciosas", "Mega Mercado",
-        "Prédio De Alto Padrão", "Tanque De Armazenamento Biocombustível", "Fábrica De Químicos Especializados", "Alto-Forno",
-        "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas",
-        "Fábrica De Peças Automotivas", "Refinaria De Biocombustíveis", "Biofábrica",
-        "Fábrica De Eletrônicos", "Empresa De Automação Industrial", "Estaleiro"
-    ];
+const RankA = [
+  "Cooperativa Agrícola", "Usina De Biomassa", "Transporte Petrolífero",
+  "Marketplace Online", "Plataforma De Streaming", "Fábrica De Smartphones",
+  "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestíveis",
+  "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Aeroespacial",
+  "Centro De Engenharia Avançada", "Centro De Pesquisa Em Materiais",
+  "Centro De Pesquisa Em IA", "Mineradora De Pedras Preciosas", "Mega Mercado",
+  "Prédio De Alto Padrão", "Tanque De Armazenamento Biocombustível", "Fábrica De Químicos Especializados", "Alto-Forno",
+  "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas",
+  "Fábrica De Peças Automotivas", "Refinaria De Biocombustíveis", "Biofábrica",
+  "Fábrica De Eletrônicos", "Empresa De Automação Industrial", "Estaleiro"
+];
 
-    const RankB = [
-        "Centro De Comércio De Plantações", "Empresa De Comércio Energético",
-        "Empresa De Consultoria Energética", "Centro De Pesquisa Em Energias Renováveis",
-        "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis", "Usina Termelétrica", "Joalheria", "Concessionária De Veículos",
-        "Centro De Distribuição", "Armazém Logístico", "Servidor Em Nuvem", "Data Center",
-        "Empresa De Desenvolvimento De Software", "Empresa De Jogos Digitais",
-        "Empresa De Telecomunicações", "Plataforma De Redes Sociais", "Marketplace Online",
-        "Instituto De Tecnologia Alimentar", "Centro De Pesquisa Agrícola",
-        "Instituto De Biotecnologia", "Laboratório De Nanotecnologia",
-        "Centro De Pesquisa Em Eletrônicos", "Laboratório De Design De Produtos",
-        "Laboratório De Novos Combustíveis", "Centro De Engenharia Avançada",
-        "Centro De Pesquisa Em Robótica", "Construtora", "Imobiliária Residencial",
-        "Imobiliária Comercial", "Mineradora", "Centro De Coleta De Biomassa",
-        "Fábrica De Fertilizantes", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
-        "Fábrica De Plásticos", "Indústria De Componentes Mecânicos",
-        "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas",
-        "Fábrica De Placas Eletrônicas",
-    ];
-    
+const RankB = [
+  "Centro De Comércio De Plantações", "Empresa De Comércio Energético",
+  "Empresa De Consultoria Energética", "Centro De Pesquisa Em Energias Renováveis",
+  "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis", "Usina Termelétrica", "Joalheria", "Concessionária De Veículos",
+  "Centro De Distribuição", "Armazém Logístico", "Servidor Em Nuvem", "Data Center",
+  "Empresa De Desenvolvimento De Software", "Empresa De Jogos Digitais",
+  "Empresa De Telecomunicações", "Plataforma De Redes Sociais", "Marketplace Online",
+  "Instituto De Tecnologia Alimentar", "Centro De Pesquisa Agrícola",
+  "Instituto De Biotecnologia", "Laboratório De Nanotecnologia",
+  "Centro De Pesquisa Em Eletrônicos", "Laboratório De Design De Produtos",
+  "Laboratório De Novos Combustíveis", "Centro De Engenharia Avançada",
+  "Centro De Pesquisa Em Robótica", "Construtora", "Imobiliária Residencial",
+  "Imobiliária Comercial", "Mineradora", "Centro De Coleta De Biomassa",
+  "Fábrica De Fertilizantes", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
+  "Fábrica De Plásticos", "Indústria De Componentes Mecânicos",
+  "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas",
+  "Fábrica De Placas Eletrônicas",
+];
+
 const RankC = [
   "Plantação De Grãos", "Plantação De Vegetais", "Pomares", "Fazenda Administrativa",
   "Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos", "Armazém", "Silo",
@@ -227,106 +230,6 @@ const formatarNumero = (num) => {
   return num.toString();
 };
 
-// ─── COMPONENTE TOOLTIP (MEMOIZADO) ──────────────────────────────
-const TooltipComponent = memo(({ text, children }) => {
-  const [show, setShow] = useState(false);
-  const ref = useRef();
-
-  const tooltip = show && ref.current && createPortal(
-    <div
-      style={{
-        position: "absolute",
-        top: ref.current.getBoundingClientRect().top - 40,
-        left: ref.current.getBoundingClientRect().left + ref.current.offsetWidth / 2,
-        transform: "translateX(-50%)",
-        backgroundColor: "#FFFFFF",
-        color: "#350973",
-        padding: "6px 10px",
-        borderRadius: "6px",
-        fontWeight: "600",
-        whiteSpace: "pre-line",
-        zIndex: 2147483647,
-        pointerEvents: "none",
-        maxWidth: "400px",
-      }}
-    >
-      {text}
-    </div>,
-    document.body
-  );
-
-  return (
-    <>
-      <div
-        ref={ref}
-        onMouseEnter={() => setShow(true)}
-        onMouseLeave={() => setShow(false)}
-        className="relative flex items-center justify-center"
-      >
-        {children}
-      </div>
-      {tooltip}
-    </>
-  );
-});
-
-// ─── COMPONENTE MODAL DE CONFIRMAÇÃO DE LIQUIDAÇÃO ──────────────
-const ModalConfirmacaoLiquidacao = memo(({ isOpen, onClose, onConfirm, excedente }) => {
-    if (!isOpen) return null;
-
-    return (
-        <div className="fixed inset-0 flex justify-center items-center z-[9999] bg-black/70 backdrop-blur-sm">
-            <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="bg-[#1a0a3b] rounded-[24px] p-6 max-w-[420px] w-full border-2 border-red-500/30 shadow-2xl"
-            >
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-white text-xl font-bold">⚠️ Confirmar Liquidação</h2>
-                    <button
-                        onClick={onClose}
-                        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-all"
-                    >
-                        <img src={fechar} className="w-4 h-4" alt="Fechar" />
-                    </button>
-                </div>
-
-                <div className="text-white/80 text-sm leading-relaxed mb-6">
-                    <p className="mb-2">
-                        Você está com <span className="text-red-400 font-bold">{excedente}</span> carta(s) excedente(s)!
-                    </p>
-                    <p className="mb-2">
-                        ⚠️ As cartas com <span className="text-yellow-400 font-bold">menor ROI</span> serão vendidas primeiro.
-                    </p>
-                    <p>
-                        💰 Você receberá <span className="text-green-400 font-bold">70%</span> do valor de construção de cada carta.
-                    </p>
-                </div>
-
-                <div className="flex gap-3 justify-end">
-                    <button
-                        onClick={onClose}
-                        className="px-4 py-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-all text-sm font-medium"
-                    >
-                        Cancelar
-                    </button>
-                    <button
-                        onClick={() => {
-                            onConfirm();
-                            onClose();
-                        }}
-                        className="px-4 py-2 rounded-lg bg-gradient-to-r from-red-600 to-red-400 text-white font-bold text-sm hover:scale-105 transition-all shadow-lg hover:shadow-red-500/30"
-                    >
-                        🗑️ Liquidar {excedente} carta(s)
-                    </button>
-                </div>
-            </motion.div>
-        </div>
-    );
-});
-
 // ─── COMPONENTE PRINCIPAL ─────────────────────────────────────────
 export default function DashboardDraft() {
   const { dados, atualizarDadosProf2, atualizarDados } = useContext(CentraldeDadosContext);
@@ -355,6 +258,7 @@ export default function DashboardDraft() {
   const [licencaModal, setLicencaModal] = useState({ open: false, scrollToIndex: null });
   const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
   const [modalLiquidacaoOpen, setModalLiquidacaoOpen] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("carteira");
 
   // ─── FUNÇÕES DO MODAL DE LIQUIDAÇÃO ─────────────────────────────
   const abrirModalLiquidacao = useCallback(() => {
@@ -387,12 +291,12 @@ export default function DashboardDraft() {
 
     try {
       const resultado = await executarLiquidacaoAutomatica(
-        dados, 
-        atualizarDadosProf2, 
-        economiaSetores, 
+        dados,
+        atualizarDadosProf2,
+        economiaSetores,
         atualizarEco
       );
-      
+
       if (resultado.sucesso && resultado.liquidados > 0) {
         setCarteiraKey(prev => prev + 1);
       }
@@ -423,7 +327,7 @@ export default function DashboardDraft() {
   const setorAtivo = useMemo(() => setores.find((s) => s.id === ativo), [setores, ativo]);
 
   // ─── MEMO: SNAPSHOT DADOS ──────────────────────────────────────
-  const snapshotDados = useMemo(() => 
+  const snapshotDados = useMemo(() =>
     JSON.stringify(SETORES_ARR.map(s =>
       (dados[s]?.edificios || []).map(ed => ({ nome: ed.nome, q: ed.quantidade }))
     )),
@@ -765,9 +669,6 @@ export default function DashboardDraft() {
     };
   }, []);
 
-  // ─── ESTADO DA CARTEIRA ─────────────────────────────────────────
-
-
   // ─── FUNÇÃO DE LIBERAR LICENÇA ─────────────────────────────────
   const LiberarLicença = useCallback(() => {
     const licenciaValor = dados[ativo]?.licençaGlobal?.valor || 0;
@@ -776,7 +677,6 @@ export default function DashboardDraft() {
 
     if (economiaSetores.saldo >= licenciaValor) {
       if (licençaComprada) {
-
         return;
       }
       const novoSaldo = economiaSetores.saldo - licenciaValor;
@@ -785,8 +685,6 @@ export default function DashboardDraft() {
       arrayLicenseNece.forEach((licenca, idx) => {
         atualizarDadosProf2([ativo, "licençasSetor", idx, "status"], true);
       });
-    } else {
-
     }
   }, [dados, ativo, economiaSetores.saldo, atualizarDados, atualizarDadosProf2]);
 
@@ -795,700 +693,89 @@ export default function DashboardDraft() {
 
   return (
     <>
-      <div
-        className={`${setorAtivo?.corClasse || "bg-[#350973]"} w-full h-full border-[#350973] rounded-[20px] flex justify-between`}
-      >
-        <div
-          className={`h-full rounded-[0px] items-center justify-center transition-all rounded-[40px] duration-300 bg-[${setorAtivo?.cor2 || "#350973"}] ${dados.dia >= 270 ? "w-[calc(100%)]" : "w-[calc(100%)]"}`}
-        >
-          {dados[ativo]?.licençaGlobal?.comprado ? (
-            <div className="w-full h-full p-4 flex flex-col" style={{ minHeight: 0, overflow: "hidden" }}>
-              {ativo === "grafico" && <TechTree />}
-
-              {ativo === "carteira" && (() => {
-                const setoresCores = {
-                  agricultura: { cor1: "#003816", cor3: "#0C9123", cor4: "#4CAF50" },
-                  tecnologia: { cor1: "#A64B00", cor3: "#FF6F00", cor4: "#FF8C42" },
-                  industria: { cor1: "#1A1A1A", cor3: "#808080", cor4: "#B3B3B3" },
-                  comercio: { cor1: "#660000", cor3: "#E60000", cor4: "#FF4D4D" },
-                  imobiliario: { cor1: "#000066", cor3: "#3333CC", cor4: "#6666FF" },
-                  energia: { cor1: "#665200", cor3: "#E6B800", cor4: "#FFD966" },
-                };
-                const setoresNomes = {
-                  agricultura: "Agricultura",
-                  tecnologia: "Tecnologia",
-                  industria: "Indústria",
-                  comercio: "Comércio",
-                  imobiliario: "Imobiliário",
-                  energia: "Energia",
-                  todos: "Todos"
-                };
-
-                const {
-                  todosEdificios,
-                  receitaMensalTotal,
-                  impostosTotais,
-                  lucroLiquido,
-                  setoresAtivosSet,
-                  edAtual,
-                  tiposUnicos,
-                  setoresComEdificios,
-                  limiteAtual,
-                  excedente
-                } = carteiraDados;
-
-                const edMax = economiaSetores.centralEdificios?.quantidadeEdificiosMax || 1;
-                const percCapacidade = Math.min((edAtual / edMax) * 100, 100);
-
-                return (
-                  <div key={carteiraKey} className="flex-1 w-full rounded-[20px] flex flex-col gap-[10px]" style={{ minHeight: 0 }}>
-                    <Tooltip style={{ backgroundColor: "#FFFFFF", color: "#350973", border: "1px solid #350973", borderRadius: "6px", padding: "6px 10px", fontWeight: "600", fontSize: "14px" }} id="tooltip-carteira" />
-
-                    {/* ── CONTAINER ÚNICO: FILTROS + CAPACIDADE ── */}
-                    <div style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 8,
-                      background: "rgba(0,0,0,.25)",
-                      border: "1px solid rgba(255,255,255,.07)",
-                      borderRadius: 12,
-                      padding: "12px 16px",
-                      flexShrink: 0,
-                      marginBottom: "8px",
-                    }}>
-                      {/* ── LINHA 1: ORDENAÇÃO ── */}
-                      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)", marginRight: 4, minWidth: "55px" }}>
-                          Ordenar
-                        </span>
-                        {[
-                          { key: "setor", label: "Setor" },
-                          { key: "roi_desc", label: "ROI ↓" },
-                          { key: "roi_asc", label: "ROI ↑" },
-                          { key: "lucro_desc", label: "Lucro ↓" },
-                          { key: "lucro_asc", label: "Lucro ↑" },
-                          { key: "valor_desc", label: "Valor ↓" },
-                          { key: "valor_asc", label: "Valor ↑" },
-                          { key: "fatu_desc", label: "Fatu ↓" },
-                          { key: "fatu_asc", label: "Fatu ↑" },
-                          { key: "rank_desc", label: "Rank (S→C)" },
-                          { key: "rank_asc", label: "Rank (C→S)" },
-                          { key: "powerup_desc", label: "P.Up ↓" },
-                          { key: "powerup_asc", label: "P.Up ↑" },
-                          { key: "qtd_desc", label: "Qtd ↓" },
-                          { key: "qtd_asc", label: "Qtd ↑" },
-                        ].map(({ key, label }) => (
-                          <button key={key}
-                            onClick={() => setCarteiraOrdem(key)}
-                            style={{
-                              borderRadius: 6,
-                              padding: "4px 12px",
-                              cursor: "pointer",
-                              fontFamily: "'Rajdhani',sans-serif",
-                              fontSize: 10,
-                              fontWeight: 700,
-                              letterSpacing: ".04em",
-                              transition: "all .15s",
-                              whiteSpace: "nowrap",
-                              background: carteiraOrdem === key ? "rgba(255,255,255,.18)" : "rgba(255,255,255,.05)",
-                              color: carteiraOrdem === key ? "#fff" : "rgba(255,255,255,.4)",
-                              border: "none",
-                            }}
-                          >
-                            {label}
-                          </button>
-                        ))}
-                      </div>
-
-                      {/* ── LINHA 2: SETOR E QUANTIDADE ── */}
-                      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)", marginRight: 4, minWidth: "55px" }}>
-                          Setor
-                        </span>
-                        {["todos", ...SETORES_ARR].map(s => {
-                          const sc = s !== "todos" ? setoresCores[s] : null;
-                          const isAtivo = carteiraFiltroSetor === s;
-                          const temCards = s === "todos" || setoresAtivosSet.has(s);
-                          return (
-                            <button key={s}
-                              onClick={() => setCarteiraFiltroSetor(s)}
-                              style={{
-                                border: "none",
-                                borderRadius: 6,
-                                padding: "4px 12px",
-                                cursor: "pointer",
-                                fontFamily: "'Rajdhani',sans-serif",
-                                fontSize: 10,
-                                fontWeight: 700,
-                                letterSpacing: ".04em",
-                                transition: "all .15s",
-                                whiteSpace: "nowrap",
-                                background: isAtivo ? (sc ? sc.cor3 : "rgba(255,255,255,.2)") : "rgba(255,255,255,.05)",
-                                color: isAtivo ? "#fff" : temCards ? "rgba(255,255,255,.45)" : "rgba(255,255,255,.15)",
-                                opacity: temCards ? 1 : 0.5,
-                              }}>
-                              {s === "todos" ? "Todos" : setoresNomes[s].slice(0, 3)}
-                            </button>
-                          );
-                        })}
-
-                        <div style={{ width: 1, height: 24, background: "rgba(255,255,255,.1)", margin: "0 6px", flexShrink: 0 }} />
-
-                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)", marginRight: 4 }}>
-                          Qtd
-                        </span>
-                        {[
-                          { key: "todos", label: "Todos" },
-                          { key: "qtd_desc", label: "Maior" },
-                          { key: "qtd_asc", label: "Menor" },
-                        ].map(({ key, label }) => (
-                          <button key={key}
-                            onClick={() => setFiltroQuantidade(key)}
-                            style={{
-                              border: "none",
-                              borderRadius: 6,
-                              padding: "4px 12px",
-                              cursor: "pointer",
-                              fontFamily: "'Rajdhani',sans-serif",
-                              fontSize: 10,
-                              fontWeight: 700,
-                              letterSpacing: ".04em",
-                              transition: "all .15s",
-                              whiteSpace: "nowrap",
-                              background: filtroQuantidade === key ? "rgba(255,255,255,.18)" : "rgba(255,255,255,.05)",
-                              color: filtroQuantidade === key ? "#fff" : "rgba(255,255,255,.4)",
-                            }}>
-                            {label}
-                          </button>
-                        ))}
-                      </div>
-
-                      {/* ── LINHA 3: AÇÕES E CAPACIDADE ── */}
-                      <div style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 10,
-                        flexWrap: "wrap",
-                        paddingTop: "4px",
-                        borderTop: "1px solid rgba(255,255,255,.06)",
-                      }}>
-                        {/* ── AÇÕES (ESQUERDA) ── */}
-                        <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                          <button
-                            onClick={() => setFiltroSelecionados(!filtroSelecionados)}
-                            style={{
-                              borderRadius: 6,
-                              padding: "5px 14px",
-                              cursor: "pointer",
-                              fontFamily: "'Rajdhani',sans-serif",
-                              fontSize: 11,
-                              fontWeight: 700,
-                              transition: "all .15s",
-                              whiteSpace: "nowrap",
-                              background: filtroSelecionados ? "rgba(52, 211, 153, .2)" : "rgba(255,255,255,.05)",
-                              color: filtroSelecionados ? "#34d399" : "rgba(255,255,255,.4)",
-                              border: filtroSelecionados ? "1px solid #34d399" : "1px solid transparent",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 4,
-                            }}>
-                            <span style={{ fontSize: 12 }}>⭐</span>
-                            {filtroSelecionados ? "Sel." : "Todos"}
-                          </button>
-
-                          {cartasSelecionadas.length > 0 && (
-                            <button
-                              onClick={limparSelecoes}
-                              style={{
-                                borderRadius: 6,
-                                padding: "5px 14px",
-                                cursor: "pointer",
-                                fontFamily: "'Rajdhani',sans-serif",
-                                fontSize: 11,
-                                fontWeight: 700,
-                                transition: "all .15s",
-                                whiteSpace: "nowrap",
-                                background: "rgba(255,77,77,.15)",
-                                color: "#ff4d4d",
-                                border: "1px solid rgba(255,77,77,.2)",
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 4,
-                              }}>
-                              ✕ {cartasSelecionadas.length}
-                            </button>
-                          )}
-
-                          <div style={{ width: 1, height: 26, background: "rgba(255,255,255,.1)", flexShrink: 0 }} />
-
-                          {/* Venda Rápida */}
-                          <button
-                            onClick={() => {
-                              if (modoVendaRapida && cartasParaVender.length > 0) {
-                                executarVendaRapida();
-                              } else if (modoVendaRapida) {
-                                setModoVendaRapida(true);
-                                setCartasParaVender([]);
-                              } else {
-                                setModoVendaRapida(true);
-                                setCartasParaVender([]);
-                              }
-                            }}
-                            style={{
-                              borderRadius: 6,
-                              padding: "5px 18px",
-                              cursor: "pointer",
-                              fontFamily: "'Rajdhani',sans-serif",
-                              fontSize: 12,
-                              fontWeight: 700,
-                              transition: "all .15s",
-                              whiteSpace: "nowrap",
-                              background: modoVendaRapida ? "rgba(255, 77, 77, .25)" : "rgba(255,255,255,.05)",
-                              color: modoVendaRapida ? "#ff4d4d" : "rgba(255,255,255,.4)",
-                              border: modoVendaRapida ? "1px solid #ff4d4d" : "1px solid transparent",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 8,
-                              minWidth: "100px",
-                              justifyContent: "center",
-                            }}>
-                            <span style={{ fontSize: 14 }}>🗑️</span>
-                            {modoVendaRapida ? (
-                              <>
-                                {cartasParaVender.length > 0 ? (
-                                  <span>
-                                    ({cartasParaVender.length}) por R$ {
-                                      cartasParaVender.reduce((total, item) => {
-                                        const edificio = dados[item.setor]?.edificios?.[item.index];
-                                        return total + ((edificio?.custoConstrucao || 0) * 0.7 * (edificio?.quantidade || 0));
-                                      }, 0).toFixed(0)
-                                    }
-                                  </span>
-                                ) : (
-                                  <span>Vender</span>
-                                )}
-                              </>
-                            ) : (
-                              "Venda Rápida"
-                            )}
-                          </button>
-
-                          {modoVendaRapida && todosEdificios.length > 0 && (
-                            <button
-                              onClick={() => {
-                                const novasSelecoes = todosEdificios.map(({ setor, idx, ed }) => ({
-                                  chave: `${setor}-${idx}`,
-                                  setor,
-                                  index: idx,
-                                  nome: ed.nome
-                                }));
-                                setCartasParaVender(novasSelecoes);
-                              }}
-                              style={{
-                                borderRadius: 6,
-                                padding: "4px 12px",
-                                cursor: "pointer",
-                                fontFamily: "'Rajdhani',sans-serif",
-                                fontSize: 10,
-                                fontWeight: 700,
-                                transition: "all .15s",
-                                whiteSpace: "nowrap",
-                                background: "rgba(255,255,255,.1)",
-                                color: "rgba(255,255,255,.6)",
-                                border: "1px solid rgba(255,255,255,.1)",
-                              }}>
-                              Todos
-                            </button>
-                          )}
-                        </div>
-
-                        {/* ── CAPACIDADE (DIREITA) ── */}
-                        <div style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 12,
-                          marginLeft: "auto",
-                          padding: "4px 16px",
-                          background: "rgba(0,0,0,.2)",
-                          borderRadius: 8,
-                          border: "1px solid rgba(255,255,255,.06)",
-                          flexShrink: 0,
-                        }}>
-                          {/* Setores Ativos */}
-                          <div style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 4,
-                            padding: "2px 8px",
-                            backgroundColor: setorAtivo?.cor3 || "#350973",
-                            borderRadius: 4,
-                            height: "28px",
-                          }}>
-                            <div style={{
-                              backgroundColor: setorAtivo?.cor4 || "#6A00FF",
-                              width: "18px",
-                              height: "18px",
-                              borderRadius: 3,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}>
-                              <img src={setoresImg} className="h-[50%] aspect-square" alt="" />
-                            </div>
-                            <span className="text-white fonteBold text-[13px]">{setoresComEdificios}</span>
-                          </div>
-
-                          {/* Total de Edifícios */}
-                          <div style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 4,
-                            padding: "2px 8px",
-                            backgroundColor: setorAtivo?.cor3 || "#350973",
-                            borderRadius: 4,
-                            height: "28px",
-                          }}>
-                            <div style={{
-                              backgroundColor: setorAtivo?.cor4 || "#6A00FF",
-                              width: "18px",
-                              height: "18px",
-                              borderRadius: 3,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}>
-                              <img src={soma} className="h-[50%] aspect-square" alt="" />
-                            </div>
-                            <span className="text-white fonteBold text-[13px]">{edAtual}</span>
-                          </div>
-
-                          <div style={{ width: 1, height: 24, background: "rgba(255,255,255,.1)", flexShrink: 0 }} />
-
-                          {/* Capacidade de Inventário */}
-                          <div style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 8,
-                            padding: "2px 6px",
-                          }}>
-                            <span style={{ fontSize: 14, color: "rgba(255,255,255,.5)" }}>📦</span>
-                            <span style={{ fontSize: 15, fontWeight: 800, color: "#fff" }}>
-                              {tiposUnicos}
-                            </span>
-                            <span style={{ fontSize: 13, color: "rgba(255,255,255,.3)" }}>/</span>
-                            <span style={{ fontSize: 15, fontWeight: 800, color: "rgba(255,255,255,.5)" }}>
-                              {limiteAtual}
-                            </span>
-
-                            {excedente > 0 && (
-                              <div style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 6,
-                                padding: "2px 14px",
-                                background: "rgba(255, 0, 0, 0.2)",
-                                borderRadius: 6,
-                                border: "2px solid #ff0000",
-                                animation: "pulse-red 1.5s infinite",
-                              }}>
-                                <span style={{ fontSize: 16 }}>⚠️</span>
-                                <span style={{ fontSize: 14, fontWeight: 900, color: "#ff0000" }}>
-                                  +{excedente}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-
-                          {/* ─── BOTÃO LIQUIDAR COM MODAL ─── */}
-                          {excedente > 0 && (
-                            <button
-                              onClick={abrirModalLiquidacao}
-                              style={{
-                                padding: "4px 16px",
-                                borderRadius: 6,
-                                border: "none",
-                                background: "linear-gradient(135deg, #ff0000, #cc0000)",
-                                color: "#fff",
-                                fontSize: 12,
-                                fontWeight: 800,
-                                cursor: "pointer",
-                                fontFamily: "'Rajdhani',sans-serif",
-                                transition: "all 0.2s ease",
-                                boxShadow: "0 0 25px rgba(255,0,0,0.3)",
-                                animation: "pulse-red 1.5s infinite",
-                                height: "32px",
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = "scale(1.05)";
-                                e.currentTarget.style.boxShadow = "0 0 35px rgba(255,0,0,0.5)";
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = "scale(1)";
-                                e.currentTarget.style.boxShadow = "0 0 25px rgba(255,0,0,0.3)";
-                              }}
-                            >
-                              🗑️ Liquidar
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    <style>{`
-                      @keyframes pulse-red {
-                        0%, 100% { opacity: 1; }
-                        50% { opacity: 0.5; }
-                      }
-                    `}</style>
-
-                    {/* ── GRID DE CARDS ── */}
-                    <div
-                      style={{ background: `linear-gradient(135deg, ${setorAtivo?.cor1 || "#350973"} 0%, ${setorAtivo?.cor4 || "#6A00FF"} 100%)` }}
-                      className="flex-1 overflow-y-auto mt-0 scrollbar-custom rounded-[10px]"
-                    >
-                      {todosEdificios.length === 0 ? (
-                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, opacity: .4 }}>
-                          <span style={{ fontSize: 22 }}>📭</span>
-                          <span style={{ color: "#fff", fontSize: 13, fontFamily: "'Rajdhani',sans-serif" }}>
-                            {carteiraFiltroSetor !== "todos" ? `Nenhum edifício em ${setoresNomes[carteiraFiltroSetor]}` : "Nenhum edifício na carteira ainda"}
-                          </span>
-                        </div>
-                      ) : (
-                        <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] h-[400px] pt-[20px] pl-[20px]">
-                          {todosEdificios
-                            .filter(({ ed }) => {
-                              if (filtroQuantidade !== "todos") {
-                                return filtrarPorQuantidade(ed, filtroQuantidade);
-                              }
-                              return true;
-                            })
-                            .filter(({ ed, setor, idx }) => {
-                              if (filtroSelecionados) {
-                                const chave = `${setor}-${idx}`;
-                                return cartasSelecionadas.some(item => item.chave === chave);
-                              }
-                              return true;
-                            })
-                            .map(({ ed, idx, setor, roi, categoria, rank, lucroLiquido, valor }) => {
-                              const chave = `${setor}-${idx}`;
-                              const estaSelecionado = cartasSelecionadas.some(item => item.chave === chave);
-                              const estaSelecionadoVenda = cartasParaVender.some(item => item.chave === chave);
-                              const limite = getLimiteSelecao();
-                              const atingiuLimite = cartasSelecionadas.length >= limite && !estaSelecionado;
-                              const quantidade = getQuantidadeEdificio(ed);
-                              const excedeLimite = quantidade > 3;
-
-                              return (
-                                <div key={`${setor}-${idx}`} style={{ position: "relative" }}>
-                                  {/* BADGE DE RANK */}
-                                  <div style={{
-                                    position: "absolute", top: -8, right: 10, zIndex: 2,
-                                    background: rank.cor,
-                                    border: `2px solid ${rank.cor}`,
-                                    borderRadius: 6, padding: "1px 8px",
-                                    display: "flex", alignItems: "center", gap: 4,
-                                    boxShadow: `0 0 15px ${rank.cor}55`,
-                                  }}>
-                                    <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 800, color: "#fff", textShadow: "0 0 8px rgba(0,0,0,0.5)" }}>
-                                      {rank.label}
-                                    </span>
-                                  </div>
-
-                                  {/* BADGE DE VALOR */}
-                                  <div style={{
-                                    position: "absolute", top: -8, left: 10, zIndex: 2,
-                                    background: "rgba(0,0,0,0.7)",
-                                    border: "1px solid rgba(255,255,255,0.2)",
-                                    borderRadius: 6, padding: "1px 8px",
-                                    display: "flex", alignItems: "center", gap: 4,
-                                  }}>
-                                    <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 9, fontWeight: 700, color: "#C79FFF" }}>
-                                      R$ {formatarNumero(valor)}
-                                    </span>
-                                  </div>
-
-                                  {excedeLimite && (
-                                    <div style={{
-                                      position: "absolute", top: 20, left: 10, zIndex: 2,
-                                      background: "#ff4d4d",
-                                      border: "1px solid #ff4d4d",
-                                      borderRadius: 6, padding: "1px 8px",
-                                      display: "flex", alignItems: "center", gap: 4,
-                                    }}>
-                                      <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 9, fontWeight: 800, color: "#fff" }}>
-                                        ⚠️ {quantidade}/3
-                                      </span>
-                                    </div>
-                                  )}
-
-                                  <CardDraft index={idx} setor={setor} abrirModalSell={abrirModalSell} />
-
-                                  <div style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    marginTop: "4px",
-                                    marginBottom: "2px",
-                                    gap: "4px",
-                                  }}>
-                                    <button
-                                      className="w-[45%] mt-2 mb-4"
-                                      onClick={() => {
-                                        toggleSelecao(setor, idx, ed.nome);
-                                        selecionarButton();
-                                      }}
-                                      style={{
-                                        padding: "8px 12px",
-                                        borderRadius: "6px",
-                                        border: estaSelecionado ? "1px solid #34d399" : "1px solid rgba(255,255,255,0.1)",
-                                        fontFamily: "'Rajdhani',sans-serif",
-                                        fontSize: "10px",
-                                        fontWeight: 700,
-                                        cursor: "pointer",
-                                        transition: "all 0.2s ease",
-                                        background: estaSelecionado
-                                          ? "linear-gradient(135deg, #7aff9a, #34d399)"
-                                          : atingiuLimite
-                                            ? "rgba(255,255,255,0.1)"
-                                            : "rgba(255,255,255,0.15)",
-                                        color: estaSelecionado
-                                          ? "#1a1a1a"
-                                          : atingiuLimite
-                                            ? "rgba(255,255,255,0.3)"
-                                            : "rgba(255,255,255,0.7)",
-                                        boxShadow: estaSelecionado
-                                          ? "0 0 15px rgba(52, 211, 153, 0.4)"
-                                          : "none",
-                                        transform: estaSelecionado ? "scale(1.02)" : "scale(1)",
-                                        pointerEvents: atingiuLimite && !estaSelecionado ? "none" : "auto",
-                                        height: "32px",
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        if (!estaSelecionado && !atingiuLimite) {
-                                          e.currentTarget.style.background = "rgba(255,255,255,0.25)";
-                                          e.currentTarget.style.transform = "scale(1.05)";
-                                        }
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        if (!estaSelecionado && !atingiuLimite) {
-                                          e.currentTarget.style.background = "rgba(255,255,255,0.15)";
-                                          e.currentTarget.style.transform = "scale(1)";
-                                        }
-                                      }}
-                                    >
-                                      {estaSelecionado ? "✓ Selecionado" : "Selecionar"}
-                                    </button>
-
-                                    <button
-                                      className="w-[45%] mt-2 mb-4"
-                                      onClick={() => {
-                                        if (modoVendaRapida) {
-                                          toggleSelecaoVenda(setor, idx, ed.nome);
-                                        }
-                                      }}
-                                      style={{
-                                        padding: "8px 12px",
-                                        borderRadius: "6px",
-                                        border: estaSelecionadoVenda
-                                          ? "1px solid #ff4d4d"
-                                          : "1px solid rgba(255,255,255,0.1)",
-                                        fontFamily: "'Rajdhani',sans-serif",
-                                        fontSize: "10px",
-                                        fontWeight: 700,
-                                        transition: "all 0.2s ease",
-                                        background: estaSelecionadoVenda
-                                          ? "linear-gradient(135deg, #ff4d4d, #cc0000)"
-                                          : modoVendaRapida
-                                            ? "rgba(255,77,77,0.2)"
-                                            : "rgba(255,255,255,0.05)",
-                                        color: estaSelecionadoVenda
-                                          ? "#fff"
-                                          : modoVendaRapida
-                                            ? "rgba(255,77,77,0.7)"
-                                            : "rgba(255,255,255,0.3)",
-                                        boxShadow: estaSelecionadoVenda
-                                          ? "0 0 15px rgba(255,77,77,0.4)"
-                                          : "none",
-                                        transform: estaSelecionadoVenda ? "scale(1.02)" : "scale(1)",
-                                        height: "32px",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        gap: "4px",
-                                        cursor: modoVendaRapida ? "pointer" : "not-allowed",
-                                        pointerEvents: modoVendaRapida ? "auto" : "none",
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        if (!estaSelecionadoVenda && modoVendaRapida) {
-                                          e.currentTarget.style.background = "rgba(255,77,77,0.3)";
-                                          e.currentTarget.style.transform = "scale(1.05)";
-                                        }
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        if (!estaSelecionadoVenda && modoVendaRapida) {
-                                          e.currentTarget.style.background = "rgba(255,77,77,0.2)";
-                                          e.currentTarget.style.transform = "scale(1)";
-                                        }
-                                      }}
-                                    >
-                                      <span>🗑️</span>
-                                      {estaSelecionadoVenda ? "Vender" : "Vender"}
-                                    </button>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                        </div>
-                      )}
-                    </div>
-
-                    {modalSellOpen && (
-                      <SellModal
-                        setor={modalProps.setor}
-                        nomeLicença={modalProps.nomeLicença}
-                        index={modalProps.index}
-                        onClose={() => setModalSellOpen(false)}
-                      />
-                    )}
-                  </div>
-                );
-              })()}
-            </div>
-          ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center p-4">
-              <div
-                className="p-4 rounded-[30px] w-[90%] h-[90%] flex flex-col self-center items-center justify-between"
-                style={{ backgroundColor: setorAtivo?.cor2 || "#350973" }}
+      {/* ─── LAYOUT PRINCIPAL ────────────────────────────────────── */}
+      <div className="w-full h-full flex gap-2 p-2 bg-[#0a0a1a]">
+        {/* ─── LADO ESQUERDO: TABS E CONTEÚDO ─────────────────────── */}
+        <div className="flex-1 flex flex-col gap-2 min-w-0">
+          {/* ─── TABS ────────────────────────────────────────────── */}
+          {/* <div className="flex gap-1 bg-[#1a0a3b] rounded-xl border border-white/10 p-1 flex-shrink-0">
+            {[
+              { id: "carteira", label: "📋 Carteira" },
+              { id: "grafico", label: "📊 Análise" },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setSelectedTab(tab.id);
+                  setAtivo(tab.id);
+                }}
+                className={`
+                  flex-1 px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200
+                  ${selectedTab === tab.id
+                    ? 'bg-[#6A00FF] text-white shadow-lg shadow-purple-500/20'
+                    : 'text-white/40 hover:text-white hover:bg-white/5'
+                  }
+                `}
               >
-                <div
-                  className="w-[90%] text-center rounded-[10px]"
-                  style={{ backgroundColor: setorAtivo?.cor3 || "#6A00FF" }}
-                >
-                  <h1 className="text-white text-3xl fonteBold text-[40px]">
-                    Licença Global de {ativo}
-                  </h1>
-                </div>
-                <p className="text-white p-[40px]">{setorAtivo?.descLicença}</p>
-                <div className="flex justify-center gap-[20px] w-full ">
-                  <div
-                    className="text-white flex items-center justify-around w-[20%] rounded-[10px]"
-                    style={{ backgroundColor: setorAtivo?.cor1 || "#350973" }}
-                  >
-                    <img className="w-[20px]" src={DolarImg} alt="" />
-                    <h1 className="fonteBold">{dados[ativo]?.licençaGlobal?.valor || 0}</h1>
-                  </div>
-                  <div className="w-[20%]">
-                    <button
-                      onClick={LiberarLicença}
-                      className="bg-[#350973] text-white fonteBold w-full rounded-[10px] h-[40px]"
-                    >
-                      Comprar
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+                {tab.label}
+              </button>
+            ))}
+          </div> */}
+
+          {/* ─── CONTEÚDO DA TAB ─────────────────────────────────── */}
+          <div className="flex-1 min-h-0">
+            {selectedTab === "carteira" ? (
+              <DashboardDraftCarteira 
+                dados={dados}
+                economiaSetores={economiaSetores}
+                setorAtivo={setorAtivo}
+                carteiraDados={carteiraDados}
+                carteiraKey={carteiraKey}
+                carteiraFiltroSetor={carteiraFiltroSetor}
+                setCarteiraFiltroSetor={setCarteiraFiltroSetor}
+                carteiraOrdem={carteiraOrdem}
+                setCarteiraOrdem={setCarteiraOrdem}
+                filtroQuantidade={filtroQuantidade}
+                setFiltroQuantidade={setFiltroQuantidade}
+                filtroSelecionados={filtroSelecionados}
+                setFiltroSelecionados={setFiltroSelecionados}
+                cartasSelecionadas={cartasSelecionadas}
+                setCartasSelecionadas={setCartasSelecionadas}
+                cartasParaVender={cartasParaVender}
+                setCartasParaVender={setCartasParaVender}
+                modoVendaRapida={modoVendaRapida}
+                setModoVendaRapida={setModoVendaRapida}
+                toggleSelecao={toggleSelecao}
+                toggleSelecaoVenda={toggleSelecaoVenda}
+                executarVendaRapida={executarVendaRapida}
+                limparSelecoes={limparSelecoes}
+                abrirModalSell={abrirModalSell}
+                abrirModalLiquidacao={abrirModalLiquidacao}
+                getLimiteSelecao={getLimiteSelecao}
+                getQuantidadeEdificio={getQuantidadeEdificio}
+                filtrarPorQuantidade={filtrarPorQuantidade}
+                formatarNumero={formatarNumero}
+                modalSellOpen={modalSellOpen}
+                setModalSellOpen={setModalSellOpen}
+                modalProps={modalProps}
+                setModalProps={setModalProps}
+                selecionarButton={selecionarButton}
+              />
+            ) : (
+              <DisplayInformations />
+            )}
+          </div>
         </div>
+
+        {/* ─── LADO DIREITO: MINI DRAFT E EXPANSÃO ────────────────── */}
+        {/* <div className="w-[320px] flex flex-col gap-2 flex-shrink-0">
+          <div className="flex-1 min-h-0">
+            <DashboardMiniDraft />
+          </div>
+          <div className="h-[100px] flex-shrink-0">
+            <PlusInventory />
+          </div>
+        </div> */}
       </div>
 
       {/* ─── MODAL DE CONFIRMAÇÃO DE LIQUIDAÇÃO ──────────────────── */}
@@ -1499,7 +786,7 @@ export default function DashboardDraft() {
         excedente={carteiraDados.excedente}
       />
 
-      {/* MODAL DE CONCLUSÃO */}
+      {/* ─── MODAL DE CONCLUSÃO ───────────────────────────────────── */}
       {modalConclusao && (() => {
         const dadosFinais = calcularDadosFinais();
 
@@ -1586,9 +873,764 @@ export default function DashboardDraft() {
           </div>
         );
       })()}
+
+      {/* ─── MODAL SELL ───────────────────────────────────────────── */}
+      {modalSellOpen && (
+        <SellModal
+          setor={modalProps.setor}
+          nomeLicença={modalProps.nomeLicença}
+          index={modalProps.index}
+          onClose={() => setModalSellOpen(false)}
+        />
+      )}
     </>
   );
 }
+
+// ─── COMPONENTE DASHBOARD CARTEIRA (EXTRAÍDO) ─────────────────────
+function DashboardDraftCarteira({
+  dados,
+  economiaSetores,
+  setorAtivo,
+  carteiraDados,
+  carteiraKey,
+  carteiraFiltroSetor,
+  setCarteiraFiltroSetor,
+  carteiraOrdem,
+  setCarteiraOrdem,
+  filtroQuantidade,
+  setFiltroQuantidade,
+  filtroSelecionados,
+  setFiltroSelecionados,
+  cartasSelecionadas,
+  setCartasSelecionadas,
+  cartasParaVender,
+  setCartasParaVender,
+  modoVendaRapida,
+  setModoVendaRapida,
+  toggleSelecao,
+  toggleSelecaoVenda,
+  executarVendaRapida,
+  limparSelecoes,
+  abrirModalSell,
+  abrirModalLiquidacao,
+  getLimiteSelecao,
+  getQuantidadeEdificio,
+  filtrarPorQuantidade,
+  formatarNumero,
+  modalSellOpen,
+  setModalSellOpen,
+  modalProps,
+  setModalProps,
+  selecionarButton,
+}) {
+  const setoresCores = {
+    agricultura: { cor1: "#003816", cor3: "#0C9123", cor4: "#4CAF50" },
+    tecnologia: { cor1: "#A64B00", cor3: "#FF6F00", cor4: "#FF8C42" },
+    industria: { cor1: "#1A1A1A", cor3: "#808080", cor4: "#B3B3B3" },
+    comercio: { cor1: "#660000", cor3: "#E60000", cor4: "#FF4D4D" },
+    imobiliario: { cor1: "#000066", cor3: "#3333CC", cor4: "#6666FF" },
+    energia: { cor1: "#665200", cor3: "#E6B800", cor4: "#FFD966" },
+  };
+  const setoresNomes = {
+    agricultura: "Agricultura",
+    tecnologia: "Tecnologia",
+    industria: "Indústria",
+    comercio: "Comércio",
+    imobiliario: "Imobiliário",
+    energia: "Energia",
+    todos: "Todos"
+  };
+
+  const {
+    todosEdificios,
+    receitaMensalTotal,
+    impostosTotais,
+    lucroLiquido,
+    setoresAtivosSet,
+    edAtual,
+    tiposUnicos,
+    setoresComEdificios,
+    limiteAtual,
+    excedente
+  } = carteiraDados;
+
+  const SETORES_ARR = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+
+  return (
+    <div key={carteiraKey} className="flex-1 w-full rounded-[20px] flex gap-[10px]" style={{ minHeight: 0, height: '100%' }}>
+      <Tooltip style={{ backgroundColor: "#FFFFFF", color: "#350973", border: "1px solid #350973", borderRadius: "6px", padding: "6px 10px", fontWeight: "600", fontSize: "14px" }} id="tooltip-carteira" />
+
+      {/* ── FILTROS LATERAL ESQUERDA ── */}
+      <div style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 8,
+        background: "rgba(0,0,0,.25)",
+        border: "1px solid rgba(255,255,255,.07)",
+        borderRadius: 12,
+        padding: "12px 14px",
+        flexShrink: 0,
+        width: "200px",
+        height: "100%",
+        overflowY: "auto",
+      }}>
+        {/* ── ORDENAÇÃO ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)" }}>
+            Ordenar
+          </span>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+            {[
+              { key: "setor", label: "Setor" },
+              { key: "roi_desc", label: "ROI ↓" },
+              { key: "roi_asc", label: "ROI ↑" },
+              { key: "lucro_desc", label: "Lucro ↓" },
+              { key: "lucro_asc", label: "Lucro ↑" },
+              { key: "valor_desc", label: "Valor ↓" },
+              { key: "valor_asc", label: "Valor ↑" },
+              { key: "fatu_desc", label: "Fatu ↓" },
+              { key: "fatu_asc", label: "Fatu ↑" },
+              { key: "rank_desc", label: "Rank (S→C)" },
+              { key: "rank_asc", label: "Rank (C→S)" },
+              { key: "powerup_desc", label: "P.Up ↓" },
+              { key: "powerup_asc", label: "P.Up ↑" },
+              { key: "qtd_desc", label: "Qtd ↓" },
+              { key: "qtd_asc", label: "Qtd ↑" },
+            ].map(({ key, label }) => (
+              <button key={key}
+                onClick={() => setCarteiraOrdem(key)}
+                style={{
+                  borderRadius: 6,
+                  padding: "4px 10px",
+                  cursor: "pointer",
+                  fontFamily: "'Rajdhani',sans-serif",
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: ".04em",
+                  transition: "all .15s",
+                  whiteSpace: "nowrap",
+                  background: carteiraOrdem === key ? "rgba(255,255,255,.18)" : "rgba(255,255,255,.05)",
+                  color: carteiraOrdem === key ? "#fff" : "rgba(255,255,255,.4)",
+                  border: "none",
+                  flex: "1 0 auto",
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,.06)" }} />
+
+        {/* ── SETOR ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)" }}>
+            Setor
+          </span>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+            {["todos", ...SETORES_ARR].map(s => {
+              const sc = s !== "todos" ? setoresCores[s] : null;
+              const isAtivo = carteiraFiltroSetor === s;
+              const temCards = s === "todos" || setoresAtivosSet.has(s);
+              return (
+                <button key={s}
+                  onClick={() => setCarteiraFiltroSetor(s)}
+                  style={{
+                    border: "none",
+                    borderRadius: 6,
+                    padding: "4px 12px",
+                    cursor: "pointer",
+                    fontFamily: "'Rajdhani',sans-serif",
+                    fontSize: 10,
+                    fontWeight: 700,
+                    letterSpacing: ".04em",
+                    transition: "all .15s",
+                    whiteSpace: "nowrap",
+                    background: isAtivo ? (sc ? sc.cor3 : "rgba(255,255,255,.2)") : "rgba(255,255,255,.05)",
+                    color: isAtivo ? "#fff" : temCards ? "rgba(255,255,255,.45)" : "rgba(255,255,255,.15)",
+                    opacity: temCards ? 1 : 0.5,
+                    flex: "1 0 auto",
+                  }}>
+                  {s === "todos" ? "Todos" : setoresNomes[s].slice(0, 3)}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,.06)" }} />
+
+        {/* ── QUANTIDADE ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)" }}>
+            Quantidade
+          </span>
+          <div style={{ display: "flex", gap: 4 }}>
+            {[
+              { key: "todos", label: "Todos" },
+              { key: "qtd_desc", label: "Maior" },
+              { key: "qtd_asc", label: "Menor" },
+            ].map(({ key, label }) => (
+              <button key={key}
+                onClick={() => setFiltroQuantidade(key)}
+                style={{
+                  border: "none",
+                  borderRadius: 6,
+                  padding: "4px 12px",
+                  cursor: "pointer",
+                  fontFamily: "'Rajdhani',sans-serif",
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: ".04em",
+                  transition: "all .15s",
+                  whiteSpace: "nowrap",
+                  background: filtroQuantidade === key ? "rgba(255,255,255,.18)" : "rgba(255,255,255,.05)",
+                  color: filtroQuantidade === key ? "#fff" : "rgba(255,255,255,.4)",
+                  flex: 1,
+                }}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,.06)" }} />
+
+        {/* ── AÇÕES ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)" }}>
+            Ações
+          </span>
+          <button
+            onClick={() => setFiltroSelecionados(!filtroSelecionados)}
+            style={{
+              borderRadius: 6,
+              padding: "6px 14px",
+              cursor: "pointer",
+              fontFamily: "'Rajdhani',sans-serif",
+              fontSize: 11,
+              fontWeight: 700,
+              transition: "all .15s",
+              whiteSpace: "nowrap",
+              background: filtroSelecionados ? "rgba(52, 211, 153, .2)" : "rgba(255,255,255,.05)",
+              color: filtroSelecionados ? "#34d399" : "rgba(255,255,255,.4)",
+              border: filtroSelecionados ? "1px solid #34d399" : "1px solid transparent",
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              justifyContent: "center",
+            }}>
+            <span style={{ fontSize: 12 }}>⭐</span>
+            {filtroSelecionados ? "Selecionados" : "Todos"}
+          </button>
+
+          {cartasSelecionadas.length > 0 && (
+            <button
+              onClick={limparSelecoes}
+              style={{
+                borderRadius: 6,
+                padding: "6px 14px",
+                cursor: "pointer",
+                fontFamily: "'Rajdhani',sans-serif",
+                fontSize: 11,
+                fontWeight: 700,
+                transition: "all .15s",
+                whiteSpace: "nowrap",
+                background: "rgba(255,77,77,.15)",
+                color: "#ff4d4d",
+                border: "1px solid rgba(255,77,77,.2)",
+                display: "flex",
+                alignItems: "center",
+                gap: 4,
+                justifyContent: "center",
+              }}>
+              ✕ Limpar ({cartasSelecionadas.length})
+            </button>
+          )}
+
+          <button
+            onClick={() => {
+              if (modoVendaRapida && cartasParaVender.length > 0) {
+                executarVendaRapida();
+              } else if (modoVendaRapida) {
+                setModoVendaRapida(true);
+                setCartasParaVender([]);
+              } else {
+                setModoVendaRapida(true);
+                setCartasParaVender([]);
+              }
+            }}
+            style={{
+              borderRadius: 6,
+              padding: "6px 14px",
+              cursor: "pointer",
+              fontFamily: "'Rajdhani',sans-serif",
+              fontSize: 11,
+              fontWeight: 700,
+              transition: "all .15s",
+              whiteSpace: "nowrap",
+              background: modoVendaRapida ? "rgba(255, 77, 77, .25)" : "rgba(255,255,255,.05)",
+              color: modoVendaRapida ? "#ff4d4d" : "rgba(255,255,255,.4)",
+              border: modoVendaRapida ? "1px solid #ff4d4d" : "1px solid transparent",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+            }}>
+            <span style={{ fontSize: 14 }}>🗑️</span>
+            {modoVendaRapida && cartasParaVender.length > 0 ? (
+              <span>
+                Vender ({cartasParaVender.length}) - R$ {
+                  cartasParaVender.reduce((total, item) => {
+                    const edificio = dados[item.setor]?.edificios?.[item.index];
+                    return total + ((edificio?.custoConstrucao || 0) * 0.7 * (edificio?.quantidade || 0));
+                  }, 0).toFixed(0)
+                }
+              </span>
+            ) : modoVendaRapida ? "Selecionar para Vender" : "Venda Rápida"}
+          </button>
+
+          {modoVendaRapida && todosEdificios.length > 0 && (
+            <button
+              onClick={() => {
+                const novasSelecoes = todosEdificios.map(({ setor, idx, ed }) => ({
+                  chave: `${setor}-${idx}`,
+                  setor,
+                  index: idx,
+                  nome: ed.nome
+                }));
+                setCartasParaVender(novasSelecoes);
+              }}
+              style={{
+                borderRadius: 6,
+                padding: "4px 12px",
+                cursor: "pointer",
+                fontFamily: "'Rajdhani',sans-serif",
+                fontSize: 10,
+                fontWeight: 700,
+                transition: "all .15s",
+                whiteSpace: "nowrap",
+                background: "rgba(255,255,255,.1)",
+                color: "rgba(255,255,255,.6)",
+                border: "1px solid rgba(255,255,255,.1)",
+              }}>
+              Selecionar Todos
+            </button>
+          )}
+        </div>
+
+        <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,.06)" }} />
+
+        {/* ── CAPACIDADE ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)" }}>
+            Capacidade
+          </span>
+          
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            padding: "4px 8px",
+            background: "rgba(0,0,0,.2)",
+            borderRadius: 8,
+            border: "1px solid rgba(255,255,255,.06)",
+          }}>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "2px 8px",
+              backgroundColor: setorAtivo?.cor3 || "#350973",
+              borderRadius: 4,
+              height: "28px",
+              flex: 1,
+            }}>
+              <div style={{
+                backgroundColor: setorAtivo?.cor4 || "#6A00FF",
+                width: "18px",
+                height: "18px",
+                borderRadius: 3,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+                <img src={setoresImg} className="h-[50%] aspect-square" alt="" />
+              </div>
+              <span className="text-white fonteBold text-[13px]">{setoresComEdificios}</span>
+            </div>
+
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "2px 8px",
+              backgroundColor: setorAtivo?.cor3 || "#350973",
+              borderRadius: 4,
+              height: "28px",
+              flex: 1,
+            }}>
+              <div style={{
+                backgroundColor: setorAtivo?.cor4 || "#6A00FF",
+                width: "18px",
+                height: "18px",
+                borderRadius: 3,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+                <img src={soma} className="h-[50%] aspect-square" alt="" />
+              </div>
+              <span className="text-white fonteBold text-[13px]">{edAtual}</span>
+            </div>
+          </div>
+
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            padding: "4px 8px",
+            background: "rgba(0,0,0,.2)",
+            borderRadius: 8,
+            border: "1px solid rgba(255,255,255,.06)",
+          }}>
+            <span style={{ fontSize: 14, color: "rgba(255,255,255,.5)" }}>📦</span>
+            <span style={{ fontSize: 15, fontWeight: 800, color: "#fff" }}>
+              {tiposUnicos}
+            </span>
+            <span style={{ fontSize: 13, color: "rgba(255,255,255,.3)" }}>/</span>
+            <span style={{ fontSize: 15, fontWeight: 800, color: "rgba(255,255,255,.5)" }}>
+              {limiteAtual}
+            </span>
+
+            {excedente > 0 && (
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "2px 10px",
+                background: "rgba(255, 0, 0, 0.2)",
+                borderRadius: 6,
+                border: "2px solid #ff0000",
+                animation: "pulse-red 1.5s infinite",
+              }}>
+                <span style={{ fontSize: 14 }}>⚠️</span>
+                <span style={{ fontSize: 14, fontWeight: 900, color: "#ff0000" }}>
+                  +{excedente}
+                </span>
+              </div>
+            )}
+          </div>
+
+          {excedente > 0 && (
+            <button
+              onClick={abrirModalLiquidacao}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 6,
+                border: "none",
+                background: "linear-gradient(135deg, #ff0000, #cc0000)",
+                color: "#fff",
+                fontSize: 12,
+                fontWeight: 800,
+                cursor: "pointer",
+                fontFamily: "'Rajdhani',sans-serif",
+                transition: "all 0.2s ease",
+                boxShadow: "0 0 25px rgba(255,0,0,0.3)",
+                animation: "pulse-red 1.5s infinite",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+                e.currentTarget.style.boxShadow = "0 0 35px rgba(255,0,0,0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = "0 0 25px rgba(255,0,0,0.3)";
+              }}
+            >
+              🗑️ Liquidar Excedente
+            </button>
+          )}
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes pulse-red {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+      `}</style>
+
+      {/* ── GRID DE CARDS (OCUPA O RESTO DO ESPAÇO) ── */}
+      <div
+        style={{ 
+          background: `linear-gradient(135deg, ${ "#6411D9"} 0%, ${ "#502602"} 100%)`,
+          flex: 1,
+          borderRadius: "10px",
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+        }}
+      >
+        <div className="flex-1 overflow-y-auto scrollbar-custom p-[20px]">
+          {todosEdificios.length === 0 ? (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, opacity: .4 }}>
+              <span style={{ fontSize: 22 }}>📭</span>
+              <span style={{ color: "#fff", fontSize: 13, fontFamily: "'Rajdhani',sans-serif" }}>
+                {carteiraFiltroSetor !== "todos" ? `Nenhum edifício em ${setoresNomes[carteiraFiltroSetor]}` : "Nenhum edifício na carteira ainda"}
+              </span>
+            </div>
+          ) : (
+            <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-x-[20px]">
+              {todosEdificios
+                .filter(({ ed }) => {
+                  if (filtroQuantidade !== "todos") {
+                    return filtrarPorQuantidade(ed, filtroQuantidade);
+                  }
+                  return true;
+                })
+                .filter(({ ed, setor, idx }) => {
+                  if (filtroSelecionados) {
+                    const chave = `${setor}-${idx}`;
+                    return cartasSelecionadas.some(item => item.chave === chave);
+                  }
+                  return true;
+                })
+                .map(({ ed, idx, setor, roi, categoria, rank, lucroLiquido, valor }) => {
+                  const chave = `${setor}-${idx}`;
+                  const estaSelecionado = cartasSelecionadas.some(item => item.chave === chave);
+                  const estaSelecionadoVenda = cartasParaVender.some(item => item.chave === chave);
+                  const limite = getLimiteSelecao();
+                  const atingiuLimite = cartasSelecionadas.length >= limite && !estaSelecionado;
+                  const quantidade = getQuantidadeEdificio(ed);
+                  const excedeLimite = quantidade > 3;
+
+                  return (
+                    <div key={`${setor}-${idx}`} style={{ position: "relative" }}>
+                      {/* BADGE DE RANK */}
+                      <div style={{
+                        position: "absolute", top: -8, right: 10, zIndex: 2,
+                        background: rank.cor,
+                        border: `2px solid ${rank.cor}`,
+                        borderRadius: 6, padding: "1px 8px",
+                        display: "flex", alignItems: "center", gap: 4,
+                        boxShadow: `0 0 15px ${rank.cor}55`,
+                      }}>
+                        <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 800, color: "#fff", textShadow: "0 0 8px rgba(0,0,0,0.5)" }}>
+                          {rank.label}
+                        </span>
+                      </div>
+
+                      {/* BADGE DE VALOR */}
+                      <div style={{
+                        position: "absolute", top: -8, left: 10, zIndex: 2,
+                        background: "rgba(0,0,0,0.7)",
+                        border: "1px solid rgba(255,255,255,0.2)",
+                        borderRadius: 6, padding: "1px 8px",
+                        display: "flex", alignItems: "center", gap: 4,
+                      }}>
+                        <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 9, fontWeight: 700, color: "#C79FFF" }}>
+                          R$ {formatarNumero(valor)}
+                        </span>
+                      </div>
+
+                      {excedeLimite && (
+                        <div style={{
+                          position: "absolute", top: 20, left: 10, zIndex: 2,
+                          background: "#ff4d4d",
+                          border: "1px solid #ff4d4d",
+                          borderRadius: 6, padding: "1px 8px",
+                          display: "flex", alignItems: "center", gap: 4,
+                        }}>
+                          <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 9, fontWeight: 800, color: "#fff" }}>
+                            ⚠️ {quantidade}/3
+                          </span>
+                        </div>
+                      )}
+
+                      <CardDraft index={idx} setor={setor} abrirModalSell={abrirModalSell} />
+
+                      <div style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "4px",
+                        marginBottom: "2px",
+                        gap: "4px",
+                      }}>
+                        <button
+                          className="w-[45%] mt-2 mb-4"
+                          onClick={() => {
+                            toggleSelecao(setor, idx, ed.nome);
+                            selecionarButton();
+                          }}
+                          style={{
+                            padding: "8px 12px",
+                            borderRadius: "6px",
+                            border: estaSelecionado ? "1px solid #34d399" : "1px solid rgba(255,255,255,0.1)",
+                            fontFamily: "'Rajdhani',sans-serif",
+                            fontSize: "10px",
+                            fontWeight: 700,
+                            cursor: "pointer",
+                            transition: "all 0.2s ease",
+                            background: estaSelecionado
+                              ? "linear-gradient(135deg, #7aff9a, #34d399)"
+                              : atingiuLimite
+                                ? "rgba(255,255,255,0.1)"
+                                : "rgba(255,255,255,0.15)",
+                            color: estaSelecionado
+                              ? "#1a1a1a"
+                              : atingiuLimite
+                                ? "rgba(255,255,255,0.3)"
+                                : "rgba(255,255,255,0.7)",
+                            boxShadow: estaSelecionado
+                              ? "0 0 15px rgba(52, 211, 153, 0.4)"
+                              : "none",
+                            transform: estaSelecionado ? "scale(1.02)" : "scale(1)",
+                            pointerEvents: atingiuLimite && !estaSelecionado ? "none" : "auto",
+                            height: "32px",
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!estaSelecionado && !atingiuLimite) {
+                              e.currentTarget.style.background = "rgba(255,255,255,0.25)";
+                              e.currentTarget.style.transform = "scale(1.05)";
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!estaSelecionado && !atingiuLimite) {
+                              e.currentTarget.style.background = "rgba(255,255,255,0.15)";
+                              e.currentTarget.style.transform = "scale(1)";
+                            }
+                          }}
+                        >
+                          {estaSelecionado ? "✓ Selecionado" : "Selecionar"}
+                        </button>
+
+                        <button
+                          className="w-[45%] mt-2 mb-4"
+                          onClick={() => {
+                            if (modoVendaRapida) {
+                              toggleSelecaoVenda(setor, idx, ed.nome);
+                            }
+                          }}
+                          style={{
+                            padding: "8px 12px",
+                            borderRadius: "6px",
+                            border: estaSelecionadoVenda
+                              ? "1px solid #ff4d4d"
+                              : "1px solid rgba(255,255,255,0.1)",
+                            fontFamily: "'Rajdhani',sans-serif",
+                            fontSize: "10px",
+                            fontWeight: 700,
+                            transition: "all 0.2s ease",
+                            background: estaSelecionadoVenda
+                              ? "linear-gradient(135deg, #ff4d4d, #cc0000)"
+                              : modoVendaRapida
+                                ? "rgba(255,77,77,0.2)"
+                                : "rgba(255,255,255,0.05)",
+                            color: estaSelecionadoVenda
+                              ? "#fff"
+                              : modoVendaRapida
+                                ? "rgba(255,77,77,0.7)"
+                                : "rgba(255,255,255,0.3)",
+                            boxShadow: estaSelecionadoVenda
+                              ? "0 0 15px rgba(255,77,77,0.4)"
+                              : "none",
+                            transform: estaSelecionadoVenda ? "scale(1.02)" : "scale(1)",
+                            height: "32px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "4px",
+                            cursor: modoVendaRapida ? "pointer" : "not-allowed",
+                            pointerEvents: modoVendaRapida ? "auto" : "none",
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!estaSelecionadoVenda && modoVendaRapida) {
+                              e.currentTarget.style.background = "rgba(255,77,77,0.3)";
+                              e.currentTarget.style.transform = "scale(1.05)";
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!estaSelecionadoVenda && modoVendaRapida) {
+                              e.currentTarget.style.background = "rgba(255,77,77,0.2)";
+                              e.currentTarget.style.transform = "scale(1)";
+                            }
+                          }}
+                        >
+                          <span>🗑️</span>
+                          {estaSelecionadoVenda ? "Vender" : "Vender"}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── MODAL DE CONFIRMAÇÃO DE LIQUIDAÇÃO ──────────────────────────
+const ModalConfirmacaoLiquidacao = memo(({ isOpen, onClose, onConfirm, excedente }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 flex justify-center items-center z-[9999] bg-black/70 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="bg-[#1a0a3b] rounded-[24px] p-6 max-w-[420px] w-full border-2 border-red-500/30 shadow-2xl"
+      >
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-white text-xl font-bold">⚠️ Confirmar Liquidação</h2>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-all"
+          >
+            <img src={fechar} className="w-4 h-4" alt="Fechar" />
+          </button>
+        </div>
+
+        <div className="text-white/80 text-sm leading-relaxed mb-6">
+          <p className="mb-2">
+            Você está com <span className="text-red-400 font-bold">{excedente}</span> carta(s) excedente(s)!
+          </p>
+          <p className="mb-2">
+            ⚠️ As cartas com <span className="text-yellow-400 font-bold">menor ROI</span> serão vendidas primeiro.
+          </p>
+          <p>
+            💰 Você receberá <span className="text-green-400 font-bold">70%</span> do valor de construção de cada carta.
+          </p>
+        </div>
+
+        <div className="flex gap-3 justify-end">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-all text-sm font-medium"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={() => {
+              onConfirm();
+              onClose();
+            }}
+            className="px-4 py-2 rounded-lg bg-gradient-to-r from-red-600 to-red-400 text-white font-bold text-sm hover:scale-105 transition-all shadow-lg hover:shadow-red-500/30"
+          >
+            🗑️ Liquidar {excedente} carta(s)
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+});
 
 // ─── FUNÇÕES DE CÁLCULO (FORA DO COMPONENTE) ─────────────────────
 

@@ -5,14 +5,6 @@ import { CentraldeDadosContext } from "../centralDeDadosContext";
 export default function Day() {
   const { dados } = useContext(CentraldeDadosContext);
 
-  const TooltipPadrao = ({ id }) => (
-  <Tooltip
-    id={id}
-    style={tooltipStyle}
-    border="1px solid #350973"
-  />
-);
-
   const tooltipStyle = {
     backgroundColor: "#FFFFFF",
     color: "#350973",
@@ -23,19 +15,43 @@ export default function Day() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[50px] w-[100px] bg-white rounded-[10px]">
-      <div
-        data-tooltip-id="saldo-tip"
-        data-tooltip-content="Esse é o dia atual do jogo"
-        className="flex justify-between items-center w-full h-full pl-[10px] pr-[10px] rounded-[12px] bg-white"
-      >
-        <h1 className="fonteBold text-[#350973] text-[20px] mr-[10px]">Dia</h1>
-        <h1 className="fonteBold text-[#350973] text-[20px]">{dados.dia}</h1>
-      </div>
+    <div 
+      data-tooltip-id="day-tip"
+      data-tooltip-content="Dia atual do jogo"
+      className="flex flex-col items-center justify-around min-h-[80%] px-3 py-1"
+      style={{
+        background: "rgba(255,255,255,0.08)",
+        borderRadius: "8px",
+        border: "1px solid rgba(255,255,255,0.1)",
+        minWidth: "100px",
+        backdropFilter: "blur(4px)",
+      }}
+    >
+      <span style={{
+        fontFamily: "'Rajdhani',sans-serif",
+        fontSize: "12px",
+        fontWeight: 700,
+        letterSpacing: ".1em",
+        color: "rgba(255,255,255,0.4)",
+        textTransform: "uppercase",
+      }}>
+        Dia
+      </span>
+      <span style={{
+        fontFamily: "'Rajdhani',sans-serif",
+        fontSize: "20px",
+        fontWeight: 800,
+        color: "#FFFFFF",
+        lineHeight: 1.2,
+      }}>
+        {dados.dia} <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)", fontWeight: 600 }}>/ 360</span>
+      </span>
 
-      {/* Tooltip customizado */}
-
-        <TooltipPadrao style={tooltipStyle}  id="saldo-tip" />
+      <Tooltip
+        id="day-tip"
+        style={tooltipStyle}
+        border="1px solid #350973"
+      />
     </div>
   );
 }

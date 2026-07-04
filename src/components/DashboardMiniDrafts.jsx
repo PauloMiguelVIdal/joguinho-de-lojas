@@ -53,14 +53,12 @@ export default function DashboardMiniDraft() {
             }
         });
 
-        // 🔥 Se houver cartas inválidas, atualiza o estado removendo-as
         if (cartasInvalidas.length > 0) {
             console.log(`🗑️ [DashboardMiniDraft] Removendo ${cartasInvalidas.length} carta(s) inválida(s) da seleção:`);
             cartasInvalidas.forEach(item => {
                 console.log(`   - ${item.setor}-${item.index} (edifício não encontrado ou quantidade 0)`);
             });
             
-            // Atualiza o contexto removendo as cartas inválidas
             const novasSelecoes = cartasValidas;
             atualizarDados("cartasSelecionadas", novasSelecoes);
         }
@@ -77,6 +75,10 @@ export default function DashboardMiniDraft() {
         if (dia > 90) return 8;
         return 5;
     }, [dados.dia]);
+
+    // 🔥 Verifica se está usando o máximo de slots
+    const estaUsandoMaximo = cartasSelecionadasFiltradas.length >= getLimiteSelecao;
+    const slotsVaziosDisponiveis = getLimiteSelecao - cartasSelecionadasFiltradas.length;
 
     // 🔥 Função para verificar se um slot está bloqueado (não disponível ainda)
     const isSlotBloqueado = (index) => {
@@ -114,7 +116,6 @@ export default function DashboardMiniDraft() {
         const totalSlots = getLimiteSelecao;
         const slotsArray = [];
 
-        // Primeiro, adiciona os selecionados filtrados
         cartasSelecionadasFiltradas.forEach((item, index) => {
             slotsArray.push({
                 type: 'selecionado',
@@ -125,7 +126,6 @@ export default function DashboardMiniDraft() {
             });
         });
 
-        // Depois, preenche com slots vazios até o limite
         for (let i = cartasSelecionadasFiltradas.length; i < totalSlots; i++) {
             slotsArray.push({
                 type: 'vazio',
@@ -143,118 +143,176 @@ export default function DashboardMiniDraft() {
     };
 
     return (
-        <div className="flex flex-col p-2">
-            <div className="flex items-center justify-between mb-[5px] px-2">
-                <h1 className="text-white fonteBold text-sm">Cards selecionados</h1>
-                <span className="text-white/40 text-xs font-medium">
-                    {cartasSelecionadasFiltradas.length}/{getLimiteSelecao}
-                </span>
-            </div>
-            
-            <div className="w-full mt-[2px] gap-3 grid grid-cols-[repeat(5,minmax(77px,1fr))] auto-rows-auto">
-                {slots.length > 0 ? (
-                    slots.map((slot, index) => {
-                        if (slot.type === 'selecionado') {
-                            // 🔥 Slot com edifício selecionado
-                            return (
-                                <div key={`selecionado-${slot.setor}-${slot.idx}`} className="flex justify-center">
-                                    <CardDraftMini index={slot.idx} setor={slot.setor} />
-                                </div>
-                            );
-                        } else {
-                            // 🔥 Slot vazio ou bloqueado
-                            const cores = getCoresSetor('agricultura');
-                            const isBloqueado = slot.bloqueado;
-                            
-                            return (
-                                <div 
-                                    key={`vazio-${index}`} 
-                                    className="flex justify-center"
-                                >
-                                    <div 
-                                        className="w-[77px] h-[112px] rounded-[7px] flex flex-col items-center justify-center border-2 border-dashed transition-all duration-300"
-                                        style={{
-                                            borderColor: isBloqueado ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.2)',
-                                            background: isBloqueado 
-                                                ? 'rgba(255,255,255,0.02)' 
-                                                : 'rgba(255,255,255,0.05)',
-                                            opacity: isBloqueado ? 0.3 : 0.6,
-                                            cursor: isBloqueado ? 'not-allowed' : 'default',
-                                        }}
-                                    >
-                                        {isBloqueado ? (
-                                            // 🔥 Slot bloqueado (não disponível ainda)
-                                            <>
-                                                <span style={{ fontSize: 24, opacity: 0.3 }}>🔒</span>
-                                                <span style={{ 
-                                                    fontSize: 8, 
-                                                    color: 'rgba(255,255,255,0.2)',
-                                                    marginTop: 4,
-                                                    fontWeight: 700,
-                                                    textTransform: 'uppercase',
-                                                    letterSpacing: '0.05em',
-                                                }}>
-                                                    Bloqueado
-                                                </span>
-                                                <span style={{ 
-                                                    fontSize: 7, 
-                                                    color: 'rgba(255,255,255,0.1)',
-                                                    fontWeight: 600,
-                                                }}>
-                                                    Nível {Math.floor(index / 5) + 1}
-                                                </span>
-                                            </>
-                                        ) : (
-                                            // 🔥 Slot vazio (disponível)
-                                            <>
-                                                <span style={{ fontSize: 28, opacity: 0.2 }}>+</span>
-                                                <span style={{ 
-                                                    fontSize: 7, 
-                                                    color: 'rgba(255,255,255,0.2)',
-                                                    marginTop: 2,
-                                                    fontWeight: 600,
-                                                    textTransform: 'uppercase',
-                                                    letterSpacing: '0.05em',
-                                                }}>
-                                                    Slot vazio
-                                                </span>
-                                                <span style={{ 
-                                                    fontSize: 6, 
-                                                    color: 'rgba(255,255,255,0.1)',
-                                                }}>
-                                                    #{index + 1}
-                                                </span>
-                                            </>
-                                        )}
-                                    </div>
-                                </div>
-                            );
-                        }
-                    })
-                ) : (
-                    <div className="col-span-full flex flex-col items-center justify-center py-10 text-white/50">
-                        <span style={{ fontSize: 40, opacity: 0.3 }}>🏗️</span>
-                        <p className="text-sm font-medium mt-2">Nenhum edifício selecionado</p>
-                        <p className="text-xs opacity-50">Selecione edifícios para vê-los aqui</p>
+        <div className="h-full w-full bg-[#1a0a3b] rounded-[0px] border border-white/10 shadow-2xl overflow-hidden flex flex-col">
+            {/* ─── HEADER ────────────────────────────────────────────── */}
+            <div style={{background: 'linear-gradient(to bottom, #6411D9, #350973)',}} className="p-4 border-b bg- border-white/10 flex-shrink-0">
+                <div  className="flex items-center justify-between">
+                    <h2 className="text-white font-bold text-lg flex items-center gap-2">
+                        <span>📋</span> Cards Selecionados
+                    </h2>
+                    <div className="flex items-center gap-3">
+                        {/* ─── ALERTA DE SLOTS VAZIOS ─────────────────── */}
+                        {!estaUsandoMaximo && cartasSelecionadasFiltradas.length > 0 && (
+                            <div 
+                                className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-yellow-500/20 border border-yellow-500/30 animate-pulse"
+                            >
+                                <span className="text-yellow-400 text-sm">⚠️</span>
+                                <span className="text-yellow-400 text-[10px] font-bold">
+                                    {slotsVaziosDisponiveis} slot{slotsVaziosDisponiveis !== 1 ? 's' : ''} vazio{slotsVaziosDisponiveis !== 1 ? 's' : ''}
+                                </span>
+                            </div>
+                        )}
+                        
+                        {cartasSelecionadasFiltradas.length === 0 && (
+                            <div 
+                                className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-blue-500/20 border border-blue-500/30"
+                            >
+                                <span className="text-blue-400 text-sm">ℹ️</span>
+                                <span className="text-blue-400 text-[7px] font-bold">
+                                    Nenhum selecionado
+                                </span>
+                            </div>
+                        )}
+
+                        {estaUsandoMaximo && (
+                            <div 
+                                className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-green-500/20 border border-green-500/30"
+                            >
+                                <span className="text-green-400 text-sm">✅</span>
+                                <span className="text-green-400 text-[10px] font-bold">
+                                    Máximo
+                                </span>
+                            </div>
+                        )}
+
+                        <span className="text-white/40 text-xs font-medium">
+                            {cartasSelecionadasFiltradas.length}/{getLimiteSelecao}
+                        </span>
                     </div>
-                )}
+                </div>
             </div>
 
-            {/* 🔥 Legenda */}
-            <div className="flex items-center gap-4 mt-3 px-2 text-xs text-white/30">
-                <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded border border-dashed border-white/20 bg-white/5"></div>
-                    <span>Slot vazio</span>
+            {/* ─── GRID DE CARDS ────────────────────────────────────── */}
+            <div className="flex-1 overflow-y-auto p-4 scrollbar-custom">
+                <div className="w-full gap-3 grid grid-cols-[repeat(4,minmax(77px,1fr))] auto-rows-auto">
+                    {slots.length > 0 ? (
+                        slots.map((slot, index) => {
+                            if (slot.type === 'selecionado') {
+                                return (
+                                    <div key={`selecionado-${slot.setor}-${slot.idx}`} className="flex justify-center">
+                                        <CardDraftMini index={slot.idx} setor={slot.setor} />
+                                    </div>
+                                );
+                            } else {
+                                const cores = getCoresSetor('agricultura');
+                                const isBloqueado = slot.bloqueado;
+                                
+                                return (
+                                    <div key={`vazio-${index}`} className="flex justify-center">
+                                        <div 
+                                            className="w-[77px] h-[112px] rounded-[7px] flex flex-col items-center justify-center border-2 border-dashed transition-all duration-300 hover:scale-[1.02]"
+                                            style={{
+                                                borderColor: isBloqueado ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.15)',
+                                                background: isBloqueado 
+                                                    ? 'rgba(255,255,255,0.02)' 
+                                                    : 'rgba(255,255,255,0.05)',
+                                                opacity: isBloqueado ? 0.3 : 0.6,
+                                                cursor: isBloqueado ? 'not-allowed' : 'default',
+                                            }}
+                                        >
+                                            {isBloqueado ? (
+                                                <>
+                                                    <span style={{ fontSize: 24, opacity: 0.3 }}>🔒</span>
+                                                    <span style={{ 
+                                                        fontSize: 8, 
+                                                        color: 'rgba(255,255,255,0.2)',
+                                                        marginTop: 4,
+                                                        fontWeight: 700,
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '0.05em',
+                                                    }}>
+                                                        Bloqueado
+                                                    </span>
+                                                    <span style={{ 
+                                                        fontSize: 7, 
+                                                        color: 'rgba(255,255,255,0.1)',
+                                                        fontWeight: 600,
+                                                    }}>
+                                                        Nível {Math.floor(index / 5) + 1}
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span style={{ fontSize: 28, opacity: 0.2 }}>+</span>
+                                                    <span style={{ 
+                                                        fontSize: 7, 
+                                                        color: 'rgba(255,255,255,0.2)',
+                                                        marginTop: 2,
+                                                        fontWeight: 600,
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '0.05em',
+                                                    }}>
+                                                        Slot vazio
+                                                    </span>
+                                                    <span style={{ 
+                                                        fontSize: 6, 
+                                                        color: 'rgba(255,255,255,0.1)',
+                                                    }}>
+                                                        #{index + 1}
+                                                    </span>
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                );
+                            }
+                        })
+                    ) : (
+                        <div className="col-span-full flex flex-col items-center justify-center py-10 text-white/30">
+                            <span style={{ fontSize: 40, opacity: 0.3 }}>🏗️</span>
+                            <p className="text-sm font-medium mt-2">Nenhum edifício selecionado</p>
+                            <p className="text-xs opacity-50">Selecione edifícios para vê-los aqui</p>
+                        </div>
+                    )}
                 </div>
-                <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded border border-dashed border-white/10 bg-white/5 opacity-30"></div>
-                    <span>Bloqueado</span>
-                </div>
-                <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded bg-gradient-to-br from-purple-500 to-purple-700"></div>
-                    <span>Selecionado</span>
-                </div>
+
+                
             </div>
+
+            {/* ─── FOOTER ────────────────────────────────────────────── */}
+            {/* <div className="p-3 border-t border-white/5 flex-shrink-0 bg-white/5">
+                <div className="flex items-center gap-4 text-[10px] text-white/30">
+                    <div className="flex items-center gap-1.5">
+                        <div className="w-3 h-3 rounded border border-dashed border-white/20 bg-white/5"></div>
+                        <span>Slot vazio</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                        <div className="w-3 h-3 rounded border border-dashed border-white/10 bg-white/5 opacity-30"></div>
+                        <span>Bloqueado</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                        <div className="w-3 h-3 rounded bg-gradient-to-br from-purple-500 to-purple-700"></div>
+                        <span>Selecionado</span>
+                    </div>
+                </div>
+            </div> */}
+
+            <style>{`
+                .scrollbar-custom::-webkit-scrollbar {
+                    width: 4px;
+                }
+                .scrollbar-custom::-webkit-scrollbar-track {
+                    background: rgba(255,255,255,0.05);
+                    border-radius: 10px;
+                }
+                .scrollbar-custom::-webkit-scrollbar-thumb {
+                    background: rgba(255,255,255,0.2);
+                    border-radius: 10px;
+                }
+                .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+                    background: rgba(255,255,255,0.3);
+                }
+            `}</style>
         </div>
     );
 }

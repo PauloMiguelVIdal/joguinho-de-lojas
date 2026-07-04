@@ -145,37 +145,36 @@ export default function EconomyGlobal() {
     // console.log("useEffect chamado6! Dias até próxima economia:", proximoDia);
   }, [dados.dia]);
 
-  return (
-    <div className="flex max-h-[50px] w-[100px] bg-white rounded-[10px]">
-      {/* <Converter /> */}
-      <div className={`${corClasse} min-h-[50px] max-h-[70px] min-w-[50px] max-w-[50px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center`}>
-        <img
-          data-tooltip-id="economia-tip"
-          data-tooltip-html={`Esse é a economia global atual do jogo, <b>${economiaAtual}</b> <br/> <br/>    <div>
-      <p>A categoria de novos eventos varia de acordo com a economia global:</p>
-      <ul style={{ marginLeft: "15px", marginTop: "5px" }}>
-        <li><b>Recessão:</b> 35% de eventos benéficos, 65% de eventos prejudiciais</li>
-        <li><b>Declínio:</b> 45% de eventos benéficos, 55% de eventos prejudiciais</li>
-        <li><b>Estável:</b> 50% de eventos benéficos, 50% de eventos prejudiciais</li>
-        <li><b>Progressiva:</b> 55% de eventos benéficos, 45% de eventos prejudiciais</li>
-        <li><b>Aquecida:</b> 65% de eventos benéficos, 35% de eventos prejudiciais</li>
-      </ul>
-    </div>`} className="w-[60%] max-w-[58px] aspect-square"
-          src={circularEconomia}
-          alt="Economia"
-        />
-        <TooltipPadrao style={tooltipStyle} id="economia-tip" />
+  // return (
+  //   <div className="flex max-h-[50px] w-[100px] bg-white rounded-[10px]">
+  //     <div className={`${corClasse} min-h-[50px] max-h-[70px] min-w-[50px] max-w-[50px] aspect-square rounded-[10px] flex w-[50px] items-center justify-center`}>
+  //       <img
+  //         data-tooltip-id="economia-tip"
+  //         data-tooltip-html={`Esse é a economia global atual do jogo, <b>${economiaAtual}</b> <br/> <br/>    <div>
+  //     <p>A categoria de novos eventos varia de acordo com a economia global:</p>
+  //     <ul style={{ marginLeft: "15px", marginTop: "5px" }}>
+  //       <li><b>Recessão:</b> 35% de eventos benéficos, 65% de eventos prejudiciais</li>
+  //       <li><b>Declínio:</b> 45% de eventos benéficos, 55% de eventos prejudiciais</li>
+  //       <li><b>Estável:</b> 50% de eventos benéficos, 50% de eventos prejudiciais</li>
+  //       <li><b>Progressiva:</b> 55% de eventos benéficos, 45% de eventos prejudiciais</li>
+  //       <li><b>Aquecida:</b> 65% de eventos benéficos, 35% de eventos prejudiciais</li>
+  //     </ul>
+  //   </div>`} className="w-[60%] max-w-[58px] aspect-square"
+  //         src={circularEconomia}
+  //         alt="Economia"
+  //       />
+  //       <TooltipPadrao style={tooltipStyle} id="economia-tip" />
 
-      </div>
-      <div
-        data-tooltip-id="economiaData-tip"
-        data-tooltip-content="Esse é o número de dias restantes para a próxima mudança na economia global"
-        className="flex justify-center items-center w-[50px]">
-        <h2 className="text-[#350973] text-[20px] fonteBold">{dados.proximaEconomia}</h2>
-        <TooltipPadrao style={tooltipStyle} id="economiaData-tip" />
+  //     </div>
+  //     <div
+  //       data-tooltip-id="economiaData-tip"
+  //       data-tooltip-content="Esse é o número de dias restantes para a próxima mudança na economia global"
+  //       className="flex justify-center items-center w-[50px]">
+  //       <h2 className="text-[#350973] text-[20px] fonteBold">{dados.proximaEconomia}</h2>
+  //       <TooltipPadrao style={tooltipStyle} id="economiaData-tip" />
 
 
-      </div>
-    </div>
-  );
+  //     </div>
+  //   </div>
+  // );
 }

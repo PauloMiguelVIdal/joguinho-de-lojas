@@ -640,7 +640,6 @@ export const SystemTurn = memo(() => {
     const executarLiquidacao = useCallback(async () => {
         console.log("🔄 [SystemTurn] Verificando excedentes para liquidação...");
         try {
-            // 🔥 USA O DADOS ATUALIZADO
             const dadosAtuais = dadosRef.current;
             const resultado = await executarLiquidacaoAutomatica(
                 dadosAtuais,
@@ -651,7 +650,6 @@ export const SystemTurn = memo(() => {
 
             if (resultado?.sucesso && resultado?.liquidados > 0) {
                 console.log(`✅ [SystemTurn] ${resultado.liquidados} tipo(s) liquidados! Total: R$ ${resultado.totalRecebido.toFixed(2)}`);
-                // 🔥 ATUALIZA O REF DOS DADOS APÓS LIQUIDAÇÃO
                 dadosRef.current = { ...dadosAtuais };
             } else if (resultado?.sucesso) {
                 console.log("ℹ️ [SystemTurn] Nenhum excedente para liquidar.");
@@ -745,12 +743,11 @@ export const SystemTurn = memo(() => {
     useEffect(() => {
         if (!jogoIniciado) return;
         if (dados.dia > 0) return;
-        if (setorSelecionado) return; // Já escolheu o setor
-        if (modalSetorOpen) return; // Modal já está aberto
-        if (draftInicialAberto) return; // Draft já está aberto
-        if (pacotesIniciaisAbertos) return; // Pacotes já abertos
+        if (setorSelecionado) return;
+        if (modalSetorOpen) return;
+        if (draftInicialAberto) return;
+        if (pacotesIniciaisAbertos) return;
 
-        // Inicia com o modal de seleção de setor
         setModalSetorOpen(true);
         setAguardandoSetor(true);
     }, [jogoIniciado, dados.dia, setorSelecionado, modalSetorOpen, draftInicialAberto, pacotesIniciaisAbertos]);
@@ -829,32 +826,23 @@ export const SystemTurn = memo(() => {
         setPacotesIniciaisAbertos(true);
     }, [pacotesIniciaisAbertos]);
 
-
-
-
-
-
     const handleSetorSelecionado = useCallback((setor) => {
         setSetorSelecionado(setor);
         setAguardandoSetor(false);
         setModalSetorOpen(false);
 
-        // Salva o setor escolhido no contexto/dados
         atualizarDados("setorEscolhido", setor);
 
-        // Após escolher o setor, abre o draft inicial
         setDraftInicialAberto(true);
     }, [atualizarDados]);
 
-    // ─── HANDLE DRAFT INICIAL COMPLETE (MODIFICADO) ──────────────
+    // ─── HANDLE DRAFT INICIAL COMPLETE ──────────────────────────
     const handleDraftInicialComplete = useCallback((cartas) => {
         setDraftInicialConcluido(true);
         setDraftInicialAberto(false);
 
-        // Após o draft, abre os pacotes iniciais
         abrirPacotesIniciais();
-    }, []);
-
+    }, [abrirPacotesIniciais]);
 
     const handleComplete = useCallback((cartas) => {
         setCartasSelecionadas(cartas);
@@ -886,7 +874,6 @@ export const SystemTurn = memo(() => {
                     impostoFixoCalculadoRef.current = false;
                     diasRestantesRef.current = totalDias;
 
-                    // 🔥 EXECUTA LIQUIDAÇÃO ANTES DE COMEÇAR O NOVO MÊS
                     console.log("🔄 [SystemTurn] Iniciando liquidação de excedentes antes do novo mês...");
                     executarLiquidacao().then(() => {
                         console.log("✅ [SystemTurn] Liquidação concluída, iniciando novo mês...");
@@ -939,7 +926,6 @@ export const SystemTurn = memo(() => {
 
             setMostrarLoading(true);
 
-            // 🔥 ATUALIZA O REF DOS DADOS ANTES DE PROCESSAR
             const dadosAtuais = dadosRef.current;
             const saldoAtual = saldoRef.current || 0;
             const diaAtual = dadosAtuais.dia;
@@ -1048,9 +1034,7 @@ export const SystemTurn = memo(() => {
             diasRestantesRef.current--;
             setDiasPendentes(diasRestantesRef.current);
             if (diasRestantesRef.current % 5 === 0) {
-                // Verifica excedentes a cada 5 dias para manter o limite
                 executarLiquidacao().then(() => {
-                    // Atualiza os dados após a liquidação
                     dadosRef.current = { ...dadosRef.current };
                 });
             }
@@ -1072,7 +1056,7 @@ export const SystemTurn = memo(() => {
 
     // ─── RENDER ──────────────────────────────────────────────────
     return (
-        <div className="flex">
+        <div className="flex h-full items-center gap-3">
             <LoadingScreen
                 visible={mostrarLoading}
                 onComplete={() => setMostrarLoading(false)}
@@ -1110,10 +1094,9 @@ export const SystemTurn = memo(() => {
                 />
             )}
 
-
-            {/* TIMER */}
+            {/* TIMER - VERSÃO ESTILIZADA */}
             <div
-                data-tooltip-id="saldo-tip"
+                data-tooltip-id="timer-tip"
                 data-tooltip-content={
                     diasPendentes > 0 || estaProcessando
                         ? `Processando ${30 - (diasPendentes || 0)}/30 dias...`
@@ -1121,28 +1104,59 @@ export const SystemTurn = memo(() => {
                             ? `Próxima simulação em ${countdown} segundos`
                             : `⚠️ ÚLTIMOS ${countdown} SEGUNDOS!`
                 }
-                className="h-[50px] min-w-[100px] rounded-[10px] flex items-center justify-center px-4 font-bold text-white transition-all duration-300"
+
+                className="justify-around"
                 style={{
-                    backgroundColor: countdown <= 10 && countdown > 0 ? '#cc0000' : '#F27405',
-                    boxShadow: countdown <= 10 && countdown > 0 ? '0 0 40px rgba(255,0,0,0.6)' : '0 0 20px rgba(242,116,5,0.3)',
-                    animation: countdown <= 10 && countdown > 0 ? 'pulse-timer 0.8s infinite' : 'none',
-                    border: countdown <= 10 && countdown > 0 ? '2px solid #ff3333' : 'none',
-                    transform: countdown <= 10 && countdown > 0 ? 'scale(1.02)' : 'scale(1)',
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    // justifyContent: "center",
+                    background: countdown <= 10 && countdown > 0 
+                        ? "rgba(255,0,0,0.15)" 
+                        : "rgba(242,116,5,0.1)",
+                    borderRadius: "10px",
+                    border: countdown <= 10 && countdown > 0 
+                        ? "2px solid #ff3333" 
+                        : "1px solid rgba(242,116,5,0.2)",
+                    padding: "4px 16px",
+                    minWidth: "80px",
+                    height: "80%",
+                    transition: "all 0.3s ease",
+                    backdropFilter: "blur(4px)",
                 }}
             >
-                {diasPendentes > 0 || estaProcessando
-                    ? `${30 - (diasPendentes || 0)}/30`
-                    : countdown <= 10 && countdown > 0
-                        ? `⚠️ ${String(countdown).padStart(2, "0")}s`
-                        : `${String(countdown).padStart(2, "0")}s`}
+                <span style={{
+                    fontFamily: "'Rajdhani',sans-serif",
+                    fontSize: "9px",
+                    fontWeight: 700,
+                    letterSpacing: ".08em",
+                    color: countdown <= 10 && countdown > 0 ? "#ff6666" : "rgba(255,255,255,0.4)",
+                    textTransform: "uppercase",
+                }}>
+                    {diasPendentes > 0 || estaProcessando ? "Processando" : "Próximo Turno"}
+                </span>
+                <span style={{
+                    fontFamily: "'Rajdhani',sans-serif",
+                    fontSize: "22px",
+                    fontWeight: 800,
+                    color: countdown <= 10 && countdown > 0 ? "#ff3333" : "#FFFFFF",
+                    lineHeight: 1.2,
+                    transition: "color 0.3s ease",
+                }}>
+                    {diasPendentes > 0 || estaProcessando
+                        ? `${30 - (diasPendentes || 0)}/30`
+                        : countdown <= 10 && countdown > 0
+                            ? `⚠️ ${String(countdown).padStart(2, "0")}s`
+                            : `${String(countdown).padStart(2, "0")}s`}
+                </span>
             </div>
 
-            <TooltipPadrao id="saldo-tip" />
+            <TooltipPadrao id="timer-tip" />
 
             <style>{`
                 @keyframes pulse-timer {
-                    0%, 100% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.05); opacity: 0.85; }
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.6; }
                 }
             `}</style>
         </div>

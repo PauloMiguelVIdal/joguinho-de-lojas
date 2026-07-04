@@ -172,37 +172,58 @@ function Interface() {
           position: 'fixed',
           top: 0,
           left: 0,
-          height: '80px',
-          width: dados.dia % 30 !== 0 ? '100vw' : '75vw',
+          height: '120px',
+          width: dados.dia % 30 !== 0 || dados.dia === 360 ? '100vw' : '80vw',
           zIndex: 50,
           display: jogoIniciado ? 'flex' : 'none',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0 px',
-          background: 'linear-gradient(180deg, #350973, #6411D9',
+          padding: '4px',
+          background: 'linear-gradient(180deg, #350973, #350973',
           borderBottom: '1px solid rgba(147,76,255,0.3)',
           boxShadow: '0 2px 5vh rgba(0,0,0,0.5)',
         }}
       >
-        <div className="flex w-full items-center justify-center col-start-8 col-end-9 gap-[10px] mr-[10px]">
-          <Informations className="grid col-start-1 col-end-8" />
+        <div className="flex h-full w-full items-center justify-center col-start-8 col-end-9 gap-[10px] mr-[10px]">
+          <Informations />
           <Day />
           <SystemTurn />
           {/* <DraftButton onOpen={abrirDraft} /> */}
-          <button className="h-[50px] w-[200px] flex justify-between bg-laranja/70 rounded-[5px] flex hover:scale-[1.05]"
-            onClick={() => setModalShopOpen(true)}>
-            <div className="flex justify-center items-center">
-              <p className="text-white w-[100px] text-[18px] fonteBold text-space-[10px] word-spacing:10px leading-none">ABRIR<br /> LOJA</p>
-            </div>
-            <div className="h-[100%] aspect-square bg-laranja rounded-[10px] flex items-center justify-center active:scale-95 hover:bg-[#E56100]">
-              <img className="h-[70%]" src={LojaGImg} alt="" />
+
+          <EconomyGlobal />
+          <div style={{
+            width: "1px",
+            height: "35px",
+            background: "rgba(255,255,255,0.1)",
+          }} />
+          <div
+            // style={{ marginRight: dados.dia % 30 !== 0 ? '50px' : '0px' }} 
+            className="h-full flex items-center">
+            <SidebarFinancas onOpen={() => setBusinessLicenceModal(true)} />
+          </div>
+          <div style={{
+            width: "1px",
+            height: "35px",
+            background: "rgba(255,255,255,0.1)",
+          }} />
+<button 
+  disabled={dados.dia === 360 || dados.dia % 30 !== 0} 
+  onClick={() => setModalShopOpen(true)}
+  className={`h-[80%] w-[100px] flex flex-col justify-between rounded-[5px] flex hover:scale-[1.05] ${
+    dados.dia === 360 || dados.dia % 30 !== 0 
+      ? 'bg-laranja/20 cursor-not-allowed opacity-60' 
+      : 'bg-laranja/70 hover:bg-laranja/90'
+  }`}
+>
+            <div className="h-[100%] aspect-square flex-col bg-laranja rounded-[10px] flex items-center justify-center active:scale-95 hover:bg-[#E56100]">
+              <img className="h-[40%]" src={LojaGImg} alt="" />
+              <div className="flex justify-center items-center">
+                <p className="text-white w-[100px] text-[12px] pt-2 fonteBold text-space-[10px] word-spacing:10px leading-none">ABRIR LOJA</p>
+              </div>
             </div>
           </button>
-          <EconomyGlobal />
         </div>
-        <div style={{ marginRight: dados.dia % 30 !== 0 ? '50px' : '0px' }} className="h-full w-[800px] flex items-center">
-          <SidebarFinancas onOpen={() => setBusinessLicenceModal(true)} />
-        </div>      </div>
+      </div>
 
       {/* ═══════════════════════════════════════════════════════
           CAMADA 2 — DASHBOARD CENTRAL (DashboardMiniDraft)
@@ -211,12 +232,12 @@ function Interface() {
         <div
           style={{
             position: 'fixed',
-            height: '17vh',
-            top: dados.dia <= 240 ? '0px' : '0px',
+            height: '25vh',
+            top: dados.dia <= 240 ? '25vh' : '25vh',
             right: '0',
-            width: '25vw',
+            width: '20vw',
             zIndex: 20,
-            borderRadius: 20,
+            borderRadius: 0,
             overflow: 'hidden',
             background: 'linear-gradient(to bottom, #6411D9, #350973)',
             boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
@@ -230,11 +251,11 @@ function Interface() {
           style={{
             position: 'fixed',
             height: '35vh',
-            top: '25vh',
+            top: '50vh',
             right: '0',
-            width: '25vw',
+            width: '20vw',
             zIndex: 20,
-            borderRadius: 20,
+            borderRadius: 0,
             overflow: 'hidden',
             background: 'linear-gradient(to bottom, #6411D9, #350973)',
             boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
@@ -255,10 +276,10 @@ function Interface() {
         <div
           style={{
             position: 'fixed',
-            height: '20vh',
-            bottom: '0px',
-            right: '15vw',
-            width: '10vw',
+            height: '15vh',
+            bottom: '0vh',
+            right: '0vw',
+            width: '20vw',
             zIndex: 20,
             borderRadius: 20,
             overflow: 'hidden',
@@ -277,14 +298,14 @@ function Interface() {
         <div
           style={{
             position: 'fixed',
-            top: '60vh',
-            height: '10vh',
+            top: '0vh',
+            height: '25vh',
             maxHeight: '32vh',
-            minHeight: '190px',
-            width: '25vw',
+            
+            width: '20vw',
             right: 0,
             zIndex: 20,
-            borderRadius: 20,
+            borderRadius: 0,
             overflow: 'hidden',
             background: 'linear-gradient(to bottom, #6411D9, #350973)',
             boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
@@ -301,12 +322,12 @@ function Interface() {
         <div
           style={{
             position: 'fixed',
-            top: '80px',
+            top: '120px',
             left: 0,
-            height: 'calc(100vh - 80px)',
-            width: '75vw',
+            height: 'calc(100vh - 120px)',
+            width: '80vw',
             zIndex: 20,
-            borderRadius: 20,
+            borderRadius: 0,
             overflow: 'hidden',
             background: 'linear-gradient(to bottom, #6411D9, #350973)',
             boxShadow: '0 8px 40px rgba(0,0,0,0.6)',

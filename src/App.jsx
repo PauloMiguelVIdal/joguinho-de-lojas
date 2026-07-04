@@ -64,8 +64,8 @@ function App() {
           >
             <div  className="z-[10000]" style={{
               position: 'absolute',
-              bottom: '24px',
-              right: '24px',
+              bottom: '5px',
+              right: '5px',
              
             }}>
               <QualityToggle />

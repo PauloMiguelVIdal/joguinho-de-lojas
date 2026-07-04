@@ -49,7 +49,6 @@ const CONDICOES = {
 };
 
 // ─── CONFIGURAÇÃO DOS OBJETIVOS ──────────────────────────────
-// ─── CONFIGURAÇÃO DOS OBJETIVOS ──────────────────────────────
 const OBJETIVOS = {
   agricultura: [
     {
@@ -486,10 +485,10 @@ export default function ObjectiveTracker({
   // ─── RENDER ─────────────────────────────────────────────────
   return (
     <>
-      <div className="h-[40vh] w-[25vw] bg-[#1a0a3b] rounded-[20px] border border-white/10 shadow-2xl overflow-hidden flex flex-col">
+      <div className="h-[40vh] w-[20vw] bg-[#1a0a3b] rounded-[0px] border border-white/10 shadow-2xl overflow-hidden flex flex-col">
         {/* ─── HEADER ────────────────────────────────────────────── */}
-        <div className="p-4 border-b border-white/10 flex-shrink-0">
-          <h2 className="text-white font-bold text-lg flex items-center gap-2">
+            <div style={{background: 'linear-gradient(to bottom, #6411D9, #350973)',}} className="p-4 border-b bg- border-white/10 flex-shrink-0">
+                    <h2 className="text-white font-bold text-lg flex items-center gap-2">
             <span>🎯</span> Objetivos
           </h2>
         </div>

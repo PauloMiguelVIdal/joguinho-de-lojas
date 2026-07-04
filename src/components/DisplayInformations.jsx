@@ -23,7 +23,7 @@ const formatarNumero = (num) => {
   return `${sinal}R$ ${Math.round(abs)}`;
 };
 
-// 🔥 Função para criar mapa de edifícios
+// ─── FUNÇÃO PARA CRIAR MAPA DE EDIFÍCIOS ──────────────────────
 const criarMapaEdificios = (dados) => {
   const mapa = new Map();
   setoresArr.forEach(setor => {
@@ -36,7 +36,7 @@ const criarMapaEdificios = (dados) => {
   return mapa;
 };
 
-// 🔥 Função para calcular custo de recursos recursivamente
+// ─── FUNÇÃO PARA CALCULAR CUSTO DE RECURSOS ──────────────────
 const criarCalculadoraCustoRecurso = (mapaEdificios, dados) => {
   const cache = new Map();
 
@@ -71,7 +71,7 @@ const criarCalculadoraCustoRecurso = (mapaEdificios, dados) => {
   return calcularCustoRecurso;
 };
 
-// 🔥 Função de cálculo de ROI (idêntica à original)
+// ─── FUNÇÃO DE CÁLCULO DE ROI ─────────────────────────────────
 const calcROI = (ed, dados, economiaSetor, mapaEdificios, calcularCustoRecurso) => {
   if (!ed || !dados) return 0;
 
@@ -138,20 +138,19 @@ const calcROI = (ed, dados, economiaSetor, mapaEdificios, calcularCustoRecurso) 
   }
 };
 
+// ─── COMPONENTE PRINCIPAL ─────────────────────────────────────
 export default function DisplayInformations() {
   const { dados } = useContext(CentraldeDadosContext);
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
 
   const cartasSelecionadas = dados.cartasSelecionadas || [];
 
-  // 🔥 Cria o mapa de edifícios e a calculadora de custo
   const mapaEdificios = useMemo(() => criarMapaEdificios(dados), [dados]);
   const calcularCustoRecurso = useMemo(
     () => criarCalculadoraCustoRecurso(mapaEdificios, dados),
     [mapaEdificios, dados]
   );
 
-  // 🔥 Calcula as simulações baseado nas cartas selecionadas
   const simulacao = useMemo(() => {
     if (cartasSelecionadas.length === 0) {
       return {
@@ -180,11 +179,9 @@ export default function DisplayInformations() {
 
       const quantidade = edificio.quantidade || 0;
       
-      // 🔥 Usa a função calcROI para obter o ROI correto
       const estadoEconomia = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
       const roi = calcROI(edificio, dados, estadoEconomia, mapaEdificios, calcularCustoRecurso);
 
-      // 🔥 Calcula os power-ups do edifício
       const qtdMin2 = edificio.powerUp?.nível2?.quantidadeMínima ?? Infinity;
       const qtdMin3 = edificio.powerUp?.nível3?.quantidadeMínima ?? Infinity;
       const nivelPU = quantidade >= qtdMin3 ? "powerUpNv3" 
@@ -211,7 +208,6 @@ export default function DisplayInformations() {
       totalRedCusto += redCusto;
       totalAumFatu += aumFatu;
 
-      // 🔥 Cálculo do faturamento e despesas
       const faturamentoUnitario = edificio.finanças?.faturamentoUnitário || 0;
       const impostoFixo = edificio.finanças?.impostoFixo || 0;
       const impostoSobreFatu = edificio.finanças?.impostoSobreFatu || 0;
@@ -227,7 +223,6 @@ export default function DisplayInformations() {
       const despesasMensais = impostoFatuMensal + impostoFixoMensal;
       const lucroMensal = fatuMensal - despesasMensais;
 
-      // 🔥 Custo total de construção (inclui recursos e lojas necessárias)
       const custoBase =
         (edificio?.lojasNecessarias?.terrenos || 0) * (dados?.terrenos?.preçoConstrução || 0) +
         (edificio?.lojasNecessarias?.lojasP || 0) * ((dados?.lojasP?.preçoConstrução || 0) + (dados?.lojasP?.quantidadeNecTerreno || 0) * (dados?.terrenos?.preçoConstrução || 0)) +
@@ -294,248 +289,126 @@ export default function DisplayInformations() {
   };
 
   return (
-    <div style={{
-      padding: "16px 20px",
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      gap: "12px",
-      overflow: "hidden",
-    }}>
-      {/* Título */}
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        borderBottom: "1px solid rgba(255,255,255,0.1)",
-        paddingBottom: "8px",
-        flexShrink: 0,
-      }}>
-        <h2 style={{
-          color: "#fff",
-          fontSize: "16px",
-          fontWeight: 700,
-          fontFamily: "'Rajdhani',sans-serif",
-          letterSpacing: "0.05em",
-        }}>
-          📊 Simulação das Selecionadas
-        </h2>
-        <span style={{
-          color: "rgba(255,255,255,0.4)",
-          fontSize: "11px",
-          fontWeight: 600,
-        }}>
-          {simulacao.totalEdificios} edifício{simulacao.totalEdificios !== 1 ? "s" : ""} · {simulacao.totalQuantidade} unidade{simulacao.totalQuantidade !== 1 ? "s" : ""}
-        </span>
+    <div className="h-full w-full bg-[#1a0a3b] overflow-hidden flex flex-col">
+      {/* ─── HEADER ────────────────────────────────────────────── */}
+            <div style={{background: 'linear-gradient(to bottom, #6411D9, #350973)',}} className="p-4 border-b bg- border-white/10 flex-shrink-0">
+        <div className="flex items-center justify-between">
+                    <h2 className="text-white font-bold text-lg flex items-center gap-2">
+            <span>📊</span> Simulação das Selecionadas
+          </h2>
+        </div>
       </div>
 
-      {/* Cards de métricas principais */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "10px",
-        flexShrink: 0,
-      }}>
+      {/* ─── CARDS DE MÉTRICAS (2 COLUNAS x 2 LINHAS) ────────── */}
+      <div className="p-3 grid grid-cols-2 gap-2 flex-shrink-0">
         {[
           { label: "Faturamento", value: formatarNumero(simulacao.faturamento), cor: "#34d399", icon: "📈" },
           { label: "Despesas", value: formatarNumero(simulacao.despesas), cor: "#f87171", icon: "📉" },
           { label: "Lucro Líquido", value: formatarNumero(simulacao.lucroLiquido), cor: getCorLucro(simulacao.lucroLiquido), icon: "💰" },
           { label: "ROI", value: `${simulacao.roi.toFixed(1)}%`, cor: getCorROI(simulacao.roi), icon: "🎯" },
         ].map(({ label, value, cor, icon }) => (
-          <div key={label} style={{
-            background: "rgba(0,0,0,0.3)",
-            borderRadius: "10px",
-            padding: "10px 12px",
-            border: `1px solid ${cor}33`,
-            display: "flex",
-            flexDirection: "column",
-            gap: "2px",
-          }}>
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-            }}>
-              <span style={{ fontSize: "14px" }}>{icon}</span>
-              <span style={{
-                fontSize: "9px",
-                color: "rgba(255,255,255,0.5)",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.05em",
-              }}>
+          <div key={label} className="bg-white/5 p-2.5 border border-white/5 transition-all hover:scale-[1.02] hover:border-white/10">
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <span className="text-xs">{icon}</span>
+              <span className="text-[8px] text-white/40 font-medium uppercase tracking-wider">
                 {label}
               </span>
             </div>
-            <span style={{
-              fontSize: "12px",
-              fontWeight: 800,
-              color: cor,
-              fontFamily: "'Rajdhani',sans-serif",
-              lineHeight: 1.2,
-            }}>
+            <span className="text-sm font-bold" style={{ color: cor }}>
               {value}
             </span>
           </div>
         ))}
       </div>
 
-      {/* Resumo de Power-ups */}
-      <div style={{
-        display: "flex",
-        gap: "16px",
-        flexShrink: 0,
-        background: "rgba(0,0,0,0.2)",
-        borderRadius: "8px",
-        padding: "8px 14px",
-        border: "1px solid rgba(255,255,255,0.05)",
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-          <span style={{ fontSize: "14px" }}>⚡</span>
-          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.5)" }}>Power-ups:</span>
-        </div>
-        <div style={{ display: "flex", gap: "12px" }}>
-          <span style={{
-            fontSize: "10px",
-            color: "#f87171",
-            fontWeight: 600,
-          }}>
-            🔽 Redução Custo: {simulacao.totalRedCusto.toFixed(1)}%
-          </span>
-          <span style={{
-            fontSize: "10px",
-            color: "#34d399",
-            fontWeight: 600,
-          }}>
-            🔼 Aumento Faturamento: {simulacao.totalAumFatu.toFixed(1)}%
-          </span>
+      {/* ─── POWER-UPS ──────────────────────────────────────────── */}
+      <div className="px-3 pb-1.5 flex-shrink-0">
+        <div className="bg-white/5 p-2 border border-white/5 flex items-center gap-3 flex-wrap">
+          <span className="text-xs">⚡</span>
+          <span className="text-[8px] text-white/40 font-medium uppercase tracking-wider">Power-ups:</span>
+          <div className="flex gap-3 flex-wrap">
+            <span className="text-[8px] text-[#f87171] font-semibold">
+              🔽 Redução Custo: {simulacao.totalRedCusto.toFixed(1)}%
+            </span>
+            <span className="text-[8px] text-[#34d399] font-semibold">
+              🔼 Aumento Faturamento: {simulacao.totalAumFatu.toFixed(1)}%
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Detalhes por edifício */}
-      {/* <div style={{
-        flex: 1,
-        overflowY: "auto",
-        background: "rgba(0,0,0,0.2)",
-        borderRadius: "10px",
-        padding: "10px",
-        minHeight: 0,
-      }}>
+      {/* ─── LISTA DE EDIFÍCIOS ────────────────────────────────── */}
+      <div className="flex-1 overflow-y-auto p-3 pt-1.5 space-y-1.5 scrollbar-custom">
         {simulacao.detalhes.length > 0 ? (
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-            gap: "6px",
-          }}>
-            {simulacao.detalhes.map((d, i) => (
-              <div key={i} style={{
-                background: "rgba(255,255,255,0.05)",
-                borderRadius: "8px",
-                padding: "8px 10px",
-                border: "1px solid rgba(255,255,255,0.05)",
-                display: "flex",
-                flexDirection: "column",
-                gap: "2px",
-              }}>
-                <div style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}>
-                  <span style={{
-                    color: "#fff",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    fontFamily: "'Rajdhani',sans-serif",
-                  }}>
-                    {d.nome}
-                  </span>
-                  <span style={{
-                    color: "rgba(255,255,255,0.3)",
-                    fontSize: "9px",
-                    fontWeight: 600,
-                  }}>
-                    x{d.quantidade}
-                  </span>
+          simulacao.detalhes.map((d, i) => (
+            <div key={i} className="bg-white/5 p-2 border border-white/5 transition-all hover:bg-white/10">
+              <div className="flex items-center justify-between mb-0.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-white text-xs font-bold">{d.nome}</span>
+                  <span className="text-white/30 text-[8px] font-medium">x{d.quantidade}</span>
                 </div>
-                <div style={{
-                  display: "flex",
-                  gap: "8px",
-                  fontSize: "9px",
-                  color: "rgba(255,255,255,0.5)",
-                }}>
-                  <span style={{ color: "#34d399" }}>+{formatarNumero(d.faturamento)}</span>
-                  <span style={{ color: "#f87171" }}>-{formatarNumero(d.despesas)}</span>
-                  <span style={{ color: getCorLucro(d.lucro) }}>
-                    {d.lucro >= 0 ? "+" : ""}{formatarNumero(d.lucro)}
-                  </span>
-                  <span style={{ color: getCorROI(d.roi) }}>
-                    {d.roi.toFixed(1)}%
-                  </span>
-                </div>
-                <div style={{
-                  display: "flex",
-                  gap: "8px",
-                  fontSize: "7px",
-                  color: "rgba(255,255,255,0.2)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em",
-                }}>
-                  <span>{d.setor}</span>
-                  <span>·</span>
-                  <span>{d.estadoEconomia} ({d.fatorEconomico}x)</span>
-                  {(d.redCusto > 0 || d.aumFatu > 0) && (
-                    <>
-                      <span>·</span>
-                      <span style={{ color: "#f87171" }}>-{d.redCusto.toFixed(0)}%</span>
-                      <span style={{ color: "#34d399" }}>+{d.aumFatu.toFixed(0)}%</span>
-                    </>
-                  )}
-                </div>
+                <span className="text-white/20 text-[8px] uppercase font-medium">{d.setor}</span>
               </div>
-            ))}
-          </div>
+              
+              <div className="flex items-center gap-2 text-[8px] flex-wrap">
+                <span className="text-[#34d399] font-medium">+{formatarNumero(d.faturamento)}</span>
+                <span className="text-[#f87171] font-medium">-{formatarNumero(d.despesas)}</span>
+                <span className="font-medium" style={{ color: getCorLucro(d.lucro) }}>
+                  {d.lucro >= 0 ? "+" : ""}{formatarNumero(d.lucro)}
+                </span>
+                <span className="font-medium" style={{ color: getCorROI(d.roi) }}>
+                  {d.roi.toFixed(1)}%
+                </span>
+                <span className="text-white/20 text-[7px] uppercase">
+                  {d.estadoEconomia} ({d.fatorEconomico}x)
+                </span>
+                {(d.redCusto > 0 || d.aumFatu > 0) && (
+                  <>
+                    <span className="text-[#f87171] text-[7px]">-{d.redCusto.toFixed(0)}%</span>
+                    <span className="text-[#34d399] text-[7px]">+{d.aumFatu.toFixed(0)}%</span>
+                  </>
+                )}
+              </div>
+            </div>
+          ))
         ) : (
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-            color: "rgba(255,255,255,0.3)",
-            gap: "8px",
-          }}>
-            <span style={{ fontSize: "32px" }}>📭</span>
-            <span style={{ fontSize: "12px", fontWeight: 600 }}>
-              Selecione edifícios para ver a simulação
-            </span>
+          <div className="flex flex-col items-center justify-center h-full text-white/30 gap-2">
           </div>
         )}
-      </div> */}
+      </div>
 
-      {/* Rodapé com resumo */}
-      {/* {simulacao.detalhes.length > 0 && (
-        <div style={{
-          display: "flex",
-          justifyContent: "space-between",
-          paddingTop: "8px",
-          borderTop: "1px solid rgba(255,255,255,0.05)",
-          fontSize: "9px",
-          color: "rgba(255,255,255,0.3)",
-          flexShrink: 0,
-          flexWrap: "wrap",
-          gap: "4px",
-        }}>
-          <span>Faturamento: {formatarNumero(simulacao.faturamento)}</span>
-          <span>Despesas: {formatarNumero(simulacao.despesas)}</span>
-          <span style={{ color: getCorLucro(simulacao.lucroLiquido) }}>
-            Lucro: {formatarNumero(simulacao.lucroLiquido)}
-          </span>
-          <span style={{ color: getCorROI(simulacao.roi) }}>
-            ROI: {simulacao.roi.toFixed(1)}%
-          </span>
+      {/* ─── FOOTER ────────────────────────────────────────────── */}
+      {simulacao.detalhes.length > 0 && (
+        <div className="p-2 border-t border-white/5 flex-shrink-0 bg-white/5">
+          <div className="flex items-center justify-between text-[8px] text-white/30 flex-wrap gap-1">
+            <span>Faturamento: {formatarNumero(simulacao.faturamento)}</span>
+            <span>Despesas: {formatarNumero(simulacao.despesas)}</span>
+            <span style={{ color: getCorLucro(simulacao.lucroLiquido) }}>
+              Lucro: {formatarNumero(simulacao.lucroLiquido)}
+            </span>
+            <span style={{ color: getCorROI(simulacao.roi) }}>
+              ROI: {simulacao.roi.toFixed(1)}%
+            </span>
+          </div>
         </div>
-      )} */}
+      )}
+
+      <style>{`
+        .scrollbar-custom::-webkit-scrollbar {
+          width: 4px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-track {
+          background: rgba(255,255,255,0.05);
+          border-radius: 10px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.2);
+          border-radius: 10px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+          background: rgba(255,255,255,0.3);
+        }
+      `}</style>
     </div>
   );
 }
