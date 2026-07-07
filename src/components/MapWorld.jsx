@@ -11,7 +11,7 @@ import * as THREE from 'three'
 import { CentraldeDadosContext } from '../centralDeDadosContext'
 import { DadosEconomyGlobalContext } from '../dadosEconomyGlobal'
 import { BuildingModel } from './BuildingModel'
-import { resolverModeloSede, MODELOS, EDIFICIO_PARA_MODELO } from './buildingModels'
+import { resolverModeloSede, MODELOS, EDIFICIO_PARA_MODELO } from './BuildingModels'
 import { useFrame } from '@react-three/fiber'
 import { useGraphicsConfig } from './GraphicsConfigContext'
 
