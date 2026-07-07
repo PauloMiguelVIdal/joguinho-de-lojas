@@ -293,7 +293,7 @@ export default function ObjectiveTracker({
   setorInicial 
 }) {
   const { dados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
-  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, atualizarEco, adicionarMissaoConcluida, setTotalMissoes } = useContext(DadosEconomyGlobalContext);
   const [setorSelecionado, setSetorSelecionado] = useState(setorInicial || "comercio");
 
   const [objetivosCompletos, setObjetivosCompletos] = useState(new Set());
@@ -310,6 +310,14 @@ export default function ObjectiveTracker({
   }, [dados]);
 
   // ─── FUNÇÃO PARA ADICIONAR CARTA AO INVENTÁRIO ─────────────
+
+  useEffect(() => {
+    const totalMissoes = Object.values(OBJETIVOS).reduce(
+      (total, objetivos) => total + objetivos.length, 0
+    );
+    setTotalMissoes(totalMissoes);
+  }, [setTotalMissoes]);
+
   const adicionarCartaAoInventario = useCallback((nomeCarta) => {
     let setorEncontrado = null;
     let edificeIndex = -1;
@@ -352,33 +360,36 @@ export default function ObjectiveTracker({
 
   // ─── FUNÇÃO PARA PEGAR RECOMPENSA ──────────────────────────
   const pegarRecompensa = useCallback((setor, objetivoId) => {
-    const chave = `${setor}_${objetivoId}`;
+  const chave = `${setor}_${objetivoId}`;
+  
+  if (!recompensasPendentes[chave]) return;
+  
+  const objetivo = OBJETIVOS[setor]?.find(obj => obj.id === objetivoId);
+  if (!objetivo) return;
+  
+  const recompensa = objetivo.recompensa;
+  
+    adicionarMissaoConcluida(setor, objetivoId, objetivo.descricao);
+
+
+  if (recompensa.tipo === "pacote") {
+    // ✅ Passa a raridade explicitamente
+    if (onPackReceived) {
+      onPackReceived(recompensa.raridade); // Ex: "comum", "raro", etc.
+    }
     
-    if (!recompensasPendentes[chave]) return;
-    
-    const objetivo = OBJETIVOS[setor]?.find(obj => obj.id === objetivoId);
-    if (!objetivo) return;
-    
-    const recompensa = objetivo.recompensa;
-    
-    if (recompensa.tipo === "pacote") {
-      if (onPackReceived) {
-        onPackReceived();
-      }
-      
-      setObjetivosCompletos(prev => new Set(prev).add(chave));
-      setRecompensasPendentes(prev => {
-        const novo = { ...prev };
-        delete novo[chave];
-        return novo;
-      });
-      setRecompensasRecebidas(prev => [...prev, {
-        id: chave,
-        setor,
-        descricao: objetivo.descricao,
-        recompensa: recompensa.label
-      }]);
-      
+    setObjetivosCompletos(prev => new Set(prev).add(chave));
+    setRecompensasPendentes(prev => {
+      const novo = { ...prev };
+      delete novo[chave];
+      return novo;
+    });
+    setRecompensasRecebidas(prev => [...prev, {
+      id: chave,
+      setor,
+      descricao: objetivo.descricao,
+      recompensa: recompensa.label
+    }]);
     } else if (recompensa.tipo === "cartas") {
       recompensa.cartas.forEach(nome => {
         adicionarCartaAoInventario(nome);
@@ -401,7 +412,7 @@ export default function ObjectiveTracker({
         recompensa: recompensa.label
       }]);
     }
-  }, [recompensasPendentes, onPackReceived, onCartasRecebidas, adicionarCartaAoInventario]);
+}, [recompensasPendentes, onPackReceived, onCartasRecebidas, adicionarCartaAoInventario, adicionarMissaoConcluida]);
 
   // ─── FUNÇÃO PARA VERIFICAR TODOS OS OBJETIVOS ──────────────
   const verificarTodosObjetivos = useCallback(() => {

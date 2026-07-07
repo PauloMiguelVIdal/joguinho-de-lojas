@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import MapWorld from "./MapWorld.jsx";
 
@@ -18,49 +18,119 @@ const MENSAGENS = [
     "📊 Gerando gráficos e análises...",
 ];
 
+// ─── DICAS ESTRATÉGICAS ──────────────────────────────────────────
+const DICAS_LOADING = [
+    "💡 Foque em um único setor para completar os objetivos mais rápido!",
+    "📈 Priorize cartas com alto Faturamento Mensal para maximizar seus lucros.",
+    "⚡ Power-ups acumulam e podem turbinar seus outros edifícios.",
+    "🏆 Cartas de Rank S são raras e valiosas - priorize-as quando aparecerem!",
+    "🔄 Diversificar com cartas que dão power-ups gera sinergias poderosas.",
+    "🎯 Complete os objetivos na aba da direita para ganhar recompensas exclusivas!",
+    "📊 Acompanhe seus indicadores financeiros para tomar melhores decisões.",
+    "🏗️ Construa edifícios estratégicos para aumentar sua produção.",
+];
+
 // ─── COMPONENTE PRINCIPAL ───────────────────────────────────────────
-export const LoadingScreen = ({ visible, onComplete }) => {
+export const LoadingScreen = ({ visible, onComplete, duracaoSegundos = 5 }) => {
     const [mensagemAtual, setMensagemAtual] = useState(0);
-    const [progresso, setProgresso] = useState(0);
+    const [dicaAtual, setDicaAtual] = useState(0);
+    const [estaCarregando, setEstaCarregando] = useState(true);
+    
+    // Refs para controle
+    const mensagemIntervalRef = useRef(null);
+    const dicaIntervalRef = useRef(null);
+    const timerRef = useRef(null);
+    const isMountedRef = useRef(true);
 
+    // ─── INICIA O LOADING QUANDO visible SE TORNA TRUE ──────────
     useEffect(() => {
-        if (!visible) return;
+        isMountedRef.current = true;
 
-        // Reseta o progresso e mensagem
-        setProgresso(0);
+        if (!visible) {
+            // Limpa tudo quando invisible
+            if (mensagemIntervalRef.current) {
+                clearInterval(mensagemIntervalRef.current);
+                mensagemIntervalRef.current = null;
+            }
+            if (dicaIntervalRef.current) {
+                clearInterval(dicaIntervalRef.current);
+                dicaIntervalRef.current = null;
+            }
+            if (timerRef.current) {
+                clearTimeout(timerRef.current);
+                timerRef.current = null;
+            }
+            setEstaCarregando(true);
+            return;
+        }
+
+        // Reset ao abrir
         setMensagemAtual(0);
+        setDicaAtual(0);
+        setEstaCarregando(true);
 
-        // 🔥 BARRA DE PROGRESSO: +10% a cada 1 segundo
-        const progressInterval = setInterval(() => {
-            setProgresso(prev => {
-                const novo = prev + 10;
-                if (novo >= 100) {
-                    clearInterval(progressInterval);
-                    clearInterval(mensagemInterval);
-                    setTimeout(onComplete, 500);
-                    return 100;
-                }
-                return novo;
-            });
-        }, 1000);
+        // ─── MENSAGENS: alterna a cada 2 segundos ──────────────────
+        if (mensagemIntervalRef.current) {
+            clearInterval(mensagemIntervalRef.current);
+        }
+        mensagemIntervalRef.current = setInterval(() => {
+            if (isMountedRef.current) {
+                setMensagemAtual(prev => (prev + 1) % MENSAGENS.length);
+            }
+        }, 2000);
 
-        
-
-        // 🔥 MENSAGENS: alterna a cada 3 segundos
-        const mensagemInterval = setInterval(() => {
-            setMensagemAtual(prev => (prev + 1) % MENSAGENS.length);
+        // ─── DICAS: alterna a cada 3 segundos ──────────────────────
+        if (dicaIntervalRef.current) {
+            clearInterval(dicaIntervalRef.current);
+        }
+        dicaIntervalRef.current = setInterval(() => {
+            if (isMountedRef.current) {
+                setDicaAtual(prev => (prev + 1) % DICAS_LOADING.length);
+            }
         }, 3000);
 
+        // ─── FINALIZA APÓS O TEMPO DEFINIDO ──────────────────────
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+        }
+        timerRef.current = setTimeout(() => {
+            if (isMountedRef.current) {
+                setEstaCarregando(false);
+                // Limpa os intervals antes de chamar onComplete
+                if (mensagemIntervalRef.current) {
+                    clearInterval(mensagemIntervalRef.current);
+                    mensagemIntervalRef.current = null;
+                }
+                if (dicaIntervalRef.current) {
+                    clearInterval(dicaIntervalRef.current);
+                    dicaIntervalRef.current = null;
+                }
+                if (onComplete) onComplete();
+            }
+        }, duracaoSegundos * 1000);
+
         return () => {
-            clearInterval(progressInterval);
-            clearInterval(mensagemInterval);
+            isMountedRef.current = false;
+            if (mensagemIntervalRef.current) {
+                clearInterval(mensagemIntervalRef.current);
+                mensagemIntervalRef.current = null;
+            }
+            if (dicaIntervalRef.current) {
+                clearInterval(dicaIntervalRef.current);
+                dicaIntervalRef.current = null;
+            }
+            if (timerRef.current) {
+                clearTimeout(timerRef.current);
+                timerRef.current = null;
+            }
         };
-    }, [visible, onComplete]);
+    }, [visible, onComplete, duracaoSegundos]);
 
     if (!visible) return null;
 
     return (
-<div className="fixed bottom-0 inset-x-0 z-[9999] flex items-center justify-center" style={{ height: 'calc(100vh - 120px)', }}>            {/* FUNDO COM DEGRADE ROXO */}
+        <div className="fixed bottom-0 inset-x-0 z-[9999] flex items-center justify-center" style={{ height: 'calc(100vh - 120px)' }}>
+            {/* FUNDO COM DEGRADE ROXO */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a3b] via-[#350973] to-[#6411D9]" />
 
             {/* MAPA - CENTRO DAS ATENÇÕES */}
@@ -71,28 +141,28 @@ export const LoadingScreen = ({ visible, onComplete }) => {
             {/* OVERLAY SUTIL PARA DESTACAR O TEXTO */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
 
-            {/* CONTAINER PRINCIPAL: 80vw x 80vh */}
+            {/* CONTAINER PRINCIPAL */}
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
                 className="relative z-10 flex flex-col items-center justify-end w-[80vw] h-[80vh] px-8 pb-12"
             >
                 {/* CONTEÚDO NA PARTE INFERIOR */}
-                <div className="w-full flex flex-col items-center justify-end max-w-2xl">
-                    {/* Ícone */}
+                <div className="w-full flex flex-col items-center justify-end max-w-2xl gap-3">
+                    {/* Ícone animado */}
                     <motion.div
                         animate={{
                             scale: [1, 1.05, 1],
                             rotate: [0, 2, -2, 0],
                         }}
                         transition={{
-                            duration: 3,
+                            duration: 2.5,
                             repeat: Infinity,
                             ease: "easeInOut",
                         }}
-                        className="text-5xl mb-3"
+                        className="text-5xl mb-1"
                     >
                         🏢
                     </motion.div>
@@ -101,62 +171,87 @@ export const LoadingScreen = ({ visible, onComplete }) => {
                     <motion.h1
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
+                        transition={{ delay: 0.1 }}
                         className="text-white text-2xl font-bold tracking-wider"
                         style={{ fontFamily: "'Rajdhani', sans-serif" }}
                     >
-                        Processando...
+                        {estaCarregando ? "Processando..." : "✅ Concluído!"}
                     </motion.h1>
 
-                    {/* 🔥 MENSAGEM ALTERNADA (SEM EFEITO DE DIGITAÇÃO) */}
-                    <div className="h-10 flex items-center justify-center my-3">
-                        <AnimatePresence mode="wait">
+                    {/* 🔥 MENSAGEM ALTERNADA */}
+                    {/* <div className="h-10 flex items-center justify-center my-1 overflow-hidden w-full">
+                        <AnimatePresence mode="popLayout">
                             <motion.div
-                                key={mensagemAtual}
-                                initial={{ opacity: 0, y: 10 }}
+                                key={`msg-${mensagemAtual}`}
+                                initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.5 }}
-                                className="text-[#C79FFF] text-base font-medium text-center"
+                                exit={{ opacity: 0, y: -15 }}
+                                transition={{ duration: 0.3 }}
+                                className="text-[#C79FFF] text-base font-medium text-center w-full"
                                 style={{ fontFamily: "'Rajdhani', sans-serif" }}
                             >
                                 {MENSAGENS[mensagemAtual]}
                             </motion.div>
                         </AnimatePresence>
-                    </div>
+                    </div> */}
 
-                    {/* 🔥 BARRA DE PROGRESSO: +10% a cada 1 segundo */}
-                    <div className="w-full max-w-sm">
-                        <div className="flex justify-between text-xs text-white/40 mb-1">
-                            <span>Iniciando</span>
-                            <span className="font-mono">{progresso}%</span>
-                            <span>Finalizando</span>
-                        </div>
-                        <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                            <motion.div
-                                className="h-full rounded-full"
-                                style={{
-                                    background: "linear-gradient(90deg, #6411D9, #934CFF, #FFD700)",
-                                }}
-                                animate={{ width: `${progresso}%` }}
-                                transition={{ duration: 0.3 }}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Rodapé */}
+                    {/* ─── DICAS ROTATIVAS ────────────────────────────── */}
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1 }}
-                        className="mt-4 text-white/20 text-[10px] text-center"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="w-full max-w-md bg-[#6A00FF]/10 border border-[#6A00FF]/20 rounded-xl px-4 py-2.5 flex items-center gap-3"
                     >
-                        <span className="inline-block animate-pulse">●</span>
-                        <span className="mx-2">|</span>
-                        <span>Economia global em movimento</span>
-                        <span className="mx-2">|</span>
-                        <span className="inline-block animate-pulse">●</span>
+                        <span className="text-[#8B00FF] text-base flex-shrink-0">💡</span>
+                        <div className="flex-1 min-w-0">
+                            <AnimatePresence mode="popLayout">
+                                <motion.span
+                                    key={`dica-${dicaAtual}`}
+                                    initial={{ opacity: 0, y: 8 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -8 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="text-white/80 text-sm font-medium block truncate"
+                                    style={{ fontFamily: "'Rajdhani', sans-serif" }}
+                                >
+                                       Foque em um único setor para completar os objetivos mais rápido!
+
+                                </motion.span>
+                            </AnimatePresence>
+                        </div>
+                        {/* <div className="flex gap-1.5 flex-shrink-0">
+                            {DICAS_LOADING.map((_, index) => (
+                                <div
+                                    key={index}
+                                    className="w-1.5 h-1.5 rounded-full transition-all duration-200"
+                                    style={{
+                                        background: index === dicaAtual ? "#6A00FF" : "rgba(255,255,255,0.15)",
+                                        transform: index === dicaAtual ? "scale(1.2)" : "scale(1)",
+                                    }}
+                                />
+                            ))}
+                        </div> */}
                     </motion.div>
+
+                    {/* ─── INDICADORES DE PROGRESSO ───────────────────── */}
+                    <div className="flex items-center gap-2 mt-2 text-white/20 text-[9px]">
+                        <span className="inline-block animate-pulse">●</span>
+                        <span>Economia global em movimento</span>
+                        <span className="inline-block animate-pulse">●</span>
+                    </div>
+
+                    {/* ─── MENSAGEM DE FINALIZAÇÃO ───────────────────── */}
+                    {/* {!estaCarregando && (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.3 }}
+                            className="mt-1 text-green-400 text-sm font-bold"
+                            style={{ fontFamily: "'Rajdhani', sans-serif" }}
+                        >
+                            ✅ Pronto! Redirecionando...
+                        </motion.div>
+                    )} */}
                 </div>
             </motion.div>
         </div>

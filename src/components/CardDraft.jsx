@@ -562,14 +562,14 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
   // ─── MODAL POWERUP ──────────────────────────────────────────
   if (modalPowerup) {
     return (
-      <div className="fixed inset-0 flex justify-center items-center z-[150] bg-black/90 backdrop-blur-sm">
+      <div className="fixed inset-0 flex justify-center items-center z-[9999999] bg-black/90 backdrop-blur-sm">
         <motion.div
           style={{ backgroundColor: setorInfo.cor1, borderColor: setorInfo.cor4 }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="w-[90vw] h-[85vh] rounded-[24px] border-2 flex flex-col justify-between items-center relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+          className="w-[80vw] h-[70vh] rounded-[24px] border-2 flex flex-col justify-between items-center relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]"
         >
           <button
             className="absolute top-4 right-4 w-[45px] h-[45px] flex justify-center items-center rounded-xl hover:scale-110 active:scale-95 transition-all z-10 shadow-lg"

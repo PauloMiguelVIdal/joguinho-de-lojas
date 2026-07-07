@@ -260,6 +260,14 @@ export default function DashboardDraft() {
   const [modalLiquidacaoOpen, setModalLiquidacaoOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState("carteira");
 
+  // ─── REFS PARA DADOS ATUALIZADOS ────────────────────────────────
+  const dadosRef = useRef(dados);
+  const ecoRef = useRef(economiaSetores);
+
+  // ─── ATUALIZA REFS ──────────────────────────────────────────────
+  useEffect(() => { dadosRef.current = dados; }, [dados]);
+  useEffect(() => { ecoRef.current = economiaSetores; }, [economiaSetores]);
+
   // ─── FUNÇÕES DO MODAL DE LIQUIDAÇÃO ─────────────────────────────
   const abrirModalLiquidacao = useCallback(() => {
     setModalLiquidacaoOpen(true);
@@ -334,24 +342,49 @@ export default function DashboardDraft() {
     [dados]
   );
 
-  // ─── MEMO: CALCULAR DADOS FINAIS ──────────────────────────────
+  // ─── MEMO: CALCULAR DADOS FINAIS (CORRIGIDO) ──────────────────
   const calcularDadosFinais = useCallback(() => {
-    const faturamentoTotal = dados.faturamento?.arrayFatuDiário?.reduce((acc, val) => acc + val, 0) || 0;
-    const powerUpsAumFatu = economiaSetores.powerUps?.aumentoFaturamentoDiario || [];
-    const powerUpsRedCusto = economiaSetores.powerUps?.reducaoCustoDiario || [];
+    // Usa os dados mais atualizados dos refs
+    const dadosAtuais = dadosRef.current || dados;
+    const ecoAtuais = ecoRef.current || economiaSetores;
+
+    // Calcula faturamento total
+    const faturamentoTotal = dadosAtuais.faturamento?.arrayFatuDiário?.reduce((acc, val) => acc + val, 0) || 0;
+
+    // Calcula power-ups
+    const powerUpsAumFatu = ecoAtuais.powerUps?.aumentoFaturamentoDiario || [];
+    const powerUpsRedCusto = ecoAtuais.powerUps?.reducaoCustoDiario || [];
     const somaPowerUpsAumFatu = powerUpsAumFatu.reduce((acc, val) => acc + val, 0);
     const somaPowerUpsRedCusto = powerUpsRedCusto.reduce((acc, val) => acc + val, 0);
-    const patrimonioHistorico = economiaSetores.patrimonioInventarioHistorico || [];
+
+    // Calcula ROE médio
+    const patrimonioHistorico = ecoAtuais.patrimonioInventarioHistorico || [];
     const roeMedio = patrimonioHistorico.length > 0
-      ? (patrimonioHistorico.reduce((acc, val) => acc + val, 0) / patrimonioHistorico.length)
+      ? patrimonioHistorico.reduce((acc, val) => acc + val, 0) / patrimonioHistorico.length
       : 0;
-    const inventarioHistorico = economiaSetores.patrimonioInventarioHistorico || [];
+
+    // Calcula inventário histórico
+    const inventarioHistorico = ecoAtuais.patrimonioInventarioHistorico || [];
     const somaInventarioHistorico = inventarioHistorico.reduce((acc, val) => acc + val, 0);
+
+    // Calcula patrimônio histórico total
     const patrimonioHistoricoTotal = SETORES_ARR.reduce((total, setor) => {
-      const historico = economiaSetores[setor]?.economiaSetor?.patrimonioHistorico || [];
+      const historico = ecoAtuais[setor]?.economiaSetor?.patrimonioHistorico || [];
       return total + historico.reduce((acc, val) => acc + val, 0);
     }, 0);
-    const saldoTotal = economiaSetores.saldo || 0;
+
+    // Saldo final
+    const saldoTotal = ecoAtuais.saldo || 0;
+
+    console.log("📊 [calcularDadosFinais] Valores calculados:", {
+      faturamentoTotal,
+      somaPowerUpsAumFatu,
+      somaPowerUpsRedCusto,
+      roeMedio,
+      somaInventarioHistorico,
+      patrimonioHistoricoTotal,
+      saldoTotal
+    });
 
     return {
       faturamentoTotal,
@@ -457,11 +490,14 @@ export default function DashboardDraft() {
   }, [dados.cartasSelecionadas]);
 
   // ─── EFFECT: MODAL CONCLUSÃO ────────────────────────────────────
-  useEffect(() => {
-    if (dados.dia >= 360 && !modalConclusao) {
-      setModalConclusao(true);
-    }
-  }, [dados.dia, modalConclusao]);
+  // useEffect(() => {
+  //   if (dados.dia >= 360 && !modalConclusao) {
+  //     // Atualiza os refs antes de abrir o modal
+  //     dadosRef.current = dados;
+  //     ecoRef.current = economiaSetores;
+  //     setModalConclusao(true);
+  //   }
+  // }, [dados.dia, modalConclusao, dados, economiaSetores]);
 
   // ─── EFFECT: ATUALIZAR CARTEIRA ────────────────────────────────
   useEffect(() => {
@@ -697,35 +733,10 @@ export default function DashboardDraft() {
       <div className="w-full h-full flex gap-2 p-2 bg-[#0a0a1a]">
         {/* ─── LADO ESQUERDO: TABS E CONTEÚDO ─────────────────────── */}
         <div className="flex-1 flex flex-col gap-2 min-w-0">
-          {/* ─── TABS ────────────────────────────────────────────── */}
-          {/* <div className="flex gap-1 bg-[#1a0a3b] rounded-xl border border-white/10 p-1 flex-shrink-0">
-            {[
-              { id: "carteira", label: "📋 Carteira" },
-              { id: "grafico", label: "📊 Análise" },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  setSelectedTab(tab.id);
-                  setAtivo(tab.id);
-                }}
-                className={`
-                  flex-1 px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200
-                  ${selectedTab === tab.id
-                    ? 'bg-[#6A00FF] text-white shadow-lg shadow-purple-500/20'
-                    : 'text-white/40 hover:text-white hover:bg-white/5'
-                  }
-                `}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div> */}
-
           {/* ─── CONTEÚDO DA TAB ─────────────────────────────────── */}
           <div className="flex-1 min-h-0">
             {selectedTab === "carteira" ? (
-              <DashboardDraftCarteira 
+              <DashboardDraftCarteira
                 dados={dados}
                 economiaSetores={economiaSetores}
                 setorAtivo={setorAtivo}
@@ -766,16 +777,6 @@ export default function DashboardDraft() {
             )}
           </div>
         </div>
-
-        {/* ─── LADO DIREITO: MINI DRAFT E EXPANSÃO ────────────────── */}
-        {/* <div className="w-[320px] flex flex-col gap-2 flex-shrink-0">
-          <div className="flex-1 min-h-0">
-            <DashboardMiniDraft />
-          </div>
-          <div className="h-[100px] flex-shrink-0">
-            <PlusInventory />
-          </div>
-        </div> */}
       </div>
 
       {/* ─── MODAL DE CONFIRMAÇÃO DE LIQUIDAÇÃO ──────────────────── */}
@@ -822,39 +823,39 @@ export default function DashboardDraft() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mt-4">
                   <div className="bg-[#2a0a5a] rounded-[15px] p-4">
                     <p className="text-[#C79FFF] text-sm font-medium">💰 Faturamento Total</p>
-                    <p className="text-white text-2xl font-bold">R$ {formatarNumero(dadosFinais.faturamentoTotal)}</p>
+                    <p className="text-white text-2xl font-bold">R$ {formatarNumero(dadosFinais.faturamentoTotal || 0)}</p>
                   </div>
 
                   <div className="bg-[#2a0a5a] rounded-[15px] p-4">
                     <p className="text-[#C79FFF] text-sm font-medium">⚡ Power-Ups</p>
                     <p className="text-white text-2xl font-bold">
-                      ↑ +{dadosFinais.somaPowerUpsAumFatu.toFixed(1)}%
+                      ↑ +{(dadosFinais.somaPowerUpsAumFatu || 0).toFixed(1)}%
                     </p>
                     <p className="text-white text-lg font-bold">
-                      ↓ -{dadosFinais.somaPowerUpsRedCusto.toFixed(1)}%
+                      ↓ -{(dadosFinais.somaPowerUpsRedCusto || 0).toFixed(1)}%
                     </p>
                   </div>
 
                   <div className="bg-[#2a0a5a] rounded-[15px] p-4">
                     <p className="text-[#C79FFF] text-sm font-medium">📊 ROE Médio</p>
                     <p className="text-white text-2xl font-bold">
-                      {dadosFinais.roeMedio > 0 ? '+' : ''}{dadosFinais.roeMedio.toFixed(2)}%
+                      {(dadosFinais.roeMedio || 0) > 0 ? '+' : ''}{(dadosFinais.roeMedio || 0).toFixed(2)}%
                     </p>
                   </div>
 
                   <div className="bg-[#2a0a5a] rounded-[15px] p-4">
                     <p className="text-[#C79FFF] text-sm font-medium">🏦 Patrimônio Histórico</p>
-                    <p className="text-white text-2xl font-bold">R$ {formatarNumero(dadosFinais.patrimonioHistoricoTotal)}</p>
+                    <p className="text-white text-2xl font-bold">R$ {formatarNumero(dadosFinais.patrimonioHistoricoTotal || 0)}</p>
                   </div>
 
                   <div className="bg-[#2a0a5a] rounded-[15px] p-4">
                     <p className="text-[#C79FFF] text-sm font-medium">📦 Inventário Histórico</p>
-                    <p className="text-white text-2xl font-bold">R$ {formatarNumero(dadosFinais.somaInventarioHistorico)}</p>
+                    <p className="text-white text-2xl font-bold">R$ {formatarNumero(dadosFinais.somaInventarioHistorico || 0)}</p>
                   </div>
 
                   <div className="bg-[#2a0a5a] rounded-[15px] p-4">
                     <p className="text-[#C79FFF] text-sm font-medium">💎 Saldo Disponível</p>
-                    <p className="text-white text-2xl font-bold">R$ {formatarNumero(dadosFinais.saldoTotal)}</p>
+                    <p className="text-white text-2xl font-bold">R$ {formatarNumero(dadosFinais.saldoTotal || 0)}</p>
                   </div>
                 </div>
 
@@ -975,6 +976,188 @@ function DashboardDraftCarteira({
         height: "100%",
         overflowY: "auto",
       }}>
+        <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)" }}>
+          Cards selecionados
+        </span>
+        <button
+          onClick={() => setFiltroSelecionados(!filtroSelecionados)}
+          style={{
+            borderRadius: 6,
+            padding: "6px 14px",
+            cursor: "pointer",
+            fontFamily: "'Rajdhani',sans-serif",
+            fontSize: 11,
+            fontWeight: 700,
+            transition: "all .15s",
+            whiteSpace: "nowrap",
+            background: filtroSelecionados ? "rgba(52, 211, 153, .2)" : "rgba(255,255,255,.05)",
+            color: filtroSelecionados ? "#34d399" : "rgba(255,255,255,.4)",
+            border: filtroSelecionados ? "1px solid #34d399" : "1px solid transparent",
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+            justifyContent: "center",
+          }}>
+          <span style={{ fontSize: 12 }}>⭐</span>
+          {filtroSelecionados ? "Selecionados" : "Todos"}
+        </button>
+
+        {cartasSelecionadas.length > 0 && (
+          <button
+            onClick={limparSelecoes}
+            style={{
+              borderRadius: 6,
+              padding: "6px 14px",
+              cursor: "pointer",
+              fontFamily: "'Rajdhani',sans-serif",
+              fontSize: 11,
+              fontWeight: 700,
+              transition: "all .15s",
+              whiteSpace: "nowrap",
+              background: "rgba(255,77,77,.15)",
+              color: "#ff4d4d",
+              border: "1px solid rgba(255,77,77,.2)",
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              justifyContent: "center",
+            }}>
+            ✕ Limpar ({cartasSelecionadas.length})
+          </button>
+        )}
+        {/* ── CAPACIDADE ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)" }}>
+            Capacidade
+          </span>
+
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            padding: "4px 8px",
+            background: "rgba(0,0,0,.2)",
+            borderRadius: 8,
+            border: "1px solid rgba(255,255,255,.06)",
+          }}>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "2px 8px",
+              backgroundColor: setorAtivo?.cor3 || "#350973",
+              borderRadius: 4,
+              height: "28px",
+              flex: 1,
+            }}>
+              <div style={{
+                backgroundColor: setorAtivo?.cor4 || "#6A00FF",
+                width: "18px",
+                height: "18px",
+                borderRadius: 3,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+                <img src={setoresImg} className="h-[50%] aspect-square" alt="" />
+              </div>
+              <span className="text-white fonteBold text-[13px]">{setoresComEdificios}</span>
+            </div>
+
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "2px 8px",
+              backgroundColor: setorAtivo?.cor3 || "#350973",
+              borderRadius: 4,
+              height: "28px",
+              flex: 1,
+            }}>
+              <div style={{
+                backgroundColor: setorAtivo?.cor4 || "#6A00FF",
+                width: "18px",
+                height: "18px",
+                borderRadius: 3,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+                <img src={soma} className="h-[50%] aspect-square" alt="" />
+              </div>
+              <span className="text-white fonteBold text-[13px]">{edAtual}</span>
+            </div>
+          </div>
+
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            padding: "4px 8px",
+            background: "rgba(0,0,0,.2)",
+            borderRadius: 8,
+            border: "1px solid rgba(255,255,255,.06)",
+          }}>
+            <span style={{ fontSize: 14, color: "rgba(255,255,255,.5)" }}>📦</span>
+            <span style={{ fontSize: 15, fontWeight: 800, color: "#fff" }}>
+              {tiposUnicos}
+            </span>
+            <span style={{ fontSize: 13, color: "rgba(255,255,255,.3)" }}>/</span>
+            <span style={{ fontSize: 15, fontWeight: 800, color: "rgba(255,255,255,.5)" }}>
+              {limiteAtual}
+            </span>
+
+            {excedente > 0 && (
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "2px 10px",
+                background: "rgba(255, 0, 0, 0.2)",
+                borderRadius: 6,
+                border: "2px solid #ff0000",
+                animation: "pulse-red 1.5s infinite",
+              }}>
+                <span style={{ fontSize: 14 }}>⚠️</span>
+                <span style={{ fontSize: 14, fontWeight: 900, color: "#ff0000" }}>
+                  +{excedente}
+                </span>
+              </div>
+            )}
+          </div>
+
+          {excedente > 0 && (
+            <button
+              onClick={abrirModalLiquidacao}
+              style={{
+                padding: "8px 16px",
+                borderRadius: 6,
+                border: "none",
+                background: "linear-gradient(135deg, #ff0000, #cc0000)",
+                color: "#fff",
+                fontSize: 12,
+                fontWeight: 800,
+                cursor: "pointer",
+                fontFamily: "'Rajdhani',sans-serif",
+                transition: "all 0.2s ease",
+                boxShadow: "0 0 25px rgba(255,0,0,0.3)",
+                animation: "pulse-red 1.5s infinite",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+                e.currentTarget.style.boxShadow = "0 0 35px rgba(255,0,0,0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = "0 0 25px rgba(255,0,0,0.3)";
+              }}
+            >
+              🗑️ Liquidar Excedente
+            </button>
+          )}
+        </div>
+        <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,.06)" }} />
+
         {/* ── ORDENAÇÃO ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)" }}>
@@ -1101,55 +1284,8 @@ function DashboardDraftCarteira({
         {/* ── AÇÕES ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)" }}>
-            Ações
+            Venda
           </span>
-          <button
-            onClick={() => setFiltroSelecionados(!filtroSelecionados)}
-            style={{
-              borderRadius: 6,
-              padding: "6px 14px",
-              cursor: "pointer",
-              fontFamily: "'Rajdhani',sans-serif",
-              fontSize: 11,
-              fontWeight: 700,
-              transition: "all .15s",
-              whiteSpace: "nowrap",
-              background: filtroSelecionados ? "rgba(52, 211, 153, .2)" : "rgba(255,255,255,.05)",
-              color: filtroSelecionados ? "#34d399" : "rgba(255,255,255,.4)",
-              border: filtroSelecionados ? "1px solid #34d399" : "1px solid transparent",
-              display: "flex",
-              alignItems: "center",
-              gap: 4,
-              justifyContent: "center",
-            }}>
-            <span style={{ fontSize: 12 }}>⭐</span>
-            {filtroSelecionados ? "Selecionados" : "Todos"}
-          </button>
-
-          {cartasSelecionadas.length > 0 && (
-            <button
-              onClick={limparSelecoes}
-              style={{
-                borderRadius: 6,
-                padding: "6px 14px",
-                cursor: "pointer",
-                fontFamily: "'Rajdhani',sans-serif",
-                fontSize: 11,
-                fontWeight: 700,
-                transition: "all .15s",
-                whiteSpace: "nowrap",
-                background: "rgba(255,77,77,.15)",
-                color: "#ff4d4d",
-                border: "1px solid rgba(255,77,77,.2)",
-                display: "flex",
-                alignItems: "center",
-                gap: 4,
-                justifyContent: "center",
-              }}>
-              ✕ Limpar ({cartasSelecionadas.length})
-            </button>
-          )}
-
           <button
             onClick={() => {
               if (modoVendaRapida && cartasParaVender.length > 0) {
@@ -1221,139 +1357,8 @@ function DashboardDraftCarteira({
           )}
         </div>
 
-        <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,.06)" }} />
 
-        {/* ── CAPACIDADE ── */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(255,255,255,.4)" }}>
-            Capacidade
-          </span>
-          
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "4px 8px",
-            background: "rgba(0,0,0,.2)",
-            borderRadius: 8,
-            border: "1px solid rgba(255,255,255,.06)",
-          }}>
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 4,
-              padding: "2px 8px",
-              backgroundColor: setorAtivo?.cor3 || "#350973",
-              borderRadius: 4,
-              height: "28px",
-              flex: 1,
-            }}>
-              <div style={{
-                backgroundColor: setorAtivo?.cor4 || "#6A00FF",
-                width: "18px",
-                height: "18px",
-                borderRadius: 3,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}>
-                <img src={setoresImg} className="h-[50%] aspect-square" alt="" />
-              </div>
-              <span className="text-white fonteBold text-[13px]">{setoresComEdificios}</span>
-            </div>
 
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 4,
-              padding: "2px 8px",
-              backgroundColor: setorAtivo?.cor3 || "#350973",
-              borderRadius: 4,
-              height: "28px",
-              flex: 1,
-            }}>
-              <div style={{
-                backgroundColor: setorAtivo?.cor4 || "#6A00FF",
-                width: "18px",
-                height: "18px",
-                borderRadius: 3,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}>
-                <img src={soma} className="h-[50%] aspect-square" alt="" />
-              </div>
-              <span className="text-white fonteBold text-[13px]">{edAtual}</span>
-            </div>
-          </div>
-
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "4px 8px",
-            background: "rgba(0,0,0,.2)",
-            borderRadius: 8,
-            border: "1px solid rgba(255,255,255,.06)",
-          }}>
-            <span style={{ fontSize: 14, color: "rgba(255,255,255,.5)" }}>📦</span>
-            <span style={{ fontSize: 15, fontWeight: 800, color: "#fff" }}>
-              {tiposUnicos}
-            </span>
-            <span style={{ fontSize: 13, color: "rgba(255,255,255,.3)" }}>/</span>
-            <span style={{ fontSize: 15, fontWeight: 800, color: "rgba(255,255,255,.5)" }}>
-              {limiteAtual}
-            </span>
-
-            {excedente > 0 && (
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                padding: "2px 10px",
-                background: "rgba(255, 0, 0, 0.2)",
-                borderRadius: 6,
-                border: "2px solid #ff0000",
-                animation: "pulse-red 1.5s infinite",
-              }}>
-                <span style={{ fontSize: 14 }}>⚠️</span>
-                <span style={{ fontSize: 14, fontWeight: 900, color: "#ff0000" }}>
-                  +{excedente}
-                </span>
-              </div>
-            )}
-          </div>
-
-          {excedente > 0 && (
-            <button
-              onClick={abrirModalLiquidacao}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 6,
-                border: "none",
-                background: "linear-gradient(135deg, #ff0000, #cc0000)",
-                color: "#fff",
-                fontSize: 12,
-                fontWeight: 800,
-                cursor: "pointer",
-                fontFamily: "'Rajdhani',sans-serif",
-                transition: "all 0.2s ease",
-                boxShadow: "0 0 25px rgba(255,0,0,0.3)",
-                animation: "pulse-red 1.5s infinite",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-                e.currentTarget.style.boxShadow = "0 0 35px rgba(255,0,0,0.5)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-                e.currentTarget.style.boxShadow = "0 0 25px rgba(255,0,0,0.3)";
-              }}
-            >
-              🗑️ Liquidar Excedente
-            </button>
-          )}
-        </div>
       </div>
 
       <style>{`
@@ -1365,8 +1370,8 @@ function DashboardDraftCarteira({
 
       {/* ── GRID DE CARDS (OCUPA O RESTO DO ESPAÇO) ── */}
       <div
-        style={{ 
-          background: `linear-gradient(135deg, ${ "#6411D9"} 0%, ${ "#502602"} 100%)`,
+        style={{
+          background: `linear-gradient(135deg, ${"#6411D9"} 0%, ${"#502602"} 100%)`,
           flex: 1,
           borderRadius: "10px",
           overflow: "hidden",

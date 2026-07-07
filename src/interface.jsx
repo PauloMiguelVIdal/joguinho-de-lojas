@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, lazy, Suspense, useState } from "react";
+import React, { useContext, useCallback, lazy, Suspense, useEffect,useState } from "react";
 import Notificação from "./notificação.jsx";
 import Informations from "./components/Informations.jsx";
 import Dashboard from "./components/Dashboard.jsx";
@@ -47,6 +47,8 @@ import { PackOpeningDraft } from "./components/PackOpeningDraft.jsx";
 import { ModalFalencia } from "./notificação.jsx";
 import DisplayInformations from "./components/DisplayInformations.jsx";
 import { ModalCartasRecebidas } from "./components/ModalCartasRecebidas.jsx";
+import { PackOpeningWithRarity } from "./components/PackOpeningWithRarity.jsx";
+import RelatorioFinal from "./components/RelatorioFinal.jsx";
 
 // import { DraftSystem, useDraftSystem, DraftButton } from "./components/DraftSystem";
 
@@ -72,7 +74,25 @@ function Interface() {
   const vision = dados.vision.visionAtual
   // ─── ESTADO PARA O PACOTE ──────────────────────────────────
   const [packModalOpen, setPackModalOpen] = useState(false);
+  const [packRaridade, setPackRaridade] = useState(null);
 
+  const handlePackReceived = useCallback((raridade = null) => {
+    setPackRaridade(raridade);
+    setPackModalOpen(true);
+  }, []);
+
+  const handlePackClose = useCallback(() => {
+    setPackModalOpen(false);
+    setPackRaridade(null);
+  }, []);
+
+const [showRelatorio, setShowRelatorio] = useState(false);
+
+useEffect(() => {
+  if (dados.dia >= 360 && !showRelatorio) {
+    setShowRelatorio(true);
+  }
+}, [dados.dia, showRelatorio]);
 
 
 
@@ -88,17 +108,6 @@ function Interface() {
   const jogoIniciado = dados.jogoIniciado || false;
   const renderizando = dados.dia % 30 !== 0 || dados.dia === 0
   const ajusteLargura = renderizando
-
-
-  // ─── HANDLE PACK RECEIVED ──────────────────────────────────
-  const handlePackReceived = useCallback(() => {
-    setPackModalOpen(true);
-  }, []);
-
-  // ─── HANDLE PACK CLOSE ─────────────────────────────────────
-  const handlePackClose = useCallback(() => {
-    setPackModalOpen(false);
-  }, []);
   const [modalFalenciaOpen, setModalFalenciaOpen] = useState(false);
 
 
@@ -128,11 +137,13 @@ function Interface() {
         />
       )}
       {packModalOpen && (
-        <PackOpeningDraft
+        <PackOpeningWithRarity
           onClose={handlePackClose}
           onSorteio={() => {
             console.log("🎁 Pacote aberto com sucesso!");
           }}
+          raridade={packRaridade}
+          autoOpen={true}
         />
       )}
       {cartasModalOpen && (
@@ -154,6 +165,13 @@ function Interface() {
           onSorteio={() => console.log('Sorteio realizado!')}
         />
       )}
+      {showRelatorio && (
+  <RelatorioFinal onClose={() => {
+    setShowRelatorio(false);
+    // Aqui você pode adicionar lógica para encerrar o jogo
+    // Ex: limpar dados, redirecionar, etc.
+  }} />
+)}
       {/* {draftAberto && (
       <DraftSystem 
         onClose={fecharDraft}
@@ -181,6 +199,7 @@ function Interface() {
           padding: '4px',
           background: 'linear-gradient(180deg, #350973, #350973',
           borderBottom: '1px solid rgba(147,76,255,0.3)',
+          borderBottomRightRadius: '20px',
           boxShadow: '0 2px 5vh rgba(0,0,0,0.5)',
         }}
       >
@@ -206,15 +225,14 @@ function Interface() {
             height: "35px",
             background: "rgba(255,255,255,0.1)",
           }} />
-<button 
-  disabled={dados.dia === 360 || dados.dia % 30 !== 0} 
-  onClick={() => setModalShopOpen(true)}
-  className={`h-[80%] w-[100px] flex flex-col justify-between rounded-[5px] flex hover:scale-[1.05] ${
-    dados.dia === 360 || dados.dia % 30 !== 0 
-      ? 'bg-laranja/20 cursor-not-allowed opacity-60' 
-      : 'bg-laranja/70 hover:bg-laranja/90'
-  }`}
->
+          <button
+            disabled={dados.dia === 360 || dados.dia % 30 !== 0}
+            onClick={() => setModalShopOpen(true)}
+            className={`h-[80%] w-[100px] flex flex-col justify-between rounded-[5px] flex hover:scale-[1.05] ${dados.dia === 360 || dados.dia % 30 !== 0
+                ? 'bg-laranja/20 cursor-not-allowed opacity-60'
+                : 'bg-laranja/70 hover:bg-laranja/90'
+              }`}
+          >
             <div className="h-[100%] aspect-square flex-col bg-laranja rounded-[10px] flex items-center justify-center active:scale-95 hover:bg-[#E56100]">
               <img className="h-[40%]" src={LojaGImg} alt="" />
               <div className="flex justify-center items-center">
@@ -301,7 +319,7 @@ function Interface() {
             top: '0vh',
             height: '25vh',
             maxHeight: '32vh',
-            
+
             width: '20vw',
             right: 0,
             zIndex: 20,

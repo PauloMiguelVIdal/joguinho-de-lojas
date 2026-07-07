@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState,useCallback } from "react";
 
 // Criação do contexto
 const DadosEconomyGlobalContext = createContext();
@@ -6,11 +6,17 @@ const DadosEconomyGlobalContext = createContext();
 // Provedor do contexto
 const DadosEconomyGlobalProvider = ({ children }) => {
   const [economiaSetores, setEconomiaSetores] = useState({
-    saldo: 10000000000,
+    saldo: 0,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
     patrimonio: 0,
+      missoes: {
+    concluidas: 0,
+    total: 3,
+    porSetor: {}, // { agricultura: ['id1', 'id2'], comercio: ['id3'] }
+    historico: [], // Array com registros das missões completas
+  },
     despesasImpostoAnual: {
       diaPagarImpostoAnual: false,
       impostoAnualPago: false,
@@ -650,28 +656,98 @@ const DadosEconomyGlobalProvider = ({ children }) => {
   const salvarContrato = (novoContrato) => {
     setContratos((prev) => [...prev, novoContrato]);
   };
+const adicionarMissaoConcluida = useCallback((setor, missaoId, descricao) => {
+  setEconomiaSetores((prev) => {
+    const missoesAtuais = prev.missoes || { concluidas: 0, total: 20, porSetor: {}, historico: [] };
+    
+    // Verifica se já foi concluída
+    const setorMissoes = missoesAtuais.porSetor[setor] || [];
+    if (setorMissoes.includes(missaoId)) return prev;
+    
+    return {
+      ...prev,
+      missoes: {
+        concluidas: (missoesAtuais.concluidas || 0) + 1,
+        total: missoesAtuais.total || 20,
+        porSetor: {
+          ...missoesAtuais.porSetor,
+          [setor]: [...(missoesAtuais.porSetor[setor] || []), missaoId]
+        },
+        historico: [
+          ...(missoesAtuais.historico || []),
+          {
+            id: missaoId,
+            setor,
+            descricao: descricao || `Missão ${missaoId}`,
+            data: new Date().toISOString(),
+            timestamp: Date.now()
+          }
+        ]
+      }
+    };
+  });
+}, []);
 
+// Função para resetar as missões
+const resetarMissoes = useCallback(() => {
+  setEconomiaSetores((prev) => ({
+    ...prev,
+    missoes: {
+      concluidas: 0,
+      total: 20,
+      porSetor: {},
+      historico: []
+    }
+  }));
+}, []);
+
+// Função para definir o total de missões
+const setTotalMissoes = useCallback((total) => {
+  setEconomiaSetores((prev) => ({
+    ...prev,
+    missoes: {
+      ...prev.missoes,
+      total: total
+    }
+  }));
+}, []);
+
+// Função para obter missões por setor
+const getMissoesPorSetor = useCallback((setor) => {
+  return economiaSetores?.missoes?.porSetor?.[setor] || [];
+}, [economiaSetores]);
+
+// Função para verificar se uma missão foi concluída
+const isMissaoConcluida = useCallback((setor, missaoId) => {
+  const missoes = economiaSetores?.missoes?.porSetor?.[setor] || [];
+  return missoes.includes(missaoId);
+}, [economiaSetores]);
   return (
-    <DadosEconomyGlobalContext.Provider
-      value={{
-        economiaSetores,
-        atualizarEco,
-        atualizarEcoDraft,
-        setEconomiaSetores,
-        atualizarDadosEconomy,
-        atualizarEcoProf,
-        atualizarEcoProfSeguro,
-
-        verificarLimites,
-        liberaProximoNivel,
-        salvarContrato,
-        atualizarEcoCallback,
-        atualizarEcoSafely
-      }}
-    >
-      {children}
-    </DadosEconomyGlobalContext.Provider>
-  );
+  <DadosEconomyGlobalContext.Provider
+    value={{
+      economiaSetores,
+      atualizarEco,
+      atualizarEcoDraft,
+      setEconomiaSetores,
+      atualizarDadosEconomy,
+      atualizarEcoProf,
+      atualizarEcoProfSeguro,
+      verificarLimites,
+      liberaProximoNivel,
+      salvarContrato,
+      atualizarEcoCallback,
+      atualizarEcoSafely,
+      // ✅ NOVAS FUNÇÕES
+      adicionarMissaoConcluida,
+      resetarMissoes,
+      setTotalMissoes,
+      getMissoesPorSetor,
+      isMissaoConcluida,
+    }}
+  >
+    {children}
+  </DadosEconomyGlobalContext.Provider>
+);
 };
 
 // Hook para usar o contexto

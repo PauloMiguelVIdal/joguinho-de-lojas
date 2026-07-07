@@ -279,7 +279,7 @@ const Sede = React.memo(({ nomeEmpresa, porte, config = {} }) => {
           border: '1.5px solid rgba(199,159,255,0.6)',
           borderRadius: 10, padding: '4px 12px',
           fontFamily: "'Rajdhani',sans-serif",
-          fontWeight: 800, fontSize: 12, color: '#fff',
+          fontWeight: 800, fontSize: 20, color: '#fff',
           textTransform: 'uppercase',
           boxShadow: '0 0 18px rgba(100,17,217,0.55)',
         }}>

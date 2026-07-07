@@ -74,7 +74,7 @@ export const SystemTurn = memo(() => {
     // ─── STATES ──────────────────────────────────────────────────
     const [mostrarLoading, setMostrarLoading] = useState(false);
     const [pacotesIniciaisAbertos, setPacotesIniciaisAbertos] = useState(false);
-    const [countdown, setCountdown] = useState(30);
+    const [countdown, setCountdown] = useState(45);
     const [diasPendentes, setDiasPendentes] = useState(0);
     const [estaProcessando, setEstaProcessando] = useState(false);
     const [draftAberto, setDraftAberto] = useState(false);
