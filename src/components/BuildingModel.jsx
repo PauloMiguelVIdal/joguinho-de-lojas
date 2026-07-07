@@ -5,7 +5,7 @@
 import React, { useMemo, useState, useEffect, Component } from 'react'
 import { useGLTF, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
-import { resolverModelo } from './buildingModels'
+import { resolverModelo } from './BuildingModels'
 
 // ─────────────────────────────────────────────────────────────
 //  Cache de disponibilidade
