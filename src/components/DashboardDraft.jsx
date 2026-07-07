@@ -5,7 +5,7 @@ import agricultura from "../../public/outrasImagens/setores/agricultura.png";
 import tecnologia from "../../public/outrasImagens/setores/tecnologia.png";
 import comercio from "../../public/outrasImagens/setores/comercio.png";
 import industria from "../../public/outrasImagens/setores/industria.png";
-import imobiliario from "../../public/outrasImagens/setores/imobiliario.png";
+import imobiliario from "/outrasImagens/setores/imobiliario.png";
 import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
 import grafico from "../../public/outrasImagens/setores/grafico.png";
 import gerenciamento from "../../public/outrasImagens/setores/gerenciamento.png";
