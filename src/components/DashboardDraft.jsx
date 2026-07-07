@@ -1731,7 +1731,6 @@ function calcularLucroLiquido(ed, dados, economiaSetor) {
         }
       });
     }
-
     const faturamentoUnitario = ed?.finanças?.faturamentoUnitário || 0;
     const impostoFixo = ed?.finanças?.impostoFixo || 0;
     const impostoFatu = ed?.finanças?.impostoSobreFatu || 0;
