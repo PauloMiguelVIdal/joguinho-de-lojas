@@ -501,10 +501,8 @@ export default function ObjectiveTracker({
       width: larguraContainer,
     }}>
       {/* ─── HEADER ────────────────────────────────────────────── */}
-      <div style={{background: 'linear-gradient(to bottom, #6411D9, #350973)'}} className="flex-shrink-0" style={{
-        padding: paddingHeader,
-        borderBottom: '1px solid rgba(255,255,255,0.1)',
-      }}>
+      <div style={{background: 'linear-gradient(to bottom, #6411D9, #350973)',        padding: paddingHeader,
+        borderBottom: '1px solid rgba(255,255,255,0.1)',}} className="flex-shrink-0">
         <h2 className="text-white font-bold flex items-center gap-2" style={{
           fontSize: fontSizeTitulo,
         }}>
