@@ -82,6 +82,34 @@ const RANKS_MAP = {
 const RANKS_ORDEM = ['C', 'B', 'A', 'S'];
 const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
+// ─── DETECTAR MOBILE ──────────────────────────────────────────────
+function useDeviceDetection() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      const mobile = window.innerHeight < 600;
+      const landscape = window.innerWidth > window.innerHeight && mobile;
+      setIsMobile(mobile);
+      setIsLandscape(landscape);
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    window.addEventListener('orientationchange', () => {
+      setTimeout(checkDevice, 300);
+    });
+
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+      window.removeEventListener('orientationchange', checkDevice);
+    };
+  }, []);
+
+  return { isMobile, isLandscape, isDesktop: !isMobile };
+}
+
 // ============================================================
 // FUNÇÃO PARA OBTER O RANK BASEADO NO DIA
 // ============================================================
@@ -95,19 +123,19 @@ export const getRankPorDia = (dia) => {
 // ============================================================
 // COMPONENTE DE DICAS
 // ============================================================
-const DicasDraft = ({ dicas, titulo = "💡 Dicas" }) => {
+const DicasDraft = ({ dicas, titulo = "💡 Dicas", isMobile }) => {
   if (!dicas || dicas.length === 0) return null;
 
   return (
-    <div className="bg-[#6A00FF]/10 border border-[#6A00FF]/20 rounded-xl p-3 mb-3 flex-shrink-0">
-      <div className="flex items-center gap-2 mb-1.5">
+    <div className={`${isMobile ? 'hidden' : 'block'} bg-[#6A00FF]/10 border border-[#6A00FF]/20 rounded-xl p-2.5 mb-2 flex-shrink-0`}>
+      <div className="flex items-center gap-2 mb-1">
         <span className="text-[#8B00FF] text-sm">💡</span>
-        <span className="text-white/60 text-[10px] font-bold uppercase tracking-wider">{titulo}</span>
+        <span className="text-white/60 text-[9px] font-bold uppercase tracking-wider">{titulo}</span>
       </div>
-      <ul className="space-y-1">
+      <ul className="space-y-0.5">
         {dicas.map((dica, index) => (
-          <li key={index} className="flex items-start gap-2 text-white/70 text-xs">
-            <span className="text-[#8B00FF] text-[10px] mt-0.5">▸</span>
+          <li key={index} className="flex items-start gap-2 text-white/70 text-[11px]">
+            <span className="text-[#8B00FF] text-[9px] mt-0.5">▸</span>
             <span>{dica}</span>
           </li>
         ))}
@@ -126,6 +154,7 @@ export const DraftSystemInicial = ({
   titulo = "📋 Draft Inicial",
   instrucao = "📌 Escolha as suas cartas para começar sua jornada!"
 }) => {
+  const { isMobile, isLandscape, isDesktop } = useDeviceDetection();
   const { dados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
@@ -149,6 +178,19 @@ export const DraftSystemInicial = ({
     "🎯 Concentre-se no setor que você escolheu para desbloquear recompensas mais rápido.",
     "🏆 Cartas de Rank S são raras e valiosas — priorize-as quando aparecerem!"
   ];
+
+  // ── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
+  const gridCols = isMobile ? (isLandscape ? 'grid-cols-3' : 'grid-cols-3') : 'grid-cols-3';
+  const cardPadding = isMobile ? 'p-2' : 'p-2.5';
+  const gapCards = isMobile ? 'gap-2' : 'gap-3';
+  const fontSizeTitulo = isMobile ? 'text-base' : 'text-xl';
+  const fontSizeInstrucao = isMobile ? 'text-xs' : 'text-base';
+  const paddingModal = isMobile ? 'p-2.5' : 'p-4';
+  const larguraHistorico = isMobile ? (isLandscape ? '140px' : '0px') : '200px';
+  const mostrarHistorico = isDesktop || isLandscape;
+  const maxWidthModal = isMobile ? '98vw' : '1100px';
+  const maxHeightModal = isMobile ? '98vh' : '92vh';
+  const tamanhoBotao = isMobile ? 'py-1.5 text-[11px]' : 'py-2 text-sm';
 
   // ── FUNÇÕES AUXILIARES ─────────────────────────────────────
   const shuffleArray = (array) => {
@@ -315,18 +357,25 @@ export const DraftSystemInicial = ({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 30 }}
         transition={{ duration: 0.3, type: "spring", stiffness: 120 }}
-        className="relative w-[95vw] max-w-[1400px] max-h-[92vh] bg-[#1a0a3b] rounded-2xl border border-white/10 shadow-2xl p-6 overflow-hidden flex flex-col"
+        className="relative bg-[#1a0a3b] rounded-2xl border border-white/10 shadow-2xl overflow-hidden flex flex-col"
+        style={{
+          width: '96vw',
+          maxWidth: maxWidthModal,
+          maxHeight: maxHeightModal,
+          padding: isMobile ? '10px' : '16px',
+        }}
       >
         {/* ─── HEADER ── */}
-        <div className="flex items-center justify-between mb-3 flex-shrink-0">
-          <div>
-            <h2 className="text-xl font-bold text-white">
+        <div className="flex items-center justify-between mb-2 flex-shrink-0">
+          <div className="min-w-0">
+            <h2 className={`${fontSizeTitulo} font-bold text-white truncate`}>
               {draftFinalizado ? "🎉 Draft Inicial Concluído!" : titulo}
             </h2>
             {!draftFinalizado && (
-              <p className="text-white/50 text-sm mt-1">
-                Rodada {rodadaAtual} de {totalRodadas} • 
-                <span style={{ color: getRankInfo(tipoRodadaAtual).cor }} className="ml-1">
+              <p className="text-white/50 text-xs mt-0.5 flex flex-wrap items-center gap-1">
+                <span>Rodada {rodadaAtual} de {totalRodadas}</span>
+                <span className="text-white/20">•</span>
+                <span style={{ color: getRankInfo(tipoRodadaAtual).cor }}>
                   {getRankInfo(tipoRodadaAtual).emoji} {getRankInfo(tipoRodadaAtual).label}
                 </span>
               </p>
@@ -335,21 +384,21 @@ export const DraftSystemInicial = ({
         </div>
 
         {/* ─── DICAS ── */}
-        {!draftFinalizado && <DicasDraft dicas={dicasIniciais} titulo="💡 Dicas para o Draft Inicial" />}
+        <DicasDraft dicas={dicasIniciais} titulo="💡 Dicas para o Draft Inicial" isMobile={isMobile} />
 
         {/* ─── CONTEÚDO PRINCIPAL ── */}
-        <div className="flex-1 flex gap-4 min-h-0">
+        <div className="flex-1 flex gap-3 min-h-0">
           {/* ─── COLUNA ESQUERDA: OPÇÕES ── */}
           <div className="flex-1 flex flex-col min-w-0">
-            <div className="text-center mb-3 flex-shrink-0">
-              <p className="text-white/70 text-base font-medium">{instrucao}</p>
-              <p className="text-white/30 text-xs mt-1">
+            <div className="text-center mb-2 flex-shrink-0">
+              <p className={`text-white/70 ${fontSizeInstrucao} font-medium`}>{instrucao}</p>
+              <p className="text-white/30 text-[10px] mt-0.5">
                 {cartasEscolhidas.filter(c => c.tipo === 'C').length} Classe C • {cartasEscolhidas.filter(c => c.tipo === 'B').length} Classe B
               </p>
             </div>
 
             <div className="flex-1 overflow-y-auto scrollbar-custom pr-1">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-2">
+              <div className={`grid grid-cols-1 ${gridCols} ${gapCards} pb-1`}>
                 {opcoes.map((carta, index) => {
                   const isSelecionada = opcaoSelecionada === carta;
                   const isDesabilitada = animando || !!opcaoSelecionada;
@@ -359,7 +408,7 @@ export const DraftSystemInicial = ({
                   return (
                     <div 
                       key={index} 
-                      className={`flex flex-col items-center gap-2 bg-white/5 rounded-xl p-3 border transition-all duration-300 ${
+                      className={`flex flex-col items-center bg-white/5 rounded-xl ${cardPadding} border transition-all duration-300 ${
                         isSelecionada 
                           ? 'border-[#34d399]/50 shadow-lg shadow-[#34d399]/20' 
                           : 'border-white/5 hover:border-white/20'
@@ -386,7 +435,7 @@ export const DraftSystemInicial = ({
                       <button
                         onClick={() => !isDesabilitada && selecionarCarta(carta)}
                         disabled={isDesabilitada}
-                        className={`w-full py-2 rounded-lg font-bold text-sm transition-all ${
+                        className={`w-full ${tamanhoBotao} rounded-lg font-bold transition-all ${
                           isSelecionada 
                             ? 'bg-[#34d399] text-[#1a1a1a] shadow-lg shadow-[#34d399]/30'
                             : isDesabilitada
@@ -404,56 +453,58 @@ export const DraftSystemInicial = ({
           </div>
 
           {/* ─── COLUNA DIREITA: HISTÓRICO ── */}
-          <div className="w-[280px] flex-shrink-0 bg-white/5 rounded-xl p-3 flex flex-col border border-white/5">
-            <h3 className="text-white font-bold text-center text-xs uppercase tracking-wider mb-2 border-b border-white/5 pb-2">
-              📜 Cartas Escolhidas ({cartasEscolhidas.length})
-            </h3>
+          {mostrarHistorico && (
+            <div className={`flex-shrink-0 bg-white/5 rounded-xl p-2 flex flex-col border border-white/5`} style={{ width: larguraHistorico }}>
+              <h3 className="text-white font-bold text-center text-[10px] uppercase tracking-wider mb-1.5 border-b border-white/5 pb-1.5">
+                📜 Cartas Escolhidas ({cartasEscolhidas.length})
+              </h3>
 
-            <div className="flex-1 overflow-y-auto scrollbar-custom space-y-1.5 pr-1">
-              {cartasEscolhidas.length === 0 ? (
-                <div className="text-white/20 text-center text-xs mt-4">
-                  Nenhuma carta escolhida
-                </div>
-              ) : (
-                cartasEscolhidas.map((carta, idx) => {
-                  const info = getSetorDaCarta(carta.nome);
-                  const rankInfo = getRankInfo(carta.tipo);
-                  return (
-                    <div
-                      key={idx}
-                      className="p-2 rounded-lg flex items-center gap-2 transition-all border"
-                      style={{
-                        backgroundColor: `${rankInfo.cor}10`,
-                        borderColor: `${rankInfo.cor}20`
-                      }}
-                    >
-                      <div className="w-7 h-7 rounded-lg bg-black/30 flex items-center justify-center flex-shrink-0">
-                        {info && (
-                          <img
-                            src={`/imagens/${carta.nome}.png`}
-                            alt={carta.nome}
-                            className="w-5 h-5 object-contain"
-                            onError={(e) => e.target.style.display = 'none'}
-                          />
-                        )}
+              <div className="flex-1 overflow-y-auto scrollbar-custom space-y-1 pr-1">
+                {cartasEscolhidas.length === 0 ? (
+                  <div className="text-white/20 text-center text-[10px] mt-2">
+                    Nenhuma carta escolhida
+                  </div>
+                ) : (
+                  cartasEscolhidas.map((carta, idx) => {
+                    const info = getSetorDaCarta(carta.nome);
+                    const rankInfo = getRankInfo(carta.tipo);
+                    return (
+                      <div
+                        key={idx}
+                        className="p-1.5 rounded-lg flex items-center gap-1.5 transition-all border"
+                        style={{
+                          backgroundColor: `${rankInfo.cor}10`,
+                          borderColor: `${rankInfo.cor}20`
+                        }}
+                      >
+                        <div className="w-6 h-6 rounded-lg bg-black/30 flex items-center justify-center flex-shrink-0">
+                          {info && (
+                            <img
+                              src={`/imagens/${carta.nome}.png`}
+                              alt={carta.nome}
+                              className="w-4 h-4 object-contain"
+                              onError={(e) => e.target.style.display = 'none'}
+                            />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white text-[10px] font-bold truncate">
+                            {carta.nome}
+                          </p>
+                          <p className="text-white/30 text-[8px]">
+                            {rankInfo.emoji} {rankInfo.label}
+                          </p>
+                        </div>
+                        <span className="text-[8px] font-bold px-1 py-0.5 rounded bg-white/5 text-white/30">
+                          #{idx + 1}
+                        </span>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-white text-[11px] font-bold truncate">
-                          {carta.nome}
-                        </p>
-                        <p className="text-white/30 text-[9px]">
-                          {rankInfo.emoji} {rankInfo.label}
-                        </p>
-                      </div>
-                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/5 text-white/30">
-                        #{idx + 1}
-                      </span>
-                    </div>
-                  );
-                })
-              )}
+                    );
+                  })
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </motion.div>
     </div>
@@ -471,6 +522,7 @@ export const DraftSystemContinuo = ({
   titulo = "📋 Draft de Edifícios",
   instrucao = "📌 Escolha a carta que mais se adequa à sua estratégia."
 }) => {
+  const { isMobile, isLandscape, isDesktop } = useDeviceDetection();
   const { dados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
@@ -495,6 +547,17 @@ export const DraftSystemContinuo = ({
     "🏅 Ranks mais altos (S > A > B > C) geralmente trazem melhores retornos no longo prazo.",
     "🔄 Diversificar seu portfólio pode gerar sinergias inesperadas entre edifícios diferentes."
   ];
+
+  // ── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
+  const gridCols = isMobile ? (isLandscape ? 'grid-cols-3' : 'grid-cols-3') : 'grid-cols-3';
+  const cardPadding = isMobile ? 'p-2' : 'p-2.5';
+  const gapCards = isMobile ? 'gap-2' : 'gap-3';
+  const fontSizeTitulo = isMobile ? 'text-base' : 'text-xl';
+  const fontSizeInstrucao = isMobile ? 'text-xs' : 'text-base';
+  const paddingModal = isMobile ? 'p-2.5' : 'p-4';
+  const maxWidthModal = isMobile ? '98vw' : '1100px';
+  const maxHeightModal = isMobile ? '98vh' : '92vh';
+  const tamanhoBotao = isMobile ? 'py-1.5 text-[11px]' : 'py-2 text-sm';
 
   // ── FUNÇÕES AUXILIARES ─────────────────────────────────────
   const shuffleArray = (array) => {
@@ -665,15 +728,21 @@ export const DraftSystemContinuo = ({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 30 }}
         transition={{ duration: 0.3, type: "spring", stiffness: 120 }}
-        className="relative w-[95vw] max-w-[1400px] max-h-[92vh] bg-[#1a0a3b] rounded-2xl border border-white/10 shadow-2xl p-6 overflow-hidden flex flex-col"
+        className="relative bg-[#1a0a3b] rounded-2xl border border-white/10 shadow-2xl overflow-hidden flex flex-col"
+        style={{
+          width: '96vw',
+          maxWidth: maxWidthModal,
+          maxHeight: maxHeightModal,
+          padding: isMobile ? '10px' : '16px',
+        }}
       >
         {/* ─── HEADER ── */}
-        <div className="flex items-center justify-between mb-3 flex-shrink-0">
-          <div>
-            <h2 className="text-xl font-bold text-white">{titulo}</h2>
-            <div className="flex items-center gap-2 mt-1">
+        <div className="flex items-center justify-between mb-2 flex-shrink-0">
+          <div className="min-w-0">
+            <h2 className={`${fontSizeTitulo} font-bold text-white truncate`}>{titulo}</h2>
+            <div className="flex items-center flex-wrap gap-1 mt-0.5">
               <span 
-                className="px-3 py-0.5 rounded-full text-xs font-bold"
+                className="px-2 py-0.5 rounded-full text-[10px] font-bold"
                 style={{
                   backgroundColor: `${getRankInfo(tipoRodadaAtual).cor}25`,
                   color: getRankInfo(tipoRodadaAtual).cor,
@@ -682,32 +751,24 @@ export const DraftSystemContinuo = ({
               >
                 {getRankInfo(tipoRodadaAtual).emoji} {getRankInfo(tipoRodadaAtual).label}
               </span>
-              <span className="text-white/30 text-xs">
-                {getRankInfo(tipoRodadaAtual).desc}
-              </span>
-              <span className="text-white/20 text-xs">•</span>
-              <span className="text-white/20 text-xs">Dia {diaAtual}</span>
+              <span className="text-white/30 text-[10px] hidden sm:inline">{getRankInfo(tipoRodadaAtual).desc}</span>
+              <span className="text-white/20 text-[10px]">•</span>
+              <span className="text-white/20 text-[10px]">Dia {diaAtual}</span>
             </div>
           </div>
-          <button
-            onClick={onClose}
-            className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center"
-          >
-            <img src={fechar} alt="Fechar" className="w-5 h-5 invert opacity-60 hover:opacity-100" />
-          </button>
         </div>
 
         {/* ─── DICAS ── */}
-        <DicasDraft dicas={dicasContinuas} titulo="💡 Dicas para o Draft Contínuo" />
+        <DicasDraft dicas={dicasContinuas} titulo="💡 Dicas para o Draft Contínuo" isMobile={isMobile} />
 
         {/* ─── TEXTO DE INSTRUÇÃO ── */}
-        <div className="text-center mb-3 flex-shrink-0">
-          <p className="text-white/70 text-base font-medium">{instrucao}</p>
+        <div className="text-center mb-2 flex-shrink-0">
+          <p className={`text-white/70 ${fontSizeInstrucao} font-medium`}>{instrucao}</p>
         </div>
 
         {/* ─── OPÇÕES EM CARDS ── */}
         <div className="flex-1 overflow-y-auto scrollbar-custom pr-1">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-2">
+          <div className={`grid grid-cols-1 ${gridCols} ${gapCards} pb-1`}>
             {opcoes.map((carta, index) => {
               const isSelecionada = opcaoSelecionada === carta;
               const isDesabilitada = animando || !!opcaoSelecionada;
@@ -717,7 +778,7 @@ export const DraftSystemContinuo = ({
               return (
                 <div 
                   key={index} 
-                  className={`flex flex-col items-center gap-2 bg-white/5 rounded-xl p-3 border transition-all duration-300 ${
+                  className={`flex flex-col items-center bg-white/5 rounded-xl ${cardPadding} border transition-all duration-300 ${
                     isSelecionada 
                       ? 'border-[#34d399]/50 shadow-lg shadow-[#34d399]/20' 
                       : 'border-white/5 hover:border-white/20'
@@ -744,7 +805,7 @@ export const DraftSystemContinuo = ({
                   <button
                     onClick={() => !isDesabilitada && selecionarCarta(carta)}
                     disabled={isDesabilitada}
-                    className={`w-full py-2 rounded-lg font-bold text-sm transition-all ${
+                    className={`w-full ${tamanhoBotao} rounded-lg font-bold transition-all ${
                       isSelecionada 
                         ? 'bg-[#34d399] text-[#1a1a1a] shadow-lg shadow-[#34d399]/30'
                         : isDesabilitada
@@ -761,7 +822,7 @@ export const DraftSystemContinuo = ({
         </div>
 
         {/* ─── INDICADOR DE PROGRESSO ── */}
-        <div className="flex-shrink-0 mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-white/30 text-xs">
+        <div className="flex-shrink-0 mt-2 pt-2 border-t border-white/5 flex items-center justify-between text-white/30 text-[10px] flex-wrap gap-1">
           <span>{cartasEscolhidas.length} carta(s) escolhida(s)</span>
           <span>Dia {diaAtual}</span>
         </div>
@@ -810,7 +871,7 @@ export const useDraftContinuo = () => {
 // ============================================================
 const styles = `
   .scrollbar-custom::-webkit-scrollbar {
-    width: 4px;
+    width: 3px;
   }
   .scrollbar-custom::-webkit-scrollbar-track {
     background: rgba(255,255,255,0.05);

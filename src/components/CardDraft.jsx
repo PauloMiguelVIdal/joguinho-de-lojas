@@ -285,10 +285,35 @@ const MiniPowerUpResumo = memo(({ setor, index, setorInfo }) => {
   );
 });
 
+// ─── DETECTAR MOBILE ──────────────────────────────────────────
+function useDeviceDetection() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      const mobile = window.innerHeight < 600;
+      const landscape = window.innerWidth > window.innerHeight && mobile;
+      setIsMobile(mobile);
+      setIsLandscape(landscape);
+    };
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    window.addEventListener('orientationchange', () => setTimeout(checkDevice, 300));
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+      window.removeEventListener('orientationchange', checkDevice);
+    };
+  }, []);
+
+  return { isMobile, isLandscape, isDesktop: !isMobile };
+}
+
 // ─── COMPONENTE PRINCIPAL ──────────────────────────────────────
 export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
   const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
+  const { isMobile, isLandscape, isDesktop } = useDeviceDetection();
 
   // ─── VALIDAÇÃO INICIAL ──────────────────────────────────────
   if (!dados[setor] || !dados[setor].edificios || !dados[setor].edificios[index]) {
@@ -559,6 +584,22 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
     return { borderRadius: "20px" };
   }, [isProducao, isEstoque, isVenda, isPassiva, setorInfo]);
 
+  // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
+  const cardWidth = isMobile ? '160px' : (isLandscape ? '180px' : '220px');
+  const cardHeight = isMobile ? '240px' : (isLandscape ? '280px' : '320px');
+  const fontSizeNome = isMobile ? '8px' : (isLandscape ? '9px' : '10px');
+  const fontSizeValor = isMobile ? '12px' : (isLandscape ? '14px' : '15px');
+  const fontSizeLabel = isMobile ? '6px' : (isLandscape ? '6px' : '7px');
+  const paddingCard = isMobile ? '4px' : (isLandscape ? '6px' : '8px');
+  const gapCard = isMobile ? '2px' : (isLandscape ? '3px' : '4px');
+  const badgeSize = isMobile ? '36px' : (isLandscape ? '42px' : '50px');
+  const badgeFontSize = isMobile ? '14px' : (isLandscape ? '17px' : '20px');
+  const powerUpButtonSize = isMobile ? '28px' : (isLandscape ? '32px' : '36px');
+  const fatuBoxHeight = isMobile ? '32px' : (isLandscape ? '38px' : '42px');
+  
+  // ─── MOBILE: IMAGEM MAIOR ──────────────────────────────────
+  const imageHeight = isMobile ? '50%' : '60%';
+
   // ─── MODAL POWERUP ──────────────────────────────────────────
   if (modalPowerup) {
     return (
@@ -696,15 +737,15 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
           animate={{ opacity: 1, scale: 1 }} 
           exit={{ opacity: 0, scale: 0.8 }} 
           transition={{ duration: 0.3, ease: "easeOut" }} 
-          className="w-[550px] h-[200px] bg-[#350973] rounded-[20px] z-20 flex-col flex justify-between"
+          className="w-[90vw] max-w-[550px] h-[200px] bg-[#350973] rounded-[20px] z-20 flex-col flex justify-between p-4"
         >
           <button 
-            className="bg-laranja relative top-[-20px] right-[-530px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95" 
+            className="bg-laranja relative top-[-20px] right-[-85%] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95" 
             onClick={() => { buttonCloseAudio(); atualizarDados("modalEditável", { ...dados.modalEditável, estadoModal: false }); }}
           >
             <img src={fechar} alt="" className="w-[60%]" />
           </button>
-          <h2 className="text-white text-center text-[25px] fonteBold mt-[20px]">Qual o novo nome do edifício?</h2>
+          <h2 className="text-white text-center text-[20px] fonteBold mt-[10px]">Qual o novo nome do edifício?</h2>
           <div className="w-[80%] h-[10px] bg-gradient-to-l from-laranja to-roxo flex rounded-[5px] relative m-auto"></div>
           <div className="flex justify-center w-full items-center">
             <input 
@@ -712,11 +753,11 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
               placeholder="Nome edifício" 
               onChange={(e) => setInputNome(e.target.value.toUpperCase())} 
               value={inputNome} 
-              className="placeholder:text-white text-white placeholder:opacity-70 z-50 text-[25px] fonteBold w-[100%] pl-[15px] h-[60px] bg-[#290064] bg-opacity-[90%] rounded-[17.50px]" 
+              className="placeholder:text-white text-white placeholder:opacity-70 z-50 text-[20px] fonteBold w-[100%] pl-[15px] h-[50px] bg-[#290064] bg-opacity-[90%] rounded-[17.50px]" 
             />
             <button 
               onClick={editarNomeEditavel} 
-              className="flex justify-center items-center h-[60px] w-[60px] ml-[10px] aspect-square text-[20px] fonteBold bg-laranja rounded-[20px] text-white hover:scale-105 hover:bg-orange-600 z-50"
+              className="flex justify-center items-center h-[50px] w-[50px] ml-[10px] aspect-square text-[20px] fonteBold bg-laranja rounded-[20px] text-white hover:scale-105 hover:bg-orange-600 z-50"
             >
               ✓
             </button>
@@ -727,14 +768,20 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
   }
 
   // ════════════════════════════════════════
-  //  CARD PRINCIPAL
+  //  CARD PRINCIPAL - RESPONSIVO
   // ════════════════════════════════════════
   return (
     <motion.div
-      style={{ background: getGradientByLevel, ...getBordaDinamica }}
-      className="w-[220px] h-[320px] rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
+      style={{ 
+        background: getGradientByLevel, 
+        ...getBordaDinamica,
+        width: cardWidth,
+        height: cardHeight,
+        padding: paddingCard,
+      }}
+      className="rounded-[20px] flex flex-col justify-center items-center shadow-lg perspective"
       initial={{ scale: 1 }}
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.03 }}
       transition={{ type: "spring", stiffness: 100, damping: 10 }}
     >
       <motion.div
@@ -743,11 +790,14 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
         transition={{ duration: 0.5, ease: "easeInOut" }}
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Badge categoria */}
-        <div className="absolute bottom-0 right-0 w-[50px] h-[50px] z-20 flex items-center justify-center rounded-tl-2xl rounded-br-2xl">
+        {/* Badge categoria - responsivo */}
+        <div className="absolute bottom-0 right-0 z-20 flex items-center justify-center rounded-tl-2xl rounded-br-2xl" style={{
+          width: badgeSize,
+          height: badgeSize,
+        }}>
           <div className="absolute inset-0 rounded-tl-2xl rounded-br-2xl" style={{ backgroundColor: setorInfo.cor3, filter: "brightness(0.8)", boxShadow: "-2px -2px 10px rgba(0,0,0,0.3)" }} />
-          <div className="w-[50px] h-[50px] flex items-center justify-center rounded-tl-2xl rounded-br-2xl" style={{ backgroundColor: "rgba(0,0,0,0.2)", backdropFilter: "blur(4px)" }}>
-            <h1 className="text-white text-[20px] fonteBold">{quantidadeAtivo}</h1>
+          <div className="w-full h-full flex items-center justify-center rounded-tl-2xl rounded-br-2xl" style={{ backgroundColor: "rgba(0,0,0,0.2)", backdropFilter: "blur(4px)" }}>
+            <h1 className="text-white font-bold" style={{ fontSize: badgeFontSize }}>{quantidadeAtivo}</h1>
           </div>
         </div>
 
@@ -758,134 +808,288 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
         >
           <div className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center">
 
-            {/* HEADER com editar nome */}
-            <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[22%] rounded-[10px] flex justify-between drop-shadow-xs">
-              <div style={{ background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
-                <img className="h-[70%]" src={getImageUrl(nomeAtivo)} alt="" loading="lazy" />
+            {/* ─── HEADER COM ÍCONE + NOME ──────────────────────── */}
+            {/* MOBILE: OCULTAR, DESKTOP: MOSTRAR */}
+            {!isMobile && (
+              <div style={{ 
+                backgroundColor: setorInfo.cor1,
+                height: '22%',
+              }} className="w-full rounded-[10px] flex justify-between drop-shadow-xs">
+                <div style={{ 
+                  background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)`,
+                  width: '35%',
+                  height: '100%',
+                  aspectRatio: '1/1',
+                  borderRadius: '10px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  <img className="h-[60%]" src={getImageUrl(nomeAtivo)} alt="" loading="lazy" />
+                </div>
+                <div className="flex p-[4px] justify-center items-center flex-1">
+                  <h1 className="text-white fonteBold text-center leading-tight" style={{ fontSize: fontSizeNome }}>
+                    {nomeEditavel}
+                  </h1>
+                </div>
               </div>
-              <div className="flex p-[6px] justify-center items-center flex-1">
-                <h1 className="text-white fonteBold text-center text-[10px] leading-tight">
-                  {nomeEditavel}
-                </h1>
-              </div>
-            </div>
+            )}
 
-            {/* CORPO */}
-            <div className="w-full flex flex-col justify-around gap-[4px]" style={{ flex: 1, padding: "4px 0" }}>
-              <div className="flex gap-[4px]" style={{ minHeight: 42 }}>
-                <div style={{ flex: 1, background: "rgba(0,0,0,.28)", borderRadius: 7, padding: "5px 8px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                  <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>Fatu. mensal</div>
-                  <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 15, fontWeight: 700, color: "#fff", lineHeight: 1 }}>
-                    {formatarNumero(fatuMensal)} 
+            {/* ─── CONTEÚDO ──────────────────────────────────────── */}
+            {isMobile ? (
+              // ─── MOBILE: IMAGEM GRANDE + NOME ABAIXO ──────────
+              <>
+                <div className="w-full flex items-center justify-center" style={{ 
+                  height: '45%',
+                  padding: '4px 0',
+                }}>
+                  <div style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'rgba(0,0,0,0.15)',
+                    borderRadius: '8px',
+                  }}>
+                    <img
+                      src={getImageUrl(nomeAtivo)}
+                      alt={nomeAtivo}
+                      style={{
+                        maxWidth: '80%',
+                        maxHeight: '80%',
+                        objectFit: 'contain',
+                        filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))',
+                      }}
+                      loading="lazy"
+                      onError={(e) => e.target.src = PróximoImg}
+                    />
                   </div>
                 </div>
-                <div style={{ flex: 0.7, background: "rgba(0,0,0,.28)", borderRadius: 7, padding: "5px 6px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                  <div style={{ fontSize: 7, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>ROI</div>
-                  <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 15, fontWeight: 700, color: rentabilidade >= 0 ? "#7aff9a" : "#ff9090", lineHeight: 1 }}>
-                    {rentabilidade.toFixed(0)}%
-                  </div>
-                </div>
-                {/* Botão PowerUp */}
-                <div
-                  style={{
-                    width: 36, borderRadius: 7, cursor: "pointer",
-                    background: powerUpSelecionado === "powerUpNv3"
-                      ? "linear-gradient(135deg,#7a5500,#FFD700)"
-                      : powerUpSelecionado === "powerUpNv2"
-                      ? "linear-gradient(135deg,#350973,#8F5ADA)"
-                      : `linear-gradient(135deg,${setorInfo.cor2},${setorInfo.cor3})`,
-                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2
-                  }}
-                  onClick={openModalPowerUps}
-                  className="hover:scale-105 transition-transform"
-                >
-                  <img src={PróximoImg} style={{ height: 12, transform: "rotate(270deg)", opacity: .9 }} alt="" />
-                  <span style={{ fontSize: 8, fontWeight: 700, color: "#fff" }}>
-                    {powerUpSelecionado === "powerUpNv3" ? "NV3" : powerUpSelecionado === "powerUpNv2" ? "NV2" : "NV1"}
+
+                {/* NOME ABAIXO DA IMAGEM */}
+                <div className="w-full text-center" style={{ padding: '2px 0' }}>
+                  <span style={{
+                    fontFamily: "'Rajdhani',sans-serif",
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    color: '#FFFFFF',
+                    textShadow: '0 0 20px rgba(0,0,0,0.5)',
+                    letterSpacing: '0.02em',
+                  }}>
+                    {nomeEditavel}
                   </span>
                 </div>
-                {/* Botão Finanças */}
-                <div
-                  style={{ width: 36, borderRadius: 7, backgroundColor: setorInfo.cor1, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
-                  onClick={() => { handleShow("finançasEd"); handleFlip(); }}
-                  className="hover:scale-105 transition-transform"
-                >
-                  <img src={DolarImg} style={{ height: "55%" }} alt="" />
-                </div>
-              </div>
-            </div>
-            
-            <MiniPowerUpResumo setor={setor} index={index} setorInfo={setorInfo} />
 
-            <div className="w-full flex flex-col gap-[4px]">
-              <div className="flex gap-[5px] items-center" style={{ height: 24 }}>
-                <div className="flex items-center gap-2 mt-2 ml-1">
-                  {acumuladorPowerUpAumFatuFornece > 0 || acumuladorPowerUpRedCustoFornece > 0 ? (
-                    <>
-                      {acumuladorPowerUpAumFatuFornece > 0 && (
-                        <span style={{
-                          fontSize: 16,
-                          fontWeight: 700,
-                          color: "#7aff9a",
-                          background: "rgba(0,0,0,0.3)",
-                          padding: "0 6px",
-                          borderRadius: 3,
-                          minWidth: "32px",
-                          textAlign: "center",
-                        }}>
-                          ↑{acumuladorPowerUpAumFatuFornece}%
-                        </span>
-                      )}
-                      {acumuladorPowerUpRedCustoFornece > 0 && (
-                        <span style={{
-                          fontSize: 16,
-                          fontWeight: 700,
-                          color: "#ff9090",
-                          background: "rgba(0,0,0,0.3)",
-                          padding: "0 6px",
-                          borderRadius: 3,
-                          minWidth: "32px",
-                          textAlign: "center",
-                        }}>
-                          ↓{acumuladorPowerUpRedCustoFornece}%
-                        </span>
-                      )}
-                    </>
-                  ) : (
+                {/* DADOS FINANCEIROS */}
+                <div className="w-full flex gap-[4px]" style={{ padding: '2px 0' }}>
+                  <div style={{ flex: 1, background: "rgba(0,0,0,.28)", borderRadius: 6, padding: '2px 4px', display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div style={{ fontSize: '5px', fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>Fatu.</div>
+                    <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: '10px', fontWeight: 700, color: "#fff", lineHeight: 1 }}>
+                      {formatarNumero(fatuMensal)} 
+                    </div>
+                  </div>
+                  <div style={{ flex: 0.7, background: "rgba(0,0,0,.28)", borderRadius: 6, padding: '2px 4px', display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div style={{ fontSize: '5px', fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>ROI</div>
+                    <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: '10px', fontWeight: 700, color: rentabilidade >= 0 ? "#7aff9a" : "#ff9090", lineHeight: 1 }}>
+                      {rentabilidade.toFixed(0)}%
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      width: '28px',
+                      borderRadius: 6,
+                      cursor: "pointer",
+                      background: powerUpSelecionado === "powerUpNv3"
+                        ? "linear-gradient(135deg,#7a5500,#FFD700)"
+                        : powerUpSelecionado === "powerUpNv2"
+                        ? "linear-gradient(135deg,#350973,#8F5ADA)"
+                        : `linear-gradient(135deg,${setorInfo.cor2},${setorInfo.cor3})`,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 0
+                    }}
+                    onClick={openModalPowerUps}
+                    className="hover:scale-105 transition-transform"
+                  >
+                    <img src={PróximoImg} style={{ height: 8, transform: "rotate(270deg)", opacity: .9 }} alt="" />
+                    <span style={{ fontSize: 5, fontWeight: 700, color: "#fff" }}>
+                      {powerUpSelecionado === "powerUpNv3" ? "NV3" : powerUpSelecionado === "powerUpNv2" ? "NV2" : "NV1"}
+                    </span>
+                  </div>
+                  <div
+                    style={{ width: '28px', borderRadius: 6, backgroundColor: setorInfo.cor1, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                    onClick={() => { handleShow("finançasEd"); handleFlip(); }}
+                    className="hover:scale-105 transition-transform"
+                  >
+                    <img src={DolarImg} style={{ height: '45%' }} alt="" />
+                  </div>
+                </div>
+
+                {/* POWERUP INDICADORES */}
+                <div className="w-full flex gap-[2px] items-center justify-center" style={{ height: 14 }}>
+                  {acumuladorPowerUpAumFatuFornece > 0 && (
                     <span style={{
-                      fontSize: 10,
+                      fontSize: 8,
+                      fontWeight: 700,
+                      color: "#7aff9a",
+                      background: "rgba(0,0,0,0.3)",
+                      padding: "0 4px",
+                      borderRadius: 2,
+                    }}>
+                      ↑{acumuladorPowerUpAumFatuFornece}%
+                    </span>
+                  )}
+                  {acumuladorPowerUpRedCustoFornece > 0 && (
+                    <span style={{
+                      fontSize: 8,
+                      fontWeight: 700,
+                      color: "#ff9090",
+                      background: "rgba(0,0,0,0.3)",
+                      padding: "0 4px",
+                      borderRadius: 2,
+                    }}>
+                      ↓{acumuladorPowerUpRedCustoFornece}%
+                    </span>
+                  )}
+                  {acumuladorPowerUpAumFatuFornece === 0 && acumuladorPowerUpRedCustoFornece === 0 && (
+                    <span style={{
+                      fontSize: 6,
                       fontWeight: 700,
                       color: "rgba(255,255,255,0.25)",
                       fontStyle: "italic",
                     }}>
-                      Não Fornece Powerup
+                      Sem powerups
                     </span>
                   )}
                 </div>
-              </div>
-            </div>
+              </>
+            ) : (
+              // ─── DESKTOP: LAYOUT ORIGINAL ────────────────────
+              <>
+                <div className="w-full flex flex-col justify-around" style={{ flex: 1, padding: '4px 0', gap: gapCard }}>
+                  <div className="flex gap-[4px]" style={{ minHeight: fatuBoxHeight }}>
+                    <div style={{ flex: 1, background: "rgba(0,0,0,.28)", borderRadius: 7, padding: '5px 8px', display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                      <div style={{ fontSize: fontSizeLabel, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>Fatu. mensal</div>
+                      <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: fontSizeValor, fontWeight: 700, color: "#fff", lineHeight: 1 }}>
+                        {formatarNumero(fatuMensal)} 
+                      </div>
+                    </div>
+                    <div style={{ flex: 0.7, background: "rgba(0,0,0,.28)", borderRadius: 7, padding: '5px 6px', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                      <div style={{ fontSize: fontSizeLabel, fontWeight: 700, textTransform: "uppercase", color: "rgba(255,255,255,.38)" }}>ROI</div>
+                      <div style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: fontSizeValor, fontWeight: 700, color: rentabilidade >= 0 ? "#7aff9a" : "#ff9090", lineHeight: 1 }}>
+                        {rentabilidade.toFixed(0)}%
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        width: powerUpButtonSize,
+                        borderRadius: 7,
+                        cursor: "pointer",
+                        background: powerUpSelecionado === "powerUpNv3"
+                          ? "linear-gradient(135deg,#7a5500,#FFD700)"
+                          : powerUpSelecionado === "powerUpNv2"
+                          ? "linear-gradient(135deg,#350973,#8F5ADA)"
+                          : `linear-gradient(135deg,${setorInfo.cor2},${setorInfo.cor3})`,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 1
+                      }}
+                      onClick={openModalPowerUps}
+                      className="hover:scale-105 transition-transform"
+                    >
+                      <img src={PróximoImg} style={{ height: 12, transform: "rotate(270deg)", opacity: .9 }} alt="" />
+                      <span style={{ fontSize: 8, fontWeight: 700, color: "#fff" }}>
+                        {powerUpSelecionado === "powerUpNv3" ? "NV3" : powerUpSelecionado === "powerUpNv2" ? "NV2" : "NV1"}
+                      </span>
+                    </div>
+                    <div
+                      style={{ width: powerUpButtonSize, borderRadius: 7, backgroundColor: setorInfo.cor1, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                      onClick={() => { handleShow("finançasEd"); handleFlip(); }}
+                      className="hover:scale-105 transition-transform"
+                    >
+                      <img src={DolarImg} style={{ height: '55%' }} alt="" />
+                    </div>
+                  </div>
+                </div>
+
+                <MiniPowerUpResumo setor={setor} index={index} setorInfo={setorInfo} />
+
+                <div className="w-full flex flex-col gap-[4px]">
+                  <div className="flex gap-[5px] items-center" style={{ height: 24 }}>
+                    <div className="flex items-center gap-1 mt-1 ml-1">
+                      {acumuladorPowerUpAumFatuFornece > 0 || acumuladorPowerUpRedCustoFornece > 0 ? (
+                        <>
+                          {acumuladorPowerUpAumFatuFornece > 0 && (
+                            <span style={{
+                              fontSize: 16,
+                              fontWeight: 700,
+                              color: "#7aff9a",
+                              background: "rgba(0,0,0,0.3)",
+                              padding: "0 6px",
+                              borderRadius: 3,
+                              minWidth: "32px",
+                              textAlign: "center",
+                            }}>
+                              ↑{acumuladorPowerUpAumFatuFornece}%
+                            </span>
+                          )}
+                          {acumuladorPowerUpRedCustoFornece > 0 && (
+                            <span style={{
+                              fontSize: 16,
+                              fontWeight: 700,
+                              color: "#ff9090",
+                              background: "rgba(0,0,0,0.3)",
+                              padding: "0 6px",
+                              borderRadius: 3,
+                              minWidth: "32px",
+                              textAlign: "center",
+                            }}>
+                              ↓{acumuladorPowerUpRedCustoFornece}%
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        <span style={{
+                          fontSize: 10,
+                          fontWeight: 700,
+                          color: "rgba(255,255,255,0.25)",
+                          fontStyle: "italic",
+                        }}>
+                          Não Fornece Powerup
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
 
           </div>
         </div>
 
-        {/* VERSO DO CARD */}
+        {/* VERSO DO CARD - responsivo */}
         <div
           className={`absolute w-full h-full flex items-center justify-center rounded-[20px] text-white cursor-pointer ${flipped ? "pointer-events-auto z-50" : "pointer-events-none"}`}
-          style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", background: `linear-gradient(135deg,${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)` }}
+          style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", background: `linear-gradient(135deg,${setorInfo.cor2} 0%,${setorInfo.cor3} 35%,${setorInfo.cor1} 100%)`, padding: paddingCard }}
         >
           {/* ── Verso: Power Ups ── */}
           {visibleId === "powerUp" && (
             <div onClick={handleFlip} className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
-              <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between">
+              <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full rounded-[10px] flex justify-between" style={{ height: isMobile ? '15%' : '20%' }}>
                 <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%,${corPowerUpAtual} 30%,#350973 70%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
-                  <img className="h-[70%] rotate-[270deg]" src={PróximoImg} alt="" />
+                  <img className="h-[60%] rotate-[270deg]" src={PróximoImg} alt="" />
                 </div>
-                <div className="flex p-[10px] justify-center items-center">
-                  <h1 className="text-white fonteBold text-[12px]">Power Ups</h1>
+                <div className="flex p-[6px] justify-center items-center">
+                  <h1 className="text-white fonteBold" style={{ fontSize: isMobile ? '10px' : '12px' }}>Power Ups</h1>
                 </div>
               </div>
-              <div className="h-[20%] w-full flex justify-between flex-col items-center">
-                <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[5px] h-full">
+              <div style={{ height: isMobile ? '18%' : '20%', width: '100%' }} className="flex justify-between flex-col items-center">
+                <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full flex items-center justify-center rounded-[10px] p-[4px] h-full">
                   <div className="w-full rounded-[20px] flex justify-around items-center h-full">
                     {[
                       { bg: POWERUP_CORES.powerUpNv1, nv: "nível1" }, 
@@ -893,20 +1097,20 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
                       { bg: POWERUP_CORES.powerUpNv3, nv: "nível3" }
                     ].map(({ bg, nv }) => (
                       <div key={nv} style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-around items-center w-[30%] h-full rounded-[10px] p-[2px]">
-                        <div style={{ backgroundColor: bg }} className="w-[80%] aspect-square rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 cursor-pointer">
-                          <img className="h-[70%] aspect-square rotate-[270deg]" src={PróximoImg} alt="" />
+                        <div style={{ backgroundColor: bg, width: isMobile ? '60%' : '80%', aspectRatio: '1/1' }} className="rounded-[7px] flex items-center justify-center hover:scale-[1.20] duration-300 cursor-pointer">
+                          <img className="h-[60%] aspect-square rotate-[270deg]" src={PróximoImg} alt="" />
                         </div>
                         <div className="flex justify-center items-center w-full">
-                          <h2 className="text-white text-[10px] fonteBold">{edificio.powerUp[nv].quantidadeMínima}</h2>
+                          <h2 className="text-white font-bold" style={{ fontSize: isMobile ? '7px' : '10px' }}>{edificio.powerUp[nv].quantidadeMínima}</h2>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
-              <div style={{ backgroundColor: setorInfo.cor2 }} className="h-[50%] w-full rounded-[10px] flex flex-col items-center justify-around">
-                <p className="text-white text-[10px] h-[65%] p-[5px]">{edificio.desc}</p>
-                <button onClick={openModalPowerUps} className="w-[85%] h-[25%] z-50 text-white text-[10px] bg-[#6411D9] rounded-[10px] hover:scale-[1.10] duration-300 ease-in-out">
+              <div style={{ backgroundColor: setorInfo.cor2 }} className="w-full rounded-[10px] flex flex-col items-center justify-around" style={{ height: isMobile ? '50%' : '50%' }}>
+                <p className="text-white p-[4px] text-center" style={{ fontSize: isMobile ? '7px' : '10px', height: '60%' }}>{edificio.desc}</p>
+                <button onClick={openModalPowerUps} className="w-[85%] h-[25%] z-50 text-white bg-[#6411D9] rounded-[10px] hover:scale-[1.10] duration-300 ease-in-out" style={{ fontSize: isMobile ? '8px' : '10px' }}>
                   Todos power ups
                 </button>
               </div>
@@ -916,12 +1120,12 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
           {/* ── Verso: Finanças ── */}
           {visibleId === "finançasEd" && (
             <div onClick={handleFlip} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center relative z-[20] overflow-visible" style={{ pointerEvents: "auto" }}>
-              <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[20%] rounded-[10px] flex justify-between">
+              <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full rounded-[10px] flex justify-between" style={{ height: isMobile ? '15%' : '20%' }}>
                 <div className="h-full aspect-square rounded-[10px] flex items-center justify-center" style={{ background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }}>
-                  <img className="h-[70%]" src={DolarImg} alt="" />
+                  <img className="h-[60%]" src={DolarImg} alt="" />
                 </div>
-                <div className="flex p-[10px] justify-center items-center">
-                  <h1 className="text-white fonteBold text-[12px]">Finanças do edifício</h1>
+                <div className="flex p-[6px] justify-center items-center">
+                  <h1 className="text-white fonteBold" style={{ fontSize: isMobile ? '9px' : '12px' }}>Finanças</h1>
                 </div>
               </div>
               {[
@@ -942,110 +1146,19 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
                   { img: imgSomaImposto, text: "Total de impostos mensais.", val: formatarNumero(valorFatu * 30 * impostoSobreFatu + valorImpostoFixo) }
                 ],
               ].map((row, ri) => (
-                <div key={ri} className="flex w-full h-[15%] justify-around">
+                <div key={ri} className="flex w-full justify-around" style={{ height: isMobile ? '18%' : '15%' }}>
                   {row.map(({ img, text, val }, ci) => (
-                    <div key={ci} style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-between rounded-[10px] items-center h-full w-[45%]">
+                    <div key={ci} style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-between rounded-[10px] items-center h-full" style={{ width: isMobile ? '47%' : '45%' }}>
                       <div className="h-full flex items-center justify-center aspect-square rounded-[10px]" style={{ backgroundColor: setorInfo.cor1 }}>
                         <TooltipCustom text={text}>
-                          <img className="h-[20px]" src={img} alt="" />
+                          <img className="h-[60%]" src={img} alt="" />
                         </TooltipCustom>
                       </div>
-                      <h2 className="text-white mr-[8px] text-[15px] fonteBold">{val}</h2>
+                      <h2 className="text-white mr-[6px] font-bold" style={{ fontSize: isMobile ? '10px' : '15px' }}>{val}</h2>
                     </div>
                   ))}
                 </div>
               ))}
-            </div>
-          )}
-
-          {/* ── Verso: Imóveis necessários ── */}
-          {visibleId === "lojasNec" && (
-            <div onClick={handleFlip} className="w-[90%] h-[92%] flex flex-col self-center gap-3 p-1 overflow-hidden">
-              <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[60px] min-h-[60px] rounded-[10px] flex justify-between overflow-hidden drop-shadow-sm shrink-0">
-                <div style={{ background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-full aspect-square flex items-center justify-center">
-                  <img className="h-[60%]" src={terrenoImg} alt="" />
-                </div>
-                <div className="flex p-3 justify-center items-center">
-                  <h1 className="text-white fonteBold text-[12px] uppercase tracking-wider">Imóveis Necessários</h1>
-                </div>
-              </div>
-              <div className="w-full flex-1 flex flex-col gap-2 overflow-y-auto pr-1 scrollbar-custom">
-                {[
-                  { img: terrenoImg, key: "terrenos", qtdAtual: dados.terrenos.quantidade },
-                  { img: LojaPImg, key: "lojasP", qtdAtual: dados.lojasP.quantidade },
-                  { img: LojaMImg, key: "lojasM", qtdAtual: dados.lojasM.quantidade },
-                  { img: LojaGImg, key: "lojasG", qtdAtual: dados.lojasG.quantidade },
-                ].map(({ img, key, qtdAtual }) => {
-                  const necessarios = lojasNecessarias[key];
-                  const temSuficiente = qtdAtual >= necessarios;
-                  return (
-                    <div key={key} className="w-full h-[65px] flex items-center gap-3 bg-black/20 p-2 rounded-xl border border-white/5 shrink-0">
-                      <div style={{ backgroundColor: setorInfo.cor1 }} className="h-11 w-11 rounded-lg flex items-center justify-center shrink-0">
-                        <img className="h-[65%] object-contain" src={img} alt="" loading="lazy" />
-                      </div>
-                      <div className="flex-1 flex flex-row items-center justify-center gap-2">
-                        <span className={`text-[18px] font-bold ${temSuficiente ? "text-green-400" : "text-white"}`}>{qtdAtual}</span>
-                        <span className="text-white/20 text-[12px]">/</span>
-                        <span className="text-white/40 text-[14px] font-semibold">{necessarios}</span>
-                      </div>
-                      <div style={{ backgroundColor: setorInfo.cor2 }} className="h-full min-w-[52px] px-2 flex flex-col justify-center items-center rounded-lg">
-                        <span className="text-white/30 text-[7px] uppercase font-bold mb-0.5">Necessário</span>
-                        <h2 className={`text-[10px] font-bold ${temSuficiente ? "text-green-400/80" : "text-white"}`}>{necessarios}</h2>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* ── Verso: Construções necessárias ── */}
-          {visibleId === "constNece" && (
-            <div onClick={handleFlip} className="w-[90%] h-[90%] flex flex-col self-center gap-3">
-              <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full h-[60px] min-h-[60px] rounded-[10px] flex justify-between overflow-hidden drop-shadow-sm">
-                <div style={{ background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }} className="h-full aspect-square flex items-center justify-center">
-                  <img className="h-[60%]" src={constNece} alt="" />
-                </div>
-                <div className="flex p-3 justify-center items-center">
-                  <h1 className="text-white fonteBold text-[12px] uppercase tracking-wider">Requisitos de Obra</h1>
-                </div>
-              </div>
-              <div className="flex-1 overflow-y-auto pr-1 flex flex-col gap-4 scrollbar-custom">
-                {arrayConstResources.length > 0 && (
-                  <div className="flex flex-col gap-2">
-                    <h2 className="text-white/50 text-[10px] font-bold uppercase px-1">Recursos (Consumidos)</h2>
-                    {arrayConstResources.map((nome, idx) => (
-                      <div key={`res-${idx}`} className="flex items-center justify-between bg-white/5 p-2 rounded-lg border border-white/5">
-                        <div className="flex items-center gap-3">
-                          <div style={{ backgroundColor: setorInfo.cor3 }} className="w-8 h-8 rounded-md flex items-center justify-center relative">
-                            <img className="h-[70%] w-[70%] object-contain" src={getImageUrl(nome)} alt={nome} loading="lazy" />
-                            {!booleanPreReq(nome) && <span className="absolute -top-1 -right-1 flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span></span>}
-                          </div>
-                          <span className="text-[11px] text-white/90 font-medium uppercase">{nome}</span>
-                        </div>
-                        <span className="text-[9px] text-white/30 italic">Material</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {arrayConstNece.length > 0 && (
-                  <div className="flex flex-col gap-2">
-                    <h2 className="text-white/50 text-[10px] font-bold uppercase px-1">Edifícios (Posse)</h2>
-                    {arrayConstNece.map((nome, idx) => (
-                      <div key={`nece-${idx}`} className="flex items-center justify-between bg-white/5 p-2 rounded-lg border border-white/5">
-                        <div className="flex items-center gap-3">
-                          <div style={{ backgroundColor: setorInfo.cor3 }} className="w-8 h-8 rounded-md flex items-center justify-center relative">
-                            <img className="h-[70%] w-[70%] object-contain" src={getImageUrl(nome)} alt={nome} loading="lazy" />
-                            {!booleanPreReq(nome) && <span className="absolute -top-1 -right-1 flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span></span>}
-                          </div>
-                          <span className="text-[11px] text-white/90 font-medium uppercase">{nome}</span>
-                        </div>
-                        <span className="text-[9px] text-white/30 italic">Requisito</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
             </div>
           )}
         </div>

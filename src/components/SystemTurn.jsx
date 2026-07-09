@@ -108,6 +108,35 @@ export const SystemTurn = memo(() => {
         transicaoEmAndamento: false
     });
 
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      // MOBILE: altura da tela < 600px (celular)
+      const mobile = window.innerHeight < 600;
+      // PAISAGEM: largura > altura e é mobile
+      const landscape = window.innerWidth > window.innerHeight && mobile;
+
+      setIsMobile(mobile);
+      setIsLandscape(landscape);
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    window.addEventListener('orientationchange', () => {
+      setTimeout(checkDevice, 300);
+    });
+
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+      window.removeEventListener('orientationchange', checkDevice);
+    };
+  }, []);
+
+
+ const isDesktop = !isMobile;
+
     // ─── MEMO: JOGO INICIADO ─────────────────────────────────────
     const jogoIniciado = dados.jogoIniciado || false;
 
@@ -1125,6 +1154,7 @@ export const SystemTurn = memo(() => {
                     backdropFilter: "blur(4px)",
                 }}
             >
+                {isDesktop &&
                 <span style={{
                     fontFamily: "'Rajdhani',sans-serif",
                     fontSize: "9px",
@@ -1135,6 +1165,7 @@ export const SystemTurn = memo(() => {
                 }}>
                     {diasPendentes > 0 || estaProcessando ? "Processando" : "Próximo Turno"}
                 </span>
+                }
                 <span style={{
                     fontFamily: "'Rajdhani',sans-serif",
                     fontSize: "22px",

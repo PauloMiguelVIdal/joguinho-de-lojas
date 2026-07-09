@@ -124,7 +124,7 @@ const PACK_CONFIG = {
     }
 };
 
-// ── MAPA DE RANK PARA POOL ────────────────────────────────────────
+// ─── MAPA DE RANK PARA POOL ────────────────────────────────────────
 const RANK_POOLS = {
     S: RankS,
     A: RankA,
@@ -132,7 +132,7 @@ const RANK_POOLS = {
     C: RankC,
 };
 
-// ── FUNÇÃO PARA SORTEAR RANK ──────────────────────────────────────
+// ─── FUNÇÃO PARA SORTEAR RANK ──────────────────────────────────────
 const sortearRank = (probabilidades) => {
     const rand = Math.random() * 100;
     let acumulado = 0;
@@ -143,12 +143,11 @@ const sortearRank = (probabilidades) => {
     return 'C';
 };
 
-// ── FUNÇÃO PARA SORTEAR CARTAS DO PACOTE COM RARIDADE ESPECÍFICA ──
+// ─── FUNÇÃO PARA SORTEAR CARTAS DO PACOTE COM RARIDADE ESPECÍFICA ──
 const sortearCartasDoPacotePorRaridade = (tipoPacote, raridadeEspecifica) => {
     const config = PACK_CONFIG[tipoPacote];
     if (!config) return [];
 
-    // Se não tiver raridade específica, usa o sorteio normal
     if (!raridadeEspecifica) {
         return sortearCartasDoPacote(tipoPacote);
     }
@@ -157,7 +156,6 @@ const sortearCartasDoPacotePorRaridade = (tipoPacote, raridadeEspecifica) => {
     const usedCards = new Set();
     const quantidades = config.quantidade || 3;
 
-    // Mapeia a raridade para o rank correspondente
     const rankMapping = {
         'comum': 'C',
         'raro': 'B',
@@ -172,7 +170,6 @@ const sortearCartasDoPacotePorRaridade = (tipoPacote, raridadeEspecifica) => {
     }
 
     const getPoolPorRank = (rank) => RANK_POOLS[rank] || RANK_POOLS.C;
-
     const sortearCartaUnicaDoRank = (rank, used) => {
         const pool = getPoolPorRank(rank);
         const disponiveis = pool.filter(carta => !used.has(carta));
@@ -180,33 +177,24 @@ const sortearCartasDoPacotePorRaridade = (tipoPacote, raridadeEspecifica) => {
         return disponiveis[Math.floor(Math.random() * disponiveis.length)];
     };
 
-    // Função para tentar sortear do rank alvo
-    const tentarSortearRankAlvo = () => {
-        return sortearCartaUnicaDoRank(rankAlvo, usedCards);
-    };
-
-    // Tenta sortear todas as cartas do rank alvo
     for (let i = 0; i < quantidades; i++) {
         let carta = null;
         let tentativas = 0;
 
-        // Primeiro tenta do rank alvo
         while (tentativas < 30 && !carta) {
-            carta = tentarSortearRankAlvo();
+            carta = sortearCartaUnicaDoRank(rankAlvo, usedCards);
             tentativas++;
         }
 
-        // Se não conseguiu, tenta outros ranks (fallback)
         if (!carta) {
             const ranksPrioridade = ['C', 'B', 'A', 'S'];
             for (const rank of ranksPrioridade) {
-                if (rank === rankAlvo) continue; // Pula o rank alvo já tentado
+                if (rank === rankAlvo) continue;
                 carta = sortearCartaUnicaDoRank(rank, usedCards);
                 if (carta) break;
             }
         }
 
-        // Último fallback: pega qualquer carta disponível
         if (!carta) {
             for (const rank of ['C', 'B', 'A', 'S']) {
                 const pool = getPoolPorRank(rank);
@@ -220,7 +208,6 @@ const sortearCartasDoPacotePorRaridade = (tipoPacote, raridadeEspecifica) => {
 
         if (carta) {
             usedCards.add(carta);
-            // Determina o rank real da carta
             let rankReal = rankAlvo;
             for (const [rank, pool] of Object.entries(RANK_POOLS)) {
                 if (pool.includes(carta)) {
@@ -232,7 +219,6 @@ const sortearCartasDoPacotePorRaridade = (tipoPacote, raridadeEspecifica) => {
         }
     }
 
-    // Fallback: garante a quantidade exata
     while (cartasSorteadas.length < quantidades) {
         const pool = RANK_POOLS.C;
         const disponiveis = pool.filter(c => !usedCards.has(c));
@@ -242,7 +228,6 @@ const sortearCartasDoPacotePorRaridade = (tipoPacote, raridadeEspecifica) => {
                 rank: 'C' 
             });
         } else {
-            // Se todas as cartas foram usadas, força uma repetição
             cartasSorteadas.push({ 
                 nome: pool[Math.floor(Math.random() * pool.length)], 
                 rank: 'C' 
@@ -253,7 +238,7 @@ const sortearCartasDoPacotePorRaridade = (tipoPacote, raridadeEspecifica) => {
     return cartasSorteadas;
 };
 
-// ── FUNÇÃO ORIGINAL PARA SORTEAR CARTAS (sem raridade específica) ──
+// ── FUNÇÃO ORIGINAL PARA SORTEAR CARTAS ──────────────────────────
 const sortearCartasDoPacote = (tipoPacote) => {
     const config = PACK_CONFIG[tipoPacote];
     if (!config) return [];
@@ -263,7 +248,6 @@ const sortearCartasDoPacote = (tipoPacote) => {
     const quantidades = config.quantidade || 3;
 
     const getPoolPorRank = (rank) => RANK_POOLS[rank] || RANK_POOLS.C;
-
     const sortearCartaUnicaDoRank = (rank, used) => {
         const pool = getPoolPorRank(rank);
         const disponiveis = pool.filter(carta => !used.has(carta));
@@ -309,7 +293,6 @@ const sortearCartasDoPacote = (tipoPacote) => {
         }
     }
 
-    // Fallback: garante a quantidade exata
     while (cartasSorteadas.length < quantidades) {
         const rank = sortearRank(config.probabilidades);
         const pool = getPoolPorRank(rank);
@@ -328,7 +311,7 @@ const sortearCartasDoPacote = (tipoPacote) => {
     return cartasSorteadas;
 };
 
-// ── FUNÇÃO PARA DETERMINAR O TIPO DE PACOTE ──────────────────────
+// ─── FUNÇÃO PARA DETERMINAR O TIPO DE PACOTE ──────────────────────
 const getTipoPacotePorDia = (dia) => {
     if (dia === 0) return 'comum';
     if (dia <= 90) return 'comum';
@@ -337,7 +320,7 @@ const getTipoPacotePorDia = (dia) => {
     return 'lendario';
 };
 
-// ── FUNÇÃO PARA GERAR UPGRADES ────────────────────────────────────
+// ─── FUNÇÃO PARA GERAR UPGRADES ────────────────────────────────────
 const gerarUpgrades = (cartas, dados) => {
     const upgrades = [];
     const randomBonus = () => Math.floor(Math.random() * 10) + 1;
@@ -364,8 +347,35 @@ const gerarUpgrades = (cartas, dados) => {
     return upgrades;
 };
 
-// ─── COMPONENTES VISUAIS (reutilizados) ──────────────────────────
+// ─── DETECTAR MOBILE ──────────────────────────────────────────────
+function useDeviceDetection() {
+    const [isMobile, setIsMobile] = useState(false);
+    const [isLandscape, setIsLandscape] = useState(false);
 
+    useEffect(() => {
+        const checkDevice = () => {
+            const mobile = window.innerHeight < 600;
+            const landscape = window.innerWidth > window.innerHeight && mobile;
+            setIsMobile(mobile);
+            setIsLandscape(landscape);
+        };
+
+        checkDevice();
+        window.addEventListener('resize', checkDevice);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(checkDevice, 300);
+        });
+
+        return () => {
+            window.removeEventListener('resize', checkDevice);
+            window.removeEventListener('orientationchange', checkDevice);
+        };
+    }, []);
+
+    return { isMobile, isLandscape, isDesktop: !isMobile };
+}
+
+// ─── COMPONENTES VISUAIS (reutilizados) ──────────────────────────
 const Particle = memo(({ x, y, dx, dy, color, delay }) => (
     <motion.div
         style={{
@@ -753,12 +763,13 @@ const Pacote = memo(({ fase, onOpen, tema, tipo }) => {
 export const PackOpeningWithRarity = React.memo(({ 
     onClose, 
     onSorteio, 
-    raridade,           // Nova prop: raridade do pacote ("comum", "raro", "epico", "lendario")
-    autoOpen = true,    // Se deve abrir automaticamente
-    quantidade = 1,     // Quantidade de pacotes (para futuro)
+    raridade,
+    autoOpen = true,
+    quantidade = 1,
 }) => {
     const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
-    
+    const { isMobile, isLandscape, isDesktop } = useDeviceDetection();
+
     // ─── STATES ────────────────────────────────────────────────────
     const [cartasSorteadas, setCartasSorteadas] = useState([]);
     const [fase, setFase] = useState("idle");
@@ -773,7 +784,6 @@ export const PackOpeningWithRarity = React.memo(({
 
     // ─── MEMO: TIPO DE PACOTE ATUAL ──────────────────────────────
     const tipoPacoteAtual = useMemo(() => {
-        // Se a raridade for fornecida, usa ela como base
         if (raridade) {
             const raridadeLower = raridade.toLowerCase();
             if (PACK_CONFIG[raridadeLower]) {
@@ -795,12 +805,28 @@ export const PackOpeningWithRarity = React.memo(({
         };
     }, [tipoPacoteAtual]);
 
-    // ─── INDICA SE TEM RARIDADE ESPECÍFICA ────────────────────────
     const temRaridadeEspecifica = useMemo(() => {
         return raridade && PACK_CONFIG[raridade.toLowerCase()];
     }, [raridade]);
 
-    // ─── CALLBACK: RESETAR ESTADO ────────────────────────────────
+    // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
+    const paddingModal = isMobile ? '16px' : '32px';
+    const gapModal = isMobile ? '16px' : '28px';
+    const maxWidthCards = isMobile ? '100%' : '900px';
+    const cardGap = isMobile ? '8px' : '16px';
+    const flexWrapCards = isMobile ? 'nowrap' : 'wrap';
+    const overflowCards = isMobile ? 'auto' : 'visible';
+    const justifyContentCards = isMobile ? 'center' : 'center';
+    const paddingCards = isMobile ? '8px 0 4px 0' : '0 20px';
+    const maxHeightCards = isMobile ? '55vh' : 'none';
+    const fontSizeTitulo = isMobile ? '18px' : '26px';
+    const fontSizeSubtitulo = isMobile ? '12px' : '14px';
+    const paddingBotao = isMobile ? '10px 32px' : '14px 48px';
+    const fontSizeBotao = isMobile ? '12px' : '14px';
+    const gapConteudo = isMobile ? '8px' : '24px';
+    const marginBottomBotao = isMobile ? '8px' : '0px';
+
+    // ─── CALLBACKS ──────────────────────────────────────────────────
     const resetarParaNovoSorteio = useCallback(() => {
         setFase("idle");
         setJaSorteou(false);
@@ -809,7 +835,6 @@ export const PackOpeningWithRarity = React.memo(({
         setAudioTocado(false);
     }, []);
 
-    // ─── CALLBACK: FECHAR MODAL ──────────────────────────────────
     const fecharModal = useCallback(() => {
         setModal(false);
         resetarParaNovoSorteio();
@@ -817,7 +842,6 @@ export const PackOpeningWithRarity = React.memo(({
         if (onSorteio) onSorteio();
     }, [onClose, onSorteio, resetarParaNovoSorteio]);
 
-    // ─── CALLBACK: SPAWN DE PARTÍCULAS ───────────────────────────
     const spawnParticles = useCallback(() => {
         const colors = [
             temaAtual.cor4,
@@ -845,11 +869,9 @@ export const PackOpeningWithRarity = React.memo(({
         setTimeout(() => setParticles([]), 1800);
     }, [temaAtual]);
 
-    // ─── CALLBACK: REALIZAR SORTEIO ──────────────────────────────
     const realizarSorteio = useCallback(() => {
         if (jaSorteou || fase !== "idle") return;
 
-        // Usa a função com raridade específica se fornecida
         const cartasSorteadasRank = sortearCartasDoPacotePorRaridade(
             tipoPacoteAtual, 
             temRaridadeEspecifica ? raridade : null
@@ -866,7 +888,6 @@ export const PackOpeningWithRarity = React.memo(({
             return;
         }
 
-        // Aplica upgrades
         for (const upgrade of upgrades) {
             const { setor, index, nome } = upgrade;
             if (setor && index !== undefined) {
@@ -878,29 +899,25 @@ export const PackOpeningWithRarity = React.memo(({
             }
         }
 
-        // Atualiza histórico
         const cardsSorteadosAtuais = dados.CardsSorteados || [];
         const novosCardsSorteados = [...cardsSorteadosAtuais, ...upgrades];
         setCartasSorteadas(upgrades);
         atualizarDados("CardsSorteados", novosCardsSorteados);
 
-        // Marca sorteio
         setJaSorteou(true);
 
-        // Animações
         setFase("shaking");
         setTimeout(() => setFase("opening"), 800);
         setTimeout(spawnParticles, 1000);
         setTimeout(() => setFase("revealed"), 1500);
     }, [dados, atualizarDados, atualizarDadosProf2, fase, jaSorteou, tipoPacoteAtual, temRaridadeEspecifica, raridade, spawnParticles]);
 
-    // ─── CALLBACK: HANDLE OPEN ────────────────────────────────────
     const handleOpen = useCallback(() => {
         if (fase !== "idle") return;
         realizarSorteio();
     }, [fase, realizarSorteio]);
 
-    // ─── EFFECT: ÁUDIO AO ABRIR ──────────────────────────────────
+    // ─── EFFECTS ────────────────────────────────────────────────────
     useEffect(() => {
         if (modal && fase === "opening" && !audioTocado) {
             buttonNewStageAudio();
@@ -908,7 +925,6 @@ export const PackOpeningWithRarity = React.memo(({
         }
     }, [modal, fase, audioTocado, buttonNewStageAudio]);
 
-    // ─── EFFECT: ABERTURA AUTOMÁTICA ─────────────────────────────
     useEffect(() => {
         if (modal && fase === "idle" && !jaSorteou && autoOpen) {
             const timer = setTimeout(realizarSorteio, 300);
@@ -916,7 +932,7 @@ export const PackOpeningWithRarity = React.memo(({
         }
     }, [modal, fase, jaSorteou, autoOpen, realizarSorteio]);
 
-    // ─── RENDER DO MODAL ─────────────────────────────────────────
+    // ─── RENDER ──────────────────────────────────────────────────
     if (!modal) return null;
 
     return (
@@ -929,8 +945,8 @@ export const PackOpeningWithRarity = React.memo(({
             flexDirection: "column",
             alignItems: "center", 
             justifyContent: "center",
-            gap: 28, 
-            padding: 32,
+            gap: gapModal, 
+            padding: paddingModal,
         }}>
             {/* Gradiente de fundo premium */}
             <div style={{
@@ -948,13 +964,13 @@ export const PackOpeningWithRarity = React.memo(({
                     style={{
                         position: "relative",
                         zIndex: 10,
-                        padding: "8px 24px",
+                        padding: isMobile ? "4px 16px" : "8px 24px",
                         borderRadius: 20,
                         background: `linear-gradient(135deg, ${temaAtual.cor4}44, ${temaAtual.cor3}22)`,
                         border: `1px solid ${temaAtual.cor4}55`,
                         backdropFilter: "blur(10px)",
                         color: "#fff",
-                        fontSize: 14,
+                        fontSize: isMobile ? 12 : 14,
                         fontWeight: 600,
                         fontFamily: "'Inter', sans-serif",
                         letterSpacing: "0.05em",
@@ -1026,12 +1042,12 @@ export const PackOpeningWithRarity = React.memo(({
                         }}
                         whileTap={{ scale: 0.95 }}
                         style={{
-                            padding: "14px 44px", 
+                            padding: isMobile ? "10px 24px" : "14px 44px", 
                             borderRadius: 12, 
                             border: "none",
                             background: `linear-gradient(135deg, ${temaAtual.cor4} 0%, ${temaAtual.cor3} 100%)`,
                             color: "#fff", 
-                            fontSize: 14, 
+                            fontSize: isMobile ? 12 : 14, 
                             fontWeight: 700,
                             letterSpacing: ".15em", 
                             textTransform: "uppercase",
@@ -1064,12 +1080,12 @@ export const PackOpeningWithRarity = React.memo(({
                             pointerEvents: "none",
                         }} />
                         
-                        Abrir Pacote {PACK_CONFIG[tipoPacoteAtual]?.nome}
+                        {isMobile ? 'Abrir' : `Abrir Pacote ${PACK_CONFIG[tipoPacoteAtual]?.nome}`}
                     </motion.button>
                 )}
             </AnimatePresence>
 
-            {/* Cartas reveladas em linha */}
+            {/* Cartas reveladas em linha - RESPONSIVO COM BOTÃO VISÍVEL */}
             <AnimatePresence>
                 {fase === "revealed" && (
                     <motion.div
@@ -1079,91 +1095,129 @@ export const PackOpeningWithRarity = React.memo(({
                             display: "flex", 
                             flexDirection: "column",
                             alignItems: "center",
-                            gap: 24,
+                            gap: gapConteudo,
                             width: "100%",
-                            maxWidth: "900px",
+                            maxWidth: maxWidthCards,
+                            maxHeight: '90vh',
+                            overflow: 'hidden',
+                            flex: 1,
+                            justifyContent: 'space-between',
                         }}
                     >
-                        <motion.div
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            style={{
-                                textAlign: "center",
-                                marginBottom: 8,
-                            }}
-                        >
-                            <h1 style={{
-                                color: "#fff",
-                                fontSize: 26,
-                                fontWeight: 700,
-                                fontFamily: "'Inter', sans-serif",
-                                textShadow: `0 0 60px ${temaAtual.cor4}44`,
-                                letterSpacing: "0.02em",
-                            }}>
-                                Pacote {PACK_CONFIG[tipoPacoteAtual]?.nome}
-                                {temRaridadeEspecifica && ` (${raridade})`}
-                            </h1>
-                            <p style={{
-                                color: `${temaAtual.cor4}88`,
-                                fontSize: 14,
-                                fontFamily: "'Inter', sans-serif",
-                                fontWeight: 400,
-                                marginTop: 4,
-                            }}>
-                                {cartasSorteadas.length} cartas recebidas
-                            </p>
-                        </motion.div>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            width: '100%',
+                            flexShrink: 0,
+                        }}>
+                            <motion.div
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
+                                style={{
+                                    textAlign: "center",
+                                    marginBottom: isMobile ? 4 : 8,
+                                    padding: isMobile ? '0 8px' : 0,
+                                    flexShrink: 0,
+                                }}
+                            >
 
-                        <motion.div
-                            style={{
+                                <p style={{
+                                    color: `${temaAtual.cor4}88`,
+                                    fontSize: fontSizeSubtitulo,
+                                    fontFamily: "'Inter', sans-serif",
+                                    fontWeight: 400,
+                                    marginTop: 4,
+                                }}>
+                                    {cartasSorteadas.length} cartas recebidas
+                                </p>
+                            </motion.div>
+
+                            {/* ─── CONTAINER DE CARTAS COM SCROLL ─── */}
+                            <div style={{
                                 display: "flex",
-                                gap: 16,
-                                flexWrap: "wrap",
-                                justifyContent: "center",
+                                gap: cardGap,
+                                flexDirection: 'row',
+                                flexWrap: flexWrapCards,
+                                justifyContent: justifyContentCards,
                                 width: "100%",
-                                padding: "0 20px",
-                            }}
-                        >
-                            {cartasSorteadas.map((carta, i) => (
-                                <motion.div
-                                    key={`${carta.nome}-${i}`}
-                                    initial={{ 
-                                        opacity: 0, 
-                                        y: 40,
-                                        scale: 0.9,
-                                    }}
-                                    animate={{ 
-                                        opacity: 1, 
-                                        y: 0,
-                                        scale: 1,
-                                    }}
-                                    transition={{
-                                        delay: 0.15 + i * 0.12,
-                                        duration: 0.5,
-                                        type: "spring",
-                                        stiffness: 300,
-                                        damping: 18,
-                                    }}
-                                    whileHover={{ 
-                                        y: -8,
-                                        scale: 1.04,
-                                        boxShadow: `0 16px 60px ${temaAtual.cor4}55`
-                                    }}
-                                    style={{
-                                        cursor: "pointer",
-                                        transition: "all 0.3s ease",
-                                    }}
-                                >
-                                    {LocalizadorUpgrade(
-                                        carta.nome,
-                                        carta.redImposto || 0,
-                                        carta.fatu || 0
-                                    )}
-                                </motion.div>
-                            ))}
-                        </motion.div>
+                                padding: paddingCards,
+                                overflowX: overflowCards,
+                                overflowY: 'hidden',
+                                WebkitOverflowScrolling: 'touch',
+                                scrollSnapType: isMobile ? 'x mandatory' : 'none',
+                                maxHeight: maxHeightCards,
+                                flexShrink: 0,
+                                flexGrow: 0,
+                                alignItems: 'center',
+                                scrollBehavior: 'auto',
+                                minHeight: isMobile ? 'auto' : 'auto',
+                            }}>
+                                {cartasSorteadas.map((carta, i) => (
+                                    <motion.div
+                                        key={`${carta.nome}-${i}`}
+                                        initial={{ 
+                                            opacity: 0, 
+                                            y: 40,
+                                            scale: 0.9,
+                                        }}
+                                        animate={{ 
+                                            opacity: 1, 
+                                            y: 0,
+                                            scale: 1,
+                                        }}
+                                        transition={{
+                                            delay: 0.15 + i * 0.12,
+                                            duration: 0.5,
+                                            type: "spring",
+                                            stiffness: 300,
+                                            damping: 18,
+                                        }}
+                                        whileHover={{ 
+                                            y: -8,
+                                            scale: 1.04,
+                                            boxShadow: `0 16px 60px ${temaAtual.cor4}55`
+                                        }}
+                                        style={{
+                                            cursor: "pointer",
+                                            transition: "all 0.3s ease",
+                                            flex: isMobile ? '0 0 auto' : '0 1 auto',
+                                            scrollSnapAlign: isMobile ? 'start' : 'none',
+                                        }}
+                                    >
+                                        {LocalizadorUpgrade(
+                                            carta.nome,
+                                            carta.redImposto || 0,
+                                            carta.fatu || 0
+                                        )}
+                                    </motion.div>
+                                ))}
+                            </div>
 
+                            {/* ─── INDICADOR DE SCROLL (mobile) ──── */}
+                            {isMobile && cartasSorteadas.length > 1 && (
+                                <div style={{
+                                    display: 'flex',
+                                    gap: '6px',
+                                    padding: '4px 0',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    flexShrink: 0,
+                                }}>
+                                    <span style={{
+                                        fontSize: '10px',
+                                        color: `${temaAtual.cor4}55`,
+                                        fontFamily: "'Inter', sans-serif",
+                                        fontWeight: 500,
+                                    }}>
+                                        ← Deslize para ver mais →
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* ─── BOTÃO ENTENDIDO - SEMPRE VISÍVEL ── */}
                         <motion.button
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -1178,13 +1232,14 @@ export const PackOpeningWithRarity = React.memo(({
                                 buttonCloseAudio();
                             }}
                             style={{
-                                marginTop: 16,
-                                padding: "14px 48px",
+                                marginTop: isMobile ? 4 : 16,
+                                marginBottom: marginBottomBotao,
+                                padding: paddingBotao,
                                 borderRadius: 30,
                                 border: `2px solid ${temaAtual.cor4}44`,
                                 background: `linear-gradient(135deg, ${temaAtual.cor4} 0%, ${temaAtual.cor3} 100%)`,
                                 color: "#fff",
-                                fontSize: 14,
+                                fontSize: fontSizeBotao,
                                 fontWeight: 700,
                                 letterSpacing: ".1em",
                                 textTransform: "uppercase",
@@ -1192,6 +1247,9 @@ export const PackOpeningWithRarity = React.memo(({
                                 fontFamily: "'Inter', sans-serif",
                                 transition: "all 0.3s ease",
                                 boxShadow: `0 4px 20px ${temaAtual.cor4}33`,
+                                flexShrink: 0,
+                                zIndex: 10,
+                                position: 'relative',
                             }}
                         >
                             Entendido ✓

@@ -1,11 +1,11 @@
-import React, { useContext, useCallback, lazy, Suspense, useEffect,useState } from "react";
+import React, { useContext, useCallback, lazy, Suspense, useEffect, useState } from "react";
 import Notificação from "./notificação.jsx";
 import Informations from "./components/Informations.jsx";
-import Dashboard from "./components/Dashboard.jsx";
+// import Dashboard from "./components/Dashboard.jsx";
 import Buttons from "./components/Buttons.jsx";
 import Buy from "./components/buy.jsx";
 import Day from "./components/day.jsx";
-import finishGame from '../public/outrasImagens/finish.png'
+import finishGame from '../public/outrasImagens/finish.png';
 import { CentraldeDadosContext } from "./centralDeDadosContext.jsx";
 import DashboardDraft from "./components/DashboardDraft.jsx";
 import { LicenceModalBusiness } from "./components/licenseButton.jsx";
@@ -72,6 +72,7 @@ const IconToggle = ({ aberto, horizontal = false }) => (
 function Interface() {
   const { dados, atualizarDados } = useContext(CentraldeDadosContext)
   const vision = dados.vision.visionAtual
+
   // ─── ESTADO PARA O PACOTE ──────────────────────────────────
   const [packModalOpen, setPackModalOpen] = useState(false);
   const [packRaridade, setPackRaridade] = useState(null);
@@ -86,15 +87,13 @@ function Interface() {
     setPackRaridade(null);
   }, []);
 
-const [showRelatorio, setShowRelatorio] = useState(false);
+  const [showRelatorio, setShowRelatorio] = useState(false);
 
-useEffect(() => {
-  if (dados.dia >= 360 && !showRelatorio) {
-    setShowRelatorio(true);
-  }
-}, [dados.dia, showRelatorio]);
-
-
+  useEffect(() => {
+    if (dados.dia >= 360 && !showRelatorio) {
+      setShowRelatorio(true);
+    }
+  }, [dados.dia, showRelatorio]);
 
   // ── Visibilidade das camadas ──────────────────────────────
   const [sidebarEsqAberta, setSidebarEsqAberta] = useState(false);
@@ -110,7 +109,6 @@ useEffect(() => {
   const ajusteLargura = renderizando
   const [modalFalenciaOpen, setModalFalenciaOpen] = useState(false);
 
-
   // ─── HANDLE CARTAS RECEBIDAS ──────────────────────────────
   const handleCartasRecebidas = useCallback((cartas) => {
     setCartasParaMostrar(cartas);
@@ -123,7 +121,60 @@ useEffect(() => {
     setCartasParaMostrar([]);
   }, []);
 
-  // const { draftAberto, draftConcluido, cartasSelecionadas, abrirDraft, fecharDraft, handleComplete } = useDraftSystem();
+  // ─── DETECTAR MOBILE PELA ALTURA ────────────────────────────
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      // MOBILE: altura da tela < 600px (celular)
+      const mobile = window.innerHeight < 600;
+      // PAISAGEM: largura > altura e é mobile
+      const landscape = window.innerWidth > window.innerHeight && mobile;
+
+      setIsMobile(mobile);
+      setIsLandscape(landscape);
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    window.addEventListener('orientationchange', () => {
+      setTimeout(checkDevice, 300);
+    });
+
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+      window.removeEventListener('orientationchange', checkDevice);
+    };
+  }, []);
+
+  // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
+  const isDesktop = !isMobile;
+
+  // Altura da topbar
+  const topbarHeight = isDesktop ? '120px' : (isLandscape ? '60px' : '80px');
+
+  // Largura do dashboard principal
+  const dashboardWidth = isDesktop ? '80vw' : '100vw';
+
+  // Largura dos dashboards laterais
+  const sidebarWidth = isDesktop ? '20vw' : '0vw';
+
+  // Tamanho do botão LOJA
+  const buttonWidth = isDesktop ? '100px' : (isLandscape ? '60px' : '70px');
+  const buttonHeight = isDesktop ? '80%' : (isLandscape ? '80%' : '70%');
+  const buttonFontSize = isDesktop ? '12px' : (isLandscape ? '8px' : '10px');
+  const buttonText = isDesktop ? 'ABRIR LOJA' : (isLandscape ? '' : 'LOJA');
+
+  // Padding da topbar
+  const topbarPadding = isDesktop ? '4px' : (isLandscape ? '2px 8px' : '4px 8px');
+
+  // Border radius da topbar
+  const topbarRadius = isDesktop ? '20px' : (isLandscape ? '8px' : '12px');
+
+  // Gap entre elementos
+  const gap = isDesktop ? '10px' : (isLandscape ? '4px' : '6px');
+
   return (
     <Suspense fallback={<div className="w-screen h-screen bg-gray-900" />}>
 
@@ -166,21 +217,10 @@ useEffect(() => {
         />
       )}
       {showRelatorio && (
-  <RelatorioFinal onClose={() => {
-    setShowRelatorio(false);
-    // Aqui você pode adicionar lógica para encerrar o jogo
-    // Ex: limpar dados, redirecionar, etc.
-  }} />
-)}
-      {/* {draftAberto && (
-      <DraftSystem 
-        onClose={fecharDraft}
-        onComplete={handleComplete}
-        numeroRodadasC={4}
-        numeroRodadasB={1}
-        quantidadeOpcoes={3}
-      />
-    )} */}
+        <RelatorioFinal onClose={() => {
+          setShowRelatorio(false);
+        }} />
+      )}
 
       {/* ═══════════════════════════════════════════════════════
           CAMADA 5 — TOPBAR (sempre sobrepõe tudo)
@@ -190,160 +230,128 @@ useEffect(() => {
           position: 'fixed',
           top: 0,
           left: 0,
-          height: '120px',
-          width: dados.dia % 30 !== 0 || dados.dia === 360 ? '100vw' : '80vw',
+          height: topbarHeight,
+          width: dados.dia % 30 !== 0 || dados.dia === 360 ? '100vw' : (isDesktop ? '80vw' : '100vw'),
           zIndex: 50,
           display: jogoIniciado ? 'flex' : 'none',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '4px',
-          background: 'linear-gradient(180deg, #350973, #350973',
+          padding: topbarPadding,
+          background: 'linear-gradient(180deg, #350973, #350973)',
           borderBottom: '1px solid rgba(147,76,255,0.3)',
-          borderBottomRightRadius: '20px',
+          borderBottomRightRadius: topbarRadius,
           boxShadow: '0 2px 5vh rgba(0,0,0,0.5)',
+          overflowX: 'auto',
         }}
       >
-        <div className="flex h-full w-full items-center justify-center col-start-8 col-end-9 gap-[10px] mr-[10px]">
+        {!isDesktop && (
+          <button
+            onClick={() => setDashboardAberto(!dashboardAberto)}
+            style={{
+
+              background: 'linear-gradient(135deg,rgba(53, 9, 115, 1) 50%, rgba(242, 116, 5, 1) 100%)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: 6,
+              left: 0,
+              padding: isLandscape ? '2px 8px' : '0px 10px',
+              color: '#fff',
+              fontSize: isLandscape ? '10px' : '12px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+              height: isLandscape ? '80%' : 'auto',
+              aspectRatio: 1 / 1
+            }}
+          >
+            {dashboardAberto ? '💻' : '💼'}
+          </button>
+        )}
+        <div className="flex h-full w-full items-center justify-center col-start-8 col-end-9 mr-[10px]" style={{
+          gap: gap,
+          marginRight: isDesktop ? '10px' : (isLandscape ? '4px' : '8px'),
+        }}>
+          {/* ─── MOBILE: BOTÃO DE TOGGLE ────────────────────── */}
+
+
           <Informations />
           <Day />
           <SystemTurn />
-          {/* <DraftButton onOpen={abrirDraft} /> */}
 
           <EconomyGlobal />
+
           <div style={{
             width: "1px",
-            height: "35px",
+            height: isDesktop ? "35px" : (isLandscape ? "20px" : "25px"),
             background: "rgba(255,255,255,0.1)",
+            flexShrink: 0,
           }} />
-          <div
-            // style={{ marginRight: dados.dia % 30 !== 0 ? '50px' : '0px' }} 
-            className="h-full flex items-center">
+
+          <div className="h-full flex items-center">
             <SidebarFinancas onOpen={() => setBusinessLicenceModal(true)} />
           </div>
+
           <div style={{
             width: "1px",
-            height: "35px",
+            height: isDesktop ? "35px" : (isLandscape ? "20px" : "25px"),
             background: "rgba(255,255,255,0.1)",
+            flexShrink: 0,
           }} />
+
           <button
             disabled={dados.dia === 360 || dados.dia % 30 !== 0}
             onClick={() => setModalShopOpen(true)}
-            className={`h-[80%] w-[100px] flex flex-col justify-between rounded-[5px] flex hover:scale-[1.05] ${dados.dia === 360 || dados.dia % 30 !== 0
-                ? 'bg-laranja/20 cursor-not-allowed opacity-60'
-                : 'bg-laranja/70 hover:bg-laranja/90'
-              }`}
+            style={{
+              height: buttonHeight,
+              width: buttonWidth,
+              flexShrink: 0,
+              background: dados.dia === 360 || dados.dia % 30 !== 0
+                ? 'rgba(255,165,0,0.2)'
+                : 'rgba(255,165,0,0.7)',
+              cursor: dados.dia === 360 || dados.dia % 30 !== 0 ? 'not-allowed' : 'pointer',
+              opacity: dados.dia === 360 || dados.dia % 30 !== 0 ? 0.6 : 1,
+              borderRadius: '5px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: isLandscape ? '2px' : '4px',
+            }}
           >
-            <div className="h-[100%] aspect-square flex-col bg-laranja rounded-[10px] flex items-center justify-center active:scale-95 hover:bg-[#E56100]">
-              <img className="h-[40%]" src={LojaGImg} alt="" />
-              <div className="flex justify-center items-center">
-                <p className="text-white w-[100px] text-[12px] pt-2 fonteBold text-space-[10px] word-spacing:10px leading-none">ABRIR LOJA</p>
-              </div>
+            <div className="h-[100%] aspect-square flex-col bg-laranja rounded-[10px] flex items-center justify-center active:scale-95" style={{
+              background: dados.dia === 360 || dados.dia % 30 !== 0 ? 'rgba(255,165,0,0.2)' : '#FF8C00',
+              borderRadius: isDesktop ? '10px' : (isLandscape ? '6px' : '8px'),
+              width: '100%',
+            }}>
+              <img src={LojaGImg} alt="" style={{
+                height: isDesktop ? '40%' : (isLandscape ? '70%' : '35%'),
+                objectFit: 'contain',
+              }} />
+
+              {isDesktop && (<div className="flex justify-center items-center">
+                <p className="text-white pt-2 fonteBold text-space-[10px] leading-none" style={{
+                  fontSize: buttonFontSize,
+                  fontWeight: 700,
+                }}>{buttonText}</p>
+              </div>)}
             </div>
           </button>
         </div>
       </div>
 
       {/* ═══════════════════════════════════════════════════════
-          CAMADA 2 — DASHBOARD CENTRAL (DashboardMiniDraft)
+          CAMADA 2 — DASHBOARDS
       ════════════════════════════════════════════════════════ */}
-      {dashboardAberto && (
-        <div
-          style={{
-            position: 'fixed',
-            height: '25vh',
-            top: dados.dia <= 240 ? '25vh' : '25vh',
-            right: '0',
-            width: '20vw',
-            zIndex: 20,
-            borderRadius: 0,
-            overflow: 'hidden',
-            background: 'linear-gradient(to bottom, #6411D9, #350973)',
-            boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
-          }}
-        >
-          <DashboardMiniDraft />
-        </div>
-      )}
-      {dashboardAberto && (
-        <div
-          style={{
-            position: 'fixed',
-            height: '35vh',
-            top: '50vh',
-            right: '0',
-            width: '20vw',
-            zIndex: 20,
-            borderRadius: 0,
-            overflow: 'hidden',
-            background: 'linear-gradient(to bottom, #6411D9, #350973)',
-            boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
-          }}
-        >
-          <ObjectiveTracker
-            onPackReceived={handlePackReceived}
-            onCartasRecebidas={handleCartasRecebidas}
-            setorInicial={dados.setorEscolhido || "comercio"}
-          />
-        </div>
-      )}
 
-      {/* ═══════════════════════════════════════════════════════
-          PlusInventory - só renderiza se dashboardAberto for true
-      ════════════════════════════════════════════════════════ */}
-      {dashboardAberto && (
+      {/* ─── QUANDO DASHBOARD ESTÁ FECHADO (📋) ────────────── */}
+      {!dashboardAberto && (
         <div
           style={{
             position: 'fixed',
-            height: '15vh',
-            bottom: '0vh',
-            right: '0vw',
-            width: '20vw',
-            zIndex: 20,
-            borderRadius: 20,
-            overflow: 'hidden',
-            background: 'linear-gradient(to bottom, #6411D9, #350973)',
-            boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
-          }}
-        >
-          <PlusInventory />
-        </div>
-      )}
-
-      {/* ═══════════════════════════════════════════════════════
-          DisplayInformations - só renderiza se dashboardAberto for true
-      ════════════════════════════════════════════════════════ */}
-      {dashboardAberto && (
-        <div
-          style={{
-            position: 'fixed',
-            top: '0vh',
-            height: '25vh',
-            maxHeight: '32vh',
-
-            width: '20vw',
-            right: 0,
-            zIndex: 20,
-            borderRadius: 0,
-            overflow: 'hidden',
-            background: 'linear-gradient(to bottom, #6411D9, #350973)',
-            boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
-          }}
-        >
-          <DisplayInformations />
-        </div>
-      )}
-
-      {/* ═══════════════════════════════════════════════════════
-          DashboardDraft (principal) - só renderiza se dashboardAberto for true
-      ════════════════════════════════════════════════════════ */}
-      {dashboardAberto && (
-        <div
-          style={{
-            position: 'fixed',
-            top: '120px',
+            top: topbarHeight,
             left: 0,
-            height: 'calc(100vh - 120px)',
-            width: '80vw',
+            height: `calc(100vh - ${topbarHeight})`,
+            width: '100vw',
             zIndex: 20,
             borderRadius: 0,
             overflow: 'hidden',
@@ -357,6 +365,202 @@ useEffect(() => {
             <DashboardDraft />
           )}
         </div>
+      )}
+
+      {/* ─── QUANDO DASHBOARD ESTÁ ABERTO (📊) ──────────────── */}
+      {dashboardAberto && (
+        <>
+          {/* ─── DESKTOP: LAYOUT ORIGINAL ────────────────────────── */}
+          {isDesktop && (
+            <>
+              {/* DashboardMiniDraft */}
+              <div
+                style={{
+                  position: 'fixed',
+                  height: '25vh',
+                  top: dados.dia <= 240 ? '25vh' : '25vh',
+                  right: '0',
+                  width: '20vw',
+                  zIndex: 20,
+                  borderRadius: 0,
+                  overflow: 'hidden',
+                  background: 'linear-gradient(to bottom, #6411D9, #350973)',
+                  boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+                }}
+              >
+                <DashboardMiniDraft />
+              </div>
+
+              {/* ObjectiveTracker */}
+              <div
+                style={{
+                  position: 'fixed',
+                  height: '35vh',
+                  top: '50vh',
+                  right: '0',
+                  width: '20vw',
+                  zIndex: 20,
+                  borderRadius: 0,
+                  overflow: 'hidden',
+                  background: 'linear-gradient(to bottom, #6411D9, #350973)',
+                  boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+                }}
+              >
+                <ObjectiveTracker
+                  onPackReceived={handlePackReceived}
+                  onCartasRecebidas={handleCartasRecebidas}
+                  setorInicial={dados.setorEscolhido || "comercio"}
+                />
+              </div>
+
+              {/* PlusInventory */}
+              <div
+                style={{
+                  position: 'fixed',
+                  height: '15vh',
+                  bottom: '0vh',
+                  right: '0vw',
+                  width: '20vw',
+                  zIndex: 20,
+                  borderRadius: 20,
+                  overflow: 'hidden',
+                  background: 'linear-gradient(to bottom, #6411D9, #350973)',
+                  boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+                }}
+              >
+                <PlusInventory />
+              </div>
+
+              {/* DisplayInformations */}
+              <div
+                style={{
+                  position: 'fixed',
+                  top: '0vh',
+                  height: '25vh',
+                  maxHeight: '32vh',
+                  width: '20vw',
+                  right: 0,
+                  zIndex: 20,
+                  borderRadius: 0,
+                  overflow: 'hidden',
+                  background: 'linear-gradient(to bottom, #6411D9, #350973)',
+                  boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+                }}
+              >
+                <DisplayInformations />
+              </div>
+
+              {/* DashboardDraft (principal) */}
+              <div
+                style={{
+                  position: 'fixed',
+                  top: topbarHeight,
+                  left: 0,
+                  height: `calc(100vh - ${topbarHeight})`,
+                  width: '80vw',
+                  zIndex: 20,
+                  borderRadius: 0,
+                  overflow: 'hidden',
+                  background: 'linear-gradient(to bottom, #6411D9, #350973)',
+                  boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+                }}
+              >
+                {vision === "financas" ? (
+                  <PatrimonioInterface />
+                ) : (
+                  <DashboardDraft />
+                )}
+              </div>
+            </>
+          )}
+
+          {/* ─── MOBILE: 3 COLUNAS ───────────────────────────────── */}
+          {!isDesktop && (
+            <div
+              style={{
+                position: 'fixed',
+                top: topbarHeight,
+                left: 0,
+                height: `calc(100vh - ${topbarHeight})`,
+                width: '100vw',
+                zIndex: 20,
+                display: 'flex',
+                gap: '4px',
+                padding: '4px',
+                background: 'transparent',
+              }}
+            >
+              {/* ─── COLUNA 1: DisplayInformations ──────────────── */}
+              <div
+                style={{
+                  flex: '0 0 30vw',
+                  height: '100%',
+                  borderRadius: 12,
+                  overflow: 'hidden',
+                  background: 'linear-gradient(to bottom, #6411D9, #350973)',
+                  boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+                }}
+              >
+                <DisplayInformations />
+              </div>
+
+              {/* ─── COLUNA 2: DashboardMiniDraft ───────────────── */}
+              <div
+                style={{
+                  flex: '0 0 40vw',
+                  height: '100%',
+                  borderRadius: 12,
+                  overflow: 'hidden',
+                  background: 'linear-gradient(to bottom, #6411D9, #350973)',
+                  boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+                }}
+              >
+                <DashboardMiniDraft />
+              </div>
+
+              {/* ─── COLUNA 3: ObjectiveTracker + PlusInventory ── */}
+              <div
+                style={{
+                  flex: '0 0 30vw',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px',
+                }}
+              >
+                {/* ObjectiveTracker - parte superior */}
+                <div
+                  style={{
+                    flex: '0 0 70%',
+                    borderRadius: 12,
+                    overflow: 'hidden',
+                    background: 'linear-gradient(to bottom, #6411D9, #350973)',
+                    boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+                  }}
+                >
+                  <ObjectiveTracker
+                    onPackReceived={handlePackReceived}
+                    onCartasRecebidas={handleCartasRecebidas}
+                    setorInicial={dados.setorEscolhido || "comercio"}
+                  />
+                </div>
+
+                {/* PlusInventory - parte inferior */}
+                <div
+                  style={{
+                    flex: 1,
+                    borderRadius: 12,
+                    overflow: 'hidden',
+                    background: 'linear-gradient(to bottom, #6411D9, #350973)',
+                    boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
+                  }}
+                >
+                  <PlusInventory />
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
     </Suspense>

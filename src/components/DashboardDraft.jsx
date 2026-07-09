@@ -925,6 +925,34 @@ function DashboardDraftCarteira({
   setModalProps,
   selecionarButton,
 }) {
+  // ─── DETECTAR MOBILE ──────────────────────────────────────────
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      const mobile = window.innerHeight < 600;
+      const landscape = window.innerWidth > window.innerHeight && mobile;
+      setIsMobile(mobile);
+      setIsLandscape(landscape);
+    };
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    window.addEventListener('orientationchange', () => setTimeout(checkDevice, 300));
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+      window.removeEventListener('orientationchange', checkDevice);
+    };
+  }, []);
+
+  const isDesktop = !isMobile;
+
+  // ─── CONFIGURAÇÕES DO GRID ──────────────────────────────────
+const cardMinWidth = isDesktop ? '220px' : (isLandscape ? '170px' : '150px');
+const cardGapY = isDesktop ? '20px' : (isLandscape ? '14px' : '12px');
+const cardGapX = isDesktop ? '20px' : (isLandscape ? '12px' : '10px');
+const paddingGrid = isDesktop ? '20px' : (isLandscape ? '12px' : '10px');
+
   const setoresCores = {
     agricultura: { cor1: "#003816", cor3: "#0C9123", cor4: "#4CAF50" },
     tecnologia: { cor1: "#A64B00", cor3: "#FF6F00", cor4: "#FF8C42" },
@@ -1356,9 +1384,6 @@ function DashboardDraftCarteira({
             </button>
           )}
         </div>
-
-
-
       </div>
 
       <style>{`
@@ -1369,213 +1394,208 @@ function DashboardDraftCarteira({
       `}</style>
 
       {/* ── GRID DE CARDS (OCUPA O RESTO DO ESPAÇO) ── */}
-      <div
-        style={{
-          background: `linear-gradient(135deg, ${"#6411D9"} 0%, ${"#502602"} 100%)`,
-          flex: 1,
-          borderRadius: "10px",
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-        }}
-      >
-        <div className="flex-1 overflow-y-auto scrollbar-custom p-[20px]">
-          {todosEdificios.length === 0 ? (
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, opacity: .4 }}>
-              <span style={{ fontSize: 22 }}>📭</span>
-              <span style={{ color: "#fff", fontSize: 13, fontFamily: "'Rajdhani',sans-serif" }}>
-                {carteiraFiltroSetor !== "todos" ? `Nenhum edifício em ${setoresNomes[carteiraFiltroSetor]}` : "Nenhum edifício na carteira ainda"}
-              </span>
-            </div>
-          ) : (
-            <div className="w-full gap-y-[20px] grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-x-[20px]">
-              {todosEdificios
-                .filter(({ ed }) => {
-                  if (filtroQuantidade !== "todos") {
-                    return filtrarPorQuantidade(ed, filtroQuantidade);
-                  }
-                  return true;
-                })
-                .filter(({ ed, setor, idx }) => {
-                  if (filtroSelecionados) {
-                    const chave = `${setor}-${idx}`;
-                    return cartasSelecionadas.some(item => item.chave === chave);
-                  }
-                  return true;
-                })
-                .map(({ ed, idx, setor, roi, categoria, rank, lucroLiquido, valor }) => {
-                  const chave = `${setor}-${idx}`;
-                  const estaSelecionado = cartasSelecionadas.some(item => item.chave === chave);
-                  const estaSelecionadoVenda = cartasParaVender.some(item => item.chave === chave);
-                  const limite = getLimiteSelecao();
-                  const atingiuLimite = cartasSelecionadas.length >= limite && !estaSelecionado;
-                  const quantidade = getQuantidadeEdificio(ed);
-                  const excedeLimite = quantidade > 3;
-
-                  return (
-                    <div key={`${setor}-${idx}`} style={{ position: "relative" }}>
-                      {/* BADGE DE RANK */}
-                      <div style={{
-                        position: "absolute", top: -8, right: 10, zIndex: 2,
-                        background: rank.cor,
-                        border: `2px solid ${rank.cor}`,
-                        borderRadius: 6, padding: "1px 8px",
-                        display: "flex", alignItems: "center", gap: 4,
-                        boxShadow: `0 0 15px ${rank.cor}55`,
-                      }}>
-                        <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 800, color: "#fff", textShadow: "0 0 8px rgba(0,0,0,0.5)" }}>
-                          {rank.label}
-                        </span>
-                      </div>
-
-                      {/* BADGE DE VALOR */}
-                      <div style={{
-                        position: "absolute", top: -8, left: 10, zIndex: 2,
-                        background: "rgba(0,0,0,0.7)",
-                        border: "1px solid rgba(255,255,255,0.2)",
-                        borderRadius: 6, padding: "1px 8px",
-                        display: "flex", alignItems: "center", gap: 4,
-                      }}>
-                        <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 9, fontWeight: 700, color: "#C79FFF" }}>
-                          R$ {formatarNumero(valor)}
-                        </span>
-                      </div>
-
-                      {excedeLimite && (
-                        <div style={{
-                          position: "absolute", top: 20, left: 10, zIndex: 2,
-                          background: "#ff4d4d",
-                          border: "1px solid #ff4d4d",
-                          borderRadius: 6, padding: "1px 8px",
-                          display: "flex", alignItems: "center", gap: 4,
-                        }}>
-                          <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 9, fontWeight: 800, color: "#fff" }}>
-                            ⚠️ {quantidade}/3
-                          </span>
-                        </div>
-                      )}
-
-                      <CardDraft index={idx} setor={setor} abrirModalSell={abrirModalSell} />
-
-                      <div style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "4px",
-                        marginBottom: "2px",
-                        gap: "4px",
-                      }}>
-                        <button
-                          className="w-[45%] mt-2 mb-4"
-                          onClick={() => {
-                            toggleSelecao(setor, idx, ed.nome);
-                            selecionarButton();
-                          }}
-                          style={{
-                            padding: "8px 12px",
-                            borderRadius: "6px",
-                            border: estaSelecionado ? "1px solid #34d399" : "1px solid rgba(255,255,255,0.1)",
-                            fontFamily: "'Rajdhani',sans-serif",
-                            fontSize: "10px",
-                            fontWeight: 700,
-                            cursor: "pointer",
-                            transition: "all 0.2s ease",
-                            background: estaSelecionado
-                              ? "linear-gradient(135deg, #7aff9a, #34d399)"
-                              : atingiuLimite
-                                ? "rgba(255,255,255,0.1)"
-                                : "rgba(255,255,255,0.15)",
-                            color: estaSelecionado
-                              ? "#1a1a1a"
-                              : atingiuLimite
-                                ? "rgba(255,255,255,0.3)"
-                                : "rgba(255,255,255,0.7)",
-                            boxShadow: estaSelecionado
-                              ? "0 0 15px rgba(52, 211, 153, 0.4)"
-                              : "none",
-                            transform: estaSelecionado ? "scale(1.02)" : "scale(1)",
-                            pointerEvents: atingiuLimite && !estaSelecionado ? "none" : "auto",
-                            height: "32px",
-                          }}
-                          onMouseEnter={(e) => {
-                            if (!estaSelecionado && !atingiuLimite) {
-                              e.currentTarget.style.background = "rgba(255,255,255,0.25)";
-                              e.currentTarget.style.transform = "scale(1.05)";
-                            }
-                          }}
-                          onMouseLeave={(e) => {
-                            if (!estaSelecionado && !atingiuLimite) {
-                              e.currentTarget.style.background = "rgba(255,255,255,0.15)";
-                              e.currentTarget.style.transform = "scale(1)";
-                            }
-                          }}
-                        >
-                          {estaSelecionado ? "✓ Selecionado" : "Selecionar"}
-                        </button>
-
-                        <button
-                          className="w-[45%] mt-2 mb-4"
-                          onClick={() => {
-                            if (modoVendaRapida) {
-                              toggleSelecaoVenda(setor, idx, ed.nome);
-                            }
-                          }}
-                          style={{
-                            padding: "8px 12px",
-                            borderRadius: "6px",
-                            border: estaSelecionadoVenda
-                              ? "1px solid #ff4d4d"
-                              : "1px solid rgba(255,255,255,0.1)",
-                            fontFamily: "'Rajdhani',sans-serif",
-                            fontSize: "10px",
-                            fontWeight: 700,
-                            transition: "all 0.2s ease",
-                            background: estaSelecionadoVenda
-                              ? "linear-gradient(135deg, #ff4d4d, #cc0000)"
-                              : modoVendaRapida
-                                ? "rgba(255,77,77,0.2)"
-                                : "rgba(255,255,255,0.05)",
-                            color: estaSelecionadoVenda
-                              ? "#fff"
-                              : modoVendaRapida
-                                ? "rgba(255,77,77,0.7)"
-                                : "rgba(255,255,255,0.3)",
-                            boxShadow: estaSelecionadoVenda
-                              ? "0 0 15px rgba(255,77,77,0.4)"
-                              : "none",
-                            transform: estaSelecionadoVenda ? "scale(1.02)" : "scale(1)",
-                            height: "32px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            gap: "4px",
-                            cursor: modoVendaRapida ? "pointer" : "not-allowed",
-                            pointerEvents: modoVendaRapida ? "auto" : "none",
-                          }}
-                          onMouseEnter={(e) => {
-                            if (!estaSelecionadoVenda && modoVendaRapida) {
-                              e.currentTarget.style.background = "rgba(255,77,77,0.3)";
-                              e.currentTarget.style.transform = "scale(1.05)";
-                            }
-                          }}
-                          onMouseLeave={(e) => {
-                            if (!estaSelecionadoVenda && modoVendaRapida) {
-                              e.currentTarget.style.background = "rgba(255,77,77,0.2)";
-                              e.currentTarget.style.transform = "scale(1)";
-                            }
-                          }}
-                        >
-                          <span>🗑️</span>
-                          {estaSelecionadoVenda ? "Vender" : "Vender"}
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-          )}
-        </div>
+<div
+  style={{
+    background: `linear-gradient(135deg, ${"#6411D9"} 0%, ${"#502602"} 100%)`,
+    flex: 1,
+    borderRadius: "10px",
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+  }}
+>
+  <div className="flex-1 overflow-y-auto scrollbar-custom" style={{ padding: paddingGrid }}>
+    {todosEdificios.length === 0 ? (
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, opacity: .4 }}>
+        <span style={{ fontSize: 22 }}>📭</span>
+        <span style={{ color: "#fff", fontSize: 13, fontFamily: "'Rajdhani',sans-serif" }}>
+          {carteiraFiltroSetor !== "todos" ? `Nenhum edifício em ${setoresNomes[carteiraFiltroSetor]}` : "Nenhum edifício na carteira ainda"}
+        </span>
       </div>
+    ) : (
+      <div className="w-full" style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(auto-fill, minmax(${cardMinWidth}, 1fr))`,
+        gap: `${cardGapY} ${cardGapX}`,
+        justifyItems: 'center',
+      }}>
+        {todosEdificios
+          .filter(({ ed }) => {
+            if (filtroQuantidade !== "todos") {
+              return filtrarPorQuantidade(ed, filtroQuantidade);
+            }
+            return true;
+          })
+          .filter(({ ed, setor, idx }) => {
+            if (filtroSelecionados) {
+              const chave = `${setor}-${idx}`;
+              return cartasSelecionadas.some(item => item.chave === chave);
+            }
+            return true;
+          })
+          .map(({ ed, idx, setor, roi, categoria, rank, lucroLiquido, valor }) => {
+            const chave = `${setor}-${idx}`;
+            const estaSelecionado = cartasSelecionadas.some(item => item.chave === chave);
+            const estaSelecionadoVenda = cartasParaVender.some(item => item.chave === chave);
+            const limite = getLimiteSelecao();
+            const atingiuLimite = cartasSelecionadas.length >= limite && !estaSelecionado;
+            const quantidade = getQuantidadeEdificio(ed);
+            const excedeLimite = quantidade > 3;
+
+            return (
+              <div key={`${setor}-${idx}`} style={{ 
+                position: "relative", 
+                display: "flex", 
+                flexDirection: "column",
+                alignItems: "center",
+                width: '100%',
+                maxWidth: cardMinWidth,
+              }}>
+                {/* BADGE DE RANK */}
+                <div style={{
+                  position: "absolute", top: -8, right: 10, zIndex: 2,
+                  background: rank.cor,
+                  border: `2px solid ${rank.cor}`,
+                  borderRadius: 6, padding: "1px 8px",
+                  display: "flex", alignItems: "center", gap: 4,
+                  boxShadow: `0 0 15px ${rank.cor}55`,
+                }}>
+                  <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 11, fontWeight: 800, color: "#fff", textShadow: "0 0 8px rgba(0,0,0,0.5)" }}>
+                    {rank.label}
+                  </span>
+                </div>
+
+                {/* BADGE DE VALOR */}
+                <div style={{
+                  position: "absolute", top: -8, left: 10, zIndex: 2,
+                  background: "rgba(0,0,0,0.7)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  borderRadius: 6, padding: "1px 8px",
+                  display: "flex", alignItems: "center", gap: 4,
+                }}>
+                  <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 9, fontWeight: 700, color: "#C79FFF" }}>
+                    R$ {formatarNumero(valor)}
+                  </span>
+                </div>
+
+                {excedeLimite && (
+                  <div style={{
+                    position: "absolute", top: 20, left: 10, zIndex: 2,
+                    background: "#ff4d4d",
+                    border: "1px solid #ff4d4d",
+                    borderRadius: 6, padding: "1px 8px",
+                    display: "flex", alignItems: "center", gap: 4,
+                  }}>
+                    <span style={{ fontFamily: "'Rajdhani',sans-serif", fontSize: 9, fontWeight: 800, color: "#fff" }}>
+                      ⚠️ {quantidade}/3
+                    </span>
+                  </div>
+                )}
+
+                {/* ─── CARD ────────────────────────────────────── */}
+                <CardDraft index={idx} setor={setor} abrirModalSell={abrirModalSell} />
+
+                {/* ─── BOTÕES DE AÇÃO ────────────────────────── */}
+                <div style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "4px",
+                  width: "100%",
+                  marginTop: "4px",
+                }}>
+                  <button
+                    onClick={() => {
+                      toggleSelecao(setor, idx, ed.nome);
+                      selecionarButton();
+                    }}
+                    style={{
+                      flex: 1,
+                      padding: "6px 8px",
+                      borderRadius: "6px",
+                      border: estaSelecionado ? "1px solid #34d399" : "1px solid rgba(255,255,255,0.1)",
+                      fontFamily: "'Rajdhani',sans-serif",
+                      fontSize: isMobile ? "8px" : "10px",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      transition: "all 0.2s ease",
+                      background: estaSelecionado
+                        ? "linear-gradient(135deg, #7aff9a, #34d399)"
+                        : atingiuLimite
+                          ? "rgba(255,255,255,0.1)"
+                          : "rgba(255,255,255,0.15)",
+                      color: estaSelecionado
+                        ? "#1a1a1a"
+                        : atingiuLimite
+                          ? "rgba(255,255,255,0.3)"
+                          : "rgba(255,255,255,0.7)",
+                      boxShadow: estaSelecionado
+                        ? "0 0 15px rgba(52, 211, 153, 0.4)"
+                        : "none",
+                      transform: estaSelecionado ? "scale(1.02)" : "scale(1)",
+                      pointerEvents: atingiuLimite && !estaSelecionado ? "none" : "auto",
+                      height: isMobile ? "28px" : "32px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {estaSelecionado ? "✓ Selecionado" : "Selecionar"}
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      if (modoVendaRapida) {
+                        toggleSelecaoVenda(setor, idx, ed.nome);
+                      }
+                    }}
+                    style={{
+                      flex: 1,
+                      padding: "6px 8px",
+                      borderRadius: "6px",
+                      border: estaSelecionadoVenda
+                        ? "1px solid #ff4d4d"
+                        : "1px solid rgba(255,255,255,0.1)",
+                      fontFamily: "'Rajdhani',sans-serif",
+                      fontSize: isMobile ? "8px" : "10px",
+                      fontWeight: 700,
+                      transition: "all 0.2s ease",
+                      background: estaSelecionadoVenda
+                        ? "linear-gradient(135deg, #ff4d4d, #cc0000)"
+                        : modoVendaRapida
+                          ? "rgba(255,77,77,0.2)"
+                          : "rgba(255,255,255,0.05)",
+                      color: estaSelecionadoVenda
+                        ? "#fff"
+                        : modoVendaRapida
+                          ? "rgba(255,77,77,0.7)"
+                          : "rgba(255,255,255,0.3)",
+                      boxShadow: estaSelecionadoVenda
+                        ? "0 0 15px rgba(255,77,77,0.4)"
+                        : "none",
+                      transform: estaSelecionadoVenda ? "scale(1.02)" : "scale(1)",
+                      height: isMobile ? "28px" : "32px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "4px",
+                      cursor: modoVendaRapida ? "pointer" : "not-allowed",
+                      pointerEvents: modoVendaRapida ? "auto" : "none",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <span style={{ fontSize: isMobile ? 10 : 14 }}>🗑️</span>
+                    {estaSelecionadoVenda ? "Vender" : "Vender"}
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+      </div>
+    )}
+  </div>
+</div>
     </div>
   );
 }
@@ -1593,7 +1613,7 @@ const ModalConfirmacaoLiquidacao = memo(({ isOpen, onClose, onConfirm, excedente
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="bg-[#1a0a3b] rounded-[24px] p-6 max-w-[420px] w-full border-2 border-red-500/30 shadow-2xl"
       >
-        <div className="flex justify-between items-center mb-4">
+        {/* <div className="flex justify-between items-center mb-4">
           <h2 className="text-white text-xl font-bold">⚠️ Confirmar Liquidação</h2>
           <button
             onClick={onClose}
@@ -1601,7 +1621,7 @@ const ModalConfirmacaoLiquidacao = memo(({ isOpen, onClose, onConfirm, excedente
           >
             <img src={fechar} className="w-4 h-4" alt="Fechar" />
           </button>
-        </div>
+        </div> */}
 
         <div className="text-white/80 text-sm leading-relaxed mb-6">
           <p className="mb-2">

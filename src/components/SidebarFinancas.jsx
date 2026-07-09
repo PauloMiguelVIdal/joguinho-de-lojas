@@ -1,4 +1,4 @@
-// SidebarFinancas.jsx
+// SidebarFinancas.jsx - Com indicadores quadrados responsivos
 import React, { useContext, useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
@@ -17,6 +17,7 @@ import "react-tooltip/dist/react-tooltip.css";
 import { BusinessLicence } from "./BusinessLicence";
 import closeAudio from "../../public/sounds/closeAudio.mp3";
 import fechar from "../../public/outrasImagens/fechar.png";
+import { useDeviceDetection } from "./useDeviceDetection";
 
 const SETORES = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"];
 const IMAGENS = { agricultura, tecnologia, industria, comercio, imobiliario, energia };
@@ -50,33 +51,48 @@ const ECO_CONFIG = {
 
 function SecaoEconomia({ economiaSetores }) {
     const { dados } = useContext(CentraldeDadosContext);
+    const { isMobile, isLandscape, isDesktop } = useDeviceDetection();
     const dia = dados.dia;
+
+    // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
+    const showTitle = isDesktop;
+    const showNome = isDesktop || !isLandscape;
+    const iconSize = isDesktop ? '50%' : (isLandscape ? '55%' : '50%');
+    const fontSizeNome = isDesktop ? '7px' : (isLandscape ? '0px' : '7px'); // 0px em paisagem = escondido
+    const paddingItem = isDesktop ? '3px' : (isLandscape ? '2px' : '2px');
+    const fontSizeTitulo = isDesktop ? '10px' : (isLandscape ? '9px' : '10px');
 
     return (
         <div className="flex flex-col h-full w-full overflow-hidden">
-            {/* Título SETORES */}
-            <div style={{
-                display: "flex",
-                alignItems: "center",
-                padding: "2px 0 4px 0",
-                flexShrink: 0,
-                borderBottom: "1px solid rgba(255,255,255,0.06)",
-                marginBottom: "4px",
-            }}>
-                <span style={{
-                    fontFamily: "'Rajdhani',sans-serif",
-                    fontSize: "10px",
-                    fontWeight: 700,
-                    letterSpacing: ".15em",
-                    color: "rgba(255,255,255,0.5)",
-                    textTransform: "uppercase",
+            {/* ─── TÍTULO "Setores" - só no desktop ─────────────── */}
+            {showTitle && (
+                <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "2px 0 4px 0",
+                    flexShrink: 0,
+                    borderBottom: "1px solid rgba(255,255,255,0.06)",
+                    marginBottom: "4px",
                 }}>
-                    Setores
-                </span>
-            </div>
+                    <span style={{
+                        fontFamily: "'Rajdhani',sans-serif",
+                        fontSize: fontSizeTitulo,
+                        fontWeight: 700,
+                        letterSpacing: ".15em",
+                        color: "rgba(255,255,255,0.5)",
+                        textTransform: "uppercase",
+                    }}>
+                        Setores
+                    </span>
+                </div>
+            )}
 
-            {/* Grid ocupando 100% da altura */}
-            <div className="grid grid-cols-6 h-full w-full gap-1" style={{ flex: 1, minHeight: 0 }}>
+            {/* ─── GRID DE SETORES ────────────────────────────────── */}
+            <div className="grid grid-cols-6 h-full w-full gap-1" style={{ 
+                flex: 1, 
+                minHeight: 0,
+                paddingTop: isMobile ? '2px' : '0px',
+            }}>
                 {SETORES.map(setor => {
                     const estado = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
                     const eco = ECO_CONFIG[estado] || { bg: "#555", label: estado, dot: "#aaa" };
@@ -93,7 +109,8 @@ function SecaoEconomia({ economiaSetores }) {
                                 boxShadow: `0 0 8px ${eco.bg}22, inset 0 0 15px ${eco.bg}11`,
                                 height: '100%',
                                 width: '100%',
-                                padding: "3px",
+                                padding: paddingItem,
+                                aspectRatio: '1 / 1', // Mantém quadrado
                             }}
                             onMouseEnter={e => {
                                 e.currentTarget.style.boxShadow = `0 0 16px ${eco.bg}55, inset 0 0 25px ${eco.bg}22`;
@@ -104,43 +121,63 @@ function SecaoEconomia({ economiaSetores }) {
                                 e.currentTarget.style.transform = "scale(1)";
                             }}
                         >
+                            {/* ─── ÍCONE DO SETOR ───────────────────── */}
                             <img
                                 src={IMAGENS[setor]}
                                 alt={setor}
                                 className="object-contain"
                                 style={{
                                     filter: `drop-shadow(0 0 6px ${eco.bg}55)`,
-                                    maxWidth: '50%',
-                                    maxHeight: '50%',
+                                    maxWidth: iconSize,
+                                    maxHeight: iconSize,
                                     width: 'auto',
                                     height: 'auto',
+                                    flexShrink: 0,
                                 }}
                             />
                             
-                            {/* Nome do setor abaixo do ícone */}
-                            <span style={{
-                                fontFamily: "'Rajdhani',sans-serif",
-                                fontSize: "7px",
-                                fontWeight: 700,
-                                letterSpacing: ".05em",
-                                color: "rgba(255,255,255,0.7)",
-                                textTransform: "uppercase",
-                                marginTop: "3px",
-                                textAlign: "center",
-                                lineHeight: 1.1,
-                                maxWidth: "90%",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                whiteSpace: "nowrap",
-                            }}>
-                                {NOMES_SETORES[setor]}
-                            </span>
+                            {/* ─── NOME DO SETOR ────────────────────── */}
+                            {/* Em paisagem mobile, o nome fica com 0px (escondido) */}
+                            {showNome && (
+                                <span style={{
+                                    fontFamily: "'Rajdhani',sans-serif",
+                                    fontSize: fontSizeNome,
+                                    fontWeight: 700,
+                                    letterSpacing: ".05em",
+                                    color: "rgba(255,255,255,0.7)",
+                                    textTransform: "uppercase",
+                                    marginTop: "3px",
+                                    textAlign: "center",
+                                    lineHeight: 1.1,
+                                    maxWidth: "90%",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                }}>
+                                    {NOMES_SETORES[setor]}
+                                </span>
+                            )}
+
+                            {/* ─── INDICADOR DE STATUS (pontinho) ──── */}
+                            {/* Mobile paisagem: mostra um pontinho colorido */}
+                            {isMobile && isLandscape && (
+                                <div style={{
+                                    width: "8px",
+                                    height: "8px",
+                                    borderRadius: "50%",
+                                    background: eco.dot,
+                                    boxShadow: `0 0 12px ${eco.bg}99`,
+                                    marginTop: "2px",
+                                    flexShrink: 0,
+                                    border: `2px solid ${eco.bg}66`,
+                                }} />
+                            )}
                         </div>
                     );
                 })}
             </div>
 
-            {/* Tooltips para cada setor */}
+            {/* ─── TOOLTIPS ────────────────────────────────────────── */}
             {SETORES.map(setor => {
                 const estado = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
                 const eco = ECO_CONFIG[estado] || { bg: "#555", label: estado, dot: "#aaa" };
@@ -167,10 +204,28 @@ function SecaoEconomia({ economiaSetores }) {
 export default function SidebarFinancas({ onOpen }) {
     const { dados } = useContext(CentraldeDadosContext);
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
+    const { isMobile, isLandscape, isDesktop } = useDeviceDetection();
     const dia = dados.dia;
 
+    // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
+    const altura = isDesktop ? '90%' : (isLandscape ? '85%' : '85%');
+    const padding = isDesktop ? '2px 8px' : (isLandscape ? '2px 4px' : '2px 4px');
+    const maxWidth = isDesktop ? '400px' : (isLandscape ? '280px' : '300px');
+    const borderRadius = isDesktop ? '12px' : (isLandscape ? '8px' : '8px');
+
     return (
-        <div className="h-[90%] p-2 w-full max-w-[400px] flex items-center overflow-hidden bg-white/5 rounded-xl border border-white/10">
+        <div style={{
+            height: altura,
+            padding: padding,
+            width: '100%',
+            maxWidth: maxWidth,
+            display: 'flex',
+            alignItems: 'center',
+            overflow: 'hidden',
+            background: 'rgba(255,255,255,0.05)',
+            borderRadius: borderRadius,
+            border: '1px solid rgba(255,255,255,0.1)',
+        }}>
             <SecaoEconomia economiaSetores={economiaSetores} />
         </div>
     );

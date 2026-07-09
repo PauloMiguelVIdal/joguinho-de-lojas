@@ -1,4 +1,4 @@
-// ObjectiveTracker.jsx
+// ObjectiveTracker.jsx - Responsivo para Mobile
 import React, { useContext, useEffect, useState, useCallback, useMemo } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
@@ -43,9 +43,6 @@ const CONDICOES = {
       return edificios.reduce((sum, ed) => sum + ed.quantidade, 0);
     }
   }),
-  
-  // Adicione mais condições aqui conforme necessário
-  // ex: especificas: (nomes) => ({ ... })
 };
 
 // ─── CONFIGURAÇÃO DOS OBJETIVOS ──────────────────────────────
@@ -298,18 +295,33 @@ export default function ObjectiveTracker({
 
   const [objetivosCompletos, setObjetivosCompletos] = useState(new Set());
   const [recompensasRecebidas, setRecompensasRecebidas] = useState([]);
-
-  
-  // ─── ESTADO PARA RECOMPENSAS PENDENTES ──────────────────────
   const [recompensasPendentes, setRecompensasPendentes] = useState({});
+
+  // ─── DETECTAR MOBILE ──────────────────────────────────────────
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      const mobile = window.innerHeight < 600;
+      const landscape = window.innerWidth > window.innerHeight && mobile;
+      setIsMobile(mobile);
+      setIsLandscape(landscape);
+    };
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    window.addEventListener('orientationchange', () => setTimeout(checkDevice, 300));
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+      window.removeEventListener('orientationchange', checkDevice);
+    };
+  }, []);
 
   // ─── FUNÇÃO PARA OBTER EDIFÍCIOS DE UM SETOR ──────────────
   const getEdificiosDoSetor = useCallback((setor) => {
     if (!dados[setor]?.edificios) return [];
     return dados[setor].edificios.filter(ed => ed.quantidade > 0);
   }, [dados]);
-
-  // ─── FUNÇÃO PARA ADICIONAR CARTA AO INVENTÁRIO ─────────────
 
   useEffect(() => {
     const totalMissoes = Object.values(OBJETIVOS).reduce(
@@ -343,62 +355,49 @@ export default function ObjectiveTracker({
     return true;
   }, [dados, atualizarDadosProf2]);
 
-  // ─── FUNÇÃO PARA VERIFICAR SE UM OBJETIVO FOI ATINGIDO ─────
   const verificarObjetivo = useCallback((setor, objetivoId) => {
     const chave = `${setor}_${objetivoId}`;
-    
     if (objetivosCompletos.has(chave)) return false;
     if (recompensasPendentes[chave]) return false;
-    
     const objetivo = OBJETIVOS[setor]?.find(obj => obj.id === objetivoId);
     if (!objetivo) return false;
-    
     const { condicao } = resolverCondicao(objetivo);
     const edificios = getEdificiosDoSetor(setor);
     return condicao(edificios);
   }, [objetivosCompletos, recompensasPendentes, getEdificiosDoSetor]);
 
-  // ─── FUNÇÃO PARA PEGAR RECOMPENSA ──────────────────────────
   const pegarRecompensa = useCallback((setor, objetivoId) => {
-  const chave = `${setor}_${objetivoId}`;
-  
-  if (!recompensasPendentes[chave]) return;
-  
-  const objetivo = OBJETIVOS[setor]?.find(obj => obj.id === objetivoId);
-  if (!objetivo) return;
-  
-  const recompensa = objetivo.recompensa;
-  
+    const chave = `${setor}_${objetivoId}`;
+    if (!recompensasPendentes[chave]) return;
+    const objetivo = OBJETIVOS[setor]?.find(obj => obj.id === objetivoId);
+    if (!objetivo) return;
+    const recompensa = objetivo.recompensa;
+    
     adicionarMissaoConcluida(setor, objetivoId, objetivo.descricao);
 
-
-  if (recompensa.tipo === "pacote") {
-    // ✅ Passa a raridade explicitamente
-    if (onPackReceived) {
-      onPackReceived(recompensa.raridade); // Ex: "comum", "raro", etc.
-    }
-    
-    setObjetivosCompletos(prev => new Set(prev).add(chave));
-    setRecompensasPendentes(prev => {
-      const novo = { ...prev };
-      delete novo[chave];
-      return novo;
-    });
-    setRecompensasRecebidas(prev => [...prev, {
-      id: chave,
-      setor,
-      descricao: objetivo.descricao,
-      recompensa: recompensa.label
-    }]);
+    if (recompensa.tipo === "pacote") {
+      if (onPackReceived) {
+        onPackReceived(recompensa.raridade);
+      }
+      setObjetivosCompletos(prev => new Set(prev).add(chave));
+      setRecompensasPendentes(prev => {
+        const novo = { ...prev };
+        delete novo[chave];
+        return novo;
+      });
+      setRecompensasRecebidas(prev => [...prev, {
+        id: chave,
+        setor,
+        descricao: objetivo.descricao,
+        recompensa: recompensa.label
+      }]);
     } else if (recompensa.tipo === "cartas") {
       recompensa.cartas.forEach(nome => {
         adicionarCartaAoInventario(nome);
       });
-      
       if (onCartasRecebidas) {
         onCartasRecebidas(recompensa.cartas);
       }
-      
       setObjetivosCompletos(prev => new Set(prev).add(chave));
       setRecompensasPendentes(prev => {
         const novo = { ...prev };
@@ -412,9 +411,8 @@ export default function ObjectiveTracker({
         recompensa: recompensa.label
       }]);
     }
-}, [recompensasPendentes, onPackReceived, onCartasRecebidas, adicionarCartaAoInventario, adicionarMissaoConcluida]);
+  }, [recompensasPendentes, onPackReceived, onCartasRecebidas, adicionarCartaAoInventario, adicionarMissaoConcluida]);
 
-  // ─── FUNÇÃO PARA VERIFICAR TODOS OS OBJETIVOS ──────────────
   const verificarTodosObjetivos = useCallback(() => {
     const novasPendentes = { ...recompensasPendentes };
     let hasChanges = false;
@@ -422,10 +420,8 @@ export default function ObjectiveTracker({
     for (const [setor, objetivos] of Object.entries(OBJETIVOS)) {
       for (const objetivo of objetivos) {
         const chave = `${setor}_${objetivo.id}`;
-        
         if (objetivosCompletos.has(chave)) continue;
         if (recompensasPendentes[chave]) continue;
-        
         const { condicao } = resolverCondicao(objetivo);
         const edificios = getEdificiosDoSetor(setor);
         if (condicao(edificios)) {
@@ -444,12 +440,10 @@ export default function ObjectiveTracker({
     }
   }, [objetivosCompletos, recompensasPendentes, getEdificiosDoSetor]);
 
-  // ─── EFFECT: VERIFICAR QUANDO DADOS MUDAM ─────────────────
   useEffect(() => {
     verificarTodosObjetivos();
   }, [dados, verificarTodosObjetivos]);
 
-  // ─── EFFECT: VERIFICAR A CADA DIA ─────────────────────────
   useEffect(() => {
     if (dados.dia > 0) {
       verificarTodosObjetivos();
@@ -462,18 +456,14 @@ export default function ObjectiveTracker({
     }
   }, [setorInicial]);
 
-
-  // ─── MEMO: OBJETIVOS DO SETOR SELECIONADO ─────────────────
   const objetivosSetor = useMemo(() => {
     return OBJETIVOS[setorSelecionado] || [];
   }, [setorSelecionado]);
 
-  // ─── MEMO: EDIFÍCIOS DO SETOR SELECIONADO ─────────────────
   const edificiosSetor = useMemo(() => {
     return getEdificiosDoSetor(setorSelecionado);
   }, [setorSelecionado, getEdificiosDoSetor]);
 
-  // ─── CALCULAR PROGRESSO ────────────────────────────────────
   const calcularProgresso = useCallback((objetivo) => {
     const { progresso } = resolverCondicao(objetivo);
     const atual = progresso(edificiosSetor);
@@ -481,195 +471,275 @@ export default function ObjectiveTracker({
     return Math.min(atual / total, 1);
   }, [edificiosSetor]);
 
-  // ─── VERIFICAR SE OBJETIVO ESTÁ COMPLETO ──────────────────
   const isObjetivoCompleto = useCallback((setor, id) => {
     const chave = `${setor}_${id}`;
     return objetivosCompletos.has(chave);
   }, [objetivosCompletos]);
 
-  // ─── VERIFICAR SE OBJETIVO ESTÁ PENDENTE ──────────────────
   const isObjetivoPendente = useCallback((setor, id) => {
     const chave = `${setor}_${id}`;
     return !!recompensasPendentes[chave];
   }, [recompensasPendentes]);
 
-  // ─── RENDER ─────────────────────────────────────────────────
+  // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
+  const alturaContainer = isMobile ? '100%' : '40vh';
+  const larguraContainer = isMobile ? '100%' : '20vw';
+  const paddingHeader = isMobile ? '2px 8px' : '16px';
+  const paddingLista = isMobile ? '2px 6px' : '16px';
+  const fontSizeTitulo = isMobile ? '12px' : '18px';
+  const fontSizeDescricao = isMobile ? '10px' : '14px';
+  const fontSizeBadge = isMobile ? '7px' : '10px';
+  const fontSizeProgresso = isMobile ? '8px' : '10px';
+  const tamanhoCirculo = isMobile ? '16px' : '24px';
+  const gapItems = isMobile ? '2px' : '12px';
+  const paddingItem = isMobile ? '2px 6px' : '12px';
+  const borderRadiusItem = isMobile ? '6px' : '12px';
+
   return (
-    <>
-      <div className="h-[40vh] w-[20vw] bg-[#1a0a3b] rounded-[0px] border border-white/10 shadow-2xl overflow-hidden flex flex-col">
-        {/* ─── HEADER ────────────────────────────────────────────── */}
-            <div style={{background: 'linear-gradient(to bottom, #6411D9, #350973)',}} className="p-4 border-b bg- border-white/10 flex-shrink-0">
-                    <h2 className="text-white font-bold text-lg flex items-center gap-2">
-            <span>🎯</span> Objetivos
-          </h2>
-        </div>
+    <div className="h-full w-full bg-[#1a0a3b] border border-white/10 shadow-2xl overflow-hidden flex flex-col" style={{
+      height: alturaContainer,
+      width: larguraContainer,
+    }}>
+      {/* ─── HEADER ────────────────────────────────────────────── */}
+      <div style={{background: 'linear-gradient(to bottom, #6411D9, #350973)'}} className="flex-shrink-0" style={{
+        padding: paddingHeader,
+        borderBottom: '1px solid rgba(255,255,255,0.1)',
+      }}>
+        <h2 className="text-white font-bold flex items-center gap-2" style={{
+          fontSize: fontSizeTitulo,
+        }}>
+          <span style={{ fontSize: isMobile ? '14px' : '20px' }}>🎯</span> Objetivos
+        </h2>
+      </div>
 
-        {/* ─── LISTA DE OBJETIVOS ──────────────────────────────── */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-custom">
-          {objetivosSetor.length === 0 ? (
-            <div className="text-white/40 text-center text-sm py-8">
-              Nenhum objetivo disponível para este setor
-            </div>
-          ) : (
-            objetivosSetor.map((objetivo) => {
-              const chave = `${setorSelecionado}_${objetivo.id}`;
-              const completo = objetivosCompletos.has(chave);
-              const pendente = !!recompensasPendentes[chave];
-              const { progresso } = resolverCondicao(objetivo);
-              const progressoValue = calcularProgresso(objetivo);
-              const atual = progresso(edificiosSetor);
-              const meta = objetivo.meta;
-              
-              const isProximo = !completo && !pendente && 
-                objetivosSetor.filter(obj => {
-                  const ch = `${setorSelecionado}_${obj.id}`;
-                  return !objetivosCompletos.has(ch) && !recompensasPendentes[ch];
-                })[0]?.id === objetivo.id;
+      {/* ─── LISTA DE OBJETIVOS ──────────────────────────────── */}
+      <div className="flex-1 overflow-y-auto scrollbar-custom" style={{
+        padding: paddingLista,
+        gap: isMobile ? '4px' : '12px',
+        display: 'flex',
+        flexDirection: 'column',
+      }}>
+        {objetivosSetor.length === 0 ? (
+          <div className="text-white/40 text-center py-8" style={{
+            fontSize: isMobile ? '10px' : '14px',
+          }}>
+            Nenhum objetivo disponível para este setor
+          </div>
+        ) : (
+          objetivosSetor.map((objetivo) => {
+            const chave = `${setorSelecionado}_${objetivo.id}`;
+            const completo = objetivosCompletos.has(chave);
+            const pendente = !!recompensasPendentes[chave];
+            const { progresso } = resolverCondicao(objetivo);
+            const progressoValue = calcularProgresso(objetivo);
+            const atual = progresso(edificiosSetor);
+            const meta = objetivo.meta;
+            
+            const isProximo = !completo && !pendente && 
+              objetivosSetor.filter(obj => {
+                const ch = `${setorSelecionado}_${obj.id}`;
+                return !objetivosCompletos.has(ch) && !recompensasPendentes[ch];
+              })[0]?.id === objetivo.id;
 
-              return (
-                <div 
-                  key={objetivo.id}
-                  className={`p-3 rounded-xl transition-all ${
-                    completo 
-                      ? 'bg-green-500/10 border border-green-500/30' 
-                      : pendente
-                        ? 'bg-yellow-500/20 border-2 border-yellow-500/50 shadow-lg shadow-yellow-500/20'
-                        : isProximo 
-                          ? 'bg-gradient-to-r from-[#6A00FF]/20 to-[#8B00FF]/20 border border-purple-500/30 shadow-lg shadow-purple-500/10' 
-                          : 'bg-white/5 border border-white/5'
-                  }`}
-                >
-                  <div className="flex items-start gap-3">
-                    {/* ─── CHECK / PROGRESSO ────────────────────── */}
-                    <div className="flex-shrink-0 mt-0.5">
-                      {completo ? (
-                        <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center shadow-lg shadow-green-500/30">
-                          <span className="text-white text-sm">✓</span>
-                        </div>
-                      ) : pendente ? (
-                        <div className="w-6 h-6 rounded-full bg-yellow-500 flex items-center justify-center shadow-lg shadow-yellow-500/30 animate-pulse">
-                          <span className="text-white text-sm">⭐</span>
-                        </div>
-                      ) : (
-                        <div className="relative w-6 h-6">
-                          <svg className="w-6 h-6 transform -rotate-90">
-                            <circle
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              fill="none"
-                              stroke="rgba(255,255,255,0.1)"
-                              strokeWidth="3"
-                            />
-                            <circle
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              fill="none"
-                              stroke={isProximo ? "#8B00FF" : "rgba(255,255,255,0.3)"}
-                              strokeWidth="3"
-                              strokeDasharray={`${progressoValue * 62.83} 62.83`}
-                              strokeLinecap="round"
-                              className="transition-all duration-500"
-                            />
-                          </svg>
-                          <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-white/60">
-                            {Math.round(progressoValue * 100)}%
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* ─── INFORMAÇÕES ──────────────────────────── */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className={`text-sm font-bold ${
-                          completo ? 'text-green-400' : pendente ? 'text-yellow-400' : isProximo ? 'text-white' : 'text-white/60'
-                        }`}>
-                          {objetivo.descricao}
-                        </span>
-                        {pendente && (
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-yellow-500/30 text-yellow-300 font-bold animate-pulse">
-                            RECOMPENSA DISPONÍVEL!
-                          </span>
-                        )}
-                        {isProximo && !completo && !pendente && (
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/30 text-purple-300 font-bold animate-pulse">
-                            PRÓXIMO
-                          </span>
-                        )}
-                        {completo && (
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-500/30 text-green-400 font-bold">
-                            COMPLETO
-                          </span>
-                        )}
+            return (
+              <div 
+                key={objetivo.id}
+                className="transition-all" style={{
+                  padding: paddingItem,
+                  borderRadius: borderRadiusItem,
+                  background: completo 
+                    ? 'rgba(74, 222, 128, 0.1)' 
+                    : pendente
+                      ? 'rgba(234, 179, 8, 0.2)'
+                      : isProximo 
+                        ? 'rgba(106, 0, 255, 0.2)'
+                        : 'rgba(255,255,255,0.05)',
+                  border: completo 
+                    ? '1px solid rgba(74, 222, 128, 0.3)' 
+                    : pendente
+                      ? '2px solid rgba(234, 179, 8, 0.5)'
+                      : isProximo 
+                        ? '1px solid rgba(106, 0, 255, 0.3)'
+                        : '1px solid rgba(255,255,255,0.05)',
+                  boxShadow: pendente ? '0 0 20px rgba(234, 179, 8, 0.2)' : 'none',
+                }}
+              >
+                <div className="flex items-start gap-2" style={{
+                  gap: isMobile ? '6px' : '12px',
+                }}>
+                  {/* ─── CHECK / PROGRESSO ────────────────────── */}
+                  <div className="flex-shrink-0 mt-0.5">
+                    {completo ? (
+                      <div className="rounded-full bg-green-500 flex items-center justify-center" style={{
+                        width: tamanhoCirculo,
+                        height: tamanhoCirculo,
+                        boxShadow: '0 0 20px rgba(74, 222, 128, 0.3)',
+                      }}>
+                        <span className="text-white" style={{ fontSize: isMobile ? '10px' : '14px' }}>✓</span>
                       </div>
-                      
-                      {/* ─── BARRA DE PROGRESSO ──────────────────── */}
-                      <div className="mt-1.5 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                        <div 
-                          className={`h-full rounded-full transition-all duration-500 ${
-                            completo ? 'bg-green-500' : pendente ? 'bg-yellow-500' : isProximo ? 'bg-gradient-to-r from-[#6A00FF] to-[#8B00FF]' : 'bg-white/30'
-                          }`}
-                          style={{ width: `${Math.min(progressoValue * 100, 100)}%` }}
-                        />
+                    ) : pendente ? (
+                      <div className="rounded-full bg-yellow-500 flex items-center justify-center animate-pulse" style={{
+                        width: tamanhoCirculo,
+                        height: tamanhoCirculo,
+                        boxShadow: '0 0 20px rgba(234, 179, 8, 0.3)',
+                      }}>
+                        <span className="text-white" style={{ fontSize: isMobile ? '10px' : '14px' }}>⭐</span>
                       </div>
-
-                      {/* ─── PROGRESSO TEXTUAL ──────────────────── */}
-                      <div className="flex items-center justify-between mt-1">
-                        <span className="text-[10px] text-white/40">
-                          {atual} / {meta} {objetivo.condicao === 'diferentes' ? 'diferentes' : 'totais'}
-                        </span>
-                        <span className="text-[10px] text-white/40">
-                          🎁 {objetivo.recompensa.label}
+                    ) : (
+                      <div className="relative" style={{
+                        width: tamanhoCirculo,
+                        height: tamanhoCirculo,
+                      }}>
+                        <svg className="w-full h-full transform -rotate-90">
+                          <circle
+                            cx="50%"
+                            cy="50%"
+                            r={isMobile ? '6' : '10'}
+                            fill="none"
+                            stroke="rgba(255,255,255,0.1)"
+                            strokeWidth={isMobile ? '2' : '3'}
+                          />
+                          <circle
+                            cx="50%"
+                            cy="50%"
+                            r={isMobile ? '6' : '10'}
+                            fill="none"
+                            stroke={isProximo ? "#8B00FF" : "rgba(255,255,255,0.3)"}
+                            strokeWidth={isMobile ? '2' : '3'}
+                            strokeDasharray={`${progressoValue * (isMobile ? 37.7 : 62.83)} ${isMobile ? 37.7 : 62.83}`}
+                            strokeLinecap="round"
+                            className="transition-all duration-500"
+                          />
+                        </svg>
+                        <span className="absolute inset-0 flex items-center justify-center text-white/60" style={{
+                          fontSize: isMobile ? '7px' : '10px',
+                          fontWeight: 'bold',
+                        }}>
+                          {Math.round(progressoValue * 100)}%
                         </span>
                       </div>
-                    </div>
+                    )}
                   </div>
 
-                  {/* ─── BOTÃO PEGAR RECOMPENSA ────────────────── */}
-                  {pendente && (
-                    <button
-                      onClick={() => pegarRecompensa(setorSelecionado, objetivo.id)}
-                      className="mt-3 w-full py-2 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-bold text-sm hover:scale-[1.02] transition-all shadow-lg shadow-yellow-500/30 animate-pulse"
-                    >
-                      ⭐ Pegar Recompensa!
-                    </button>
-                  )}
+                  {/* ─── INFORMAÇÕES ──────────────────────────── */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center flex-wrap" style={{
+                      gap: isMobile ? '2px' : '4px',
+                    }}>
+                      <span className="font-bold" style={{
+                        fontSize: fontSizeDescricao,
+                        color: completo ? '#4ade80' : pendente ? '#facc15' : isProximo ? '#ffffff' : 'rgba(255,255,255,0.6)',
+                      }}>
+                        {objetivo.descricao}
+                      </span>
+                      {pendente && (
+                        <span className="rounded-full bg-yellow-500/30 text-yellow-300 font-bold animate-pulse" style={{
+                          fontSize: fontSizeBadge,
+                          padding: '1px 6px',
+                        }}>
+                          RECOMPENSA DISPONÍVEL!
+                        </span>
+                      )}
+                      {isProximo && !completo && !pendente && (
+                        <span className="rounded-full bg-purple-500/30 text-purple-300 font-bold animate-pulse" style={{
+                          fontSize: fontSizeBadge,
+                          padding: '1px 6px',
+                        }}>
+                          PRÓXIMO
+                        </span>
+                      )}
+                      {completo && (
+                        <span className="rounded-full bg-green-500/30 text-green-400 font-bold" style={{
+                          fontSize: fontSizeBadge,
+                          padding: '1px 6px',
+                        }}>
+                          COMPLETO
+                        </span>
+                      )}
+                    </div>
+                    
+                    {/* ─── BARRA DE PROGRESSO ──────────────────── */}
+                    <div className="w-full bg-white/10 rounded-full overflow-hidden" style={{
+                      height: isMobile ? '3px' : '6px',
+                      marginTop: isMobile ? '2px' : '6px',
+                    }}>
+                      <div 
+                        className="h-full rounded-full transition-all duration-500" style={{
+                          width: `${Math.min(progressoValue * 100, 100)}%`,
+                          background: completo 
+                            ? '#4ade80' 
+                            : pendente 
+                              ? '#facc15' 
+                              : isProximo 
+                                ? 'linear-gradient(90deg, #6A00FF, #8B00FF)'
+                                : 'rgba(255,255,255,0.3)',
+                        }}
+                      />
+                    </div>
+
+                    {/* ─── PROGRESSO TEXTUAL ──────────────────── */}
+                    <div className="flex items-center justify-between mt-1">
+                      <span className="text-white/40" style={{
+                        fontSize: fontSizeProgresso,
+                      }}>
+                        {atual} / {meta} {objetivo.condicao === 'diferentes' ? 'diferentes' : 'totais'}
+                      </span>
+                      <span className="text-white/40" style={{
+                        fontSize: fontSizeProgresso,
+                      }}>
+                        🎁 {objetivo.recompensa.label}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              );
-            })
+
+                {/* ─── BOTÃO PEGAR RECOMPENSA ────────────────── */}
+                {pendente && (
+                  <button
+                    onClick={() => pegarRecompensa(setorSelecionado, objetivo.id)}
+                    className="mt-2 w-full py-1.5 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-bold animate-pulse hover:scale-[1.02] transition-all" style={{
+                      fontSize: isMobile ? '10px' : '14px',
+                      boxShadow: '0 0 30px rgba(234, 179, 8, 0.3)',
+                    }}
+                  >
+                    ⭐ Pegar Recompensa!
+                  </button>
+                )}
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* ─── FOOTER ────────────────────────────────────────────── */}
+      <div className="p-2 border-t border-white/5 flex-shrink-0 bg-white/5">
+        <div className="flex items-center justify-between text-white/40" style={{
+          fontSize: isMobile ? '7px' : '10px',
+        }}>
+          <span>📦 {recompensasRecebidas.length} recompensas</span>
+          <span>🎯 {Array.from(objetivosCompletos).length} completos</span>
+          {Object.keys(recompensasPendentes).length > 0 && (
+            <span className="text-yellow-400">⭐ {Object.keys(recompensasPendentes).length} pendente(s)</span>
           )}
         </div>
-
-        {/* ─── FOOTER ────────────────────────────────────────────── */}
-        <div className="p-3 border-t border-white/5 flex-shrink-0 bg-white/5">
-          <div className="flex items-center justify-between text-white/40 text-xs">
-            <span>📦 {recompensasRecebidas.length} recompensas recebidas</span>
-            <span>🎯 {Array.from(objetivosCompletos).length} objetivos completos</span>
-            {Object.keys(recompensasPendentes).length > 0 && (
-              <span className="text-yellow-400">⭐ {Object.keys(recompensasPendentes).length} pendente(s)</span>
-            )}
-          </div>
-        </div>
-
-        <style>{`
-          .scrollbar-custom::-webkit-scrollbar {
-            width: 4px;
-          }
-          .scrollbar-custom::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-          }
-          .scrollbar-custom::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-          }
-          .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-            background: rgba(255,255,255,0.3);
-          }
-        `}</style>
       </div>
-    </>
+
+      <style>{`
+        .scrollbar-custom::-webkit-scrollbar {
+          width: 3px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-track {
+          background: rgba(255,255,255,0.05);
+          border-radius: 10px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.2);
+          border-radius: 10px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+          background: rgba(255,255,255,0.3);
+        }
+      `}</style>
+    </div>
   );
 }

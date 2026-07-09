@@ -118,6 +118,34 @@ const getRank = (nome) => {
     return 'C';
 };
 
+// ─── DETECTAR MOBILE ──────────────────────────────────────────────
+function useDeviceDetection() {
+    const [isMobile, setIsMobile] = useState(false);
+    const [isLandscape, setIsLandscape] = useState(false);
+
+    useEffect(() => {
+        const checkDevice = () => {
+            const mobile = window.innerHeight < 600;
+            const landscape = window.innerWidth > window.innerHeight && mobile;
+            setIsMobile(mobile);
+            setIsLandscape(landscape);
+        };
+
+        checkDevice();
+        window.addEventListener('resize', checkDevice);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(checkDevice, 300);
+        });
+
+        return () => {
+            window.removeEventListener('resize', checkDevice);
+            window.removeEventListener('orientationchange', checkDevice);
+        };
+    }, []);
+
+    return { isMobile, isLandscape, isDesktop: !isMobile };
+}
+
 // ─── SUBCOMPONENTES AUXILIARES OTIMIZADOS ──────────────────────
 
 // ✅ Otimizado com React.memo para evitar re-renders desnecessários
@@ -283,8 +311,8 @@ const StarsCanvas = React.memo(() => {
         let height = 0;
         let stars = [];
         let frameCounter = 0;
-        const STAR_COUNT = 40; // ✅ Reduzido de 80 para 40 (ninguém percebe a diferença)
-        const UPDATE_INTERVAL = 2; // ✅ Atualiza a cada 2 frames (30fps em vez de 60fps)
+        const STAR_COUNT = 40;
+        const UPDATE_INTERVAL = 2;
 
         const resizeCanvas = () => {
             const rect = canvas.parentElement?.getBoundingClientRect();
@@ -308,19 +336,16 @@ const StarsCanvas = React.memo(() => {
                 stars[i] = {
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    radius: Math.random() * 1.2 + 0.3, // ✅ Menores
+                    radius: Math.random() * 1.2 + 0.3,
                     opacity: Math.random() * 0.3 + 0.2,
                     speed: Math.random() * 0.003 + 0.001,
-                    phase: Math.random() * Math.PI * 2 // ✅ Para animação suave sem random
+                    phase: Math.random() * Math.PI * 2
                 };
             }
         };
 
-        // ✅ Desenha todas as estrelas em UM ÚNICO beginPath
         const drawStars = () => {
             ctx.clearRect(0, 0, width, height);
-            
-            // ✅ UM ÚNICO beginPath para TODAS as estrelas
             ctx.beginPath();
             
             for (let i = 0; i < stars.length; i++) {
@@ -329,7 +354,6 @@ const StarsCanvas = React.memo(() => {
                 ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
             }
             
-            // ✅ Preenche todas de uma vez
             ctx.fillStyle = 'rgba(200, 200, 255, 0.4)';
             ctx.shadowColor = 'rgba(150, 150, 255, 0.15)';
             ctx.shadowBlur = 3;
@@ -337,19 +361,16 @@ const StarsCanvas = React.memo(() => {
             ctx.shadowBlur = 0;
         };
 
-        // ✅ Animação otimizada com requestAnimationFrame controlado
         const animateStars = () => {
             if (!isMountedRef.current) return;
 
             frameCounter++;
             
-            // ✅ Atualiza apenas a cada 2 frames (30fps)
             if (frameCounter % UPDATE_INTERVAL === 0) {
                 const time = Date.now() * 0.001;
                 
                 for (let i = 0; i < stars.length; i++) {
                     const star = stars[i];
-                    // ✅ Usa seno para animação suave (sem Math.random)
                     star.opacity = 0.2 + 0.3 * (0.5 + 0.5 * Math.sin(time * star.speed + star.phase));
                 }
                 
@@ -359,13 +380,11 @@ const StarsCanvas = React.memo(() => {
             animationRef.current = requestAnimationFrame(animateStars);
         };
 
-        // ─── INIT ──────────────────────────────────────────────
         resizeCanvas();
         createStars();
         drawStars();
         animateStars();
 
-        // ─── RESIZE ─────────────────────────────────────────────
         const handleResize = () => {
             resizeCanvas();
             createStars();
@@ -374,7 +393,6 @@ const StarsCanvas = React.memo(() => {
 
         window.addEventListener('resize', handleResize);
 
-        // ─── CLEANUP ────────────────────────────────────────────
         return () => {
             isMountedRef.current = false;
             if (animationRef.current) {
@@ -382,7 +400,7 @@ const StarsCanvas = React.memo(() => {
             }
             window.removeEventListener('resize', handleResize);
         };
-    }, []); // ✅ Sem dependências — monta uma única vez
+    }, []);
 
     return (
         <canvas
@@ -405,6 +423,7 @@ const StarsCanvas = React.memo(() => {
 const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
     const { economiaSetores, setEconomiaSetores, atualizarEco, verificarLimites } = useContext(DadosEconomyGlobalContext);
     const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
+    const { isMobile, isLandscape, isDesktop } = useDeviceDetection();
     const setorAtivo = setor;
     const [buttonPurchaseEdifAudio] = useSound(purchaseEdifAudio);
     const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
@@ -413,6 +432,16 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
     const nomeAtual = dados[setorAtivo].edificios[index].nome;
     const rank = getRank(nomeAtual);
     const rankConfig = RANK_CONFIG[rank];
+
+    // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
+    const cardWidth = isMobile ? '160px' : (isLandscape ? '180px' : '220px');
+    const cardHeight = isMobile ? '240px' : (isLandscape ? '280px' : '320px');
+    const imageSize = isMobile ? 70 : 100;
+    const fontSizeNome = isMobile ? '9px' : '12px';
+    const badgeSize = isMobile ? '8px' : '10px';
+    const badgePadding = isMobile ? '2px 8px' : '4px 12px';
+    const starsSize = isMobile ? '6px' : '8px';
+    const borderRadius = isMobile ? '14px' : '20px';
 
     // ─── SETORES (memoizado) ──────────────────────────────────
     const setores = useMemo(() => [
@@ -436,32 +465,32 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
     const rankBorder = useMemo(() => ({
         border: `2px solid ${rankConfig.corBorder}`,
         boxShadow: rankConfig.boxShadow,
-        borderRadius: "20px",
-    }), [rankConfig]);
+        borderRadius: borderRadius,
+    }), [rankConfig, borderRadius]);
 
     const rankBadgeStyle = useMemo(() => ({
         position: "absolute",
-        top: 8,
-        right: 8,
+        top: isMobile ? 4 : 8,
+        right: isMobile ? 4 : 8,
         zIndex: 15,
-        fontSize: 10,
+        fontSize: badgeSize,
         fontWeight: 900,
         textTransform: "uppercase",
         letterSpacing: ".1em",
-        padding: "4px 12px",
-        borderRadius: 6,
+        padding: badgePadding,
+        borderRadius: 4,
         background: `${rankConfig.cor}33`,
         color: rankConfig.cor,
         border: `1px solid ${rankConfig.cor}66`,
         backdropFilter: "blur(8px)",
         boxShadow: `0 0 20px ${rankConfig.cor}22`,
-    }), [rankConfig]);
+    }), [rankConfig, isMobile, badgeSize, badgePadding]);
 
     // ─── RENDER ────────────────────────────────────────────────────
 
     return (
         <motion.div
-            style={{ perspective: "1000px", transformStyle: "preserve-3d", position: "relative", width: "220px", height: "320px" }}
+            style={{ perspective: "1000px", transformStyle: "preserve-3d", position: "relative", width: cardWidth, height: cardHeight }}
             className="flex items-center justify-center"
         >
             <motion.div
@@ -473,7 +502,7 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                     transformStyle: "preserve-3d",
                     boxShadow: `0 20px 60px rgba(0,0,0,0.4)`,
                 }}
-                className="rounded-[20px] flex flex-col justify-center items-center shadow-lg"
+                className={`rounded-[${borderRadius}] flex flex-col justify-center items-center shadow-lg`}
                 whileHover={{
                     boxShadow: `0 30px 80px rgba(0,0,0,0.6), ${rankConfig.boxShadow}`,
                     scale: 1.02,
@@ -492,27 +521,30 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                 <StarsCanvas />
 
                 {/* ── CONTEÚDO ── */}
-                <div className="relative w-full h-full rounded-2xl rounded-br-2xl" style={{ transformStyle: "preserve-3d", zIndex: 5 }}>
+                <div className="relative w-full h-full" style={{ transformStyle: "preserve-3d", zIndex: 5, borderRadius: borderRadius }}>
 
                     {/* Badge de categoria (canto inferior direito) */}
-                    <div className="absolute bottom-0 right-0 w-[50px] h-[50px] z-20 flex items-center justify-center rounded-tl-2xl rounded-br-2xl">
+                    <div className="absolute bottom-0 right-0 z-20 flex items-center justify-center rounded-tl-2xl rounded-br-2xl" style={{
+                        width: isMobile ? 36 : 50,
+                        height: isMobile ? 36 : 50,
+                    }}>
                         <div className="absolute inset-0 rounded-tl-2xl rounded-br-2xl" style={{
                             background: setorInfo.cor3,
                             boxShadow: "-2px -2px 10px rgba(0,0,0,0.3)",
                         }} />
-                        <div className="w-[50px] h-[50px] flex items-center justify-center rounded-tl-2xl rounded-br-2xl" style={{ backgroundColor: "rgba(0,0,0,0.2)", backdropFilter: "blur(4px)" }}>
-                            <img src={passive} className="w-[24px] opacity-90" alt="" />
+                        <div className="w-full h-full flex items-center justify-center rounded-tl-2xl rounded-br-2xl" style={{ backgroundColor: "rgba(0,0,0,0.2)", backdropFilter: "blur(4px)" }}>
+                            <img src={passive} className="w-[60%] opacity-90" alt="" />
                         </div>
                     </div>
 
                     {/* Overlay de gradiente frontal */}
-                    <div className="absolute w-full h-full flex items-center justify-center rounded-xl" style={{ background: rankGradient, mixBlendMode: "color-dodge", opacity: 0.15 }} />
+                    <div className="absolute w-full h-full flex items-center justify-center" style={{ background: rankGradient, mixBlendMode: "color-dodge", opacity: 0.15, borderRadius: borderRadius }} />
 
                     {/* Conteúdo legível */}
-                    <div className="absolute w-full h-full flex items-center justify-center rounded-xl z-10">
+                    <div className="absolute w-full h-full flex items-center justify-center z-10" style={{ borderRadius: borderRadius }}>
                         <div className="w-[90%] h-[90%] flex flex-col items-center justify-between self-center">
 
-                            <div className="flex-1 flex flex-col items-center justify-center gap-[10px] w-full">
+                            <div className="flex-1 flex flex-col items-center justify-center gap-[6px] w-full">
 
                                 {/* Badge de Rank */}
                                 <div style={rankBadgeStyle}>
@@ -521,7 +553,7 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
 
                                 {/* Box da imagem */}
                                 <div style={{
-                                    width: 100, height: 100, borderRadius: 12,
+                                    width: imageSize, height: imageSize, borderRadius: 10,
                                     background: `radial-gradient(circle at 8% 8%, ${rankConfig.corBg} 0%, ${setorInfo.cor1} 50%, ${setorInfo.cor2} 80%, ${rankConfig.corBg} 100%)`,
                                     border: `1px solid ${rankConfig.corBorder}`,
                                     boxShadow: `0 4px 20px ${rankConfig.cor}33, inset 0 0 20px ${setorInfo.cor1}88`,
@@ -529,7 +561,7 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                                     position: "relative", overflow: "hidden", flexShrink: 0,
                                 }}>
                                     <div style={{
-                                        width: 100, height: 100, borderRadius: 12,
+                                        width: imageSize, height: imageSize, borderRadius: 10,
                                         background: `${rankConfig.corBg}50`,
                                         border: `1px solid ${setorInfo.cor3}66`,
                                         display: "flex", alignItems: "center", justifyContent: "center",
@@ -540,14 +572,14 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
                                             alt={nomeAtual}
                                             loading="lazy"
                                             style={{
-                                                width: "70%", height: "70%", objectFit: "contain",
+                                                width: "65%", height: "65%", objectFit: "contain",
                                                 filter: `drop-shadow(0 0 8px ${rankConfig.cor}88)`,
                                             }}
                                         />
                                         <div style={{
-                                            position: "absolute", bottom: 5, left: 0, right: 0,
-                                            display: "flex", justifyContent: "center", gap: 2,
-                                            fontSize: 8,
+                                            position: "absolute", bottom: 3, left: 0, right: 0,
+                                            display: "flex", justifyContent: "center", gap: 1,
+                                            fontSize: starsSize,
                                             color: rankConfig.cor,
                                             textShadow: `0 0 6px ${rankConfig.cor}`,
                                         }}>
@@ -558,14 +590,14 @@ const CardUpgradeBase = ({ index, setor, fatu, redCusto }) => {
 
                                 {/* Divisor */}
                                 <div style={{
-                                    width: "85%", height: 1,
+                                    width: "70%", height: 1,
                                     background: `linear-gradient(90deg, transparent, ${rankConfig.cor}, transparent)`,
                                     boxShadow: `0 0 6px ${rankConfig.cor}88`,
                                 }} />
 
                                 {/* Nome */}
                                 <h1 className="fonteBold text-center" style={{
-                                    fontSize: 12, lineHeight: 1.3, maxWidth: "85%",
+                                    fontSize: fontSizeNome, lineHeight: 1.2, maxWidth: "90%",
                                     color: rankConfig.corText,
                                     textTransform: "uppercase", letterSpacing: ".04em",
                                     textShadow: `0 0 10px ${rankConfig.cor}88, 0 1px 4px #00000088`,

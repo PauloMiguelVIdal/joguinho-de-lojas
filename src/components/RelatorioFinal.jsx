@@ -1,4 +1,4 @@
-// RelatorioFinal.jsx - Com animações melhoradas e tempo prolongado
+// RelatorioFinal.jsx - Com capa responsiva baseada na altura
 import React, { useState, useEffect, useCallback, useMemo, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
@@ -48,10 +48,39 @@ const formatarNumero = (num) => {
   return num.toString();
 };
 
+// ─── DETECTAR MOBILE ──────────────────────────────────────────────
+function useDeviceDetection() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      const mobile = window.innerHeight < 600;
+      const landscape = window.innerWidth > window.innerHeight && mobile;
+      setIsMobile(mobile);
+      setIsLandscape(landscape);
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    window.addEventListener('orientationchange', () => {
+      setTimeout(checkDevice, 300);
+    });
+
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+      window.removeEventListener('orientationchange', checkDevice);
+    };
+  }, []);
+
+  return { isMobile, isLandscape, isDesktop: !isMobile };
+}
+
 // ─── COMPONENTE PRINCIPAL ──────────────────────────────────────
 export default function RelatorioFinal({ onClose }) {
   const { dados } = useContext(CentraldeDadosContext);
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
+  const { isMobile, isLandscape, isDesktop } = useDeviceDetection();
 
   // ─── ESTADOS ──────────────────────────────────────────────────
   const [fase, setFase] = useState("capa");
@@ -570,24 +599,20 @@ export default function RelatorioFinal({ onClose }) {
     setFase("capa");
     setProgressoAbertura(0);
 
-    // Animação de progresso mais lenta (5 segundos para completar)
     const interval = setInterval(() => {
       setProgressoAbertura(prev => {
         if (prev >= 100) {
           clearInterval(interval);
           return 100;
         }
-        // Aumenta mais lentamente para durar 5 segundos
         return prev + 1.2;
       });
     }, 50);
 
-    // Fase 2: Abrir relatório após 4.5 segundos
     const timer1 = setTimeout(() => {
       setFase("abrir");
     }, 4500);
 
-    // Fase 3: Relatório aberto após 5.5 segundos
     const timer2 = setTimeout(() => {
       setFase("aberto");
       setMostrarRelatorio(true);
@@ -613,12 +638,24 @@ export default function RelatorioFinal({ onClose }) {
     }
   }, [paginaAtual]);
 
-  // ─── RENDER ──────────────────────────────────────────────────
+  // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
+  const capaHeight = isMobile ? '80vh' : 'auto';
+  const capaMaxHeight = isMobile ? '80vh' : 'none';
+  const capaWidth = isMobile ? '92vw' : '600px';
+  const capaMaxWidth = isMobile ? '400px' : '600px';
+  const capaPadding = isMobile ? '32px' : '48px';
+  const capaLogoSize = isMobile ? (isLandscape ? '80px' : '72px') : '128px';
+  const capaFontTitulo = isMobile ? (isLandscape ? '22px' : '18px') : '36px';
+  const capaFontValor = isMobile ? (isLandscape ? '28px' : '22px') : '48px';
+  const capaFontAno = isMobile ? (isLandscape ? '20px' : '16px') : '28px';
+  const capaFontLabel = isMobile ? '10px' : '14px';
+  const gapCapa = isMobile ? '4px' : '8px';
+
   return (
     <div className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center select-none overflow-hidden">
-      {/* Efeito de partículas de fundo */}
+      {/* Efeito de partículas de fundo - reduzido no mobile */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(30)].map((_, i) => (
+        {[...Array(isMobile ? 15 : 30)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 rounded-full bg-[#6A00FF]"
@@ -642,11 +679,11 @@ export default function RelatorioFinal({ onClose }) {
       </div>
 
       <AnimatePresence mode="wait">
-        {/* ─── CAPA DO RELATÓRIO ──────────────────────────────── */}
+        {/* ─── CAPA DO RELATÓRIO - RESPONSIVA POR ALTURA ────────── */}
         {(fase === "capa" || fase === "abrir") && (
           <motion.div
             key="capa"
-            className="relative"
+            className="relative flex items-center justify-center"
             initial={{ opacity: 0, scale: 0.6, rotateY: 30 }}
             animate={{ 
               opacity: fase === "abrir" ? 0 : 1,
@@ -660,13 +697,20 @@ export default function RelatorioFinal({ onClose }) {
             }}
           >
             <motion.div 
-              className="relative w-[600px] bg-gradient-to-br from-[#1a0a3b] to-[#2a1a5a] rounded-2xl p-12 shadow-2xl border border-white/10"
+              className="bg-gradient-to-br from-[#1a0a3b] to-[#2a1a5a] rounded-2xl shadow-2xl border border-white/10 flex flex-col items-center justify-center"
+              style={{
+                width: capaWidth,
+                maxWidth: capaMaxWidth,
+                height: capaHeight,
+                maxHeight: capaMaxHeight,
+                padding: capaPadding,
+              }}
               animate={{
                 boxShadow: fase === "capa" 
                   ? [
-                      "0 0 40px rgba(106, 0, 255, 0.2)",
-                      "0 0 80px rgba(106, 0, 255, 0.5)",
-                      "0 0 40px rgba(106, 0, 255, 0.2)",
+                      `0 0 40px rgba(106, 0, 255, 0.2)`,
+                      `0 0 80px rgba(106, 0, 255, 0.5)`,
+                      `0 0 40px rgba(106, 0, 255, 0.2)`,
                     ]
                   : "0 0 40px rgba(106, 0, 255, 0.1)",
               }}
@@ -674,16 +718,25 @@ export default function RelatorioFinal({ onClose }) {
             >
               {/* Linha decorativa superior animada */}
               <motion.div 
-                className="w-24 h-1 bg-gradient-to-r from-[#6A00FF] to-[#FF6F00] mx-auto mb-8 rounded-full"
+                className="h-1 bg-gradient-to-r from-[#6A00FF] to-[#FF6F00] rounded-full flex-shrink-0"
+                style={{ 
+                  width: isMobile ? '48px' : '96px',
+                  marginBottom: isMobile ? '12px' : '24px',
+                }}
                 animate={fase === "capa" ? {
-                  width: ["96px", "160px", "96px"],
+                  width: [isMobile ? '48px' : '96px', isMobile ? '80px' : '160px', isMobile ? '48px' : '96px'],
                 } : {}}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               />
 
-              <div className="text-center">
+              <div className="text-center flex-1 flex flex-col justify-center" style={{ gap: gapCapa }}>
                 <motion.p 
-                  className="text-white/40 text-sm tracking-[0.3em] uppercase mb-4"
+                  className="text-white/40 uppercase"
+                  style={{ 
+                    fontSize: isMobile ? '9px' : '14px',
+                    letterSpacing: isMobile ? '0.15em' : '0.3em',
+                    marginBottom: isMobile ? '4px' : '12px',
+                  }}
                   animate={fase === "capa" ? {
                     opacity: [0.4, 0.9, 0.4],
                   } : {}}
@@ -694,16 +747,17 @@ export default function RelatorioFinal({ onClose }) {
 
                 {/* Logo com efeito de brilho */}
                 <motion.div 
-                  className="relative w-32 h-32 mx-auto mb-6"
+                  className="relative mx-auto flex-shrink-0"
+                  style={{ width: capaLogoSize, height: capaLogoSize }}
                   animate={fase === "capa" ? {
-                    y: [0, -8, 0],
+                    y: [0, -6, 0],
                   } : {}}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-[#6A00FF] to-[#FF6F00] rounded-full blur-2xl opacity-30" />
                   <div className="relative w-full h-full bg-gradient-to-br from-[#6A00FF] to-[#FF6F00] rounded-full flex items-center justify-center shadow-2xl shadow-[#6A00FF]/30">
                     <motion.span 
-                      className="text-5xl"
+                      className="text-3xl sm:text-5xl"
                       animate={fase === "capa" ? {
                         scale: [1, 1.08, 1],
                       } : {}}
@@ -715,7 +769,8 @@ export default function RelatorioFinal({ onClose }) {
                 </motion.div>
 
                 <motion.h1 
-                  className="text-4xl font-bold text-white mb-2"
+                  className="font-bold text-white"
+                  style={{ fontSize: capaFontTitulo }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.6 }}
@@ -723,64 +778,85 @@ export default function RelatorioFinal({ onClose }) {
                   {nomeEmpresa}
                 </motion.h1>
 
+                {/* ─── ELEMENTOS QUE SÓ APARECEM NO DESKTOP ────── */}
+                {isDesktop && (
+                  <>
+                    <motion.div 
+                      className="h-[2px] bg-gradient-to-r from-transparent via-[#6A00FF] to-transparent mx-auto"
+                      style={{ width: '192px' }}
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ delay: 0.6, duration: 0.8 }}
+                    />
+
+                    <motion.p 
+                      className="text-white/60 uppercase tracking-widest"
+                      style={{ fontSize: '14px' }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.8, duration: 0.5 }}
+                    >
+                      Exercício Fiscal
+                    </motion.p>
+                    <motion.p 
+                      className="text-white font-bold"
+                      style={{ fontSize: '28px' }}
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 1, duration: 0.5, type: "spring" }}
+                    >
+                      Ano 270
+                    </motion.p>
+
+                    <motion.div 
+                      className="h-[2px] bg-gradient-to-r from-transparent via-[#FF6F00] to-transparent mx-auto"
+                      style={{ width: '192px' }}
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ delay: 1.2, duration: 0.8 }}
+                    />
+
+                    <motion.p 
+                      className="text-white/40 uppercase tracking-wider"
+                      style={{ fontSize: '14px' }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1.4, duration: 0.5 }}
+                    >
+                      Patrimônio Final
+                    </motion.p>
+                    
+                    <motion.p 
+                      className="text-[#FFD700] font-bold"
+                      style={{ fontSize: '48px' }}
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 1.6, duration: 0.6, type: "spring" }}
+                    >
+                      R$ {formatarNumero(dadosRelatorio.patrimonioFinal)}
+                    </motion.p>
+                  </>
+                )}
+
+                {/* ─── LINHA DECORATIVA INFERIOR ─────────────────── */}
                 <motion.div 
-                  className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#6A00FF] to-transparent mx-auto my-6"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.6, duration: 0.8 }}
-                />
-
-                <motion.p 
-                  className="text-white/60 text-sm tracking-widest uppercase"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.8, duration: 0.5 }}
-                >
-                  Exercício Fiscal
-                </motion.p>
-                <motion.p 
-                  className="text-white text-2xl font-bold mt-1"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1, duration: 0.5, type: "spring" }}
-                >
-                  Ano 270
-                </motion.p>
-
-                <motion.div 
-                  className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#FF6F00] to-transparent mx-auto my-6"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 1.2, duration: 0.8 }}
-                />
-
-                <motion.p 
-                  className="text-white/40 text-sm uppercase tracking-wider"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.4, duration: 0.5 }}
-                >
-                  Patrimônio Final
-                </motion.p>
-                
-                <motion.p 
-                  className="text-[#FFD700] text-4xl font-bold mt-1"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.6, duration: 0.6, type: "spring" }}
-                >
-                  R$ {formatarNumero(dadosRelatorio.patrimonioFinal)}
-                </motion.p>
-
-                <motion.div 
-                  className="w-24 h-1 bg-gradient-to-r from-[#FF6F00] to-[#6A00FF] mx-auto mt-8 rounded-full"
+                  className="h-1 bg-gradient-to-r from-[#FF6F00] to-[#6A00FF] rounded-full flex-shrink-0"
+                  style={{ 
+                    width: isMobile ? '48px' : '96px',
+                    marginTop: isMobile ? '12px' : '24px',
+                  }}
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 1.8, duration: 0.6 }}
                 />
 
                 <motion.p 
-                  className="text-white text-xs tracking-[0.3em] uppercase mt-6"
+                  className="text-white/20 uppercase"
+                  style={{ 
+                    fontSize: isMobile ? '7px' : '12px',
+                    letterSpacing: isMobile ? '0.15em' : '0.3em',
+                    marginTop: isMobile ? '8px' : '16px',
+                  }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 0.2 }}
                   transition={{ delay: 2, duration: 0.5 }}
@@ -789,24 +865,19 @@ export default function RelatorioFinal({ onClose }) {
                 </motion.p>
               </div>
 
-              {/* Linha decorativa inferior animada */}
-                <motion.div 
-                  className="w-48 h-[2px] bg-gradient-to-r from-transparent via-[#FF6F00] to-transparent mx-auto my-6"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 1.2, duration: 0.8 }}
-                />
-
               {fase === "capa" && (
-                <motion.div className="text-center mt-6">
+                <motion.div className="text-center mt-4 w-full flex-shrink-0">
                   <motion.p 
-                    className="text-white/20 text-xs tracking-widest"
+                    className="text-white/20 text-[10px] sm:text-xs tracking-widest"
                     animate={{ opacity: [0.3, 0.8, 0.3] }}
                     transition={{ duration: 5, repeat: Infinity }}
                   >
                     📄 Preparando relatório...
                   </motion.p>
-                  <div className="w-48 h-1 bg-white/10 rounded-full mx-auto mt-2 overflow-hidden">
+                  <div 
+                    className="h-1 bg-white/10 rounded-full mx-auto mt-2 overflow-hidden"
+                    style={{ width: isMobile ? '120px' : '192px' }}
+                  >
                     <motion.div 
                       className="h-full bg-gradient-to-r from-[#6A00FF] to-[#FF6F00] rounded-full"
                       style={{ width: `${progressoAbertura}%` }}
@@ -814,7 +885,7 @@ export default function RelatorioFinal({ onClose }) {
                     />
                   </div>
                   <motion.p 
-                    className="text-white/10 text-[10px] mt-2 tracking-widest"
+                    className="text-white/10 text-[8px] sm:text-[10px] mt-2 tracking-widest"
                     animate={{ opacity: [0.2, 0.5, 0.2] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
