@@ -731,7 +731,7 @@ export const ModalShop = ({ onCancelar }) => {
                         <motion.div
                             key={tipo}
                             whileHover={isDesktop ? { scale: 1.02, y: -2 } : {}}
-                            className="relative rounded-xl flex flex-col"
+                            className="relative rounded-xl flex flex-col "
                             style={{
                                 background: `linear-gradient(145deg, ${config.cor2} 0%, ${config.cor1} 100%)`,
                                 border: `2px solid ${config.cor4}66`,
