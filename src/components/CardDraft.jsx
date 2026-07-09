@@ -1080,7 +1080,7 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
           {/* ── Verso: Power Ups ── */}
           {visibleId === "powerUp" && (
             <div onClick={handleFlip} className="w-[90%] h-[90%] flex items-center flex-col justify-around self-center">
-              <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full rounded-[10px] flex justify-between" style={{ height: isMobile ? '15%' : '20%' }}>
+              <div style={{ backgroundColor: setorInfo.cor1,height: isMobile ? '15%' : '20%' }} className="w-full rounded-[10px] flex justify-between">
                 <div style={{ background: `linear-gradient(135deg,${setorInfo.cor4} 0%,${corPowerUpAtual} 30%,#350973 70%,${setorInfo.cor1} 100%)` }} className="h-[100%] aspect-square rounded-[10px] flex items-center justify-center">
                   <img className="h-[60%] rotate-[270deg]" src={PróximoImg} alt="" />
                 </div>
@@ -1108,7 +1108,7 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
                   </div>
                 </div>
               </div>
-              <div style={{ backgroundColor: setorInfo.cor2 }} className="w-full rounded-[10px] flex flex-col items-center justify-around" style={{ height: isMobile ? '50%' : '50%' }}>
+              <div style={{ backgroundColor: setorInfo.cor2,height: isMobile ? '50%' : '50%' }} className="w-full rounded-[10px] flex flex-col items-center justify-around">
                 <p className="text-white p-[4px] text-center" style={{ fontSize: isMobile ? '7px' : '10px', height: '60%' }}>{edificio.desc}</p>
                 <button onClick={openModalPowerUps} className="w-[85%] h-[25%] z-50 text-white bg-[#6411D9] rounded-[10px] hover:scale-[1.10] duration-300 ease-in-out" style={{ fontSize: isMobile ? '8px' : '10px' }}>
                   Todos power ups
@@ -1120,7 +1120,7 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
           {/* ── Verso: Finanças ── */}
           {visibleId === "finançasEd" && (
             <div onClick={handleFlip} className="w-[90%] h-[90%] flex items-center flex-col justify-between self-center relative z-[20] overflow-visible" style={{ pointerEvents: "auto" }}>
-              <div style={{ backgroundColor: setorInfo.cor1 }} className="w-full rounded-[10px] flex justify-between" style={{ height: isMobile ? '15%' : '20%' }}>
+              <div style={{ backgroundColor: setorInfo.cor1,height: isMobile ? '15%' : '20%'  }} className="w-full rounded-[10px] flex justify-between">
                 <div className="h-full aspect-square rounded-[10px] flex items-center justify-center" style={{ background: `linear-gradient(135deg,${setorInfo.cor3} 0%,${setorInfo.cor1} 100%)` }}>
                   <img className="h-[60%]" src={DolarImg} alt="" />
                 </div>
@@ -1148,7 +1148,7 @@ export const CardDraft = memo(({ index, setor, abrirModalSell }) => {
               ].map((row, ri) => (
                 <div key={ri} className="flex w-full justify-around" style={{ height: isMobile ? '18%' : '15%' }}>
                   {row.map(({ img, text, val }, ci) => (
-                    <div key={ci} style={{ backgroundColor: setorInfo.cor2 }} className="flex justify-between rounded-[10px] items-center h-full" style={{ width: isMobile ? '47%' : '45%' }}>
+                    <div key={ci} style={{ backgroundColor: setorInfo.cor2,width: isMobile ? '47%' : '45%'  }} className="flex justify-between rounded-[10px] items-center h-full">
                       <div className="h-full flex items-center justify-center aspect-square rounded-[10px]" style={{ backgroundColor: setorInfo.cor1 }}>
                         <TooltipCustom text={text}>
                           <img className="h-[60%]" src={img} alt="" />
