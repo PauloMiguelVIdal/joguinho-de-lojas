@@ -61,7 +61,7 @@ export default function Informations() {
         <div className="flex items-center h-full" style={{
             gap: gap,
         }}>
-            {/* Logo + Nome da Empresa */}
+            {/* Logo + Nome da Empres*/}
             <div 
                 data-tooltip-id="empresa-tip"
                 data-tooltip-content="Nome da sua empresa"
