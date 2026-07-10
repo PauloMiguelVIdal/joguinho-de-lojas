@@ -872,35 +872,36 @@ export const PackOpeningDraft = React.memo(({ onClose, onSorteio }) => {
     if (!modal) return null;
 
     // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
-    const paddingModal = isMobile ? '16px' : '32px';
-    const gapModal = isMobile ? '16px' : '28px';
-    const maxWidthCards = isMobile ? '100%' : '900px';
-    const cardGap = isMobile ? '8px' : '16px';
-    const flexWrapCards = isMobile ? 'nowrap' : 'wrap';
-    const overflowCards = isMobile ? 'auto' : 'visible';
-    const justifyContentCards = isMobile ? 'center' : 'center';
-    const paddingCards = isMobile ? '8px 0 4px 0' : '0 20px';
-    const maxHeightCards = isMobile ? '90vh' : 'none';
-    const fontSizeTitulo = isMobile ? '18px' : '26px';
-    const fontSizeSubtitulo = isMobile ? '12px' : '14px';
-    const paddingBotao = isMobile ? '10px 32px' : '14px 48px';
-    const fontSizeBotao = isMobile ? '12px' : '14px';
-    const gapConteudo = isMobile ? '8px' : '24px';
-    const marginBottomBotao = isMobile ? '8px' : '0px';
+const paddingModal = isMobile ? '16px' : '32px';
+const gapModal = isMobile ? '16px' : '28px';
+const maxWidthCards = isMobile ? '100%' : '900px';
+const cardGap = isMobile ? '8px' : '16px';
+const flexWrapCards = isMobile ? 'nowrap' : 'wrap';
+const overflowCards = isMobile ? 'auto' : 'visible';
+const justifyContentCards = isMobile ? 'center' : 'center';
+const paddingCards = isMobile ? '8px 0 4px 0' : '0 20px';
+const maxHeightCards = isMobile ? 'none' : 'none'; // ← ALTERADO: reduz altura para dar espaço ao botão
+const fontSizeTitulo = isMobile ? '18px' : '26px';
+const fontSizeSubtitulo = isMobile ? '12px' : '14px';
+const paddingBotao = isMobile ? '10px 32px' : '14px 48px';
+const fontSizeBotao = isMobile ? '12px' : '14px';
+const gapConteudo = isMobile ? '8px' : '24px';
+const marginBottomBotao = isMobile ? '0px' : '0px'; // ← ALTERADO: removido margin-bottom no mobile
+const paddingBottomContainer = isMobile ? '80px' : '0px'; // ← NOVO: espaço para o botão flutuante
 
-    return (
-        <div style={{
-            position: "fixed", 
-            inset: 0, 
-            zIndex: 200,
-            background: `radial-gradient(ellipse at 50% 30%, ${temaAtual.cor1} 0%, #07070f 80%)`,
-            display: "flex", 
-            flexDirection: "column",
-            alignItems: "center", 
-            justifyContent: "center",
-            gap: gapModal, 
-            padding: paddingModal,
-        }}>
+return (
+    <div style={{
+        position: "fixed", 
+        inset: 0, 
+        zIndex: 200,
+        background: `radial-gradient(ellipse at 50% 30%, ${temaAtual.cor1} 0%, #07070f 80%)`,
+        display: "flex", 
+        flexDirection: "column",
+        alignItems: "center", 
+        justifyContent: "center",
+        gap: gapModal, 
+        padding: paddingModal,
+    }}>
             {/* Gradiente de fundo premium */}
             <div style={{
                 position: "absolute",
@@ -1014,31 +1015,35 @@ export const PackOpeningDraft = React.memo(({ onClose, onSorteio }) => {
             </AnimatePresence>
 
             {/* Cartas reveladas em linha - RESPONSIVO COM BOTÃO VISÍVEL */}
-            <AnimatePresence>
-                {fase === "revealed" && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        style={{ 
-                            display: "flex", 
-                            flexDirection: "column",
-                            alignItems: "center",
-                            gap: gapConteudo,
-                            width: "100%",
-                            maxWidth: maxWidthCards,
-                            maxHeight: '90vh',
-                            overflow: 'hidden',
-                            flex: 1,
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            width: '100%',
-                            flexShrink: 0,
-                        }}>
+        <AnimatePresence>
+            {fase === "revealed" && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    style={{ 
+                        display: "flex", 
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: gapConteudo,
+                        width: "100%",
+                        maxWidth: maxWidthCards,
+                        maxHeight: '90vh',
+                        overflow: 'hidden',
+                        flex: 1,
+                        justifyContent: 'space-between',
+                        position: 'relative', // ← NOVO: necessário para o posicionamento absoluto do botão
+                        paddingBottom: paddingBottomContainer, // ← NOVO: espaço para o botão
+                    }}
+                >
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        width: '100%',
+                        flexShrink: 0,
+                        // O container das cartas permanece igual
+                    }}>
+
                             <motion.div
                                 initial={{ opacity: 0, y: -20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -1072,130 +1077,140 @@ export const PackOpeningDraft = React.memo(({ onClose, onSorteio }) => {
                             </motion.div>
 
                             {/* ─── CONTAINER DE CARTAS COM SCROLL ─── */}
-                            <div style={{
-                                display: "flex",
-                                gap: cardGap,
-                                flexDirection: 'row',
-                                flexWrap: flexWrapCards,
-                                justifyContent: justifyContentCards,
-                                width: "100%",
-                                padding: paddingCards,
-                                overflowX: overflowCards,
-                                overflowY: 'hidden',
-                                WebkitOverflowScrolling: 'touch',
-                                scrollSnapType: isMobile ? 'x mandatory' : 'none',
-                                maxHeight: maxHeightCards,
-                                flexShrink: 0,
-                                flexGrow: 0,
-                                alignItems: 'center',
-                                scrollBehavior: 'auto',
-                                minHeight: isMobile ? 'auto' : 'auto',
-                            }}>
-                                {cartasSorteadas.map((carta, i) => (
-                                    <motion.div
-                                        key={`${carta.nome}-${i}`}
-                                        initial={{ 
-                                            opacity: 0, 
-                                            y: 40,
-                                            scale: 0.9,
-                                        }}
-                                        animate={{ 
-                                            opacity: 1, 
-                                            y: 0,
-                                            scale: 1,
-                                        }}
-                                        transition={{
-                                            delay: 0.15 + i * 0.12,
-                                            duration: 0.5,
-                                            type: "spring",
-                                            stiffness: 300,
-                                            damping: 18,
-                                        }}
-                                        whileHover={{ 
-                                            y: -8,
-                                            scale: 1.04,
-                                            boxShadow: `0 16px 60px ${temaAtual.cor4}55`
-                                        }}
-                                        style={{
-                                            cursor: "pointer",
-                                            transition: "all 0.3s ease",
-                                            flex: isMobile ? '0 0 auto' : '0 1 auto',
-                                            scrollSnapAlign: isMobile ? 'start' : 'none',
-                                        }}
-                                    >
-                                        {LocalizadorUpgrade(
-                                            carta.nome,
-                                            carta.redImposto || 0,
-                                            carta.fatu || 0
-                                        )}
-                                    </motion.div>
-                                ))}
-                            </div>
-
-                            {/* ─── INDICADOR DE SCROLL (mobile) ──── */}
-                            {isMobile && cartasSorteadas.length > 1 && (
-                                <div style={{
-                                    display: 'flex',
-                                    gap: '6px',
-                                    padding: '4px 0',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    flexShrink: 0,
-                                }}>
-                                    <span style={{
-                                        fontSize: '10px',
-                                        color: `${temaAtual.cor4}55`,
-                                        fontFamily: "'Inter', sans-serif",
-                                        fontWeight: 500,
-                                    }}>
-                                        ← Deslize para ver mais →
-                                    </span>
-                                </div>
-                            )}
+                             <div style={{
+                            display: "flex",
+                            gap: cardGap,
+                            flexDirection: 'row',
+                            flexWrap: flexWrapCards,
+                            justifyContent: justifyContentCards,
+                            width: "100%",
+                            padding: paddingCards,
+                            overflowX: overflowCards,
+                            // overflowY: 'hidden',
+                            WebkitOverflowScrolling: 'touch',
+                            scrollSnapType: isMobile ? 'x mandatory' : 'none',
+                            maxHeight: maxHeightCards,
+                            flexShrink: 0,
+                            flexGrow: 0,
+                            alignItems: 'center',
+                            scrollBehavior: 'auto',
+                            minHeight: isMobile ? 'auto' : 'auto',
+                        }}>
+                            {cartasSorteadas.map((carta, i) => (
+                                <motion.div
+                                    key={`${carta.nome}-${i}`}
+                                    initial={{ 
+                                        opacity: 0, 
+                                        y: 40,
+                                        scale: 0.9,
+                                    }}
+                                    animate={{ 
+                                        opacity: 1, 
+                                        y: 0,
+                                        scale: 1,
+                                    }}
+                                    transition={{
+                                        delay: 0.15 + i * 0.12,
+                                        duration: 0.5,
+                                        type: "spring",
+                                        stiffness: 300,
+                                        damping: 18,
+                                    }}
+                                    whileHover={{ 
+                                        y: -8,
+                                        scale: 1.04,
+                                        boxShadow: `0 16px 60px ${temaAtual.cor4}55`
+                                    }}
+                                    style={{
+                                        cursor: "pointer",
+                                        transition: "all 0.3s ease",
+                                        flex: isMobile ? '0 0 auto' : '0 1 auto',
+                                        scrollSnapAlign: isMobile ? 'start' : 'none',
+                                    }}
+                                >
+                                    {LocalizadorUpgrade(
+                                        carta.nome,
+                                        carta.redImposto || 0,
+                                        carta.fatu || 0
+                                    )}
+                                </motion.div>
+                            ))}
                         </div>
 
-                        {/* ─── BOTÃO ENTENDIDO - SEMPRE VISÍVEL ── */}
-                        <motion.button
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.8 }}
-                            whileHover={{ 
-                                scale: 1.05,
-                                boxShadow: `0 8px 40px ${temaAtual.cor4}55`
-                            }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => {
-                                fecharModal();
-                                buttonCloseAudio();
-                                if (onClose) onClose();
-                                if (onSorteio) onSorteio();
-                            }}
-                            style={{
-                                marginTop: isMobile ? 4 : 16,
-                                marginBottom: marginBottomBotao,
-                                padding: paddingBotao,
-                                borderRadius: 30,
-                                border: `2px solid ${temaAtual.cor4}44`,
-                                background: `linear-gradient(135deg, ${temaAtual.cor4} 0%, ${temaAtual.cor3} 100%)`,
-                                color: "#fff",
-                                fontSize: fontSizeBotao,
-                                fontWeight: 700,
-                                letterSpacing: ".1em",
-                                textTransform: "uppercase",
-                                cursor: "pointer",
-                                fontFamily: "'Inter', sans-serif",
-                                transition: "all 0.3s ease",
-                                boxShadow: `0 4px 20px ${temaAtual.cor4}33`,
+                            {/* ─── INDICADOR DE SCROLL (mobile) ──── */}
+                        {isMobile && cartasSorteadas.length > 1 && (
+                            <div style={{
+                                display: 'flex',
+                                gap: '6px',
+                                padding: '4px 0',
+                                justifyContent: 'center',
+                                alignItems: 'center',
                                 flexShrink: 0,
-                                zIndex: 10,
-                                position: 'relative',
-                            }}
-                        >
-                            {quantosPacotesAbertos < TOTAL_PACOTES_INICIAIS && dados.dia === 0
-                                ? `Próximo Pacote (${quantosPacotesAbertos}/${TOTAL_PACOTES_INICIAIS}) ✓`
-                                : "Entendido ✓"
-                            }
-                        </motion.button>
+                            }}>
+                                <span style={{
+                                    fontSize: '10px',
+                                    color: `${temaAtual.cor4}55`,
+                                    fontFamily: "'Inter', sans-serif",
+                                    fontWeight: 500,
+                                }}>
+                                    ← Deslize para ver mais →
+                                </span>
+                            </div>
+                        )}
+                    </div>
+
+                        {/* ─── BOTÃO ENTENDIDO - SEMPRE VISÍVEL ── */}
+  <motion.button
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8 }}
+                        whileHover={{ 
+                            scale: 1.05,
+                            boxShadow: `0 8px 40px ${temaAtual.cor4}55`
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => {
+                            fecharModal();
+                            buttonCloseAudio();
+                            if (onClose) onClose();
+                            if (onSorteio) onSorteio();
+                        }}
+                        style={{
+                            // POSICIONAMENTO RESPONSIVO:
+                            ...(isMobile ? {
+                                position: 'absolute', // ← FLUTUANTE no mobile
+                                bottom: '20px', // ← 20px da parte inferior
+                                // left: '50%',
+                                // transform: 'translateX(-50%)',
+                                marginTop: 0,
+                                marginBottom: 0,
+                                zIndex: 20,
+                                boxShadow: `0 4px 30px ${temaAtual.cor4}66, 0 0 40px ${temaAtual.cor4}33`,
+                            } : {
+                                position: 'relative', // ← NORMAL no desktop
+                                marginTop: '16px',
+                                marginBottom: '0px',
+                            }),
+                            padding: paddingBotao,
+                            borderRadius: 30,
+                            border: `2px solid ${temaAtual.cor4}44`,
+                            background: `linear-gradient(135deg, ${temaAtual.cor4} 0%, ${temaAtual.cor3} 100%)`,
+                            color: "#fff",
+                            fontSize: fontSizeBotao,
+                            fontWeight: 700,
+                            letterSpacing: ".1em",
+                            textTransform: "uppercase",
+                            cursor: "pointer",
+                            fontFamily: "'Inter', sans-serif",
+                            transition: "all 0.3s ease",
+                            flexShrink: 0,
+                        }}
+                    >
+                        {quantosPacotesAbertos < TOTAL_PACOTES_INICIAIS && dados.dia === 0
+                            ? `Próximo Pacote (${quantosPacotesAbertos}/${TOTAL_PACOTES_INICIAIS}) ✓`
+                            : "Entendido ✓"
+                        }
+                    </motion.button>
                     </motion.div>
                 )}
             </AnimatePresence>

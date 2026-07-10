@@ -1,4 +1,4 @@
-// ModalShop.jsx - Versão com layout mais fluido
+// ModalShop.jsx - Versão com layout melhorado e botão flutuante
 import React, { useState, useCallback, useContext, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
@@ -547,6 +547,20 @@ export const ModalShop = ({ onCancelar }) => {
 
     const gridCols = isDesktop ? 4 : (isLandscape ? 2 : 1);
 
+    // ─── CONFIGURAÇÕES DO RESULTADO ─────────────────────────────
+    const paddingBottomContainer = isMobile ? '80px' : '0px';
+    const cardGapResult = isMobile ? '8px' : '16px';
+    const flexWrapCards = isMobile ? 'nowrap' : 'wrap';
+    const overflowCards = isMobile ? 'auto' : 'visible';
+    const justifyContentCards = isMobile ? 'center' : 'center';
+    const paddingCards = isMobile ? '8px 0 4px 0' : '0 20px';
+    const maxHeightCards = isMobile ? 'none' : 'none';
+    const fontSizeTituloResult = isMobile ? '18px' : '26px';
+    const fontSizeSubtitulo = isMobile ? '12px' : '14px';
+    const paddingBotaoResult = isMobile ? '10px 32px' : '14px 48px';
+    const fontSizeBotaoResult = isMobile ? '12px' : '14px';
+    const gapConteudo = isMobile ? '8px' : '24px';
+
     const spawnParticles = useCallback((tema) => {
         const colors = [tema.cor4, tema.cor3, "#ffffff", `${tema.cor4}aa`, `${tema.cor3}88`];
         const count = isDesktop ? 50 : 25;
@@ -647,52 +661,224 @@ export const ModalShop = ({ onCancelar }) => {
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="absolute inset-0 z-20 flex flex-col items-center justify-center p-4"
                 style={{
+                    position: "absolute",
+                    inset: 0,
+                    zIndex: 20,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: isMobile ? '12px' : '24px',
                     background: `radial-gradient(ellipse at 50% 30%, ${tema.cor1} 0%, #07070f 90%)`,
                 }}
             >
-                <div className="absolute inset-0 pointer-events-none">
+                {/* Gradiente de fundo premium */}
+                <div style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: `radial-gradient(circle at 50% 20%, ${tema.cor4}11, transparent 70%)`,
+                    pointerEvents: "none",
+                }} />
+
+                {/* Partículas */}
+                <div style={{ 
+                    position: "absolute", 
+                    inset: 0, 
+                    pointerEvents: "none", 
+                    overflow: "hidden" 
+                }}>
                     <AnimatePresence>
                         {particles.map((p, i) => <Particle key={i} {...p} />)}
                     </AnimatePresence>
                 </div>
 
-                <h2 className="text-white font-bold mb-3 text-center"
-                    style={{
-                        fontSize: isDesktop ? '26px' : '18px',
-                        textShadow: `0 0 40px ${tema.cor4}66`
+                {/* CONTEÚDO DO RESULTADO */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    style={{ 
+                        display: "flex", 
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: gapConteudo,
+                        width: "100%",
+                        maxWidth: '900px',
+                        maxHeight: '90vh',
+                        overflow: 'hidden',
+                        flex: 1,
+                        justifyContent: 'space-between',
+                        position: 'relative',
+                        paddingBottom: paddingBottomContainer,
+                        zIndex: 25,
                     }}
                 >
-                    🎉 Pacote {config?.nome || ''}
-                </h2>
-
-                <div className="flex flex-wrap gap-2 justify-center max-w-3xl">
-                    {cartasSorteadas.map((carta, i) => (
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        width: '100%',
+                        flexShrink: 0,
+                    }}>
                         <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ delay: i * 0.1 }}
-                            whileHover={{ y: -6, scale: 1.03 }}
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                            style={{
+                                textAlign: "center",
+                                marginBottom: isMobile ? 4 : 8,
+                                padding: isMobile ? '0 8px' : 0,
+                                flexShrink: 0,
+                            }}
                         >
-                            {LocalizadorUpgrade(carta.nome, carta.redImposto || 0, carta.fatu || 0)}
+                            <h1 style={{
+                                color: "#fff",
+                                fontSize: fontSizeTituloResult,
+                                fontWeight: 700,
+                                fontFamily: "'Inter', sans-serif",
+                                textShadow: `0 0 60px ${tema.cor4}44`,
+                                letterSpacing: "0.02em",
+                            }}>
+                                🎉 Pacote {config?.nome || ''}
+                            </h1>
+                            <p style={{
+                                color: `${tema.cor4}88`,
+                                fontSize: fontSizeSubtitulo,
+                                fontFamily: "'Inter', sans-serif",
+                                fontWeight: 400,
+                                marginTop: 4,
+                            }}>
+                                {cartasSorteadas.length} cartas recebidas
+                            </p>
                         </motion.div>
-                    ))}
-                </div>
 
-                <button
-                    onClick={handleFechar}
-                    className="mt-3 rounded-full text-white font-bold transition-all hover:scale-105"
-                    style={{
-                        background: `linear-gradient(135deg, ${tema.cor4}, ${tema.cor3})`,
-                        boxShadow: `0 4px 20px ${tema.cor4}44`,
-                        fontSize: isDesktop ? '14px' : '12px',
-                        padding: isDesktop ? '10px 32px' : '8px 20px',
-                    }}
-                >
-                    Entendido ✓
-                </button>
+                        {/* ─── CONTAINER DE CARTAS COM SCROLL ─── */}
+                        <div style={{
+                            display: "flex",
+                            gap: cardGapResult,
+                            flexDirection: 'row',
+                            flexWrap: flexWrapCards,
+                            justifyContent: justifyContentCards,
+                            width: "100%",
+                            padding: paddingCards,
+                            overflowX: overflowCards,
+                            WebkitOverflowScrolling: 'touch',
+                            scrollSnapType: isMobile ? 'x mandatory' : 'none',
+                            maxHeight: maxHeightCards,
+                            flexShrink: 0,
+                            flexGrow: 0,
+                            alignItems: 'center',
+                            scrollBehavior: 'auto',
+                            minHeight: isMobile ? 'auto' : 'auto',
+                        }}>
+                            {cartasSorteadas.map((carta, i) => (
+                                <motion.div
+                                    key={`${carta.nome}-${i}`}
+                                    initial={{ 
+                                        opacity: 0, 
+                                        y: 40,
+                                        scale: 0.9,
+                                    }}
+                                    animate={{ 
+                                        opacity: 1, 
+                                        y: 0,
+                                        scale: 1,
+                                    }}
+                                    transition={{
+                                        delay: 0.15 + i * 0.12,
+                                        duration: 0.5,
+                                        type: "spring",
+                                        stiffness: 300,
+                                        damping: 18,
+                                    }}
+                                    whileHover={{ 
+                                        y: -8,
+                                        scale: 1.04,
+                                        boxShadow: `0 16px 60px ${tema.cor4}55`
+                                    }}
+                                    style={{
+                                        cursor: "pointer",
+                                        transition: "all 0.3s ease",
+                                        flex: isMobile ? '0 0 auto' : '0 1 auto',
+                                        scrollSnapAlign: isMobile ? 'start' : 'none',
+                                    }}
+                                >
+                                    {LocalizadorUpgrade(
+                                        carta.nome,
+                                        carta.redImposto || 0,
+                                        carta.fatu || 0
+                                    )}
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        {/* ─── INDICADOR DE SCROLL (mobile) ──── */}
+                        {isMobile && cartasSorteadas.length > 1 && (
+                            <div style={{
+                                display: 'flex',
+                                gap: '6px',
+                                padding: '4px 0',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexShrink: 0,
+                            }}>
+                                <span style={{
+                                    fontSize: '10px',
+                                    color: `${tema.cor4}55`,
+                                    fontFamily: "'Inter', sans-serif",
+                                    fontWeight: 500,
+                                }}>
+                                    ← Deslize para ver mais →
+                                </span>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* ─── BOTÃO ENTENDIDO - FLUTUANTE NO MOBILE ── */}
+                    <motion.button
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8 }}
+                        whileHover={{ 
+                            scale: 1.05,
+                            boxShadow: `0 8px 40px ${tema.cor4}55`
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={handleFechar}
+                        style={{
+                            // POSICIONAMENTO RESPONSIVO:
+                            ...(isMobile ? {
+                                position: 'absolute',
+                                bottom: '20px',
+                                // left: '50%',
+                                transform: 'translateX(-50%)',
+                                marginTop: 0,
+                                marginBottom: 0,
+                                zIndex: 30,
+                                boxShadow: `0 4px 30px ${tema.cor4}66, 0 0 40px ${tema.cor4}33`,
+                            } : {
+                                position: 'relative',
+                                marginTop: '16px',
+                                marginBottom: '0px',
+                            }),
+                            padding: paddingBotaoResult,
+                            borderRadius: 30,
+                            border: `2px solid ${tema.cor4}44`,
+                            background: `linear-gradient(135deg, ${tema.cor4} 0%, ${tema.cor3} 100%)`,
+                            color: "#fff",
+                            fontSize: fontSizeBotaoResult,
+                            fontWeight: 700,
+                            letterSpacing: ".1em",
+                            textTransform: "uppercase",
+                            cursor: "pointer",
+                            fontFamily: "'Inter', sans-serif",
+                            transition: "all 0.3s ease",
+                            flexShrink: 0,
+                        }}
+                    >
+                        Entendido ✓
+                    </motion.button>
+                </motion.div>
             </motion.div>
         );
     };
@@ -731,7 +917,7 @@ export const ModalShop = ({ onCancelar }) => {
                         <motion.div
                             key={tipo}
                             whileHover={isDesktop ? { scale: 1.02, y: -2 } : {}}
-                            className="relative rounded-xl flex flex-col "
+                            className="relative rounded-xl flex flex-col"
                             style={{
                                 background: `linear-gradient(145deg, ${config.cor2} 0%, ${config.cor1} 100%)`,
                                 border: `2px solid ${config.cor4}66`,
@@ -740,8 +926,6 @@ export const ModalShop = ({ onCancelar }) => {
                                 height: '100%',
                             }}
                         >
-
-
                             {/* PACOTE VISUAL */}
                             <div className="w-full flex justify-center flex-shrink-0 my-1">
                                 <PacoteVisual
