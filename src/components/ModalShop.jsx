@@ -303,7 +303,7 @@ const PacoteVisual = ({ tema, tipo, onClick, isMobile, isLandscape }) => {
 
     const nomePacote = PACK_CONFIG[tipo]?.nome || tipo;
     const isDesktop = !isMobile;
-    
+
     // Tamanhos mais proporcionais
     const pacoteWidth = isDesktop ? '160px' : (isLandscape ? '100px' : '90px');
     const pacoteHeight = isDesktop ? '200px' : (isLandscape ? '120px' : '110px');
@@ -422,7 +422,7 @@ const PacoteVisual = ({ tema, tipo, onClick, isMobile, isLandscape }) => {
                         inset: 0,
                         background: `linear-gradient(135deg, transparent 20%, ${tema.cor4}33 50%, transparent 80%)`,
                     }} />
-                    
+
                     <div style={{
                         position: "absolute",
                         top: 0,
@@ -431,7 +431,7 @@ const PacoteVisual = ({ tema, tipo, onClick, isMobile, isLandscape }) => {
                         height: 1,
                         background: `linear-gradient(90deg, transparent 0%, ${tema.cor4}66 50%, transparent 100%)`,
                     }} />
-                    
+
                     <div style={{
                         position: "absolute",
                         top: isDesktop ? 8 : 3,
@@ -475,7 +475,7 @@ const PacoteVisual = ({ tema, tipo, onClick, isMobile, isLandscape }) => {
                             filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.2))",
                         }}
                     />
-                    
+
                     <div style={{
                         position: "absolute",
                         inset: 0,
@@ -548,13 +548,13 @@ export const ModalShop = ({ onCancelar }) => {
     const gridCols = isDesktop ? 4 : (isLandscape ? 2 : 1);
 
     // ─── CONFIGURAÇÕES DO RESULTADO ─────────────────────────────
-    const paddingBottomContainer = isMobile ? '80px' : '0px';
+    const paddingBottomContainer = isMobile ? '100px' : '0px'; // Aumentado para garantir espaço
     const cardGapResult = isMobile ? '8px' : '16px';
     const flexWrapCards = isMobile ? 'nowrap' : 'wrap';
     const overflowCards = isMobile ? 'auto' : 'visible';
-    const justifyContentCards = isMobile ? 'center' : 'center';
-    const paddingCards = isMobile ? '8px 0 4px 0' : '0 20px';
-    const maxHeightCards = isMobile ? 'none' : 'none';
+    const justifyContentCards = isMobile ? 'flex-start' : 'center'; // Mudado para flex-start no mobile
+    const paddingCards = isMobile ? '8px 4px 8px 0' : '0 20px';
+    const maxHeightCards = isMobile ? 'calc(100vh - 300px)' : 'none'; // Altura máxima com espaço para o botão
     const fontSizeTituloResult = isMobile ? '18px' : '26px';
     const fontSizeSubtitulo = isMobile ? '12px' : '14px';
     const paddingBotaoResult = isMobile ? '10px 32px' : '14px 48px';
@@ -668,9 +668,11 @@ export const ModalShop = ({ onCancelar }) => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    justifyContent: "center",
-                    padding: isMobile ? '12px' : '24px',
+                    justifyContent: "flex-start", // Mudado para flex-start
+                    padding: isMobile ? '12px 12px 0 12px' : '24px',
+                    paddingBottom: isMobile ? '80px' : '24px', // Espaço extra para o botão
                     background: `radial-gradient(ellipse at 50% 30%, ${tema.cor1} 0%, #07070f 90%)`,
+                    overflow: 'hidden', // Previne scroll do container
                 }}
             >
                 {/* Gradiente de fundo premium */}
@@ -682,43 +684,41 @@ export const ModalShop = ({ onCancelar }) => {
                 }} />
 
                 {/* Partículas */}
-                <div style={{ 
-                    position: "absolute", 
-                    inset: 0, 
-                    pointerEvents: "none", 
-                    overflow: "hidden" 
+                <div style={{
+                    position: "absolute",
+                    inset: 0,
+                    pointerEvents: "none",
+                    overflow: "hidden"
                 }}>
                     <AnimatePresence>
                         {particles.map((p, i) => <Particle key={i} {...p} />)}
                     </AnimatePresence>
                 </div>
 
-                {/* CONTEÚDO DO RESULTADO */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    style={{ 
-                        display: "flex", 
+                {/* CONTEÚDO DO RESULTADO - Scrollável */}
+                <div
+                    style={{
+                        display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         gap: gapConteudo,
                         width: "100%",
                         maxWidth: '900px',
-                        maxHeight: '90vh',
-                        overflow: 'hidden',
-                        flex: 1,
-                        justifyContent: 'space-between',
+                        height: '100%',
+                        // overflow: 'hidden',
                         position: 'relative',
-                        paddingBottom: paddingBottomContainer,
                         zIndex: 25,
+                        paddingBottom: isMobile ? '20px' : '0',
                     }}
                 >
+                    {/* Título - Fixo */}
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         width: '100%',
                         flexShrink: 0,
+                        paddingTop: isMobile ? '10px' : '0',
                     }}>
                         <motion.div
                             initial={{ opacity: 0, y: -20 }}
@@ -741,7 +741,7 @@ export const ModalShop = ({ onCancelar }) => {
                             }}>
                                 🎉 Pacote {config?.nome || ''}
                             </h1>
-                            <p style={{
+                            {/* <p style={{
                                 color: `${tema.cor4}88`,
                                 fontSize: fontSizeSubtitulo,
                                 fontFamily: "'Inter', sans-serif",
@@ -749,136 +749,134 @@ export const ModalShop = ({ onCancelar }) => {
                                 marginTop: 4,
                             }}>
                                 {cartasSorteadas.length} cartas recebidas
-                            </p>
+                            </p> */}
                         </motion.div>
+                    </div>
 
-                        {/* ─── CONTAINER DE CARTAS COM SCROLL ─── */}
-                        <div style={{
+                    {/* ─── CONTAINER DE CARTAS COM SCROLL ─── */}
+                    <motion.div
+                        style={{
                             display: "flex",
                             gap: cardGapResult,
                             flexDirection: 'row',
-                            flexWrap: flexWrapCards,
-                            justifyContent: justifyContentCards,
+                            flexWrap: 'nowrap',           // ← IMPEDE QUEBRA DE LINHA
+                            justifyContent: 'flex-start', // ← ALINHA À ESQUERDA
                             width: "100%",
                             padding: paddingCards,
-                            overflowX: overflowCards,
+                            overflowX: 'auto',            // ← SCROLL HORIZONTAL
                             WebkitOverflowScrolling: 'touch',
                             scrollSnapType: isMobile ? 'x mandatory' : 'none',
-                            maxHeight: maxHeightCards,
-                            flexShrink: 0,
-                            flexGrow: 0,
-                            alignItems: 'center',
-                            scrollBehavior: 'auto',
-                            minHeight: isMobile ? 'auto' : 'auto',
-                        }}>
-                            {cartasSorteadas.map((carta, i) => (
-                                <motion.div
-                                    key={`${carta.nome}-${i}`}
-                                    initial={{ 
-                                        opacity: 0, 
-                                        y: 40,
-                                        scale: 0.9,
-                                    }}
-                                    animate={{ 
-                                        opacity: 1, 
-                                        y: 0,
-                                        scale: 1,
-                                    }}
-                                    transition={{
-                                        delay: 0.15 + i * 0.12,
-                                        duration: 0.5,
-                                        type: "spring",
-                                        stiffness: 300,
-                                        damping: 18,
-                                    }}
-                                    whileHover={{ 
-                                        y: -8,
-                                        scale: 1.04,
-                                        boxShadow: `0 16px 60px ${tema.cor4}55`
-                                    }}
-                                    style={{
-                                        cursor: "pointer",
-                                        transition: "all 0.3s ease",
-                                        flex: isMobile ? '0 0 auto' : '0 1 auto',
-                                        scrollSnapAlign: isMobile ? 'start' : 'none',
-                                    }}
-                                >
-                                    {LocalizadorUpgrade(
-                                        carta.nome,
-                                        carta.redImposto || 0,
-                                        carta.fatu || 0
-                                    )}
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        {/* ─── INDICADOR DE SCROLL (mobile) ──── */}
-                        {isMobile && cartasSorteadas.length > 1 && (
-                            <div style={{
-                                display: 'flex',
-                                gap: '6px',
-                                padding: '4px 0',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                flexShrink: 0,
-                            }}>
-                                <span style={{
-                                    fontSize: '10px',
-                                    color: `${tema.cor4}55`,
-                                    fontFamily: "'Inter', sans-serif",
-                                    fontWeight: 500,
-                                }}>
-                                    ← Deslize para ver mais →
-                                </span>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* ─── BOTÃO ENTENDIDO - FLUTUANTE NO MOBILE ── */}
-                    <motion.button
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8 }}
-                        whileHover={{ 
-                            scale: 1.05,
-                            boxShadow: `0 8px 40px ${tema.cor4}55`
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={handleFechar}
-                        style={{
-                            // POSICIONAMENTO RESPONSIVO:
-                            ...(isMobile ? {
-                                position: 'absolute',
-                                bottom: '20px',
-                                // left: '50%',
-                                transform: 'translateX(-50%)',
-                                marginTop: 0,
-                                marginBottom: 0,
-                                zIndex: 30,
-                                boxShadow: `0 4px 30px ${tema.cor4}66, 0 0 40px ${tema.cor4}33`,
-                            } : {
-                                position: 'relative',
-                                marginTop: '16px',
-                                marginBottom: '0px',
-                            }),
-                            padding: paddingBotaoResult,
-                            borderRadius: 30,
-                            border: `2px solid ${tema.cor4}44`,
-                            background: `linear-gradient(135deg, ${tema.cor4} 0%, ${tema.cor3} 100%)`,
-                            color: "#fff",
-                            fontSize: fontSizeBotaoResult,
-                            fontWeight: 700,
-                            letterSpacing: ".1em",
-                            textTransform: "uppercase",
-                            cursor: "pointer",
-                            fontFamily: "'Inter', sans-serif",
-                            transition: "all 0.3s ease",
-                            flexShrink: 0,
                         }}
                     >
-                        Entendido ✓
-                    </motion.button>
-                </motion.div>
+                        {cartasSorteadas.map((carta, i) => (
+                            <motion.div
+                                key={`${carta.nome}-${i}`}
+                                initial={{
+                                    opacity: 0,
+                                    y: 40,
+                                    scale: 0.9,
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: 0,
+                                    scale: 1,
+                                }}
+                                transition={{
+                                    delay: 0.15 + i * 0.12,
+                                    duration: 0.5,
+                                    type: "spring",
+                                    stiffness: 300,
+                                    damping: 18,
+                                }}
+                                whileHover={{
+                                    y: -8,
+                                    scale: 1.04,
+                                    boxShadow: `0 16px 60px ${tema.cor4}55`
+                                }}
+                                style={{
+                                    cursor: "pointer",
+                                    transition: "all 0.3s ease",
+                                }}
+                            >
+                                {LocalizadorUpgrade(
+                                    carta.nome,
+                                    carta.redImposto,
+                                    carta.fatu
+                                )}
+                            </motion.div>
+                        ))}
+                    </motion.div>
+
+
+                    {/* ─── INDICADOR DE SCROLL (mobile) ──── */}
+                    {isMobile && cartasSorteadas.length > 1 && (
+                        <div style={{
+                            display: 'flex',
+                            gap: '6px',
+                            padding: '4px 0',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexShrink: 0,
+                            marginTop: '4px',
+                        }}>
+                            <span style={{
+                                fontSize: '10px',
+                                color: `${tema.cor4}55`,
+                                fontFamily: "'Inter', sans-serif",
+                                fontWeight: 500,
+                            }}>
+                                ← Deslize para ver mais →
+                            </span>
+                        </div>
+                    )}
+                </div>
+
+                {/* ─── BOTÃO ENTENDIDO - FLUTUANTE NO MOBILE ── */}
+                <motion.button
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8 }}
+                    whileHover={{
+                        scale: 1.05,
+                        boxShadow: `0 8px 40px ${tema.cor4}55`
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleFechar}
+                    style={{
+                        // POSICIONAMENTO RESPONSIVO:
+                        ...(isMobile ? {
+                            position: 'absolute',
+                            bottom: '20px',
+                            // left: '50%',
+                            transform: 'translateX(-50%)',
+                            marginTop: 0,
+                            marginBottom: 0,
+                            zIndex: 30,
+                            boxShadow: `0 4px 30px ${tema.cor4}66, 0 0 40px ${tema.cor4}33`,
+                            width: 'auto',
+                            minWidth: '160px',
+                        } : {
+                            position: 'relative',
+                            marginTop: '16px',
+                            marginBottom: '0px',
+                        }),
+                        padding: paddingBotaoResult,
+                        borderRadius: 30,
+                        border: `2px solid ${tema.cor4}44`,
+                        background: `linear-gradient(135deg, ${tema.cor4} 0%, ${tema.cor3} 100%)`,
+                        color: "#fff",
+                        fontSize: fontSizeBotaoResult,
+                        fontWeight: 700,
+                        letterSpacing: ".1em",
+                        textTransform: "uppercase",
+                        cursor: "pointer",
+                        fontFamily: "'Inter', sans-serif",
+                        transition: "all 0.3s ease",
+                        flexShrink: 0,
+                    }}
+                >
+                    Entendido ✓
+                </motion.button>
             </motion.div>
         );
     };
@@ -889,7 +887,7 @@ export const ModalShop = ({ onCancelar }) => {
         const corRoxo = "#2D1B4E";
 
         return (
-            <div 
+            <div
                 className="grid w-full max-h-[700px] h-full"
                 style={{
                     gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
@@ -975,11 +973,10 @@ export const ModalShop = ({ onCancelar }) => {
                                 {/* BOTÃO COMPRAR */}
                                 <div className="w-full mt-0.5 flex-shrink-0">
                                     <button
-                                        className={`w-full rounded-lg font-bold transition-all ${
-                                            podeComprar
+                                        className={`w-full rounded-lg font-bold transition-all ${podeComprar
                                                 ? 'hover:scale-105 active:scale-95 hover:shadow-lg'
                                                 : 'opacity-50 cursor-not-allowed'
-                                        }`}
+                                            }`}
                                         style={{
                                             background: podeComprar
                                                 ? `linear-gradient(135deg, ${config.cor4}, ${config.cor3})`
