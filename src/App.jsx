@@ -34,6 +34,27 @@ function App() {
   const containerRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      const mobile = window.innerHeight < 600;
+      const landscape = window.innerWidth > window.innerHeight && mobile;
+      setIsMobile(mobile);
+      setIsLandscape(landscape);
+    };
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    window.addEventListener('orientationchange', () => setTimeout(checkDevice, 300));
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+      window.removeEventListener('orientationchange', checkDevice);
+    };
+  }, []);
+
+  const isDesktop = !isMobile;
+
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       containerRef.current.requestFullscreen?.();
@@ -56,20 +77,22 @@ function App() {
     <GraphicsConfigProvider>
       <CentraldeDadosProvider>
         <DadosEconomyGlobalProvider>
-        
+
 
           <div
             ref={containerRef}
             className="h-[100vh] w-[100vw] relative bg-[#350973]"
           >
-            <div  className="z-[10000]" style={{
-              position: 'absolute',
-              bottom: '5px',
-              right: '5px',
-             
-            }}>
-              <QualityToggle />
-            </div>
+            {isDesktop &&
+              (<div className="z-[10000]" style={{
+                position: 'absolute',
+                bottom: '5px',
+                right: '5px',
+
+              }}>
+                <QualityToggle />
+              </div>)
+            }
             {/* Botão de Tela Cheia */}
             <button
               onClick={toggleFullscreen}
@@ -85,7 +108,7 @@ function App() {
             {/* Seu jogo */}
             <Interface />
           </div>
-              
+
 
         </DadosEconomyGlobalProvider>
       </CentraldeDadosProvider>

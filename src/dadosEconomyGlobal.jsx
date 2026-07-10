@@ -6,7 +6,7 @@ const DadosEconomyGlobalContext = createContext();
 // Provedor do contexto
 const DadosEconomyGlobalProvider = ({ children }) => {
   const [economiaSetores, setEconomiaSetores] = useState({
-    saldo: 0,
+    saldo: 100000000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
@@ -14,8 +14,8 @@ const DadosEconomyGlobalProvider = ({ children }) => {
       missoes: {
     concluidas: 0,
     total: 3,
-    porSetor: {}, // { agricultura: ['id1', 'id2'], comercio: ['id3'] }
-    historico: [], // Array com registros das missões completas
+    porSetor: {}, 
+    historico: [], 
   },
     despesasImpostoAnual: {
       diaPagarImpostoAnual: false,
@@ -694,7 +694,7 @@ const resetarMissoes = useCallback(() => {
     ...prev,
     missoes: {
       concluidas: 0,
-      total: 20,
+      total: 3,
       porSetor: {},
       historico: []
     }

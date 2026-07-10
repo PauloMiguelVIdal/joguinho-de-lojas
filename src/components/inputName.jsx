@@ -1,6 +1,36 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Localizador } from "./localizador";
 import { CentraldeDadosContext } from '../centralDeDadosContext';
+
+// ─── HOOK DE DETECÇÃO DE DISPOSITIVO ──────────────────────────────────────────
+function useDeviceDetection() {
+    const [isMobile, setIsMobile] = useState(false);
+    const [isLandscape, setIsLandscape] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+
+    useEffect(() => {
+        const checkDevice = () => {
+            const mobile = window.innerWidth < 768;
+            const landscape = window.innerWidth > window.innerHeight && mobile;
+            setIsMobile(mobile);
+            setIsLandscape(landscape);
+            setWindowWidth(window.innerWidth);
+        };
+
+        checkDevice();
+        window.addEventListener('resize', checkDevice);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(checkDevice, 300);
+        });
+
+        return () => {
+            window.removeEventListener('resize', checkDevice);
+            window.removeEventListener('orientationchange', checkDevice);
+        };
+    }, []);
+
+    return { isMobile, isLandscape, isDesktop: !isMobile, windowWidth };
+}
 
 // ─── Cartas decorativas de fundo ─────────────────────────────────────────────
 const edificiosDecorativos = [
@@ -50,6 +80,8 @@ const NIVEL_GLOW = {
 // ─── Componente ───────────────────────────────────────────────────────────────
 const InputName = () => {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
+    const { isMobile, isLandscape, isDesktop } = useDeviceDetection();
+    
     const inicioGame = dados.inicioGame;
     const modalInicio = dados.modalInicio;
 
@@ -66,48 +98,95 @@ const InputName = () => {
             alert("Campo não preenchido");
             return;
         }
-        // 🔥 Fecha a tela de nome e MARCA O JOGO COMO INICIADO
         atualizarDados("inicioGame", { 
             ...inicioGame, 
             nomeEmpresa: novoNome, 
             estadoModal: false,
-            jogoIniciado: true // 🔥 NOVO: flag que indica que o jogo começou
+            jogoIniciado: true
         });
         atualizarDados("modalInicio", { ...modalInicio, estadoModal: true });
-        atualizarDados("jogoIniciado", true); // 🔥 NOVO: flag global
+        atualizarDados("jogoIniciado", true);
     };
+
+    // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
+    // 🔥 PRINCIPAL: 80vw e 80vh para o modal
+    const modalWidth = isDesktop ? 'min(520px, 80vw)' : '80vw';
+    const modalMaxWidth = isDesktop ? '520px' : '400px';
+    const modalHeight = isDesktop ? 'auto' : '80vh';
+    const modalMaxHeight = isDesktop ? 'auto' : '80vh';
+    
+    // Padding responsivo
+    const modalPadding = isDesktop 
+        ? '44px 40px 40px' 
+        : isLandscape 
+            ? '16px 20px 16px' 
+            : '24px 16px 20px';
+    
+    // Tamanhos de fonte
+    const tituloSize = isDesktop ? 32 : (isLandscape ? 20 : 24);
+    const subtituloSize = isDesktop ? 12 : (isLandscape ? 9 : 10);
+    const badgeFontSize = isDesktop ? 10 : (isLandscape ? 7 : 8);
+    const badgePadding = isDesktop ? '4px 10px' : (isLandscape ? '2px 5px' : '2px 7px');
+    const inputHeight = isDesktop ? 52 : (isLandscape ? 36 : 42);
+    const inputFontSize = isDesktop ? 17 : (isLandscape ? 13 : 15);
+    const botaoSize = isDesktop ? 52 : (isLandscape ? 36 : 42);
+    const svgSize = isDesktop ? 22 : (isLandscape ? 14 : 18);
+    const textFooterSize = isDesktop ? 12 : (isLandscape ? 9 : 10);
+    
+    // Margens
+    const marginBottomTitulo = isDesktop ? 6 : (isLandscape ? 2 : 4);
+    const marginBottomSubtitulo = isDesktop ? 28 : (isLandscape ? 12 : 16);
+    const marginBottomBadges = isDesktop ? 28 : (isLandscape ? 12 : 16);
+    const marginBottomDivisor = isDesktop ? 24 : (isLandscape ? 12 : 16);
+    const marginBottomLabel = isDesktop ? 10 : (isLandscape ? 4 : 6);
+    const marginBottomInput = isDesktop ? 20 : (isLandscape ? 10 : 14);
+    const gapInput = isDesktop ? 10 : (isLandscape ? 6 : 8);
+    const gapBadges = isDesktop ? 8 : (isLandscape ? 4 : 6);
+    
+    // Border radius
+    const borderRadius = isDesktop ? 20 : (isLandscape ? 12 : 16);
+    const inputRadius = isDesktop ? 12 : (isLandscape ? 8 : 10);
+    
+    // Esconder cartas no mobile
+    const mostrarCartas = isDesktop;
 
     return (
         <div style={{
             position: "fixed", inset: 0, zIndex: 40,
             background: "#050510",
-            display: "flex", alignItems: "center", justifyContent: "center",
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center",
             overflow: "hidden",
             backgroundImage: `
                 linear-gradient(rgba(100,17,217,0.08) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(100,17,217,0.08) 1px, transparent 1px)`,
-            backgroundSize: "48px 48px",
+            backgroundSize: isDesktop ? "48px 48px" : "24px 24px",
         }}>
             {/* Glow central */}
             <div style={{
                 position: "absolute", top: "50%", left: "50%",
                 transform: "translate(-50%,-50%)",
-                width: 600, height: 400, pointerEvents: "none",
+                width: isDesktop ? 600 : 250,
+                height: isDesktop ? 400 : 200,
+                pointerEvents: "none",
                 background: "radial-gradient(ellipse, rgba(100,17,217,0.25) 0%, transparent 70%)",
             }} />
 
-            {/* Keyframes de flutuação */}
-            <style>{`
-                @keyframes cardFloatReal {
-                    0%   { opacity: 0;           transform: rotate(var(--r)) translateY(30px)  scale(0.52); }
-                    10%  { opacity: var(--op);   transform: rotate(var(--r)) translateY(0px)   scale(0.52); }
-                    90%  { opacity: var(--op);   transform: rotate(var(--r)) translateY(0px)   scale(0.52); }
-                    100% { opacity: 0;           transform: rotate(var(--r)) translateY(-30px) scale(0.52); }
-                }
-            `}</style>
+            {/* Keyframes de flutuação - apenas desktop */}
+            {isDesktop && (
+                <style>{`
+                    @keyframes cardFloatReal {
+                        0%   { opacity: 0;           transform: rotate(var(--r)) translateY(30px)  scale(0.52); }
+                        10%  { opacity: var(--op);   transform: rotate(var(--r)) translateY(0px)   scale(0.52); }
+                        90%  { opacity: var(--op);   transform: rotate(var(--r)) translateY(0px)   scale(0.52); }
+                        100% { opacity: 0;           transform: rotate(var(--r)) translateY(-30px) scale(0.52); }
+                    }
+                `}</style>
+            )}
 
-            {/* Cartas decorativas flutuando */}
-            {edificiosDecorativos.map((ed, i) => (
+            {/* Cartas decorativas flutuando - apenas desktop */}
+            {mostrarCartas && edificiosDecorativos.map((ed, i) => (
                 <div
                     key={i}
                     style={{
@@ -121,6 +200,7 @@ const InputName = () => {
                         animation: `cardFloatReal ${ed.pos.duration} ease-in-out ${ed.pos.delay} infinite`,
                         borderRadius: 20,
                         overflow: "visible",
+                        scale: isDesktop ? 1 : 0.6,
                     }}
                 >
                     <div style={{
@@ -136,36 +216,82 @@ const InputName = () => {
                 </div>
             ))}
 
-            {/* Modal central */}
+            {/* Modal central - 80vw e 80vh */}
             <div style={{
-                position: "relative", zIndex: 10,
-                width: "min(520px, 90%)",
+                position: "relative", 
+                zIndex: 10,
+                width: modalWidth,
+                maxWidth: modalMaxWidth,
+                height: modalHeight,
+                maxHeight: modalMaxHeight,
                 background: "linear-gradient(160deg,#0d0a1f 0%,#120829 50%,#0a0718 100%)",
                 border: "1px solid rgba(100,17,217,0.5)",
-                borderRadius: 20,
-                padding: "44px 40px 40px",
+                borderRadius: borderRadius,
+                padding: modalPadding,
                 boxShadow: "0 0 0 1px rgba(143,90,218,0.15), 0 30px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(143,90,218,0.2)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                overflow: isMobile ? 'auto' : 'visible',
             }}>
                 {/* Linha decorativa no topo */}
                 <div style={{
-                    position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
-                    width: 120, height: 2,
+                    position: "absolute", 
+                    top: 0, 
+                    left: "50%", 
+                    transform: "translateX(-50%)",
+                    width: isDesktop ? 120 : (isLandscape ? 60 : 80),
+                    height: 2,
                     background: "linear-gradient(90deg,transparent,#8F5ADA,transparent)",
                     borderRadius: 2,
                 }} />
 
-                <p style={{ fontFamily: "serif", fontSize: 11, fontWeight: 700, color: "#8F5ADA", letterSpacing: ".35em", textTransform: "uppercase", textAlign: "center", marginBottom: 10 }}>
+                {/* Título - "Bem-vindo ao" */}
+                <p style={{ 
+                    fontFamily: "serif", 
+                    fontSize: isDesktop ? 11 : (isLandscape ? 8 : 9), 
+                    fontWeight: 700, 
+                    color: "#8F5ADA", 
+                    letterSpacing: ".35em", 
+                    textTransform: "uppercase", 
+                    textAlign: "center", 
+                    marginBottom: isDesktop ? 10 : (isLandscape ? 4 : 6),
+                }}>
                     — Bem-vindo ao —
                 </p>
-                <h1 style={{ fontFamily: "serif", fontSize: 32, fontWeight: 900, color: "#fff", textAlign: "center", marginBottom: 6 }}>
+
+                {/* Título - Business.Game */}
+                <h1 style={{ 
+                    fontFamily: "serif", 
+                    fontSize: tituloSize, 
+                    fontWeight: 900, 
+                    color: "#fff", 
+                    textAlign: "center", 
+                    marginBottom: marginBottomTitulo,
+                }}>
                     Business<span style={{ color: "#F27405" }}>.</span>Game
                 </h1>
-                <p style={{ fontSize: 12, color: "rgba(255,255,255,.35)", textAlign: "center", letterSpacing: ".12em", textTransform: "uppercase", marginBottom: 28 }}>
-                    Construa seu império corporativo
+
+                {/* Subtítulo */}
+                <p style={{ 
+                    fontSize: subtituloSize, 
+                    color: "rgba(255,255,255,.35)", 
+                    textAlign: "center", 
+                    letterSpacing: ".12em", 
+                    textTransform: "uppercase", 
+                    marginBottom: marginBottomSubtitulo,
+                }}>
+                    {isDesktop ? 'Construa seu império corporativo' : 'Construa seu império'}
                 </p>
 
                 {/* Badges de setores */}
-                <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 28, flexWrap: "wrap" }}>
+                <div style={{ 
+                    display: "flex", 
+                    gap: gapBadges, 
+                    justifyContent: "center", 
+                    marginBottom: marginBottomBadges, 
+                    flexWrap: "wrap" 
+                }}>
                     {[
                         ["Agricultura", "#4CAF50"],
                         ["Tecnologia",  "#FF8C42"],
@@ -174,59 +300,133 @@ const InputName = () => {
                         ["Imóveis",     "#6666FF"],
                         ["Energia",     "#FFD966"],
                     ].map(([s, c]) => (
-                        <span key={s} style={{ fontSize: 10, fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", padding: "4px 10px", borderRadius: 20, border: `1px solid ${c}`, color: c, opacity: .6 }}>
-                            {s}
+                        <span key={s} style={{ 
+                            fontSize: badgeFontSize, 
+                            fontWeight: 700, 
+                            letterSpacing: ".1em", 
+                            textTransform: "uppercase", 
+                            padding: badgePadding, 
+                            borderRadius: 20, 
+                            border: `1px solid ${c}`, 
+                            color: c, 
+                            opacity: .6,
+                            whiteSpace: 'nowrap',
+                        }}>
+                            {isMobile && isLandscape ? s.substring(0, 3) : s}
                         </span>
                     ))}
                 </div>
 
-                {/* Divisor */}
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
-                    <div style={{ flex: 1, height: 1, background: "rgba(143,90,218,0.2)" }} />
-                    <span style={{ fontSize: 10, color: "rgba(255,255,255,.3)", letterSpacing: ".2em", textTransform: "uppercase" }}>
-                        Escolha seu legado
-                    </span>
-                    <div style={{ flex: 1, height: 1, background: "rgba(143,90,218,0.2)" }} />
-                </div>
+                {/* Divisor - escondido no mobile landscape */}
+                {(isDesktop || !isLandscape) && (
+                    <div style={{ 
+                        display: "flex", 
+                        alignItems: "center", 
+                        gap: isDesktop ? 12 : 8, 
+                        marginBottom: marginBottomDivisor 
+                    }}>
+                        <div style={{ flex: 1, height: 1, background: "rgba(143,90,218,0.2)" }} />
+                        <span style={{ 
+                            fontSize: isDesktop ? 10 : (isLandscape ? 7 : 8), 
+                            color: "rgba(255,255,255,.3)", 
+                            letterSpacing: ".2em", 
+                            textTransform: "uppercase" 
+                        }}>
+                            {isMobile ? 'Seu legado' : 'Escolha seu legado'}
+                        </span>
+                        <div style={{ flex: 1, height: 1, background: "rgba(143,90,218,0.2)" }} />
+                    </div>
+                )}
 
-                <p style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,.4)", letterSpacing: ".15em", textTransform: "uppercase", marginBottom: 10 }}>
+                {/* Label - Nome da empresa */}
+                <p style={{ 
+                    fontSize: isDesktop ? 11 : (isLandscape ? 8 : 9), 
+                    fontWeight: 600, 
+                    color: "rgba(255,255,255,.4)", 
+                    letterSpacing: ".15em", 
+                    textTransform: "uppercase", 
+                    marginBottom: marginBottomLabel,
+                }}>
                     Nome da empresa
                 </p>
 
                 {/* Input + botão */}
-                <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
+                <div style={{ 
+                    display: "flex", 
+                    gap: gapInput, 
+                    marginBottom: marginBottomInput,
+                    flexShrink: 0,
+                }}>
                     <input
                         type="text"
-                        placeholder="Ex: Grupo Nexus S.A."
+                        placeholder={isDesktop ? "Ex: Grupo Nexus S.A." : "Ex: Grupo Nexus"}
                         value={novoNome}
                         onChange={handleChangeNome}
                         onKeyDown={e => e.key === "Enter" && atualizarContexto()}
                         style={{
-                            flex: 1, height: 52, borderRadius: 12, padding: "0 18px",
+                            flex: 1, 
+                            height: inputHeight, 
+                            borderRadius: inputRadius, 
+                            padding: isDesktop ? "0 18px" : (isLandscape ? "0 10px" : "0 14px"),
                             background: "rgba(100,17,217,0.12)",
                             border: "1px solid rgba(100,17,217,0.35)",
-                            fontFamily: "inherit", fontSize: 17, fontWeight: 600, color: "#fff",
+                            fontFamily: "inherit", 
+                            fontSize: inputFontSize, 
+                            fontWeight: 600, 
+                            color: "#fff",
                             outline: "none",
+                            minWidth: 0,
                         }}
                     />
                     <button
                         onClick={atualizarContexto}
                         style={{
-                            width: 52, height: 52, flexShrink: 0, borderRadius: 12, border: "none",
+                            width: botaoSize, 
+                            height: botaoSize, 
+                            flexShrink: 0, 
+                            borderRadius: inputRadius, 
+                            border: "none",
                             background: "linear-gradient(135deg,#6411D9,#F27405)",
-                            cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                            cursor: "pointer", 
+                            display: "flex", 
+                            alignItems: "center", 
+                            justifyContent: "center",
                             boxShadow: "0 4px 20px rgba(100,17,217,0.4)",
+                            transition: "transform 0.2s, box-shadow 0.2s",
+                        }}
+                        onMouseEnter={(e) => {
+                            if (isDesktop) {
+                                e.currentTarget.style.transform = "scale(1.05)";
+                                e.currentTarget.style.boxShadow = "0 6px 30px rgba(100,17,217,0.6)";
+                            }
+                        }}
+                        onMouseLeave={(e) => {
+                            if (isDesktop) {
+                                e.currentTarget.style.transform = "scale(1)";
+                                e.currentTarget.style.boxShadow = "0 4px 20px rgba(100,17,217,0.4)";
+                            }
                         }}
                     >
-                        <svg viewBox="0 0 24 24" width={22} height={22} fill="none">
+                        <svg viewBox="0 0 24 24" width={svgSize} height={svgSize} fill="none">
                             <polygon points="6,4 20,12 6,20" fill="white" />
                         </svg>
                     </button>
                 </div>
 
-                <p style={{ fontSize: 12, color: "rgba(255,255,255,.25)", textAlign: "center", lineHeight: 1.6 }}>
-                    O nome da sua empresa é o seu legado —<br />
-                    ele pode se tornar uma grande corporação.
+                {/* Texto de rodapé */}
+                <p style={{ 
+                    fontSize: textFooterSize, 
+                    color: "rgba(255,255,255,.25)", 
+                    textAlign: "center", 
+                    lineHeight: 1.5,
+                    flexShrink: 0,
+                }}>
+                    {isDesktop 
+                        ? 'O nome da sua empresa é o seu legado — ele pode se tornar uma grande corporação.'
+                        : isLandscape 
+                            ? 'Seu legado — construa uma grande corporação.'
+                            : 'O nome da sua empresa é o seu legado — ele pode se tornar uma grande corporação.'
+                    }
                 </p>
             </div>
         </div>

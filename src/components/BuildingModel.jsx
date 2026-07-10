@@ -1,7 +1,3 @@
-// ============================================================
-//  BuildingModel.jsx - Com Suporte a Configuração Gráfica
-// ============================================================
-
 import React, { useMemo, useState, useEffect, Component } from 'react'
 import { useGLTF, useTexture } from '@react-three/drei'
 import * as THREE from 'three'

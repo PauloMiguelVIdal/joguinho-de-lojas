@@ -1,5 +1,5 @@
 // ObjectiveTracker.jsx - Responsivo para Mobile
-import React, { useContext, useEffect, useState, useCallback, useMemo } from "react";
+import React, { useContext, useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 
@@ -290,12 +290,15 @@ export default function ObjectiveTracker({
   setorInicial 
 }) {
   const { dados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
-  const { economiaSetores, atualizarEco, adicionarMissaoConcluida, setTotalMissoes } = useContext(DadosEconomyGlobalContext);
+  const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+  
   const [setorSelecionado, setSetorSelecionado] = useState(setorInicial || "comercio");
-
-  const [objetivosCompletos, setObjetivosCompletos] = useState(new Set());
-  const [recompensasRecebidas, setRecompensasRecebidas] = useState([]);
   const [recompensasPendentes, setRecompensasPendentes] = useState({});
+  
+  // 🔥 REF para controlar a primeira execução da verificação
+  const isFirstRun = useRef(true);
+  // 🔥 REF para evitar verificações duplicadas
+  const isVerifying = useRef(false);
 
   // ─── DETECTAR MOBILE ──────────────────────────────────────────
   const [isMobile, setIsMobile] = useState(false);
@@ -323,12 +326,11 @@ export default function ObjectiveTracker({
     return dados[setor].edificios.filter(ed => ed.quantidade > 0);
   }, [dados]);
 
-  useEffect(() => {
-    const totalMissoes = Object.values(OBJETIVOS).reduce(
-      (total, objetivos) => total + objetivos.length, 0
-    );
-    setTotalMissoes(totalMissoes);
-  }, [setTotalMissoes]);
+  // ─── FUNÇÃO PARA VERIFICAR SE UMA MISSÃO ESTÁ COMPLETA ────
+  const isMissaoCompleta = useCallback((chave) => {
+    if (!economiaSetores?.missoes?.historico) return false;
+    return economiaSetores.missoes.historico.some(m => m.id === chave);
+  }, [economiaSetores?.missoes?.historico]);
 
   const adicionarCartaAoInventario = useCallback((nomeCarta) => {
     let setorEncontrado = null;
@@ -355,42 +357,66 @@ export default function ObjectiveTracker({
     return true;
   }, [dados, atualizarDadosProf2]);
 
-  const verificarObjetivo = useCallback((setor, objetivoId) => {
-    const chave = `${setor}_${objetivoId}`;
-    if (objetivosCompletos.has(chave)) return false;
-    if (recompensasPendentes[chave]) return false;
-    const objetivo = OBJETIVOS[setor]?.find(obj => obj.id === objetivoId);
-    if (!objetivo) return false;
-    const { condicao } = resolverCondicao(objetivo);
-    const edificios = getEdificiosDoSetor(setor);
-    return condicao(edificios);
-  }, [objetivosCompletos, recompensasPendentes, getEdificiosDoSetor]);
+  // ─── FUNÇÃO PARA ATUALIZAR MISSÕES NO CONTEXT ─────────────
+  const atualizarMissoesContext = useCallback((novaMissao) => {
+    const missoesAtuais = economiaSetores?.missoes || { 
+      concluidas: 0, 
+      total: Object.values(OBJETIVOS).reduce((acc, obj) => acc + obj.length, 0),
+      porSetor: {}, 
+      historico: [] 
+    };
 
+    // Atualiza o contador de missões concluídas
+    const novasConcluidas = (missoesAtuais.concluidas || 0) + 1;
+    
+    // Atualiza o histórico
+    const novoHistorico = [...(missoesAtuais.historico || []), novaMissao];
+    
+    // Atualiza o contador por setor
+    const porSetor = { ...(missoesAtuais.porSetor || {}) };
+    porSetor[novaMissao.setor] = (porSetor[novaMissao.setor] || 0) + 1;
+
+    // 🔥 SALVA NO CONTEXT USANDO atualizarEco
+    atualizarEco("missoes", {
+      concluidas: novasConcluidas,
+      total: missoesAtuais.total,
+      porSetor: porSetor,
+      historico: novoHistorico
+    });
+  }, [economiaSetores?.missoes, atualizarEco]);
+
+  // ─── PEGAR RECOMPENSA ──────────────────────────────────────
   const pegarRecompensa = useCallback((setor, objetivoId) => {
     const chave = `${setor}_${objetivoId}`;
     if (!recompensasPendentes[chave]) return;
+    
     const objetivo = OBJETIVOS[setor]?.find(obj => obj.id === objetivoId);
     if (!objetivo) return;
-    const recompensa = objetivo.recompensa;
     
-    adicionarMissaoConcluida(setor, objetivoId, objetivo.descricao);
+    const recompensa = objetivo.recompensa;
 
+    // 🔥 CRIA A MISSÃO COMPLETA
+    const missaoCompleta = {
+      id: chave,
+      setor: setor,
+      descricao: objetivo.descricao,
+      recompensa: recompensa.label,
+      data: new Date().toISOString()
+    };
+
+    // 🔥 ATUALIZA O CONTEXT
+    atualizarMissoesContext(missaoCompleta);
+
+    // ─── APLICA RECOMPENSA ──────────────────────────────────
     if (recompensa.tipo === "pacote") {
       if (onPackReceived) {
         onPackReceived(recompensa.raridade);
       }
-      setObjetivosCompletos(prev => new Set(prev).add(chave));
       setRecompensasPendentes(prev => {
         const novo = { ...prev };
         delete novo[chave];
         return novo;
       });
-      setRecompensasRecebidas(prev => [...prev, {
-        id: chave,
-        setor,
-        descricao: objetivo.descricao,
-        recompensa: recompensa.label
-      }]);
     } else if (recompensa.tipo === "cartas") {
       recompensa.cartas.forEach(nome => {
         adicionarCartaAoInventario(nome);
@@ -398,32 +424,38 @@ export default function ObjectiveTracker({
       if (onCartasRecebidas) {
         onCartasRecebidas(recompensa.cartas);
       }
-      setObjetivosCompletos(prev => new Set(prev).add(chave));
       setRecompensasPendentes(prev => {
         const novo = { ...prev };
         delete novo[chave];
         return novo;
       });
-      setRecompensasRecebidas(prev => [...prev, {
-        id: chave,
-        setor,
-        descricao: objetivo.descricao,
-        recompensa: recompensa.label
-      }]);
     }
-  }, [recompensasPendentes, onPackReceived, onCartasRecebidas, adicionarCartaAoInventario, adicionarMissaoConcluida]);
+  }, [recompensasPendentes, onPackReceived, onCartasRecebidas, adicionarCartaAoInventario, atualizarMissoesContext]);
 
+  // ─── VERIFICAÇÃO DE OBJETIVOS ──────────────────────────────
   const verificarTodosObjetivos = useCallback(() => {
+    // 🔥 EVITA EXECUÇÕES CONCORRENTES
+    if (isVerifying.current) return;
+    isVerifying.current = true;
+
     const novasPendentes = { ...recompensasPendentes };
     let hasChanges = false;
 
     for (const [setor, objetivos] of Object.entries(OBJETIVOS)) {
       for (const objetivo of objetivos) {
         const chave = `${setor}_${objetivo.id}`;
-        if (objetivosCompletos.has(chave)) continue;
+        
+        // 🔥 PULA SE JÁ ESTIVER COMPLETO NO CONTEXT
+        if (isMissaoCompleta(chave)) {
+          continue;
+        }
+        
+        // 🔥 PULA SE JÁ ESTIVER PENDENTE
         if (recompensasPendentes[chave]) continue;
+        
         const { condicao } = resolverCondicao(objetivo);
         const edificios = getEdificiosDoSetor(setor);
+        
         if (condicao(edificios)) {
           novasPendentes[chave] = {
             setor,
@@ -438,18 +470,55 @@ export default function ObjectiveTracker({
     if (hasChanges) {
       setRecompensasPendentes(novasPendentes);
     }
-  }, [objetivosCompletos, recompensasPendentes, getEdificiosDoSetor]);
+    
+    isVerifying.current = false;
+  }, [recompensasPendentes, getEdificiosDoSetor, isMissaoCompleta]);
 
+  // ─── EFFECTS ──────────────────────────────────────────────────
+  
+  // 🔥 VERIFICAÇÃO INICIAL - APENAS UMA VEZ
   useEffect(() => {
-    verificarTodosObjetivos();
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      verificarTodosObjetivos();
+    }
+  }, [verificarTodosObjetivos]);
+
+  // 🔥 VERIFICA QUANDO OS DADOS MUDAM
+  useEffect(() => {
+    if (!isFirstRun.current) {
+      verificarTodosObjetivos();
+    }
   }, [dados, verificarTodosObjetivos]);
 
+  // 🔥 VERIFICA QUANDO O DIA MUDA
   useEffect(() => {
-    if (dados.dia > 0) {
+    if (!isFirstRun.current && dados.dia > 0) {
       verificarTodosObjetivos();
     }
   }, [dados.dia, verificarTodosObjetivos]);
 
+  // 🔥 RECALCULA PENDENTES QUANDO O HISTÓRICO MUDA
+  useEffect(() => {
+    if (!isFirstRun.current) {
+      // Remove das pendentes as que já estão no histórico
+      const pendentesAtualizadas = { ...recompensasPendentes };
+      let hasChanges = false;
+      
+      Object.keys(pendentesAtualizadas).forEach(chave => {
+        if (isMissaoCompleta(chave)) {
+          delete pendentesAtualizadas[chave];
+          hasChanges = true;
+        }
+      });
+      
+      if (hasChanges) {
+        setRecompensasPendentes(pendentesAtualizadas);
+      }
+    }
+  }, [economiaSetores?.missoes?.historico, isMissaoCompleta]);
+
+  // ─── SETOR INICIAL ──────────────────────────────────────────
   useEffect(() => {
     if (setorInicial) {
       setSetorSelecionado(setorInicial);
@@ -471,16 +540,6 @@ export default function ObjectiveTracker({
     return Math.min(atual / total, 1);
   }, [edificiosSetor]);
 
-  const isObjetivoCompleto = useCallback((setor, id) => {
-    const chave = `${setor}_${id}`;
-    return objetivosCompletos.has(chave);
-  }, [objetivosCompletos]);
-
-  const isObjetivoPendente = useCallback((setor, id) => {
-    const chave = `${setor}_${id}`;
-    return !!recompensasPendentes[chave];
-  }, [recompensasPendentes]);
-
   // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
   const alturaContainer = isMobile ? '100%' : '40vh';
   const larguraContainer = isMobile ? '100%' : '20vw';
@@ -491,9 +550,14 @@ export default function ObjectiveTracker({
   const fontSizeBadge = isMobile ? '7px' : '10px';
   const fontSizeProgresso = isMobile ? '8px' : '10px';
   const tamanhoCirculo = isMobile ? '16px' : '24px';
-  const gapItems = isMobile ? '2px' : '12px';
   const paddingItem = isMobile ? '2px 6px' : '12px';
   const borderRadiusItem = isMobile ? '6px' : '12px';
+
+  // ─── DADOS DO CONTEXT PARA EXIBIÇÃO ────────────────────────
+  const missoesData = economiaSetores?.missoes || { concluidas: 0, total: 0, porSetor: {}, historico: [] };
+  const totalCompletas = missoesData.concluidas || 0;
+  const totalMissoes = missoesData.total || Object.values(OBJETIVOS).reduce((acc, obj) => acc + obj.length, 0);
+  const totalPendentes = Object.keys(recompensasPendentes).length;
 
   return (
     <div className="h-full w-full bg-[#1a0a3b] border border-white/10 shadow-2xl overflow-hidden flex flex-col" style={{
@@ -501,8 +565,11 @@ export default function ObjectiveTracker({
       width: larguraContainer,
     }}>
       {/* ─── HEADER ────────────────────────────────────────────── */}
-      <div style={{background: 'linear-gradient(to bottom, #6411D9, #350973)',        padding: paddingHeader,
-        borderBottom: '1px solid rgba(255,255,255,0.1)',}} className="flex-shrink-0">
+      <div style={{
+        background: 'linear-gradient(to bottom, #6411D9, #350973)',
+        padding: paddingHeader,
+        borderBottom: '1px solid rgba(255,255,255,0.1)',
+      }} className="flex-shrink-0">
         <h2 className="text-white font-bold flex items-center gap-2" style={{
           fontSize: fontSizeTitulo,
         }}>
@@ -526,17 +593,21 @@ export default function ObjectiveTracker({
         ) : (
           objetivosSetor.map((objetivo) => {
             const chave = `${setorSelecionado}_${objetivo.id}`;
-            const completo = objetivosCompletos.has(chave);
-            const pendente = !!recompensasPendentes[chave];
+            
+            // 🔥 VERIFICA COMPLETO NO CONTEXT
+            const completo = isMissaoCompleta(chave);
+            const pendente = !completo && !!recompensasPendentes[chave];
+            
             const { progresso } = resolverCondicao(objetivo);
             const progressoValue = calcularProgresso(objetivo);
             const atual = progresso(edificiosSetor);
             const meta = objetivo.meta;
             
+            // PRÓXIMO: primeiro objetivo não completo e não pendente
             const isProximo = !completo && !pendente && 
               objetivosSetor.filter(obj => {
                 const ch = `${setorSelecionado}_${obj.id}`;
-                return !objetivosCompletos.has(ch) && !recompensasPendentes[ch];
+                return !isMissaoCompleta(ch) && !recompensasPendentes[ch];
               })[0]?.id === objetivo.id;
 
             return (
@@ -714,10 +785,10 @@ export default function ObjectiveTracker({
         <div className="flex items-center justify-between text-white/40" style={{
           fontSize: isMobile ? '7px' : '10px',
         }}>
-          <span>📦 {recompensasRecebidas.length} recompensas</span>
-          <span>🎯 {Array.from(objetivosCompletos).length} completos</span>
-          {Object.keys(recompensasPendentes).length > 0 && (
-            <span className="text-yellow-400">⭐ {Object.keys(recompensasPendentes).length} pendente(s)</span>
+          <span>📦 {totalCompletas} recompensas</span>
+          <span>🎯 {totalCompletas} / {totalMissoes} completos</span>
+          {totalPendentes > 0 && (
+            <span className="text-yellow-400">⭐ {totalPendentes} pendente(s)</span>
           )}
         </div>
       </div>
