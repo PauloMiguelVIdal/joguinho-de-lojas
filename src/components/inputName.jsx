@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Localizador } from "./localizador";
 import { CentraldeDadosContext } from '../centralDeDadosContext';
+import pdfTutorial from '../../public/PDF/Tutorial.pdf'
 
 // ─── HOOK DE DETECÇÃO DE DISPOSITIVO ──────────────────────────────────────────
 function useDeviceDetection() {
@@ -108,21 +109,25 @@ const InputName = () => {
         atualizarDados("jogoIniciado", true);
     };
 
+    // ─── Função para abrir PDF em nova aba ────────────────────
+    const abrirPDF = () => {
+        // URL do PDF - ajuste conforme necessário
+        const pdfUrl = pdfTutorial;
+        window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+    };
+
     // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
-    // 🔥 PRINCIPAL: 80vw e 80vh para o modal
     const modalWidth = isDesktop ? 'min(520px, 80vw)' : '80vw';
     const modalMaxWidth = isDesktop ? '520px' : '400px';
     const modalHeight = isDesktop ? 'auto' : '80vh';
     const modalMaxHeight = isDesktop ? 'auto' : '80vh';
     
-    // Padding responsivo
     const modalPadding = isDesktop 
         ? '44px 40px 40px' 
         : isLandscape 
             ? '16px 20px 16px' 
             : '24px 16px 20px';
     
-    // Tamanhos de fonte
     const tituloSize = isDesktop ? 32 : (isLandscape ? 20 : 24);
     const subtituloSize = isDesktop ? 12 : (isLandscape ? 9 : 10);
     const badgeFontSize = isDesktop ? 10 : (isLandscape ? 7 : 8);
@@ -133,21 +138,19 @@ const InputName = () => {
     const svgSize = isDesktop ? 22 : (isLandscape ? 14 : 18);
     const textFooterSize = isDesktop ? 12 : (isLandscape ? 9 : 10);
     
-    // Margens
     const marginBottomTitulo = isDesktop ? 6 : (isLandscape ? 2 : 4);
     const marginBottomSubtitulo = isDesktop ? 28 : (isLandscape ? 12 : 16);
     const marginBottomBadges = isDesktop ? 28 : (isLandscape ? 12 : 16);
     const marginBottomDivisor = isDesktop ? 24 : (isLandscape ? 12 : 16);
     const marginBottomLabel = isDesktop ? 10 : (isLandscape ? 4 : 6);
     const marginBottomInput = isDesktop ? 20 : (isLandscape ? 10 : 14);
+    const marginBottomPDF = isDesktop ? 16 : (isLandscape ? 8 : 10);
     const gapInput = isDesktop ? 10 : (isLandscape ? 6 : 8);
     const gapBadges = isDesktop ? 8 : (isLandscape ? 4 : 6);
     
-    // Border radius
     const borderRadius = isDesktop ? 20 : (isLandscape ? 12 : 16);
     const inputRadius = isDesktop ? 12 : (isLandscape ? 8 : 10);
     
-    // Esconder cartas no mobile
     const mostrarCartas = isDesktop;
 
     return (
@@ -216,7 +219,7 @@ const InputName = () => {
                 </div>
             ))}
 
-            {/* Modal central - 80vw e 80vh */}
+            {/* Modal central */}
             <div style={{
                 position: "relative", 
                 zIndex: 10,
@@ -317,7 +320,7 @@ const InputName = () => {
                     ))}
                 </div>
 
-                {/* Divisor - escondido no mobile landscape */}
+                {/* Divisor */}
                 {(isDesktop || !isLandscape) && (
                     <div style={{ 
                         display: "flex", 
@@ -412,6 +415,80 @@ const InputName = () => {
                         </svg>
                     </button>
                 </div>
+
+                {/* Divisor para o PDF Tutorial */}
+                <div style={{ 
+                    display: "flex", 
+                    alignItems: "center", 
+                    gap: isDesktop ? 12 : 8, 
+                    marginBottom: marginBottomPDF 
+                }}>
+                    <div style={{ flex: 1, height: 1, background: "rgba(143,90,218,0.15)" }} />
+                    <span style={{ 
+                        fontSize: isDesktop ? 9 : (isLandscape ? 6 : 7), 
+                        color: "rgba(255,255,255,.2)", 
+                        letterSpacing: ".2em", 
+                        textTransform: "uppercase" 
+                    }}>
+                        Aprenda a Jogar
+                    </span>
+                    <div style={{ flex: 1, height: 1, background: "rgba(143,90,218,0.15)" }} />
+                </div>
+
+                {/* Botão PDF Tutorial estilizado */}
+                <button
+                    onClick={abrirPDF}
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: isDesktop ? 12 : 8,
+                        width: "100%",
+                        height: isDesktop ? 48 : (isLandscape ? 32 : 38),
+                        borderRadius: inputRadius,
+                        border: "1px solid rgba(143,90,218,0.3)",
+                        background: "rgba(100,17,217,0.08)",
+                        cursor: "pointer",
+                        transition: "all 0.3s ease",
+                        padding: isDesktop ? "0 20px" : "0 14px",
+                        marginBottom: isDesktop ? 16 : (isLandscape ? 8 : 10),
+                    }}
+                    onMouseEnter={(e) => {
+                        if (isDesktop) {
+                            e.currentTarget.style.background = "rgba(100,17,217,0.2)";
+                            e.currentTarget.style.borderColor = "rgba(143,90,218,0.6)";
+                            e.currentTarget.style.transform = "scale(1.02)";
+                        }
+                    }}
+                    onMouseLeave={(e) => {
+                        if (isDesktop) {
+                            e.currentTarget.style.background = "rgba(100,17,217,0.08)";
+                            e.currentTarget.style.borderColor = "rgba(143,90,218,0.3)";
+                            e.currentTarget.style.transform = "scale(1)";
+                        }
+                    }}
+                >
+                    <span style={{ 
+                        fontSize: isDesktop ? 16 : (isLandscape ? 11 : 13),
+                    }}>
+                        📜
+                    </span>
+                    <span style={{ 
+                        fontSize: isDesktop ? 13 : (isLandscape ? 9 : 11),
+                        fontWeight: 600,
+                        color: "rgba(255,255,255,.7)",
+                        letterSpacing: ".05em",
+                    }}>
+                        {isMobile ? 'Tutorial' : 'Tutorial em PDF'}
+                    </span>
+                    <span style={{ 
+                        fontSize: isDesktop ? 9 : (isLandscape ? 7 : 8),
+                        color: "rgba(143,90,218,0.5)",
+                        marginLeft: "auto",
+                    }}>
+                        📖
+                    </span>
+                </button>
 
                 {/* Texto de rodapé */}
                 <p style={{ 
