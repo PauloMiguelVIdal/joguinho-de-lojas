@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Localizador } from "./localizador";
 import { CentraldeDadosContext } from '../centralDeDadosContext';
-import pdfTutorial from '../../public/PDF/Tutorial.pdf'
+import pdfTutorial from '../../public/PDF/Tutorial_compactado.pdf'
 
 // ─── HOOK DE DETECÇÃO DE DISPOSITIVO ──────────────────────────────────────────
 function useDeviceDetection() {
