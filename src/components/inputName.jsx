@@ -35,30 +35,30 @@ function useDeviceDetection() {
 
 // ─── Cartas decorativas de fundo ─────────────────────────────────────────────
 const edificiosDecorativos = [
-    { nome: "Plantação De Grãos",       pos: { left: "2%",  top: "8%",  rotate: "-15deg", delay: "0s",    duration: "18s", opacity: .5  }, nivel: 1 },
-    { nome: "Fábrica De Chips",          pos: { left: "10%", top: "55%", rotate: "8deg",   delay: "2s",    duration: "22s", opacity: .4  }, nivel: 3 },
-    { nome: "Alto-Forno",                pos: { left: "5%",  top: "75%", rotate: "-6deg",  delay: "5s",    duration: "19s", opacity: .45 }, nivel: 2 },
-    { nome: "Mercado",                   pos: { left: "18%", top: "18%", rotate: "12deg",  delay: "1s",    duration: "24s", opacity: .35 }, nivel: 1 },
-    { nome: "Construtora",               pos: { left: "22%", top: "72%", rotate: "-10deg", delay: "7s",    duration: "20s", opacity: .45 }, nivel: 2 },
-    { nome: "Usina Solar",               pos: { left: "75%", top: "12%", rotate: "18deg",  delay: "3s",    duration: "21s", opacity: .4  }, nivel: 1 },
-    { nome: "Fazenda De Vacas",          pos: { left: "80%", top: "60%", rotate: "-12deg", delay: "6s",    duration: "17s", opacity: .5  }, nivel: 3 },
-    { nome: "Fábrica De Smartphones",    pos: { left: "87%", top: "28%", rotate: "5deg",   delay: "9s",    duration: "23s", opacity: .35 }, nivel: 2 },
-    { nome: "Usina Siderúrgica",         pos: { left: "68%", top: "75%", rotate: "-8deg",  delay: "4s",    duration: "20s", opacity: .45 }, nivel: 3 },
-    { nome: "Aeroporto",                 pos: { left: "55%", top: "6%",  rotate: "14deg",  delay: "8s",    duration: "25s", opacity: .35 }, nivel: 1 },
-    { nome: "Parque Eólico",             pos: { left: "38%", top: "80%", rotate: "-18deg", delay: "11s",   duration: "19s", opacity: .4  }, nivel: 2 },
-    { nome: "Fábrica De Robôs",          pos: { left: "91%", top: "78%", rotate: "7deg",   delay: "13s",   duration: "22s", opacity: .35 }, nivel: 3 },
-    { nome: "Refinaria",                 pos: { left: "30%", top: "5%",  rotate: "-9deg",  delay: "3.5s",  duration: "20s", opacity: .4  }, nivel: 3 },
-    { nome: "Fábrica De Foguetes",       pos: { left: "45%", top: "82%", rotate: "11deg",  delay: "6.5s",  duration: "23s", opacity: .35 }, nivel: 2 },
-    { nome: "Shopping Center",           pos: { left: "60%", top: "45%", rotate: "-14deg", delay: "1.5s",  duration: "21s", opacity: .3  }, nivel: 1 },
-    { nome: "Mineradora",                pos: { left: "14%", top: "35%", rotate: "6deg",   delay: "9.5s",  duration: "18s", opacity: .4  }, nivel: 2 },
-    { nome: "Plataforma De Petróleo",    pos: { left: "50%", top: "60%", rotate: "-5deg",  delay: "4.5s",  duration: "24s", opacity: .3  }, nivel: 3 },
-    { nome: "Data Center",               pos: { left: "72%", top: "35%", rotate: "16deg",  delay: "12s",   duration: "20s", opacity: .35 }, nivel: 1 },
-    { nome: "Usina Hidrelétrica",        pos: { left: "3%",  top: "42%", rotate: "-20deg", delay: "7.5s",  duration: "22s", opacity: .4  }, nivel: 2 },
-    { nome: "Fábrica De Automóveis",     pos: { left: "83%", top: "10%", rotate: "9deg",   delay: "2.5s",  duration: "19s", opacity: .35 }, nivel: 3 },
-    { nome: "Porto",                     pos: { left: "25%", top: "48%", rotate: "-7deg",  delay: "10s",   duration: "26s", opacity: .3  }, nivel: 1 },
-    { nome: "Laboratório Farmacêutico",  pos: { left: "58%", top: "22%", rotate: "13deg",  delay: "5.5s",  duration: "21s", opacity: .35 }, nivel: 2 },
-    { nome: "Fábrica De Baterias",       pos: { left: "42%", top: "15%", rotate: "-11deg", delay: "14s",   duration: "18s", opacity: .4  }, nivel: 1 },
-    { nome: "Estaleiro",                 pos: { left: "95%", top: "50%", rotate: "4deg",   delay: "8.5s",  duration: "23s", opacity: .3  }, nivel: 3 },
+    { nome: "Plantação De Grãos", pos: { left: "2%", top: "8%", rotate: "-15deg", delay: "0s", duration: "18s", opacity: .5 }, nivel: 1 },
+    { nome: "Fábrica De Chips", pos: { left: "10%", top: "55%", rotate: "8deg", delay: "2s", duration: "22s", opacity: .4 }, nivel: 3 },
+    { nome: "Alto-Forno", pos: { left: "5%", top: "75%", rotate: "-6deg", delay: "5s", duration: "19s", opacity: .45 }, nivel: 2 },
+    { nome: "Mercado", pos: { left: "18%", top: "18%", rotate: "12deg", delay: "1s", duration: "24s", opacity: .35 }, nivel: 1 },
+    { nome: "Construtora", pos: { left: "22%", top: "72%", rotate: "-10deg", delay: "7s", duration: "20s", opacity: .45 }, nivel: 2 },
+    { nome: "Usina Solar", pos: { left: "75%", top: "12%", rotate: "18deg", delay: "3s", duration: "21s", opacity: .4 }, nivel: 1 },
+    { nome: "Fazenda De Vacas", pos: { left: "80%", top: "60%", rotate: "-12deg", delay: "6s", duration: "17s", opacity: .5 }, nivel: 3 },
+    { nome: "Fábrica De Smartphones", pos: { left: "87%", top: "28%", rotate: "5deg", delay: "9s", duration: "23s", opacity: .35 }, nivel: 2 },
+    { nome: "Usina Siderúrgica", pos: { left: "68%", top: "75%", rotate: "-8deg", delay: "4s", duration: "20s", opacity: .45 }, nivel: 3 },
+    { nome: "Aeroporto", pos: { left: "55%", top: "6%", rotate: "14deg", delay: "8s", duration: "25s", opacity: .35 }, nivel: 1 },
+    { nome: "Parque Eólico", pos: { left: "38%", top: "80%", rotate: "-18deg", delay: "11s", duration: "19s", opacity: .4 }, nivel: 2 },
+    { nome: "Fábrica De Robôs", pos: { left: "91%", top: "78%", rotate: "7deg", delay: "13s", duration: "22s", opacity: .35 }, nivel: 3 },
+    { nome: "Refinaria", pos: { left: "30%", top: "5%", rotate: "-9deg", delay: "3.5s", duration: "20s", opacity: .4 }, nivel: 3 },
+    { nome: "Fábrica De Foguetes", pos: { left: "45%", top: "82%", rotate: "11deg", delay: "6.5s", duration: "23s", opacity: .35 }, nivel: 2 },
+    { nome: "Shopping Center", pos: { left: "60%", top: "45%", rotate: "-14deg", delay: "1.5s", duration: "21s", opacity: .3 }, nivel: 1 },
+    { nome: "Mineradora", pos: { left: "14%", top: "35%", rotate: "6deg", delay: "9.5s", duration: "18s", opacity: .4 }, nivel: 2 },
+    { nome: "Plataforma De Petróleo", pos: { left: "50%", top: "60%", rotate: "-5deg", delay: "4.5s", duration: "24s", opacity: .3 }, nivel: 3 },
+    { nome: "Data Center", pos: { left: "72%", top: "35%", rotate: "16deg", delay: "12s", duration: "20s", opacity: .35 }, nivel: 1 },
+    { nome: "Usina Hidrelétrica", pos: { left: "3%", top: "42%", rotate: "-20deg", delay: "7.5s", duration: "22s", opacity: .4 }, nivel: 2 },
+    { nome: "Fábrica De Automóveis", pos: { left: "83%", top: "10%", rotate: "9deg", delay: "2.5s", duration: "19s", opacity: .35 }, nivel: 3 },
+    { nome: "Porto", pos: { left: "25%", top: "48%", rotate: "-7deg", delay: "10s", duration: "26s", opacity: .3 }, nivel: 1 },
+    { nome: "Laboratório Farmacêutico", pos: { left: "58%", top: "22%", rotate: "13deg", delay: "5.5s", duration: "21s", opacity: .35 }, nivel: 2 },
+    { nome: "Fábrica De Baterias", pos: { left: "42%", top: "15%", rotate: "-11deg", delay: "14s", duration: "18s", opacity: .4 }, nivel: 1 },
+    { nome: "Estaleiro", pos: { left: "95%", top: "50%", rotate: "4deg", delay: "8.5s", duration: "23s", opacity: .3 }, nivel: 3 },
 ];
 
 // ─── Overlays por nível ──────────────────────────────────────────────────────
@@ -82,7 +82,7 @@ const NIVEL_GLOW = {
 const InputName = () => {
     const { dados, atualizarDados } = useContext(CentraldeDadosContext);
     const { isMobile, isLandscape, isDesktop } = useDeviceDetection();
-    
+
     const inicioGame = dados.inicioGame;
     const modalInicio = dados.modalInicio;
 
@@ -99,9 +99,9 @@ const InputName = () => {
             alert("Campo não preenchido");
             return;
         }
-        atualizarDados("inicioGame", { 
-            ...inicioGame, 
-            nomeEmpresa: novoNome, 
+        atualizarDados("inicioGame", {
+            ...inicioGame,
+            nomeEmpresa: novoNome,
             estadoModal: false,
             jogoIniciado: true
         });
@@ -111,67 +111,87 @@ const InputName = () => {
 
     // ─── Função para abrir PDF em nova aba ────────────────────
     const abrirPDF = () => {
-        // URL do PDF - ajuste conforme necessário
         const pdfUrl = pdfTutorial;
         window.open(pdfUrl, '_blank', 'noopener,noreferrer');
     };
 
-    // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
-    const modalWidth = isDesktop ? 'min(520px, 80vw)' : '80vw';
-    const modalMaxWidth = isDesktop ? '520px' : '400px';
-    const modalHeight = isDesktop ? 'auto' : '80vh';
-    const modalMaxHeight = isDesktop ? 'auto' : '80vh';
-    
-    const modalPadding = isDesktop 
-        ? '44px 40px 40px' 
-        : isLandscape 
-            ? '16px 20px 16px' 
-            : '24px 16px 20px';
-    
-    const tituloSize = isDesktop ? 32 : (isLandscape ? 20 : 24);
-    const subtituloSize = isDesktop ? 12 : (isLandscape ? 9 : 10);
-    const badgeFontSize = isDesktop ? 10 : (isLandscape ? 7 : 8);
-    const badgePadding = isDesktop ? '4px 10px' : (isLandscape ? '2px 5px' : '2px 7px');
-    const inputHeight = isDesktop ? 52 : (isLandscape ? 36 : 42);
-    const inputFontSize = isDesktop ? 17 : (isLandscape ? 13 : 15);
-    const botaoSize = isDesktop ? 52 : (isLandscape ? 36 : 42);
-    const svgSize = isDesktop ? 22 : (isLandscape ? 14 : 18);
-    const textFooterSize = isDesktop ? 12 : (isLandscape ? 9 : 10);
-    
-    const marginBottomTitulo = isDesktop ? 6 : (isLandscape ? 2 : 4);
-    const marginBottomSubtitulo = isDesktop ? 28 : (isLandscape ? 12 : 16);
-    const marginBottomBadges = isDesktop ? 28 : (isLandscape ? 12 : 16);
-    const marginBottomDivisor = isDesktop ? 24 : (isLandscape ? 12 : 16);
-    const marginBottomLabel = isDesktop ? 10 : (isLandscape ? 4 : 6);
-    const marginBottomInput = isDesktop ? 20 : (isLandscape ? 10 : 14);
-    const marginBottomPDF = isDesktop ? 16 : (isLandscape ? 8 : 10);
-    const gapInput = isDesktop ? 10 : (isLandscape ? 6 : 8);
-    const gapBadges = isDesktop ? 8 : (isLandscape ? 4 : 6);
-    
-    const borderRadius = isDesktop ? 20 : (isLandscape ? 12 : 16);
-    const inputRadius = isDesktop ? 12 : (isLandscape ? 8 : 10);
-    
+    // ─── CONFIGURAÇÕES RESPONSIVAS OTIMIZADAS ──────────────────────────────
+    // Tamanhos baseados no dispositivo
+    const isVerySmall = isMobile && window.innerWidth < 360;
+    const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+
+    // Dimensões do modal
+    const modalWidth = isDesktop ? 'min(520px, 80vw)' : '92vw';
+    const modalMaxWidth = isDesktop ? '520px' : isMobile ? '400px' : '480px';
+    const modalHeight = isMobile ? 'auto' : 'auto';
+    const modalMaxHeight = isMobile ? '85vh' : '90vh';
+    const modalMinHeight = isMobile ? '60vh' : 'auto';
+
+    // Padding ajustado
+    const modalPadding = isDesktop
+        ? '44px 40px 40px'
+        : isLandscape
+            ? '12px 16px 12px'
+            : isVerySmall
+                ? '16px 12px 14px'
+                : '20px 16px 16px';
+
+    // Tamanhos de fonte responsivos
+    const tituloSize = isDesktop ? 32 : isLandscape ? 18 : isVerySmall ? 20 : 24;
+    const subtituloSize = isDesktop ? 12 : isLandscape ? 8 : isVerySmall ? 9 : 10;
+    const badgeFontSize = isDesktop ? 10 : isLandscape ? 6 : isVerySmall ? 7 : 8;
+    const badgePadding = isDesktop ? '4px 10px' : isLandscape ? '2px 4px' : isVerySmall ? '2px 6px' : '2px 7px';
+    const inputHeight = isDesktop ? 52 : isLandscape ? 32 : isVerySmall ? 38 : 42;
+    const inputFontSize = isDesktop ? 17 : isLandscape ? 12 : isVerySmall ? 14 : 15;
+    const botaoSize = isDesktop ? 52 : isLandscape ? 32 : isVerySmall ? 38 : 42;
+    const svgSize = isDesktop ? 22 : isLandscape ? 12 : isVerySmall ? 16 : 18;
+    const textFooterSize = isDesktop ? 12 : isLandscape ? 8 : isVerySmall ? 9 : 10;
+
+    // Margens responsivas
+    const marginBottomTitulo = isDesktop ? 6 : isLandscape ? 2 : isVerySmall ? 3 : 4;
+    const marginBottomSubtitulo = isDesktop ? 28 : isLandscape ? 10 : isVerySmall ? 12 : 16;
+    const marginBottomBadges = isDesktop ? 28 : isLandscape ? 8 : isVerySmall ? 12 : 16;
+    const marginBottomDivisor = isDesktop ? 24 : isLandscape ? 8 : isVerySmall ? 12 : 16;
+    const marginBottomLabel = isDesktop ? 10 : isLandscape ? 3 : isVerySmall ? 4 : 6;
+    const marginBottomInput = isDesktop ? 20 : isLandscape ? 8 : isVerySmall ? 12 : 14;
+    const marginBottomPDF = isDesktop ? 16 : isLandscape ? 6 : isVerySmall ? 8 : 10;
+    const gapInput = isDesktop ? 10 : isLandscape ? 5 : isVerySmall ? 6 : 8;
+    const gapBadges = isDesktop ? 8 : isLandscape ? 3 : isVerySmall ? 4 : 6;
+
+    // Bordas e raios
+    const borderRadius = isDesktop ? 20 : isLandscape ? 10 : isVerySmall ? 12 : 16;
+    const inputRadius = isDesktop ? 12 : isLandscape ? 6 : isVerySmall ? 8 : 10;
+
+    // Mostrar cartas apenas em desktop
     const mostrarCartas = isDesktop;
+
+    // Background size responsivo
+    const bgSize = isDesktop ? "48px 48px" : isLandscape ? "16px 16px" : "20px 20px";
 
     return (
         <div style={{
-            position: "fixed", inset: 0, zIndex: 40,
+            position: "fixed", 
+            inset: 0, 
+            zIndex: 40,
             background: "#050510",
-            display: "flex", 
-            alignItems: "center", 
+            display: "flex",
+            alignItems: "center",
             justifyContent: "center",
             overflow: "hidden",
+            padding: isMobile ? "12px" : "0",
             backgroundImage: `
                 linear-gradient(rgba(100,17,217,0.08) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(100,17,217,0.08) 1px, transparent 1px)`,
-            backgroundSize: isDesktop ? "48px 48px" : "24px 24px",
+            backgroundSize: bgSize,
         }}>
-            {/* Glow central */}
+            {/* Glow central - ajustado para mobile */}
             <div style={{
-                position: "absolute", top: "50%", left: "50%",
+                position: "absolute", 
+                top: "50%", 
+                left: "50%",
                 transform: "translate(-50%,-50%)",
-                width: isDesktop ? 600 : 250,
-                height: isDesktop ? 400 : 200,
+                width: isDesktop ? 600 : isLandscape ? 200 : 250,
+                height: isDesktop ? 400 : isLandscape ? 150 : 200,
                 pointerEvents: "none",
                 background: "radial-gradient(ellipse, rgba(100,17,217,0.25) 0%, transparent 70%)",
             }} />
@@ -207,7 +227,8 @@ const InputName = () => {
                     }}
                 >
                     <div style={{
-                        position: "absolute", inset: 0,
+                        position: "absolute", 
+                        inset: 0,
                         borderRadius: 20,
                         background: NIVEL_OVERLAY[ed.nivel],
                         border: NIVEL_BORDER[ed.nivel],
@@ -221,12 +242,13 @@ const InputName = () => {
 
             {/* Modal central */}
             <div style={{
-                position: "relative", 
+                position: "relative",
                 zIndex: 10,
                 width: modalWidth,
                 maxWidth: modalMaxWidth,
                 height: modalHeight,
                 maxHeight: modalMaxHeight,
+                minHeight: modalMinHeight,
                 background: "linear-gradient(160deg,#0d0a1f 0%,#120829 50%,#0a0718 100%)",
                 border: "1px solid rgba(100,17,217,0.5)",
                 borderRadius: borderRadius,
@@ -236,104 +258,113 @@ const InputName = () => {
                 flexDirection: "column",
                 justifyContent: "center",
                 overflow: isMobile ? 'auto' : 'visible',
+                // Melhor scroll no mobile
+                WebkitOverflowScrolling: 'touch',
             }}>
                 {/* Linha decorativa no topo */}
                 <div style={{
-                    position: "absolute", 
-                    top: 0, 
-                    left: "50%", 
+                    position: "absolute",
+                    top: 0,
+                    left: "50%",
                     transform: "translateX(-50%)",
-                    width: isDesktop ? 120 : (isLandscape ? 60 : 80),
+                    width: isDesktop ? 120 : isLandscape ? 40 : isVerySmall ? 60 : 80,
                     height: 2,
                     background: "linear-gradient(90deg,transparent,#8F5ADA,transparent)",
                     borderRadius: 2,
                 }} />
 
                 {/* Título - "Bem-vindo ao" */}
-                <p style={{ 
-                    fontFamily: "serif", 
-                    fontSize: isDesktop ? 11 : (isLandscape ? 8 : 9), 
-                    fontWeight: 700, 
-                    color: "#8F5ADA", 
-                    letterSpacing: ".35em", 
-                    textTransform: "uppercase", 
-                    textAlign: "center", 
-                    marginBottom: isDesktop ? 10 : (isLandscape ? 4 : 6),
+                <p style={{
+                    fontFamily: "serif",
+                    fontSize: isDesktop ? 11 : isLandscape ? 7 : isVerySmall ? 8 : 9,
+                    fontWeight: 700,
+                    color: "#8F5ADA",
+                    letterSpacing: ".35em",
+                    textTransform: "uppercase",
+                    textAlign: "center",
+                    marginBottom: isDesktop ? 10 : isLandscape ? 3 : isVerySmall ? 4 : 6,
                 }}>
                     — Bem-vindo ao —
                 </p>
 
                 {/* Título - Business.Game */}
-                <h1 style={{ 
-                    fontFamily: "serif", 
-                    fontSize: tituloSize, 
-                    fontWeight: 900, 
-                    color: "#fff", 
-                    textAlign: "center", 
+                <h1 style={{
+                    fontFamily: "serif",
+                    fontSize: tituloSize,
+                    fontWeight: 900,
+                    color: "#fff",
+                    textAlign: "center",
                     marginBottom: marginBottomTitulo,
+                    lineHeight: 1.2,
                 }}>
                     Business<span style={{ color: "#F27405" }}>.</span>Game
                 </h1>
 
                 {/* Subtítulo */}
-                <p style={{ 
-                    fontSize: subtituloSize, 
-                    color: "rgba(255,255,255,.35)", 
-                    textAlign: "center", 
-                    letterSpacing: ".12em", 
-                    textTransform: "uppercase", 
+                <p style={{
+                    fontSize: subtituloSize,
+                    color: "rgba(255,255,255,.35)",
+                    textAlign: "center",
+                    letterSpacing: ".12em",
+                    textTransform: "uppercase",
                     marginBottom: marginBottomSubtitulo,
                 }}>
-                    {isDesktop ? 'Construa seu império corporativo' : 'Construa seu império'}
+                    {isDesktop ? 'Construa seu império corporativo' : 
+                     isLandscape ? 'Construa seu império' : 
+                     'Construa seu império'}
                 </p>
 
-                {/* Badges de setores */}
-                <div style={{ 
-                    display: "flex", 
-                    gap: gapBadges, 
-                    justifyContent: "center", 
-                    marginBottom: marginBottomBadges, 
-                    flexWrap: "wrap" 
-                }}>
-                    {[
-                        ["Agricultura", "#4CAF50"],
-                        ["Tecnologia",  "#FF8C42"],
-                        ["Indústria",   "#B3B3B3"],
-                        ["Comércio",    "#FF4D4D"],
-                        ["Imóveis",     "#6666FF"],
-                        ["Energia",     "#FFD966"],
-                    ].map(([s, c]) => (
-                        <span key={s} style={{ 
-                            fontSize: badgeFontSize, 
-                            fontWeight: 700, 
-                            letterSpacing: ".1em", 
-                            textTransform: "uppercase", 
-                            padding: badgePadding, 
-                            borderRadius: 20, 
-                            border: `1px solid ${c}`, 
-                            color: c, 
-                            opacity: .6,
-                            whiteSpace: 'nowrap',
-                        }}>
-                            {isMobile && isLandscape ? s.substring(0, 3) : s}
-                        </span>
-                    ))}
-                </div>
+                {/* Badges de setores - esconder em landscape mobile */}
+                {(isDesktop || (!isLandscape && isMobile)) && (
+                    <div style={{
+                        display: "flex",
+                        gap: gapBadges,
+                        justifyContent: "center",
+                        marginBottom: marginBottomBadges,
+                        flexWrap: "wrap",
+                    }}>
+                        {[
+                            ["Agricultura", "#4CAF50"],
+                            ["Tecnologia", "#FF8C42"],
+                            ["Indústria", "#B3B3B3"],
+                            ["Comércio", "#FF4D4D"],
+                            ["Imóveis", "#6666FF"],
+                            ["Energia", "#FFD966"],
+                        ].map(([s, c]) => (
+                            <span key={s} style={{
+                                fontSize: badgeFontSize,
+                                fontWeight: 700,
+                                letterSpacing: ".1em",
+                                textTransform: "uppercase",
+                                padding: badgePadding,
+                                borderRadius: 20,
+                                border: `1px solid ${c}`,
+                                color: c,
+                                opacity: .6,
+                                whiteSpace: 'nowrap',
+                            }}>
+                                {isMobile && isLandscape ? s.substring(0, 3) : 
+                                 isVerySmall && isMobile ? s.substring(0, 4) : s}
+                            </span>
+                        ))}
+                    </div>
+                )}
 
                 {/* Divisor */}
-                {(isDesktop || !isLandscape) && (
-                    <div style={{ 
-                        display: "flex", 
-                        alignItems: "center", 
-                        gap: isDesktop ? 12 : 8, 
-                        marginBottom: marginBottomDivisor 
+                {(isDesktop || (!isLandscape && isMobile)) && (
+                    <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: isDesktop ? 12 : isVerySmall ? 6 : 8,
+                        marginBottom: marginBottomDivisor
                     }}>
                         <div style={{ flex: 1, height: 1, background: "rgba(143,90,218,0.2)" }} />
-                        <span style={{ 
-                            fontSize: isDesktop ? 10 : (isLandscape ? 7 : 8), 
-                            color: "rgba(255,255,255,.3)", 
-                            letterSpacing: ".2em", 
-                            textTransform: "uppercase" 
+                        <span style={{
+                            fontSize: isDesktop ? 10 : isLandscape ? 6 : isVerySmall ? 7 : 8,
+                            color: "rgba(255,255,255,.3)",
+                            letterSpacing: ".2em",
+                            textTransform: "uppercase",
+                            whiteSpace: 'nowrap',
                         }}>
                             {isMobile ? 'Seu legado' : 'Escolha seu legado'}
                         </span>
@@ -342,60 +373,68 @@ const InputName = () => {
                 )}
 
                 {/* Label - Nome da empresa */}
-                <p style={{ 
-                    fontSize: isDesktop ? 11 : (isLandscape ? 8 : 9), 
-                    fontWeight: 600, 
-                    color: "rgba(255,255,255,.4)", 
-                    letterSpacing: ".15em", 
-                    textTransform: "uppercase", 
+                <p style={{
+                    fontSize: isDesktop ? 11 : isLandscape ? 7 : isVerySmall ? 8 : 9,
+                    fontWeight: 600,
+                    color: "rgba(255,255,255,.4)",
+                    letterSpacing: ".15em",
+                    textTransform: "uppercase",
                     marginBottom: marginBottomLabel,
                 }}>
                     Nome da empresa
                 </p>
 
                 {/* Input + botão */}
-                <div style={{ 
-                    display: "flex", 
-                    gap: gapInput, 
+                <div style={{
+                    display: "flex",
+                    gap: gapInput,
                     marginBottom: marginBottomInput,
                     flexShrink: 0,
                 }}>
                     <input
                         type="text"
-                        placeholder={isDesktop ? "Ex: Grupo Nexus S.A." : "Ex: Grupo Nexus"}
+                        placeholder={isDesktop ? "Ex: Grupo Nexus S.A." : 
+                                    isLandscape ? "Ex: Grupo Nexus" : 
+                                    "Ex: Grupo Nexus"}
                         value={novoNome}
                         onChange={handleChangeNome}
                         onKeyDown={e => e.key === "Enter" && atualizarContexto()}
                         style={{
-                            flex: 1, 
-                            height: inputHeight, 
-                            borderRadius: inputRadius, 
-                            padding: isDesktop ? "0 18px" : (isLandscape ? "0 10px" : "0 14px"),
+                            flex: 1,
+                            height: inputHeight,
+                            borderRadius: inputRadius,
+                            padding: isDesktop ? "0 18px" : isLandscape ? "0 8px" : isVerySmall ? "0 10px" : "0 12px",
                             background: "rgba(100,17,217,0.12)",
                             border: "1px solid rgba(100,17,217,0.35)",
-                            fontFamily: "inherit", 
-                            fontSize: inputFontSize, 
-                            fontWeight: 600, 
+                            fontFamily: "inherit",
+                            fontSize: inputFontSize,
+                            fontWeight: 600,
                             color: "#fff",
                             outline: "none",
                             minWidth: 0,
+                            // Melhorar touch no mobile
+                            WebkitAppearance: 'none',
+                            touchAction: 'manipulation',
                         }}
                     />
                     <button
                         onClick={atualizarContexto}
                         style={{
-                            width: botaoSize, 
-                            height: botaoSize, 
-                            flexShrink: 0, 
-                            borderRadius: inputRadius, 
+                            width: botaoSize,
+                            height: botaoSize,
+                            flexShrink: 0,
+                            borderRadius: inputRadius,
                             border: "none",
                             background: "linear-gradient(135deg,#6411D9,#F27405)",
-                            cursor: "pointer", 
-                            display: "flex", 
-                            alignItems: "center", 
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
                             justifyContent: "center",
                             boxShadow: "0 4px 20px rgba(100,17,217,0.4)",
                             transition: "transform 0.2s, box-shadow 0.2s",
+                            // Melhorar touch no mobile
+                            touchAction: 'manipulation',
+                            WebkitTapHighlightColor: 'transparent',
                         }}
                         onMouseEnter={(e) => {
                             if (isDesktop) {
@@ -409,6 +448,13 @@ const InputName = () => {
                                 e.currentTarget.style.boxShadow = "0 4px 20px rgba(100,17,217,0.4)";
                             }
                         }}
+                        // Feedback tátil no mobile
+                        onTouchStart={(e) => {
+                            e.currentTarget.style.transform = "scale(0.95)";
+                        }}
+                        onTouchEnd={(e) => {
+                            e.currentTarget.style.transform = "scale(1)";
+                        }}
                     >
                         <svg viewBox="0 0 24 24" width={svgSize} height={svgSize} fill="none">
                             <polygon points="6,4 20,12 6,20" fill="white" />
@@ -416,93 +462,112 @@ const InputName = () => {
                     </button>
                 </div>
 
-                {/* Divisor para o PDF Tutorial */}
-                <div style={{ 
-                    display: "flex", 
-                    alignItems: "center", 
-                    gap: isDesktop ? 12 : 8, 
-                    marginBottom: marginBottomPDF 
-                }}>
-                    <div style={{ flex: 1, height: 1, background: "rgba(143,90,218,0.15)" }} />
-                    <span style={{ 
-                        fontSize: isDesktop ? 9 : (isLandscape ? 6 : 7), 
-                        color: "rgba(255,255,255,.2)", 
-                        letterSpacing: ".2em", 
-                        textTransform: "uppercase" 
-                    }}>
-                        Aprenda a Jogar
-                    </span>
-                    <div style={{ flex: 1, height: 1, background: "rgba(143,90,218,0.15)" }} />
-                </div>
-
-                {/* Botão PDF Tutorial estilizado */}
-                <button
-                    onClick={abrirPDF}
-                    style={{
+                {/* Divisor para o PDF Tutorial - esconder em landscape muito pequeno */}
+                {(isDesktop || !(isLandscape && isVerySmall)) && (
+                    <div style={{
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
-                        gap: isDesktop ? 12 : 8,
-                        width: "100%",
-                        height: isDesktop ? 48 : (isLandscape ? 32 : 38),
-                        borderRadius: inputRadius,
-                        border: "1px solid rgba(143,90,218,0.3)",
-                        background: "rgba(100,17,217,0.08)",
-                        cursor: "pointer",
-                        transition: "all 0.3s ease",
-                        padding: isDesktop ? "0 20px" : "0 14px",
-                        marginBottom: isDesktop ? 16 : (isLandscape ? 8 : 10),
-                    }}
-                    onMouseEnter={(e) => {
-                        if (isDesktop) {
-                            e.currentTarget.style.background = "rgba(100,17,217,0.2)";
-                            e.currentTarget.style.borderColor = "rgba(143,90,218,0.6)";
-                            e.currentTarget.style.transform = "scale(1.02)";
-                        }
-                    }}
-                    onMouseLeave={(e) => {
-                        if (isDesktop) {
-                            e.currentTarget.style.background = "rgba(100,17,217,0.08)";
-                            e.currentTarget.style.borderColor = "rgba(143,90,218,0.3)";
-                            e.currentTarget.style.transform = "scale(1)";
-                        }
-                    }}
-                >
-                    <span style={{ 
-                        fontSize: isDesktop ? 16 : (isLandscape ? 11 : 13),
+                        gap: isDesktop ? 12 : isVerySmall ? 6 : 8,
+                        marginBottom: marginBottomPDF
                     }}>
-                        📜
-                    </span>
-                    <span style={{ 
-                        fontSize: isDesktop ? 13 : (isLandscape ? 9 : 11),
-                        fontWeight: 600,
-                        color: "rgba(255,255,255,.7)",
-                        letterSpacing: ".05em",
-                    }}>
-                        {isMobile ? 'Tutorial' : 'Tutorial em PDF'}
-                    </span>
-                    <span style={{ 
-                        fontSize: isDesktop ? 9 : (isLandscape ? 7 : 8),
-                        color: "rgba(143,90,218,0.5)",
-                        marginLeft: "auto",
-                    }}>
-                        📖
-                    </span>
-                </button>
+                        <div style={{ flex: 1, height: 1, background: "rgba(143,90,218,0.15)" }} />
+                        <span style={{
+                            fontSize: isDesktop ? 9 : isLandscape ? 5 : isVerySmall ? 6 : 7,
+                            color: "rgba(255,255,255,.2)",
+                            letterSpacing: ".2em",
+                            textTransform: "uppercase",
+                            whiteSpace: 'nowrap',
+                        }}>
+                            Aprenda a Jogar
+                        </span>
+                        <div style={{ flex: 1, height: 1, background: "rgba(143,90,218,0.15)" }} />
+                    </div>
+                )}
 
-                {/* Texto de rodapé */}
-                <p style={{ 
-                    fontSize: textFooterSize, 
-                    color: "rgba(255,255,255,.25)", 
-                    textAlign: "center", 
+                {/* Botão PDF Tutorial estilizado - esconder em landscape muito pequeno */}
+                {(isDesktop || !(isLandscape && isVerySmall)) && (
+                    <button
+                        onClick={abrirPDF}
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: isDesktop ? 12 : isVerySmall ? 6 : 8,
+                            width: "100%",
+                            height: isDesktop ? 48 : isLandscape ? 28 : isVerySmall ? 34 : 38,
+                            borderRadius: inputRadius,
+                            border: "1px solid rgba(143,90,218,0.3)",
+                            background: "rgba(100,17,217,0.08)",
+                            cursor: "pointer",
+                            transition: "all 0.3s ease",
+                            padding: isDesktop ? "0 20px" : isLandscape ? "0 8px" : "0 12px",
+                            marginBottom: isDesktop ? 16 : isLandscape ? 6 : isVerySmall ? 8 : 10,
+                            // Melhorar touch no mobile
+                            touchAction: 'manipulation',
+                            WebkitTapHighlightColor: 'transparent',
+                        }}
+                        onMouseEnter={(e) => {
+                            if (isDesktop) {
+                                e.currentTarget.style.background = "rgba(100,17,217,0.2)";
+                                e.currentTarget.style.borderColor = "rgba(143,90,218,0.6)";
+                                e.currentTarget.style.transform = "scale(1.02)";
+                            }
+                        }}
+                        onMouseLeave={(e) => {
+                            if (isDesktop) {
+                                e.currentTarget.style.background = "rgba(100,17,217,0.08)";
+                                e.currentTarget.style.borderColor = "rgba(143,90,218,0.3)";
+                                e.currentTarget.style.transform = "scale(1)";
+                            }
+                        }}
+                        onTouchStart={(e) => {
+                            e.currentTarget.style.background = "rgba(100,17,217,0.2)";
+                            e.currentTarget.style.transform = "scale(0.98)";
+                        }}
+                        onTouchEnd={(e) => {
+                            e.currentTarget.style.background = "rgba(100,17,217,0.08)";
+                            e.currentTarget.style.transform = "scale(1)";
+                        }}
+                    >
+                        <span style={{
+                            fontSize: isDesktop ? 16 : isLandscape ? 10 : isVerySmall ? 12 : 13,
+                        }}>
+                            📜
+                        </span>
+                        <span style={{
+                            fontSize: isDesktop ? 13 : isLandscape ? 8 : isVerySmall ? 10 : 11,
+                            fontWeight: 600,
+                            color: "rgba(255,255,255,.7)",
+                            letterSpacing: ".05em",
+                            whiteSpace: 'nowrap',
+                        }}>
+                            {isMobile ? 'Tutorial' : 'Tutorial em PDF'}
+                        </span>
+                        <span style={{
+                            fontSize: isDesktop ? 9 : isLandscape ? 6 : isVerySmall ? 7 : 8,
+                            color: "rgba(143,90,218,0.5)",
+                            marginLeft: "auto",
+                        }}>
+                            📖
+                        </span>
+                    </button>
+                )}
+
+                {/* Texto de rodapé - versão mais curta para mobile */}
+                <p style={{
+                    fontSize: textFooterSize,
+                    color: "rgba(255,255,255,.25)",
+                    textAlign: "center",
                     lineHeight: 1.5,
                     flexShrink: 0,
                 }}>
-                    {isDesktop 
+                    {isDesktop
                         ? 'O nome da sua empresa é o seu legado — ele pode se tornar uma grande corporação.'
-                        : isLandscape 
+                        : isLandscape
                             ? 'Seu legado — construa uma grande corporação.'
-                            : 'O nome da sua empresa é o seu legado — ele pode se tornar uma grande corporação.'
+                            : isVerySmall
+                                ? 'Seu legado começa aqui.'
+                                : 'O nome da sua empresa é o seu legado — ele pode se tornar uma grande corporação.'
                     }
                 </p>
             </div>
