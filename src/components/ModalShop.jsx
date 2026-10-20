@@ -1,14 +1,20 @@
-// src/components/ModalShop.jsx
-import React, { useState, useCallback, useEffect } from "react";
+// ModalShop.jsx - Versão com layout melhorado e botão flutuante
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Coins, ShoppingCart, X } from "lucide-react";
-import logo from "../../public/outrasImagens/logo Joguinho.png";
-import CardPack from "./CardPack";
+import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
+import fechar from "../../public/outrasImagens/fechar.png";
+import logo from '../../public/outrasImagens/logo Joguinho.png';
+import useSound from "use-sound";
+import closeAudio from "../../public/sounds/closeAudio.mp3";
+import { LocalizadorUpgrade } from "./LocalizadorUpgrade";
+import { useSlotVerification } from "./SlotManager";
 
 // ─── DETECTAR DISPOSITIVO ──────────────────────────────────────────
 function useDeviceDetection() {
     const [isMobile, setIsMobile] = useState(false);
     const [isLandscape, setIsLandscape] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {
         const checkDevice = () => {
@@ -16,209 +22,148 @@ function useDeviceDetection() {
             const landscape = window.innerWidth > window.innerHeight && mobile;
             setIsMobile(mobile);
             setIsLandscape(landscape);
+            setWindowWidth(window.innerWidth);
         };
 
         checkDevice();
-        window.addEventListener("resize", checkDevice);
-        const handleOrientationChange = () => setTimeout(checkDevice, 300);
-        window.addEventListener("orientationchange", handleOrientationChange);
+        window.addEventListener('resize', checkDevice);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(checkDevice, 300);
+        });
 
         return () => {
-            window.removeEventListener("resize", checkDevice);
-            window.removeEventListener("orientationchange", handleOrientationChange);
+            window.removeEventListener('resize', checkDevice);
+            window.removeEventListener('orientationchange', checkDevice);
         };
     }, []);
 
-    return { isMobile, isLandscape, isDesktop: !isMobile };
+    return { isMobile, isLandscape, isDesktop: !isMobile, windowWidth };
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// 0. CONFIGURAÇÃO DE SETORES
+// 1. RANKS DOS EDIFÍCIOS
 // ═══════════════════════════════════════════════════════════════════
-const SETORES_CONFIG = {
-    agricultura: { id: "agricultura", label: "Agricultura", cor1: "#003816", cor2: "#1A5E2A", cor3: "#0C9123", cor4: "#4CAF50" },
-    tecnologia:  { id: "tecnologia",  label: "Tecnologia",  cor1: "#A64B00", cor2: "#D45A00", cor3: "#FF6F00", cor4: "#FF8C42" },
-    industria:   { id: "industria",   label: "Indústria",   cor1: "#1A1A1A", cor2: "#4D4D4D", cor3: "#808080", cor4: "#B3B3B3" },
-    comercio:    { id: "comercio",    label: "Comércio",    cor1: "#660000", cor2: "#A31919", cor3: "#E60000", cor4: "#FF4D4D" },
-    imobiliario: { id: "imobiliario", label: "Imobiliário", cor1: "#000066", cor2: "#1A1A8C", cor3: "#3333CC", cor4: "#6666FF" },
-    energia:     { id: "energia",     label: "Energia",     cor1: "#665200", cor2: "#A37F19", cor3: "#E6B800", cor4: "#FFD966" },
-    outros:      { id: "outros",      label: "Outros",      cor1: "#1A1A1A", cor2: "#4D4D4D", cor3: "#808080", cor4: "#B3B3B3" },
-};
+const RankS = [
+    "Usina Hidrelétrica", "Reator Nuclear Convencional", "Usina De Fusão Nuclear",
+    "Shopping Popular", "Shopping Center", "Fábrica De Computadores",
+    "Construtora De Infraestruturas", "Aeroporto", "Porto", "Mineradora Radioativa",
+    "Plataforma De Petróleo", "Montadora De Veículos Elétricos", "Fábrica De Automóveis",
+    "Refinaria", "Fábrica De Chips", "Fábrica De Semicondutores", "Fábrica De Robôs",
+    "Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves"
+];
 
-// ═══════════════════════════════════════════════════════════════════
-// 0.1 MAPA DE SETOR POR NOME DE EDIFÍCIO
-// ═══════════════════════════════════════════════════════════════════
-const mapaSetor = {
-    // Agricultura
-    "Plantação De Grãos": "agricultura", "Plantação De Vegetais": "agricultura",
-    "Fazenda Administrativa": "agricultura", "Pomares": "agricultura",
-    "Cooperativa Agrícola": "agricultura", "Centro De Comércio De Plantações": "agricultura",
-    "Fazenda De Vacas": "agricultura", "Granja De Aves": "agricultura",
-    "Criação De Ovinos": "agricultura", "Armazém": "agricultura",
-    "Silo": "agricultura", "Depósito De Resíduos Orgânicos": "agricultura",
-    "Serraria": "agricultura", "Área Florestal": "agricultura",
-    "Terreno De Mineração": "agricultura", "Plantação De Eucalipto": "agricultura",
-    "Plantação De Plantas Medicinais": "agricultura", "Campo De Estocagem": "agricultura",
-    "Pátio De Mineração": "agricultura",
+const RankA = [
+    "Cooperativa Agrícola", "Usina De Biomassa", "Transporte Petrolífero",
+    "Marketplace Online", "Plataforma De Streaming", "Fábrica De Smartphones",
+    "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestíveis",
+    "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Aeroespacial",
+    "Centro De Engenharia Avançada", "Centro De Pesquisa Em Materiais",
+    "Centro De Pesquisa Em IA", "Mineradora De Pedras Preciosas", "Mega Mercado",
+    "Prédio De Alto Padrão", "Tanque De Armazenamento Biocombustível", "Fábrica De Químicos Especializados", "Alto-Forno",
+    "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas",
+    "Fábrica De Peças Automotivas", "Refinaria De Biocombustíveis", "Biofábrica",
+    "Fábrica De Eletrônicos", "Empresa De Automação Industrial", "Estaleiro"
+];
 
-    // Indústria
-    "Fábrica De Móveis": "industria", "Fábrica De Rações": "industria",
-    "Fábrica De Embalagens": "industria", "Fábrica De Fertilizantes": "industria",
-    "Fábrica De Bebidas": "industria", "Fábrica De Pães": "industria",
-    "Fábrica Têxtil": "industria", "Fábrica De Calçados": "industria",
-    "Fábrica De Roupas": "industria", "Fábrica De Celulose": "industria",
-    "Fábrica De Papel": "industria", "Fábrica De Livros": "industria",
-    "Fábrica De Medicamentos": "industria", "Laboratório Farmacêutico": "industria",
-    "Fábrica De Plásticos": "industria", "Fábrica De Químicos Especializados": "industria",
-    "Alto-Forno": "industria", "Usina Siderúrgica": "industria",
-    "Fundição De Alumínio": "industria", "Fábrica De Ligas Metálicas": "industria",
-    "Indústria De Componentes Mecânicos": "industria", "Fábrica De Chapas Metálicas": "industria",
-    "Fábrica De Estruturas Metálicas": "industria", "Fábrica De Peças Automotivas": "industria",
-    "Montadora De Veículos Elétricos": "industria", "Fábrica De Automóveis": "industria",
-    "Refinaria De Biocombustíveis": "industria", "Refinaria": "industria",
-    "Biofábrica": "industria", "Fábrica De Chips": "industria",
-    "Fábrica De Placas Eletrônicas": "industria", "Fábrica De Semicondutores": "industria",
-    "Fábrica De Eletrônicos": "industria", "Fábrica De Robôs": "industria",
-    "Empresa De Automação Industrial": "industria", "Fábrica De Motores": "industria",
-    "Fábrica De Foguetes": "industria", "Fábrica De Aeronaves": "industria",
-    "Estaleiro": "industria", "Container Modular": "industria", "Pátio De Veículos": "industria",
+const RankB = [
+    "Centro De Comércio De Plantações", "Empresa De Comércio Energético",
+    "Empresa De Consultoria Energética", "Centro De Pesquisa Em Energias Renováveis",
+    "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis", "Usina Termelétrica", "Joalheria", "Concessionária De Veículos",
+    "Centro De Distribuição", "Armazém Logístico", "Servidor Em Nuvem", "Data Center",
+    "Empresa De Desenvolvimento De Software", "Empresa De Jogos Digitais",
+    "Empresa De Telecomunicações", "Plataforma De Redes Sociais", "Marketplace Online",
+    "Instituto De Tecnologia Alimentar", "Centro De Pesquisa Agrícola",
+    "Instituto De Biotecnologia", "Laboratório De Nanotecnologia",
+    "Centro De Pesquisa Em Eletrônicos", "Laboratório De Design De Produtos",
+    "Laboratório De Novos Combustíveis", "Centro De Engenharia Avançada",
+    "Centro De Pesquisa Em Robótica", "Construtora", "Imobiliária Residencial",
+    "Imobiliária Comercial", "Mineradora", "Centro De Coleta De Biomassa",
+    "Fábrica De Fertilizantes", "Fábrica De Medicamentos", "Laboratório Farmacêutico",
+    "Fábrica De Plásticos", "Indústria De Componentes Mecânicos",
+    "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas",
+    "Fábrica De Placas Eletrônicas",
+];
 
-    // Tecnologia
-    "Startup": "tecnologia", "Servidor Em Nuvem": "tecnologia",
-    "Data Center": "tecnologia", "Empresa De Desenvolvimento De Software": "tecnologia",
-    "Empresa De Jogos Digitais": "tecnologia", "Empresa De Telecomunicações": "tecnologia",
-    "Plataforma De Redes Sociais": "tecnologia", "Marketplace Online": "tecnologia",
-    "Plataforma De Streaming": "tecnologia", "Fábrica De Smartphones": "tecnologia",
-    "Fábrica De Computadores": "tecnologia", "Fábrica De Consoles De Jogos": "tecnologia",
-    "Fábrica De Dispositivos Vestíveis": "tecnologia", "Instituto De Tecnologia Alimentar": "tecnologia",
-    "Centro De Pesquisa Agrícola": "tecnologia", "Instituto De Biotecnologia": "tecnologia",
-    "Laboratório De Nanotecnologia": "tecnologia", "Centro De Pesquisa Em Eletrônicos": "tecnologia",
-    "Laboratório De Design De Produtos": "tecnologia", "Centro De Pesquisa Química": "tecnologia",
-    "Centro De Pesquisa Em Fusão Nuclear": "tecnologia", "Laboratório De Novos Combustíveis": "tecnologia",
-    "Centro De Pesquisa Aeroespacial": "tecnologia", "Centro De Engenharia Avançada": "tecnologia",
-    "Centro De Pesquisa Em Materiais": "tecnologia", "Centro De Pesquisa Em Robótica": "tecnologia",
-    "Centro De Pesquisa Em IA": "tecnologia",
-
-    // Comércio
-    "Feira": "comercio", "Loja De Móveis": "comercio", "Restaurante": "comercio",
-    "Livraria": "comercio", "Mercado": "comercio", "Adega": "comercio",
-    "Câmara Fria": "comercio", "Padaria": "comercio", "Açougue": "comercio",
-    "Loja De Conveniência": "comercio", "Posto De Combustíveis": "comercio",
-    "Rede De Fast-Food": "comercio", "Petshop": "comercio", "Farmácia": "comercio",
-    "Cafeteria": "comercio", "Loja De Departamentos": "comercio",
-    "Loja De Calçados": "comercio", "Loja De Vestuário": "comercio",
-    "Loja De Gadgets E Wearables": "comercio", "Loja De Games": "comercio",
-    "Loja De Celulares": "comercio", "Loja De Informática": "comercio",
-    "Loja De Eletrônicos": "comercio", "Joalheria": "comercio",
-    "Concessionária De Veículos": "comercio", "Shopping Popular": "comercio",
-    "Shopping Center": "comercio", "Centro De Transporte E Entrega": "comercio",
-    "Centro De Distribuição": "comercio", "Armazém Logístico": "comercio",
-    "Transporte Petrolífero": "comercio",
-
-    // Imobiliário
-    "Cartório E Licenças": "imobiliario", "Terraplanagem E Pavimentação": "imobiliario",
-    "Construtora De Pequenas Obras": "imobiliario", "Escritório De Design De Interiores": "imobiliario",
-    "Escritório De Arquitetura": "imobiliario", "Consultoria Em Engenharia Civil": "imobiliario",
-    "Construtora": "imobiliario", "Imobiliária Residencial": "imobiliario",
-    "Imobiliária Comercial": "imobiliario", "Construtora De Infraestruturas": "imobiliario",
-    "Aeroporto": "imobiliario", "Porto": "imobiliario",
-    "Mineradora": "imobiliario", "Mineradora Radioativa": "imobiliario",
-    "Mineradora De Pedras Preciosas": "imobiliario", "Mega Mercado": "imobiliario",
-    "Prédio De Alto Padrão": "imobiliario", "Centro De Coleta De Biomassa": "imobiliario",
-    "Tanque De Armazenamento De Fluidos": "imobiliario", "Plataforma De Petróleo": "imobiliario",
-    "Hangar": "imobiliario",
-
-    // Energia
-    "Subestação De Energia": "energia", "Rede De Distribuição Elétrica": "energia",
-    "Fábrica De Turbinas Eólicas": "energia", "Fábrica De Baterias": "energia",
-    "Empresa De Comércio Energético": "energia", "Empresa De Consultoria Energética": "energia",
-    "Estação De Carregamento": "energia", "Centro De Pesquisa Em Energias Renováveis": "energia",
-    "Centro De Pesquisa Energética": "energia", "Centro De Reciclagem De Baterias": "energia",
-    "Usina Termelétrica A Biocombustíveis": "energia", "Usina De Biomassa": "energia",
-    "Usina Hidrelétrica": "energia", "Parque Eólico": "energia",
-    "Usina Termelétrica": "energia", "Reator Nuclear Convencional": "energia",
-    "Usina De Fusão Nuclear": "energia",
-};
-
-/**
- * Retorna o setor (id) a partir do nome do edifício.
- */
-const getSetor = (nome) => mapaSetor[nome] || "outros";
-
-/**
- * Retorna o label legível de um setor.
- */
-const getSetorLabel = (setorId) => {
-    return SETORES_CONFIG[setorId]?.label || setorId;
-};
+const RankC = [
+    "Plantação De Grãos", "Plantação De Vegetais", "Pomares", "Fazenda Administrativa",
+    "Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos", "Armazém", "Silo",
+    "Depósito De Resíduos Orgânicos", "Madeireira", "Área Florestal", "Terreno De Mineração",
+    "Plantação De Eucalipto", "Plantação De Plantas Medicinais", "Subestação De Energia",
+    "Rede De Distribuição Elétrica", "Usina Solar", "Fábrica De Turbinas Eólicas",
+    "Fábrica De Painéis Solares", "Fábrica De Baterias", "Estação De Carregamento",
+    "Centro De Reciclagem De Baterias", "Parque Eólico", "Feira", "Loja De Móveis",
+    "Restaurante", "Livraria", "Mercado", "Adega", "Padaria", "Açougue",
+    "Loja De Conveniência", "Posto De Combustíveis", "Rede De Fast-Food", "Petshop",
+    "Farmácia", "Cafeteria", "Loja De Departamentos", "Loja De Calçados",
+    "Loja De Vestuário", "Loja De Gadgets E Wearables", "Loja De Games",
+    "Loja De Celulares", "Loja De Informática", "Loja De Eletrônicos",
+    "Centro De Transporte E Entrega", "Startup", "Centro De Pesquisa Química",
+    "Cartório E Licenças", "Terraplanagem E Pavimentação", "Construtora De Pequenas Obras",
+    "Escritório De Design De Interiores", "Escritório De Arquitetura",
+    "Consultoria Em Engenharia Civil", "Fábrica De Móveis", "Fábrica De Rações",
+    "Fábrica De Embalagens", "Fábrica De Bebidas", "Fábrica De Pães", "Fábrica Têxtil",
+    "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose",
+    "Fábrica De Papel", "Fábrica De Livros"
+];
 
 // ═══════════════════════════════════════════════════════════════════
-// 1. RESOLVER CORES DOS PACOTES
+// 2. CONFIGURAÇÃO DOS PACOTES
 // ═══════════════════════════════════════════════════════════════════
-const mesclarCores = (setorA, setorB) => {
-    const a = SETORES_CONFIG[setorA] || SETORES_CONFIG.outros;
-    const b = SETORES_CONFIG[setorB] || SETORES_CONFIG.outros;
-
-    return {
-        cor1: a.cor1,
-        cor2: b.cor2,
-        cor3: a.cor3,
-        cor4: b.cor4,
-    };
-};
-
-const obterCoresPacote = (pacote) => {
-    if (!pacote) {
-        return { ...SETORES_CONFIG.outros };
+const PACK_CONFIG = {
+    comum: {
+        nome: "Comum",
+        cor1: "#ffffff",
+        cor2: "#3e3a44",
+        cor3: "#fde4ce",
+        cor4: "#1f014e",
+        quantidade: 3,
+        probabilidades: { S: 0, A: 0, B: 10, C: 90 }
+    },
+    raro: {
+        nome: "RARO",
+        cor1: "#978585",
+        cor2: "#553683",
+        cor3: "#fde4ce",
+        cor4: "#1f014e",
+        quantidade: 4,
+        probabilidades: { S: 2, A: 8, B: 24, C: 65 },
+        isBalanced: true
+    },
+    epico: {
+        nome: "ÉPICO",
+        cor1: "#af8968",
+        cor2: "#ff7700",
+        cor3: "#bd5800",
+        cor4: "#442000",
+        quantidade: 5,
+        probabilidades: { S: 5, A: 15, B: 30, C: 50 }
+    },
+    lendario: {
+        nome: "LENDÁRIO",
+        cor1: "#ffecae",
+        cor2: "#ffc400",
+        cor3: "#bd5800",
+        cor4: "#6411D9",
+        quantidade: 6,
+        probabilidades: { S: 12, A: 45, B: 35, C: 8 }
     }
-
-    // Pacote setorial com dois setores
-    if (
-        pacote.categoria === "setorial" &&
-        Array.isArray(pacote.setoresIds) &&
-        pacote.setoresIds.length >= 2
-    ) {
-        const [setorA, setorB] = pacote.setoresIds;
-        return {
-            ...pacote,
-            ...mesclarCores(setorA, setorB),
-            setorA,
-            setorB,
-        };
-    }
-
-    // Pacote com cores próprias
-    if (pacote.cor1 || pacote.cor2 || pacote.cor3 || pacote.cor4) {
-        return {
-            ...pacote,
-            cor1: pacote.cor1 || SETORES_CONFIG.outros.cor1,
-            cor2: pacote.cor2 || SETORES_CONFIG.outros.cor2,
-            cor3: pacote.cor3 || SETORES_CONFIG.outros.cor3,
-            cor4: pacote.cor4 || SETORES_CONFIG.outros.cor4,
-        };
-    }
-
-    // Pacote de um único setor
-    const setor =
-        pacote.setorId ||
-        pacote.setor ||
-        (Array.isArray(pacote.setoresIds) ? pacote.setoresIds[0] : null);
-
-    const config = SETORES_CONFIG[setor] || SETORES_CONFIG.outros;
-    return { ...pacote, ...config };
 };
 
 // ═══════════════════════════════════════════════════════════════════
-// 2. RANKS DOS EDIFÍCIOS
+// 3. PREÇOS DOS PACOTES
 // ═══════════════════════════════════════════════════════════════════
-const RankS = ["Usina Hidrelétrica", "Reator Nuclear Convencional", "Usina De Fusão Nuclear", "Shopping Popular", "Shopping Center", "Fábrica De Computadores", "Construtora De Infraestruturas", "Aeroporto", "Porto", "Mineradora Radioativa", "Plataforma De Petróleo", "Montadora De Veículos Elétricos", "Fábrica De Automóveis", "Refinaria", "Fábrica De Chips", "Fábrica De Semicondutores", "Fábrica De Robôs", "Fábrica De Motores", "Fábrica De Foguetes", "Fábrica De Aeronaves"];
-const RankA = ["Cooperativa Agrícola", "Usina De Biomassa", "Transporte Petrolífero", "Marketplace Online", "Plataforma De Streaming", "Fábrica De Smartphones", "Fábrica De Consoles De Jogos", "Fábrica De Dispositivos Vestíveis", "Centro De Pesquisa Em Fusão Nuclear", "Centro De Pesquisa Aeroespacial", "Centro De Engenharia Avançada", "Centro De Pesquisa Em Materiais", "Centro De Pesquisa Em IA", "Mineradora De Pedras Preciosas", "Mega Mercado", "Prédio De Alto Padrão", "Tanque De Armazenamento Biocombustível", "Fábrica De Químicos Especializados", "Alto-Forno", "Usina Siderúrgica", "Fundição De Alumínio", "Fábrica De Ligas Metálicas", "Fábrica De Peças Automotivas", "Refinaria De Biocombustíveis", "Biofábrica", "Fábrica De Eletrônicos", "Empresa De Automação Industrial", "Estaleiro"];
-const RankB = ["Centro De Comércio De Plantações", "Empresa De Comércio Energético", "Empresa De Consultoria Energética", "Centro De Pesquisa Em Energias Renováveis", "Centro De Pesquisa Energética", "Usina Termelétrica A Biocombustíveis", "Usina Termelétrica", "Joalheria", "Concessionária De Veículos", "Centro De Distribuição", "Armazém Logístico", "Servidor Em Nuvem", "Data Center", "Empresa De Desenvolvimento De Software", "Empresa De Jogos Digitais", "Empresa De Telecomunicações", "Plataforma De Redes Sociais", "Marketplace Online", "Instituto De Tecnologia Alimentar", "Centro De Pesquisa Agrícola", "Instituto De Biotecnologia", "Laboratório De Nanotecnologia", "Centro De Pesquisa Em Eletrônicos", "Laboratório De Design De Produtos", "Laboratório De Novos Combustíveis", "Centro De Engenharia Avançada", "Centro De Pesquisa Em Robótica", "Construtora", "Imobiliária Residencial", "Imobiliária Comercial", "Mineradora", "Centro De Coleta De Biomassa", "Fábrica De Fertilizantes", "Fábrica De Medicamentos", "Laboratório Farmacêutico", "Fábrica De Plásticos", "Indústria De Componentes Mecânicos", "Fábrica De Chapas Metálicas", "Fábrica De Estruturas Metálicas", "Fábrica De Placas Eletrônicas"];
-const RankC = ["Plantação De Grãos", "Plantação De Vegetais", "Pomares", "Fazenda Administrativa", "Fazenda De Vacas", "Granja De Aves", "Criação De Ovinos", "Armazém", "Silo", "Depósito De Resíduos Orgânicos", "Madeireira", "Área Florestal", "Terreno De Mineração", "Plantação De Eucalipto", "Plantação De Plantas Medicinais", "Subestação De Energia", "Rede De Distribuição Elétrica", "Usina Solar", "Fábrica De Turbinas Eólicas", "Fábrica De Painéis Solares", "Fábrica De Baterias", "Estação De Carregamento", "Centro De Reciclagem De Baterias", "Parque Eólico", "Feira", "Loja De Móveis", "Restaurante", "Livraria", "Mercado", "Adega", "Padaria", "Açougue", "Loja De Conveniência", "Posto De Combustíveis", "Rede De Fast-Food", "Petshop", "Farmácia", "Cafeteria", "Loja De Departamentos", "Loja De Calçados", "Loja De Vestuário", "Loja De Gadgets E Wearables", "Loja De Games", "Loja De Celulares", "Loja De Informática", "Loja De Eletrônicos", "Centro De Transporte E Entrega", "Startup", "Centro De Pesquisa Química", "Cartório E Licenças", "Terraplanagem E Pavimentação", "Construtora De Pequenas Obras", "Escritório De Design De Interiores", "Escritório De Arquitetura", "Consultoria Em Engenharia Civil", "Fábrica De Móveis", "Fábrica De Rações", "Fábrica De Embalagens", "Fábrica De Bebidas", "Fábrica De Pães", "Fábrica Têxtil", "Fábrica De Calçados", "Fábrica De Roupas", "Fábrica De Celulose", "Fábrica De Papel", "Fábrica De Livros"];
+const PACK_PRICES = {
+    comum: 1000000,
+    raro: 10000000,
+    epico: 20000000,
+    lendario: 50000000
+};
 
 // ═══════════════════════════════════════════════════════════════════
-// 3. FUNÇÕES DE SORTEIO
+// 4. FUNÇÕES AUXILIARES
 // ═══════════════════════════════════════════════════════════════════
+const setoresArr = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+
 const sortearRank = (probabilidades) => {
     const rand = Math.random() * 100;
     let acumulado = 0;
@@ -226,27 +171,30 @@ const sortearRank = (probabilidades) => {
         acumulado += prob;
         if (rand <= acumulado) return rank;
     }
-    return "C";
+    return 'C';
 };
 
 const sortearCartaDoRank = (rank) => {
     let pool = [];
     switch (rank) {
-        case "S": pool = [...RankS]; break;
-        case "A": pool = [...RankA]; break;
-        case "B": pool = [...RankB]; break;
-        case "C": pool = [...RankC]; break;
+        case 'S': pool = [...RankS]; break;
+        case 'A': pool = [...RankA]; break;
+        case 'B': pool = [...RankB]; break;
+        case 'C': pool = [...RankC]; break;
         default: pool = [...RankC];
     }
     if (pool.length === 0) return null;
-    return pool[Math.floor(Math.random() * pool.length)];
+    const idx = Math.floor(Math.random() * pool.length);
+    return pool[idx];
 };
 
-const sortearCartasDoPacote = (pacote) => {
-    const config = pacote.probabilidades || { S: 0, A: 0, B: 10, C: 90 };
-    const quantidades = pacote.quantidade || 3;
+const sortearCartasDoPacote = (tipoPacote) => {
+    const config = PACK_CONFIG[tipoPacote];
+    if (!config) return [];
+
     const cartasSorteadas = [];
     const usedCards = new Set();
+    const quantidades = config.quantidade || 3;
 
     for (let i = 0; i < quantidades; i++) {
         let tentativas = 0;
@@ -254,7 +202,7 @@ const sortearCartasDoPacote = (pacote) => {
         let rank = null;
 
         while (tentativas < 20) {
-            rank = sortearRank(config);
+            rank = sortearRank(config.probabilidades);
             carta = sortearCartaDoRank(rank);
             if (carta && !usedCards.has(carta)) {
                 usedCards.add(carta);
@@ -265,11 +213,10 @@ const sortearCartasDoPacote = (pacote) => {
         }
 
         if (!carta) {
-            for (const r of ["C", "B", "A", "S"]) {
+            for (const r of ['C', 'B', 'A', 'S']) {
                 const tentativa = sortearCartaDoRank(r);
                 if (tentativa && !usedCards.has(tentativa)) {
                     carta = tentativa;
-                    rank = r;
                     usedCards.add(carta);
                     break;
                 }
@@ -277,131 +224,353 @@ const sortearCartasDoPacote = (pacote) => {
         }
 
         if (carta) {
-            cartasSorteadas.push({ nome: carta, rank: rank || "C" });
+            cartasSorteadas.push({ nome: carta, rank: rank || 'C' });
         }
     }
-
     return cartasSorteadas;
 };
 
-const gerarUpgrades = (cartas) => {
-    return cartas.map(({ nome, rank }) => ({
-        nome,
-        rank,
-        fatu: Math.floor(Math.random() * 10) + 1,
-        redImposto: Math.floor(Math.random() * 10) + 1,
-    }));
+const gerarUpgrades = (cartas, dados) => {
+    const upgrades = [];
+    const randomBonus = () => Math.floor(Math.random() * 10) + 1;
+
+    cartas.forEach(({ nome, rank }) => {
+        for (const setor of setoresArr) {
+            const edificio = dados[setor]?.edificios?.find(ed => ed.nome === nome);
+            if (edificio) {
+                upgrades.push({
+                    nome,
+                    rank,
+                    fatu: randomBonus(),
+                    redImposto: randomBonus(),
+                    setor: setor,
+                    index: dados[setor].edificios.indexOf(edificio)
+                });
+                break;
+            }
+        }
+    });
+    return upgrades;
 };
 
 // ═══════════════════════════════════════════════════════════════════
-// 4. COMPONENTE PARTÍCULA
+// 5. COMPONENTE PARTÍCULA
 // ═══════════════════════════════════════════════════════════════════
 const Particle = ({ x, y, dx, dy, color, delay }) => (
     <motion.div
         style={{
-            position: "absolute", left: x, top: y,
-            width: 8, height: 8, borderRadius: "50%",
+            position: "absolute",
+            left: x,
+            top: y,
+            width: 8,
+            height: 8,
+            borderRadius: "50%",
             background: color,
             boxShadow: `0 0 20px ${color}, 0 0 60px ${color}44`,
         }}
         initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: [0, 1, 0], scale: [0, 1.5, 0], x: [0, dx], y: [0, dy] }}
-        transition={{ duration: 1.4, delay, ease: "easeOut" }}
+        animate={{
+            opacity: [0, 1, 0],
+            scale: [0, 1.5, 0],
+            x: [0, dx],
+            y: [0, dy]
+        }}
+        transition={{ duration: 1.4, delay: delay, ease: "easeOut" }}
     />
 );
 
 // ═══════════════════════════════════════════════════════════════════
-// 5. COMPONENTE VISUAL DO PACOTE
+// 6. COMPONENTE PACOTE VISUAL
 // ═══════════════════════════════════════════════════════════════════
-const PacoteVisual = ({ pacote, onClick }) => {
-    const tema = {
-        cor1: pacote.cor1 || "#ffffff",
-        cor2: pacote.cor2 || "#3e3a44",
-        cor3: pacote.cor3 || "#fde4ce",
-        cor4: pacote.cor4 || "#1f014e",
-    };
+const PacoteVisual = ({ tema, tipo, onClick, isMobile, isLandscape }) => {
+    const packGradient = `linear-gradient(
+        160deg, 
+        ${tema.cor1} 0%, 
+        ${tema.cor2} 25%, 
+        ${tema.cor3} 50%, 
+        ${tema.cor2} 75%, 
+        ${tema.cor1} 100%
+    )`;
 
-    const packGradient = `linear-gradient(160deg, ${tema.cor1} 0%, ${tema.cor2} 25%, ${tema.cor3} 50%, ${tema.cor2} 75%, ${tema.cor1} 100%)`;
-    const metallicSheen = `linear-gradient(135deg, transparent 0%, ${tema.cor4}15 30%, ${tema.cor4}30 50%, ${tema.cor4}15 70%, transparent 100%)`;
-    const logoSizePercent = "45%";
+    const metallicSheen = `linear-gradient(
+        135deg,
+        transparent 0%,
+        ${tema.cor4}15 30%,
+        ${tema.cor4}30 50%,
+        ${tema.cor4}15 70%,
+        transparent 100%
+    )`;
+
+    const nomePacote = PACK_CONFIG[tipo]?.nome || tipo;
+    const isDesktop = !isMobile;
+
+    // Tamanhos mais proporcionais
+    const pacoteWidth = isDesktop ? '160px' : (isLandscape ? '100px' : '90px');
+    const pacoteHeight = isDesktop ? '200px' : (isLandscape ? '120px' : '110px');
+    const logoSize = isDesktop ? '70px' : (isLandscape ? '38px' : '34px');
+    const fontSizeNome = isDesktop ? '12px' : (isLandscape ? '8px' : '7px');
+    const topoHeight = isDesktop ? '50px' : (isLandscape ? '24px' : '22px');
 
     return (
         <motion.div
-            className="relative w-full aspect-[3/4] rounded-lg flex flex-col items-center justify-center shadow-md border border-white/10 overflow-hidden transition-transform group-active:scale-95"
-            style={{ cursor: "pointer", perspective: 1200 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            style={{
+                position: "relative",
+                width: pacoteWidth,
+                height: pacoteHeight,
+                cursor: "pointer",
+                perspective: 1200,
+                flexShrink: 0,
+            }}
+            whileHover={{ scale: isDesktop ? 1.05 : 1.02 }}
             onClick={onClick}
         >
-            {/* Aura luminosa */}
             <motion.div
                 style={{
-                    position: "absolute", inset: "-15%", borderRadius: "30px",
+                    position: "absolute",
+                    inset: isDesktop ? "-20px" : "-8px",
+                    borderRadius: "40px",
                     background: `radial-gradient(circle at 50% 40%, ${tema.cor4}44, ${tema.cor4}11 60%, transparent 80%)`,
-                    filter: "blur(15px)", opacity: 0.4, pointerEvents: "none",
+                    filter: "blur(20px)",
+                    opacity: 0.4,
+                    pointerEvents: "none",
                 }}
-                animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.6, 0.4] }}
+                animate={{
+                    scale: [1, 1.15, 1],
+                    opacity: [0.4, 0.6, 0.4]
+                }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
             />
 
-            {/* Fundo do pacote */}
-            <div style={{ position: "absolute", inset: 0, borderRadius: 8, background: packGradient, overflow: "hidden" }}>
+            <div style={{
+                position: "absolute",
+                inset: isDesktop ? "8px" : "3px",
+                borderRadius: isDesktop ? 16 : 10,
+                background: `radial-gradient(ellipse at 50% 80%, ${tema.cor4}22, transparent 70%)`,
+                filter: "blur(10px)",
+                pointerEvents: "none",
+            }} />
+
+            <div style={{
+                position: "absolute",
+                inset: 0,
+                borderRadius: isDesktop ? 16 : 10,
+                background: packGradient,
+                border: `2px solid ${tema.cor4}88`,
+                boxShadow: `
+                    inset 0 2px 0 ${tema.cor4}44,
+                    0 10px 40px ${tema.cor4}33,
+                    0 0 30px ${tema.cor4}22
+                `,
+                overflow: "hidden",
+            }}>
                 <div style={{
-                    position: "absolute", inset: 0, borderRadius: 8,
-                    backgroundImage: `repeating-linear-gradient(0deg, ${tema.cor4}06 0px, ${tema.cor4}06 1px, transparent 1px, transparent 5px), repeating-linear-gradient(90deg, ${tema.cor4}04 0px, ${tema.cor4}04 1px, transparent 1px, transparent 5px)`,
+                    position: "absolute",
+                    inset: 0,
+                    borderRadius: isDesktop ? 16 : 10,
+                    backgroundImage: `
+                        repeating-linear-gradient(0deg, ${tema.cor4}06 0px, ${tema.cor4}06 1px, transparent 1px, transparent 5px),
+                        repeating-linear-gradient(90deg, ${tema.cor4}04 0px, ${tema.cor4}04 1px, transparent 1px, transparent 5px)
+                    `,
                 }} />
+
                 <motion.div
-                    style={{ position: "absolute", inset: 0, borderRadius: 8, background: metallicSheen }}
-                    animate={{ x: [-30, 30, -30], opacity: [0.2, 0.5, 0.2] }}
+                    style={{
+                        position: "absolute",
+                        inset: 0,
+                        borderRadius: isDesktop ? 16 : 10,
+                        background: metallicSheen,
+                    }}
+                    animate={{
+                        x: [-30, 30, -30],
+                        opacity: [0.2, 0.5, 0.2]
+                    }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 />
-            </div>
 
-            {/* Logo */}
-            <div style={{
-                position: "relative", width: logoSizePercent, aspectRatio: "1/1",
-                borderRadius: "50%",
-                background: `radial-gradient(circle at 30% 30%, ${tema.cor2} 0%, ${tema.cor1} 80%, ${tema.cor3} 100%)`,
-                border: `2px solid ${tema.cor4}88`,
-                boxShadow: `inset 0 -8px 20px rgba(0,0,0,0.2), 0 8px 30px ${tema.cor4}33`,
-                display: "flex", alignItems: "center", justifyContent: "center", zIndex: 2,
-            }}>
-                <img
-                    src={logo}
-                    className="rounded-full"
-                    alt="Logo"
-                    style={{ width: "75%", height: "75%", objectFit: "contain", filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.2))" }}
-                />
+                <div style={{
+                    position: "absolute",
+                    inset: 2,
+                    borderRadius: isDesktop ? 14 : 8,
+                    border: `1px solid ${tema.cor4}22`,
+                    pointerEvents: "none",
+                }} />
+
+                {/* Topo */}
+                <motion.div
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: topoHeight,
+                        background: `linear-gradient(
+                            160deg, 
+                            ${tema.cor2} 0%, 
+                            ${tema.cor3} 40%, 
+                            ${tema.cor2} 70%, 
+                            ${tema.cor3} 100%
+                        )`,
+                        borderRadius: `${isDesktop ? 16 : 10}px ${isDesktop ? 16 : 10}px 0 0`,
+                        borderBottom: `2px solid ${tema.cor4}88`,
+                        overflow: "hidden",
+                        zIndex: 5,
+                        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.2)",
+                    }}
+                >
+                    <div style={{
+                        position: "absolute",
+                        inset: 0,
+                        background: `linear-gradient(135deg, transparent 20%, ${tema.cor4}33 50%, transparent 80%)`,
+                    }} />
+
+                    <div style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: 1,
+                        background: `linear-gradient(90deg, transparent 0%, ${tema.cor4}66 50%, transparent 100%)`,
+                    }} />
+
+                    <div style={{
+                        position: "absolute",
+                        top: isDesktop ? 8 : 3,
+                        right: isDesktop ? 12 : 6,
+                        width: isDesktop ? 16 : 10,
+                        height: isDesktop ? 16 : 10,
+                        borderRadius: "50%",
+                        border: `2px solid ${tema.cor4}66`,
+                        background: `radial-gradient(circle, ${tema.cor4}33, transparent)`,
+                    }} />
+                </motion.div>
+
+                {/* Logo */}
+                <div style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: logoSize,
+                    height: logoSize,
+                    borderRadius: "50%",
+                    background: `radial-gradient(circle at 30% 30%, ${tema.cor2} 0%, ${tema.cor1} 80%, ${tema.cor3} 100%)`,
+                    border: `2px solid ${tema.cor4}88`,
+                    boxShadow: `
+                        inset 0 -8px 20px rgba(0,0,0,0.2),
+                        0 8px 30px ${tema.cor4}33
+                    `,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 2,
+                }}>
+                    <img
+                        src={logo}
+                        className="rounded-full"
+                        alt="Logo"
+                        style={{
+                            width: "75%",
+                            height: "75%",
+                            objectFit: "contain",
+                            filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.2))",
+                        }}
+                    />
+
+                    <div style={{
+                        position: "absolute",
+                        inset: 0,
+                        borderRadius: "50%",
+                        background: `radial-gradient(circle at 30% 20%, ${tema.cor4}44, transparent 70%)`,
+                        pointerEvents: "none",
+                    }} />
+                </div>
+
+                {/* Nome */}
+                <motion.div
+                    style={{
+                        position: "absolute",
+                        bottom: isDesktop ? 20 : 10,
+                        left: 0,
+                        right: 0,
+                        textAlign: "center",
+                        fontSize: fontSizeNome,
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        color: tema.cor4,
+                        fontFamily: "'Inter', 'Segoe UI', -apple-system, sans-serif",
+                        textShadow: `0 0 20px ${tema.cor4}22`,
+                        letterSpacing: ".15em",
+                        opacity: 0.85,
+                    }}
+                    animate={{
+                        letterSpacing: [".15em", ".25em", ".15em"],
+                        opacity: [0.8, 1, 0.8],
+                    }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                >
+                    {nomePacote}
+                </motion.div>
             </div>
         </motion.div>
     );
 };
 
 // ═══════════════════════════════════════════════════════════════════
-// 6. COMPONENTE PRINCIPAL
+// 7. COMPONENTE PRINCIPAL - ModalShop
 // ═══════════════════════════════════════════════════════════════════
-export const ModalShop = ({ onCancelar, pacotes = [], moedas = 0 }) => {
-    const { isMobile } = useDeviceDetection();
+export const ModalShop = ({ onCancelar }) => {
+    const { dados, atualizarDados, atualizarDadosProf2 } = useContext(CentraldeDadosContext);
+    const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
+    const { isMobile, isLandscape, isDesktop, windowWidth } = useDeviceDetection();
+    const [buttonCloseAudio] = useSound(closeAudio);
 
     const [cartasSorteadas, setCartasSorteadas] = useState([]);
     const [showResultado, setShowResultado] = useState(false);
     const [erro, setErro] = useState("");
     const [packAberto, setPackAberto] = useState(null);
     const [particles, setParticles] = useState([]);
-    const [saldoLocal, setSaldoLocal] = useState(moedas);
 
-    useEffect(() => {
-        setSaldoLocal(moedas);
-    }, [moedas]);
+    // ─── CONFIGURAÇÕES RESPONSIVAS ──────────────────────────────
+    const modalWidth = isDesktop ? '92vw' : '96vw';
+    const modalMaxWidth = isDesktop ? '1200px' : '100%';
+    const modalHeight = isDesktop ? '88vh' : '92vh';
+    const alturaTopo = isDesktop ? '60px' : '45px';
+    const fontSizeTitulo = isDesktop ? '26px' : (isLandscape ? '18px' : '16px');
+    const fontSizeSaldo = isDesktop ? '14px' : (isLandscape ? '12px' : '11px');
+    const fontSizePreco = isDesktop ? '14px' : (isLandscape ? '12px' : '11px');
+    const fontSizeProb = isDesktop ? '11px' : (isLandscape ? '9px' : '8px');
+    const paddingCard = isDesktop ? '16px' : (isLandscape ? '8px' : '6px');
+    const gapCards = isDesktop ? '16px' : (isLandscape ? '10px' : '12px');
+    const alturaBotao = isDesktop ? '38px' : (isLandscape ? '30px' : '28px');
+    const fontSizeBotao = isDesktop ? '13px' : (isLandscape ? '10px' : '9px');
+    const paddingBotao = isDesktop ? '6px 12px' : (isLandscape ? '3px 6px' : '2px 4px');
+
+    const gridCols = isDesktop ? 4 : (isLandscape ? 2 : 1);
+
+    // ─── CONFIGURAÇÕES DO RESULTADO ─────────────────────────────
+    const paddingBottomContainer = isMobile ? '100px' : '0px'; // Aumentado para garantir espaço
+    const cardGapResult = isMobile ? '8px' : '16px';
+    const flexWrapCards = isMobile ? 'nowrap' : 'wrap';
+    const overflowCards = isMobile ? 'auto' : 'visible';
+    const justifyContentCards = isMobile ? 'flex-start' : 'center'; // Mudado para flex-start no mobile
+    const paddingCards = isMobile ? '8px 4px 8px 0' : '0 20px';
+    const maxHeightCards = isMobile ? 'calc(100vh - 300px)' : 'none'; // Altura máxima com espaço para o botão
+    const fontSizeTituloResult = isMobile ? '18px' : '26px';
+    const fontSizeSubtitulo = isMobile ? '12px' : '14px';
+    const paddingBotaoResult = isMobile ? '10px 32px' : '14px 48px';
+    const fontSizeBotaoResult = isMobile ? '12px' : '14px';
+    const gapConteudo = isMobile ? '8px' : '24px';
 
     const spawnParticles = useCallback((tema) => {
         const colors = [tema.cor4, tema.cor3, "#ffffff", `${tema.cor4}aa`, `${tema.cor3}88`];
-        const count = isMobile ? 25 : 50;
+        const count = isDesktop ? 50 : 25;
         const list = Array.from({ length: count }, (_, i) => {
             const angle = Math.random() * 2 * Math.PI;
             const dist = 60 + Math.random() * 150;
             return {
-                id: i, x: "50%", y: "20%",
+                id: i,
+                x: "50%",
+                y: "20%",
                 color: colors[Math.floor(Math.random() * colors.length)],
                 dx: Math.cos(angle) * dist,
                 dy: Math.sin(angle) * dist,
@@ -410,41 +579,61 @@ export const ModalShop = ({ onCancelar, pacotes = [], moedas = 0 }) => {
         });
         setParticles(list);
         setTimeout(() => setParticles([]), 1600);
-    }, [isMobile]);
+    }, [isDesktop]);
 
-    const comprarEAbirPacote = useCallback((pacote) => {
-        const preco = pacote.preco || 0;
+    const comprarEAbirPacote = useCallback((tipo) => {
+        const config = PACK_CONFIG[tipo];
+        if (!config) return;
 
-        if (saldoLocal < preco) {
-            setErro(`Saldo insuficiente! R$ ${preco.toLocaleString("pt-BR")}`);
+        const preco = PACK_PRICES[tipo] || 0;
+        const saldoAtual = economiaSetores.saldo || 0;
+
+        if (saldoAtual < preco) {
+            setErro(`Saldo insuficiente! R$ ${preco.toLocaleString()}`);
             setTimeout(() => setErro(""), 3000);
             return;
         }
 
-        const pacoteComTema = obterCoresPacote(pacote);
-        setPackAberto(pacoteComTema);
+        setPackAberto(tipo);
         setShowResultado(false);
-        setSaldoLocal((prev) => prev - preco);
 
-        const cartasSorteadasRank = sortearCartasDoPacote(pacoteComTema);
+        const novoSaldo = saldoAtual - preco;
+        atualizarEco("saldo", novoSaldo);
+
+        const cartasSorteadasRank = sortearCartasDoPacote(tipo);
         if (cartasSorteadasRank.length === 0) {
             setErro("Nenhuma carta sorteada.");
             setTimeout(() => setErro(""), 3000);
             return;
         }
 
-        const upgrades = gerarUpgrades(cartasSorteadasRank);
-        setCartasSorteadas(upgrades);
+        const upgrades = gerarUpgrades(cartasSorteadasRank, dados);
+        if (upgrades.length === 0) {
+            setErro("Nenhum upgrade válido.");
+            setTimeout(() => setErro(""), 3000);
+            return;
+        }
 
-        spawnParticles({
-            cor1: pacoteComTema.cor1,
-            cor2: pacoteComTema.cor2,
-            cor3: pacoteComTema.cor3,
-            cor4: pacoteComTema.cor4,
+        upgrades.forEach((upgrade) => {
+            const { setor, index } = upgrade;
+            if (setor && index !== undefined) {
+                const edificio = dados[setor]?.edificios?.[index];
+                if (edificio) {
+                    const novaQuantidade = (edificio.quantidade || 0) + 1;
+                    atualizarDadosProf2([setor, "edificios", index, "quantidade"], novaQuantidade);
+                }
+            }
         });
 
+        const cardsSorteadosAtuais = dados.CardsSorteados || [];
+        const novosCardsSorteados = [...cardsSorteadosAtuais, ...upgrades];
+        atualizarDados("CardsSorteados", novosCardsSorteados);
+
+        setCartasSorteadas(upgrades);
+        const tema = { cor1: config.cor1, cor2: config.cor2, cor3: config.cor3, cor4: config.cor4 };
+        spawnParticles(tema);
         setShowResultado(true);
-    }, [saldoLocal, spawnParticles]);
+    }, [dados, atualizarDados, atualizarDadosProf2, economiaSetores.saldo, atualizarEco, spawnParticles]);
 
     const handleFechar = () => {
         setCartasSorteadas([]);
@@ -452,101 +641,146 @@ export const ModalShop = ({ onCancelar, pacotes = [], moedas = 0 }) => {
         setErro("");
         setPackAberto(null);
         setParticles([]);
+        buttonCloseAudio();
         if (onCancelar) onCancelar();
     };
 
-    // ═════════════════════════════════════════════════════════════
-    // RESULTADO
-    // ═════════════════════════════════════════════════════════════
+    // ── RENDER DO RESULTADO ─────────────────────────────────────
     const renderResultado = () => {
         if (!showResultado || cartasSorteadas.length === 0) return null;
 
-        const pacote = packAberto;
+        const config = PACK_CONFIG[packAberto];
         const tema = {
-            cor1: pacote?.cor1 || "#ffffff",
-            cor2: pacote?.cor2 || "#333333",
-            cor3: pacote?.cor3 || "#666666",
-            cor4: pacote?.cor4 || "#888888",
+            cor1: config?.cor1 || "#fff",
+            cor2: config?.cor2 || "#333",
+            cor3: config?.cor3 || "#666",
+            cor4: config?.cor4 || "#888",
         };
-
-        // Largura de cada carta — a altura vem do aspectRatio abaixo,
-        // não de "height: 100%" (que sem uma altura definida no pai
-        // colapsava pra 0 e escondia a carta inteira).
-        const larguraCarta = isMobile ? 130 : 170;
 
         return (
             <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 style={{
-                    // 🔑 Sem position:absolute — fica no fluxo normal, dentro do
-                    // mesmo container (max-h-[60vh] overflow-y-auto) que a lista
-                    // de pacotes usa. Isso garante a MESMA dimensão do ModalShop
-                    // em vez de tentar se auto-posicionar e acabar encolhendo.
-                    position: "relative",
-                    width: "100%",
+                    position: "absolute",
+                    inset: 0,
+                    zIndex: 20,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    gap: isMobile ? 14 : 20,
-                    borderRadius: 20,
-                    padding: isMobile ? "16px 10px 22px" : "22px",
-                    background: `radial-gradient(ellipse at 50% 0%, ${tema.cor1}33 0%, #07070f 90%)`,
-                    overflow: "hidden",
+                    justifyContent: "flex-start", // Mudado para flex-start
+                    padding: isMobile ? '12px 12px 0 12px' : '24px',
+                    paddingBottom: isMobile ? '80px' : '24px', // Espaço extra para o botão
+                    background: `radial-gradient(ellipse at 50% 30%, ${tema.cor1} 0%, #07070f 90%)`,
+                    overflow: 'hidden', // Previne scroll do container
                 }}
             >
-                {/* Glow decorativo — absoluto só pra visual, não define layout */}
+                {/* Gradiente de fundo premium */}
                 <div style={{
-                    position: "absolute", inset: 0, pointerEvents: "none",
+                    position: "absolute",
+                    inset: 0,
                     background: `radial-gradient(circle at 50% 20%, ${tema.cor4}11, transparent 70%)`,
+                    pointerEvents: "none",
                 }} />
-                <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
+
+                {/* Partículas */}
+                <div style={{
+                    position: "absolute",
+                    inset: 0,
+                    pointerEvents: "none",
+                    overflow: "hidden"
+                }}>
                     <AnimatePresence>
-                        {particles.map((p) => <Particle key={p.id} {...p} />)}
+                        {particles.map((p, i) => <Particle key={i} {...p} />)}
                     </AnimatePresence>
                 </div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    style={{ position: "relative", zIndex: 2, textAlign: "center" }}
-                >
-                    <h1 style={{
-                        color: "#fff",
-                        fontSize: isMobile ? 18 : 26,
-                        fontWeight: 700,
-                        fontFamily: "'Inter', sans-serif",
-                        textShadow: `0 0 60px ${tema.cor4}44`,
-                    }}>
-                        🎉 {pacote?.nome || ""}
-                    </h1>
-                </motion.div>
-
-                {/* Cartas */}
+                {/* CONTEÚDO DO RESULTADO - Scrollável */}
                 <div
                     style={{
-                        position: "relative", zIndex: 2,
                         display: "flex",
-                        gap: isMobile ? 10 : 16,
-                        flexDirection: "row", flexWrap: "nowrap",
-                        justifyContent: cartasSorteadas.length > (isMobile ? 2 : 4) ? "flex-start" : "center",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: gapConteudo,
                         width: "100%",
-                        padding: isMobile ? "4px 4px 8px" : "4px 8px",
-                        overflowX: "auto",
-                        WebkitOverflowScrolling: "touch",
-                        scrollSnapType: isMobile ? "x mandatory" : "none",
+                        maxWidth: '900px',
+                        height: '100%',
+                        // overflow: 'hidden',
+                        position: 'relative',
+                        zIndex: 25,
+                        paddingBottom: isMobile ? '20px' : '0',
                     }}
                 >
-                    {cartasSorteadas.map((carta, i) => {
-                        const setorCarta = getSetor(carta.nome);
-                        const setorLabelCarta = getSetorLabel(setorCarta);
+                    {/* Título - Fixo */}
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        width: '100%',
+                        flexShrink: 0,
+                        paddingTop: isMobile ? '10px' : '0',
+                    }}>
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                            style={{
+                                textAlign: "center",
+                                marginBottom: isMobile ? 4 : 8,
+                                padding: isMobile ? '0 8px' : 0,
+                                flexShrink: 0,
+                            }}
+                        >
+                            <h1 style={{
+                                color: "#fff",
+                                fontSize: fontSizeTituloResult,
+                                fontWeight: 700,
+                                fontFamily: "'Inter', sans-serif",
+                                textShadow: `0 0 60px ${tema.cor4}44`,
+                                letterSpacing: "0.02em",
+                            }}>
+                                🎉 Pacote {config?.nome || ''}
+                            </h1>
+                            {/* <p style={{
+                                color: `${tema.cor4}88`,
+                                fontSize: fontSizeSubtitulo,
+                                fontFamily: "'Inter', sans-serif",
+                                fontWeight: 400,
+                                marginTop: 4,
+                            }}>
+                                {cartasSorteadas.length} cartas recebidas
+                            </p> */}
+                        </motion.div>
+                    </div>
 
-                        return (
+                    {/* ─── CONTAINER DE CARTAS COM SCROLL ─── */}
+                    <motion.div
+                        style={{
+                            display: "flex",
+                            gap: cardGapResult,
+                            flexDirection: 'row',
+                            flexWrap: 'nowrap',           // ← IMPEDE QUEBRA DE LINHA
+                            justifyContent: 'flex-start', // ← ALINHA À ESQUERDA
+                            width: "100%",
+                            padding: paddingCards,
+                            overflowX: 'auto',            // ← SCROLL HORIZONTAL
+                            WebkitOverflowScrolling: 'touch',
+                            scrollSnapType: isMobile ? 'x mandatory' : 'none',
+                        }}
+                    >
+                        {cartasSorteadas.map((carta, i) => (
                             <motion.div
                                 key={`${carta.nome}-${i}`}
-                                initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                initial={{
+                                    opacity: 0,
+                                    y: 40,
+                                    scale: 0.9,
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: 0,
+                                    scale: 1,
+                                }}
                                 transition={{
                                     delay: 0.15 + i * 0.12,
                                     duration: 0.5,
@@ -555,60 +789,90 @@ export const ModalShop = ({ onCancelar, pacotes = [], moedas = 0 }) => {
                                     damping: 18,
                                 }}
                                 whileHover={{
-                                    y: -8, scale: 1.04,
-                                    boxShadow: `0 16px 60px ${tema.cor4}55`,
+                                    y: -8,
+                                    scale: 1.04,
+                                    boxShadow: `0 16px 60px ${tema.cor4}55`
                                 }}
                                 style={{
                                     cursor: "pointer",
-                                    width: larguraCarta,
-                                    aspectRatio: "3 / 4", // 🔑 fix: dá altura real ao card (era o que faltava)
-                                    flexShrink: 0,
-                                    scrollSnapAlign: isMobile ? "start" : "none",
+                                    transition: "all 0.3s ease",
                                 }}
                             >
-                                <CardPack
-                                    nome={carta.nome}
-                                    rank={carta.rank}
-                                    setor={setorCarta}
-                                    setorLabel={setorLabelCarta}
-                                />
+                                {LocalizadorUpgrade(
+                                    carta.nome,
+                                    carta.redImposto,
+                                    carta.fatu
+                                )}
                             </motion.div>
-                        );
-                    })}
+                        ))}
+                    </motion.div>
+
+
+                    {/* ─── INDICADOR DE SCROLL (mobile) ──── */}
+                    {isMobile && cartasSorteadas.length > 1 && (
+                        <div style={{
+                            display: 'flex',
+                            gap: '6px',
+                            padding: '4px 0',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexShrink: 0,
+                            marginTop: '4px',
+                        }}>
+                            <span style={{
+                                fontSize: '10px',
+                                color: `${tema.cor4}55`,
+                                fontFamily: "'Inter', sans-serif",
+                                fontWeight: 500,
+                            }}>
+                                ← Deslize para ver mais →
+                            </span>
+                        </div>
+                    )}
                 </div>
 
-                {isMobile && cartasSorteadas.length > 1 && (
-                    <span style={{
-                        position: "relative", zIndex: 2,
-                        fontSize: 10, color: `${tema.cor4}aa`,
-                        fontFamily: "'Inter', sans-serif", fontWeight: 500,
-                    }}>
-                        ← Deslize para ver mais →
-                    </span>
-                )}
-
-                {/* Botão — no fluxo normal, sem depender de position:absolute */}
+                {/* ─── BOTÃO ENTENDIDO - FLUTUANTE NO MOBILE ── */}
                 <motion.button
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 }}
-                    whileHover={{ scale: 1.05, boxShadow: `0 8px 40px ${tema.cor4}55` }}
+                    whileHover={{
+                        scale: 1.05,
+                        boxShadow: `0 8px 40px ${tema.cor4}55`
+                    }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleFechar}
                     style={{
-                        position: "relative", zIndex: 2,
-                        padding: isMobile ? "12px 36px" : "14px 48px",
+                        // POSICIONAMENTO RESPONSIVO:
+                        ...(isMobile ? {
+                            position: 'absolute',
+                            bottom: '20px',
+                            // left: '50%',
+                            transform: 'translateX(-50%)',
+                            marginTop: 0,
+                            marginBottom: 0,
+                            zIndex: 30,
+                            boxShadow: `0 4px 30px ${tema.cor4}66, 0 0 40px ${tema.cor4}33`,
+                            width: 'auto',
+                            minWidth: '160px',
+                        } : {
+                            position: 'relative',
+                            marginTop: '16px',
+                            marginBottom: '0px',
+                        }),
+                        padding: paddingBotaoResult,
                         borderRadius: 30,
                         border: `2px solid ${tema.cor4}44`,
                         background: `linear-gradient(135deg, ${tema.cor4} 0%, ${tema.cor3} 100%)`,
                         color: "#fff",
-                        fontSize: isMobile ? 12 : 14,
+                        fontSize: fontSizeBotaoResult,
                         fontWeight: 700,
                         letterSpacing: ".1em",
                         textTransform: "uppercase",
                         cursor: "pointer",
                         fontFamily: "'Inter', sans-serif",
-                        boxShadow: `0 4px 30px ${tema.cor4}66, 0 0 40px ${tema.cor4}33`,
+                        transition: "all 0.3s ease",
+                        flexShrink: 0,
                     }}
                 >
                     Entendido ✓
@@ -617,129 +881,198 @@ export const ModalShop = ({ onCancelar, pacotes = [], moedas = 0 }) => {
         );
     };
 
-    // ═════════════════════════════════════════════════════════════
-    // PACOTES
-    // ═════════════════════════════════════════════════════════════
+    // ── RENDER DOS PACOTES ──────────────────────────────────────
     const renderPacotes = () => {
-        const principais = pacotes.filter((p) => p.categoria === "principal");
-        const setoriais = pacotes.filter((p) => p.categoria === "setorial");
-        const customizacao = pacotes.filter((p) => p.categoria === "customizacao");
-
-        const renderSecao = (titulo, listaPacotes, subtitulo = "") => {
-            if (listaPacotes.length === 0) return null;
-
-            return (
-                <div className="mb-6">
-                    <h3 className="text-sm font-bold mb-3 flex items-center gap-2 text-white">
-                        {titulo}
-                        {subtitulo && (
-                            <span className="text-[10px] text-white/60 font-normal">{subtitulo}</span>
-                        )}
-                    </h3>
-
-                    <div className="flex flex-col gap-3">
-                        {listaPacotes.map((pacote) => {
-                            const coresPacote = obterCoresPacote(pacote);
-
-                            return (
-                                <motion.div
-                                    key={pacote.id}
-                                    whileHover={!isMobile ? { scale: 1.02, y: -2 } : {}}
-                                    className="flex items-center gap-3 bg-black/20 backdrop-blur-sm rounded-xl p-3 border border-white/10"
-                                >
-                                    <div className="w-16 flex-shrink-0">
-                                        <PacoteVisual
-                                            pacote={coresPacote}
-                                            onClick={() => comprarEAbirPacote(coresPacote)}
-                                        />
-                                    </div>
-
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-bold text-sm text-white">{pacote.nome}</p>
-                                        <p className="text-[11px] text-white/70 leading-tight">
-                                            {pacote.conteudo || pacote.setores || pacote.descricao}
-                                        </p>
-                                        <p className="text-[10px] text-white/50 mt-1 italic">{pacote.descricao}</p>
-
-                                        <div className="flex items-center gap-3 mt-2">
-                                            <p className="text-sm font-bold" style={{ color: coresPacote.cor4 }}>
-                                                {(pacote.preco || 0).toLocaleString("pt-BR")} Moedas
-                                            </p>
-
-                                            <button
-                                                onClick={() => comprarEAbirPacote(coresPacote)}
-                                                className="text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-md hover:brightness-110 transition-all active:scale-95 whitespace-nowrap"
-                                                style={{
-                                                    background: `linear-gradient(90deg, ${coresPacote.cor3}, ${coresPacote.cor4})`,
-                                                }}
-                                            >
-                                                COMPRAR
-                                            </button>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            );
-                        })}
-                    </div>
-                </div>
-            );
-        };
+        const tipos = ['comum', 'raro', 'epico', 'lendario'];
+        const corRoxo = "#2D1B4E";
 
         return (
-            <div>
-                {renderSecao("PACOTES PRINCIPAIS", principais, "(POPULAR)")}
-                {renderSecao("PACOTES SETORIAIS", setoriais, "(Cartas direcionadas por área urbana)")}
-                {renderSecao("CUSTOMIZAÇÃO & EXPANSÕES", customizacao, "(Exposição dos Prédios e Skins)")}
+            <div
+                className="grid w-full max-h-[700px] h-full"
+                style={{
+                    gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
+                    gap: gapCards,
+                    alignItems: 'stretch',
+                }}
+            >
+                {tipos.map(tipo => {
+                    const config = PACK_CONFIG[tipo];
+                    const preco = PACK_PRICES[tipo];
+                    const saldoAtual = economiaSetores.saldo || 0;
+                    const podeComprar = saldoAtual >= preco;
+                    const isBalanced = config.isBalanced || false;
+
+                    const tema = {
+                        cor1: config.cor1,
+                        cor2: config.cor2,
+                        cor3: config.cor3,
+                        cor4: config.cor4,
+                    };
+
+                    const nomeDisplay = tipo === 'comum' ? 'Comum' : config.nome;
+
+                    return (
+                        <motion.div
+                            key={tipo}
+                            whileHover={isDesktop ? { scale: 1.02, y: -2 } : {}}
+                            className="relative rounded-xl flex flex-col"
+                            style={{
+                                background: `linear-gradient(145deg, ${config.cor2} 0%, ${config.cor1} 100%)`,
+                                border: `2px solid ${config.cor4}66`,
+                                boxShadow: `0 6px 24px ${config.cor4}33`,
+                                padding: paddingCard,
+                                height: '100%',
+                            }}
+                        >
+                            {/* PACOTE VISUAL */}
+                            <div className="w-full flex justify-center flex-shrink-0 my-1">
+                                <PacoteVisual
+                                    tema={tema}
+                                    tipo={tipo}
+                                    onClick={() => comprarEAbirPacote(tipo)}
+                                    isMobile={isMobile}
+                                    isLandscape={isLandscape}
+                                />
+                            </div>
+
+                            {/* INFORMAÇÕES */}
+                            <div className="w-full flex flex-col items-center gap-0.5 flex-1 justify-between">
+                                <span className="text-white/60 font-medium"
+                                    style={{ fontSize: isDesktop ? '13px' : (isLandscape ? '9px' : '10px') }}
+                                >
+                                    {config.quantidade} cartas
+                                </span>
+
+                                <div className="w-2/3 h-px bg-white/10"></div>
+
+                                {/* Probabilidades - Grid 2 colunas */}
+                                <div className="w-full grid grid-cols-2 gap-x-1 gap-y-0 px-1"
+                                    style={{ fontSize: fontSizeProb }}
+                                >
+                                    {Object.entries(config.probabilidades).map(([rank, prob]) => (
+                                        <React.Fragment key={rank}>
+                                            <span className="font-bold text-right" style={{ color: corRoxo }}>
+                                                Rank {rank}
+                                            </span>
+                                            <span className="font-bold text-left" style={{ color: corRoxo }}>
+                                                {prob}%
+                                            </span>
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+
+                                <div className="w-2/3 h-px bg-white/10"></div>
+
+                                {/* Preço */}
+                                <span className={`font-bold ${podeComprar ? 'text-green-400' : 'text-red-400'}`}
+                                    style={{ fontSize: fontSizePreco }}
+                                >
+                                    R$ {preco.toLocaleString()}
+                                </span>
+
+                                {/* BOTÃO COMPRAR */}
+                                <div className="w-full mt-0.5 flex-shrink-0">
+                                    <button
+                                        className={`w-full rounded-lg font-bold transition-all ${podeComprar
+                                                ? 'hover:scale-105 active:scale-95 hover:shadow-lg'
+                                                : 'opacity-50 cursor-not-allowed'
+                                            }`}
+                                        style={{
+                                            background: podeComprar
+                                                ? `linear-gradient(135deg, ${config.cor4}, ${config.cor3})`
+                                                : '#444444',
+                                            color: '#ffffff',
+                                            minHeight: alturaBotao,
+                                            fontSize: fontSizeBotao,
+                                            letterSpacing: "0.05em",
+                                            padding: paddingBotao,
+                                            border: podeComprar ? `1px solid ${config.cor4}88` : '1px solid #555',
+                                            textShadow: podeComprar ? '0 1px 4px rgba(0,0,0,0.3)' : 'none',
+                                        }}
+                                        onClick={() => comprarEAbirPacote(tipo)}
+                                        disabled={!podeComprar}
+                                    >
+                                        {podeComprar ? '🛒 COMPRAR' : 'SALDO INSUFICIENTE'}
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    );
+                })}
             </div>
         );
     };
 
-    // ═════════════════════════════════════════════════════════════
-    // RENDER PRINCIPAL
-    // ═════════════════════════════════════════════════════════════
+    // ── RENDER PRINCIPAL ────────────────────────────────────────
     return (
-        <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-start justify-center p-4 overflow-y-auto">
+        <div className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center">
             <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="relative w-full max-w-md rounded-3xl p-6 shadow-2xl border border-white/10 my-8 bg-gradient-to-br from-[#6411D9] to-[#350973] overflow-hidden"
+                className="relative rounded-2xl"
+                style={{
+                    width: modalWidth,
+                    maxWidth: modalMaxWidth,
+                    height: modalHeight,
+                    background: "linear-gradient(145deg, #1a0a3b 0%, #0d0520 100%)",
+                    border: "1px solid rgba(255,255,255,0.05)",
+                    boxShadow: "0 20px 80px rgba(0,0,0,0.8)",
+                }}
             >
+                {/* Botão Fechar */}
                 <button
+                    className="absolute top-2 right-2 z-30 flex items-center justify-center rounded-full hover:scale-110 active:scale-95 transition-all"
+                    style={{
+                        width: isDesktop ? '40px' : '28px',
+                        height: isDesktop ? '40px' : '28px',
+                        background: "rgba(255,255,255,0.1)",
+                    }}
                     onClick={handleFechar}
-                    className="absolute top-4 right-4 p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors z-20"
                 >
-                    <X size={20} className="text-white" />
+                    <img src={fechar} alt="Fechar" className={isDesktop ? "w-5 h-5" : "w-3 h-3"} />
                 </button>
 
-                <div className="flex flex-col items-center gap-2 mb-6">
-                    <div className="flex items-center gap-2">
-                        <ShoppingCart size={22} className="text-white" />
-                        <h2 className="text-xl font-bold text-white">LOJA DE PACOTES & CUSTOMIZAÇÃO</h2>
-                    </div>
-                    <p className="text-xs text-white/70 text-center">
-                        Evolua sua cidade com novos prédios e expansões
-                    </p>
+                {/* Título */}
+                <div className="flex items-center justify-center border-b border-white/5"
+                    style={{ height: alturaTopo }}
+                >
+                    <h1 className="text-white font-bold tracking-wider"
+                        style={{ fontSize: fontSizeTitulo }}
+                    >
+                        🏪 Loja de Pacotes
+                    </h1>
                 </div>
 
-                <div className="flex items-center justify-between bg-black/20 backdrop-blur-sm rounded-xl p-3 mb-6 border border-white/10">
-                    <div className="flex items-center gap-2">
-                        <Coins size={16} className="text-yellow-400" />
-                        <span className="text-sm font-bold text-white">
-                            Seu Saldo: {saldoLocal.toLocaleString("pt-BR")} Moedas
-                        </span>
-                    </div>
-                    <button className="bg-gradient-to-r from-orange-500 to-[#F27405] text-xs font-bold px-3 py-1.5 rounded-full text-white shadow-md">
-                        + MOEDAS
-                    </button>
+                {/* Saldo */}
+                <div className="absolute top-2 left-2 z-10 px-2 py-1 rounded-full bg-black/40 border border-white/10"
+                    style={{
+                        fontSize: isDesktop ? '13px' : '9px',
+                        padding: isDesktop ? '6px 16px' : '2px 8px',
+                    }}
+                >
+                    <span className="text-white/60">💰 Saldo: </span>
+                    <span className="text-green-400 font-bold"
+                        style={{ fontSize: fontSizeSaldo }}
+                    >
+                        R$ {(economiaSetores.saldo || 0).toLocaleString()}
+                    </span>
                 </div>
 
-                <div className="max-h-[60vh] overflow-y-auto pr-1">
+                {/* Conteúdo */}
+                <div className="overflow-y-auto"
+                    style={{
+                        height: `calc(100% - ${alturaTopo})`,
+                        padding: isDesktop ? '16px' : '6px',
+                    }}
+                >
                     {!showResultado ? (
                         <>
                             {erro && (
-                                <div className="mb-2 p-1.5 rounded-lg bg-red-500/20 border border-red-500/30 text-red-300 text-center text-xs">
+                                <div className="mb-2 p-1.5 rounded-lg bg-red-500/20 border border-red-500/30 text-red-300 text-center"
+                                    style={{ fontSize: isDesktop ? '13px' : '10px' }}
+                                >
                                     {erro}
                                 </div>
                             )}
