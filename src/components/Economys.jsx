@@ -6,16 +6,16 @@ import comercio from "../../public/outrasImagens/setores/comercio.png";
 import industria from "../../public/outrasImagens/setores/industria.png";
 import imobiliario from "../../public/outrasImagens/setores/imobiliario.png";
 import energia from "../../public/outrasImagens/setores/torre-eletrica.png";
-import { CentraldeDadosContext } from "../centralDeDadosContext";
-
+// import { CentraldeDadosContext } from "../centralDeDadosContext";
+import { useCentralStore } from '../stores/useCentralStore';
 // Tooltip
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 
 function Economys() {
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-  const { dados } = useContext(CentraldeDadosContext);
-
+  // const { dados } = useContext(CentraldeDadosContext);
+const dia = useCentralStore((s) => s.dia)
   const setores = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"];
 
   const tooltipStyle = {
@@ -43,8 +43,8 @@ function Economys() {
     imobiliario,
     energia
   };
-  if (dados.dia < 270) return null;
-  if (dados.dia >= 270) {
+  if (dia < 270) return null;
+  if (dia >= 270) {
     return (
       <div className="grid grid-cols-3 grid-rows-2 gap-2 h-full w-full self-center place-items-center">
         {setores.map((setor, index) => {

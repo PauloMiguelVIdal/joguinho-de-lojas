@@ -47,11 +47,50 @@ const fmtD = d => !isFinite(d) || d <= 0 ? '—' : d < 1 ? `${(d * 24).toFixed(0
 // HELPERS — usam estáticos + dinâmicos separados
 // ════════════════════════════════════════════════════════════
 
+/**
+ * ✅ CORREÇÃO: normaliza o array dinâmico do setor.
+ * Aceita tanto a estrutura do Zustand (`{ edificios: [...] }`)
+ * quanto um array direto (compatibilidade).
+ */
+function getArrDinamico(edificiosFinais, setor) {
+  const raw = edificiosFinais?.[setor];
+  if (Array.isArray(raw)) return raw;
+  if (Array.isArray(raw?.edificios)) return raw.edificios;
+  return [];
+}
+
+/**
+ * ✅ CORREÇÃO: tenta ler quantidade da carteira (fallback confiável,
+ * mesma fonte usada pelo TaxesYear quando o Zustand não bate).
+ */
+function getQtdDaCarteira(carteiraAtual, setorIndex, nomeEd) {
+  const arr = Array.isArray(carteiraAtual?.[setorIndex]) ? carteiraAtual[setorIndex] : [];
+  let soma = 0;
+  arr.forEach((e) => {
+    if (!e?.nome) return;
+    if (e.nome === nomeEd) soma += Number(e.quantidade ?? 0);
+  });
+  return soma;
+}
+
 /** Retorna a quantidade dinâmica de um edifício pelo nome */
-function getEdQtd(edificiosFinais, nome) {
+function getEdQtd(edificiosFinais, nome, carteiraAtual = null) {
   for (const s of SETORES) {
+    const setorIndex = SETORES.indexOf(s);
     const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex(e => e.nome === nome) ?? -1;
-    if (idx !== -1) return edificiosFinais[s]?.[idx]?.quantidade ?? 0;
+    if (idx === -1) continue;
+
+    // 1) Zustand (estrutura correta: .edificios[idx].quantidade)
+    const arrDin = getArrDinamico(edificiosFinais, s);
+    const qtdZustand = Number(arrDin[idx]?.quantidade ?? 0);
+    if (qtdZustand > 0) return qtdZustand;
+
+    // 2) Fallback: carteira (fonte primária do TaxesYear)
+    if (carteiraAtual) {
+      const qtdCarteira = getQtdDaCarteira(carteiraAtual, setorIndex, nome);
+      if (qtdCarteira > 0) return qtdCarteira;
+    }
+    return 0;
   }
   return 0;
 }
@@ -60,7 +99,15 @@ function getEdQtd(edificiosFinais, nome) {
 function getEdLiberado(edificiosFinais, nome) {
   for (const s of SETORES) {
     const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex(e => e.nome === nome) ?? -1;
-    if (idx !== -1) return edificiosFinais[s]?.[idx]?.liberado !== false;
+    if (idx === -1) continue;
+    const arrDin = getArrDinamico(edificiosFinais, s);
+    const item = arrDin[idx];
+    // ✅ CORREÇÃO: campo real é `licençaLiberado.liberado` (igual ao LicenseModal)
+    const liberadoExplicito = item?.licençaLiberado?.liberado;
+    if (liberadoExplicito === true)  return true;
+    if (liberadoExplicito === false) return false;
+    // fallback: `liberado` legado ou default true
+    return item?.liberado !== false;
   }
   return true;
 }
@@ -71,7 +118,6 @@ function getEconomyMult(estado) {
 
 // ════════════════════════════════════════════════════════════
 // CÁLCULO FINANCEIRO REAL
-// Usa dados estáticos (finanças) + dinâmicos (quantidade)
 // ════════════════════════════════════════════════════════════
 function calcFin(edEst, quantidade, econGlobal, econSetor) {
   const qtd = quantidade || 0;
@@ -122,15 +168,15 @@ function buildGraph() {
 // ════════════════════════════════════════════════════════════
 // FLUXO DE PRODUTO
 // ════════════════════════════════════════════════════════════
-function calcFluxo(edificiosFinais, pid, prodMap) {
+function calcFluxo(edificiosFinais, pid, prodMap, carteiraAtual) {
   const pm = prodMap[pid]; if (!pm) return null;
   let prod = 0, venda = 0;
   pm.produtores.forEach(n => {
-    const qtd = getEdQtd(edificiosFinais, n); if (!qtd) return;
+    const qtd = getEdQtd(edificiosFinais, n, carteiraAtual); if (!qtd) return;
     const conf = FORMULAS_EDIFICIOS.find(e => e.nomeEdificio === n); if (!conf) return;
     conf.formulas.forEach(f => { const o = f.output?.[pid] || 0; if (o) prod += (o / (f.duracao || 1)) * qtd; });
   });
-  pm.vendedores.forEach(n => { const q = getEdQtd(edificiosFinais, n); if (q) venda += q * 1.5; });
+  pm.vendedores.forEach(n => { const q = getEdQtd(edificiosFinais, n, carteiraAtual); if (q) venda += q * 1.5; });
   const liquido   = prod - venda;
   const cobertura = venda > 0 ? prod / venda : prod > 0 ? Infinity : 0;
   const status    = prod === 0 && venda === 0 ? 'inativo'
@@ -164,15 +210,15 @@ function calcEfic(edNome, fluxosProdutos) {
 }
 
 // ════════════════════════════════════════════════════════════
-// MOTOR PRINCIPAL — recebe edificiosFinais em vez de dados
+// MOTOR PRINCIPAL — recebe edificiosFinais + carteira
 // ════════════════════════════════════════════════════════════
-function analisar(edificiosFinais, graph, econGlobal, econPorSetor) {
+function analisar(edificiosFinais, carteiraAtual, graph, econGlobal, econPorSetor) {
   const { prodMap, edMap, armMap } = graph;
 
   // Fluxos de produtos
   const fluxosProdutos = {};
   Object.keys(prodMap).forEach(pid => {
-    const f = calcFluxo(edificiosFinais, pid, prodMap);
+    const f = calcFluxo(edificiosFinais, pid, prodMap, carteiraAtual);
     if (f && f.status !== 'inativo') fluxosProdutos[pid] = f;
   });
 
@@ -180,9 +226,10 @@ function analisar(edificiosFinais, graph, econGlobal, econPorSetor) {
   const edificiosAtivos = [];
   SETORES.forEach(s => {
     const edEstArr = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
-    const edDinArr = edificiosFinais[s] || [];
+    const edDinArr = getArrDinamico(edificiosFinais, s);   // ✅ CORREÇÃO
     edEstArr.forEach((edEst, idx) => {
-      const qtd = edDinArr[idx]?.quantidade ?? 0;
+      // ✅ CORREÇÃO: usa getEdQtd (que cobre Zustand + carteira)
+      const qtd = getEdQtd(edificiosFinais, edEst.nome, carteiraAtual);
       if (!qtd) return;
       const fin = calcFin(edEst, qtd, econGlobal, econPorSetor?.[s] || 'estável');
       const ef  = calcEfic(edEst.nome, fluxosProdutos);
@@ -194,11 +241,12 @@ function analisar(edificiosFinais, graph, econGlobal, econPorSetor) {
   const edificiosDisponiveis = [];
   SETORES.forEach(s => {
     const edEstArr = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
-    const edDinArr = edificiosFinais[s] || [];
+    const edDinArr = getArrDinamico(edificiosFinais, s);   // ✅ CORREÇÃO
     edEstArr.forEach((edEst, idx) => {
-      const qtd      = edDinArr[idx]?.quantidade ?? 0;
-      const liberado = edDinArr[idx]?.liberado !== false;
-      if (qtd > 0 || !liberado) return;
+      const qtd = getEdQtd(edificiosFinais, edEst.nome, carteiraAtual);
+      if (qtd > 0) return;
+      const liberado = getEdLiberado(edificiosFinais, edEst.nome);
+      if (!liberado) return;
       edificiosDisponiveis.push({ ...edEst, quantidade: 0, setor: s });
     });
   });
@@ -212,7 +260,7 @@ function analisar(edificiosFinais, graph, econGlobal, econPorSetor) {
   const pressaoEstoque = {};
   Object.keys(armMap).forEach(cat => {
     const arms = armMap[cat];
-    const capExterno = arms.reduce((s, a) => s + getEdQtd(edificiosFinais, a.nome) * a.capacidadePorEdificio, 0);
+    const capExterno = arms.reduce((s, a) => s + getEdQtd(edificiosFinais, a.nome, carteiraAtual) * a.capacidadePorEdificio, 0);
     const prodsDaCat = Object.keys(prodMap).filter(id => productsCatalog[id]?.categoriaFisica === cat);
     let entradaDia = 0, saidaDia = 0;
     prodsDaCat.forEach(pid => { const f = fluxosProdutos[pid]; if (!f) return; entradaDia += f.prod; saidaDia += f.venda; });
@@ -232,7 +280,7 @@ function analisar(edificiosFinais, graph, econGlobal, econPorSetor) {
   const lucro    = edificiosAtivos.reduce((s, e) => s + e.lucro,    0);
   const margem   = fat > 0 ? (lucro / fat) * 100 : 0;
 
-  const cadeias          = detectarCadeias(edificiosFinais, graph, fluxosProdutos);
+  const cadeias          = detectarCadeias(edificiosFinais, carteiraAtual, graph, fluxosProdutos);
   const cadeiasSaudaveis = cadeias.filter(c => c.completo && !c.prodsSemDestino.length).length;
 
   return { edificiosAtivos, edificiosDisponiveis, fluxosProdutos, gargalos, pressaoEstoque, fat, impostos, lucro, margem, cadeias, cadeiasSaudaveis, totalCadeias: cadeias.length };
@@ -241,13 +289,12 @@ function analisar(edificiosFinais, graph, econGlobal, econPorSetor) {
 // ════════════════════════════════════════════════════════════
 // DETECÇÃO DE CADEIAS
 // ════════════════════════════════════════════════════════════
-function detectarCadeias(edificiosFinais, graph, fluxosProdutos) {
+function detectarCadeias(edificiosFinais, carteiraAtual, graph, fluxosProdutos) {
   const { prodMap, edMap } = graph;
   const ativos = new Set();
   SETORES.forEach(s => {
     const edEstArr = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
-    const edDinArr = edificiosFinais[s] || [];
-    edEstArr.forEach((ed, idx) => { if ((edDinArr[idx]?.quantidade ?? 0) > 0) ativos.add(ed.nome); });
+    edEstArr.forEach((ed) => { if (getEdQtd(edificiosFinais, ed.nome, carteiraAtual) > 0) ativos.add(ed.nome); });
   });
   if (!ativos.size) return [];
 
@@ -284,7 +331,7 @@ function detectarCadeias(edificiosFinais, graph, fluxosProdutos) {
 }
 
 // ════════════════════════════════════════════════════════════
-// UI BASE
+// UI BASE (inalterado)
 // ════════════════════════════════════════════════════════════
 const S = {
   card:     (glow) => ({ background: 'rgba(255,255,255,.04)', border: `1px solid ${glow ? glow + '50' : 'rgba(255,255,255,.1)'}`, borderRadius: 12, padding: '14px 16px', boxShadow: glow ? `0 0 22px ${glow}20` : 'none', marginBottom: 10 }),
@@ -331,7 +378,7 @@ const ViewScroll = ({ children }) => (
 // ════════════════════════════════════════════════════════════
 // VISÃO 1 — SAÚDE
 // ════════════════════════════════════════════════════════════
-function VisaoSaude({ analise, edificiosFinais }) {
+function VisaoSaude({ analise, edificiosFinais, carteiraAtual }) {
   const { edificiosAtivos, gargalos, lucro, fat, margem, cadeias, cadeiasSaudaveis, totalCadeias, fluxosProdutos } = analise;
 
   const score = useMemo(() => {
@@ -355,16 +402,16 @@ function VisaoSaude({ analise, edificiosFinais }) {
 
   const porSetor = useMemo(() => SETORES.map(s => {
     const edEstArr = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
-    const edDinArr = edificiosFinais[s] || [];
     let count = 0, fat = 0;
-    edEstArr.forEach((ed, idx) => {
-      const qtd = edDinArr[idx]?.quantidade ?? 0;
+    edEstArr.forEach((ed) => {
+      // ✅ CORREÇÃO: usa getEdQtd (Zustand + carteira)
+      const qtd = getEdQtd(edificiosFinais, ed.nome, carteiraAtual);
       if (!qtd) return;
       count++;
       fat += (ed.finanças?.faturamentoUnitário || 0) * qtd;
     });
     return { setor: s, count, fat };
-  }).filter(s => s.count > 0), [edificiosFinais]);
+  }).filter(s => s.count > 0), [edificiosFinais, carteiraAtual]);
   const maxFat = Math.max(...porSetor.map(s => s.fat), 1);
 
   const insights = [];
@@ -420,9 +467,9 @@ function VisaoSaude({ analise, edificiosFinais }) {
 }
 
 // ════════════════════════════════════════════════════════════
-// VISÃO 2 — GARGALOS
+// VISÃO 2 — GARGALOS (inalterada — só passa carteira)
 // ════════════════════════════════════════════════════════════
-function VisaoGargalos({ analise, graph }) {
+function VisaoGargalos({ analise, graph, edificiosFinais, carteiraAtual }) {
   const { gargalos, fluxosProdutos, cadeias } = analise;
   const { prodMap, edMap } = graph;
   const sangramento      = Object.entries(fluxosProdutos).filter(([, f]) => f.status === 'sangramento').map(([pid, f]) => ({ pid, prod: productsCatalog[pid], fluxo: f })).sort((a, b) => Math.abs(b.fluxo.liquido) - Math.abs(a.fluxo.liquido));
@@ -500,7 +547,7 @@ function VisaoGargalos({ analise, graph }) {
 }
 
 // ════════════════════════════════════════════════════════════
-// VISÃO 3 — ECONÔMICO
+// VISÃO 3 — ECONÔMICO (inalterada)
 // ════════════════════════════════════════════════════════════
 function VisaoEconomico({ analise }) {
   const { edificiosAtivos, fat, impostos, lucro, margem } = analise;
@@ -567,9 +614,9 @@ function VisaoEconomico({ analise }) {
 }
 
 // ════════════════════════════════════════════════════════════
-// VISÃO 4 — ESTOQUE
+// VISÃO 4 — ESTOQUE (usa carteira no getEdQtd)
 // ════════════════════════════════════════════════════════════
-function VisaoEstoque({ analise, edificiosFinais, graph }) {
+function VisaoEstoque({ analise, edificiosFinais, graph, carteiraAtual }) {
   const { pressaoEstoque } = analise;
   const { armMap }         = graph;
   const stCfg = {
@@ -598,7 +645,7 @@ function VisaoEstoque({ analise, edificiosFinais, graph }) {
         const acumulando = taxa > 0;
         const prevTexto  = capExterno === 0 && entradaDia > 0 ? '📦 Apenas armazém nativo — considere armazém externo para escalar' : acumulando && isFinite(diasLotar) ? `⏱ Armazém externo lotará em ~${fmtD(diasLotar)}` : !acumulando && saidaDia > entradaDia && isFinite(diasZerar) && capExterno > 0 ? `⏱ Estoque externo zerado em ~${fmtD(diasZerar)}` : acumulando ? '↑ Acumulando' : '✅ Fluxo equilibrado';
         const prevCor    = status === 'critico' ? '#ff6b6b' : status === 'atencao' ? '#FFD700' : status === 'baixo' ? '#7ac8ff' : '#7aff9a';
-        const recomendados = arms.filter(a => { const qtd = getEdQtd(edificiosFinais, a.nome); return qtd === 0 || (qtd * a.capacidadePorEdificio < entradaDia * 30); }).slice(0, 3);
+        const recomendados = arms.filter(a => { const qtd = getEdQtd(edificiosFinais, a.nome, carteiraAtual); return qtd === 0 || (qtd * a.capacidadePorEdificio < entradaDia * 30); }).slice(0, 3);
         return (
           <Card key={cat} style={{ background: cfg.bg, borderColor: `${cfg.cor}35` }} glow={status !== 'ok' ? cfg.cor : undefined}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 9 }}>
@@ -611,8 +658,8 @@ function VisaoEstoque({ analise, edificiosFinais, graph }) {
             </div>
             <div style={{ background: `${prevCor}12`, border: `1px solid ${prevCor}35`, borderRadius: 8, padding: '6px 10px', marginBottom: 9, fontSize: 11, color: prevCor, fontFamily: "'Rajdhani',sans-serif", fontWeight: 700 }}>{prevTexto}</div>
             {(() => { const maxB = Math.max(entradaDia, saidaDia, 0.1); return (<><Bar label="Entrada/dia" value={entradaDia} max={maxB} cor="#7ac8ff" right={`+${fmt(entradaDia)}/d`} /><Bar label="Saída/dia" value={saidaDia} max={maxB} cor="#F27405" right={`-${fmt(saidaDia)}/d`} /><div style={{ fontSize: 11, color: taxa > 0 ? '#7ac8ff' : taxa < 0 ? '#F27405' : '#7aff9a', fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, marginBottom: 7 }}>Taxa líquida: {taxa >= 0 ? '+' : ''}{fmt(taxa)}/d</div></>); })()}
-            {arms.length > 0 && (<div><div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,.4)', marginBottom: 5 }}>ARMAZÉNS PARA ESTA CATEGORIA</div><div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: recomendados.length ? 8 : 0 }}>{arms.slice(0, 4).map(a => { const qtd = getEdQtd(edificiosFinais, a.nome); return (<div key={a.nome} style={{ fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 5, background: qtd > 0 ? 'rgba(100,17,217,.25)' : 'rgba(255,255,255,.05)', color: qtd > 0 ? '#C87AFF' : 'rgba(255,255,255,.35)', border: `1px solid ${qtd > 0 ? '#6411D960' : 'rgba(255,255,255,.1)'}` }}>{qtd > 0 ? `✓ ×${qtd}` : '○'} {a.nome} · {fmt(a.capacidadePorEdificio)}/ed</div>); })}</div></div>)}
-            {recomendados.length > 0 && (<div style={{ background: 'rgba(100,17,217,.12)', border: '1px solid rgba(100,17,217,.3)', borderRadius: 8, padding: '8px 10px' }}><div style={{ fontSize: 10, fontWeight: 700, color: '#C87AFF', marginBottom: 5 }}>🏗️ RECOMENDADOS PARA AMPLIAR CAPACIDADE</div>{recomendados.map(a => { const qtd = getEdQtd(edificiosFinais, a.nome); return (<div key={a.nome} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}><div><span style={{ fontSize: 11, fontWeight: 700, color: '#fff', fontFamily: "'Rajdhani',sans-serif" }}>{a.nome}</span>{qtd > 0 && <span style={{ fontSize: 9, color: '#7aff9a', marginLeft: 6 }}>já tem ×{qtd}</span>}</div><span style={{ fontSize: 11, fontWeight: 800, color: '#C87AFF', fontFamily: "'Rajdhani',sans-serif" }}>{fmt(a.capacidadePorEdificio)}/ed</span></div>); })}</div>)}
+            {arms.length > 0 && (<div><div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,.4)', marginBottom: 5 }}>ARMAZÉNS PARA ESTA CATEGORIA</div><div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: recomendados.length ? 8 : 0 }}>{arms.slice(0, 4).map(a => { const qtd = getEdQtd(edificiosFinais, a.nome, carteiraAtual); return (<div key={a.nome} style={{ fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 5, background: qtd > 0 ? 'rgba(100,17,217,.25)' : 'rgba(255,255,255,.05)', color: qtd > 0 ? '#C87AFF' : 'rgba(255,255,255,.35)', border: `1px solid ${qtd > 0 ? '#6411D960' : 'rgba(255,255,255,.1)'}` }}>{qtd > 0 ? `✓ ×${qtd}` : '○'} {a.nome} · {fmt(a.capacidadePorEdificio)}/ed</div>); })}</div></div>)}
+            {recomendados.length > 0 && (<div style={{ background: 'rgba(100,17,217,.12)', border: '1px solid rgba(100,17,217,.3)', borderRadius: 8, padding: '8px 10px' }}><div style={{ fontSize: 10, fontWeight: 700, color: '#C87AFF', marginBottom: 5 }}>🏗️ RECOMENDADOS PARA AMPLIAR CAPACIDADE</div>{recomendados.map(a => { const qtd = getEdQtd(edificiosFinais, a.nome, carteiraAtual); return (<div key={a.nome} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}><div><span style={{ fontSize: 11, fontWeight: 700, color: '#fff', fontFamily: "'Rajdhani',sans-serif" }}>{a.nome}</span>{qtd > 0 && <span style={{ fontSize: 9, color: '#7aff9a', marginLeft: 6 }}>já tem ×{qtd}</span>}</div><span style={{ fontSize: 11, fontWeight: 800, color: '#C87AFF', fontFamily: "'Rajdhani',sans-serif" }}>{fmt(a.capacidadePorEdificio)}/ed</span></div>); })}</div>)}
           </Card>
         );
       })}
@@ -621,7 +668,7 @@ function VisaoEstoque({ analise, edificiosFinais, graph }) {
 }
 
 // ════════════════════════════════════════════════════════════
-// VISÃO 5 — EFICIÊNCIA
+// VISÃO 5 — EFICIÊNCIA (inalterada)
 // ════════════════════════════════════════════════════════════
 function VisaoEficiencia({ analise }) {
   const { edificiosAtivos } = analise;
@@ -670,9 +717,9 @@ function VisaoEficiencia({ analise }) {
 }
 
 // ════════════════════════════════════════════════════════════
-// VISÃO 6 — OPORTUNIDADES
+// VISÃO 6 — OPORTUNIDADES (usa carteira no getEdQtd)
 // ════════════════════════════════════════════════════════════
-function VisaoOportunidades({ analise, edificiosFinais, graph, econGlobal, econPorSetor }) {
+function VisaoOportunidades({ analise, edificiosFinais, graph, econGlobal, econPorSetor, carteiraAtual }) {
   const { fluxosProdutos, cadeias, edificiosDisponiveis } = analise;
   const { prodMap, edMap } = graph;
   const cadeiasSemVenda = cadeias.filter(c => !c.completo && c.producao.length > 0);
@@ -695,8 +742,12 @@ function VisaoOportunidades({ analise, edificiosFinais, graph, econGlobal, econP
     const prodAtivos = new Set();
     SETORES.forEach(s => {
       const edEstArr = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
-      const edDinArr = edificiosFinais[s] || [];
-      edEstArr.forEach((ed, idx) => { if ((edDinArr[idx]?.quantidade ?? 0) > 0) (edMap[ed.nome]?.outputs || []).forEach(id => prodAtivos.add(id)); });
+      edEstArr.forEach((ed) => {
+        // ✅ CORREÇÃO
+        if (getEdQtd(edificiosFinais, ed.nome, carteiraAtual) > 0) {
+          (edMap[ed.nome]?.outputs || []).forEach(id => prodAtivos.add(id));
+        }
+      });
     });
     const lista = [], jaRec = new Set();
     edificiosDisponiveis.forEach(ed => {
@@ -706,7 +757,7 @@ function VisaoOportunidades({ analise, edificiosFinais, graph, econGlobal, econP
       if (confP) {
         confP.formulas.forEach(f => {
           Object.keys(f.input  || {}).forEach(id => { if (prodAtivos.has(id)) { score += 20; const p = productsCatalog[id]; if (p) motivos.push({ icon: p.icon, nome: p.nome, tipo: 'input' }); } });
-          Object.keys(f.output || {}).forEach(id => { const pm = prodMap[id]; if (!pm) return; if ([...pm.consumidores, ...pm.vendedores].some(n => getEdQtd(edificiosFinais, n) > 0)) { score += 15; const p = productsCatalog[id]; if (p) motivos.push({ icon: p.icon, nome: p.nome, tipo: 'output' }); } score += Math.min((marketPrices[id] || 0) / 1000, 10); });
+          Object.keys(f.output || {}).forEach(id => { const pm = prodMap[id]; if (!pm) return; if ([...pm.consumidores, ...pm.vendedores].some(n => getEdQtd(edificiosFinais, n, carteiraAtual) > 0)) { score += 15; const p = productsCatalog[id]; if (p) motivos.push({ icon: p.icon, nome: p.nome, tipo: 'output' }); } score += Math.min((marketPrices[id] || 0) / 1000, 10); });
         });
       }
       const confV = SALES_EDIFICIOS.find(c => c.nomeEdificio === ed.nome);
@@ -720,7 +771,7 @@ function VisaoOportunidades({ analise, edificiosFinais, graph, econGlobal, econP
       lista.push({ nome: ed.nome, setor: ed.setor, score, custo, lucroMes: fin.lucro, roi, payback, motivos: motivos.slice(0, 3), isVenda: !!confV });
     });
     return lista.sort((a, b) => b.score - a.score).slice(0, 10);
-  }, [edificiosFinais, prodMap, edMap, edificiosDisponiveis, econGlobal, econPorSetor]);
+  }, [edificiosFinais, carteiraAtual, prodMap, edMap, edificiosDisponiveis, econGlobal, econPorSetor]);
 
   const maxScore = Math.max(...oportunidades.map(o => o.score), 1);
   const pbCor    = m => !isFinite(m) ? 'rgba(255,255,255,.4)' : m <= 6 ? '#7aff9a' : m <= 18 ? '#FFD700' : '#ff9090';
@@ -796,22 +847,32 @@ export default function AssistenteIA() {
   // ── Economy Context (inalterado) ──────────────────────────
   const { economiaSetores } = useContext(DadosEconomyGlobalContext);
 
+  // ✅ CORREÇÃO: carteira é a fonte primária real (mesma usada pelo TaxesYear)
+  const carteiraAtual = economiaSetores?.carteira?.carteiraAtual ?? [];
+
   const [viewAtiva, setViewAtiva] = useState('saude');
 
-  const econGlobal   = economiaSetores?.estadoGlobal || 'estável';
+  // ✅ CORREÇÃO: campos reais do economy são `economiaGlobal` e `[setor].economiaSetor.estadoAtual`
+  const econGlobal = economiaSetores?.economiaGlobal
+                  ?? economiaSetores?.estadoGlobal
+                  ?? 'estável';
   const econPorSetor = useMemo(() => {
     const m = {};
-    SETORES.forEach(s => { m[s] = economiaSetores?.[s]?.estado || 'estável'; });
+    SETORES.forEach(s => {
+      m[s] = economiaSetores?.[s]?.economiaSetor?.estadoAtual
+          ?? economiaSetores?.[s]?.estado
+          ?? 'estável';
+    });
     return m;
   }, [economiaSetores]);
 
   // graph é estático — buildado uma única vez
   const graph   = useMemo(buildGraph, []);
 
-  // analise depende só de edificiosFinais (dinâmico) e economia
+  // analise depende de edificiosFinais, carteiraAtual e economia
   const analise = useMemo(
-    () => analisar(edificiosFinais, graph, econGlobal, econPorSetor),
-    [edificiosFinais, graph, econGlobal, econPorSetor]
+    () => analisar(edificiosFinais, carteiraAtual, graph, econGlobal, econPorSetor),
+    [edificiosFinais, carteiraAtual, graph, econGlobal, econPorSetor]
   );
 
   const viewAtual = VIEWS.find(v => v.id === viewAtiva);
@@ -868,14 +929,13 @@ export default function AssistenteIA() {
 
       {/* Conteúdo — cada view tem scroll próprio */}
       <div className="aia-view" key={viewAtiva} style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
-        {viewAtiva === 'saude'         && <VisaoSaude         analise={analise} edificiosFinais={edificiosFinais} />}
-        {viewAtiva === 'gargalos'      && <VisaoGargalos      analise={analise} graph={graph} />}
+        {viewAtiva === 'saude'         && <VisaoSaude         analise={analise} edificiosFinais={edificiosFinais} carteiraAtual={carteiraAtual} />}
+        {viewAtiva === 'gargalos'      && <VisaoGargalos      analise={analise} graph={graph} edificiosFinais={edificiosFinais} carteiraAtual={carteiraAtual} />}
         {viewAtiva === 'economico'     && <VisaoEconomico     analise={analise} />}
-        {viewAtiva === 'estoque'       && <VisaoEstoque       analise={analise} edificiosFinais={edificiosFinais} graph={graph} />}
+        {viewAtiva === 'estoque'       && <VisaoEstoque       analise={analise} edificiosFinais={edificiosFinais} graph={graph} carteiraAtual={carteiraAtual} />}
         {viewAtiva === 'eficiencia'    && <VisaoEficiencia    analise={analise} />}
-        {viewAtiva === 'oportunidades' && <VisaoOportunidades analise={analise} edificiosFinais={edificiosFinais} graph={graph} econGlobal={econGlobal} econPorSetor={econPorSetor} />}
+        {viewAtiva === 'oportunidades' && <VisaoOportunidades analise={analise} edificiosFinais={edificiosFinais} graph={graph} econGlobal={econGlobal} econPorSetor={econPorSetor} carteiraAtual={carteiraAtual} />}
       </div>
     </div>
   );
 }
-

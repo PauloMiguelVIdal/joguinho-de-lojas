@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo,useEffect } from "react";
+import React, { useContext, useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCentralStore, EDIFICIOS_FINAIS_DINAMICOS_INICIAL } from "../stores/useCentralStore";
 import { EDIFICIOS_BASE_ESTATICOS, EDIFICIOS_FINAIS_ESTATICOS, LICENCAS_ESTATICAS } from "../stores/dadosEstáticos";
@@ -18,8 +18,13 @@ const SETORES_INFO = [
   { id: "energia", cor1: "#665200", cor2: "#A37F19", cor3: "#E6B800", cor4: "#FFD966" },
 ];
 
-
 const SETORES_IDS = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+
+// ✅ CORREÇÃO #1: helper numérico seguro — NUNCA retorna NaN/Infinity
+const n = (v, fallback = 0) => {
+  const x = typeof v === "number" ? v : Number(v);
+  return Number.isFinite(x) ? x : fallback;
+};
 
 export const LicenseModal = ({ setor, nomeLicença, index }) => {
   // ── Zustand ───────────────────────────────────────────────
@@ -29,42 +34,44 @@ export const LicenseModal = ({ setor, nomeLicença, index }) => {
   const atualizarLote = useCentralStore((s) => s.atualizarLote);
   const atualizarEdificio = useCentralStore((s) => s.atualizarEdificio);
   const atualizarLicença = useCentralStore((s) => s.atualizarLicença);
-  // ── Economy Context (inalterado) ──────────────────────────
+  const garantirEstruturaSetor = useCentralStore((s) => s.garantirEstruturaSetor);
+
+  // ── Economy Context ───────────────────────────────────────
   const { economiaSetores, atualizarEco } = useContext(DadosEconomyGlobalContext);
-const garantirEstruturaSetor = useCentralStore((s) => s.garantirEstruturaSetor)
 
   const [buttonUpInterpriseAudio] = useSound(upInterpriseAudio);
   const [unlockAnim, setUnlockAnim] = useState(false);
 
-  const setorInfo = SETORES_INFO.find((s) => s.id === setor);
+  const setorInfo = SETORES_INFO.find((s) => s.id === setor) || SETORES_INFO[0];
 
   // Licença — estático para desc/valor/edifíciosLiberados, dinâmico para status
   const licencaEstatica = LICENCAS_ESTATICAS[setor]?.[index];
   const jaComprado = licençasStatus[setor]?.[index]?.status === true;
-  const podeComprar = economiaSetores.saldo >= (licencaEstatica?.valor ?? 0);
+
+  // ✅ CORREÇÃO #2: saldo sanitizado
+  const saldoAtual = n(economiaSetores?.saldo, 0);
+  const valorLicenca = n(licencaEstatica?.valor, 0);
+  const podeComprar = saldoAtual >= valorLicenca;
   const qtdCards = licencaEstatica?.edifíciosLiberados?.length ?? 0;
 
   const formatarNumero = (num) => {
-    if (num >= 1e12) return (num / 1e12).toFixed(1).replace(".0", "") + "T";
-    if (num >= 1e9) return (num / 1e9).toFixed(1).replace(".0", "") + "B";
-    if (num >= 1e6) return (num / 1e6).toFixed(1).replace(".0", "") + "M";
-    if (num >= 1e3) return (num / 1e3).toFixed(1).replace(".0", "") + "K";
-    return String(num);
+    const x = n(num, 0);
+    if (x >= 1e12) return (x / 1e12).toFixed(1).replace(".0", "") + "T";
+    if (x >= 1e9) return (x / 1e9).toFixed(1).replace(".0", "") + "B";
+    if (x >= 1e6) return (x / 1e6).toFixed(1).replace(".0", "") + "M";
+    if (x >= 1e3) return (x / 1e3).toFixed(1).replace(".0", "") + "K";
+    return String(Math.round(x));
   };
 
   const getImageUrl = (nome) => `/imagens/${nome}.png`;
 
-  // ── comprarLicença — grava no Zustand ────────────────────
+  // ── comprarLicença ────────────────────────────────────────
   const comprarLicença = () => {
-    
     if (jaComprado || !podeComprar || !licencaEstatica) return;
     buttonUpInterpriseAudio();
     setUnlockAnim(true);
     setTimeout(() => setUnlockAnim(false), 1200);
 
-
-    console.log("tamanho dinâmico agricultura:", EDIFICIOS_FINAIS_DINAMICOS_INICIAL["agricultura"]?.edificios?.length);
-    console.log("tamanho estático agricultura:", EDIFICIOS_FINAIS_ESTATICOS["agricultura"]?.edificios?.length);
     // 1. Marca a licença como comprada
     atualizarLicença(setor, Number(index), true);
 
@@ -75,43 +82,38 @@ const garantirEstruturaSetor = useCentralStore((s) => s.garantirEstruturaSetor)
       ) ?? -1;
       if (idx === -1) return;
 
-      // ✅ Verifica se o índice existe no array dinâmico antes de gravar
       const existeNoDinamico = !!edificiosFinais[setor]?.edificios?.[idx];
       if (!existeNoDinamico) {
         console.warn(`⚠️ Índice ${idx} (${nomeEd}) não existe no array dinâmico de ${setor}`);
         return;
       }
-console.group(`🔑 comprarLicença [${setor}] - ${nomeLicença}`)
-console.log('edifíciosLiberados:', licencaEstatica.edifíciosLiberados)
-licencaEstatica.edifíciosLiberados.forEach((nomeEd) => {
-    const idx = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios?.findIndex(e => e.nome === nomeEd) ?? -1
-    const existeNoDinamico = !!edificiosFinais[setor]?.edificios?.[idx]
-    console.log(`  "${nomeEd}" → idx estático: ${idx} | existe no dinâmico: ${existeNoDinamico}`)
-    if (idx !== -1 && !existeNoDinamico) {
-        console.warn(`  ⚠️ MISMATCH: índice ${idx} existe no estático mas não no dinâmico`)
-        console.log(`  tamanho dinâmico atual:`, edificiosFinais[setor]?.edificios?.length)
-        console.log(`  tamanho estático:`, EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios?.length)
-    }
-})
-console.groupEnd()
       atualizarEdificio(setor, idx, { licençaLiberado: { liberado: true } });
     });
-    // 3. Desconta o saldo
-    atualizarEco("saldo", economiaSetores.saldo - licencaEstatica.valor);
+
+    // 3. Desconta o saldo (sanitizado)
+    const novoSaldo = Math.max(0, saldoAtual - valorLicenca);
+    atualizarEco("saldo", novoSaldo);
   };
 
   useEffect(() => {
-    garantirEstruturaSetor(setor)
-}, [setor])
+    garantirEstruturaSetor(setor);
+  }, [setor]);
 
   // ── HELPERS de custo (usa estáticos + dinâmico de quantidade) ──
-  const tPC = EDIFICIOS_BASE_ESTATICOS.terrenos.preçoConstrução;
-  const pPC = EDIFICIOS_BASE_ESTATICOS.lojasP.preçoConstrução;
-  const mPC = EDIFICIOS_BASE_ESTATICOS.lojasM.preçoConstrução;
-  const gPC = EDIFICIOS_BASE_ESTATICOS.lojasG.preçoConstrução;
-  const tQNT = EDIFICIOS_BASE_ESTATICOS.lojasP.quantidadeNecTerreno;
-  const mQNT = EDIFICIOS_BASE_ESTATICOS.lojasM.quantidadeNecTerreno;
-  const gQNT = EDIFICIOS_BASE_ESTATICOS.lojasG.quantidadeNecTerreno;
+  // ✅ CORREÇÃO #3: todos os preços passam por n()
+  const tPC = n(EDIFICIOS_BASE_ESTATICOS?.terrenos?.preçoConstrução, 0);
+  const pPC = n(EDIFICIOS_BASE_ESTATICOS?.lojasP?.preçoConstrução, 0);
+  const mPC = n(EDIFICIOS_BASE_ESTATICOS?.lojasM?.preçoConstrução, 0);
+  const gPC = n(EDIFICIOS_BASE_ESTATICOS?.lojasG?.preçoConstrução, 0);
+  const tQNT = n(EDIFICIOS_BASE_ESTATICOS?.lojasP?.quantidadeNecTerreno, 1);
+  const mQNT = n(EDIFICIOS_BASE_ESTATICOS?.lojasM?.quantidadeNecTerreno, 1);
+  const gQNT = n(EDIFICIOS_BASE_ESTATICOS?.lojasG?.quantidadeNecTerreno, 1);
+
+  // ✅ CORREÇÃO #4: quantidades do edificioBase sanitizadas (evita NaN quando Zustand não hidratou)
+  const qtdTerreno = n(edificioBase?.terrenos?.quantidade, 0);
+  const qtdLojasP = n(edificioBase?.lojasP?.quantidade, 0);
+  const qtdLojasM = n(edificioBase?.lojasM?.quantidade, 0);
+  const qtdLojasG = n(edificioBase?.lojasG?.quantidade, 0);
 
   const encontrarEdificioEstatico = (nome) => {
     for (const s of SETORES_IDS) {
@@ -124,16 +126,16 @@ console.groupEnd()
   const getQuantidade = (nome) => {
     for (const s of SETORES_IDS) {
       const idx = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex((e) => e.nome === nome) ?? -1;
-      if (idx !== -1) return edificiosFinais[s]?.edificios?.[idx]?.quantidade ?? 0;
+      if (idx !== -1) return n(edificiosFinais[s]?.edificios?.[idx]?.quantidade, 0);
     }
     return 0;
   };
 
   const custoLojas = (ed) => {
-    const tN = ed.lojasNecessarias?.terrenos || 0;
-    const pN = ed.lojasNecessarias?.lojasP || 0;
-    const mN = ed.lojasNecessarias?.lojasM || 0;
-    const gN = ed.lojasNecessarias?.lojasG || 0;
+    const tN = n(ed?.lojasNecessarias?.terrenos, 0);
+    const pN = n(ed?.lojasNecessarias?.lojasP, 0);
+    const mN = n(ed?.lojasNecessarias?.lojasM, 0);
+    const gN = n(ed?.lojasNecessarias?.lojasG, 0);
     return (
       tN * tPC +
       pN * (pPC + tQNT * tPC) +
@@ -148,9 +150,11 @@ console.groupEnd()
     const found = encontrarEdificioEstatico(nomeRecurso);
     if (!found) return 0;
     const { ed } = found;
-    let total = (ed.custoConstrucao || 0) + custoLojas(ed);
-    (ed.recursoDeConstrução || []).forEach((sub) => { total += custoRecursoRec(sub, visited); });
-    return total;
+    let total = n(ed?.custoConstrucao, 0) + custoLojas(ed);
+    (ed?.recursoDeConstrução || []).forEach((sub) => {
+      total += custoRecursoRec(sub, visited);
+    });
+    return n(total, 0);
   };
 
   const encontrarLicencaDoEdificio = (nomeEd, setorEd) => {
@@ -159,46 +163,53 @@ console.groupEnd()
       const lic = licencas[i];
       if (lic.edifíciosLiberados?.includes(nomeEd)) {
         const statusDin = licençasStatus[setorEd]?.[i]?.status ?? false;
-        return { licencaNome: lic.nome || `Licença ${i + 1}`, valor: lic.valor || 0, status: statusDin, setorLicenca: setorEd };
+        return {
+          licencaNome: lic.nome || `Licença ${i + 1}`,
+          valor: n(lic.valor, 0),
+          status: statusDin,
+          setorLicenca: setorEd,
+        };
       }
     }
     return null;
   };
 
   // ── ANÁLISE DE CUSTO POR EDIFÍCIO ─────────────────────────
-  // Deps: quantidade dos edifícios (dinâmico) + saldo
   const analiseEdificios = useMemo(() => {
     return (licencaEstatica?.edifíciosLiberados || []).map((nomeEd) => {
       const found = encontrarEdificioEstatico(nomeEd);
-      if (!found) return { nome: nomeEd, custoTotal: 0, licencasFaltando: [], podePagar: false, jaTemEdificio: false };
+      if (!found) {
+        return { nome: nomeEd, custoTotal: 0, licencasFaltando: [], podePagar: false, jaTemEdificio: false };
+      }
 
       const { ed, setor: setorEd } = found;
       const qtd = getQuantidade(nomeEd);
       if (qtd > 0) return { nome: nomeEd, custoTotal: 0, licencasFaltando: [], podePagar: true, jaTemEdificio: true };
 
-      let custoTotal = ed.custoConstrucao || 0;
+      let custoTotal = n(ed?.custoConstrucao, 0);
       const licencasFaltando = [];
 
       const adicionarLicenca = (nomeReq, setorReq) => {
         const edReq = encontrarEdificioEstatico(nomeReq);
         if (!edReq) return;
         const liberado =
-          edificiosFinais[setorReq]?.edificios?.[edReq.idx]?.licençaLiberado?.liberado ?? true; if (!liberado) {
-            const lic = encontrarLicencaDoEdificio(nomeReq, setorReq);
-            if (lic && !lic.status) {
-              const jaAdicionada = licencasFaltando.find(
-                (l) => l.licencaNome === lic.licencaNome && l.setorLicenca === lic.setorLicenca
-              );
-              if (!jaAdicionada) licencasFaltando.push(lic);
-            }
+          edificiosFinais[setorReq]?.edificios?.[edReq.idx]?.licençaLiberado?.liberado ?? true;
+        if (!liberado) {
+          const lic = encontrarLicencaDoEdificio(nomeReq, setorReq);
+          if (lic && !lic.status) {
+            const jaAdicionada = licencasFaltando.find(
+              (l) => l.licencaNome === lic.licencaNome && l.setorLicenca === lic.setorLicenca
+            );
+            if (!jaAdicionada) licencasFaltando.push(lic);
           }
+        }
       };
 
-      // Imóveis base — só o que falta
-      const tFalta = Math.max(0, (ed.lojasNecessarias?.terrenos || 0) - edificioBase.terrenos.quantidade);
-      const pFalta = Math.max(0, (ed.lojasNecessarias?.lojasP || 0) - edificioBase.lojasP.quantidade);
-      const mFalta = Math.max(0, (ed.lojasNecessarias?.lojasM || 0) - edificioBase.lojasM.quantidade);
-      const gFalta = Math.max(0, (ed.lojasNecessarias?.lojasG || 0) - edificioBase.lojasG.quantidade);
+      // Imóveis base — só o que falta (todas as quantidades sanitizadas)
+      const tFalta = Math.max(0, n(ed?.lojasNecessarias?.terrenos, 0) - qtdTerreno);
+      const pFalta = Math.max(0, n(ed?.lojasNecessarias?.lojasP, 0) - qtdLojasP);
+      const mFalta = Math.max(0, n(ed?.lojasNecessarias?.lojasM, 0) - qtdLojasM);
+      const gFalta = Math.max(0, n(ed?.lojasNecessarias?.lojasG, 0) - qtdLojasG);
       custoTotal +=
         tFalta * tPC +
         pFalta * (pPC + tQNT * tPC) +
@@ -206,7 +217,7 @@ console.groupEnd()
         gFalta * (gPC + gQNT * tPC);
 
       // Recursos de construção faltando
-      (ed.recursoDeConstrução || []).forEach((nomeRec) => {
+      (ed?.recursoDeConstrução || []).forEach((nomeRec) => {
         const foundRec = encontrarEdificioEstatico(nomeRec);
         if (!foundRec) return;
         if (getQuantidade(nomeRec) === 0) {
@@ -215,24 +226,38 @@ console.groupEnd()
         }
       });
 
-      // Construções necessárias (posse) faltando
-      (ed.construçõesNecessárias || []).forEach((nomeNec) => {
+      // Construções necessárias faltando
+      (ed?.construçõesNecessárias || []).forEach((nomeNec) => {
         const foundNec = encontrarEdificioEstatico(nomeNec);
         if (!foundNec) return;
         if (getQuantidade(nomeNec) === 0) {
-          custoTotal += (foundNec.ed.custoConstrucao || 0) + custoLojas(foundNec.ed);
+          custoTotal += n(foundNec.ed?.custoConstrucao, 0) + custoLojas(foundNec.ed);
           adicionarLicenca(nomeNec, foundNec.setor);
         }
       });
 
-      const custoLicencas = licencasFaltando.reduce((acc, l) => acc + l.valor, 0);
+      // ✅ CORREÇÃO #5: soma de licenças sanitizada (evita valor undefined virar NaN)
+      const custoLicencas = licencasFaltando.reduce((acc, l) => acc + n(l?.valor, 0), 0);
       custoTotal += custoLicencas;
+
+      // ✅ CORREÇÃO #6: garantia final — nunca sai NaN/Infinity
+      if (!Number.isFinite(custoTotal)) {
+        console.error(`[LicenseModal] custoTotal inválido para "${nomeEd}" — forçando 0`, {
+          nomeEd,
+          custoBase: n(ed?.custoConstrucao, 0),
+          tFalta, pFalta, mFalta, gFalta,
+          tPC, pPC, mPC, gPC, tQNT, mQNT, gQNT,
+          qtdTerreno, qtdLojasP, qtdLojasM, qtdLojasG,
+          licencasFaltando,
+        });
+        custoTotal = 0;
+      }
 
       return {
         nome: nomeEd,
         custoTotal,
         licencasFaltando,
-        podePagar: economiaSetores.saldo >= custoTotal,
+        podePagar: saldoAtual >= custoTotal,
         jaTemEdificio: false,
       };
     });
@@ -240,15 +265,18 @@ console.groupEnd()
   }, [
     edificiosFinais,
     licençasStatus,
-    edificioBase.terrenos.quantidade,
-    edificioBase.lojasP.quantidade,
-    edificioBase.lojasM.quantidade,
-    edificioBase.lojasG.quantidade,
-    economiaSetores.saldo,
+    qtdTerreno,
+    qtdLojasP,
+    qtdLojasM,
+    qtdLojasG,
+    saldoAtual,
+    tPC, pPC, mPC, gPC, tQNT, mQNT, gQNT,
+    licencaEstatica,
   ]);
 
   // ── PAINEL DE CUSTO ───────────────────────────────────────
   const PainelCusto = ({ analise }) => {
+    if (!analise) return null;
     if (analise.jaTemEdificio) {
       return (
         <div style={{ marginTop: 6, borderRadius: 10, padding: "5px 8px", background: "rgba(122,255,154,.08)", border: "1px solid rgba(122,255,154,.2)", display: "flex", alignItems: "center", justifyContent: "center", gap: 5 }}>
@@ -266,7 +294,9 @@ console.groupEnd()
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
             <div style={{ width: 5, height: 5, borderRadius: "50%", background: analise.podePagar ? "#7aff9a" : "#ff6060", boxShadow: `0 0 4px ${analise.podePagar ? "#7aff9a" : "#ff6060"}` }} />
-            <span style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 13, fontWeight: 800, color: analise.podePagar ? "#7aff9a" : "#ff9090" }}>{formatarNumero(analise.custoTotal)}</span>
+            <span style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 13, fontWeight: 800, color: analise.podePagar ? "#7aff9a" : "#ff9090" }}>
+              {formatarNumero(analise.custoTotal)}
+            </span>
           </div>
         </div>
         {analise.licencasFaltando.length > 0 && (
@@ -377,7 +407,7 @@ console.groupEnd()
             <div style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(0,0,0,.25)", borderRadius: 8, padding: "4px 10px" }}>
               <img src={DolarImg} style={{ height: 14 }} alt="" />
               <span style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 15, fontWeight: 700, color: jaComprado ? setorInfo.cor4 : podeComprar ? "#fff" : "#ff9090" }}>
-                {jaComprado ? "Pago" : formatarNumero(licencaEstatica?.valor ?? 0)}
+                {jaComprado ? "Pago" : formatarNumero(valorLicenca)}
               </span>
             </div>
             <button onClick={comprarLicença} disabled={jaComprado || !podeComprar}
@@ -441,7 +471,7 @@ console.groupEnd()
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
                 <span style={{ fontSize: 10, color: "rgba(255,255,255,.4)", letterSpacing: ".1em", textTransform: "uppercase" }}>Valor</span>
                 <span style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: 18, fontWeight: 800, color: jaComprado ? setorInfo.cor4 : podeComprar ? "#fff" : "#ff9090" }}>
-                  {jaComprado ? "—" : formatarNumero(licencaEstatica?.valor ?? 0)}
+                  {jaComprado ? "—" : formatarNumero(valorLicenca)}
                 </span>
               </div>
               <button onClick={comprarLicença} disabled={jaComprado || !podeComprar}

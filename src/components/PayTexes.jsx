@@ -13,10 +13,26 @@ import { EDIFICIOS_FINAIS_ESTATICOS, EDIFICIOS_BASE_ESTATICOS } from "../stores/
 const SETORES_ARR = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 const TODAS_LOJAS = ["terrenos", "lojasP", "lojasM", "lojasG"];
 
+// ✅ Fator econômico normalizado (com/sem acento) — evita fallback silencioso
+const FATOR_ECONOMIA = {
+  "recessão": 0.4,
+  "recessao": 0.4,
+  "declinio": 0.8,
+  "declínio": 0.8,
+  "estável": 1.0,
+  "estavel": 1.0,
+  "progressiva": 1.1,
+  "aquecida": 1.25,
+};
+const fatorEco = (estado) => FATOR_ECONOMIA[(estado || "").toLowerCase()] ?? 1.0;
+
 const tooltipStyle = {
-  backgroundColor: "#FFFFFF", color: "#350973",
-  borderRadius: "6px", padding: "6px 10px",
-  fontWeight: "600", fontSize: "14px",
+  backgroundColor: "#FFFFFF",
+  color: "#350973",
+  borderRadius: "6px",
+  padding: "6px 10px",
+  fontWeight: "600",
+  fontSize: "14px",
 };
 const TooltipPadrao = ({ id }) => (
   <Tooltip id={id} style={tooltipStyle} border="1px solid #350973" />
@@ -24,17 +40,17 @@ const TooltipPadrao = ({ id }) => (
 
 export default function PayTexes() {
   // ── Zustand — seletores granulares ────────────────────────
-  const dia              = useCentralStore((s) => s.dia);
-  const despesas         = useCentralStore((s) => s.despesas);
-  const faturamento      = useCentralStore((s) => s.faturamento);
-  const modal            = useCentralStore((s) => s.modal);
-  const modalAlert       = useCentralStore((s) => s.modalAlert);
-  const modalDespesas    = useCentralStore((s) => s.modalDespesas);
+  const dia = useCentralStore((s) => s.dia);
+  const despesas = useCentralStore((s) => s.despesas);
+  const faturamento = useCentralStore((s) => s.faturamento);
+  const modal = useCentralStore((s) => s.modal);
+  const modalAlert = useCentralStore((s) => s.modalAlert);
+  const modalDespesas = useCentralStore((s) => s.modalDespesas);
   const modalEconomiaGlobal = useCentralStore((s) => s.modalEconomiaGlobal);
-  const edificiosBase    = useCentralStore((s) => s.edificiosBase);
-  const edificiosFinais  = useCentralStore((s) => s.edificiosFinais);
-  const atualizarDados   = useCentralStore((s) => s.atualizarDados);
-  const atualizarLote    = useCentralStore((s) => s.atualizarLote);
+  const edificiosBase = useCentralStore((s) => s.edificiosBase);
+  const edificiosFinais = useCentralStore((s) => s.edificiosFinais);
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
+  const atualizarLote = useCentralStore((s) => s.atualizarLote);
   const atualizarDadosProf = useCentralStore((s) => s.atualizarDadosProf);
 
   // ── Economy Context ───────────────────────────────────────
@@ -57,44 +73,51 @@ export default function PayTexes() {
   };
 
   // ── Hotkey S ──────────────────────────────────────────────
-  useHotkeys("s", () => {
-    if (
-      !despesas.diaPagarDespesas ||
-      dia % 30 !== 0 ||
-      despesas.despesasPagas ||
-      modal.estadoModal ||
-      modalAlert.estadoModal ||
-      modalDespesas.estadoModal ||
-      modalEconomiaGlobal.estadoModal ||
-      isNKeyDown
-    ) return;
-    setIsNKeyDown(true);
-    realizarPag();
-  }, { keydown: true, keyup: false, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] });
+  useHotkeys(
+    "s",
+    () => {
+      if (
+        !despesas.diaPagarDespesas ||
+        dia % 30 !== 0 ||
+        despesas.despesasPagas ||
+        modal.estadoModal ||
+        modalAlert.estadoModal ||
+        modalDespesas.estadoModal ||
+        modalEconomiaGlobal.estadoModal ||
+        isNKeyDown
+      )
+        return;
+      setIsNKeyDown(true);
+      realizarPag();
+    },
+    { keydown: true, keyup: false, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"] }
+  );
 
   useHotkeys("s", () => setIsNKeyDown(false), {
-    keydown: false, keyup: true, enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
+    keydown: false,
+    keyup: true,
+    enableOnTags: ["INPUT", "TEXTAREA", "SELECT"],
   });
 
   // ── Cálculo de impostos diário/mensal pré-270 ─────────────
   useEffect(() => {
     if (dia >= 270) return;
 
-    let impostoFixoTotal           = 0;
-    let impostoFaturamentoMensal   = 0;
-    let impostoDiarioTotal         = 0;
-    const updates                  = [];
+    let impostoFixoTotal = 0;
+    let impostoFaturamentoMensal = 0;
+    let impostoDiarioTotal = 0;
+    const updates = [];
 
     TODAS_LOJAS.forEach((loja) => {
       const lojaBase = edificiosBase[loja];
       if (!lojaBase) return;
 
-      const faturamentoDiario         = parseFloat(lojaBase.faturamentoTotal || 0);
-      const impostoFixo               = (lojaBase.quantidade || 0) * (lojaBase.impostoFixo || 0);
-      const impostoSobreFaturamento   = faturamentoDiario * (lojaBase.impostoSobreFaturamento || 0);
+      const faturamentoDiario = parseFloat(lojaBase.faturamentoTotal || 0);
+      const impostoFixo = (lojaBase.quantidade || 0) * (lojaBase.impostoFixo || 0);
+      const impostoSobreFaturamento = faturamentoDiario * (lojaBase.impostoSobreFaturamento || 0);
 
       const novoArrayFatu = [...(lojaBase.arrayFatu || []), faturamentoDiario].slice(-360);
-      const somaMensalFatu = novoArrayFatu.reduce((acc, val) => acc + val, 0);
+      const somaMensalFatu = novoArrayFatu.slice(-30).reduce((acc, val) => acc + val, 0);
       const impostoMensalSobreFaturamento = somaMensalFatu * (lojaBase.impostoSobreFaturamento || 0);
 
       updates.push([
@@ -108,36 +131,36 @@ export default function PayTexes() {
         },
       ]);
 
-      impostoFixoTotal           += impostoFixo;
-      impostoFaturamentoMensal   += impostoMensalSobreFaturamento;
-      impostoDiarioTotal         += impostoFixo + impostoSobreFaturamento;
+      impostoFixoTotal += impostoFixo;
+      impostoFaturamentoMensal += impostoMensalSobreFaturamento;
+      impostoDiarioTotal += impostoFixo + impostoSobreFaturamento;
     });
 
     atualizarLote(updates);
 
     const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
     atualizarEco("imposto", {
-      impostoFixoMensal:              impostoFixoTotal,
-      impostoDiário:                  impostoDiarioTotal,
-      impostoMensal:                  impostoMensalTotal,
+      impostoFixoMensal: impostoFixoTotal,
+      impostoDiário: impostoDiarioTotal,
+      impostoMensal: impostoMensalTotal,
       impostoFaturamentoMensal,
-      impostoSobreFaturamentoDiário:  impostoDiarioTotal - impostoFixoTotal,
+      impostoSobreFaturamentoDiário: impostoDiarioTotal - impostoFixoTotal,
     });
   }, [dia]);
 
   // ── Zerando dados das lojas base no dia 269 ───────────────
   useEffect(() => {
     if (dia !== 269) return;
-    const updates = TODAS_LOJAS.map((loja) => ([
+    const updates = TODAS_LOJAS.map((loja) => [
       ["edificiosBase", loja],
       {
         ...edificiosBase[loja],
-        faturamentoUnitário:         0,
-        faturamentoUnitárioPadrão:   0,
-        impostoFixo:                 0,
-        impostoSobreFaturamento:     0,
+        faturamentoUnitário: 0,
+        faturamentoUnitárioPadrão: 0,
+        impostoFixo: 0,
+        impostoSobreFaturamento: 0,
       },
-    ]));
+    ]);
     atualizarLote(updates);
   }, [dia]);
 
@@ -169,11 +192,10 @@ export default function PayTexes() {
   useEffect(() => {
     if (dia < 270) return;
 
-    let faturamentoTotalDiario   = 0;
-    let faturamentoTotalMensal   = 0;
-    let impostoDiarioTotal       = 0;
+    let faturamentoTotalDiario = 0;
+    let impostoDiarioTotal = 0;
     let impostoFaturamentoMensal = 0;
-    let impostoFixoTotal         = 0;
+    let impostoFixoTotal = 0;
 
     const ehPrimeiroDiaDoMes = dia % 30 === 1;
 
@@ -182,9 +204,9 @@ export default function PayTexes() {
       const edificiosDin = edificiosFinais[setor]?.edificios ?? [];
 
       let faturamentoTotalSetor = 0;
-      let impostoFixoSetor      = 0;
-      let impostoFatuSetor      = 0;
-      let impostoDiarioSetor    = 0;
+      let impostoFixoSetor = 0;
+      let impostoFatuSetor = 0;
+      let impostoDiarioSetor = 0;
 
       const edificiosAtualizados = edificiosDin.map((edDin, idx) => {
         const edEst = edificiosEst[idx];
@@ -199,17 +221,25 @@ export default function PayTexes() {
 
         // ── Power-ups (RecebeMelhoraEficiencia) ──
         let acumuladorRedCusto = 0;
-        let acumuladorAumFatu  = 0;
+        let acumuladorAumFatu = 0;
         const { edificiosFinais: ef } = useCentralStore.getState();
         (edEst.RecebeMelhoraEficiencia || []).forEach((rel) => {
           for (const s of SETORES_ARR) {
-            const idxRel = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex((e) => e.nome === rel.nome) ?? -1;
+            const idxRel =
+              EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex(
+                (e) => e.nome === rel.nome
+              ) ?? -1;
             if (idxRel !== -1) {
               const qtdRel = ef[s]?.[idxRel]?.quantidade ?? 0;
               if (qtdRel > 0) {
-                const nivel = quantidade >= qtdMinNv3 ? "nível3" : quantidade >= qtdMinNv2 ? "nível2" : "nível1";
+                const nivel =
+                  quantidade >= qtdMinNv3
+                    ? "nível3"
+                    : quantidade >= qtdMinNv2
+                    ? "nível2"
+                    : "nível1";
                 acumuladorRedCusto += rel.redCusto?.[nivel] || 0;
-                acumuladorAumFatu  += rel.aumFatu?.[nivel]  || 0;
+                acumuladorAumFatu += rel.aumFatu?.[nivel] || 0;
               }
               break;
             }
@@ -218,7 +248,7 @@ export default function PayTexes() {
 
         // ── Faturamento diário com economia e power-ups ──
         const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
-        const fatorEconomico = { recessão: 0.4, declinio: 0.8, estável: 1, progressiva: 1.1, aquecida: 1.25 }[economiaSetor] || 1;
+        const fatorEconomico = fatorEco(economiaSetor);
         const valorFatuFinal = faturamentoUnit * (1 + acumuladorAumFatu / 100);
         const faturamentoDiario = valorFatuFinal * quantidade * fatorEconomico;
 
@@ -230,7 +260,7 @@ export default function PayTexes() {
         const novoArrayFatu = ehPrimeiroDiaDoMes
           ? [faturamentoDiario]
           : [...arrayFatu, faturamentoDiario].slice(-360);
-        const somaMensalFatu = novoArrayFatu.reduce((acc, v) => acc + v, 0);
+        const somaMensalFatu = novoArrayFatu.slice(-30).reduce((acc, v) => acc + v, 0);
         const impostoMensalSobreFatu = somaMensalFatu * impostoFatuFinal;
 
         const impostoFixoDesc = impostoFixo * (1 - acumuladorRedCusto / 100);
@@ -238,9 +268,9 @@ export default function PayTexes() {
 
         // ── Acumular nos totais do setor ──
         faturamentoTotalSetor += faturamentoDiario;
-        impostoFixoSetor      += impostoFixoEdificio;
-        impostoFatuSetor      += impostoMensalSobreFatu;
-        impostoDiarioSetor    += impostoFatuDiario + impostoFixoEdificio;
+        impostoFixoSetor += impostoFixoEdificio;
+        impostoFatuSetor += impostoMensalSobreFatu;
+        impostoDiarioSetor += impostoFatuDiario + impostoFixoEdificio;
 
         return {
           ...edDin,
@@ -253,15 +283,12 @@ export default function PayTexes() {
         };
       });
 
-      // ✅ Atualiza apenas o array de edifícios do setor
       atualizarDadosProf(["edificiosFinais", setor, "edificios"], edificiosAtualizados);
 
-      // ✅ Acumula nos totais globais (faltava isso!)
-      faturamentoTotalDiario   += faturamentoTotalSetor;
-      faturamentoTotalMensal   += faturamentoTotalSetor;
-      impostoFixoTotal         += impostoFixoSetor;
+      faturamentoTotalDiario += faturamentoTotalSetor;
+      impostoFixoTotal += impostoFixoSetor;
       impostoFaturamentoMensal += impostoFatuSetor;
-      impostoDiarioTotal       += impostoDiarioSetor;
+      impostoDiarioTotal += impostoDiarioSetor;
 
       // ── Arrays históricos por setor (context) ──
       const arrayFatuSetor = economiaSetores[setor]?.economiaSetor?.ArrayFatu || [];
@@ -281,24 +308,34 @@ export default function PayTexes() {
     const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
 
     // ── Persistir faturamento no Zustand ──
+    // ✅ reset mensal + slice(-360) + faturamentoMensal = soma dos últimos 30 dias
+    const novoArrayFatuDiario = ehPrimeiroDiaDoMes
+      ? [faturamentoTotalDiario]
+      : [...(faturamento.arrayFatuDiário || []), faturamentoTotalDiario].slice(-360);
+
+    const faturamentoMensalReal = novoArrayFatuDiario.slice(-30).reduce((a, b) => a + b, 0);
+
     atualizarDados("faturamento", {
       ...faturamento,
-      faturamentoMensal: faturamentoTotalMensal,
+      faturamentoMensal: faturamentoMensalReal,
       faturamentoDiario: faturamentoTotalDiario,
-      arrayFatuDiário:   [...(faturamento.arrayFatuDiário || []), faturamentoTotalDiario],
+      arrayFatuDiário: novoArrayFatuDiario,
     });
 
     // ── Persistir impostos no context ──
     atualizarEco("imposto", {
-      impostoDiário:                  impostoDiarioTotal,
-      impostoMensal:                  impostoMensalTotal,
-      impostoFixoMensal:              impostoFixoTotal,
+      impostoDiário: impostoDiarioTotal,
+      impostoMensal: impostoMensalTotal,
+      impostoFixoMensal: impostoFixoTotal,
       impostoFaturamentoMensal,
-      impostoSobreFaturamentoDiário:  impostoDiarioTotal,
-      arrayImpostoDiário:             [...(economiaSetores.imposto?.arrayImpostoDiário || []), impostoDiarioTotal],
+      impostoSobreFaturamentoDiário: impostoDiarioTotal,
+      arrayImpostoDiário: [
+        ...(economiaSetores.imposto?.arrayImpostoDiário || []),
+        impostoDiarioTotal,
+      ].slice(-360),
     });
 
-    // ✅ CRÉDITO NO SALDO (única fonte: usa faturamentoTotalDiario, não faturamento do Zustand)
+    // ✅ CRÉDITO NO SALDO
     if (faturamentoTotalDiario > 0) {
       atualizarEcoCallback("saldo", (saldoAtual) => (saldoAtual ?? 0) + faturamentoTotalDiario);
     }
@@ -310,7 +347,6 @@ export default function PayTexes() {
 
     const impostoMensal = economiaSetores.imposto?.impostoMensal ?? 0;
 
-    // ✅ DEBITA o imposto mensal
     atualizarEcoCallback("saldo", (saldoAtual) => (saldoAtual ?? 0) - impostoMensal);
 
     atualizarDados("despesas", { ...despesas, despesasPagas: true });
@@ -322,10 +358,10 @@ export default function PayTexes() {
   <p>Clique aqui para pagar as despesas mensais. (S)</p>
   <p style="margin-top:4px;">Detalhes dos impostos:</p>
   <p><p/>
-  <p style="margin-left:10px;">Imposto Anual Acumulado: R$ ${economiaSetores.valorImpostoAnual?.toFixed(2) || 0}</p>
-  <p style="margin-left:10px;">Imposto Fixo Mensal: R$ ${economiaSetores.imposto?.impostoFixoMensal?.toFixed(2) || 0}</p>
-  <p style="margin-left:10px;">Imposto sobre Faturamento: R$ ${economiaSetores.imposto?.impostoFaturamentoMensal?.toFixed(2) || 0}</p>
-  <p style="margin-left:10px;">Total Mensal: R$ ${economiaSetores.imposto?.impostoMensal?.toFixed(2) || 0}</p>
+  <p style="margin-left:10px;">Imposto Anual Acumulado: R$ ${(economiaSetores.valorImpostoAnual || 0).toFixed(2)}</p>
+  <p style="margin-left:10px;">Imposto Fixo Mensal: R$ ${(economiaSetores.imposto?.impostoFixoMensal || 0).toFixed(2)}</p>
+  <p style="margin-left:10px;">Imposto sobre Faturamento: R$ ${(economiaSetores.imposto?.impostoFaturamentoMensal || 0).toFixed(2)}</p>
+  <p style="margin-left:10px;">Total Mensal: R$ ${(economiaSetores.imposto?.impostoMensal || 0).toFixed(2)}</p>
 </div>`;
 
   return (
@@ -348,8 +384,16 @@ export default function PayTexes() {
       {dia % 30 === 0 && (
         <div className="absolute bottom-[-5px] right-[-5px]">
           <span className="relative flex size-3">
-            <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${despesas.despesasPagas ? "bg-[#008000]" : "bg-[#FF0000]"}`} />
-            <span className={`relative inline-flex size-3 rounded-full ${despesas.despesasPagas ? "bg-[#008000]" : "bg-[#FF0000]"}`} />
+            <span
+              className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${
+                despesas.despesasPagas ? "bg-[#008000]" : "bg-[#FF0000]"
+              }`}
+            />
+            <span
+              className={`relative inline-flex size-3 rounded-full ${
+                despesas.despesasPagas ? "bg-[#008000]" : "bg-[#FF0000]"
+              }`}
+            />
           </span>
         </div>
       )}

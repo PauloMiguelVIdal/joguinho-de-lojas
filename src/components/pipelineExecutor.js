@@ -1,9 +1,10 @@
-// pipelineExecutor.js — v3 (defensivo contra dados undefined)
+// pipelineExecutor.js — v4 (valida saldo + armazenamento)
 import { EDIFICIOS_FINAIS_ESTATICOS } from "../stores/dadosEstáticos";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import { SALES_EDIFICIOS } from "./salesFormulasConfig";
 import { productsCatalog, marketPrices } from "./TablePrice";
-EDIFICIOS_FINAIS_ESTATICOS
+import { calcularStorageGlobal } from "./GameContext";
+
 const MARKET_DELAY_DIAS = 10;
 const SETORES = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
 
@@ -30,11 +31,8 @@ function getEdificioQtd(dados, buildingName) {
     for (const s of SETORES) {
         const dinamicos = dados[s]?.edificios || [];
         const estaticos = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios || [];
-
-        // ✅ casa pelo NOME do estático, e lê a quantidade do dinâmico no mesmo index
         const index = estaticos.findIndex(e => e.nome === buildingName);
         if (index === -1) continue;
-
         return dinamicos[index]?.quantidade ?? 0;
     }
     return 0;
@@ -114,12 +112,75 @@ function valorContrato(salesFormula, quantidade, ecoGlobal) {
     return Math.round(precoBase * (1 + (salesFormula.margemBase || 0) / 100) * fatorEconomia(ecoGlobal) * quantidade);
 }
 
+// ─── Helpers de armazenamento ────────────────────────────────────────────────
+
+function getCapacidadeArmazenamentoPorCategoria(dados) {
+    if (!dados || typeof dados !== "object") return {};
+    const resultado = {};
+
+    for (const setor of SETORES) {
+        const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+        const dinamicos = dados[setor]?.edificios || [];
+        dinamicos.forEach((edDin, index) => {
+            if ((edDin.quantidade ?? 0) < 1) return;
+            const edEst = estaticos[index];
+            if (!edEst) return;
+            if (!resultado[setor]) resultado[setor] = { edificios: [] };
+            resultado[setor].edificios.push({ ...edEst, quantidade: edDin.quantidade });
+        });
+    }
+    return calcularStorageGlobal(resultado);
+}
+
+function getSlotsOcupadosPorCategoria(stock, marketTransactions) {
+    const ocupados = {};
+
+    const acumular = (produtoId, quantidade) => {
+        const prod = productsCatalog[produtoId];
+        if (!prod?.categoriaFisica) return;
+        const cat = prod.categoriaFisica;
+        const slots = quantidade * (prod.slotSize || 1);
+        ocupados[cat] = (ocupados[cat] || 0) + slots;
+    };
+
+    Object.entries(stock || {}).forEach(([pid, qtd]) => {
+        if (qtd > 0) acumular(pid, qtd);
+    });
+
+    (marketTransactions || []).forEach(t => {
+        if (t.tipo === "buy" && t.quantidade > 0) acumular(t.produtoId, t.quantidade);
+    });
+
+    return ocupados;
+}
+
+/**
+ * Quantos slots ainda cabem de um produto.
+ * Retorna Infinity se o produto não tiver categoria física.
+ */
+function getSlotsLivresParaProduto(produtoId, stock, marketTransactions, dados, simulacaoComprometida = {}) {
+    const prod = productsCatalog[produtoId];
+    if (!prod?.categoriaFisica) return Infinity;
+
+    const cat = prod.categoriaFisica;
+    const slotSize = prod.slotSize || 1;
+
+    const capPorCat = getCapacidadeArmazenamentoPorCategoria(dados);
+    const ocupadosPorCat = getSlotsOcupadosPorCategoria(stock, marketTransactions);
+
+    const capTotal = capPorCat[cat]?.total || 0;
+    const jaOcupado = ocupadosPorCat[cat] || 0;
+    const extraComprometido = simulacaoComprometida[cat] || 0;
+
+    const livres = Math.max(0, capTotal - jaOcupado - extraComprometido);
+    return Math.floor(livres / slotSize);
+}
+
 // ─── STEP: PRODUÇÃO ───────────────────────────────────────────────────────────
 
 function executarProducao(step, stock, productionQueue, dados, saldo, pipelineId, idx, gameState) {
     const acoes = [];
 
-    // ✅ DEFENSIVO
     if (!dados || typeof dados !== "object") {
         console.warn("[executarProducao] `dados` (edificiosFinais) ausente — abortando step", step);
         return acoes;
@@ -180,34 +241,59 @@ function executarProducao(step, stock, productionQueue, dados, saldo, pipelineId
     }
 
     const mktTrans = gameState?.marketTransactions || [];
+    const dadosLocal = gameState?.dados ?? gameState?.edificiosFinais ?? dados;
+
+    let saldoRestante = saldo;
+    const comprasComprometidasPorCat = {};
+
     for (const aus of ausentes) {
         const emTransito = quantidadeEmTransito(mktTrans, aus.pid);
         const faltaReal = Math.max(0, aus.faltando - emTransito);
+        if (faltaReal <= 0) continue;
 
         const emProducao = productionQueue.some(p =>
             p.formulaId && getFormulaConfig(p.formulaId)?.formula?.input?.[aus.pid]
         );
-
         if (emProducao) {
             console.log(`[Executor] Insumo ${aus.pid} será usado por produção ativa — compra adiada.`);
             continue;
         }
 
-        if (faltaReal <= 0) continue;
-
         const preco = marketPrices[aus.pid] || 0;
-        const qtdMaxComSaldo = preco > 0 ? Math.floor(saldo / preco) : faltaReal;
-        const qtdComprar = Math.min(faltaReal, qtdMaxComSaldo);
+        const qtdMaxComSaldo = preco > 0 ? Math.floor(saldoRestante / preco) : faltaReal;
+        let qtdComprar = Math.min(faltaReal, qtdMaxComSaldo);
+
+        const prodCat = productsCatalog[aus.pid];
+        if (prodCat?.categoriaFisica) {
+            const cat = prodCat.categoriaFisica;
+            const slotSize = prodCat.slotSize || 1;
+            const capPorCat = getCapacidadeArmazenamentoPorCategoria(dadosLocal);
+            const ocupadosPorCat = getSlotsOcupadosPorCategoria(stock, mktTrans);
+            const capTotalCat = capPorCat[cat]?.total || 0;
+            const jaOcupado = (ocupadosPorCat[cat] || 0) + (comprasComprometidasPorCat[cat] || 0);
+            const livres = Math.max(0, capTotalCat - jaOcupado);
+            const qtdMaxPorEspaco = Math.floor(livres / slotSize);
+            if (qtdMaxPorEspaco < qtdComprar) {
+                console.warn(`[Executor] Armazém cheio p/ ${cat}: comprando ${qtdMaxPorEspaco} em vez de ${qtdComprar}`);
+            }
+            qtdComprar = Math.min(qtdComprar, qtdMaxPorEspaco);
+            comprasComprometidasPorCat[cat] = (comprasComprometidasPorCat[cat] || 0) + qtdComprar * slotSize;
+        }
+
         if (qtdComprar <= 0) {
-            console.warn(`[Executor] Saldo insuficiente para ${aus.pid}`);
+            console.warn(`[Executor] Compra bloqueada (saldo ou espaço) para ${aus.pid}`);
             continue;
         }
+
+        const valor = Math.round(preco * qtdComprar);
+        saldoRestante -= valor;
+        mktTrans.push({ tipo: "buy", produtoId: aus.pid, quantidade: qtdComprar });
 
         acoes.push({
             tipo: "COMPRAR_MERCADO",
             produtoId: aus.pid,
             quantidade: qtdComprar,
-            valorTotal: Math.round(preco * qtdComprar),
+            valorTotal: valor,
             delayDias: MARKET_DELAY_DIAS,
             pipelineId,
             stepIndex: idx,
@@ -222,7 +308,6 @@ function executarProducao(step, stock, productionQueue, dados, saldo, pipelineId
 function executarVenda(step, stock, dados, contratosEdificios, getOuGerarContratos, ecoParam, diaAtual, pipelineId, idx, mktTrans, sellQueue) {
     const acoes = [];
 
-    // ✅ DEFENSIVO
     if (!dados || typeof dados !== "object") {
         console.warn("[executarVenda] `dados` (edificiosFinais) ausente — abortando step", step);
         return acoes;
@@ -376,7 +461,7 @@ function calcularQtdNecessariaCompra(produtoId, qtdAlvo, stockAtual = {}) {
     return Math.max(0, qtdAlvo - emEstoque);
 }
 
-function executarMercadoCompra(step, stock, saldo, pipelineId, idx, marketTransactions, produtosEmVenda) {
+function executarMercadoCompra(step, stock, saldo, pipelineId, idx, marketTransactions, produtosEmVenda, dados, comprasComprometidasPorCat) {
     const acoes = [];
     const { produtoId, quantidade = 1, condicaoThreshold = 0, precoTeto = Infinity } = step;
     if (!produtoId) return acoes;
@@ -394,7 +479,7 @@ function executarMercadoCompra(step, stock, saldo, pipelineId, idx, marketTransa
     const alvo = condicaoThreshold > 0 ? condicaoThreshold : quantidade;
     const faltaReal = Math.max(0, alvo - estoqueAtualEfetivo);
 
-    const qtdNecessaria = Math.min(quantidade, faltaReal);
+    let qtdNecessaria = Math.min(quantidade, faltaReal);
     if (qtdNecessaria <= 0) return acoes;
 
     const preco = marketPrices[produtoId] || 0;
@@ -403,17 +488,44 @@ function executarMercadoCompra(step, stock, saldo, pipelineId, idx, marketTransa
         return acoes;
     }
 
+    // ── Regra 1: saldo ──
     const qtdMaxComSaldo = preco > 0 ? Math.floor(saldo / preco) : qtdNecessaria;
-    const qtdComprar = Math.min(qtdNecessaria, qtdMaxComSaldo);
+    qtdNecessaria = Math.min(qtdNecessaria, qtdMaxComSaldo);
 
-    if (qtdComprar <= 0) {
-        console.warn(`[Executor] Saldo insuficiente para comprar ${produtoId}`);
+    // ── Regra 2: armazenamento ──
+    const prodCat = productsCatalog[produtoId];
+    if (prodCat?.categoriaFisica) {
+        const cat = prodCat.categoriaFisica;
+        const slotSize = prodCat.slotSize || 1;
+        const capPorCat = getCapacidadeArmazenamentoPorCategoria(dados);
+        const ocupadosPorCat = getSlotsOcupadosPorCategoria(stock, marketTransactions);
+        const capTotal = capPorCat[cat]?.total || 0;
+        const jaOcupado = (ocupadosPorCat[cat] || 0) + (comprasComprometidasPorCat[cat] || 0);
+        const livres = Math.max(0, capTotal - jaOcupado);
+        const qtdMaxPorEspaco = Math.floor(livres / slotSize);
+        if (qtdMaxPorEspaco < qtdNecessaria) {
+            console.warn(`[Executor] Armazém cheio p/ ${cat}: comprando ${qtdMaxPorEspaco} em vez de ${qtdNecessaria}`);
+        }
+        qtdNecessaria = Math.min(qtdNecessaria, qtdMaxPorEspaco);
+        comprasComprometidasPorCat[cat] = (comprasComprometidasPorCat[cat] || 0) + qtdNecessaria * slotSize;
+    }
+
+    if (qtdNecessaria <= 0) {
+        console.warn(`[Executor] Compra bloqueada (saldo ou espaço) para ${produtoId}`);
         return acoes;
     }
 
-    const valorTotal = Math.round(preco * qtdComprar);
-    console.log(`[Executor] COMPRAR MERCADO ${qtdComprar}x ${produtoId} = R$${valorTotal} | estoque atual: ${stock[produtoId] || 0} | em trânsito: ${emTransito} | alvo: ${alvo}`);
-    acoes.push({ tipo: "COMPRAR_MERCADO", produtoId, quantidade: qtdComprar, valorTotal, delayDias: MARKET_DELAY_DIAS, pipelineId, stepIndex: idx });
+    const valorTotal = Math.round(preco * qtdNecessaria);
+    console.log(`[Executor] COMPRAR MERCADO ${qtdNecessaria}x ${produtoId} = R$${valorTotal} | estoque atual: ${stock[produtoId] || 0} | em trânsito: ${emTransito} | alvo: ${alvo}`);
+    acoes.push({
+        tipo: "COMPRAR_MERCADO",
+        produtoId,
+        quantidade: qtdNecessaria,
+        valorTotal,
+        delayDias: MARKET_DELAY_DIAS,
+        pipelineId,
+        stepIndex: idx,
+    });
     return acoes;
 }
 
@@ -446,7 +558,7 @@ function executarMercadoVenda(step, stock, ecoParam, pipelineId, idx) {
     return acoes;
 }
 
-// ─── EXECUTOR PRINCIPAL (paralelo) ───────────────────────────────────────────
+// ─── EXECUTOR PRINCIPAL ───────────────────────────────────────────────────────
 
 export function executarPipeline(pipeline, gameState) {
     if (!pipeline.ativo || !pipeline.steps?.length) return [];
@@ -456,7 +568,7 @@ export function executarPipeline(pipeline, gameState) {
         productionQueue = [],
         economiaGlobal = "estável",
         economiaSetores = null,
-        saldo = 0,
+        saldo: saldoInicial = 0,
         contratosEdificios = {},
         getOuGerarContratos = null,
         diaAtual = 0,
@@ -464,10 +576,7 @@ export function executarPipeline(pipeline, gameState) {
         sellQueue = [],
     } = gameState || {};
 
-    // ✅ DEFENSIVO: aceita `dados` OU `edificiosFinais`
-    const dados = gameState?.dados
-        ?? gameState?.edificiosFinais
-        ?? {};
+    const dados = gameState?.dados ?? gameState?.edificiosFinais ?? {};
 
     if (!dados || Object.keys(dados).length === 0) {
         console.warn(`[executarPipeline] "${pipeline.nome}" sem edificiosFinais — pulando`);
@@ -476,7 +585,7 @@ export function executarPipeline(pipeline, gameState) {
 
     console.group(`[executarPipeline] "${pipeline.nome}" | ${pipeline.steps.length} steps | dia ${diaAtual}`);
     console.log("gameState snapshot:", {
-        saldo,
+        saldo: saldoInicial,
         diaAtual,
         stockKeys: Object.keys(stock || {}).filter(k => (stock[k] || 0) > 0),
         productionQueueLen: (productionQueue || []).length,
@@ -493,10 +602,14 @@ export function executarPipeline(pipeline, gameState) {
     })));
 
     const ecoObj = economiaSetores || null;
-    const mktTrans = marketTransactions || [];
+    // ✅ cópia mutável — compras simuladas afetam espaço e saldo dos próximos steps
+    const mktTrans = [...(marketTransactions || [])];
     const produtosEmVenda = new Set((sellQueue || []).map(v => v.produtoId || v.produto).filter(Boolean));
     const acoes = [];
     const stockSimulado = { ...stock };
+
+    let saldoRestante = saldoInicial;
+    const comprasComprometidasPorCat = {};
 
     for (let i = 0; i < pipeline.steps.length; i++) {
         const step = pipeline.steps[i];
@@ -506,13 +619,24 @@ export function executarPipeline(pipeline, gameState) {
 
         switch (step.tipo) {
             case "producao":
-                stepAcoes = executarProducao(step, stockSimulado, productionQueue, dados, saldo, pipeline.id, i, { marketTransactions: mktTrans });
+                stepAcoes = executarProducao(
+                    step, stockSimulado, productionQueue, dados,
+                    saldoRestante, pipeline.id, i,
+                    { marketTransactions: mktTrans, dados }
+                );
                 break;
             case "venda":
-                stepAcoes = executarVenda(step, stockSimulado, dados, contratosEdificios, getOuGerarContratos, ecoObj || economiaGlobal, diaAtual, pipeline.id, i, mktTrans, sellQueue);
+                stepAcoes = executarVenda(
+                    step, stockSimulado, dados, contratosEdificios,
+                    getOuGerarContratos, ecoObj || economiaGlobal,
+                    diaAtual, pipeline.id, i, mktTrans, sellQueue
+                );
                 break;
             case "mercado_compra":
-                stepAcoes = executarMercadoCompra(step, stockSimulado, saldo, pipeline.id, i, mktTrans, produtosEmVenda);
+                stepAcoes = executarMercadoCompra(
+                    step, stockSimulado, saldoRestante, pipeline.id, i,
+                    mktTrans, produtosEmVenda, dados, comprasComprometidasPorCat
+                );
                 break;
             case "mercado_venda":
                 stepAcoes = executarMercadoVenda(step, stockSimulado, ecoObj || economiaGlobal, pipeline.id, i);
@@ -527,6 +651,7 @@ export function executarPipeline(pipeline, gameState) {
 
         stepAcoes.forEach(acao => {
             if (acao.tipo === "COMPRAR_MERCADO") {
+                saldoRestante -= acao.valorTotal;
                 mktTrans.push({ tipo: "buy", produtoId: acao.produtoId, quantidade: acao.quantidade });
             }
             if (acao.tipo === "VENDER_MERCADO") {
@@ -550,12 +675,33 @@ export function executarPipeline(pipeline, gameState) {
 }
 
 export function executarTodosPipelines(pipelines, gameState) {
-    // ✅ DEFENSIVO: normaliza chave `dados`
     const safeState = {
         ...gameState,
         dados: gameState?.dados ?? gameState?.edificiosFinais ?? {},
     };
-    return pipelines.flatMap(p => executarPipeline(p, safeState));
+
+    let saldoRestante = safeState.saldo || 0;
+    const mktTransAcumulado = [...(safeState.marketTransactions || [])];
+    const todasAcoes = [];
+
+    for (const pipeline of pipelines) {
+        const acoes = executarPipeline(pipeline, {
+            ...safeState,
+            saldo: saldoRestante,
+            marketTransactions: mktTransAcumulado,
+        });
+
+        acoes.forEach(a => {
+            if (a.tipo === "COMPRAR_MERCADO") {
+                saldoRestante -= a.valorTotal;
+                mktTransAcumulado.push({ tipo: "buy", produtoId: a.produtoId, quantidade: a.quantidade });
+            }
+        });
+
+        todasAcoes.push(...acoes);
+    }
+
+    return todasAcoes;
 }
 
 // ─── ANÁLISE DE ARBITRAGEM ───────────────────────────────────────────────────
