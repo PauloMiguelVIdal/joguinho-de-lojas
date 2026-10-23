@@ -35,14 +35,14 @@ export default function PayTexes() {
   const edificiosFinais  = useCentralStore((s) => s.edificiosFinais);
   const atualizarDados   = useCentralStore((s) => s.atualizarDados);
   const atualizarLote    = useCentralStore((s) => s.atualizarLote);
-const atualizarDadosProf = useCentralStore((s) => s.atualizarDadosProf);
+  const atualizarDadosProf = useCentralStore((s) => s.atualizarDadosProf);
 
-  // ── Economy Context (inalterado) ──────────────────────────
+  // ── Economy Context ───────────────────────────────────────
   const {
     economiaSetores,
-    setEconomiaSetores,
     atualizarEcoSafely,
     atualizarEco,
+    atualizarEcoCallback,
   } = useContext(DadosEconomyGlobalContext);
 
   const [isNKeyDown, setIsNKeyDown] = useState(false);
@@ -169,102 +169,118 @@ const atualizarDadosProf = useCentralStore((s) => s.atualizarDadosProf);
   useEffect(() => {
     if (dia < 270) return;
 
-    let faturamentoTotalDiario     = 0;
-    let faturamentoTotalMensal     = 0;
-    let impostoDiarioTotal         = 0;
-    let impostoFaturamentoMensal   = 0;
-    let impostoFixoTotal           = 0;
+    let faturamentoTotalDiario   = 0;
+    let faturamentoTotalMensal   = 0;
+    let impostoDiarioTotal       = 0;
+    let impostoFaturamentoMensal = 0;
+    let impostoFixoTotal         = 0;
 
     const ehPrimeiroDiaDoMes = dia % 30 === 1;
 
-SETORES_ARR.forEach((setor) => {
-  const edificiosEst = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
-  const edificiosDin = edificiosFinais[setor]?.edificios ?? []; // ✅ correto
+    SETORES_ARR.forEach((setor) => {
+      const edificiosEst = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+      const edificiosDin = edificiosFinais[setor]?.edificios ?? [];
 
-  let faturamentoTotalSetor = 0;
+      let faturamentoTotalSetor = 0;
+      let impostoFixoSetor      = 0;
+      let impostoFatuSetor      = 0;
+      let impostoDiarioSetor    = 0;
 
-  const edificiosAtualizados = edificiosDin.map((edDin, idx) => {
-    const edEst = edificiosEst[idx];
-    if (!edEst || (edDin.quantidade || 0) <= 0) return edDin;
+      const edificiosAtualizados = edificiosDin.map((edDin, idx) => {
+        const edEst = edificiosEst[idx];
+        if (!edEst || (edDin.quantidade || 0) <= 0) return edDin;
 
-    const quantidade = edDin.quantidade || 0;
-    const faturamentoUnit = edEst.finanças?.faturamentoUnitário || 0;
-    const impostoFixo = edEst.finanças?.impostoFixo || 0;
-    const impostoSobreFatu = edEst.finanças?.impostoSobreFatu || 0;
-    const qtdMinNv3 = edEst.powerUp?.nível3?.quantidadeMínima ?? Infinity;
-    const qtdMinNv2 = edEst.powerUp?.nível2?.quantidadeMínima ?? Infinity;
+        const quantidade = edDin.quantidade || 0;
+        const faturamentoUnit = edEst.finanças?.faturamentoUnitário || 0;
+        const impostoFixo = edEst.finanças?.impostoFixo || 0;
+        const impostoSobreFatu = edEst.finanças?.impostoSobreFatu || 0;
+        const qtdMinNv3 = edEst.powerUp?.nível3?.quantidadeMínima ?? Infinity;
+        const qtdMinNv2 = edEst.powerUp?.nível2?.quantidadeMínima ?? Infinity;
 
-    // Power‑ups
-    let acumuladorRedCusto = 0;
-    let acumuladorAumFatu = 0;
-    const { edificiosFinais: ef } = useCentralStore.getState();
-    (edEst.RecebeMelhoraEficiencia || []).forEach((rel) => {
-      for (const s of SETORES_ARR) {
-        const idxRel = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex((e) => e.nome === rel.nome) ?? -1;
-        if (idxRel !== -1) {
-          const qtdRel = ef[s]?.[idxRel]?.quantidade ?? 0;
-          if (qtdRel > 0) {
-            const nivel = quantidade >= qtdMinNv3 ? "nível3" : quantidade >= qtdMinNv2 ? "nível2" : "nível1";
-            acumuladorRedCusto += rel.redCusto[nivel] || 0;
-            acumuladorAumFatu  += rel.aumFatu[nivel]  || 0;
+        // ── Power-ups (RecebeMelhoraEficiencia) ──
+        let acumuladorRedCusto = 0;
+        let acumuladorAumFatu  = 0;
+        const { edificiosFinais: ef } = useCentralStore.getState();
+        (edEst.RecebeMelhoraEficiencia || []).forEach((rel) => {
+          for (const s of SETORES_ARR) {
+            const idxRel = EDIFICIOS_FINAIS_ESTATICOS[s]?.edificios?.findIndex((e) => e.nome === rel.nome) ?? -1;
+            if (idxRel !== -1) {
+              const qtdRel = ef[s]?.[idxRel]?.quantidade ?? 0;
+              if (qtdRel > 0) {
+                const nivel = quantidade >= qtdMinNv3 ? "nível3" : quantidade >= qtdMinNv2 ? "nível2" : "nível1";
+                acumuladorRedCusto += rel.redCusto?.[nivel] || 0;
+                acumuladorAumFatu  += rel.aumFatu?.[nivel]  || 0;
+              }
+              break;
+            }
           }
-          break;
-        }
-      }
+        });
+
+        // ── Faturamento diário com economia e power-ups ──
+        const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
+        const fatorEconomico = { recessão: 0.4, declinio: 0.8, estável: 1, progressiva: 1.1, aquecida: 1.25 }[economiaSetor] || 1;
+        const valorFatuFinal = faturamentoUnit * (1 + acumuladorAumFatu / 100);
+        const faturamentoDiario = valorFatuFinal * quantidade * fatorEconomico;
+
+        // ── Impostos do edifício ──
+        const impostoFatuFinal = impostoSobreFatu * (1 - acumuladorRedCusto / 100);
+        const impostoFatuDiario = faturamentoDiario * impostoFatuFinal;
+
+        const arrayFatu = edDin.arrayFatu || [];
+        const novoArrayFatu = ehPrimeiroDiaDoMes
+          ? [faturamentoDiario]
+          : [...arrayFatu, faturamentoDiario].slice(-360);
+        const somaMensalFatu = novoArrayFatu.reduce((acc, v) => acc + v, 0);
+        const impostoMensalSobreFatu = somaMensalFatu * impostoFatuFinal;
+
+        const impostoFixoDesc = impostoFixo * (1 - acumuladorRedCusto / 100);
+        const impostoFixoEdificio = impostoFixoDesc * quantidade;
+
+        // ── Acumular nos totais do setor ──
+        faturamentoTotalSetor += faturamentoDiario;
+        impostoFixoSetor      += impostoFixoEdificio;
+        impostoFatuSetor      += impostoMensalSobreFatu;
+        impostoDiarioSetor    += impostoFatuDiario + impostoFixoEdificio;
+
+        return {
+          ...edDin,
+          arrayFatu: novoArrayFatu,
+          somaArrayFatu: somaMensalFatu,
+          faturamentoTotal: faturamentoDiario,
+          valorImpostoSobreFaturamento: impostoMensalSobreFatu,
+          valorImpostoFixoTotal: impostoFixoEdificio,
+          impostoMensal: impostoMensalSobreFatu + impostoFixoEdificio,
+        };
+      });
+
+      // ✅ Atualiza apenas o array de edifícios do setor
+      atualizarDadosProf(["edificiosFinais", setor, "edificios"], edificiosAtualizados);
+
+      // ✅ Acumula nos totais globais (faltava isso!)
+      faturamentoTotalDiario   += faturamentoTotalSetor;
+      faturamentoTotalMensal   += faturamentoTotalSetor;
+      impostoFixoTotal         += impostoFixoSetor;
+      impostoFaturamentoMensal += impostoFatuSetor;
+      impostoDiarioTotal       += impostoDiarioSetor;
+
+      // ── Arrays históricos por setor (context) ──
+      const arrayFatuSetor = economiaSetores[setor]?.economiaSetor?.ArrayFatu || [];
+      const novoArrayFatuSetor = ehPrimeiroDiaDoMes
+        ? [faturamentoTotalSetor]
+        : [...arrayFatuSetor, faturamentoTotalSetor].slice(-360);
+
+      const arrayFatuHistory = economiaSetores[setor]?.economiaSetor?.ArrayFatuHistory || [];
+      const novoArrayFatuHistory = [...arrayFatuHistory, faturamentoTotalSetor].slice(-360);
+
+      atualizarEcoSafely(setor, {
+        ArrayFatu: novoArrayFatuSetor,
+        ArrayFatuHistory: novoArrayFatuHistory,
+      });
     });
 
-    const economiaSetor = economiaSetores[setor]?.economiaSetor?.estadoAtual || "estável";
-    const fatorEconomico = { recessão: 0.4, declinio: 0.8, estável: 1, progressiva: 1.1, aquecida: 1.25 }[economiaSetor] || 1;
-    const valorFatuFinal = faturamentoUnit * (1 + acumuladorAumFatu / 100);
-    const faturamentoDiario = valorFatuFinal * quantidade * fatorEconomico;
-    faturamentoTotalSetor += faturamentoDiario;
-
-    const impostoFatuFinal = impostoSobreFatu * (1 - acumuladorRedCusto / 100);
-    const impostoFatuDiario = faturamentoDiario * impostoFatuFinal;
-
-    const ehPrimeiroDiaDoMes = dia % 30 === 1;
-    const arrayFatu = edDin.arrayFatu || [];
-    const novoArrayFatu = ehPrimeiroDiaDoMes
-      ? [faturamentoDiario]
-      : [...arrayFatu, faturamentoDiario].slice(-360);
-    const somaMensalFatu = novoArrayFatu.reduce((acc, v) => acc + v, 0);
-
-    const impostoMensalSobreFatu = somaMensalFatu * impostoFatuFinal;
-
-    const impostoFixoDesc = impostoFixo * (1 - acumuladorRedCusto / 100);
-    const impostoFixoEdificio = impostoFixoDesc * quantidade;
-
-    return {
-      ...edDin,
-      arrayFatu: novoArrayFatu,
-      somaArrayFatu: somaMensalFatu,
-      faturamentoTotal: faturamentoDiario,
-      valorImpostoSobreFaturamento: impostoMensalSobreFatu,
-      valorImpostoFixoTotal: impostoFixoEdificio,
-      impostoMensal: impostoMensalSobreFatu + impostoFixoEdificio,
-    };
-  });
-
-  // ❌ remova esta linha se existir:
-  // atualizarDados(`edificiosFinais_${setor}`, null);
-
-  // ✅ atualiza apenas a propriedade 'edificios' dentro do objeto do setor
-  atualizarDadosProf(["edificiosFinais", setor, "edificios"], edificiosAtualizados);
-
-  // Atualiza arrays de faturamento do setor no context (mantenha como está)
-  const arrayFatuSetor = economiaSetores[setor]?.economiaSetor?.ArrayFatu || [];
-  const ehPrimeiroDiaDoMes = dia % 30 === 1;
-  const novoArrayFatuSetor = ehPrimeiroDiaDoMes
-    ? [faturamentoTotalSetor]
-    : [...arrayFatuSetor, faturamentoTotalSetor].slice(-360);
-  const arrayFatuHistory = economiaSetores[setor]?.economiaSetor?.ArrayFatuHistory || [];
-  const novoArrayFatuHistory = [...arrayFatuHistory, faturamentoTotalSetor].slice(-360);
-  atualizarEcoSafely(setor, { ArrayFatu: novoArrayFatuSetor, ArrayFatuHistory: novoArrayFatuHistory });
-});
-
     const impostoMensalTotal = impostoFixoTotal + impostoFaturamentoMensal;
-    const novoSaldo          = economiaSetores.saldo + faturamentoTotalDiario;
 
+    // ── Persistir faturamento no Zustand ──
     atualizarDados("faturamento", {
       ...faturamento,
       faturamentoMensal: faturamentoTotalMensal,
@@ -272,6 +288,7 @@ SETORES_ARR.forEach((setor) => {
       arrayFatuDiário:   [...(faturamento.arrayFatuDiário || []), faturamentoTotalDiario],
     });
 
+    // ── Persistir impostos no context ──
     atualizarEco("imposto", {
       impostoDiário:                  impostoDiarioTotal,
       impostoMensal:                  impostoMensalTotal,
@@ -281,14 +298,21 @@ SETORES_ARR.forEach((setor) => {
       arrayImpostoDiário:             [...(economiaSetores.imposto?.arrayImpostoDiário || []), impostoDiarioTotal],
     });
 
-    atualizarEco("saldo", novoSaldo);
+    // ✅ CRÉDITO NO SALDO (única fonte: usa faturamentoTotalDiario, não faturamento do Zustand)
+    if (faturamentoTotalDiario > 0) {
+      atualizarEcoCallback("saldo", (saldoAtual) => (saldoAtual ?? 0) + faturamentoTotalDiario);
+    }
   }, [dia]);
 
   // ── Pagar despesas mensais ────────────────────────────────
   const PagarDespesas = () => {
     if (despesas.despesasPagas) return;
-    const novoSaldo = economiaSetores.saldo - economiaSetores.imposto.impostoMensal;
-    atualizarEco("saldo", novoSaldo);
+
+    const impostoMensal = economiaSetores.imposto?.impostoMensal ?? 0;
+
+    // ✅ DEBITA o imposto mensal
+    atualizarEcoCallback("saldo", (saldoAtual) => (saldoAtual ?? 0) - impostoMensal);
+
     atualizarDados("despesas", { ...despesas, despesasPagas: true });
     if (dia === 270) atualizarEco("imposto", { impostoMensal: 0 });
   };

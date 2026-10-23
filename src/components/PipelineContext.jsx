@@ -1,6 +1,4 @@
-
 import { createContext, useContext, useState, useCallback, useMemo } from "react";
-// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { useGame } from "./GameContext";
 import { executarTodosPipelines, calcularROIPipeline, identificarProdutosSemVazao } from "./pipelineExecutor";
@@ -14,6 +12,7 @@ import {
     EDIFICIOS_BASE_ESTATICOS,
     LICENCAS_ESTATICAS_GLOBAIS,
 } from "../stores/dadosEstáticos";
+
 const PipelineContext = createContext();
 
 function gerarId() {
@@ -47,7 +46,6 @@ function criarStepPadrao(tipo, buildingName = "") {
                 estrategiaVenda: "maior_margem",
                 prioridadeInsumo: "so_armazem",
                 produtoId: "",
-                // ── NOVOS ──
                 atenderTodosContratos: false,
                 filtrarProduto: null,
             };
@@ -92,9 +90,8 @@ function criarPipelinePadrao() {
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
 export function PipelineProvider({ children }) {
-    // const { dados } = useContext(CentraldeDadosContext);
-  const dia = useCentralStore((s) => s.dia);
-const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
+    const dia = useCentralStore((s) => s.dia);
+    const economiaGlobal = useCentralStore((s) => s.economiaGlobal);
     const { economiaSetores, setEconomiaSetores } = useContext(DadosEconomyGlobalContext);
     const {
         stock,
@@ -111,8 +108,6 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
     } = useGame();
 
     const [pipelines, setPipelines] = useState([]);
-
-    // ─── Avisos acumulados da última execução (para UI) ──────────────────────
     const [logExecucao, setLogExecucao] = useState([]);
 
     // ─── CRUD de Pipelines ───────────────────────────────────────────────────
@@ -123,16 +118,14 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
         return novo.id;
     }, []);
 
-    // Cria pipeline já com steps iniciais — usado pelo wizard
-    // stepsIniciais: array de objetos Step completos (com id, tipo, buildingName, etc.)
     const criarPipelineComSteps = useCallback((stepsIniciais = [], nome = "Novo Pipeline") => {
         const novo = {
             ...criarPipelinePadrao(),
             nome,
             steps: stepsIniciais.map(s => ({
                 ...criarStepPadrao(s.tipo, s.buildingName || ""),
-                ...s, // sobrescreve com valores do wizard (formulaId, quantidade, etc.)
-                id: s.id || gerarStepId(), // garante id único
+                ...s,
+                id: s.id || gerarStepId(),
             })),
         };
         console.log("[Pipeline] criarPipelineComSteps →", novo.nome, "steps:", novo.steps.length, novo.steps);
@@ -196,7 +189,6 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
         );
     }, []);
 
-    // Persiste as edges (conexões visuais) do editor React Flow
     const salvarEdges = useCallback((pipelineId, edges) => {
         setPipelines(prev =>
             prev.map(p => p.id === pipelineId ? { ...p, edges: edges || [] } : p)
@@ -204,9 +196,6 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
     }, []);
 
     // ─── Aplicar ações retornadas pelo executor ───────────────────────────────
-    //
-    // O executor é puro — só retorna o QUE fazer.
-    // Aqui é onde os side effects acontecem de verdade.
 
     const aplicarAcoes = useCallback((acoes) => {
         const novoLog = [];
@@ -218,8 +207,10 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
                 a.tipo === "INICIAR_PRODUCAO" ? { building: a.buildingName, formulaId: a.formulaId, qtd: a.quantidade } :
                     a.tipo === "COMPRAR_MERCADO" ? { produto: a.produtoId, qtd: a.quantidade, valor: a.valorTotal } :
                         a
-        ))
+        ));
 
+        // ✅ Pega edificiosFinais do Zustand — `state` não existia antes
+        const edificiosFinaisAgora = useCentralStore.getState().edificiosFinais;
 
         for (const acao of acoes) {
             switch (acao.tipo) {
@@ -234,12 +225,11 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
                     }
                     if (!formula) break;
 
-                    // Busca a quantidade real de edifícios construídos
                     const SETORES_JOGO = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
                     let buildingCount = 1;
                     for (const setor of SETORES_JOGO) {
                         const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
-                        const dinamicos = state.edificiosFinais[setor]?.edificios || [];
+                        const dinamicos = edificiosFinaisAgora[setor]?.edificios || [];
 
                         const index = estaticos.findIndex(e => e.nome === acao.buildingName);
                         if (index === -1) continue;
@@ -251,7 +241,7 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
                     const ok = startProduction({
                         formula,
                         quantidade: acao.quantidade,
-                        buildingCount,  // ← agora com valor real
+                        buildingCount,
                     });
                     console.log("[aplicarAcoes] INICIAR_PRODUCAO →", {
                         buildingName: acao.buildingName,
@@ -259,7 +249,6 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
                         quantidade: acao.quantidade,
                         buildingCount,
                     });
-
 
                     novoLog.push({
                         pipelineId: acao.pipelineId,
@@ -290,10 +279,7 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
                         quantidade: acao.contrato.quantidade,
                         valorTotal: acao.contrato.valorTotal,
                         formulaId: acao.contrato.formulaId,
-                        estoqueAtual: stock[acao.contrato.productId] ?? "❓ sem acesso ao stock aqui",
                     });
-                    // Usa startSale do GameContext — assina o contrato e enfileira o pagamento
-                    if (!acao.contrato) break;
                     console.log("[Pipeline] Assinando contrato automático:", acao.contrato);
                     startSale(acao.contrato);
                     novoLog.push({ pipelineId: acao.pipelineId, stepIndex: acao.stepIndex, mensagem: `Contrato assinado: ${acao.contrato.quantidade}x "${acao.contrato.productId}" — R$${acao.contrato.valorTotal}`, severidade: "sucesso", timestamp: Date.now() });
@@ -301,13 +287,11 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
                 }
 
                 case "COMPRAR_MERCADO": {
-                    // Deduz o saldo imediatamente (pagamento antecipado)
                     setEconomiaSetores(prev => ({
                         ...prev,
                         saldo: prev.saldo - acao.valorTotal,
                     }));
 
-                    // Enfileira a transação — produto chega após delayDias
                     setMarketTransactions(prev => [
                         ...prev,
                         {
@@ -333,10 +317,8 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
                 }
 
                 case "VENDER_MERCADO": {
-                    // Remove do estoque imediatamente
                     removeProduct(acao.produtoId, acao.quantidade);
 
-                    // Enfileira recebimento — saldo chega após delayDias
                     setMarketTransactions(prev => [
                         ...prev,
                         {
@@ -381,7 +363,6 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
             setLogExecucao(prev => [...novoLog, ...prev].slice(0, 200));
         }
 
-        // Atualiza timestamp de última execução nos pipelines que geraram ações
         const pipelinesExecutados = new Set(acoes.map(a => a.pipelineId).filter(Boolean));
         if (pipelinesExecutados.size > 0) {
             setPipelines(prev =>
@@ -395,34 +376,38 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
     }, [startProduction, iniciarVendaComercial, setMarketTransactions, removeProduct, setEconomiaSetores]);
 
     // ─── Ponto de entrada chamado pelo ProximoDia() ───────────────────────────
-    //
-    // Chame assim no NextDay.jsx, dentro do ProximoDia(), logo após processProductions():
-    //
-    //   const { executarPipelinesHoje } = usePipeline();
-    //   ...
-    //   processProductions();
-    //   executarPipelinesHoje();   // ← aqui
-    //   processSellQueue(faturamento);
 
     const executarPipelinesHoje = useCallback(() => {
         const pipelinesAtivos = pipelines.filter(p => p.ativo);
 
-        // ── DEBUG ──────────────────────────────────────────────────────────────
+        // ✅ edificiosFinais direto do Zustand
+        const edificiosFinais = useCentralStore.getState().edificiosFinais;
+
         console.group(`[executarPipelinesHoje] dia ${dia} | ativos: ${pipelinesAtivos.length}/${pipelines.length}`);
+        console.log("edificiosFinais:", {
+            existe: !!edificiosFinais,
+            chaves: edificiosFinais ? Object.keys(edificiosFinais) : null,
+            agricultura_eds_qtd: edificiosFinais?.agricultura?.edificios?.length,
+        });
         console.log("saldo disponível:", economiaSetores?.saldo);
         console.log("stock não-zero:", Object.fromEntries(Object.entries(stock || {}).filter(([, v]) => v > 0)));
         console.log("sellQueue:", (sellQueue || []).map(v => ({ id: v.id, produto: v.produto || v.produtoId, qtd: v.quantidade, diasRestantes: v.diasRestantes })));
         console.log("productionQueue:", (productionQueue || []).map(p => ({ formulaId: p.formulaId, qtd: p.quantidade, diasRestantes: p.diasRestantes })));
         console.log("marketTransactions:", (marketTransactions || []).map(t => ({ tipo: t.tipo, pid: t.produtoId, qtd: t.quantidade, dias: t.diasRestantes })));
         console.log("getOuGerarContratos disponível:", typeof getOuGerarContratos === "function");
-        // ───────────────────────────────────────────────────────────────────────
 
         if (pipelinesAtivos.length === 0) { console.log("nenhum pipeline ativo"); console.groupEnd(); return; }
+
+        if (!edificiosFinais || Object.keys(edificiosFinais).length === 0) {
+            console.warn("[executarPipelinesHoje] edificiosFinais vazio — abortando execução");
+            console.groupEnd();
+            return;
+        }
 
         const gameState = {
             stock,
             productionQueue,
-           
+            dados: edificiosFinais,
             economiaGlobal: economiaGlobal || "estável",
             economiaSetores: economiaSetores || {},
             saldo: economiaSetores?.saldo || 0,
@@ -433,18 +418,17 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
             sellQueue: sellQueue || [],
         };
 
-        // ── DEBUG ──
         console.log("gameState.saldo:", gameState.saldo, "| gameState.diaAtual:", gameState.diaAtual);
+        console.log("gameState.dados.agricultura.edificios.length:", gameState.dados?.agricultura?.edificios?.length);
         console.log("gameState.getOuGerarContratos é função?", typeof gameState.getOuGerarContratos === "function");
 
         const acoes = executarTodosPipelines(pipelinesAtivos, gameState);
 
-        // ── DEBUG ──
         console.log(`[executarPipelinesHoje] total ações: ${acoes.length}`);
         console.groupEnd();
 
         if (acoes.length > 0) aplicarAcoes(acoes);
-    }, [pipelines, stock, productionQueue, economiaSetores, contratosEdificios, getOuGerarContratos, marketTransactions, sellQueue, aplicarAcoes]);
+    }, [pipelines, stock, productionQueue, economiaSetores, economiaGlobal, contratosEdificios, getOuGerarContratos, marketTransactions, sellQueue, aplicarAcoes, dia]);
 
     // ─── Dados derivados para a UI ────────────────────────────────────────────
 
@@ -455,7 +439,6 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
         }));
     }, [pipelines, economiaSetores?.economiaGlobal]);
 
-    // Avisos ativos agrupados por pipeline (para badge no editor)
     const avisosPorPipeline = useMemo(() => {
         const map = {};
         logExecucao.forEach(log => {
@@ -466,39 +449,29 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
         return map;
     }, [logExecucao]);
 
-    // Produtos sem vazão — sem destino em nenhum pipeline ativo
     const produtosSemVazao = useMemo(() => {
         return identificarProdutosSemVazao(pipelines, stock, productionQueue);
     }, [pipelines, stock, productionQueue]);
 
     // ─── Helpers de consulta para o editor ───────────────────────────────────
 
-    // Retorna todas as fórmulas de produção disponíveis para um edifício
     const getFormulasPorEdificio = useCallback((buildingName) => {
         const ed = FORMULAS_EDIFICIOS.find(e => e.nomeEdificio === buildingName);
         return ed?.formulas || [];
     }, []);
 
-    // Retorna todas as fórmulas de venda disponíveis para um edifício comercial
     const getFormulasVendaPorEdificio = useCallback((buildingName) => {
         const ed = SALES_EDIFICIOS.find(e => e.nomeEdificio === buildingName);
         return ed?.formulas || [];
     }, []);
 
-    // Retorna os produtos disponíveis no mercado global (todos que têm preço)
     const getProdutosMercado = useCallback(() => {
         return Object.entries(marketPrices).map(([id, preco]) => ({ id, preco }));
     }, []);
 
-    // Limpa o log de execução
     const limparLog = useCallback(() => setLogExecucao([]), []);
 
     // ─── Serialização para persistência ──────────────────────────────────────
-    //
-    // Use isso ao salvar o estado do jogo (como você já faz com salvarNoStorage):
-    //
-    //   const { getPipelinesParaSalvar, carregarPipelines } = usePipeline();
-    //   salvarNoStorage({ pipelines: getPipelinesParaSalvar(), ...resto });
 
     const getPipelinesParaSalvar = useCallback(() => pipelines, [pipelines]);
 
@@ -512,41 +485,33 @@ const economiaGlobal= useCentralStore((s) => s.economiaGlobal)
 
     return (
         <PipelineContext.Provider value={{
-            // Estado
             pipelines: pipelinesComROI,
             logExecucao,
             avisosPorPipeline,
 
-            // CRUD Pipelines
             criarPipeline,
             criarPipelineComSteps,
             removerPipeline,
             atualizarPipeline,
             togglePipeline,
 
-            // CRUD Steps
             adicionarStep,
             salvarEdges,
             removerStep,
             atualizarStep,
             reordenarSteps,
 
-            // Execução (chamado pelo NextDay)
             executarPipelinesHoje,
 
-            // Helpers para o editor
             getFormulasPorEdificio,
             getFormulasVendaPorEdificio,
             getProdutosMercado,
 
-            // Persistência
             getPipelinesParaSalvar,
             carregarPipelines,
 
-            // Análise
             produtosSemVazao,
 
-            // Log
             limparLog,
         }}>
             {children}

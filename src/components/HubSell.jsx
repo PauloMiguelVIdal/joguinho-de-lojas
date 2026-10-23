@@ -31,6 +31,8 @@ export default function HubSell() {
   const { contratosEdificios } = useGame();
   // const { dados } = useContext(CentraldeDadosContext);
   const dia = useCentralStore((s) => s.dia);
+  const edificiosFinais = useCentralStore((s) => s.edificiosFinais);
+  
   const sectors = [
     { id: "all", name: "Todos", icon: <Globe size={18} /> },
     { id: "agricultura", name: "Agricultura", icon: <Wheat size={18} /> },

@@ -1028,7 +1028,6 @@ export const estadoInicial = {
     itensSorteados: [],
 
     // ── Modais ────────────────────────────────────────────────────────────────
-    // ── Modais ────────────────────────────────────────────────────────────────
     modal: { estadoModal: false, head: "", content: "" },
     modalEditável: { estadoModal: false, head: "", content: "" },
     modalAlert: { estadoModal: false, head: "", content: "" },

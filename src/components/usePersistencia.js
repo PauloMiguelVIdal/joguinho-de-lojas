@@ -1,32 +1,9 @@
-//   function migrarCentralAntigo(central) {
-//     // se já está no formato novo → não faz nada
-//     if (central.edificiosFinais) return central;
 
-//     // formato antigo detectado
-//     if (Array.isArray(central.edificios)) {
-//         console.log("[MIGRAÇÃO] Convertendo estrutura antiga → nova");
-
-//         return {
-//             ...central,
-//             edificiosFinais: {
-//                 agricultura: central.edificios,
-//                 tecnologia: [],
-//                 industria: [],
-//                 comercio: [],
-//                 imobiliario: [],
-//                 energia: []
-//             }
-//         };
-//     }
-
-//     return central;
-// }
-  
   
   
   const estadoInicialEconomy={
     
-    saldo: 100000000000,
+    saldo: 100000000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,
@@ -1307,7 +1284,7 @@ const estadoInicial = {
     nomeEmpresa: "",
     setorAtivo: "agricultura",
     fimGame: false,
-    dia: 1000,
+    dia: 1,
     animarCicloDia: null,
     chanceNovoEvento: 0,
     economiaGlobal: "estável",

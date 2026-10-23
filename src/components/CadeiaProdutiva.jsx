@@ -11,19 +11,18 @@ import {
     calcularStorageGlobal, calcularSlotsNecessariosCadeia, calcularCustoStorageCadeia,
     calcularStorageAgregadoCadeias
 } from "./GameContext";
-// import { CentraldeDadosContext } from "../centralDeDadosContext";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import { SALES_EDIFICIOS } from "./salesFormulasConfig";
 import { productsCatalog, marketPrices, getMarketPrice } from "./TablePrice";
 import { analisarArbitragem } from "./pipelineExecutor";
 import { motion, AnimatePresence } from "framer-motion";
-import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL, LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
 import {
-  EDIFICIOS_FINAIS_ESTATICOS,
-  LICENCAS_ESTATICAS,
-  EDIFICIOS_BASE_ESTATICOS,
-  LICENCAS_ESTATICAS_GLOBAIS,
+    EDIFICIOS_FINAIS_ESTATICOS,
+    LICENCAS_ESTATICAS,
+    EDIFICIOS_BASE_ESTATICOS,
+    LICENCAS_ESTATICAS_GLOBAIS,
 } from "../stores/dadosEstáticos";
 
 // ─── Tokens ───────────────────────────────────────────────────────────────────
@@ -120,13 +119,11 @@ function stepParaContexto(tipo, buildingName, extras = {}) {
         produtoId: extras.produtoId || "",
         precoTeto: extras.precoTeto || 99999999999,
         _posicao: extras.posicao || null,
-        // ── NOVOS campos para automação de contratos ──
         atenderTodosContratos: extras.atenderTodosContratos || false,
         filtrarProduto: extras.filtrarProduto || null,
     };
 }
 
-// ─── Gera label visual para um step ─────────────────────────────────────────
 function labelStep(step) {
     if (!step) return { nome: "?", icon: "❓" };
     if (step.tipo === "mercado_compra") return { nome: "Mercado Global", icon: "🌐🛒" };
@@ -136,7 +133,6 @@ function labelStep(step) {
     return { nome: step.buildingName || "?", icon: "📦" };
 }
 
-// Extrai ícones dos produtos vinculados a um step
 function iconesProdutosStep(step) {
     if (!step) return [];
     const icons = [];
@@ -184,9 +180,8 @@ const ICONS_CAT_ARMAZENAMENTO = {
     "produtos digitais": "💾", "materiais sensíveis": "⚠️",
 };
 
-// Calcula slots necessários para os produtos de uma cadeia
 function calcularSlotsNecessarios(steps) {
-    const slotsNecessarios = {}; // categoria → { slots, produtos: [{pid, qtd, slotSize, cat}] }
+    const slotsNecessarios = {};
 
     steps.forEach(step => {
         if (step.tipo !== "producao" || !step.formulaId) return;
@@ -195,7 +190,6 @@ function calcularSlotsNecessarios(steps) {
         const { formula } = cfg;
         const mult = step.quantidade || 1;
 
-        // Inputs + outputs precisam de armazenamento
         [...Object.entries(formula.input || {}), ...Object.entries(formula.output || {})].forEach(([pid, qtd]) => {
             const prod = productsCatalog[pid];
             if (!prod?.categoriaFisica) return;
@@ -211,7 +205,6 @@ function calcularSlotsNecessarios(steps) {
     return slotsNecessarios;
 }
 
-// Calcula custo de imposto e faturamento esperado dos edifícios da cadeia
 function calcularCustosEdificios(steps, edificiosFinais) {
     let impostoFixoTotal = 0;
     let faturamentoEsperado = 0;
@@ -247,14 +240,12 @@ function calcularCustosEdificios(steps, edificiosFinais) {
         custoArmazenamentoNecessario: 0,
     };
 }
-// ─── Calculadora de cadeia produtiva ─────────────────────────────────────────
-// Calcula insumos totais, tempo, custo e receita de uma cadeia de steps
 
 function calcularCadeia(steps, stock = {}, economiaSetores = {}, dados = null) {
     let diasTotal = 0;
     let custoInsumos = 0;
     let receitaTotal = 0;
-    let custoArmazenamento = 0;  // ← NOVO
+    let custoArmazenamento = 0;
     const insumosNecessarios = {};
     const produtosProduzidos = {};
 
@@ -275,7 +266,6 @@ function calcularCadeia(steps, stock = {}, economiaSetores = {}, dados = null) {
                 const preco = getMarketPrice(pid, economiaSetores);
                 custoInsumos += preco * total;
 
-                // Custo de armazenar os insumos consumidos
                 const prod = productsCatalog[pid];
                 if (prod?.categoriaFisica) {
                     const slots = total * (prod.slotSize || 1);
@@ -287,7 +277,6 @@ function calcularCadeia(steps, stock = {}, economiaSetores = {}, dados = null) {
                 if (!produtosProduzidos[pid]) produtosProduzidos[pid] = 0;
                 produtosProduzidos[pid] += qtdF * mult;
 
-                // Custo de armazenar o que é produzido (até ser vendido)
                 const prod = productsCatalog[pid];
                 if (prod?.categoriaFisica) {
                     const slots = (qtdF * mult) * (prod.slotSize || 1);
@@ -298,7 +287,6 @@ function calcularCadeia(steps, stock = {}, economiaSetores = {}, dados = null) {
 
         if (step.tipo === "mercado_compra") {
             diasTotal += 10;
-            // Custo de armazenar o produto comprado enquanto aguarda uso
             if (step.produtoId) {
                 const prod = productsCatalog[step.produtoId];
                 if (prod?.categoriaFisica) {
@@ -334,7 +322,6 @@ function calcularCadeia(steps, stock = {}, economiaSetores = {}, dados = null) {
         };
     });
 
-    // Custo baseado na proporção real dos edifícios que esta cadeia usa
     if (dados) {
         const slotsNecMap = calcularSlotsNecessariosCadeia(steps, productsCatalog, FORMULAS_EDIFICIOS);
         const { custoMensalCadeia } = calcularCustoStorageCadeia(slotsNecMap, dados);
@@ -346,8 +333,8 @@ function calcularCadeia(steps, stock = {}, economiaSetores = {}, dados = null) {
     return {
         diasTotal,
         custoInsumos: Math.round(custoInsumos),
-        custoArmazenamento: Math.round(custoArmazenamento),   // ← NOVO
-        custoTotal,                                           // ← insumos + armazenamento
+        custoArmazenamento: Math.round(custoArmazenamento),
+        custoTotal,
         receitaTotal: Math.round(receitaTotal),
         lucro: Math.round(receitaTotal - custoTotal),
         insumosDetalhados,
@@ -356,16 +343,11 @@ function calcularCadeia(steps, stock = {}, economiaSetores = {}, dados = null) {
 }
 
 function calcularMetricasAvancadas(calc, custos, steps, dados) {
-    // Investimento total estimado (custo de construção dos edifícios de armazenamento
-    // necessários para a cadeia — proxy: capital imobilizado para suportar 1 ciclo)
-    // Calculamos como: custo de armazenamento mensal * 12 = "valor de giro anual"
-    // mais a soma do custo de insumos para 1 ciclo completo
     const investimentoEstimado =
-        calc.custoInsumos                        // insumos de 1 ciclo
-        + custos.custoArmazenamentoNecessario * 3  // 3 meses de armazenamento como capital de giro
-        + custos.impostoFixoTotal;               // 1 mês de imposto como entrada
+        calc.custoInsumos
+        + custos.custoArmazenamentoNecessario * 3
+        + custos.impostoFixoTotal;
 
-    // Lucro líquido real = receita − insumos − armazenamento − impostos fixos mensais
     const lucroLiquidoReal = Math.round(
         calc.receitaTotal
         - calc.custoInsumos
@@ -373,35 +355,29 @@ function calcularMetricasAvancadas(calc, custos, steps, dados) {
         - custos.impostoFixoTotal
     );
 
-    // Breakeven: quantos ciclos para cobrir o investimento estimado
     const lucroPorCiclo = lucroLiquidoReal;
     const breakevenCiclos = lucroPorCiclo > 0
         ? Math.ceil(investimentoEstimado / lucroPorCiclo)
         : Infinity;
 
-    // Duração total de um ciclo em dias (para calcular breakeven em dias)
     const breakevenDias = lucroPorCiclo > 0 && calc.diasTotal > 0
         ? breakevenCiclos * calc.diasTotal
         : Infinity;
 
-    // ROE real por ciclo: lucro líquido / investimento estimado * 100
     const roeReal = investimentoEstimado > 0
         ? ((lucroLiquidoReal / investimentoEstimado) * 100).toFixed(1)
         : "0.0";
 
-    // ROE anualizado: considera quantos ciclos cabem em 365 dias
     const ciclosAno = calc.diasTotal > 0 ? Math.floor(365 / calc.diasTotal) : 0;
     const lucroAnual = lucroLiquidoReal * ciclosAno;
     const roeAnual = investimentoEstimado > 0
         ? ((lucroAnual / investimentoEstimado) * 100).toFixed(1)
         : "0.0";
 
-    // Margem líquida real = lucro líquido real / receita * 100
     const margemLiquidaReal = calc.receitaTotal > 0
         ? ((lucroLiquidoReal / calc.receitaTotal) * 100).toFixed(1)
         : "0.0";
 
-    // Detalhamento de custos por categoria de armazenamento (para exibir no breakdown)
     const custoPorCategoria = {};
     steps.forEach(step => {
         if (step.tipo !== "producao" || !step.formulaId) return;
@@ -460,7 +436,6 @@ function BotaoPrimario({ onClick, children, disabled, cor }) {
     return <button onClick={onClick} disabled={disabled} style={{ background: disabled ? "rgba(255,255,255,.08)" : (cor || C.purple), border: "none", borderRadius: 10, color: disabled ? C.muted : "#fff", padding: "10px 24px", fontSize: 13, fontWeight: 700, cursor: disabled ? "not-allowed" : "pointer", fontFamily: "inherit" }}>{children}</button>;
 }
 
-// Chip de produto (ícone + nome + quantidade)
 function ProdChip({ pid, qtd, tipo }) {
     const prod = productsCatalog[pid];
     const bgMap = {
@@ -479,17 +454,13 @@ function ProdChip({ pid, qtd, tipo }) {
     );
 }
 
-// ─── NÓ CUSTOMIZADO React Flow — com inputs/outputs visuais ──────────────────
-
 const PipelineNóRF = React.memo(({ data, selected }) => {
     const cfg = TIPO_NÓ[data.tipo] || TIPO_NÓ.producao;
     const isMercado = data.tipo === "mercado_compra" || data.tipo === "mercado_venda";
 
-    // Resolve fórmula para mostrar inputs/outputs
     const formulaCfg = data.formulaId ? getFormulaById(data.formulaId) : null;
     const formula = formulaCfg?.formula;
 
-    // Para mercado, mostra produto único
     const prodMercado = data.produtoId ? productsCatalog[data.produtoId] : null;
 
     return (
@@ -497,7 +468,6 @@ const PipelineNóRF = React.memo(({ data, selected }) => {
             <Handle type="target" position={Position.Left} style={{ background: cfg.cor, width: 12, height: 12, border: "2px solid #060014", left: -6 }} />
             <Handle type="source" position={Position.Right} style={{ background: cfg.cor, width: 12, height: 12, border: "2px solid #060014", right: -6 }} />
 
-            {/* Header */}
             <div style={{ padding: "10px 12px 8px", borderBottom: "1px solid rgba(255,255,255,.08)", display: "flex", alignItems: "center", gap: 8 }}>
                 <span style={{ fontSize: 22, lineHeight: 1, flexShrink: 0 }}>{cfg.icone}</span>
                 <div style={{ minWidth: 0, flex: 1 }}>
@@ -513,7 +483,6 @@ const PipelineNóRF = React.memo(({ data, selected }) => {
                 </div>
             </div>
 
-            {/* Body — Inputs */}
             {formula && Object.keys(formula.input || {}).length > 0 && (
                 <div style={{ padding: "7px 12px 4px" }}>
                     <div style={{ fontSize: 8, fontWeight: 700, color: "#93c5fd", textTransform: "uppercase", marginBottom: 4 }}>📥 Consome</div>
@@ -525,7 +494,6 @@ const PipelineNóRF = React.memo(({ data, selected }) => {
                 </div>
             )}
 
-            {/* Body — Outputs */}
             {formula && Object.keys(formula.output || {}).length > 0 && (
                 <div style={{ padding: formula && Object.keys(formula.input || {}).length > 0 ? "4px 12px 8px" : "7px 12px 8px" }}>
                     <div style={{ fontSize: 8, fontWeight: 700, color: "#6ee7b7", textTransform: "uppercase", marginBottom: 4 }}>📤 Produz</div>
@@ -537,7 +505,6 @@ const PipelineNóRF = React.memo(({ data, selected }) => {
                 </div>
             )}
 
-            {/* Mercado: produto único */}
             {isMercado && data.produtoId && prodMercado && (
                 <div style={{ padding: "7px 12px 8px" }}>
                     <div style={{ fontSize: 8, fontWeight: 700, color: data.tipo === "mercado_compra" ? "#93c5fd" : "#5eead4", textTransform: "uppercase", marginBottom: 4 }}>
@@ -548,26 +515,22 @@ const PipelineNóRF = React.memo(({ data, selected }) => {
                 </div>
             )}
 
-            {/* Venda final: produto do contrato */}
             {data.tipo === "venda" && data.formulaId && (
                 <div style={{ padding: "7px 12px 8px" }}>
                     <div style={{ fontSize: 8, fontWeight: 700, color: "#fca5a5", textTransform: "uppercase", marginBottom: 4 }}>📋 Contrato</div>
                     {(() => {
                         const sf = SALES_EDIFICIOS.find(e => e.nomeEdificio === data.buildingName)?.formulas?.find(f => f.id === data.formulaId);
                         if (!sf) return null;
-                        const prod = productsCatalog[sf.produto];
                         return <ProdChip pid={sf.produto} qtd={data.quantidade} tipo="venda" />;
                     })()}
                 </div>
             )}
 
-            {/* Rodapé: quantidade + gargalos de armazenamento */}
             <div style={{ borderTop: "1px solid rgba(255,255,255,.06)", padding: "5px 12px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     {data.quantidade > 0 && (
                         <span style={{ fontSize: 9, color: C.muted }}>×{data.quantidade} por ciclo</span>
                     )}
-                    {/* Badge de alerta se há gargalo */}
                     {data.gargalosNó && Object.values(data.gargalosNó).some(g => !g.ok) && (
                         <span style={{ fontSize: 9, fontWeight: 800, color: "#fbbf24", display: "flex", alignItems: "center", gap: 3 }}>
                             ⚠️ gargalo
@@ -575,7 +538,6 @@ const PipelineNóRF = React.memo(({ data, selected }) => {
                     )}
                 </div>
 
-                {/* Mini-barras de armazenamento por categoria */}
                 {data.gargalosNó && Object.keys(data.gargalosNó).length > 0 && (
                     <div style={{ marginTop: 5, display: "flex", flexDirection: "column", gap: 3 }}>
                         {Object.entries(data.gargalosNó).map(([cat, g]) => {
@@ -584,11 +546,9 @@ const PipelineNóRF = React.memo(({ data, selected }) => {
                             return (
                                 <div key={cat} style={{ display: "flex", alignItems: "center", gap: 5 }}>
                                     <span style={{ fontSize: 11, flexShrink: 0 }}>{g.icon}</span>
-                                    {/* Barra */}
                                     <div style={{ flex: 1, height: 4, background: "rgba(255,255,255,.08)", borderRadius: 99, overflow: "hidden" }}>
                                         <div style={{ height: "100%", width: `${pct}%`, background: cor, borderRadius: 99, boxShadow: `0 0 4px ${cor}88` }} />
                                     </div>
-                                    {/* Valores cap/necessário */}
                                     <span style={{ fontSize: 8, fontWeight: 700, color: cor, flexShrink: 0, minWidth: 58, textAlign: "right" }}>
                                         {g.capDisp}/{g.slotsNec}
                                         {!g.ok && " ⚠️"}
@@ -609,7 +569,6 @@ function stepParaNó(step, index, capArm, stock) {
     const formulaCfg = step.formulaId ? getFormulaById(step.formulaId) : null;
     const formula = formulaCfg?.formula;
 
-    // Calcular gargalos de armazenamento para este nó
     const gargalosNó = {};
     if (formula) {
         [...Object.entries(formula.input || {}), ...Object.entries(formula.output || {})].forEach(([pid, qtd]) => {
@@ -624,7 +583,6 @@ function stepParaNó(step, index, capArm, stock) {
         });
     }
 
-    // Stock atual dos produtos produzidos (para mostrar no footer do nó)
     const stockNó = {};
     if (formula) {
         Object.keys(formula.output || {}).forEach(pid => {
@@ -650,11 +608,13 @@ function stepParaNó(step, index, capArm, stock) {
     };
 }
 
-// ─── Painel Calculadora (lateral da lista e revisão) ─────────────────────────
+// ─── Painel Calculadora ──────────────────────────────────────────────────────
 
 function PainelCalculadora({ steps, stock }) {
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
     const edificiosFinais = useCentralStore(s => s.edificiosFinais);
+    const dados = edificiosFinais;
+
     const custoStorageCadeia = useMemo(() => {
         if (!edificiosFinais) return { custoMensalCadeia: 0, detalhePorCategoria: {}, gargalos: [] };
         const slotsNecMap = calcularSlotsNecessariosCadeia(steps, productsCatalog, FORMULAS_EDIFICIOS);
@@ -674,12 +634,10 @@ function PainelCalculadora({ steps, stock }) {
     const metricas = useMemo(() => {
         const custoArmReal = custoStorageCadeia.custoMensalCadeia;
 
-        // Impostos dos armazéns: soma impostoFixo de cada edifício que contribui para a cadeia
         let impostoArmazens = 0;
 
         if (dados) {
             const SETORES_JOGO = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
-
             const nomesUnicos = new Set();
 
             Object.values(custoStorageCadeia.detalhePorCategoria).forEach(det => {
@@ -728,9 +686,9 @@ function PainelCalculadora({ steps, stock }) {
             investimentoEstimado: Math.round(investimentoEstimado),
             impostoArmazens: Math.round(impostoArmazens),
             impostoTotal,
-            custoPorCategoria: {}, // não mais usado diretamente
+            custoPorCategoria: {},
         };
-    }, [calc, custos, custoStorageCadeia, steps, dados]);
+    }, [calc, custos, custoStorageCadeia, steps, dados, edificiosFinais]);
 
     const slotsNec = useMemo(() => calcularSlotsNecessariosCadeia(steps, productsCatalog, FORMULAS_EDIFICIOS), [steps]);
     const capArm = useMemo(() => {
@@ -745,11 +703,7 @@ function PainelCalculadora({ steps, stock }) {
                 if ((edDin.quantidade ?? 0) < 1) return;
                 const edEst = estaticos[index];
                 if (!edEst) return;
-
-                // passa o objeto combinado (nome do estático + quantidade do dinâmico)
-                // para calcularStorageGlobal processar corretamente
                 const edCombinado = { ...edEst, quantidade: edDin.quantidade };
-                // insere no formato que calcularStorageGlobal espera
                 if (!resultado[setor]) resultado[setor] = { edificios: [] };
                 resultado[setor].edificios.push(edCombinado);
             });
@@ -773,10 +727,6 @@ function PainelCalculadora({ steps, stock }) {
     const viavelBasico = calc.lucro > 0;
     const viavelReal = metricas.lucroLiquidoReal > 0;
 
-    // Custo de armazenamento por categoria — agora via GameContext
-
-
-    // Cores por viabilidade
     const corLucroReal = metricas.lucroLiquidoReal > 0 ? C.green
         : metricas.lucroLiquidoReal === 0 ? C.amber
             : C.red;
@@ -788,29 +738,23 @@ function PainelCalculadora({ steps, stock }) {
     return (
         <div style={{ background: C.bg3, border: `1px solid ${C.border}`, borderRadius: 14, padding: "14px 16px" }}>
 
-            {/* ── Cabeçalho ── */}
             <div style={{ fontSize: 10, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 12 }}>
                 📊 Análise da cadeia
             </div>
 
-            {/* ── BLOCO 1: Métricas financeiras principais ── */}
             <div style={{ marginBottom: 14 }}>
                 <div style={{ fontSize: 9, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 8 }}>
                     💰 Resultado financeiro
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
 
-                    {/* Receita */}
                     <MetricCard icon="📈" label="Receita estimada" value={fmt(calc.receitaTotal)} color={C.text} />
 
-                    {/* Custo insumos */}
                     <MetricCard icon="🛒" label="Custo insumos" value={fmt(calc.custoInsumos)} color={C.amber} />
 
-                    {/* Custo armazenamento */}
                     <MetricCard icon="🏗️" label="Custo armazenamento" value={fmt(calc.custoArmazenamento)} color="#fb923c"
                         tooltip="Custo mensal de armazenar inputs e outputs deste ciclo" />
 
-                    {/* Impostos fixos */}
                     {(custos.impostoFixoTotal > 0 || metricas.impostoArmazens > 0) && (
                         <div style={{ gridColumn: "1 / -1", background: "rgba(251,146,60,.06)", border: "1px solid rgba(251,146,60,.15)", borderRadius: 8, padding: "8px 10px" }}>
                             <div style={{ fontSize: 8, color: C.muted, marginBottom: 6 }}>🏛️ Impostos/mês (estimativa)</div>
@@ -825,7 +769,6 @@ function PainelCalculadora({ steps, stock }) {
                         </div>
                     )}
 
-                    {/* Lucro líquido REAL — destaque */}
                     <div style={{ gridColumn: "1 / -1", background: viavelReal ? "rgba(16,185,129,.1)" : "rgba(239,68,68,.1)", border: `1px solid ${viavelReal ? "rgba(16,185,129,.3)" : "rgba(239,68,68,.3)"}`, borderRadius: 10, padding: "10px 12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <div>
                             <div style={{ fontSize: 9, color: C.muted, marginBottom: 3 }}>✅ Lucro líquido real</div>
@@ -841,21 +784,17 @@ function PainelCalculadora({ steps, stock }) {
                         </div>
                     </div>
 
-                    {/* Margem líquida real */}
                     <MetricCard icon="📊" label="Margem líquida real" value={`${metricas.margemLiquidaReal}%`} color={parseFloat(metricas.margemLiquidaReal) >= 20 ? C.green : parseFloat(metricas.margemLiquidaReal) >= 5 ? C.amber : C.red} />
 
-                    {/* Tempo ciclo */}
                     <MetricCard icon="⏱️" label="Tempo por ciclo" value={`${calc.diasTotal}d`} color={C.blue} />
                 </div>
             </div>
 
-            {/* ── BLOCO 2: ROE e Breakeven ── */}
             <div style={{ marginBottom: 14 }}>
                 <div style={{ fontSize: 9, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 8 }}>
                     📈 Retorno sobre investimento
                 </div>
 
-                {/* Investimento estimado */}
                 <div style={{ background: "rgba(255,255,255,.04)", borderRadius: 8, padding: "8px 10px", marginBottom: 6 }}>
                     <div style={{ fontSize: 8, color: C.muted, marginBottom: 4 }}>
                         🏦 Capital estimado necessário
@@ -865,13 +804,11 @@ function PainelCalculadora({ steps, stock }) {
                 </div>
 
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-                    {/* ROE por ciclo */}
                     <div style={{ background: "rgba(255,255,255,.04)", borderRadius: 8, padding: "8px 10px" }}>
                         <div style={{ fontSize: 8, color: C.muted, marginBottom: 3 }}>ROE / ciclo</div>
                         <div style={{ fontSize: 16, fontWeight: 700, color: corROE }}>{metricas.roeReal}%</div>
                     </div>
 
-                    {/* ROE anualizado */}
                     <div style={{ background: "rgba(255,255,255,.04)", borderRadius: 8, padding: "8px 10px" }}>
                         <div style={{ fontSize: 8, color: C.muted, marginBottom: 3 }}>
                             ROE anual <span style={{ opacity: .6 }}>({metricas.ciclosAno} ciclos)</span>
@@ -879,7 +816,6 @@ function PainelCalculadora({ steps, stock }) {
                         <div style={{ fontSize: 16, fontWeight: 700, color: corROE }}>{metricas.roeAnual}%</div>
                     </div>
 
-                    {/* Breakeven ciclos */}
                     <div style={{ background: metricas.breakevenCiclos !== null && metricas.breakevenCiclos <= 10 ? "rgba(16,185,129,.08)" : "rgba(255,255,255,.04)", borderRadius: 8, padding: "8px 10px" }}>
                         <div style={{ fontSize: 8, color: C.muted, marginBottom: 3 }}>Breakeven (ciclos)</div>
                         <div style={{ fontSize: 16, fontWeight: 700, color: metricas.breakevenCiclos !== null ? (metricas.breakevenCiclos <= 5 ? C.green : metricas.breakevenCiclos <= 15 ? C.amber : C.red) : C.red }}>
@@ -887,7 +823,6 @@ function PainelCalculadora({ steps, stock }) {
                         </div>
                     </div>
 
-                    {/* Breakeven dias */}
                     <div style={{ background: "rgba(255,255,255,.04)", borderRadius: 8, padding: "8px 10px" }}>
                         <div style={{ fontSize: 8, color: C.muted, marginBottom: 3 }}>Breakeven (dias)</div>
                         <div style={{ fontSize: 16, fontWeight: 700, color: metricas.breakevenDias !== null ? (metricas.breakevenDias <= 60 ? C.green : metricas.breakevenDias <= 180 ? C.amber : C.red) : C.red }}>
@@ -896,14 +831,12 @@ function PainelCalculadora({ steps, stock }) {
                     </div>
                 </div>
 
-                {/* Barra de viabilidade */}
                 {metricas.breakevenCiclos !== null && (
                     <div style={{ marginTop: 8, background: "rgba(255,255,255,.04)", borderRadius: 8, padding: "8px 10px" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 8, color: C.muted, marginBottom: 5 }}>
                             <span>Progresso ao breakeven por ciclo</span>
                             <span>{metricas.breakevenCiclos} ciclos necessários</span>
                         </div>
-                        {/* Mini gráfico de ciclos até breakeven */}
                         <div style={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
                             {Array.from({ length: Math.min(metricas.breakevenCiclos, 20) }).map((_, i) => {
                                 const pct = ((i + 1) / metricas.breakevenCiclos) * 100;
@@ -920,12 +853,10 @@ function PainelCalculadora({ steps, stock }) {
                 )}
             </div>
 
-            {/* ── BLOCO 3: Breakdown de custos de armazenamento ── */}
             {Object.entries(custoStorageCadeia.detalhePorCategoria)
                 .sort((a, b) => b[1].custoProportional - a[1].custoProportional)
                 .map(([cat, detalhe]) => {
                     const custoPorSlot = CUSTO_POR_SLOT[cat] || 15;
-                    // Produtos vêm do slotsNec, não do detalhe
                     const produtosCat = slotsNec[cat]?.produtos || [];
                     return (
                         <div key={cat} style={{ background: "rgba(255,255,255,.04)", borderRadius: 8, padding: "8px 10px", marginBottom: 5 }}>
@@ -949,7 +880,6 @@ function PainelCalculadora({ steps, stock }) {
                                     </span>
                                 ))}
                             </div>
-                            {/* Edifícios que contribuem */}
                             {detalhe.edificios.length > 0 && (
                                 <div style={{ marginTop: 5, display: "flex", flexWrap: "wrap", gap: 3 }}>
                                     {detalhe.edificios.map((ed, i) => (
@@ -963,7 +893,6 @@ function PainelCalculadora({ steps, stock }) {
                     );
                 })}
 
-            {/* ── BLOCO 4: Gargalos de capacidade ── */}
             {custoStorageCadeia.gargalos.length > 0 && (
                 <div style={{ marginBottom: 14 }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
@@ -1030,7 +959,6 @@ function PainelCalculadora({ steps, stock }) {
                 </div>
             )}
 
-            {/* ── BLOCO 5: Insumos necessários ── */}
             {calc.insumosDetalhados.length > 0 && (
                 <div>
                     <div style={{ fontSize: 9, fontWeight: 700, color: C.muted, textTransform: "uppercase", marginBottom: 6 }}>
@@ -1068,52 +996,36 @@ function MetricCard({ icon, label, value, color, tooltip }) {
 // ─── PAINEL DE CONFIGURAÇÃO DO NÓ ────────────────────────────────────────────
 
 function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
-    // const { dados } = useContext(CentraldeDadosContext);
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
     const { contratosEdificios, getOuGerarContratos, stock: stockLocal } = useGame();
+   const dia = useCentralStore((s) => s.dia);
+    const edificiosFinais = useCentralStore((s) => s.edificiosFinais);
 
 
-
-    if (!stepData) return (
-        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px 16px", textAlign: "center" }}>
-            <div style={{ fontSize: 28, marginBottom: 8 }}>👆</div>
-            <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.7 }}>Clique em um edifício para configurá-lo</div>
-        </div>
-    );
-
-    const cfg = TIPO_NÓ[stepData.tipo] || TIPO_NÓ.producao;
-    const isMercado = stepData.tipo === "mercado_compra" || stepData.tipo === "mercado_venda";
-
-    // Contextos necessários para contratos
-
-    // Fórmulas de produção disponíveis
     const formulasProd = useMemo(() => {
-        if (stepData.tipo !== "producao") return [];
+        if (!stepData || stepData.tipo !== "producao") return [];
         return FORMULAS_EDIFICIOS.find(e => e.nomeEdificio === stepData.buildingName)?.formulas || [];
-    }, [stepData.buildingName, stepData.tipo]);
+    }, [stepData?.buildingName, stepData?.tipo]);
 
-    // Fórmulas de venda disponíveis
     const formulasVenda = useMemo(() => {
-        if (stepData.tipo !== "venda") return [];
+        if (!stepData || stepData.tipo !== "venda") return [];
         return SALES_EDIFICIOS.find(e => e.nomeEdificio === stepData.buildingName)?.formulas || [];
-    }, [stepData.buildingName, stepData.tipo]);
+    }, [stepData?.buildingName, stepData?.tipo]);
 
-    // Filtro de produtos para mercado — baseado nos outros steps do pipeline
+    const isMercado = stepData?.tipo === "mercado_compra" || stepData?.tipo === "mercado_venda";
+
     const produtosFiltrados = useMemo(() => {
-        if (!isMercado) return [];
+        if (!isMercado || !stepData) return [];
         const todosIds = Object.keys(marketPrices);
 
         if (stepData.tipo === "mercado_compra") {
             const inputIds = new Set();
 
             todosSteps.forEach(s => {
-                // Edifícios de PRODUÇÃO: coleta seus inputs (insumos necessários)
                 if (s.tipo === "producao" && s.buildingName) {
                     const ef = FORMULAS_EDIFICIOS.find(e => e.nomeEdificio === s.buildingName);
                     ef?.formulas?.forEach(f => Object.keys(f.input || {}).forEach(id => inputIds.add(id)));
                 }
-                // Edifícios de VENDA FINAL: coleta os produtos que eles vendem
-                // pois o mercado_compra pode estar fornecendo esses produtos diretamente
                 if (s.tipo === "venda" && s.buildingName) {
                     const ev = SALES_EDIFICIOS.find(e => e.nomeEdificio === s.buildingName);
                     ev?.formulas?.forEach(f => {
@@ -1122,7 +1034,6 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                 }
             });
 
-            // Se nenhum contexto encontrado, mostra todos os produtos disponíveis no mercado
             const ids = inputIds.size > 0 ? [...inputIds] : todosIds;
             return ids.filter(id => marketPrices[id])
                 .map(id => ({ id, ...productsCatalog[id], preco: marketPrices[id] }))
@@ -1133,12 +1044,10 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
             const outputIds = new Set();
 
             todosSteps.forEach(s => {
-                // Outputs de edifícios de PRODUÇÃO
                 if (s.tipo === "producao" && s.formulaId) {
                     const cfg = getFormulaById(s.formulaId);
                     if (cfg) Object.keys(cfg.formula.output || {}).forEach(id => outputIds.add(id));
                 }
-                // Sem formulaId mas com buildingName: pega todos os outputs possíveis
                 if (s.tipo === "producao" && s.buildingName && !s.formulaId) {
                     const ef = FORMULAS_EDIFICIOS.find(e => e.nomeEdificio === s.buildingName);
                     ef?.formulas?.forEach(f => Object.keys(f.output || {}).forEach(id => outputIds.add(id)));
@@ -1152,27 +1061,34 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
         }
 
         return [];
-    }, [isMercado, stepData.tipo, todosSteps]);
+    }, [isMercado, stepData?.tipo, todosSteps]);
 
     const formulaSel = useMemo(() => {
-        if (!stepData.formulaId) return null;
+        if (!stepData?.formulaId) return null;
         return getFormulaById(stepData.formulaId)?.formula || null;
-    }, [stepData.formulaId]);
+    }, [stepData?.formulaId]);
 
-    function upd(campo, valor) {
-        onAtualizar(stepData.id, { [campo]: valor });
-    }
-
-    // Mede a altura do header para posicionar o corpo abaixo dele
     const painelHeaderRef = React.useRef(null);
     const [painelHeaderH, setPainelHeaderH] = React.useState(56);
     React.useLayoutEffect(() => {
         if (painelHeaderRef.current) setPainelHeaderH(painelHeaderRef.current.offsetHeight);
     });
 
+    if (!stepData) return (
+        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px 16px", textAlign: "center" }}>
+            <div style={{ fontSize: 28, marginBottom: 8 }}>👆</div>
+            <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.7 }}>Clique em um edifício para configurá-lo</div>
+        </div>
+    );
+
+    const cfg = TIPO_NÓ[stepData.tipo] || TIPO_NÓ.producao;
+
+    function upd(campo, valor) {
+        onAtualizar(stepData.id, { [campo]: valor });
+    }
+
     return (
         <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-            {/* Header fixo no topo */}
             <div ref={painelHeaderRef} style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 2, padding: "12px 16px 10px", borderBottom: `1px solid ${C.border}`, background: `${cfg.bg}` }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <span style={{ fontSize: 20 }}>{cfg.icone}</span>
@@ -1183,10 +1099,8 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                 </div>
             </div>
 
-            {/* Corpo scrollável — começa exatamente abaixo do header */}
             <div style={{ position: "absolute", top: painelHeaderH, left: 0, right: 0, bottom: 0, overflowY: "auto", overflowX: "hidden", padding: "12px 16px", scrollbarWidth: "thin", scrollbarColor: "rgba(255,255,255,.08) transparent" }}>
 
-                {/* Seleção de fórmula de PRODUÇÃO */}
                 {formulasProd.length > 0 && (
                     <div style={{ marginBottom: 14 }}>
                         <div style={{ fontSize: 10, fontWeight: 700, color: C.muted, textTransform: "uppercase", marginBottom: 8 }}>
@@ -1197,7 +1111,6 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                             const ins = Object.entries(f.input || {});
                             const outs = Object.entries(f.output || {});
 
-                            // ── Cálculo financeiro por 1 run ──
                             const custoRun = ins.reduce((soma, [pid, q]) =>
                                 soma + (getMarketPrice(pid, economiaSetores) * q), 0);
                             const receitaRun = outs.reduce((soma, [pid, q]) =>
@@ -1225,7 +1138,6 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                                         {outs.map(([pid, q]) => <ProdChip key={pid} pid={pid} qtd={q} tipo="output" />)}
                                     </div>
 
-                                    {/* ── Mini painel financeiro ── */}
                                     <div style={{
                                         borderTop: "1px solid rgba(255,255,255,.08)",
                                         paddingTop: 7, marginTop: 2,
@@ -1271,9 +1183,7 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                     </div>
                 )}
 
-                {/* Seleção de fórmula de VENDA — mostra contratos reais disponíveis */}
                 {formulasVenda.length > 0 && (() => {
-                    const dia = useCentralStore((s) => s.dia);
                     const salesEd = SALES_EDIFICIOS.find(e => e.nomeEdificio === stepData.buildingName);
                     const contratos = salesEd && getOuGerarContratos
                         ? getOuGerarContratos(salesEd, dia || 0)
@@ -1285,10 +1195,8 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                                 📋 Contratos disponíveis
                             </div>
 
-                            {/* Contratos reais do ManagerSellPanel */}
                             {contratos.length > 0 ? (
                                 contratos.map(c => {
-                                    // Encontra a fórmula de venda correspondente ao produto do contrato
                                     const sf = formulasVenda.find(f => f.produto === c.productId);
                                     if (!sf) return null;
                                     const sel = stepData.formulaId === sf.id;
@@ -1327,7 +1235,6 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                                     );
                                 })
                             ) : (
-                                /* Fallback: mostra fórmulas com margem se não há contratos gerados */
                                 formulasVenda.map(f => {
                                     const sel = stepData.formulaId === f.id;
                                     const prod = productsCatalog[f.produto];
@@ -1348,7 +1255,6 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                     );
                 })()}
 
-                {/* Produto do mercado — filtrado por contexto */}
                 {isMercado && (
                     <div style={{ marginBottom: 14 }}>
                         <div style={{ fontSize: 10, fontWeight: 700, color: C.muted, textTransform: "uppercase", marginBottom: 6 }}>
@@ -1367,7 +1273,7 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                         {stepData.produtoId && (
                             <div style={{ fontSize: 10, color: C.muted, marginTop: 6 }}>
                                 Estoque atual: <b style={{ color: C.amber }}>
-                                    {stockLocal[stepData.produtoId] || 0}  {/* ← era useGame().stock */}
+                                    {stockLocal[stepData.produtoId] || 0}
                                 </b>
                             </div>
                         )}
@@ -1382,10 +1288,7 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                     </div>
                 )}
 
-                {/* Quantidade por ciclo com botão MAX e limitador */}
                 {(() => {
-                    // Busca a quantidade de edifícios construídos pelo nome do step
-                    // dados[setor].edificios é um array, então precisa de .find()
                     const SETORES_JOGO = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
                     let qtdEdificios = 1;
                     if (stepData.buildingName) {
@@ -1437,8 +1340,6 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                     );
                 })()}
 
-                {/* Estratégia de venda — só para nós de venda final */}
-                {/* Estratégia de venda — só para nós de venda final */}
                 {stepData.tipo === "venda" && (
                     <div style={{ marginBottom: 12, background: "rgba(255,255,255,.04)", borderRadius: 8, padding: "10px 12px" }}>
                         <div style={{ fontSize: 10, fontWeight: 700, color: C.muted, textTransform: "uppercase", marginBottom: 8 }}>
@@ -1461,7 +1362,6 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                             </div>
                         ))}
 
-                        {/* Atender todos os contratos disponíveis */}
                         <div style={{ marginTop: 8, borderTop: "1px solid rgba(255,255,255,.08)", paddingTop: 8 }}>
                             <div style={{ fontSize: 9, fontWeight: 700, color: C.muted, textTransform: "uppercase", marginBottom: 6 }}>
                                 🔁 Modo de repetição
@@ -1483,7 +1383,6 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                             ))}
                         </div>
 
-                        {/* Filtro de produto fixo */}
                         {stepData.filtrarProduto && (
                             <div style={{ marginTop: 6, fontSize: 9, color: C.amber, background: "rgba(245,158,11,.1)", borderRadius: 6, padding: "5px 8px" }}>
                                 🎯 Filtrando apenas: <b>{productsCatalog[stepData.filtrarProduto]?.nome || stepData.filtrarProduto}</b>
@@ -1496,7 +1395,6 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                     </div>
                 )}
 
-                {/* Estratégia quando falta estoque — só para venda final */}
                 {stepData.tipo === "venda" && (
                     <div style={{ marginBottom: 12, background: "rgba(255,255,255,.04)", borderRadius: 8, padding: "10px 12px" }}>
                         <div style={{ fontSize: 10, fontWeight: 700, color: C.muted, textTransform: "uppercase", marginBottom: 6 }}>
@@ -1521,7 +1419,6 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                     </div>
                 )}
 
-                {/* Threshold */}
                 <div style={{ marginBottom: 12, background: "rgba(255,255,255,.04)", borderRadius: 8, padding: "10px 12px" }}>
                     <div style={{ fontSize: 10, fontWeight: 700, color: C.muted, textTransform: "uppercase", marginBottom: 4 }}>
                         {stepData.tipo === "mercado_compra" ? "🛒 Comprar automaticamente quando estoque do produto cair abaixo de:" :
@@ -1537,7 +1434,6 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                     </div>
                 </div>
 
-                {/* Prioridade de insumo — só para produção */}
                 {stepData.tipo === "producao" && (
                     <div style={{ marginBottom: 12, background: "rgba(255,255,255,.04)", borderRadius: 8, padding: "10px 12px" }}>
                         <div style={{ fontSize: 10, fontWeight: 700, color: C.muted, textTransform: "uppercase", marginBottom: 6 }}>
@@ -1557,7 +1453,6 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
                     </div>
                 )}
 
-                {/* Preview de insumos da fórmula selecionada */}
                 {formulaSel && stepData.tipo === "producao" && (
                     <div style={{ background: "rgba(255,255,255,.04)", borderRadius: 8, padding: "10px 12px" }}>
                         <div style={{ fontSize: 10, fontWeight: 700, color: C.muted, textTransform: "uppercase", marginBottom: 8 }}>
@@ -1586,7 +1481,7 @@ function PainelConfigNó({ stepData, pipelineId, todosSteps, onAtualizar }) {
 }
 
 
-// ─── Footer do canvas — resumo de armazenamento de toda a cadeia ────────────
+// ─── Footer do canvas ────────────────────────────────────────────────────────
 
 function FooterCanvas({ steps }) {
     const edificiosFinais = useCentralStore(s => s.edificiosFinais);
@@ -1604,11 +1499,7 @@ function FooterCanvas({ steps }) {
                 if ((edDin.quantidade ?? 0) < 1) return;
                 const edEst = estaticos[index];
                 if (!edEst) return;
-
-                // passa o objeto combinado (nome do estático + quantidade do dinâmico)
-                // para calcularStorageGlobal processar corretamente
                 const edCombinado = { ...edEst, quantidade: edDin.quantidade };
-                // insere no formato que calcularStorageGlobal espera
                 if (!resultado[setor]) resultado[setor] = { edificios: [] };
                 resultado[setor].edificios.push(edCombinado);
             });
@@ -1641,13 +1532,11 @@ function FooterCanvas({ steps }) {
             display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap",
             maxWidth: "80%", boxShadow: temGargalo ? "0 0 20px rgba(239,68,68,.15)" : "0 4px 20px rgba(0,0,0,.5)",
         }}>
-            {/* Label */}
             <span style={{ fontSize: 9, fontWeight: 700, color: temGargalo ? "#fbbf24" : "#10b981", textTransform: "uppercase", letterSpacing: ".1em", marginRight: 4, flexShrink: 0 }}>
                 {temGargalo ? "⚠️ Gargalos" : "✅ Armazenamento"}
             </span>
             <div style={{ width: 1, height: 16, background: "rgba(255,255,255,.1)", flexShrink: 0 }} />
 
-            {/* Uma pill por categoria */}
             {categorias.map(c => (
                 <div key={c.cat} style={{
                     display: "flex", alignItems: "center", gap: 4,
@@ -1657,11 +1546,9 @@ function FooterCanvas({ steps }) {
                     cursor: "default",
                 }}>
                     <span style={{ fontSize: 13 }}>{c.icon}</span>
-                    {/* Mini barra */}
                     <div style={{ width: 32, height: 4, background: "rgba(255,255,255,.08)", borderRadius: 99, overflow: "hidden" }}>
                         <div style={{ height: "100%", width: `${c.pct}%`, background: c.cor, borderRadius: 99 }} />
                     </div>
-                    {/* Valores */}
                     <span style={{ fontSize: 9, fontWeight: 700, color: c.cor, whiteSpace: "nowrap" }}>
                         {c.capDisp}/{c.slots}
                         {!c.ok && " ⚠️"}
@@ -1679,12 +1566,13 @@ function EditorCanvas({ pipelineId, onSalvar }) {
     const { stock } = useGame();
     const pipeline = pipelines.find(p => p.id === pipelineId);
 
+    const edificiosFinais = useCentralStore(s => s.edificiosFinais);
+
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState(pipeline?.edges || []);
     const [nóSel, setNóSel] = useState(null);
     const [addAberto, setAddAberto] = useState(false);
 
-    // Calcula capacidade de armazenamento para passar aos nós
     const capArm = useMemo(() => {
         const resultado = {};
         const SETORES_JOGO = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
@@ -1705,13 +1593,11 @@ function EditorCanvas({ pipelineId, onSalvar }) {
         return calcularStorageGlobal(resultado);
     }, [edificiosFinais]);
 
-    // Reconstrói nodes a partir dos steps do contexto — inclui dados de gargalo
     useEffect(() => {
         if (!pipeline) return;
         setNodes(pipeline.steps.map((step, i) => stepParaNó(step, i, capArm, stock)));
     }, [pipeline?.steps?.length, pipelineId, capArm, stock]);
 
-    // Restaura edges ao abrir o editor
     useEffect(() => {
         if (pipeline?.edges?.length > 0) setEdges(pipeline.edges);
     }, [pipelineId]);
@@ -1726,6 +1612,15 @@ function EditorCanvas({ pipelineId, onSalvar }) {
     const onNodeDragStop = useCallback((_, n) => {
         if (pipelineId) atualizarStep(pipelineId, n.id, { _posicao: n.position });
     }, [pipelineId, atualizarStep]);
+
+    const edsP = useMemo(
+        () => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "producao"),
+        [edificiosFinais]
+    );
+    const edsV = useMemo(
+        () => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "venda"),
+        [edificiosFinais]
+    );
 
     function removerNóSel() {
         if (!nóSel) return;
@@ -1746,24 +1641,13 @@ function EditorCanvas({ pipelineId, onSalvar }) {
         onSalvar();
     }
 
-    const stepSelecionado = pipeline?.steps?.find(s => s.id === nóSel) || null;
-    const edificiosFinais = useCentralStore(s => s.edificiosFinais);
-
-    const edsP = useMemo(
-        () => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "producao"),
-        [edificiosFinais]
-    );
-    const edsV = useMemo(
-        () => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "venda"),
-        [edificiosFinais]
-    );
-
     if (!pipeline) return <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", background: C.bg, color: C.muted }}>Pipeline não encontrado.</div>;
+
+    const stepSelecionado = pipeline?.steps?.find(s => s.id === nóSel) || null;
 
     return (
         <div style={{ display: "flex", height: "100%", width: "100%", minHeight: 0, overflow: "hidden" }}>
             <div style={{ flex: 1, position: "relative" }}>
-                {/* Toolbar */}
                 <div style={{ position: "absolute", top: 12, left: 12, right: 12, zIndex: 10, display: "flex", gap: 8, alignItems: "center" }}>
                     <button onClick={() => setAddAberto(p => !p)}
                         style={{ background: C.purple, border: "none", borderRadius: 8, color: "#fff", padding: "7px 14px", fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", gap: 6 }}>
@@ -1784,7 +1668,6 @@ function EditorCanvas({ pipelineId, onSalvar }) {
                     </button>
                 </div>
 
-                {/* Painel de adição */}
                 {addAberto && (
                     <div style={{ position: "absolute", top: 52, left: 12, zIndex: 20, background: C.bg2, border: `1px solid ${C.border2}`, borderRadius: 12, padding: "14px 16px", width: 260, maxHeight: "60vh", overflowY: "auto" }}>
                         <div style={{ fontSize: 10, fontWeight: 700, color: C.muted, textTransform: "uppercase", marginBottom: 10 }}>Escolha o edifício ou ação</div>
@@ -1853,11 +1736,9 @@ function EditorCanvas({ pipelineId, onSalvar }) {
                     <MiniMap nodeColor={n => TIPO_NÓ[n.data?.tipo]?.cor || C.purple} style={{ background: C.bg2, border: `1px solid ${C.border}`, borderRadius: 8 }} zoomable pannable />
                 </ReactFlow>
 
-                {/* Footer: resumo de armazenamento da cadeia inteira */}
                 <FooterCanvas steps={pipeline?.steps || []} />
             </div>
 
-            {/* Painel lateral de configuração — posição absoluta para scroll correto */}
             <div style={{ width: 280, flexShrink: 0, background: C.bg2, borderLeft: `1px solid ${C.border}`, position: "relative" }}>
                 <PainelConfigNó
                     stepData={stepSelecionado}
@@ -1933,25 +1814,32 @@ function EtapaObjetivo({ onProximo }) {
 // ─── ETAPA 1a — Contratos de venda ───────────────────────────────────────────
 
 function EtapaContratoVenda({ onProximo, onVoltar }) {
-    // const { dados } = useContext(CentraldeDadosContext);
     const { contratosEdificios, getOuGerarContratos, stock, startSale } = useGame();
     const [edSel, setEdSel] = useState(null);
     const [contratoSel, setContratoSel] = useState(null);
     const [criarCadeia, setCriarCadeia] = useState(null);
-    const [produtoAlvo, setProdutoAlvo] = useState(null); // "fixo" | "qualquer"
-    const [modoAtendimento, setModoAtendimento] = useState(null); // "um" | "todos"
+    const [produtoAlvo, setProdutoAlvo] = useState(null);
+    const [modoAtendimento, setModoAtendimento] = useState(null);
+
     const dia = useCentralStore((s) => s.dia);
+    const edificiosFinais = useCentralStore(s => s.edificiosFinais);
+
     const edsVenda = useMemo(
         () => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "venda"),
         [edificiosFinais]
-    ); const contratos = useMemo(() => {
+    );
+
+    const contratos = useMemo(() => {
         if (!edSel) return [];
         const conf = SALES_EDIFICIOS.find(e => e.nomeEdificio === edSel.nome);
         if (!conf) return [];
         return getOuGerarContratos(conf, dia, edSel.quantidade || 1, 1);
     }, [edSel, dia, contratosEdificios]);
 
-    const temPreReq = useMemo(() => contratoSel && (stock[contratoSel.productId] || 0) >= contratoSel.quantidade, [contratoSel, stock]);
+    const temPreReq = useMemo(
+        () => contratoSel && (stock[contratoSel.productId] || 0) >= contratoSel.quantidade,
+        [contratoSel, stock]
+    );
 
     return (
         <div style={{ maxWidth: 820, margin: "0 auto", padding: "28px 24px" }}>
@@ -1984,7 +1872,7 @@ function EtapaContratoVenda({ onProximo, onVoltar }) {
                             const sel = contratoSel?.id === c.id;
                             return (
                                 <div key={c.id} onClick={() => {
-                                    setContratoSel(c); setCriarCadeia(null); setProdutoAlvo(null);       // ← novo
+                                    setContratoSel(c); setCriarCadeia(null); setProdutoAlvo(null);
                                     setModoAtendimento(null);
                                 }}
                                     style={{ background: sel ? "rgba(16,185,129,.14)" : C.card, border: `1.5px solid ${sel ? C.green : C.border}`, borderRadius: 12, padding: "12px 14px", cursor: "pointer" }}>
@@ -2024,10 +1912,8 @@ function EtapaContratoVenda({ onProximo, onVoltar }) {
                                 {" · "}Valor: <b style={{ color: C.green }}>{fmt(contratoSel.valorTotal)}</b>
                             </div>
                             <button onClick={() => {
-                                // Garante que o contrato tem todos os campos necessários para startSale
                                 const contratoCompleto = {
                                     ...contratoSel,
-                                    // formulaId é necessário pelo GameContext para processar a venda
                                     formulaId: contratoSel.formulaId || (() => {
                                         const conf = SALES_EDIFICIOS.find(e => e.nomeEdificio === edSel?.nome);
                                         return conf?.formulas?.find(f => f.produto === contratoSel.productId)?.id || "";
@@ -2054,7 +1940,6 @@ function EtapaContratoVenda({ onProximo, onVoltar }) {
                     </div>
                     {criarCadeia !== null && (
                         <>
-                            {/* === NOVO: Configuração de automação === */}
                             <div style={{
                                 background: "rgba(139,92,246,.08)",
                                 border: "1px solid rgba(139,92,246,.25)",
@@ -2066,7 +1951,6 @@ function EtapaContratoVenda({ onProximo, onVoltar }) {
                                     ⚙️ Modo de automação do pipeline
                                 </div>
 
-                                {/* Produto fixo vs qualquer produto */}
                                 <div style={{ marginBottom: 12 }}>
                                     <div style={{ fontSize: 11, color: C.muted, marginBottom: 6 }}>
                                         Produto alvo da cadeia:
@@ -2093,7 +1977,6 @@ function EtapaContratoVenda({ onProximo, onVoltar }) {
                                     </div>
                                 </div>
 
-                                {/* Modo: um contrato vs todos possíveis */}
                                 <div>
                                     <div style={{ fontSize: 11, color: C.muted, marginBottom: 6 }}>
                                         Quantidade de contratos a atender:
@@ -2129,7 +2012,6 @@ function EtapaContratoVenda({ onProximo, onVoltar }) {
                                     )}
                                 </div>
                             </div>
-                            {/* === FIM novo bloco === */}
 
                             {produtoAlvo && modoAtendimento && (
                                 <BotaoPrimario onClick={() => onProximo({
@@ -2137,9 +2019,8 @@ function EtapaContratoVenda({ onProximo, onVoltar }) {
                                     edificioVenda: edSel,
                                     contrato: contratoSel,
                                     criarCadeia,
-                                    // novos campos que chegam ao gerarStepsDoConfig:
-                                    produtoAlvo,          // "fixo" | "qualquer"
-                                    modoAtendimento,      // "um" | "todos"
+                                    produtoAlvo,
+                                    modoAtendimento,
                                     produtoAlvoId: produtoAlvo === "fixo" ? contratoSel.productId : null,
                                 })}>
                                     Continuar →
@@ -2155,28 +2036,15 @@ function EtapaContratoVenda({ onProximo, onVoltar }) {
 
 // ─── ETAPA 1c — Produção/Ociosos/Estoque ─────────────────────────────────────
 
-
 // ─── ETAPA 1b — Arbitragem de mercado ───────────────────────────────────────
 
 function EtapaArbitragem({ onProximo, onVoltar }) {
     const edificiosFinais = useCentralStore(s => s.edificiosFinais);
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
-
-    const comEdificio = analise.filter(op => {
-        const ed = getEdsTipo(dados, "producao").find(e => e.nome === op.edificioCompra);
-        return ed && ed.quantidade > 0;
-    });
-    const semEdificio = analise.filter(op => {
-        const ed = getEdsTipo(dados, "producao").find(e => e.nome === op.edificioCompra);
-        return !ed || !ed.quantidade;
-    });
-
-    // const { dados } = useContext(CentraldeDadosContext);
     const [opSel, setOpSel] = useState(null);
 
-    // Usa analisarArbitragem do executor — lógica corrigida:
-    // busca produtos que podem ser VENDIDOS em setores aquecidos,
-    // produzidos a partir de insumos de setores em recessão
+    const dados = edificiosFinais;
+
     const analise = useMemo(() => {
         return analisarArbitragem(economiaSetores);
     }, [economiaSetores]);
@@ -2211,7 +2079,6 @@ function EtapaArbitragem({ onProximo, onVoltar }) {
                     </div>
                 </div>
             ) : (() => {
-                // Separar oportunidades: tenho o edifício vs. não tenho
                 const comEdificio = analise.filter(op => {
                     const ed = getEdsTipo(dados, "producao").find(e => e.nome === op.edificioCompra);
                     return ed && ed.quantidade > 0;
@@ -2225,7 +2092,6 @@ function EtapaArbitragem({ onProximo, onVoltar }) {
                     const sel = opSel?.id === op.id;
                     const ef = FORMULAS_EDIFICIOS.find(e => e.nomeEdificio === op.edificioCompra);
                     const f = ef?.formulas?.find(fm => Object.keys(fm.output || {}).includes(op.prodId));
-                    // Custo estimado por ciclo
                     const custoEstimado = f
                         ? Object.entries(f.input || {}).reduce((s, [pid, q]) => s + getMarketPrice(pid, economiaSetores) * q, 0)
                         : 0;
@@ -2248,7 +2114,6 @@ function EtapaArbitragem({ onProximo, onVoltar }) {
                         >
                             <span style={{ fontSize: 26, flexShrink: 0 }}>{op.prodIcon}</span>
                             <div style={{ flex: 1 }}>
-                                {/* Linha 1: produto + margem */}
                                 <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 5, flexWrap: "wrap" }}>
                                     <span style={{ fontSize: 13, fontWeight: 700, color: C.text }}>{op.prodNome}</span>
                                     <span style={{ fontSize: 9, color: C.amber, fontWeight: 700, background: "rgba(245,158,11,.15)", padding: "2px 7px", borderRadius: 6 }}>
@@ -2261,7 +2126,6 @@ function EtapaArbitragem({ onProximo, onVoltar }) {
                                     )}
                                 </div>
 
-                                {/* Linha 2: fluxo produção → venda */}
                                 <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap", fontSize: 11, marginBottom: 6 }}>
                                     <span style={{ color: C.muted }}>🏭 {op.edificioCompra}</span>
                                     <span style={{ color: "rgba(255,255,255,.2)" }}>em</span>
@@ -2273,7 +2137,6 @@ function EtapaArbitragem({ onProximo, onVoltar }) {
                                     <span style={{ fontSize: 9, padding: "2px 6px", borderRadius: 8, background: "rgba(16,185,129,.2)", color: C.green }}>{op.ecoVenda}</span>
                                 </div>
 
-                                {/* Linha 3: custo / receita / lucro estimados */}
                                 {f && (
                                     <div style={{ display: "flex", gap: 12, fontSize: 10 }}>
                                         <span>💰 Custo: <b style={{ color: C.amber }}>{fmt(custoEstimado)}</b>/ciclo</span>
@@ -2290,7 +2153,6 @@ function EtapaArbitragem({ onProximo, onVoltar }) {
 
                 return (
                     <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 20 }}>
-                        {/* Oportunidades com edifícios disponíveis */}
                         {comEdificio.length > 0 && (
                             <>
                                 <div style={{ fontSize: 9, fontWeight: 700, color: C.green, textTransform: "uppercase", letterSpacing: ".1em", margin: "4px 0" }}>
@@ -2300,7 +2162,6 @@ function EtapaArbitragem({ onProximo, onVoltar }) {
                             </>
                         )}
 
-                        {/* Oportunidades sem edifício — só mostra info, não permite selecionar */}
                         {semEdificio.length > 0 && (
                             <>
                                 <div style={{ fontSize: 9, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: ".1em", margin: "8px 0 4px" }}>
@@ -2417,16 +2278,16 @@ function EtapaProducaoVenda({ objetivo, onProximo, onVoltar }) {
 function EtapaRevisao({ pipelineId, onAtivo, onVoltar }) {
     const { pipelines, togglePipeline, atualizarPipeline } = usePipeline();
     const { stock } = useGame();
-    // const { dados } = useContext(CentraldeDadosContext);
     const edificiosFinais = useCentralStore(s => s.edificiosFinais);
     const pipeline = pipelines.find(p => p.id === pipelineId);
     const [nome, setNome] = useState(pipeline?.nome || "Novo Pipeline");
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
+
     if (!pipeline) return null;
+
     const calc = calcularCadeia(pipeline.steps || [], stock, economiaSetores);
     const viavel = calc.lucro > 0;
 
-    // Mínimo de insumos para iniciar (cálculo direto — sem hooks aninhados)
     const minimoInsumos = calcularMinimoParaIniciar(pipeline.steps || []);
     const podeIniciar = Object.entries(minimoInsumos).every(([pid, qtd]) => (stock[pid] || 0) >= qtd);
 
@@ -2441,7 +2302,6 @@ function EtapaRevisao({ pipelineId, onAtivo, onVoltar }) {
 
             <PainelCalculadora steps={pipeline.steps || []} stock={stock} />
 
-            {/* Mínimo para iniciar */}
             {Object.keys(minimoInsumos).length > 0 && (
                 <div style={{ background: podeIniciar ? "rgba(16,185,129,.07)" : "rgba(239,68,68,.07)", border: `1px solid ${podeIniciar ? "rgba(16,185,129,.3)" : "rgba(239,68,68,.3)"}`, borderRadius: 12, padding: "12px 16px", marginTop: 16, marginBottom: 16 }}>
                     <div style={{ fontSize: 11, fontWeight: 700, color: podeIniciar ? C.green : C.red, marginBottom: 8 }}>
@@ -2485,85 +2345,73 @@ function EtapaRevisao({ pipelineId, onAtivo, onVoltar }) {
 // ─── Gerador de steps a partir da configuração do wizard ─────────────────────
 
 function gerarStepsDoConfig(cfg, economiaSetores = {}) {
-
     const steps = [];
     if (cfg.objetivo === "contrato_venda") {
-        if (cfg.objetivo === "contrato_venda") {
-            const pid = cfg.produtoAlvoId || cfg.contrato?.productId;
+        const pid = cfg.produtoAlvoId || cfg.contrato?.productId;
 
-            const formulasDoEdificio = SALES_EDIFICIOS
-                .find(e => e.nomeEdificio === cfg.edificioVenda?.nome)?.formulas || [];
+        const formulasDoEdificio = SALES_EDIFICIOS
+            .find(e => e.nomeEdificio === cfg.edificioVenda?.nome)?.formulas || [];
 
-            const formulasAlvo = cfg.produtoAlvo === "fixo"
-                ? formulasDoEdificio.filter(f => f.produto === pid)
-                : formulasDoEdificio;
+        const formulasAlvo = cfg.produtoAlvo === "fixo"
+            ? formulasDoEdificio.filter(f => f.produto === pid)
+            : formulasDoEdificio;
 
-            formulasAlvo.forEach(sf => {
-                const prodId = sf.produto;
-                const qtdContrato = cfg.contrato?.quantidade || 1;
+        formulasAlvo.forEach(sf => {
+            const prodId = sf.produto;
+            const qtdContrato = cfg.contrato?.quantidade || 1;
 
-                // Threshold de compra: quantos ciclos manter em estoque
-                // "todos" → mantém 2 contratos-vale; "um" → apenas 1 contrato
-                const thresholdCompra = cfg.modoAtendimento === "todos"
-                    ? qtdContrato * 2
-                    : qtdContrato;
+            const thresholdCompra = cfg.modoAtendimento === "todos"
+                ? qtdContrato * 2
+                : qtdContrato;
 
-                if (cfg.criarCadeia) {
-                    // Procura edifício de produção que gera o produto
-                    FORMULAS_EDIFICIOS.forEach(ef => {
-                        const fMatch = ef.formulas?.find(f =>
-                            Object.keys(f.output || {}).includes(prodId)
-                        );
-                        if (!fMatch) return;
+            if (cfg.criarCadeia) {
+                FORMULAS_EDIFICIOS.forEach(ef => {
+                    const fMatch = ef.formulas?.find(f =>
+                        Object.keys(f.output || {}).includes(prodId)
+                    );
+                    if (!fMatch) return;
 
-                        // Insumos da fórmula precisam de steps de compra
-                        Object.entries(fMatch.input || {}).forEach(([insumoId, qtdInsumo]) => {
-                            const thresholdInsumo = cfg.modoAtendimento === "todos"
-                                ? qtdInsumo * 3   // 3 ciclos de buffer
-                                : qtdInsumo * 2;  // 2 ciclos de buffer
+                    Object.entries(fMatch.input || {}).forEach(([insumoId, qtdInsumo]) => {
+                        const thresholdInsumo = cfg.modoAtendimento === "todos"
+                            ? qtdInsumo * 3
+                            : qtdInsumo * 2;
 
-                            steps.push(stepParaContexto("mercado_compra", "Mercado Global", {
-                                produtoId: insumoId,
-                                quantidade: thresholdInsumo,
-                                condicaoThreshold: thresholdInsumo,
-                                precoTeto: (marketPrices[insumoId] || 0) * 3 || 99999,
-                            }));
-                        });
-
-                        steps.push(stepParaContexto("producao", ef.nomeEdificio, {
-                            formulaId: fMatch.id,
-                            quantidade: fMatch.capacidadePorEdificio || 1,
-                            // Produz até ter estoque suficiente para N contratos
-                            condicaoThreshold: cfg.modoAtendimento === "todos"
-                                ? qtdContrato * 3
-                                : qtdContrato,
-                            prioridadeInsumo: "comprar_se_faltar",
+                        steps.push(stepParaContexto("mercado_compra", "Mercado Global", {
+                            produtoId: insumoId,
+                            quantidade: thresholdInsumo,
+                            condicaoThreshold: thresholdInsumo,
+                            precoTeto: (marketPrices[insumoId] || 0) * 3 || 99999,
                         }));
                     });
-                } else {
-                    // Sem cadeia de produção → compra direto do mercado
-                    steps.push(stepParaContexto("mercado_compra", "Mercado Global", {
-                        produtoId: prodId,
-                        quantidade: qtdContrato,          // compra exatamente 1 contrato de cada vez
-                        condicaoThreshold: qtdContrato,   // só compra se tiver menos que 1 contrato em estoque
-                        precoTeto: (marketPrices[prodId] || 0) * 2 || 99999,
-                    }));
-                }
 
-                // Step de venda com todos os flags necessários
-                steps.push(stepParaContexto("venda", cfg.edificioVenda?.nome, {
-                    formulaId: sf.id,
+                    steps.push(stepParaContexto("producao", ef.nomeEdificio, {
+                        formulaId: fMatch.id,
+                        quantidade: fMatch.capacidadePorEdificio || 1,
+                        condicaoThreshold: cfg.modoAtendimento === "todos"
+                            ? qtdContrato * 3
+                            : qtdContrato,
+                        prioridadeInsumo: "comprar_se_faltar",
+                    }));
+                });
+            } else {
+                steps.push(stepParaContexto("mercado_compra", "Mercado Global", {
                     produtoId: prodId,
-                    quantidade: cfg.modoAtendimento === "todos" ? 9999 : qtdContrato,
-                    condicaoThreshold: 0,
-                    // USA filtrarProduto em vez de estrategiaVenda="produto_fixo"
-                    // porque produto_fixo depende de getSalesFormulaConfig que pode falhar
-                    estrategiaVenda: cfg.produtoAlvo === "fixo" ? "maior_margem" : "maior_margem",
-                    atenderTodosContratos: cfg.modoAtendimento === "todos",
-                    filtrarProduto: cfg.produtoAlvo === "fixo" ? prodId : null,
+                    quantidade: qtdContrato,
+                    condicaoThreshold: qtdContrato,
+                    precoTeto: (marketPrices[prodId] || 0) * 2 || 99999,
                 }));
-            });
-        }
+            }
+
+            steps.push(stepParaContexto("venda", cfg.edificioVenda?.nome, {
+                formulaId: sf.id,
+                produtoId: prodId,
+                quantidade: cfg.modoAtendimento === "todos" ? 9999 : qtdContrato,
+                condicaoThreshold: 0,
+                estrategiaVenda: "maior_margem",
+                atenderTodosContratos: cfg.modoAtendimento === "todos",
+                filtrarProduto: cfg.produtoAlvo === "fixo" ? prodId : null,
+            }));
+        });
     }
     if (cfg.objetivo === "venda_producao" || cfg.objetivo === "ociosos") {
         if (cfg.formula && cfg.edificioProducao) {
@@ -2576,30 +2424,25 @@ function gerarStepsDoConfig(cfg, economiaSetores = {}) {
     if (cfg.objetivo === "arbitragem" && cfg.oportunidade) {
         const op = cfg.oportunidade;
         const ef = FORMULAS_EDIFICIOS.find(e => e.nomeEdificio === op.edificioCompra);
-        // Encontra a fórmula que produz especificamente o produto da oportunidade
         const f = ef?.formulas?.find(fm => Object.keys(fm.output || {}).includes(op.prodId)) || ef?.formulas?.[0];
 
         if (f) {
-            // Para cada insumo necessário, cria um step de compra no mercado
-            // se o jogador configurou prioridadeInsumo como mercado
             Object.entries(f.input || {}).forEach(([pid, qtd]) => {
                 steps.push(stepParaContexto("mercado_compra", "Mercado Global", {
                     produtoId: pid,
-                    quantidade: qtd * 5, // 5 ciclos de estoque inicial
-                    condicaoThreshold: qtd * 2, // repõe quando cair abaixo de 2 ciclos
-                    precoTeto: getMarketPrice(pid, economiaSetores) * 2, // teto 2x o preço atual
+                    quantidade: qtd * 5,
+                    condicaoThreshold: qtd * 2,
+                    precoTeto: getMarketPrice(pid, economiaSetores) * 2,
                 }));
             });
 
-            // Step de produção — usa a fórmula que gera o produto da oportunidade
             steps.push(stepParaContexto("producao", op.edificioCompra, {
                 formulaId: f.id,
                 quantidade: f.capacidadePorEdificio || 1,
-                condicaoThreshold: Object.values(f.output || {})[0] * 3 || 10, // produz até ter 3 ciclos
-                prioridadeInsumo: "comprar_se_faltar", // compra automaticamente se faltar
+                condicaoThreshold: Object.values(f.output || {})[0] * 3 || 10,
+                prioridadeInsumo: "comprar_se_faltar",
             }));
         } else {
-            // Sem edifício de venda → escoar no mercado global
             const qtdOutput = f ? Object.values(f.output || {})[0] || 1 : 1;
             steps.push(stepParaContexto("mercado_venda", "Mercado Global", {
                 produtoId: op.prodId,
@@ -2608,34 +2451,18 @@ function gerarStepsDoConfig(cfg, economiaSetores = {}) {
             }));
         }
 
-        // Verifica se tem edifício de venda compatível com o produto
         const edVenda = SALES_EDIFICIOS.find(e =>
             e.setor === op.setorVenda && e.formulas?.some(fv => fv.produto === op.prodId)
         );
         const fVenda = edVenda?.formulas?.find(fv => fv.produto === op.prodId);
 
         if (edVenda && fVenda) {
-            // Tem edifício de venda no setor aquecido → usa contrato
             steps.push(stepParaContexto("venda", edVenda.nomeEdificio, {
                 formulaId: fVenda.id,
                 produtoId: op.prodId,
                 quantidade: f?.capacidadePorEdificio || 1,
                 condicaoThreshold: 0,
             }));
-        } else {
-            // Insumos da fórmula precisam de steps de compra
-            Object.entries(fMatch.input || {}).forEach(([insumoId, qtdInsumo]) => {
-                // Buffer: para "todos" mantém 2 ciclos, para "um" mantém 1 ciclo exato
-                const ciclosBuffer = cfg.modoAtendimento === "todos" ? 2 : 1;
-                const qtdBuffer = qtdInsumo * ciclosBuffer;
-
-                steps.push(stepParaContexto("mercado_compra", "Mercado Global", {
-                    produtoId: insumoId,
-                    quantidade: qtdBuffer,        // compra no máximo 1 ciclo de buffer por vez
-                    condicaoThreshold: qtdBuffer, // repõe quando cair abaixo do buffer
-                    precoTeto: (marketPrices[insumoId] || 0) * 3 || 99999,
-                }));
-            });
         }
     }
 
@@ -2645,14 +2472,10 @@ function gerarStepsDoConfig(cfg, economiaSetores = {}) {
 
     console.log("[Pipeline] gerarStepsDoConfig →", cfg.objetivo, "steps:", steps.length, steps);
     return steps;
-
 }
 
-// ─── Calcula insumos mínimos para iniciar a cadeia ───────────────────────────
-// Dado um array de steps, retorna os insumos necessários para pelo menos 1 ciclo
-
 function calcularMinimoParaIniciar(steps) {
-    const necessarios = {}; // produtoId -> qtd mínima
+    const necessarios = {};
     steps.forEach(step => {
         if (step.tipo !== "producao" || !step.formulaId) return;
         const cfg = getFormulaById(step.formulaId);
@@ -2664,11 +2487,8 @@ function calcularMinimoParaIniciar(steps) {
     return necessarios;
 }
 
-// ─── Gera cadeia recomendada completa baseada nos edifícios do jogador ────────
-
 function gerarCadeiaRecomendada(edsProducao, edsVenda) {
     if (edsProducao.length === 0 || edsVenda.length === 0) return null;
-    // Encontra pares produção → venda com maior sinergia
     let melhorCadeia = null;
     let melhorScore = 0;
 
@@ -2677,13 +2497,12 @@ function gerarCadeiaRecomendada(edsProducao, edsVenda) {
         if (!salesEd) return;
 
         salesEd.formulas?.forEach(sf => {
-            // Procura qual edifício de produção gera o produto desse contrato
             FORMULAS_EDIFICIOS.forEach(ef => {
                 const fMatch = ef.formulas?.find(f => Object.keys(f.output || {}).includes(sf.produto));
                 if (!fMatch) return;
 
                 const edP = edsProducao.find(e => e.nome === ef.nomeEdificio);
-                if (!edP) return; // Jogador não tem esse edifício
+                if (!edP) return;
 
                 const score = (edP.quantidade || 0) * (marketPrices[sf.produto] || 0);
                 if (score > melhorScore) {
@@ -2703,11 +2522,9 @@ function gerarCadeiaRecomendada(edsProducao, edsVenda) {
 
 // ─── COMPONENTE RAIZ ──────────────────────────────────────────────────────────
 
-
 export default function CadeiaProdutiva() {
     const { criarPipelineComSteps, pipelines, removerPipeline, togglePipeline, produtosSemVazao } = usePipeline();
     const { stock } = useGame();
-    // const { dados } = useContext(CentraldeDadosContext);
     const edificiosFinais = useCentralStore(s => s.edificiosFinais);
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
     const [etapa, setEtapa] = useState("lista");
@@ -2715,14 +2532,30 @@ export default function CadeiaProdutiva() {
     const [pipelineId, setPipelineId] = useState(null);
     const [modalRemover, setModalRemover] = useState(false);
     const [pipelineParaRemover, setPipelineParaRemover] = useState(null);
-    function iniciarNovo() { setEtapa("objetivo"); setObjetivo(null); setPipelineId(null); }
+
     const edsP = useMemo(() => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "producao"), [edificiosFinais]);
     const edsV = useMemo(() => getEdsTipo(EDIFICIOS_FINAIS_ESTATICOS, edificiosFinais, "venda"), [edificiosFinais]);
 
+    const storageGlobal = useMemo(() => {
+        const resultado = {};
+        SETORES.forEach(setor => {
+            const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+            const dinamicos = edificiosFinais[setor]?.edificios || [];
+            dinamicos.forEach((edDin, index) => {
+                if ((edDin.quantidade ?? 0) < 1) return;
+                const edEst = estaticos[index];
+                if (!edEst) return;
+                if (!resultado[setor]) resultado[setor] = { edificios: [] };
+                resultado[setor].edificios.push({ ...edEst, quantidade: edDin.quantidade });
+            });
+        });
+        return calcularStorageGlobal(resultado);
+    }, [edificiosFinais]);
 
+    function iniciarNovo() { setEtapa("objetivo"); setObjetivo(null); setPipelineId(null); }
 
     function onConfigurarProximo(cfg) {
-        const steps = gerarStepsDoConfig(cfg, economiaSetores)
+        const steps = gerarStepsDoConfig(cfg, economiaSetores);
         const nome = cfg.objetivo === "contrato_venda"
             ? `${productsCatalog[cfg.contrato?.productId]?.nome || "Contrato"} via ${cfg.edificioVenda?.nome}`
             : `Pipeline ${new Date().toLocaleDateString("pt-BR")}`;
@@ -2749,7 +2582,6 @@ export default function CadeiaProdutiva() {
         >
             {ch}
 
-            {/* ✅ MODAL AQUI */}
             <AnimatePresence>
                 {modalRemover && (
                     <motion.div
@@ -2788,10 +2620,8 @@ export default function CadeiaProdutiva() {
                                 boxShadow: "0 20px 60px rgba(0,0,0,.5)"
                             }}
                         >
-                            {/* Ícone */}
                             <div style={{ fontSize: 32, marginBottom: 8 }}>🗑️</div>
 
-                            {/* Título */}
                             <div style={{
                                 fontSize: 17,
                                 fontWeight: 700,
@@ -2801,7 +2631,6 @@ export default function CadeiaProdutiva() {
                                 Remover cadeia
                             </div>
 
-                            {/* Linha */}
                             <div style={{
                                 width: 70,
                                 height: 2,
@@ -2809,7 +2638,6 @@ export default function CadeiaProdutiva() {
                                 margin: "0 auto 14px auto"
                             }} />
 
-                            {/* Texto */}
                             <div style={{
                                 fontSize: 12,
                                 color: C.muted,
@@ -2822,7 +2650,6 @@ export default function CadeiaProdutiva() {
                                 </span>?
                             </div>
 
-                            {/* Botões */}
                             <div style={{ display: "flex", gap: 10 }}>
                                 <button
                                     onClick={() => {
@@ -2911,23 +2738,6 @@ export default function CadeiaProdutiva() {
                         FORMULAS_EDIFICIOS
                     );
 
-                    const storageGlobal = useMemo(() => {
-                        const resultado = {};
-                        SETORES.forEach(setor => {
-                            const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
-                            const dinamicos = edificiosFinais[setor]?.edificios || [];
-                            dinamicos.forEach((edDin, index) => {
-                                if ((edDin.quantidade ?? 0) < 1) return;
-                                const edEst = estaticos[index];
-                                if (!edEst) return;
-                                if (!resultado[setor]) resultado[setor] = { edificios: [] };
-                                resultado[setor].edificios.push({ ...edEst, quantidade: edDin.quantidade });
-                            });
-                        });
-                        return calcularStorageGlobal(resultado);
-                    }, [edificiosFinais]);
-
-                    // ✅ AQUI
                     const agregado = storageAgregado.agregado || {};
 
                     const todasCats = new Set([
@@ -2977,7 +2787,6 @@ export default function CadeiaProdutiva() {
                                                 {pct.toFixed(0)}%
                                             </span>
                                         </div>
-                                        {/* Barra: preenchimento = uso das cadeias ativas / capacidade total */}
                                         <div style={{ height: 5, background: "rgba(255,255,255,.08)", borderRadius: 99, overflow: "hidden", marginBottom: 5 }}>
                                             <div style={{ height: "100%", width: `${Math.min(100, pct)}%`, background: cor, borderRadius: 99, transition: "width .4s" }} />
                                         </div>
@@ -2997,7 +2806,6 @@ export default function CadeiaProdutiva() {
                         </div>
                     );
                 })()}
-                {/* Alerta de produtos sem vazão */}
                 {produtosSemVazao && produtosSemVazao.length > 0 && (
                     <div style={{ background: "rgba(245,158,11,.08)", border: "1px solid rgba(245,158,11,.3)", borderRadius: 12, padding: "12px 16px", marginBottom: 20 }}>
                         <div style={{ fontSize: 11, fontWeight: 700, color: C.amber, marginBottom: 8 }}>
@@ -3044,21 +2852,18 @@ export default function CadeiaProdutiva() {
                             const labelUltimo = labelStep(ultimo);
                             const todosIcones = [...new Set(steps.flatMap(s => iconesProdutosStep(s)))].slice(0, 5);
 
-                            // Edifícios únicos envolvidos
                             const edificiosNaCadeia = [...new Set(
                                 steps.filter(s => s.buildingName && s.buildingName !== "Mercado Global").map(s => s.buildingName)
                             )];
 
                             return (
                                 <div key={p.id} style={{ background: C.card, border: `1.5px solid ${p.ativo ? C.green + "55" : C.border}`, borderRadius: 14, padding: "14px 16px" }}>
-                                    {/* Header: nome + status */}
                                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                                         <div style={{ width: 8, height: 8, borderRadius: "50%", background: p.ativo ? C.green : C.muted, flexShrink: 0 }} />
                                         <div style={{ flex: 1, minWidth: 0 }}>
                                             <div style={{ fontSize: 12, fontWeight: 700, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                                 {p.nome || "Pipeline"}
                                             </div>
-                                            {/* Fluxo: primeiro → último */}
                                             <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 2 }}>
                                                 <span style={{ fontSize: 12 }}>{labelPrimeiro.icon}</span>
                                                 <span style={{ fontSize: 9, color: C.muted, maxWidth: 90, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{labelPrimeiro.nome}</span>
@@ -3076,14 +2881,12 @@ export default function CadeiaProdutiva() {
                                         </span>
                                     </div>
 
-                                    {/* Ícones dos produtos */}
                                     {todosIcones.length > 0 && (
                                         <div style={{ display: "flex", gap: 4, marginBottom: 8 }}>
                                             {todosIcones.map((ic, i) => <span key={i} style={{ fontSize: 18 }}>{ic}</span>)}
                                         </div>
                                     )}
 
-                                    {/* Métricas financeiras */}
                                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 4, marginBottom: 8 }}>
                                         <div style={{ background: "rgba(255,255,255,.04)", borderRadius: 6, padding: "5px 7px" }}>
                                             <div style={{ fontSize: 7, color: C.muted, marginBottom: 1 }}>📈 Receita</div>
@@ -3099,7 +2902,6 @@ export default function CadeiaProdutiva() {
                                         </div>
                                     </div>
 
-                                    {/* Info secundária */}
                                     <div style={{ display: "flex", gap: 8, fontSize: 9, color: C.muted, marginBottom: 10, flexWrap: "wrap" }}>
                                         <span>⏱️ {calc.diasTotal}d/ciclo</span>
                                         <span>📦 {steps.length} ações</span>
@@ -3109,7 +2911,6 @@ export default function CadeiaProdutiva() {
                                         )}
                                     </div>
 
-                                    {/* Botões */}
                                     <div style={{ display: "flex", gap: 6 }}>
                                         <button onClick={() => togglePipeline(p.id)}
                                             style={{ flex: 1, background: p.ativo ? "rgba(245,158,11,.18)" : "rgba(16,185,129,.18)", border: "none", borderRadius: 7, color: p.ativo ? C.amber : C.green, padding: "6px 0", fontSize: 11, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>

@@ -1088,29 +1088,35 @@ export function GameProvider({ children }) {
     // };
 
 
+const edificiosFinaisStore = useCentralStore((s) => s.edificiosFinais);
+
 const storageQuantities = useMemo(() => {
-    if (!EDIFICIOS_BASE_DINAMICOS) return {};
+  if (!edificiosFinaisStore) return {};
 
-    const result = {};
-    const setores = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
+  const result = {};
+  const setores = ["agricultura", "industria", "comercio", "tecnologia", "imobiliario", "energia"];
 
-    setores.forEach(setor => {
-        const edificiosQtd = EDIFICIOS_BASE_DINAMICOS?.[setor]?.edificios || [];
-        const edificiosNome = EDIFICIOS_FINAIS_ESTATICOS?.[setor]?.edificios || [];
+  setores.forEach((setor) => {
+    const edificiosEstaticos = EDIFICIOS_FINAIS_ESTATICOS?.[setor]?.edificios || [];
+    const edificiosDinamicos = edificiosFinaisStore?.[setor]?.edificios || [];
 
-        edificiosNome.forEach((edificio, index) => {
-            const chave = Object.keys(storageProfiles).find(k =>
-                storageProfiles[k].nome === edificio.nome
-            );
+    edificiosEstaticos.forEach((edificioEstatico, index) => {
+      const chave = Object.keys(storageProfiles).find(
+        (k) => storageProfiles[k].nome === edificioEstatico.nome
+      );
+      if (!chave) return;
 
-            if (chave) {
-                result[chave] = edificiosQtd[index]?.quantidade || 0;
-            }
-        });
+      const quantidade = edificiosDinamicos[index]?.quantidade || 0;
+      if (quantidade > 0) {
+        result[chave] = (result[chave] || 0) + quantidade;
+      } else if (!(chave in result)) {
+        result[chave] = 0;
+      }
     });
+  });
 
-    return result;
-}, [EDIFICIOS_BASE_DINAMICOS]);
+  return result;
+}, [edificiosFinaisStore]);
 
 
     /* =========================
