@@ -131,7 +131,7 @@ export const LicenceModalBusiness = () => {
             document.body
         );
     }
-
+    
     const atingiuLimite = edAtual >= edMax;
     const estaPerto = edMax - edAtual <= 2 && !atingiuLimite;
 

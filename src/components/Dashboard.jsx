@@ -299,7 +299,29 @@ export default function Dashboard() {
   const abrirModalLicencasSinal = useCentralStore((s) => s.abrirModalLicencas);
   const atualizarDados = useCentralStore((s) => s.atualizarDados);
   const atualizarLote = useCentralStore((s) => s.atualizarLote);
+const edificioGerenciamento = useCentralStore((s) => s.edificioGerenciamento);
+const [edificioInicialGerenciamento, setEdificioInicialGerenciamento] = useState(null);
+const abaSolicitada = useCentralStore((s) => s.abaSolicitada);
 
+useEffect(() => {
+  if (!abaSolicitada) return;
+
+  setAtivo(abaSolicitada);
+  atualizarDadosProf2(["setorAtivo"], abaSolicitada);
+
+  // limpa para não re-disparar
+  useCentralStore.getState().setAbaSolicitada(null);
+}, [abaSolicitada]);
+
+useEffect(() => {
+  if (!edificioGerenciamento) return;
+
+  setAtivo("gerenciamento");
+  atualizarDadosProf2(["setorAtivo"], "gerenciamento");
+  setEdificioInicialGerenciamento(edificioGerenciamento);
+
+  useCentralStore.getState().setEdificioGerenciamento(null);
+}, [edificioGerenciamento]);
 
   // ─── PERFORMANCE: snapshotDados memoizado ────────────────────────────────────
   // Antes era JSON.stringify pesado recalculado em TODO render do Dashboard.
@@ -985,7 +1007,7 @@ console.log(ativo)
 
               {ativo === "gerenciamento" && (
                 <div className="w-full h-full flex flex-col justify-between">
-                  <GerenciamentoHub />
+    <GerenciamentoHub edificioInicial={edificioInicialGerenciamento} />
                 </div>
               )}
 

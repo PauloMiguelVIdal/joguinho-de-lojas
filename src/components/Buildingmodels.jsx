@@ -2249,6 +2249,22 @@ export const MODELOS = {
       { modeloId: 119, offset: [0, 0, 0], escala: 1, rotacao: 1.6},
     ]
   },
+  557: {
+    label: 'fábrica h + terreno',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 95, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 75, offset: [-0.13, 0.05, -0.2], escala: 0.40, rotacao: 26.7 },
+    ]
+  },
+  558: {
+    label: 'fábrica h + terreno',
+    tipo: 'composto',
+    partes: [
+      { modeloId: 95, offset: [0, 0, 0], escala: 1, rotacao: 0 },
+      { modeloId: 75, offset: [-0.13, 0.05, -0.2], escala: 0.40, rotacao: 26.7 },
+    ]
+  },
 }
 
 

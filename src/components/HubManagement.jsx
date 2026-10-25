@@ -1,4 +1,4 @@
-import { useState, useMemo, useContext } from "react";
+import { useState, useMemo, useContext,useEffect } from "react";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import BuildingCard from "./BuildingCard";
 import ManagerPanelInterface from "./ManagerPanelInterface";
@@ -22,10 +22,15 @@ import {
 } from "lucide-react";
 // import { CentraldeDadosContext } from "../centralDeDadosContext";
 
-export default function HubManagement() {
+export default function HubManagement({ edificioInicial = null }) {
   const [edificioSelecionado, setEdificioSelecionado] = useState(null);
   const [selectedSector, setSelectedSector] = useState("all");
   const edificiosFinais = useCentralStore((s) => s.edificiosFinais);
+
+  useEffect(() => {
+    if (!edificioInicial) return;
+    setEdificioSelecionado(edificioInicial);
+  }, [edificioInicial]);
 
   // const {dados}  = useContext(CentraldeDadosContext)
   const brand = {

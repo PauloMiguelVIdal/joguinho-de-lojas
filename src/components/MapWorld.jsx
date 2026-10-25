@@ -1,18 +1,17 @@
 // ============================================================
 //  MapWorld.jsx
+//  (com Mercado e Ecossistema móveis + hover suave)
 // ============================================================
 
-import React, { useState, useMemo, useContext, useEffect, useRef } from 'react'
-import { Canvas } from '@react-three/fiber'
+import React, { useState, useMemo, useContext, useEffect, useRef, useCallback } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, OrbitControls, Html } from '@react-three/drei'
 import { defineHex, Grid, spiral } from 'honeycomb-grid'
 import * as THREE from 'three'
-// import { CentraldeDadosContext } from '../centralDeDadosContext'
 import { DadosEconomyGlobalContext } from '../dadosEconomyGlobal'
 import { BuildingModel } from './BuildingModel'
 import { resolverModeloSede, MODELOS, EDIFICIO_PARA_MODELO } from './buildingModels'
-import { useFrame } from '@react-three/fiber'
-import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL, LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
 import {
   EDIFICIOS_FINAIS_ESTATICOS,
   LICENCAS_ESTATICAS,
@@ -20,7 +19,8 @@ import {
   LICENCAS_ESTATICAS_GLOBAIS,
 } from "../stores/dadosEstáticos";
 
-
+// ─── Config de fórmulas (traduz nome+setor → edificioId) ───
+import { FORMULAS_EDIFICIOS } from './productionFormulasConfig';
 
 
 const HEX_SIZE = 0.6
@@ -30,9 +30,6 @@ const hexToWorld = (hex, size) => ({
   z: size * 1.5 * hex.r,
 })
 
-// ─────────────────────────────────────────────────────────────
-//  Direções dos 6 vizinhos — pointy-top hex grid
-// ─────────────────────────────────────────────────────────────
 const HEX_DIRECTIONS = [
   [1, 0], [1, -1], [0, -1],
   [-1, 0], [-1, 1], [0, 1],
@@ -48,9 +45,38 @@ function edificioEhCluster(nomeEdificio) {
   return MODELOS[modeloId]?.tamanho === 7
 }
 
-// ─────────────────────────────────────────────────────────────
-//  Paleta de setores
-// ─────────────────────────────────────────────────────────────
+// ─── Sets que determinam se o edifício tem gerenciamento ───
+const PRODUCTIONS_SET = new Set([
+  "Plantação De Grãos","Fazenda De Vacas","Plantação De Eucalipto","Granja De Aves","Criação De Ovinos",
+  "Serraria","Fábrica De Smartphones","Fábrica De Computadores","Fábrica De Consoles De Jogos",
+  "Fábrica De Dispositivos Vestíveis","Fábrica De Rações","Fábrica De Embalagens","Fábrica De Fertilizantes",
+  "Fábrica Têxtil","Fábrica De Calçados","Fábrica De Roupas","Fábrica De Celulose","Fábrica De Papel",
+  "Fábrica De Livros","Fábrica De Medicamentos","Laboratório Farmacêutico","Fábrica De Plásticos",
+  "Fábrica De Químicos Especializados","Alto-Forno","Usina Siderúrgica","Fundição De Alumínio",
+  "Fábrica De Ligas Metálicas","Indústria De Componentes Mecânicos","Fábrica De Chapas Metálicas",
+  "Fábrica De Estruturas Metálicas","Fábrica De Peças Automotivas","Montadora De Veículos Elétricos",
+  "Fábrica De Automóveis","Refinaria","Biofábrica","Fábrica De Chips","Fábrica De Placas Eletrônicas",
+  "Fábrica De Semicondutores","Fábrica De Robôs","Fábrica De Motores","Fábrica De Foguetes",
+  "Fábrica De Aeronaves","Estaleiro","Fábrica De Turbinas Eólicas","Fábrica De Painéis Solares","Fábrica De Baterias",
+]);
+
+const SELL_FINAL_SET = new Set([
+  "Livraria","Mercado","Açougue","Petshop","Farmácia","Loja De Calçados","Loja De Vestuário",
+  "Loja De Gadgets E Wearables","Loja De Games","Loja De Celulares","Loja De Informática",
+  "Loja De Eletrônicos","Concessionária De Veículos",
+]);
+
+function edificioTemGerenciamento(nome) {
+  return PRODUCTIONS_SET.has(nome) || SELL_FINAL_SET.has(nome);
+}
+
+function buscarEdificioIdPorNomeESetor(nome, setor) {
+  const found = FORMULAS_EDIFICIOS.find(
+    (f) => f.nomeEdificio === nome && f.setor === setor
+  );
+  return found?.edificioId ?? null;
+}
+
 const SETOR_CONFIG = {
   agricultura:  { label: 'Agricultura', cor1: '#003816', cor3: '#0C9123', cor4: '#4CAF50' },
   tecnologia:   { label: 'Tecnologia',  cor1: '#A64B00', cor3: '#FF6F00', cor4: '#FF8C42' },
@@ -60,20 +86,99 @@ const SETOR_CONFIG = {
   energia:      { label: 'Energia',     cor1: '#665200', cor3: '#E6B800', cor4: '#FFD966' },
 }
 
+const MERCADO_CONFIG = {
+  label: 'Mercado Global',
+  cor1: '#6A00FF',
+  cor3: '#934CFF',
+  cor4: '#C79FFF',
+}
+
+const ECOSSISTEMA_CONFIG = {
+  label: 'Ecossistema',
+  cor1: '#0C9123',
+  cor3: '#4CAF50',
+  cor4: '#81C784',
+}
+
+const SEDE_CONFIG = {
+  label: 'Sede',
+  cor1: '#350973',
+  cor3: '#6A00FF',
+  cor4: '#C79FFF',
+}
+
 const getImageUrl = (nome) => `/imagens/${nome}.png`
 
+// ─── Hook de elevação suave ─────────────────────────────────
+function useElevacaoSuave({ selected, hovered, baseY = 0 }) {
+  const ref = useRef()
+  const targetY = useRef(baseY)
+
+  useEffect(() => {
+    if (selected) targetY.current = baseY + 0.14
+    else if (hovered) targetY.current = baseY + 0.06
+    else targetY.current = baseY
+  }, [selected, hovered, baseY])
+
+  useFrame(() => {
+    if (!ref.current) return
+    const atual = ref.current.position.y
+    const alvo = targetY.current
+    const diff = alvo - atual
+    if (Math.abs(diff) > 0.0005) {
+      ref.current.position.y = atual + diff * 0.18
+    } else {
+      ref.current.position.y = alvo
+    }
+  })
+
+  return ref
+}
+
+// ─── AnimatedHex (scale-in bounce para novos tiles) ─────────
+const AnimatedHex = React.memo(({ expandindo, ehNovo, children }) => {
+  const ref = useRef()
+  const startTimeRef = useRef(null)
+  const DURACAO = 500
+
+  useFrame(({ clock }) => {
+    if (!ref.current) return
+    if (!expandindo || !ehNovo) {
+      if (ref.current.scale.x !== 1) ref.current.scale.setScalar(1)
+      return
+    }
+    if (startTimeRef.current == null) startTimeRef.current = clock.elapsedTime
+    const elapsed = (clock.elapsedTime - startTimeRef.current) * 1000
+    const t = Math.min(1, elapsed / DURACAO)
+    const c1 = 1.70158
+    const c3 = c1 + 1
+    const eased = 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2)
+    ref.current.scale.setScalar(eased)
+  })
+
+  useEffect(() => {
+    if (!expandindo) startTimeRef.current = null
+  }, [expandindo])
+
+  return <group ref={ref}>{children}</group>
+})
+
 // ─────────────────────────────────────────────────────────────
-//  SedeTag
+//  SedeTag / MercadoTag / EcossistemaTag
 // ─────────────────────────────────────────────────────────────
-const SedeTag = ({ nomeEmpresa, porte, tagsVisiveis }) => {
+const SedeTag = ({ nomeEmpresa, porte, tagsVisiveis, selected }) => {
   if (!tagsVisiveis) return null
   return (
     <Html position={[0, 1.5, 0]} center distanceFactor={8} style={{ pointerEvents: 'none' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
         <div style={{
-          background: 'linear-gradient(135deg, rgba(76,20,169,0.95) 0%, rgba(30,8,80,0.95) 100%)',
-          border: '1.5px solid rgba(199,159,255,0.6)',
-          boxShadow: '0 0 18px rgba(100,17,217,0.55), 0 2px 8px rgba(0,0,0,0.6)',
+          background: selected
+            ? 'linear-gradient(135deg, #F27405 0%, #8B3D00 100%)'
+            : 'linear-gradient(135deg, rgba(76,20,169,0.95) 0%, rgba(30,8,80,0.95) 100%)',
+          border: selected ? '1.5px solid #ffb060' : '1.5px solid rgba(199,159,255,0.6)',
+          boxShadow: selected
+            ? '0 0 18px rgba(242,116,5,0.6), 0 2px 8px rgba(0,0,0,0.6)'
+            : '0 0 18px rgba(100,17,217,0.55), 0 2px 8px rgba(0,0,0,0.6)',
           borderRadius: '10px', padding: '5px 12px',
           fontFamily: "'Rajdhani','Segoe UI',sans-serif",
           fontWeight: 800, fontSize: '13px', letterSpacing: '0.08em',
@@ -103,10 +208,72 @@ const SedeTag = ({ nomeEmpresa, porte, tagsVisiveis }) => {
   )
 }
 
+const MercadoTag = ({ tagsVisiveis, selected }) => {
+  if (!tagsVisiveis) return null
+  return (
+    <Html position={[0, 1.4, 0]} center distanceFactor={8} style={{ pointerEvents: 'none' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+        <div style={{
+          background: selected
+            ? 'linear-gradient(135deg, #F27405 0%, #8B3D00 100%)'
+            : 'linear-gradient(135deg, rgba(106,0,255,0.95) 0%, rgba(52,9,115,0.95) 100%)',
+          border: selected ? '1.5px solid #ffb060' : '1.5px solid rgba(199,159,255,0.7)',
+          boxShadow: selected
+            ? '0 0 18px rgba(242,116,5,0.6), 0 2px 8px rgba(0,0,0,0.6)'
+            : '0 0 18px rgba(106,0,255,0.55), 0 2px 8px rgba(0,0,0,0.6)',
+          borderRadius: '10px', padding: '5px 12px',
+          fontFamily: "'Rajdhani','Segoe UI',sans-serif",
+          fontWeight: 800, fontSize: '12px', letterSpacing: '0.09em',
+          color: '#fff', whiteSpace: 'nowrap',
+          textShadow: '0 1px 4px rgba(0,0,0,0.6)', textTransform: 'uppercase',
+        }}>
+          🏛 Mercado Global
+        </div>
+      </div>
+      <div style={{
+        width: 2, height: 14, margin: '2px auto 0',
+        background: 'linear-gradient(to bottom, rgba(199,159,255,0.8), transparent)',
+        borderRadius: 1,
+      }} />
+    </Html>
+  )
+}
+
+const EcossistemaTag = ({ tagsVisiveis, selected }) => {
+  if (!tagsVisiveis) return null
+  return (
+    <Html position={[0, 1.4, 0]} center distanceFactor={8} style={{ pointerEvents: 'none' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+        <div style={{
+          background: selected
+            ? 'linear-gradient(135deg, #F27405 0%, #8B3D00 100%)'
+            : 'linear-gradient(135deg, rgba(12,145,35,0.95) 0%, rgba(0,56,22,0.95) 100%)',
+          border: selected ? '1.5px solid #ffb060' : '1.5px solid rgba(129,199,132,0.7)',
+          boxShadow: selected
+            ? '0 0 18px rgba(242,116,5,0.6), 0 2px 8px rgba(0,0,0,0.6)'
+            : '0 0 18px rgba(12,145,35,0.55), 0 2px 8px rgba(0,0,0,0.6)',
+          borderRadius: '10px', padding: '5px 12px',
+          fontFamily: "'Rajdhani','Segoe UI',sans-serif",
+          fontWeight: 800, fontSize: '12px', letterSpacing: '0.09em',
+          color: '#fff', whiteSpace: 'nowrap',
+          textShadow: '0 1px 4px rgba(0,0,0,0.6)', textTransform: 'uppercase',
+        }}>
+          🌿 Ecossistema
+        </div>
+      </div>
+      <div style={{
+        width: 2, height: 14, margin: '2px auto 0',
+        background: 'linear-gradient(to bottom, rgba(129,199,132,0.8), transparent)',
+        borderRadius: 1,
+      }} />
+    </Html>
+  )
+}
+
 // ─────────────────────────────────────────────────────────────
 //  HexBaseSede
 // ─────────────────────────────────────────────────────────────
-const HexBaseSede = () => {
+const HexBaseSede = ({ hovered, selected }) => {
   const shape = useMemo(() => {
     const s = new THREE.Shape()
     const vs = HEX_SIZE * 1.015
@@ -128,8 +295,22 @@ const HexBaseSede = () => {
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.2, 0]} receiveShadow>
         <shapeGeometry args={[shape]} />
-        <meshStandardMaterial color="#5a9e44" roughness={0.8} metalness={0} />
+        <meshStandardMaterial
+          color={selected ? '#b4e06e' : hovered ? '#78c052' : '#5a9e44'}
+          roughness={0.8}
+          metalness={0}
+        />
       </mesh>
+      {(selected || hovered) && (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.21, 0]}>
+          <ringGeometry args={[HEX_SIZE * 0.9, HEX_SIZE * 1.0, 6]} />
+          <meshBasicMaterial
+            color={selected ? '#F27405' : '#d4f08a'}
+            transparent
+            opacity={selected ? 1 : 0.5}
+          />
+        </mesh>
+      )}
     </group>
   )
 }
@@ -137,18 +318,33 @@ const HexBaseSede = () => {
 // ─────────────────────────────────────────────────────────────
 //  TileSede
 // ─────────────────────────────────────────────────────────────
-const TileSede = ({ nomeEmpresa, porte, tagsVisiveis }) => {
+const TileSede = ({ nomeEmpresa, porte, tagsVisiveis, selected, onSelect, onDoubleSelect }) => {
   const config = useMemo(() => resolverModeloSede(porte), [porte])
+  const [hovered, setHover] = useState(false)
+  const groupRef = useElevacaoSuave({ selected, hovered, baseY: 0 })
+
   return (
-    <group position={[0, 0, 0]}>
-      <HexBaseSede />
+    <group
+      ref={groupRef}
+      position={[0, 0, 0]}
+      onPointerOver={(e) => { e.stopPropagation(); setHover(true) }}
+      onPointerOut={() => setHover(false)}
+      onClick={(e) => { e.stopPropagation(); onSelect() }}
+      onDoubleClick={(e) => { e.stopPropagation(); onDoubleSelect() }}
+    >
+      <HexBaseSede hovered={hovered} selected={selected} />
       <BuildingModel
         nomeEdificio={null}
         corFallback="#888888"
         posicaoBase={[0, 0.22, 0]}
         _overrideConfig={config}
       />
-      <SedeTag nomeEmpresa={nomeEmpresa} porte={porte} tagsVisiveis={tagsVisiveis} />
+      <SedeTag
+        nomeEmpresa={nomeEmpresa}
+        porte={porte}
+        tagsVisiveis={tagsVisiveis}
+        selected={selected}
+      />
     </group>
   )
 }
@@ -272,22 +468,27 @@ const HexTileClusterSatelite = ({ hex, corTopo, modeloId, corFallback }) => {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  HexTile
+//  HexTile — edifícios padrão
 // ─────────────────────────────────────────────────────────────
-const HexTile = ({ hex, building, onSelect, moveMode, selected, tagsVisiveis }) => {
+const HexTile = ({ hex, building, onSelect, onDoubleSelect, moveMode, selected, tagsVisiveis }) => {
   const [hovered, setHover] = useState(false)
   const { x, z } = hexToWorld(hex, HEX_SIZE)
   const cfg = building ? SETOR_CONFIG[building.setor] : null
-  const yPos = hovered ? 0.08 : 0
+  const groupRef = useElevacaoSuave({ selected, hovered, baseY: 0 })
 
   return (
     <group
-      position={[x, yPos, z]}
+      ref={groupRef}
+      position={[x, 0, z]}
       onPointerOver={(e) => { e.stopPropagation(); setHover(true) }}
       onPointerOut={() => setHover(false)}
       onClick={(e) => {
         e.stopPropagation()
         if (building || moveMode) onSelect(hex)
+      }}
+      onDoubleClick={(e) => {
+        e.stopPropagation()
+        if (building && onDoubleSelect) onDoubleSelect(building)
       }}
     >
       <HexBase hovered={hovered} selected={selected} />
@@ -323,22 +524,120 @@ const HexTile = ({ hex, building, onSelect, moveMode, selected, tagsVisiveis }) 
           <meshBasicMaterial color="#F27405" transparent opacity={0.75} />
         </mesh>
       )}
+      {moveMode && building && hovered && (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.22, 0]}>
+          <ringGeometry args={[HEX_SIZE * 0.5, HEX_SIZE * 0.65, 6]} />
+          <meshBasicMaterial color="#ff2222" transparent opacity={0.75} />
+        </mesh>
+      )}
     </group>
   )
 }
 
 // ─────────────────────────────────────────────────────────────
-//  InfiniteBase — chão circular azulado
+//  HexTileMercado — com MOVE
+// ─────────────────────────────────────────────────────────────
+const HexTileMercado = ({ hex, selected, onSelect, onDoubleSelect, moveMode, tagsVisiveis }) => {
+  const [hovered, setHover] = useState(false)
+  const { x, z } = hexToWorld(hex, HEX_SIZE)
+  const groupRef = useElevacaoSuave({ selected, hovered, baseY: 0 })
+
+  return (
+    <group
+      ref={groupRef}
+      position={[x, 0, z]}
+      onPointerOver={(e) => { e.stopPropagation(); setHover(true) }}
+      onPointerOut={() => setHover(false)}
+      onClick={(e) => { e.stopPropagation(); onSelect(hex) }}
+      onDoubleClick={(e) => { e.stopPropagation(); onDoubleSelect() }}
+    >
+      <HexBase hovered={hovered} selected={selected} />
+      {(selected || hovered) && (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.21, 0]}>
+          <ringGeometry args={[HEX_SIZE * 0.9, HEX_SIZE * 1.0, 6]} />
+          <meshBasicMaterial
+            color={selected ? '#F27405' : '#ffffff'}
+            transparent
+            opacity={selected ? 1 : 0.4}
+          />
+        </mesh>
+      )}
+      <BuildingModel
+        nomeEdificio={null}
+        corFallback={MERCADO_CONFIG.cor4}
+        posicaoBase={[0, 0.22, 0]}
+        _overrideModeloId={18}
+      />
+      <MercadoTag tagsVisiveis={tagsVisiveis} selected={selected} />
+
+      {/* feedback ao mover */}
+      {moveMode && hovered && (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.22, 0]}>
+          <ringGeometry args={[HEX_SIZE * 0.5, HEX_SIZE * 0.65, 6]} />
+          <meshBasicMaterial color="#ff2222" transparent opacity={0.75} />
+        </mesh>
+      )}
+    </group>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────
+//  HexTileEcossistema — com MOVE
+// ─────────────────────────────────────────────────────────────
+const HexTileEcossistema = ({ hex, selected, onSelect, onDoubleSelect, moveMode, tagsVisiveis }) => {
+  const [hovered, setHover] = useState(false)
+  const { x, z } = hexToWorld(hex, HEX_SIZE)
+  const groupRef = useElevacaoSuave({ selected, hovered, baseY: 0 })
+
+  return (
+    <group
+      ref={groupRef}
+      position={[x, 0, z]}
+      onPointerOver={(e) => { e.stopPropagation(); setHover(true) }}
+      onPointerOut={() => setHover(false)}
+      onClick={(e) => { e.stopPropagation(); onSelect(hex) }}
+      onDoubleClick={(e) => { e.stopPropagation(); onDoubleSelect() }}
+    >
+      <HexBase hovered={hovered} selected={selected} />
+      {(selected || hovered) && (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.21, 0]}>
+          <ringGeometry args={[HEX_SIZE * 0.9, HEX_SIZE * 1.0, 6]} />
+          <meshBasicMaterial
+            color={selected ? '#F27405' : '#ffffff'}
+            transparent
+            opacity={selected ? 1 : 0.4}
+          />
+        </mesh>
+      )}
+      <BuildingModel
+        nomeEdificio={null}
+        corFallback={ECOSSISTEMA_CONFIG.cor4}
+        posicaoBase={[0, 0.22, 0]}
+        _overrideModeloId={463}
+      />
+      <EcossistemaTag tagsVisiveis={tagsVisiveis} selected={selected} />
+
+      {/* feedback ao mover */}
+      {moveMode && hovered && (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.22, 0]}>
+          <ringGeometry args={[HEX_SIZE * 0.5, HEX_SIZE * 0.65, 6]} />
+          <meshBasicMaterial color="#ff2222" transparent opacity={0.75} />
+        </mesh>
+      )}
+    </group>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────
+//  InfiniteBase
 // ─────────────────────────────────────────────────────────────
 const InfiniteBase = () => {
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },
-    // Cores do mar (ajuste conforme o gosto)
-    uColorBase:   { value: new THREE.Color('#00a6ff') }, // Azul claro da superfície
-    uColorDeep:   { value: new THREE.Color('#002244') }, // Azul escuro da profundidade
+    uColorBase:   { value: new THREE.Color('#00a6ff') },
+    uColorDeep:   { value: new THREE.Color('#002244') },
   }), [])
 
-  // Atualiza o tempo para as animações de onda
   useFrame((state) => {
     uniforms.uTime.value = state.clock.elapsedTime;
   });
@@ -366,32 +665,16 @@ const InfiniteBase = () => {
           uniform vec3 uColorBase;
           uniform vec3 uColorDeep;
 
-          // Função de ruído simples para ondulações
-          float noise(vec2 st) {
-              return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
-          }
-
           void main() {
-            vec2 st = vUv * 30.0; // Escala do ruído
-
-            // 1. Ondas Sutis baseadas em Senos e Cossenos (animadas pelo uTime)
-            // Criamos duas ondas diferentes e as somamos
+            vec2 st = vUv * 30.0;
             float wave1 = sin(st.x + uTime * 0.5) * cos(st.y + uTime * 0.3) * 0.5 + 0.5;
             float wave2 = sin(st.y - uTime * 0.4) * cos(st.x - uTime * 0.2) * 0.5 + 0.5;
             float waveStrength = mix(wave1, wave2, 0.5);
-
-            // 2. Mistura de Cores: Mais claro onde a "onda" é mais forte
             vec3 finalColor = mix(uColorDeep, uColorBase, waveStrength);
-
-            // 3. Transparência Dinâmica: Mais opaco onde a onda é forte, transparente onde é "vale"
-            float alpha = mix(0.1, 0.5, waveStrength); // Opacidade varia de 10% a 50%
-
-            // 4. Efeito de Fresnel (Brilho nas Bordas)
-            // Aumenta a opacidade na borda extrema do círculo para suavizar a transição
-            float dist = distance(vUv, vec2(0.5, 0.5)) * 2.0; // 0 no centro, 1 na borda
+            float alpha = mix(0.1, 0.5, waveStrength);
+            float dist = distance(vUv, vec2(0.5, 0.5)) * 2.0;
             float borderOpacity = smoothstep(0.95, 1.0, dist);
             alpha = mix(alpha, 1.0, borderOpacity);
-
             gl_FragColor = vec4(finalColor, alpha);
           }
         `}
@@ -401,8 +684,7 @@ const InfiniteBase = () => {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  WorldBackground — céu esférico suave (lilás/azul)
-//  Permanece sutil — o drama fica na AtmosphereDome
+//  WorldBackground
 // ─────────────────────────────────────────────────────────────
 const WorldBackground = ({ dayProgress }) => {
   const uniforms = useMemo(() => ({
@@ -440,7 +722,6 @@ const WorldBackground = ({ dayProgress }) => {
         uniform vec3 uColorSky;
         uniform vec3 uColorNight;
 
-        // Função para criar o brilho difuso no centro do horizonte
         float ellipsoidGlow(vec2 uv, vec2 center, float radiusX, float radiusY, float soft) {
           vec2 offset = (uv - center);
           float dist = (offset.x * offset.x) / (radiusX * radiusX) + (offset.y * offset.y) / (radiusY * radiusY);
@@ -448,9 +729,7 @@ const WorldBackground = ({ dayProgress }) => {
         }
 
         void main() {
-          float h = vUv.y; // Altura de 0 a 1
-
-          // 1. Gradiente Base (Vertical)
+          float h = vUv.y;
           vec3 baseGradient;
           if(h < 0.15) {
               baseGradient = mix(uColorSun, uColorGlow, h / 0.15);
@@ -459,20 +738,11 @@ const WorldBackground = ({ dayProgress }) => {
           } else {
               baseGradient = mix(uColorSky, uColorNight, (h - 0.5) / 0.5);
           }
-
-          // 2. O Brilho Central Difuso (Simulando o "Estouro" do Pôr do Sol)
-          // t é a posição do "sol" no horizonte (vUv.x)
           float t = vUv.x;
-          // Centralizado horizontalmente (0.5), bem baixo (0.01)
           float glowAmount = ellipsoidGlow(vec2(t, h), vec2(0.5, 0.01), 0.35, 0.1, 0.4); 
-          
-          // Adicionamos o brilho central à base (usamos smoothstep para suavizar)
-          vec3 centralGlowColor = vec3(1.0, 0.95, 0.7); // Branco/Amarelo brilhante
+          vec3 centralGlowColor = vec3(1.0, 0.95, 0.7);
           vec3 finalColor = mix(baseGradient, centralGlowColor, glowAmount);
-
-          // 3. Suavização da Base (Opacidade)
           float alpha = smoothstep(0.0, 0.1, h) * 0.95;
-
           gl_FragColor = vec4(finalColor, alpha);
         }
       `}
@@ -482,24 +752,19 @@ const WorldBackground = ({ dayProgress }) => {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  AtmosphereDome — meia‑esfera dramática DENTRO do canvas
-//  dayProgress 0 = dia (quase invisível), 1 = pôr do sol intenso
+//  AtmosphereDome
 // ─────────────────────────────────────────────────────────────
 const AtmosphereDome = ({ dayProgress }) => {
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },
-    // Cores baseadas na sua imagem de referência
-    uColorSun:   { value: new THREE.Color('#ffcc00') }, // Amarelo horizonte
-    uColorGlow:  { value: new THREE.Color('#ff2200') }, // Vermelho transição
-    uColorSky:   { value: new THREE.Color('#7b4fc9') }, // Roxo médio
-    uColorNight: { value: new THREE.Color('#1a083a') }, // Roxo escuro topo
+    uColorSun:   { value: new THREE.Color('#ffcc00') },
+    uColorGlow:  { value: new THREE.Color('#ff2200') },
+    uColorSky:   { value: new THREE.Color('#7b4fc9') },
+    uColorNight: { value: new THREE.Color('#1a083a') },
   }), [])
 
-
-
-  
   return (
-<mesh scale={[10.1, 7, 10.1]} position={[0, 0.01, 0]}> 
+    <mesh scale={[10.1, 7, 10.1]} position={[0, 0.01, 0]}>
       <sphereGeometry args={[1, 64, 32, 0, Math.PI * 2, 0, Math.PI / 2]} />
       <shaderMaterial
         side={THREE.BackSide}
@@ -523,15 +788,12 @@ const AtmosphereDome = ({ dayProgress }) => {
           uniform vec3 uColorSky;
           uniform vec3 uColorNight;
 
-          // Função simples para criar "estrias" de nuvens
           float noise(vec2 st) {
             return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
           }
 
           void main() {
-            float h = vUv.y; // Altura de 0 a 1
-            
-            // Mistura quadrupla para o gradiente perfeito
+            float h = vUv.y;
             vec3 gradient;
             if(h < 0.15) {
                 gradient = mix(uColorSun, uColorGlow, h / 0.15);
@@ -540,14 +802,9 @@ const AtmosphereDome = ({ dayProgress }) => {
             } else {
                 gradient = mix(uColorSky, uColorNight, (h - 0.5) / 0.5);
             }
-
-            // Adicionando a textura de "céu" (estrias horizontais)
             float clouds = sin(vUv.y * 50.0) * 0.05;
             gradient += clouds * (1.0 - h); 
-
-            // Opacidade baseada na altura para suavizar a base
             float alpha = smoothstep(0.0, 0.1, h) * 0.95;
-
             gl_FragColor = vec4(gradient, alpha);
           }
         `}
@@ -557,7 +814,7 @@ const AtmosphereDome = ({ dayProgress }) => {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  BaseRing — anel de glow laranja na borda do mapa
+//  BaseRing
 // ─────────────────────────────────────────────────────────────
 const BaseRing = ({ dayProgress }) => {
   const matRef = useRef()
@@ -585,8 +842,7 @@ const BaseRing = ({ dayProgress }) => {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  DynamicLights — luzes que reagem ao dayProgress
-//  Usa refs + useEffect para atualizar sem re-render React
+//  DynamicLights
 // ─────────────────────────────────────────────────────────────
 const DynamicLights = ({ dayProgress }) => {
   const dirRef   = useRef()
@@ -594,7 +850,6 @@ const DynamicLights = ({ dayProgress }) => {
   const pointRef = useRef()
   const hemiRef  = useRef()
 
-  // Cores base pré-alocadas — sem recriar no render
   const c = useMemo(() => ({
     dirDay:    new THREE.Color('#e2d8ff'),
     dirSun:    new THREE.Color('#ff3300'),
@@ -611,15 +866,15 @@ const DynamicLights = ({ dayProgress }) => {
 
     if (dirRef.current) {
       dirRef.current.color.lerpColors(c.dirDay, c.dirSun, p)
-      dirRef.current.intensity = 3.2 + p * 2.5 // fica bem mais brilhante
+      dirRef.current.intensity = 3.2 + p * 2.5
     }
     if (ambRef.current) {
       ambRef.current.color.lerpColors(c.ambDay, c.ambSun, p)
-      ambRef.current.intensity = 0.8 - p * 0.5   // escurece o ambiente
+      ambRef.current.intensity = 0.8 - p * 0.5
     }
     if (pointRef.current) {
       pointRef.current.color.lerpColors(c.pointDay, c.pointSun, p)
-      pointRef.current.intensity = 0.8 + p * 6.0  // explosão de luz lateral
+      pointRef.current.intensity = 0.8 + p * 6.0
     }
     if (hemiRef.current) {
       hemiRef.current.color.lerpColors(c.hemiSky, c.hemiSkySun, p)
@@ -629,16 +884,16 @@ const DynamicLights = ({ dayProgress }) => {
 
   return (
     <>
-<directionalLight
+      <directionalLight
         position={[10, 10, 5]} 
-        // A intensidade diminui quando o dia passa (pôr do sol)
         intensity={4.5 * (1 - dayProgress)} 
         color="#ffffff"
         castShadow
       />
       <ambientLight intensity={0.4 + (dayProgress * 0.2)} color="#ffffff" />
-<pointLight position={[-10, 5, 10]} intensity={2} color="#dbb2ff" />
-<hemisphereLight args={['#ffee00', '#ff5500', 0.8]} />    </>
+      <pointLight position={[-10, 5, 10]} intensity={2} color="#dbb2ff" />
+      <hemisphereLight args={['#ffee00', '#ff5500', 0.8]} />
+    </>
   )
 }
 
@@ -647,7 +902,7 @@ const DynamicLights = ({ dayProgress }) => {
 // ─────────────────────────────────────────────────────────────
 const TagsToggle = ({ ativo, onClick }) => (
   <button onClick={onClick} title={ativo ? 'Ocultar etiquetas' : 'Mostrar etiquetas'} style={{
-position: 'absolute', bottom: 120, left: '65% ', transform: 'translateX(-50%)', zIndex:10,
+    position: 'absolute', bottom: 120, left: '65% ', transform: 'translateX(-50%)', zIndex:10,
     display: 'flex', alignItems: 'center', gap: 7, padding: '6px 13px',
     borderRadius: 10,
     border: ativo ? '1px solid rgba(199,159,255,0.5)' : '1px solid rgba(255,255,255,0.15)',
@@ -707,10 +962,12 @@ const MoveBanner = ({ onCancel }) => (
 )
 
 // ─────────────────────────────────────────────────────────────
-//  InfoPanel
+//  InfoPanel (edifícios padrão)
 // ─────────────────────────────────────────────────────────────
-const InfoPanel = ({ building, onMove, onClose }) => {
+const InfoPanel = ({ building, onMove, onClose, onOpenManager }) => {
   const cfg = SETOR_CONFIG[building.setor] || { cor1: '#111', cor3: '#555', cor4: '#888', label: '?' }
+  const podeGerenciar = edificioTemGerenciamento(building.nome)
+
   return (
     <div style={{
       position: 'absolute', bottom: 110, left: '50%', transform: 'translateX(-50%)',
@@ -742,6 +999,15 @@ const InfoPanel = ({ building, onMove, onClose }) => {
         </div>
       </div>
       <div style={{ display: 'flex', gap: 7 }}>
+        {podeGerenciar && (
+          <button onClick={onOpenManager} style={{
+            background: 'linear-gradient(135deg,#0C9123,#4CAF50)', border: 'none',
+            borderRadius: 8, padding: '7px 13px', cursor: 'pointer', color: '#fff',
+            fontFamily: "'Rajdhani',sans-serif", fontSize: 12, fontWeight: 700,
+            letterSpacing: '.06em', boxShadow: '0 0 9px rgba(76,175,80,0.35)',
+          }}>⚙ Gerenciar</button>
+        )}
+
         <button onClick={onMove} style={{
           background: 'linear-gradient(135deg,#4C14A9,#6411D9)', border: 'none',
           borderRadius: 8, padding: '7px 13px', cursor: 'pointer', color: '#fff',
@@ -759,10 +1025,166 @@ const InfoPanel = ({ building, onMove, onClose }) => {
 }
 
 // ─────────────────────────────────────────────────────────────
+//  MercadoInfoPanel — agora COM botão Mover
+// ─────────────────────────────────────────────────────────────
+const MercadoInfoPanel = ({ onClose, onOpenMarket, onMove }) => (
+  <div style={{
+    position: 'absolute', bottom: 110, left: '50%', transform: 'translateX(-50%)',
+    background: 'linear-gradient(135deg,rgba(12,8,28,0.97),rgba(52,9,115,0.97))',
+    border: `1px solid ${MERCADO_CONFIG.cor4}80`,
+    boxShadow: `0 4px 28px rgba(0,0,0,0.7), 0 0 22px ${MERCADO_CONFIG.cor3}55`,
+    borderRadius: 14, padding: '11px 17px',
+    display: 'flex', alignItems: 'center', gap: 13, zIndex: 20,
+    fontFamily: "'Rajdhani','Segoe UI',sans-serif", minWidth: 380,
+  }}>
+    <div style={{
+      width: 44, height: 44, borderRadius: 10, flexShrink: 0,
+      background: `linear-gradient(135deg, ${MERCADO_CONFIG.cor3} 0%, ${MERCADO_CONFIG.cor1} 100%)`,
+      border: `1px solid ${MERCADO_CONFIG.cor4}88`,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: 22,
+    }}>
+      🏛
+    </div>
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ color: '#fff', fontWeight: 800, fontSize: 14, letterSpacing: '.06em' }}>
+        Mercado Global
+      </div>
+      <div style={{ color: MERCADO_CONFIG.cor4, fontSize: 11, fontWeight: 600, marginTop: 2, opacity: .85 }}>
+        Comércio entre empresas · Ofertas ativas
+      </div>
+    </div>
+    <div style={{ display: 'flex', gap: 7 }}>
+      <button onClick={onOpenMarket} style={{
+        background: `linear-gradient(135deg, ${MERCADO_CONFIG.cor1}, ${MERCADO_CONFIG.cor3})`,
+        border: 'none',
+        borderRadius: 8, padding: '7px 14px', cursor: 'pointer', color: '#fff',
+        fontFamily: "'Rajdhani',sans-serif", fontSize: 12, fontWeight: 800,
+        letterSpacing: '.06em', boxShadow: `0 0 12px ${MERCADO_CONFIG.cor3}66`,
+      }}>🛒 Abrir</button>
+
+      <button onClick={onMove} style={{
+        background: 'linear-gradient(135deg,#4C14A9,#6411D9)', border: 'none',
+        borderRadius: 8, padding: '7px 13px', cursor: 'pointer', color: '#fff',
+        fontFamily: "'Rajdhani',sans-serif", fontSize: 12, fontWeight: 700,
+        letterSpacing: '.06em', boxShadow: '0 0 9px rgba(100,17,217,0.35)',
+      }}>✦ Mover</button>
+
+      <button onClick={onClose} style={{
+        background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)',
+        borderRadius: 8, padding: '7px 11px', cursor: 'pointer',
+        color: 'rgba(255,255,255,0.55)', fontFamily: "'Rajdhani',sans-serif", fontSize: 12, fontWeight: 700,
+      }}>✕</button>
+    </div>
+  </div>
+)
+
+// ─────────────────────────────────────────────────────────────
+//  EcossistemaInfoPanel — agora COM botão Mover
+// ─────────────────────────────────────────────────────────────
+const EcossistemaInfoPanel = ({ onClose, onOpenEcosystem, onMove }) => (
+  <div style={{
+    position: 'absolute', bottom: 110, left: '50%', transform: 'translateX(-50%)',
+    background: 'linear-gradient(135deg,rgba(12,8,28,0.97),rgba(0,40,16,0.97))',
+    border: `1px solid ${ECOSSISTEMA_CONFIG.cor4}80`,
+    boxShadow: `0 4px 28px rgba(0,0,0,0.7), 0 0 22px ${ECOSSISTEMA_CONFIG.cor3}55`,
+    borderRadius: 14, padding: '11px 17px',
+    display: 'flex', alignItems: 'center', gap: 13, zIndex: 20,
+    fontFamily: "'Rajdhani','Segoe UI',sans-serif", minWidth: 380,
+  }}>
+    <div style={{
+      width: 44, height: 44, borderRadius: 10, flexShrink: 0,
+      background: `linear-gradient(135deg, ${ECOSSISTEMA_CONFIG.cor3} 0%, ${ECOSSISTEMA_CONFIG.cor1} 100%)`,
+      border: `1px solid ${ECOSSISTEMA_CONFIG.cor4}88`,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: 22,
+    }}>
+      🌿
+    </div>
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ color: '#fff', fontWeight: 800, fontSize: 14, letterSpacing: '.06em' }}>
+        Ecossistema
+      </div>
+      <div style={{ color: ECOSSISTEMA_CONFIG.cor4, fontSize: 11, fontWeight: 600, marginTop: 2, opacity: .85 }}>
+        Cadeia produtiva · Fluxo de recursos
+      </div>
+    </div>
+    <div style={{ display: 'flex', gap: 7 }}>
+      <button onClick={onOpenEcosystem} style={{
+        background: `linear-gradient(135deg, ${ECOSSISTEMA_CONFIG.cor1}, ${ECOSSISTEMA_CONFIG.cor3})`,
+        border: 'none',
+        borderRadius: 8, padding: '7px 14px', cursor: 'pointer', color: '#fff',
+        fontFamily: "'Rajdhani',sans-serif", fontSize: 12, fontWeight: 800,
+        letterSpacing: '.06em', boxShadow: `0 0 12px ${ECOSSISTEMA_CONFIG.cor3}66`,
+      }}>🌿 Abrir</button>
+
+      <button onClick={onMove} style={{
+        background: 'linear-gradient(135deg,#4C14A9,#6411D9)', border: 'none',
+        borderRadius: 8, padding: '7px 13px', cursor: 'pointer', color: '#fff',
+        fontFamily: "'Rajdhani',sans-serif", fontSize: 12, fontWeight: 700,
+        letterSpacing: '.06em', boxShadow: '0 0 9px rgba(100,17,217,0.35)',
+      }}>✦ Mover</button>
+
+      <button onClick={onClose} style={{
+        background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)',
+        borderRadius: 8, padding: '7px 11px', cursor: 'pointer',
+        color: 'rgba(255,255,255,0.55)', fontFamily: "'Rajdhani',sans-serif", fontSize: 12, fontWeight: 700,
+      }}>✕</button>
+    </div>
+  </div>
+)
+
+// ─────────────────────────────────────────────────────────────
+//  SedeInfoPanel
+// ─────────────────────────────────────────────────────────────
+const SedeInfoPanel = ({ nomeEmpresa, porte, onClose, onOpenCarteira }) => (
+  <div style={{
+    position: 'absolute', bottom: 110, left: '50%', transform: 'translateX(-50%)',
+    background: 'linear-gradient(135deg,rgba(12,8,28,0.97),rgba(52,9,115,0.97))',
+    border: `1px solid ${SEDE_CONFIG.cor4}80`,
+    boxShadow: `0 4px 28px rgba(0,0,0,0.7), 0 0 22px ${SEDE_CONFIG.cor3}55`,
+    borderRadius: 14, padding: '11px 17px',
+    display: 'flex', alignItems: 'center', gap: 13, zIndex: 20,
+    fontFamily: "'Rajdhani','Segoe UI',sans-serif", minWidth: 340,
+  }}>
+    <div style={{
+      width: 44, height: 44, borderRadius: 10, flexShrink: 0,
+      background: `linear-gradient(135deg, ${SEDE_CONFIG.cor3} 0%, ${SEDE_CONFIG.cor1} 100%)`,
+      border: `1px solid ${SEDE_CONFIG.cor4}88`,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: 22,
+    }}>
+      🏢
+    </div>
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ color: '#fff', fontWeight: 800, fontSize: 14, letterSpacing: '.06em' }}>
+        {nomeEmpresa || 'Sua Empresa'}
+      </div>
+      <div style={{ color: SEDE_CONFIG.cor4, fontSize: 11, fontWeight: 600, marginTop: 2, opacity: .85 }}>
+        ★ {porte} · Sede Central
+      </div>
+    </div>
+    <div style={{ display: 'flex', gap: 7 }}>
+      <button onClick={onOpenCarteira} style={{
+        background: `linear-gradient(135deg, ${SEDE_CONFIG.cor1}, ${SEDE_CONFIG.cor3})`,
+        border: 'none',
+        borderRadius: 8, padding: '7px 14px', cursor: 'pointer', color: '#fff',
+        fontFamily: "'Rajdhani',sans-serif", fontSize: 12, fontWeight: 800,
+        letterSpacing: '.06em', boxShadow: `0 0 12px ${SEDE_CONFIG.cor3}66`,
+      }}>💼 Abrir Carteira</button>
+      <button onClick={onClose} style={{
+        background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)',
+        borderRadius: 8, padding: '7px 11px', cursor: 'pointer',
+        color: 'rgba(255,255,255,0.55)', fontFamily: "'Rajdhani',sans-serif", fontSize: 12, fontWeight: 700,
+      }}>✕</button>
+    </div>
+  </div>
+)
+
+// ─────────────────────────────────────────────────────────────
 //  MAIN
 // ─────────────────────────────────────────────────────────────
 export default function MapWorld() {
-  // const { dados }          = useContext(CentraldeDadosContext)
   const { economiaSetores } = useContext(DadosEconomyGlobalContext)
   const edificiosDinamicos = useCentralStore((s) => s.edificiosFinais);
 
@@ -771,106 +1193,75 @@ export default function MapWorld() {
   const nomeEmpresa = useCentralStore((s) => s.inicioGame.nomeEmpresa);
   const porte       = economiaSetores?.centralEdificios?.classificacaoPorteEmpresa || 'Micro Empresa'
 
+  // ── Ações globais do store ──────────────────────────────────
+  const setEdificioGerenciamento = useCentralStore((s) => s.setEdificioGerenciamento);
+  const atualizarDados = useCentralStore((s) => s.atualizarDados);
+
   // ── Estado do ciclo de dia ──────────────────────────────────
   const [dayProgress, setDayProgress]       = useState(0)
-  const [isTransitioning, setIsTransitioning] = useState(false)
-
-// No seu componente principal
-
-
-// const passarDia = () => {
-//   if (isTransitioning) return;
-//   setIsTransitioning(true);
-  
-//   // Resetamos para 0 e iniciamos a transição para 1
-//   let progress = 0;
-//   const interval = setInterval(() => {
-//     progress += 0.01; // Ajuste a velocidade aqui
-//     setDayProgress(progress);
-    
-//     if (progress >= 1) {
-//       clearInterval(interval);
-//       // Pequeno delay em 1 para mostrar o auge do pôr do sol
-//       setTimeout(() => {
-//         setDayProgress(0); // Volta ao dia normal
-//         setIsTransitioning(false);
-//       }, 500);
-//     }
-//   }, 20); // 20ms para uma animação fluida de ~2 segundos
-// };
-  // ── Botão Passar Dia ────────────────────────────────────────
-  // const PassarDiaBtn = ({ onClick, disabled }) => (
-  //   <button
-  //     onClick={onClick}
-  //     disabled={disabled}
-  //     style={{
-  //       position: 'absolute', bottom: 22, right: 22, zIndex: 10,
-  //       width: 60, height: 60, borderRadius: '50%',
-  //       background: 'linear-gradient(135deg, #F27405, #FFB060)',
-  //       border: '3px solid rgba(255,255,255,0.3)',
-  //       boxShadow: '0 4px 15px rgba(242,116,5,0.4)',
-  //       cursor: disabled ? 'not-allowed' : 'pointer',
-  //       display: 'flex', alignItems: 'center', justifyContent: 'center',
-  //       transition: 'transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-  //       opacity: disabled ? 0.7 : 1,
-  //     }}
-  //     onMouseEnter={(e) => !disabled && (e.currentTarget.style.transform = 'scale(1.1)')}
-  //     onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-  //   >
-  //     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3">
-  //       <polyline points="13 17 18 12 13 7" />
-  //       <polyline points="6 17 11 12 6 7" />
-  //     </svg>
-  //   </button>
-  // )
 
   // ── Edifícios ativos ────────────────────────────────────────
-const snapshotKey = SETORES.map(s =>
-  (edificiosDinamicos?.[s]?.edificios || [])
-    .map((e, i) => `${i}:${e.quantidade}`)
-    .join(',')
-).join('|');
+  const snapshotKey = SETORES.map(s =>
+    (edificiosDinamicos?.[s]?.edificios || [])
+      .map((e, i) => `${i}:${e.quantidade}`)
+      .join(',')
+  ).join('|');
 
-const edificiosAtivos = useMemo(() => {
-  const lista = [];
+  const edificiosAtivos = useMemo(() => {
+    const lista = [];
 
-  SETORES.forEach(setor => {
-    const listaDinamica = edificiosDinamicos?.[setor]?.edificios || [];
-    const listaEstatica = EDIFICIOS_FINAIS_ESTATICOS?.[setor]?.edificios || [];
+    SETORES.forEach(setor => {
+      const listaDinamica = edificiosDinamicos?.[setor]?.edificios || [];
+      const listaEstatica = EDIFICIOS_FINAIS_ESTATICOS?.[setor]?.edificios || [];
 
-    listaDinamica.forEach((edDin, idx) => {
-      const qtd = edDin.quantidade || 0;
+      listaDinamica.forEach((edDin, idx) => {
+        const qtd = edDin.quantidade || 0;
 
-      if (qtd > 0) {
-        const edEst = listaEstatica[idx];
+        if (qtd > 0) {
+          const edEst = listaEstatica[idx];
+          if (!edEst) return;
 
-        if (!edEst) return; // segurança extra
-
-        lista.push({
-          id: `${setor}-${idx}`, // 🔥 index é a chave
-          nome: edEst.nome,      // 🔥 vem do estático
-          setor,
-          quantidade: qtd,       // 🔥 vem do dinâmico
-          ehCluster: edificioEhCluster(edEst.nome),
-        });
-      }
+          lista.push({
+            id: `${setor}-${idx}`,
+            nome: edEst.nome,
+            setor,
+            quantidade: qtd,
+            ehCluster: edificioEhCluster(edEst.nome),
+          });
+        }
+      });
     });
-  });
 
-  return lista;
-}, [snapshotKey]);
+    return lista;
+  }, [snapshotKey]);
 
   const hexGrid = useMemo(() => {
     const Tile = defineHex({ dimensions: HEX_SIZE, orientation: 'pointy' })
     return Array.from(new Grid(Tile, spiral({ center: [0, 0], radius: 9 })))
   }, [])
 
+  // ── Posições fixas: agora ESTADO (para poder mover Mercado/Ecossistema) ──
+  const [mercadoKey, setMercadoKey] = useState('1,-1')
+  const [ecossistemaKey, setEcossistemaKey] = useState('-1,0')
+
   const [posicoes, setPosicoes]   = useState({})
   const [selectedKey, setSelectedKey] = useState(null)
   const [moveMode, setMoveMode]   = useState(false)
-  const [tagsVisiveis, setTagsVisiveis] = useState(true)
+  // Qual entidade está sendo movida?
+  //   { type: 'edificio' } | { type: 'mercado' } | { type: 'ecossistema' }
+  const [movingEntity, setMovingEntity] = useState(null)
 
-  // ── Auto-posicionamento de edifícios ────────────────────────
+  const [tagsVisiveis, setTagsVisiveis] = useState(true)
+  const [mercadoSelected, setMercadoSelected] = useState(false)
+  const [ecossistemaSelected, setEcossistemaSelected] = useState(false)
+  const [sedeSelected, setSedeSelected] = useState(false)
+
+  // ── Expandindo (animação scale-in) ─────────────────────────
+  const chavesAntigasRef = useRef(null)
+  const [expandindo, setExpandindo] = useState(false)
+  const [chavesAntigas, setChavesAntigas] = useState(null)
+
+  // ── Auto-posicionamento ────────────────────────────────────
   useEffect(() => {
     setPosicoes(prev => {
       const idsAtivos = new Set(edificiosAtivos.map(e => e.id))
@@ -881,7 +1272,9 @@ const edificiosAtivos = useMemo(() => {
       })
 
       const posOcupadas = new Set(Object.keys(novo))
-      posOcupadas.add('0,0')
+      posOcupadas.add('0,0')             // sede
+      posOcupadas.add(mercadoKey)        // mercado (estado)
+      posOcupadas.add(ecossistemaKey)    // ecossistema (estado)
 
       Object.entries(novo).forEach(([key, id]) => {
         const ed = edificiosAtivos.find(e => e.id === id)
@@ -929,11 +1322,28 @@ const edificiosAtivos = useMemo(() => {
         }
       })
 
+      const chavesNovasSet = new Set(Object.keys(novo))
+      if (chavesAntigasRef.current) {
+        let adicionou = false
+        chavesNovasSet.forEach(k => {
+          if (!chavesAntigasRef.current.has(k)) adicionou = true
+        })
+        if (adicionou) {
+          setChavesAntigas(new Set(chavesAntigasRef.current))
+          setExpandindo(true)
+          setTimeout(() => {
+            setExpandindo(false)
+            setChavesAntigas(null)
+          }, 800)
+        }
+      }
+      chavesAntigasRef.current = chavesNovasSet
+
       return novo
     })
-  }, [edificiosAtivos, hexGrid])
+  }, [edificiosAtivos, hexGrid, mercadoKey, ecossistemaKey])
 
-  // ── Satélites dos clusters ──────────────────────────────────
+  // ── Satélites dos clusters ─────────────────────────────────
   const satelites = useMemo(() => {
     const mapa = {}
     Object.entries(posicoes).forEach(([key, id]) => {
@@ -949,7 +1359,7 @@ const edificiosAtivos = useMemo(() => {
 
       const [q, r] = key.split(',').map(Number)
       vizinhosDeHex(q, r).forEach((vk, i) => {
-        if (!posicoes[vk]) {
+        if (!posicoes[vk] && vk !== mercadoKey && vk !== ecossistemaKey) {
           mapa[vk] = {
             corTopo: cor,
             corFallback: corFall,
@@ -959,9 +1369,9 @@ const edificiosAtivos = useMemo(() => {
       })
     })
     return mapa
-  }, [posicoes, edificiosAtivos])
+  }, [posicoes, edificiosAtivos, mercadoKey, ecossistemaKey])
 
-  // ── Seleção e movimento ─────────────────────────────────────
+  // ── Seleção e movimento ────────────────────────────────────
   const selectedBuilding = selectedKey
     ? edificiosAtivos.find(e => e.id === posicoes[selectedKey]) || null
     : null
@@ -969,88 +1379,254 @@ const edificiosAtivos = useMemo(() => {
   const handleSelect = (hex) => {
     const key = `${hex.q},${hex.r}`
 
+    // Se estamos em modo mover, este clique escolhe o destino
     if (moveMode) {
-      if (posicoes[key] || satelites[key] || key === '0,0' || !selectedKey) return
+      // Bloqueia destinos inválidos
+      if (key === '0,0') return
+      if (posicoes[key]) return
+      if (satelites[key]) return
+      if (key === mercadoKey || key === ecossistemaKey) return
 
-      const edSendo = edificiosAtivos.find(e => e.id === posicoes[selectedKey])
+      // Executa o movimento conforme o tipo
+      if (movingEntity?.type === 'mercado') {
+        setMercadoKey(key)
+      } else if (movingEntity?.type === 'ecossistema') {
+        setEcossistemaKey(key)
+      } else if (movingEntity?.type === 'edificio' && selectedKey) {
+        // valida cluster
+        const edSendo = edificiosAtivos.find(e => e.id === posicoes[selectedKey])
+        if (edSendo?.ehCluster) {
+          const gridKeys = new Set(hexGrid.map(h => `${h.q},${h.r}`))
+          const ocupadasSemEle = new Set()
+          ocupadasSemEle.add('0,0')
+          ocupadasSemEle.add(mercadoKey)
+          ocupadasSemEle.add(ecossistemaKey)
 
-      if (edSendo?.ehCluster) {
-        const gridKeys = new Set(hexGrid.map(h => `${h.q},${h.r}`))
-        const ocupadasSemEle = new Set()
-        ocupadasSemEle.add('0,0')
+          Object.entries(posicoes).forEach(([k, id]) => {
+            if (k === selectedKey) return
+            ocupadasSemEle.add(k)
+            const ed = edificiosAtivos.find(e => e.id === id)
+            if (ed?.ehCluster) {
+              const [q, r] = k.split(',').map(Number)
+              vizinhosDeHex(q, r).forEach(vk => ocupadasSemEle.add(vk))
+            }
+          })
 
-        Object.entries(posicoes).forEach(([k, id]) => {
-          if (k === selectedKey) return
-          ocupadasSemEle.add(k)
-          const ed = edificiosAtivos.find(e => e.id === id)
-          if (ed?.ehCluster) {
-            const [q, r] = k.split(',').map(Number)
-            vizinhosDeHex(q, r).forEach(vk => ocupadasSemEle.add(vk))
-          }
+          const [dq, dr] = key.split(',').map(Number)
+          const destinoValido = vizinhosDeHex(dq, dr).every(
+            vk => !ocupadasSemEle.has(vk) && gridKeys.has(vk)
+          )
+          if (!destinoValido) return
+        }
+
+        setPosicoes(prev => {
+          const copy = { ...prev }
+          copy[key] = copy[selectedKey]
+          delete copy[selectedKey]
+          return copy
         })
-
-        const [dq, dr] = key.split(',').map(Number)
-        const destinoValido = vizinhosDeHex(dq, dr).every(
-          vk => !ocupadasSemEle.has(vk) && gridKeys.has(vk)
-        )
-        if (!destinoValido) return
       }
 
-      setPosicoes(prev => {
-        const copy = { ...prev }
-        copy[key] = copy[selectedKey]
-        delete copy[selectedKey]
-        return copy
-      })
       setMoveMode(false)
+      setMovingEntity(null)
+      setSelectedKey(null)
+      setMercadoSelected(false)
+      setEcossistemaSelected(false)
+      return
+    }
+
+    // Se clicou no mercado
+    if (key === mercadoKey) {
+      setMercadoSelected(true)
+      setEcossistemaSelected(false)
+      setSedeSelected(false)
       setSelectedKey(null)
       return
     }
 
+    // Se clicou no ecossistema
+    if (key === ecossistemaKey) {
+      setEcossistemaSelected(true)
+      setMercadoSelected(false)
+      setSedeSelected(false)
+      setSelectedKey(null)
+      return
+    }
+
+    setMercadoSelected(false)
+    setEcossistemaSelected(false)
+    setSedeSelected(false)
+
     setSelectedKey(posicoes[key] ? (key === selectedKey ? null : key) : null)
   }
 
-  const ocupados = Object.keys(posicoes).length
+  // ── Abrir gerenciamento ────────────────────────────────────
+  const abrirGerenciamento = (building) => {
+    if (!building) return;
+    if (!edificioTemGerenciamento(building.nome)) return;
 
-  // ── Render ──────────────────────────────────────────────────
+    const edificioId = buscarEdificioIdPorNomeESetor(building.nome, building.setor);
+
+    if (!edificioId) {
+      console.warn(
+        `[MapWorld] Edifício "${building.nome}" (${building.setor}) não possui fórmula de gerenciamento.`
+      );
+      return;
+    }
+
+    setEdificioGerenciamento(edificioId);
+    atualizarDados("vision", { visionAtual: "dashboard" });
+  };
+
+  // ── Iniciar movimento ──────────────────────────────────────
+  const iniciarMoveEdificio = () => {
+    if (!selectedKey) return;
+    setMovingEntity({ type: 'edificio' });
+    setMoveMode(true);
+  };
+
+  const iniciarMoveMercado = () => {
+    setMovingEntity({ type: 'mercado' });
+    setMercadoSelected(false);
+    setEcossistemaSelected(false);
+    setSelectedKey(null);
+    setMoveMode(true);
+  };
+
+  const iniciarMoveEcossistema = () => {
+    setMovingEntity({ type: 'ecossistema' });
+    setMercadoSelected(false);
+    setEcossistemaSelected(false);
+    setSelectedKey(null);
+    setMoveMode(true);
+  };
+
+  const cancelarMove = () => {
+    setMoveMode(false);
+    setMovingEntity(null);
+  };
+
+  // ── Aberturas (não relacionadas a move) ────────────────────
+  const abrirMercadoGlobal = () => {
+    useCentralStore.getState().setEdificioGerenciamento(null);
+    useCentralStore.getState().setAbaSolicitada("mercado");
+    atualizarDados("vision", { visionAtual: "dashboard" });
+    setMercadoSelected(false);
+    setEcossistemaSelected(false);
+    setSedeSelected(false);
+    setSelectedKey(null);
+    setMoveMode(false);
+    setMovingEntity(null);
+  };
+
+  const abrirEcossistema = () => {
+    useCentralStore.getState().setEdificioGerenciamento(null);
+    useCentralStore.getState().setAbaSolicitada("ecossistema");
+    atualizarDados("vision", { visionAtual: "dashboard" });
+    setEcossistemaSelected(false);
+    setMercadoSelected(false);
+    setSedeSelected(false);
+    setSelectedKey(null);
+    setMoveMode(false);
+    setMovingEntity(null);
+  };
+
+  const abrirCarteira = () => {
+    useCentralStore.getState().setEdificioGerenciamento(null);
+    useCentralStore.getState().setAbaSolicitada("carteira");
+    atualizarDados("vision", { visionAtual: "dashboard" });
+    setSedeSelected(false);
+    setMercadoSelected(false);
+    setEcossistemaSelected(false);
+    setSelectedKey(null);
+    setMoveMode(false);
+    setMovingEntity(null);
+  };
+
+  const handleDoubleSelect = (building) => {
+    abrirGerenciamento(building);
+    setSelectedKey(null);
+    setMoveMode(false);
+    setMovingEntity(null);
+  };
+
+  const ocupados = Object.keys(posicoes).length + 3
+
+  // ── Render ─────────────────────────────────────────────────
   return (
     <div className='top-[90px]' style={{ width: '100%', height: '100%', position: 'relative', borderRadius: '20px', overflow: 'hidden' }}>
       <TagsToggle ativo={tagsVisiveis} onClick={() => setTagsVisiveis(v => !v)} />
       <MapStats totalTiles={hexGrid.length} ocupados={ocupados} />
-      {/* <PassarDiaBtn onClick={passarDia} disabled={isTransitioning} /> */}
 
-      {moveMode && (
-        <MoveBanner onCancel={() => { setMoveMode(false); setSelectedKey(null) }} />
-      )}
+      {moveMode && <MoveBanner onCancel={cancelarMove} />}
+
       {selectedKey && !moveMode && selectedBuilding && (
         <InfoPanel
           building={selectedBuilding}
-          onMove={() => setMoveMode(true)}
+          onMove={iniciarMoveEdificio}
+          onOpenManager={() => {
+            abrirGerenciamento(selectedBuilding);
+            setSelectedKey(null);
+            setMoveMode(false);
+            setMovingEntity(null);
+          }}
           onClose={() => { setSelectedKey(null); setMoveMode(false) }}
         />
       )}
 
-      <Canvas frameloop="demand" shadows camera={{ position: [18, 18, 18], fov: 20 }}>
-        {/* ── Fundo do céu (esfera grande, sutil) ── */}
+      {mercadoSelected && !moveMode && (
+        <MercadoInfoPanel
+          onOpenMarket={abrirMercadoGlobal}
+          onMove={iniciarMoveMercado}
+          onClose={() => setMercadoSelected(false)}
+        />
+      )}
+
+      {ecossistemaSelected && !moveMode && (
+        <EcossistemaInfoPanel
+          onOpenEcosystem={abrirEcossistema}
+          onMove={iniciarMoveEcossistema}
+          onClose={() => setEcossistemaSelected(false)}
+        />
+      )}
+
+      {sedeSelected && !moveMode && (
+        <SedeInfoPanel
+          nomeEmpresa={nomeEmpresa}
+          porte={porte}
+          onOpenCarteira={abrirCarteira}
+          onClose={() => setSedeSelected(false)}
+        />
+      )}
+
+      <Canvas
+        frameloop={moveMode || expandindo ? "always" : "demand"}
+        shadows
+        camera={{ position: [18, 18, 18], fov: 20 }}
+      >
         <WorldBackground dayProgress={dayProgress} />
-
-        {/* ── Cúpula dramática sobre o mapa ── */}
         <AtmosphereDome dayProgress={dayProgress} />
-
-        {/* ── Anel de glow na base da cúpula ── */}
         <BaseRing dayProgress={dayProgress} />
-
-        {/* ── Luzes dinâmicas (afetam todos os meshStandardMaterial) ── */}
         <DynamicLights dayProgress={dayProgress} />
 
         <group>
-          {/* Chão circular */}
           <InfiniteBase />
 
-          {/* Sede */}
-          <TileSede nomeEmpresa={nomeEmpresa} porte={porte} tagsVisiveis={tagsVisiveis} />
+          <TileSede
+            nomeEmpresa={nomeEmpresa}
+            porte={porte}
+            tagsVisiveis={tagsVisiveis}
+            selected={sedeSelected}
+            onSelect={() => {
+              if (moveMode) return;
+              setSedeSelected(true);
+              setMercadoSelected(false);
+              setEcossistemaSelected(false);
+              setSelectedKey(null);
+            }}
+            onDoubleSelect={abrirCarteira}
+          />
 
-          {/* Satélites de clusters */}
           {Object.entries(satelites).map(([key, { corTopo, modeloId, corFallback }]) => {
             const hex = hexGrid.find(h => `${h.q},${h.r}` === key)
             if (!hex) return null
@@ -1065,25 +1641,58 @@ const edificiosAtivos = useMemo(() => {
             )
           })}
 
-          {/* Tiles normais */}
           {hexGrid.map(hex => {
             const key = `${hex.q},${hex.r}`
             if (key === '0,0') return null
+
+            // ── Mercado (posição dinâmica) ──
+            if (key === mercadoKey) {
+              return (
+                <HexTileMercado
+                  key={`mercado-${key}`}
+                  hex={hex}
+                  selected={mercadoSelected}
+                  onSelect={handleSelect}
+                  onDoubleSelect={abrirMercadoGlobal}
+                  moveMode={moveMode}
+                  tagsVisiveis={tagsVisiveis}
+                />
+              )
+            }
+
+            // ── Ecossistema (posição dinâmica) ──
+            if (key === ecossistemaKey) {
+              return (
+                <HexTileEcossistema
+                  key={`eco-${key}`}
+                  hex={hex}
+                  selected={ecossistemaSelected}
+                  onSelect={handleSelect}
+                  onDoubleSelect={abrirEcossistema}
+                  moveMode={moveMode}
+                  tagsVisiveis={tagsVisiveis}
+                />
+              )
+            }
+
             if (satelites[key]) return null
 
             const edId    = posicoes[key]
             const building = edId ? edificiosAtivos.find(e => e.id === edId) || null : null
+            const ehNovo = expandindo && chavesAntigas && !chavesAntigas.has(key)
 
             return (
-              <HexTile
-                key={key}
-                hex={hex}
-                building={building}
-                onSelect={handleSelect}
-                moveMode={moveMode}
-                selected={key === selectedKey}
-                tagsVisiveis={tagsVisiveis}
-              />
+              <AnimatedHex key={key} expandindo={expandindo} ehNovo={ehNovo}>
+                <HexTile
+                  hex={hex}
+                  building={building}
+                  onSelect={handleSelect}
+                  onDoubleSelect={handleDoubleSelect}
+                  moveMode={moveMode}
+                  selected={key === selectedKey}
+                  tagsVisiveis={tagsVisiveis}
+                />
+              </AnimatedHex>
             )
           })}
         </group>
@@ -1094,10 +1703,10 @@ const edificiosAtivos = useMemo(() => {
 
         <OrbitControls
           enablePan enableZoom enableRotate
-minDistance={5}
-  maxDistance={50}
-maxPolarAngle={Math.PI / 2.1} 
-  minPolarAngle={Math.PI / 6}
+          minDistance={5}
+          maxDistance={50}
+          maxPolarAngle={Math.PI / 2.1} 
+          minPolarAngle={Math.PI / 6}
           enableDamping dampingFactor={0.07}
         />
       </Canvas>

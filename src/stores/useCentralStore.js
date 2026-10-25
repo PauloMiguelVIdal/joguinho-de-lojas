@@ -1302,6 +1302,11 @@ export const useCentralStore = create(
               }
             }, `garantirEstruturaSetor(${setor})`),
 
+
+edificioGerenciamento: null,
+setEdificioGerenciamento: (id) => set({ edificioGerenciamento: id }),
+abaSolicitada: null,
+setAbaSolicitada: (aba) => set({ abaSolicitada: aba }),
           atualizarLicença: (setor, index, status) =>
             setComLog((state) => {
               if (!state.licençasStatus[setor]?.[index]) {

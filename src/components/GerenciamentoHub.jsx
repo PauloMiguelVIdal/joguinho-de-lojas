@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Factory, ShoppingBag } from "lucide-react";
 import HubManagement from "./HubManagement";
 import HubSell from "./HubSell";
-import ProductionQueuePanel from "./ProductionQueuePanel";
-import SalesQueuePanel from "./SalesQueuePanel";
 
-export default function GerenciamentoHub() {
+export default function GerenciamentoHub({ edificioInicial = null }) {
   const [aba, setAba] = useState("producao");
+
+  useEffect(() => {
+    if (edificioInicial) setAba("producao");
+  }, [edificioInicial]);
 
   const tabs = [
     { id: "producao", label: "Produção", icon: <Factory size={15} /> },
@@ -15,15 +17,7 @@ export default function GerenciamentoHub() {
 
   return (
     <div className="w-full h-full flex flex-col justify-around gap-3">
-
-      {/* FILA + TABS NA MESMA LINHA, MESMA ALTURA */}
       <div className="flex items-stretch gap-3">
-        
-        {/* <div className="flex-1 min-w-0">
-          {aba === "producao" && <ProductionQueuePanel />}
-          {aba === "vendas"   && <SalesQueuePanel />}
-        </div> */}
-
         <div className="flex flex-row gap-1.5 bg-white/5 border border-white/10 rounded-2xl p-1.5 self-stretch items-center">
           {tabs.map(tab => (
             <button
@@ -40,12 +34,10 @@ export default function GerenciamentoHub() {
             </button>
           ))}
         </div>
-
       </div>
 
-      {aba === "producao" && <HubManagement />}
+      {aba === "producao" && <HubManagement edificioInicial={edificioInicial} />}
       {aba === "vendas"   && <HubSell />}
-
     </div>
   );
 }
