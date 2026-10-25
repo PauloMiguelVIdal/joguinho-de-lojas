@@ -1,6 +1,5 @@
-// Interface.jsx — refatorado com camadas independentes
+// Interface.jsx
 import React, { useContext, lazy, Suspense, useState } from "react";
-// import { CentraldeDadosContext } from "./centralDeDadosContext.jsx";
 
 import Notificação from "./notificação.jsx";
 import Informations from "./components/Informations.jsx";
@@ -8,18 +7,16 @@ import Dashboard from "./components/Dashboard.jsx";
 import Buttons from "./components/Buttons.jsx";
 import Buy from "./components/buy.jsx";
 import Day from "./components/day.jsx";
-import { limparSalvo } from "./components/usePersistencia.js";
+import { limparSalvo, marcarResetEmAndamento } from "./components/usePersistencia.js";
 import finishGame from '../public/outrasImagens/finish.png'
 import { LicenceModalBusiness } from "./components/licenseButton.jsx";
-import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "./stores/useCentralStore";
+import { useCentralStore } from "./stores/useCentralStore";
 import {
   EDIFICIOS_FINAIS_ESTATICOS,
   LICENCAS_ESTATICAS,
   EDIFICIOS_BASE_ESTATICOS,
   LICENCAS_ESTATICAS_GLOBAIS,
 } from "./stores/dadosEstáticos.js";
-
-
 
 
 const PayTexes = lazy(() => import("./components/PayTexes.jsx"));
@@ -36,7 +33,6 @@ const InputName = lazy(() => import("./components/inputName.jsx"));
 const Achievements = lazy(() => import("./components/Achievements.jsx").then(m => ({ default: m.Achievements })));
 const Economys = lazy(() => import("./components/Economys.jsx"));
 const RaffledBuildings = lazy(() => import("./components/RaffledBuildings.jsx"));
-// const CardSpecials = lazy(() => import("./components/cardsSpecials.jsx").then(m => ({ default: m.CardSpecials })));
 const TaxesYear = lazy(() => import("./components/TaxesYear.jsx").then(m => ({ default: m.TaxesYear })));
 const ModalAlert = lazy(() => import("./components/ModalAlert.jsx"));
 const PatrimonioInterface = lazy(() => import("./components/PatrimonioInterface.jsx"));
@@ -56,7 +52,6 @@ const Mapworld = lazy(() => import("./components/MapWorld.jsx"));
 
 import { ModalFalencia } from "./notificação.jsx";
 
-// Ícone de toggle simples (chevron)
 const IconToggle = ({ aberto, horizontal = false }) => (
   <svg
     width="14" height="14" viewBox="0 0 24 24"
@@ -74,72 +69,52 @@ const IconToggle = ({ aberto, horizontal = false }) => (
 )
 
 function Interface() {
-  // const { dados, atualizarDados } = useContext(CentraldeDadosContext)
   const vision = useCentralStore((s) => s.vision?.visionAtual ?? "dashboard");
 
   const [modalFalenciaOpen, setModalFalenciaOpen] = useState(false);
 
-  // ── Visibilidade das camadas ──────────────────────────────
   const [sidebarEsqAberta, setSidebarEsqAberta] = useState(true);
   const [dashboardAberto, setDashboardAberto]   = useState(true);
   const [sidebarDirAberta, setSidebarDirAberta] = useState(true);
 
-  // const setorAtivo = dados.setorAtivo
+  const TOP_H = 64;
 
-  // const setVision = (newVision) => {
-  //   atualizarDados("vision", { ...dados.vision, visionAtual: newVision });
-  // }
-
-  // Altura da topbar para que as outras camadas não fiquem atrás dela
-  const TOP_H = 64; // px — ajuste se a sua Informations tiver altura diferente
+  // 🛡️ Falência: marca reset → limpa → recarrega após 600ms (mata debounce de 300ms)
+  const handleConfirmarFalencia = () => {
+    marcarResetEmAndamento();
+    limparSalvo();
+    setTimeout(() => {
+      window.location.reload();
+    }, 600);
+  };
 
   return (
     <Suspense fallback={<div className="w-screen h-screen bg-gray-900" />}>
 
-      {/* ═══════════════════════════════════════════════════════
-          CAMADA 0 — MAPA (fundo fixo, ocupa tela toda)
-      ════════════════════════════════════════════════════════ */}
-      <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 0,
-        }}
-      >
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
         <Mapworld />
       </div>
 
-      {/* ═══════════════════════════════════════════════════════
-          MODAIS / OVERLAYS (z-index alto — acima de tudo)
-      ════════════════════════════════════════════════════════ */}
       {modalFalenciaOpen && (
         <ModalFalencia
-          onConfirmar={() => { limparSalvo(); window.location.reload(); }}
+          onConfirmar={handleConfirmarFalencia}
           onCancelar={() => setModalFalenciaOpen(false)}
         />
       )}
       <NewStage />
       <ModalExcesso />
-      {/* <CardSpecials /> */}
       <InputName />
       <Offers />
       <Events />
-      {/* <Employees /> */}
       <Notificação />
       <ModalAlert />
       <ModalPerson />
       <ModalInfo />
 
-      {/* ═══════════════════════════════════════════════════════
-          CAMADA 5 — TOPBAR (sempre sobrepõe tudo)
-          Posição: fixa no topo, largura total
-      ════════════════════════════════════════════════════════ */}
       <div
         style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
+          top: 0, left: 0, right: 0,
           height: TOP_H,
           zIndex: 50,
           display: 'flex',
@@ -152,12 +127,10 @@ function Interface() {
           boxShadow: '0 2px 20px rgba(0,0,0,0.5)',
         }}
       >
-        {/* Informações centrais (nome empresa, saldo, dia...) */}
         <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
           <Informations />
         </div>
 
-        {/* Controles da direita */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <Day />
           <TaxesYear />
@@ -165,9 +138,8 @@ function Interface() {
           <RaffledBuildings />
           <LicenceModalBusiness />
 
-          {/* Botão Falência */}
           <button
-          className="h-[50px] relative aspect-square bg-laranja rounded-[10px] flex items-center justify-center"
+            className="h-[50px] relative aspect-square bg-laranja rounded-[10px] flex items-center justify-center"
             onClick={() => setModalFalenciaOpen(true)}
             data-tooltip-content="Declarar falência"
             style={{
@@ -184,17 +156,12 @@ function Interface() {
             <img className="h-[70%] aspect-square" src={finishGame} alt="Falência" />
           </button>
 
-          {/* Botão toggle Dashboard */}
           <button
             onClick={() => setDashboardAberto(v => !v)}
             title={dashboardAberto ? 'Ocultar painel' : 'Mostrar painel'}
             style={{
-              background: dashboardAberto
-                ? 'linear-gradient(135deg, #4C14A9, #6411D9)'
-                : 'rgba(255,255,255,0.1)',
-              border: dashboardAberto
-                ? '1px solid rgba(199,159,255,0.4)'
-                : '1px solid rgba(255,255,255,0.15)',
+              background: dashboardAberto ? 'linear-gradient(135deg, #4C14A9, #6411D9)' : 'rgba(255,255,255,0.1)',
+              border: dashboardAberto ? '1px solid rgba(199,159,255,0.4)' : '1px solid rgba(255,255,255,0.15)',
               borderRadius: 8,
               padding: '6px 10px',
               cursor: 'pointer',
@@ -210,17 +177,12 @@ function Interface() {
             Painel
           </button>
 
-          {/* Botão toggle Sidebar Direita */}
           <button
             onClick={() => setSidebarDirAberta(v => !v)}
             title={sidebarDirAberta ? 'Ocultar sidebar direita' : 'Mostrar sidebar direita'}
             style={{
-              background: sidebarDirAberta
-                ? 'linear-gradient(135deg, #4C14A9, #6411D9)'
-                : 'rgba(255,255,255,0.1)',
-              border: sidebarDirAberta
-                ? '1px solid rgba(199,159,255,0.4)'
-                : '1px solid rgba(255,255,255,0.15)',
+              background: sidebarDirAberta ? 'linear-gradient(135deg, #4C14A9, #6411D9)' : 'rgba(255,255,255,0.1)',
+              border: sidebarDirAberta ? '1px solid rgba(199,159,255,0.4)' : '1px solid rgba(255,255,255,0.15)',
               borderRadius: 8,
               padding: '6px 10px',
               cursor: 'pointer',
@@ -240,26 +202,19 @@ function Interface() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════
-          CAMADA 3 — SIDEBAR ESQUERDA (Buy) — bg transparente
-          Botão de toggle flutua na borda
-      ════════════════════════════════════════════════════════ */}
       <div
         style={{
           position: 'fixed',
-          top: TOP_H,
-          left: 0,
-          bottom: 0,
+          top: TOP_H, left: 0, bottom: 0,
           width: sidebarEsqAberta ? '20vw' : 0,
           zIndex: 30,
           overflow: 'hidden',
           transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       >
-        {/* Conteúdo com backdrop-blur para "ver" o mapa atrás */}
         <div
           style={{
-            width: '20vw', // largura real sempre 20vw, o pai que oclui
+            width: '20vw',
             height: '100%',
             background: 'rgba(30, 8, 60, 0.55)',
             backdropFilter: 'blur(16px)',
@@ -274,7 +229,6 @@ function Interface() {
         </div>
       </div>
 
-      {/* Botão toggle da sidebar esquerda — flutua na borda */}
       <button
         onClick={() => setSidebarEsqAberta(v => !v)}
         title={sidebarEsqAberta ? 'Ocultar sidebar' : 'Mostrar sidebar'}
@@ -305,24 +259,17 @@ function Interface() {
         </svg>
       </button>
 
-      {/* ═══════════════════════════════════════════════════════
-          CAMADA 2 — DASHBOARD CENTRAL
-          Flutua entre as sidebars
-      ════════════════════════════════════════════════════════ */}
       <div
         style={{
           position: 'fixed',
           top: TOP_H + 8,
-          // Respeita a sidebar esquerda se estiver aberta
           left: sidebarEsqAberta ? 'calc(20vw + 8px)' : 8,
-          // Respeita a sidebar direita se estiver aberta
           right: sidebarDirAberta ? 'calc(20vw + 8px)' : 8,
           bottom: 8,
           zIndex: 20,
           borderRadius: 20,
           overflow: 'hidden',
           transition: 'left 0.3s cubic-bezier(0.4,0,0.2,1), right 0.3s cubic-bezier(0.4,0,0.2,1)',
-          // Quando fechado, reduz opacidade e escala
           opacity: dashboardAberto ? 1 : 0,
           pointerEvents: dashboardAberto ? 'auto' : 'none',
           transform: dashboardAberto ? 'scale(1)' : 'scale(0.97)',
@@ -331,22 +278,13 @@ function Interface() {
           boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
         }}
       >
-        {vision === "financas" ? (
-          <PatrimonioInterface />
-        ) : (
-          <Dashboard />
-        )}
+        {vision === "financas" ? <PatrimonioInterface /> : <Dashboard />}
       </div>
 
-      {/* ═══════════════════════════════════════════════════════
-          CAMADA 3 — SIDEBAR DIREITA
-      ════════════════════════════════════════════════════════ */}
       <div
         style={{
           position: 'fixed',
-          top: TOP_H,
-          right: 0,
-          bottom: 0,
+          top: TOP_H, right: 0, bottom: 0,
           width: sidebarDirAberta ? '20vw' : 0,
           zIndex: 30,
           overflow: 'hidden',
@@ -369,7 +307,6 @@ function Interface() {
         </div>
       </div>
 
-      {/* Botão toggle da sidebar direita — flutua na borda */}
       <button
         onClick={() => setSidebarDirAberta(v => !v)}
         title={sidebarDirAberta ? 'Ocultar dados' : 'Mostrar dados'}

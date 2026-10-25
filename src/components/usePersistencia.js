@@ -1,7 +1,4 @@
-
-  
-  
-  const estadoInicialEconomy={
+const estadoInicialEconomy={
     
     saldo: 1000000,
     fimGame: false,
@@ -259,14 +256,6 @@
     },
     carteira: {
       carteiraAtual: [],
-      // economiaSetor: {
-      //     estadoAtual: "estável",
-      //     percImpostoAnualAtual: 12,
-      //     ArrayFatu: [],
-      //     arrValorImpostoAnualPorMes: [],
-      //     valorImpostoAnualAtual: 0,
-      //     RelatórioMensalImpostoAnual: {}
-      //   }
     },
       patrimonioGlobal: 0,
   }
@@ -314,962 +303,68 @@ export const EDIFICIOS_BASE_DINAMICOS = {
 }
 
 export const LICENCAS_DINAMICAS_GLOBAIS = {
-    agricultura: {
-        licençaGlobal: {
-            comprado: true,
-        },
-    },
-    tecnologia: {
-        licençaGlobal: {
-            comprado: true,
-        },
-    },
-    industria: {
-        licençaGlobal: {
-            comprado: true,
-        },
-    },
-    comercio: {
-        licençaGlobal: {
-            comprado: true,
-        },
-    },
-    imobiliario: {
-        licençaGlobal: {
-            comprado: true,
-        },
-    },
-    energia: {
-        licençaGlobal: {
-            comprado: true,
-        },
-    },
-    grafico: {
-        licençaGlobal: {
-            comprado: true,
-        },
-    },
-    carteira: {
-        licençaGlobal: {
-            comprado: true,
-        },
-    },
-    gerenciamento: {
-        licençaGlobal: {
-            comprado: true,
-        },
-    },
-    ecossistema: {
-        licençaGlobal: {
-            comprado: true,
-        },
-    },
-    mercado: {
-        licençaGlobal: {
-            comprado: true,
-        },
-    },
+    agricultura: { licençaGlobal: { comprado: true } },
+    tecnologia: { licençaGlobal: { comprado: true } },
+    industria: { licençaGlobal: { comprado: true } },
+    comercio: { licençaGlobal: { comprado: true } },
+    imobiliario: { licençaGlobal: { comprado: true } },
+    energia: { licençaGlobal: { comprado: true } },
+    grafico: { licençaGlobal: { comprado: true } },
+    carteira: { licençaGlobal: { comprado: true } },
+    gerenciamento: { licençaGlobal: { comprado: true } },
+    ecossistema: { licençaGlobal: { comprado: true } },
+    mercado: { licençaGlobal: { comprado: true } },
 }
 
 export const EDIFICIOS_FINAIS_DINAMICOS_INICIAL = {
     agricultura: {
         edificios: [
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
+            { licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } },
         ]
     },
     tecnologia: {
-        edificios: [
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-        ]
+        edificios: Array(27).fill(null).map(() => ({ licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } }))
     },
     industria: {
-        edificios: [
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-        ]
+        edificios: Array(42).fill(null).map(() => ({ licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } }))
     },
     comercio: {
-
-        edificios: [
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-        ]
+        edificios: Array(30).fill(null).map(() => ({ licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } }))
     },
     imobiliario: {
-        edificios: [
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-        ]
+        edificios: Array(21).fill(null).map(() => ({ licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } }))
     },
     energia: {
-        edificios: [
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-            {
-                licençaLiberado: { liberado: false },
-                quantidade: 0,
-                powerUp: { redCustoAtual: 0, aumFatuAtual: 0 },
-            },
-        ]
+        edificios: Array(20).fill(null).map(() => ({ licençaLiberado: { liberado: false }, quantidade: 0, powerUp: { redCustoAtual: 0, aumFatuAtual: 0 } }))
     }
 }
 
 export const LICENCAS_STATUS_INICIAL = {
-    agricultura: [
-        { status: false }, // Licença Global De Agricultura
-        { status: false }, // Licença De Base Agrícola
-        { status: false }, // Licença De Outras Plantações
-        { status: false }, // Licença De Fazendas De Animais
-        { status: false }, // Licença De Madeira
-        { status: false }, // Licença De Minérios Base
-        { status: false }, // Licença De Comércios Agrícolas
-    ],
-    tecnologia: [
-        { status: false }, // Licença Global De Tecnologia
-        { status: false }, // Licença De Empreendimentos Tech
-        { status: false }, // Licença De Plataformas Digitais
-        { status: false }, // Licença Agro e Biotecnologia
-        { status: false }, // Licença Eletrônica e Design
-        { status: false }, // Licença De Fábricas Tecnológicas
-        { status: false }, // Licença De Tecnologia Experimental
-        { status: false }, // Licença De Engenharia Avançada
-        { status: false }, // Licença De Pesquisa Em Robótica e IA
-    ],
-    industria: [
-        { status: false }, // Licença Global De Indústria
-        { status: false }, // Licença De Fábricas Simples
-        { status: false }, // Licença De Armazenamento Indústrial
-        { status: false }, // Licença De Fábrica textil
-        { status: false }, // Licença De Papel E Celulose
-        { status: false }, // Licença De Produtos Químicos
-        { status: false }, // Licença De Base Metalúrgica
-        { status: false }, // Licença De Metalúrgia Avançada
-        { status: false }, // Licença Automotiva
-        { status: false }, // Licença De Refinaria
-        { status: false }, // Licença Microeletrônica
-        { status: false }, // Licença De Eletrônica Avançada
-        { status: false }, // Licença De Engenharia Mecânica Avançada
-    ],
-    comercio: [
-        { status: false }, // Licença Global De Comércio
-        { status: false }, // Licença De Comércio Local
-        { status: false }, // Licença De Serviços E Saúde
-        { status: false }, // Licença Global De Comércio (duplicada)
-        { status: false }, // Licença De Varejo
-        { status: false }, // Licença De Varejo Especializado
-        { status: false }, // Licença De Comércio De Tecnologia
-        { status: false }, // Licença De Logística E Transporte
-        { status: false }, // Licença De Comércio Urbano
-        { status: false }, // Licença De Shoppings
-    ],
-    imobiliario: [
-        { status: false }, // Licença Global Imobiliária
-        { status: false }, // Licença De Projetos e Design
-        { status: false }, // Licença De Construção Imobiliária
-        { status: false }, // Licença Comercial E Residencial
-        { status: false }, // Licença De Grandes Infraestruturas
-        { status: false }, // Licença De Mineração
-        { status: false }, // Licença De Construções Energéticas
-    ],
-    energia: [
-        { status: false }, // Licença Global De Energia
-        { status: false }, // Licença De Fábricas Energéticas
-        { status: false }, // Licença De Comércios Energéticos
-        { status: false }, // Licença De Melhoria Energética
-        { status: false }, // Licença De Energia Sustentável
-        { status: false }, // Licença De Usinas
-        { status: false }, // Licença De Usinas Nucleares
-    ],
+    agricultura: Array(7).fill(null).map(() => ({ status: false })),
+    tecnologia: Array(9).fill(null).map(() => ({ status: false })),
+    industria: Array(13).fill(null).map(() => ({ status: false })),
+    comercio: Array(10).fill(null).map(() => ({ status: false })),
+    imobiliario: Array(7).fill(null).map(() => ({ status: false })),
+    energia: Array(7).fill(null).map(() => ({ status: false })),
     grafico: [],
     carteira: [],
     gerenciamento: [],
@@ -1279,7 +374,6 @@ export const LICENCAS_STATUS_INICIAL = {
 
 
 const estadoInicial = {
-    // ── UI / controle ────────────────────────────────────────────────────────
     inicioGame: { estadoModal: true, nomeEmpresa: "" },
     nomeEmpresa: "",
     setorAtivo: "agricultura",
@@ -1294,8 +388,6 @@ const estadoInicial = {
     ofertas: [],
     itensSorteados: [],
 
-    // ── Modais ────────────────────────────────────────────────────────────────
-    // ── Modais ────────────────────────────────────────────────────────────────
     modal: { estadoModal: false, head: "", content: "" },
     modalEditável: { estadoModal: false, head: "", content: "" },
     modalAlert: { estadoModal: false, head: "", content: "" },
@@ -1307,7 +399,6 @@ const estadoInicial = {
     modalAchievements: { estadoModal: false, lojaConquistada: "", conquista: 0 },
     modalPerson: { estadoModal: false, texto: "", tipo: "pensamento" },
 
-    // 👉 ADICIONE ESSES 3 (ESSENCIAL)
     modalInicio: { estadoModal: false },
     modalCompraTerrenos: { estadoModal: false },
     modalContinuarDias: { estadoModal: false },
@@ -1323,7 +414,6 @@ const estadoInicial = {
         proximoPagamento: "",
     },
 
-    // ── Evento ────────────────────────────────────────────────────────────────
     eventoAtual: {
         eventoAtivo: false, title: "", lojaSelecionada: "",
         situacaoSelecionada: "", porcentagemSelecionada: "",
@@ -1331,15 +421,13 @@ const estadoInicial = {
         departamento: "", julgamento: "",
     },
 
-    // ── Financeiro ────────────────────────────────────────────────────────────
     faturamento: { faturamentoDiário: 0, faturamentoMensal: 0, arrayFatuDiário: [] },
     relatóriosFaturamento: {},
     imposto: { impostoFixoMensal: 0, impostoDiário: 0, impostoMensal: 0, impostoSobreFaturamentoDiário: 0 },
     valoresDespesas: { terrenos: 0, lojasP: 0, lojasM: 0, lojasG: 0, impostos: 0, funcionários: 0, despesasTotais: 0 },
 
-    // ── Edifícios dinâmicos ───────────────────────────────────────────────────
     edificiosBase: EDIFICIOS_BASE_DINAMICOS,
-    edificiosFinais:EDIFICIOS_FINAIS_DINAMICOS_INICIAL,
+    edificiosFinais: EDIFICIOS_FINAIS_DINAMICOS_INICIAL,
 
     licençasStatus: LICENCAS_STATUS_INICIAL,
     licençasGlobais: {
@@ -1350,7 +438,6 @@ const estadoInicial = {
         imobiliario: false,
         energia: false,
     },
-    // ── Economia por setor ────────────────────────────────────────────────────
     economiaSetores: {
         agricultura: { estadoAtual: "estável" },
     },
@@ -1361,27 +448,33 @@ const estadoInicial = {
 const KEYS = {
     game:     "econoGame_gameState",
     central:  "central: econoGame_central_old",
-
     economy:  "econoGame_economy",
     pipelines:"econoGame_pipelines",
 };
 
+// ─── Flag de reset em andamento (defesa em 2 níveis: módulo + window) ──
+let _resetEmAndamento = false;
 
-// function mergeDeep(target, source) {
-//     for (const key in source) {
-//         if (
-//             source[key] instanceof Object &&
-//             key in target
-//         ) {
-//             Object.assign(source[key], mergeDeep(target[key], source[key]));
-//         }
-//     }
-//     return { ...target, ...source };
-// }
+export function marcarResetEmAndamento() {
+    _resetEmAndamento = true;
+    if (typeof window !== "undefined") window.__RESET_FLAG__ = true;
+    console.log("[Persistencia] 🛑 Reset marcado — saves serão ignorados");
+}
+
+export function resetEmAndamento() {
+    if (_resetEmAndamento) return true;
+    if (typeof window !== "undefined" && window.__RESET_FLAG__) return true;
+    return false;
+}
+
+export function desmarcarResetEmAndamento() {
+    _resetEmAndamento = false;
+    if (typeof window !== "undefined") window.__RESET_FLAG__ = false;
+}
+
 // ─── Helpers seguros ──────────────────────────────────────────────────────────
 
 function safeParse(raw, fallback = null) {
-    // Proteção contra null, undefined, "undefined", strings inválidas
     if (raw == null || raw === "undefined" || raw === "null" || raw === "") return fallback;
     try {
         return JSON.parse(raw);
@@ -1392,7 +485,6 @@ function safeParse(raw, fallback = null) {
 }
 
 function safeStringify(value) {
-    // Nunca salva undefined — usa null como fallback
     if (value === undefined) return null;
     try {
         return JSON.stringify(value);
@@ -1438,60 +530,61 @@ function safeRemove(key) {
 
 /**
  * Salva o estado completo do jogo.
- * Todos os parâmetros são opcionais — só salva o que for fornecido.
+ * 🛑 Se reset está em andamento, IGNORA e REMOVE as chaves novamente (defesa extra).
  */
 export function salvarNoStorage(gameState, centralState, economyState, pipelinesState) {
-  // Evita salvar um gameState corrompido (sem a estrutura esperada)
+  if (resetEmAndamento()) {
+    console.log("[Persistencia] 🛑 reset ativo — save ignorado E chaves removidas");
+    safeRemove(KEYS.economy);
+    safeRemove(KEYS.pipelines);
+    safeRemove(KEYS.game);
+    return;
+  }
+
   if (gameState && typeof gameState === 'object' && gameState.edificiosFinais) {
     safeSet(KEYS.game, gameState);
   } else if (gameState !== undefined) {
     console.warn("[Persistencia] gameState inválido, não salvo", gameState);
   }
-//   if (centralState !== undefined) safeSet(KEYS.central, centralState);
   if (economyState !== undefined) safeSet(KEYS.economy, economyState);
   if (pipelinesState !== undefined) safeSet(KEYS.pipelines, pipelinesState);
 }
 
-/**
- * Carrega o estado salvo.
- * Retorna null para cada campo que não existir ou estiver corrompido.
- */
 export function carregarSalvo() {
     const economy   = safeParse(safeGet(KEYS.economy), null);
     const pipelines = safeParse(safeGet(KEYS.pipelines), null);
 
-    // Se não houver save, usa o estado inicial da economy (opcional)
     const economyFinal = economy ?? estadoInicialEconomy;
 
     return {
-        game: null,        // não usado mais
-        central: null,     // não usado (Zustand gerencia via 'central-dados')
+        game: null,
+        central: null,
         economy: economyFinal,
         pipelines: pipelines ?? null,
     };
 }
 
-/**
- * Verifica se existe um save.
- */
 export function temSaveExistente() {
     const raw = safeGet(KEYS.game);
     return raw != null && raw !== "undefined" && raw !== "null" && raw !== "";
 }
 
 /**
- * Limpa todos os dados salvos.
- * PRESERVADO — usado em interface.jsx linha 11.
+ * Limpa tudo. Roda DUAS vezes (imediato + 200ms) para matar saves atrasados.
  */
 export function limparSalvo() {
     Object.values(KEYS).forEach(safeRemove);
-    // ✅ Remove também a chave antiga do persist Zustand
-    // try { localStorage.removeItem('central-dados') } catch(e) {}
-    console.log("[Persistencia] Save limpo.");
+    try { localStorage.removeItem('central-dados'); } catch(e) {}
+    console.log("[Persistencia] Save limpo (1ª passada).");
+
+    // 🛡️ Segunda limpeza após 200ms
+    setTimeout(() => {
+        Object.values(KEYS).forEach(safeRemove);
+        try { localStorage.removeItem('central-dados'); } catch(e) {}
+        console.log("[Persistencia] Save limpo (2ª passada de segurança).");
+    }, 200);
 }
-/**
- * Limpa apenas os pipelines (útil para reset de automações sem perder o jogo).
- */
+
 export function limparPipelines() {
     safeRemove(KEYS.pipelines);
     console.log("[Persistencia] Pipelines limpos.");
