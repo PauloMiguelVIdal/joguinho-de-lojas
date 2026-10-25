@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { DadosEconomyGlobalContext } from "../dadosEconomyGlobal";
 import circularEconomia from "../../public/outrasImagens/circular-economy.png";
 import Converter from "./Converter";
@@ -6,7 +6,7 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import { useCentralStore } from "../stores/useCentralStore";
 
-// ── fora do componente — sem recriação por render ─────────────────────────────
+// ── fora do componente ─────────────────────────────────────
 const estadosEconômicos = ["recessão", "declinio", "estável", "progressiva", "aquecida"];
 const setores           = ["agricultura", "tecnologia", "industria", "comercio", "imobiliario", "energia"];
 const selecionarItem    = (lista) => lista[Math.floor(Math.random() * lista.length)];
@@ -26,10 +26,10 @@ export default function EconomyGlobal() {
   const modalEconomiaGlobal = useCentralStore((s) => s.modalEconomiaGlobal);
   const atualizarDados   = useCentralStore((s) => s.atualizarDados);
 
-  // ── Economy Context (inalterado) ──────────────────────────
+  // ── Economy Context ───────────────────────────────────────
   const { economiaSetores, atualizarDadosEconomy, atualizarEco } = useContext(DadosEconomyGlobalContext);
 
-  const economiaAtual = economiaSetores.economiaGlobal;
+  const economiaAtual = economiaSetores?.economiaGlobal ?? "estável";
 
   const corClasse = {
     recessão:    "bg-[#FF0000]",
@@ -39,40 +39,61 @@ export default function EconomyGlobal() {
     aquecida:    "bg-[#006400]",
   }[economiaAtual] || "bg-black";
 
+  // ✅ CORREÇÃO: guarda contra dupla execução no mesmo dia (StrictMode/remontagem)
+  const ultimoDiaProcessado = useRef(-1);
+
   // ── Economia global pré-270 ───────────────────────────────
   useEffect(() => {
-    if (dia % 90 === 0 && dia <= 269) {
-      const novaEconomia = selecionarItem(estadosEconômicos);
-      atualizarDados("modalEconomiaGlobal", { ...modalEconomiaGlobal, estadoModal: true });
-      atualizarEco("economiaGlobal", novaEconomia);
-    }
+    if (dia % 90 !== 0 || dia > 269 || dia <= 0) return;
+    if (ultimoDiaProcessado.current === dia) return;
+    ultimoDiaProcessado.current = dia;
+
+    const novaEconomia = selecionarItem(estadosEconômicos);
+    atualizarDados("modalEconomiaGlobal", { ...modalEconomiaGlobal, estadoModal: true });
+    atualizarEco("economiaGlobal", novaEconomia);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dia]);
 
   // ── Economia por setor pós-270 ────────────────────────────
   useEffect(() => {
-    if (dia % 90 === 0 && dia >= 270) {
-      let somaEconomias = 0;
-      setores.forEach((setor) => {
-        const novaEconomia = selecionarItem(estadosEconômicos);
-        atualizarDadosEconomy([setor, "economiaSetor", "estadoAtual"], novaEconomia);
-        somaEconomias += valorEconomico(novaEconomia);
-      });
-      const decidirEconomiaGlobal = () => {
-        if (somaEconomias < -5) return "recessão";
-        if (somaEconomias < -2) return "declinio";
-        if (somaEconomias < 2)  return "estável";
-        if (somaEconomias < 5)  return "progressiva";
-        return "aquecida";
-      };
-      atualizarDados("modalEconomiaGlobal", { ...modalEconomiaGlobal, estadoModal: true });
-      atualizarEco("economiaGlobal", decidirEconomiaGlobal());
-    }
+    if (dia % 90 !== 0 || dia < 270 || dia <= 0) return;
+    if (ultimoDiaProcessado.current === dia) return;
+    ultimoDiaProcessado.current = dia;
+
+    let somaEconomias = 0;
+    const novosEstados = {};
+
+    setores.forEach((setor) => {
+      const novaEconomia = selecionarItem(estadosEconômicos);
+      novosEstados[setor] = novaEconomia;
+      somaEconomias += valorEconomico(novaEconomia);
+
+      // ✅ CORREÇÃO: usa atualizarEcoProfSeguro (cria caminho se faltar)
+      //    em vez de atualizarDadosEconomy (abortava silenciosamente)
+      atualizarDadosEconomy([setor, "economiaSetor", "estadoAtual"], novaEconomia);
+    });
+
+    const decidirEconomiaGlobal = () => {
+      if (somaEconomias < -5) return "recessão";
+      if (somaEconomias < -2) return "declinio";
+      if (somaEconomias < 2)  return "estável";
+      if (somaEconomias < 5)  return "progressiva";
+      return "aquecida";
+    };
+
+    atualizarDados("modalEconomiaGlobal", { ...modalEconomiaGlobal, estadoModal: true });
+    atualizarEco("economiaGlobal", decidirEconomiaGlobal());
+
+    console.log(`[EconomyGlobal] dia ${dia} — novos estados por setor:`, novosEstados,
+      `| soma: ${somaEconomias} → global: ${decidirEconomiaGlobal()}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dia]);
 
   // ── Contador de dias para próxima mudança ─────────────────
   useEffect(() => {
     const calcularProximoDia = (n) => (n % 90 === 0 ? 0 : 90 - (n % 90));
     atualizarDados("proximaEconomia", calcularProximoDia(dia));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dia]);
 
   return (

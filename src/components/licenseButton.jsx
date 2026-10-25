@@ -8,13 +8,15 @@ import { motion } from "framer-motion";
 import fechar from "../../public/outrasImagens/fechar.png";
 import openAudio from "../../public/sounds/openAudio.mp3";
 import useSound from "use-sound";
-import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
+import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL, LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
 import {
-  EDIFICIOS_FINAIS_ESTATICOS,
-  LICENCAS_ESTATICAS,
-  EDIFICIOS_BASE_ESTATICOS,
-  LICENCAS_ESTATICAS_GLOBAIS,
+    EDIFICIOS_FINAIS_ESTATICOS,
+    LICENCAS_ESTATICAS,
+    EDIFICIOS_BASE_ESTATICOS,
+    LICENCAS_ESTATICAS_GLOBAIS,
 } from "../stores/dadosEstáticos";
+
+import { createPortal } from "react-dom";
 
 export const LicenceModalBusiness = () => {
     const { economiaSetores } = useContext(DadosEconomyGlobalContext);
@@ -22,7 +24,7 @@ export const LicenceModalBusiness = () => {
     //     CentraldeDadosContext
     // );
 
-     const dia = useCentralStore((s) => s.dia);
+    const dia = useCentralStore((s) => s.dia);
     const [businessLicenceModal, setBusinessLicenceModal] = useState(false);
     const [buttonOpenAudio] = useSound(openAudio);
     const [ativo, setAtivo] = useState("carteira");
@@ -46,50 +48,90 @@ export const LicenceModalBusiness = () => {
     const edAtual = dadosCarteiraEdificios.quantidadeEdificiosAtual || 0;
     const edMax = dadosCarteiraEdificios.quantidadeEdificiosMax || 1;
 
-    // 2. RETORNO DO MODAL (Quando aberto)
     if (businessLicenceModal === true) {
-        return (
-<div className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center">               <motion.div
-                    style={{ backgroundColor: setorCarteira.cor4 }}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    className="w-[80vw] h-[80vh] p-[20px] gap-[20px] rounded-[10px] flex flex-col items-center relative "
-                >
+        return createPortal(
+            <div
+                className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4 sm:p-6 md:p-8"
+                style={{
+                    width: "100vw",
+                    height: "100dvh",
+                }}
+            >
+                {/* Container relativo que segura o modal + botão sobressalente */}
+                <div className="relative w-full h-full max-w-[1400px] max-h-full">
+
+                    {/* Botão fechar — FORA do overflow-hidden, sobressaindo */}
                     <button
-                        className="bg-laranja absolute top-[-20px] right-[-20px] w-[40px] h-[40px] flex justify-center items-center rounded-[10px] hover:bg-[#E56100] active:scale-95"
-                        onClick={() => {
-                            setBusinessLicenceModal(false);
-                            // buttonCloseAudio(); // Certifique-se que esta função existe ou use a de fechar
-                        }}
+                        className="
+                        bg-laranja
+                        absolute z-[60]
+                        top-[-14px] right-[-14px]
+                        sm:top-[-18px] sm:right-[-18px]
+                        md:top-[-20px] md:right-[-20px]
+                        w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] md:w-[44px] md:h-[44px]
+                        flex justify-center items-center
+                        rounded-[10px]
+                        hover:bg-[#E56100] active:scale-95
+                        shadow-lg
+                    "
+                        onClick={() => setBusinessLicenceModal(false)}
                     >
                         <img src={fechar} alt="Fechar" className="w-[60%]" />
                     </button>
-                    <div
-                        style={{ backgroundColor: setorCarteira.cor1 }}
-                        className="flex shadow-xl justify-center items-center w-[100%] h-[15%] rounded-[20px] self-center "
+
+                    <motion.div
+                        style={{ backgroundColor: setorCarteira.cor4 }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className="
+                        relative
+                        w-full h-full
+                        p-3 sm:p-4 md:p-[20px]
+                        gap-3 sm:gap-4 md:gap-[20px]
+                        rounded-[10px]
+                        flex flex-col items-center
+                        overflow-hidden
+                    "
                     >
-                        <h1 className="text-center text-white text-[40px] fonteBold">
-                            Licenças empresariais
-                        </h1>
-                    </div>
-                    <div className="overflow-y-visible overflow-x-hidden w-full scrollbar-custom ">
-                        {economiaSetores.porteEmpresa.map((e, index) => (
-                            <BusinessLicence
-                                key={index}
-                                setor={ativo}
-                                nomeLicença={e.nome}
-                                index={index}
-                            />
-                        ))}
-                    </div>
-                </motion.div>
-            </div>
+                        <div
+                            style={{ backgroundColor: setorCarteira.cor1 }}
+                            className="
+                            flex shadow-xl justify-center items-center
+                            w-full
+                            shrink-0
+                            h-[12%] min-h-[60px] sm:min-h-[70px]
+                            rounded-[20px]
+                        "
+                        >
+                            <h1 className="text-center text-white text-[22px] sm:text-[28px] md:text-[36px] lg:text-[40px] fonteBold px-2">
+                                Licenças empresariais
+                            </h1>
+                        </div>
+
+                        <div className="
+                        flex-1 min-h-0
+                        w-full
+                        overflow-y-auto overflow-x-hidden
+                        scrollbar-custom
+                    ">
+                            {economiaSetores.porteEmpresa.map((e, index) => (
+                                <BusinessLicence
+                                    key={index}
+                                    setor={ativo}
+                                    nomeLicença={e.nome}
+                                    index={index}
+                                />
+                            ))}
+                        </div>
+                    </motion.div>
+                </div>
+            </div>,
+            document.body
         );
     }
 
-    // 3. RETORNO DO BOTÃO (Visível apenas após dia 270)
     const atingiuLimite = edAtual >= edMax;
     const estaPerto = edMax - edAtual <= 2 && !atingiuLimite;
 

@@ -1042,7 +1042,7 @@ const setoresComEdificios = new Set(todosEdificiosBase.map(({ setor }) => setor)
                     <Tooltip style={tooltipStyleGlobal} id="tooltip-carteira" />
 
                     {/* HEADER */}
-                    <div className="h-[50px] w-full flex gap-[10px] items-center">
+                    <div className="h-[50px] w-full flex gap-[10px] items-center justify-around">
                       <div style={{ backgroundColor: setorAtivo.cor3 }} className="rounded-[20px] px-4 h-full fonteBold text-white flex items-center justify-center text-[20px] sombra shrink-0">
                         Carteira
                       </div>
@@ -1053,9 +1053,9 @@ const setoresComEdificios = new Set(todosEdificiosBase.map(({ setor }) => setor)
                         <div style={{ backgroundColor: setorAtivo.cor4 }} className="h-full aspect-square rounded-[20px] border-[2px] flex items-center justify-center">
                           <img src={patrimônio} className="h-[60%] aspect-square" />
                         </div>
-                        <h1 className="text-white fonteBold text-[17px] mx-[12px]">{formatarNumero(patrimonioTotal)}</h1>
+                        <h1 className="text-white fonteBold text-[17px] mx-[20px]">{formatarNumero(patrimonioTotal)}</h1>
                       </div>
-                      <div style={{ flex: 1, background: "rgba(0,0,0,.3)", border: "1px solid rgba(255,255,255,.08)", borderRadius: 12, height: "100%", display: "flex", alignItems: "center", gap: 8, padding: "0 14px" }}>
+                      {/* <div style={{ flex: 1, background: "rgba(0,0,0,.3)", border: "1px solid rgba(255,255,255,.08)", borderRadius: 12, height: "100%", display: "flex", alignItems: "center", gap: 8, padding: "0 14px" }}>
                         {[
                           { label: "Receita/mês", val: "+" + formatarNumero(receitaMensalTotal), color: "#7aff9a" },
                           { label: "Impostos", val: "-" + formatarNumero(impostosTotais), color: "#ff9090" },
@@ -1069,13 +1069,14 @@ const setoresComEdificios = new Set(todosEdificiosBase.map(({ setor }) => setor)
                             </div>
                           </React.Fragment>
                         ))}
-                      </div>
+                      </div> */}
                       <div className="flex gap-[8px] h-full shrink-0">
                         <button onClick={() => { abrirBanco(); buttonOpenAudio(); }}
                           data-tooltip-id="tooltip-carteira" data-tooltip-html="Abrir Bancos"
                           className="h-full bg-laranja aspect-square rounded-[10px] flex items-center justify-center hover:scale-[1.10] duration-300 cursor-pointer">
                           <img className="w-[70%]" src={bank} alt="Bancos" />
                         </button>
+            
                       </div>
                     </div>
 

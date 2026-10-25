@@ -8,7 +8,7 @@ const DadosEconomyGlobalContext = createContext();
 const SETORES_ARR = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
 const estadoInicial = {
-  saldo: 10000000,
+  saldo: 1000000,
   fimGame: false,
   economiaGlobal: "estável",
   valorImpostoAnual: 0,
