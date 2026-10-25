@@ -1,17 +1,10 @@
-import { useState, useMemo, useContext } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { SALES_EDIFICIOS } from "./salesFormulasConfig";
 import BuildingSellCard from "./BuildSellCard";
 import ManagerSellPanel from "./ManagerSellPanel";
 import { useGame } from "./GameContext";
-// import { CentraldeDadosContext } from "../centralDeDadosContext";
-import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
-import {
-  EDIFICIOS_FINAIS_ESTATICOS,
-  LICENCAS_ESTATICAS,
-  EDIFICIOS_BASE_ESTATICOS,
-  LICENCAS_ESTATICAS_GLOBAIS,
-} from "../stores/dadosEstáticos";
-
+import { useCentralStore } from "../stores/useCentralStore";
+import { EDIFICIOS_FINAIS_ESTATICOS } from "../stores/dadosEstáticos";
 
 import {
   ShoppingBag,
@@ -25,14 +18,21 @@ import {
   Home
 } from "lucide-react";
 
-export default function HubSell() {
+export default function HubSell({ edificioInicial = null }) {
   const [edificioSelecionado, setEdificioSelecionado] = useState(null);
   const [selectedSector, setSelectedSector] = useState("all");
   const { contratosEdificios } = useGame();
-  // const { dados } = useContext(CentraldeDadosContext);
   const dia = useCentralStore((s) => s.dia);
   const edificiosFinais = useCentralStore((s) => s.edificiosFinais);
-  
+
+  // 1. TODOS os hooks devem vir antes de qualquer return condicional
+
+  useEffect(() => {
+    if (edificioInicial) {
+      setEdificioSelecionado(edificioInicial);
+    }
+  }, [edificioInicial]);
+
   const sectors = [
     { id: "all", name: "Todos", icon: <Globe size={18} /> },
     { id: "agricultura", name: "Agricultura", icon: <Wheat size={18} /> },
@@ -43,34 +43,33 @@ export default function HubSell() {
     { id: "energia", name: "Energia", icon: <Zap size={18} /> },
   ];
 
- 
+  const nomespossuidos = useMemo(() => {
+    const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
+    const nomes = new Set();
 
-const nomespossuidos = useMemo(() => {
-  const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-  const nomes = new Set();
+    setores.forEach(setor => {
+      const dinamicos = edificiosFinais[setor]?.edificios || [];
+      const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
 
-  setores.forEach(setor => {
-    const dinamicos = edificiosFinais[setor]?.edificios || [];
-    const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
-
-    dinamicos.forEach((edDin, index) => {
-      if ((edDin.quantidade ?? 0) <= 0) return;
-      const edEst = estaticos[index];
-      if (edEst?.nome) nomes.add(edEst.nome);
+      dinamicos.forEach((edDin, index) => {
+        if ((edDin.quantidade ?? 0) <= 0) return;
+        const edEst = estaticos[index];
+        if (edEst?.nome) nomes.add(edEst.nome);
+      });
     });
-  });
 
-  return nomes;
-}, [edificiosFinais]);
+    return nomes;
+  }, [edificiosFinais]);
 
-// substitui os dois useMemos antigos (buildingsArray + filteredBuildings)
-const filteredBuildings = useMemo(() => {
-  const possuidos = SALES_EDIFICIOS.filter(e =>
-    nomespossuidos.has(e.nomeEdificio)
-  );
-  if (selectedSector === "all") return possuidos;
-  return possuidos.filter(e => e.setor === selectedSector);
-}, [selectedSector, nomespossuidos]);
+  const filteredBuildings = useMemo(() => {
+    const possuidos = SALES_EDIFICIOS.filter(e =>
+      nomespossuidos.has(e.nomeEdificio)
+    );
+    if (selectedSector === "all") return possuidos;
+    return possuidos.filter(e => e.setor === selectedSector);
+  }, [selectedSector, nomespossuidos]);
+
+  // 2. Agora sim, o return condicional (nenhum hook depois daqui)
 
   if (edificioSelecionado) {
     return (
@@ -84,8 +83,7 @@ const filteredBuildings = useMemo(() => {
   return (
     <div className="h-[70vh] bg-[#6A00FF] rounded-[1rem]">
       <div className="w-full justify-between bg-white/10 backdrop-blur-xl border border-white/20 rounded-[1rem] shadow-2xl overflow-hidden flex flex-col h-full">
-
-        {/* HEADER — espelhado do HubManagement */}
+        {/* HEADER */}
         <div className="px-8 py-6 border-b border-white/10 bg-white/5 shrink-0">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-center gap-4">
@@ -99,7 +97,7 @@ const filteredBuildings = useMemo(() => {
               </div>
             </div>
 
-            {/* FILTRO — idêntico ao HubManagement */}
+            {/* FILTRO */}
             <div className="flex flex-wrap gap-2 p-1 bg-black/5 rounded-2xl border border-white/10">
               {sectors.map((s) => (
                 <button
@@ -120,7 +118,7 @@ const filteredBuildings = useMemo(() => {
           </div>
         </div>
 
-        {/* CONTEÚDO — grid 2 colunas igual ao HubManagement */}
+        {/* CONTEÚDO */}
         <div className="h-full overflow-y-auto p-6 scrollbar-custom">
           {filteredBuildings.length > 0 ? (
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
@@ -155,7 +153,6 @@ const filteredBuildings = useMemo(() => {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );

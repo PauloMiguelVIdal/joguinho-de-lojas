@@ -2,13 +2,22 @@ import { useState, useEffect } from "react";
 import { Factory, ShoppingBag } from "lucide-react";
 import HubManagement from "./HubManagement";
 import HubSell from "./HubSell";
+import { useCentralStore } from "../stores/useCentralStore";
 
 export default function GerenciamentoHub({ edificioInicial = null }) {
   const [aba, setAba] = useState("producao");
 
+  const abaGerenciamentoSolicitada = useCentralStore((s) => s.abaGerenciamentoSolicitada);
+  const setAbaGerenciamentoSolicitada = useCentralStore((s) => s.setAbaGerenciamentoSolicitada);
+
   useEffect(() => {
-    if (edificioInicial) setAba("producao");
-  }, [edificioInicial]);
+    if (abaGerenciamentoSolicitada) {
+      setAba(abaGerenciamentoSolicitada);
+    }
+  }, [abaGerenciamentoSolicitada]);
+
+  // Não limpe a aba aqui. Deixe o HubSell limpar quando montar
+  // e já tiver recebido o edificioInicial.
 
   const tabs = [
     { id: "producao", label: "Produção", icon: <Factory size={15} /> },
@@ -37,7 +46,7 @@ export default function GerenciamentoHub({ edificioInicial = null }) {
       </div>
 
       {aba === "producao" && <HubManagement edificioInicial={edificioInicial} />}
-      {aba === "vendas"   && <HubSell />}
+      {aba === "vendas"   && <HubSell edificioInicial={edificioInicial} />}
     </div>
   );
 }

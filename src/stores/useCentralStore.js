@@ -1026,7 +1026,9 @@ export const estadoInicial = {
     proximaOferta: "",
     ofertas: [],
     itensSorteados: [],
-
+edificioGerenciamento: null,
+abaSolicitada: null,
+abaGerenciamentoSolicitada: null,
     // ── Modais ────────────────────────────────────────────────────────────────
     modal: { estadoModal: false, head: "", content: "" },
     modalEditável: { estadoModal: false, head: "", content: "" },
@@ -1303,9 +1305,9 @@ export const useCentralStore = create(
             }, `garantirEstruturaSetor(${setor})`),
 
 
-edificioGerenciamento: null,
+
 setEdificioGerenciamento: (id) => set({ edificioGerenciamento: id }),
-abaSolicitada: null,
+setAbaGerenciamentoSolicitada: (aba) => set({ abaGerenciamentoSolicitada: aba }),
 setAbaSolicitada: (aba) => set({ abaSolicitada: aba }),
           atualizarLicença: (setor, index, status) =>
             setComLog((state) => {

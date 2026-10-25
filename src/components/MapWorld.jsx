@@ -18,10 +18,8 @@ import {
   EDIFICIOS_BASE_ESTATICOS,
   LICENCAS_ESTATICAS_GLOBAIS,
 } from "../stores/dadosEstáticos";
-
-// ─── Config de fórmulas (traduz nome+setor → edificioId) ───
+import { SALES_EDIFICIOS } from "./salesFormulasConfig"; 
 import { FORMULAS_EDIFICIOS } from './productionFormulasConfig';
-
 
 const HEX_SIZE = 0.6
 
@@ -70,11 +68,35 @@ function edificioTemGerenciamento(nome) {
   return PRODUCTIONS_SET.has(nome) || SELL_FINAL_SET.has(nome);
 }
 
+// ─── Normalização de strings para comparação robusta ───────
+function normalizarString(str) {
+  if (!str) return "";
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
 function buscarEdificioIdPorNomeESetor(nome, setor) {
-  const found = FORMULAS_EDIFICIOS.find(
-    (f) => f.nomeEdificio === nome && f.setor === setor
+  const nomeNorm = normalizarString(nome);
+  const setorNorm = normalizarString(setor);
+
+  // 1. Tenta achar em FORMULAS_EDIFICIOS (Produção)
+  const producao = FORMULAS_EDIFICIOS.find(
+    (f) => normalizarString(f.nomeEdificio) === nomeNorm &&
+           normalizarString(f.setor) === setorNorm
   );
-  return found?.edificioId ?? null;
+  if (producao) return producao.edificioId;
+
+  // 2. Tenta achar em SALES_EDIFICIOS (Venda)
+  const venda = SALES_EDIFICIOS.find(
+    (e) => normalizarString(e.nomeEdificio) === nomeNorm &&
+           normalizarString(e.setor) === setorNorm
+  );
+  if (venda) return venda.edificioId;
+
+  return null;
 }
 
 const SETOR_CONFIG = {
@@ -570,7 +592,6 @@ const HexTileMercado = ({ hex, selected, onSelect, onDoubleSelect, moveMode, tag
       />
       <MercadoTag tagsVisiveis={tagsVisiveis} selected={selected} />
 
-      {/* feedback ao mover */}
       {moveMode && hovered && (
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.22, 0]}>
           <ringGeometry args={[HEX_SIZE * 0.5, HEX_SIZE * 0.65, 6]} />
@@ -617,7 +638,6 @@ const HexTileEcossistema = ({ hex, selected, onSelect, onDoubleSelect, moveMode,
       />
       <EcossistemaTag tagsVisiveis={tagsVisiveis} selected={selected} />
 
-      {/* feedback ao mover */}
       {moveMode && hovered && (
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.22, 0]}>
           <ringGeometry args={[HEX_SIZE * 0.5, HEX_SIZE * 0.65, 6]} />
@@ -1025,7 +1045,7 @@ const InfoPanel = ({ building, onMove, onClose, onOpenManager }) => {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  MercadoInfoPanel — agora COM botão Mover
+//  MercadoInfoPanel
 // ─────────────────────────────────────────────────────────────
 const MercadoInfoPanel = ({ onClose, onOpenMarket, onMove }) => (
   <div style={{
@@ -1080,7 +1100,7 @@ const MercadoInfoPanel = ({ onClose, onOpenMarket, onMove }) => (
 )
 
 // ─────────────────────────────────────────────────────────────
-//  EcossistemaInfoPanel — agora COM botão Mover
+//  EcossistemaInfoPanel
 // ─────────────────────────────────────────────────────────────
 const EcossistemaInfoPanel = ({ onClose, onOpenEcosystem, onMove }) => (
   <div style={{
@@ -1463,18 +1483,21 @@ export default function MapWorld() {
   // ── Abrir gerenciamento ────────────────────────────────────
   const abrirGerenciamento = (building) => {
     if (!building) return;
-    if (!edificioTemGerenciamento(building.nome)) return;
 
     const edificioId = buscarEdificioIdPorNomeESetor(building.nome, building.setor);
-
     if (!edificioId) {
-      console.warn(
-        `[MapWorld] Edifício "${building.nome}" (${building.setor}) não possui fórmula de gerenciamento.`
-      );
+      console.warn(`[MapWorld] Edifício "${building.nome}" (${building.setor}) não encontrado.`);
       return;
     }
 
-    setEdificioGerenciamento(edificioId);
+    // Verifica se é venda ou produção usando o edificioId
+    const isVenda = SALES_EDIFICIOS.some(e => e.edificioId === edificioId);
+    const aba = isVenda ? "vendas" : "producao";
+
+    // Passa o edificioId, não o nome
+    useCentralStore.getState().setEdificioGerenciamento(edificioId);
+    useCentralStore.getState().setAbaGerenciamentoSolicitada(aba);
+
     atualizarDados("vision", { visionAtual: "dashboard" });
   };
 
