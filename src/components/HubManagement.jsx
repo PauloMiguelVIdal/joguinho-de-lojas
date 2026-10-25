@@ -1,14 +1,9 @@
-import { useState, useMemo, useContext,useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import BuildingCard from "./BuildingCard";
 import ManagerPanelInterface from "./ManagerPanelInterface";
-import { useCentralStore, EDIFICIOS_BASE_DINAMICOS, EDIFICIOS_FINAIS_DINAMICOS_INICIAL,LICENCAS_DINAMICAS_GLOBAIS } from "../stores/useCentralStore";
-import {
-  EDIFICIOS_FINAIS_ESTATICOS,
-  LICENCAS_ESTATICAS,
-  EDIFICIOS_BASE_ESTATICOS,
-  LICENCAS_ESTATICAS_GLOBAIS,
-} from "../stores/dadosEstáticos";
+import { useCentralStore } from "../stores/useCentralStore";
+import { EDIFICIOS_FINAIS_ESTATICOS } from "../stores/dadosEstáticos";
 import {
   Factory,
   LayoutDashboard,
@@ -18,26 +13,28 @@ import {
   Cpu,
   Hammer,
   Zap,
-  Home
+  Home,
 } from "lucide-react";
-// import { CentraldeDadosContext } from "../centralDeDadosContext";
 
 export default function HubManagement({ edificioInicial = null }) {
   const [edificioSelecionado, setEdificioSelecionado] = useState(null);
   const [selectedSector, setSelectedSector] = useState("all");
+  
+  // Pega o estado dinâmico do Zustand
   const edificiosFinais = useCentralStore((s) => s.edificiosFinais);
 
+  // Garante que o edificioInicial seja apenas o ID (string)
   useEffect(() => {
     if (!edificioInicial) return;
-    setEdificioSelecionado(edificioInicial);
+    
+    if (typeof edificioInicial === "string") {
+      setEdificioSelecionado(edificioInicial);
+    } else if (typeof edificioInicial === "object" && edificioInicial.edificioId) {
+      setEdificioSelecionado(edificioInicial.edificioId);
+    } else {
+      setEdificioSelecionado(edificioInicial);
+    }
   }, [edificioInicial]);
-
-  // const {dados}  = useContext(CentraldeDadosContext)
-  const brand = {
-    cor1: "#350973", // Roxo Profundo
-    cor2: "#6411D9", // Violeta Médio
-    cor3: "#6A00FF", // Roxo Elétrico (Base do seu app)
-  };
 
   const sectors = [
     { id: "all", name: "Todos", icon: <Globe size={18} /> },
@@ -49,31 +46,49 @@ export default function HubManagement({ edificioInicial = null }) {
     { id: "energia", name: "Energia", icon: <Zap size={18} /> },
   ];
 
-const nomespossuidos = useMemo(() => {
-  const setores = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
-  const nomes = new Set();
+  const SETORES_JOGO = ["agricultura", "tecnologia", "comercio", "industria", "imobiliario", "energia"];
 
-  setores.forEach(setor => {
-    const dinamicos = edificiosFinais[setor]?.edificios || [];
-    const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+  // ── A LÓGICA CORRETA: Cruza Estático + Dinâmico por Índice ──
+  const buildingsPossuidos = useMemo(() => {
+    const result = [];
 
-    dinamicos.forEach((edDin, index) => {
-      if ((edDin.quantidade ?? 0) <= 0) return;
-      const edEst = estaticos[index];
-      if (edEst?.nome) nomes.add(edEst.nome);
+    SETORES_JOGO.forEach((setor) => {
+      const estaticos = EDIFICIOS_FINAIS_ESTATICOS[setor]?.edificios || [];
+      const dinamicos = edificiosFinais?.[setor]?.edificios || [];
+
+      // Itera o estático (que tem o nome)
+      estaticos.forEach((edEst, index) => {
+        const edDin = dinamicos[index];
+        const quantidade = edDin?.quantidade ?? 0;
+        
+        if (quantidade <= 0) return; // Só mostra se tiver quantidade > 0
+
+        // Busca a configuração da fórmula no FORMULAS_EDIFICIOS
+        const formulaConfig = FORMULAS_EDIFICIOS.find(
+          (f) => f.nomeEdificio === edEst.nome
+        );
+
+        if (!formulaConfig) return;
+
+        // Monta o objeto combinado que o BuildingCard e o ManagerPanel precisam
+        result.push({
+          ...formulaConfig,        // Tem o edificioId, nomeEdificio, setor, formulas
+          ...edEst,                // Tem nome, finanças, desc
+          quantidade: quantidade,  // A quantidade correta
+          setor: setor,            // Setor de origem
+          index: index,            // Index no array (útil para debug)
+        });
+      });
     });
-  });
 
-  return nomes;
-}, [edificiosFinais]);
+    return result;
+  }, [edificiosFinais]);
 
-const filteredBuildings = useMemo(() => {
-  const possuidos = FORMULAS_EDIFICIOS.filter(e =>
-    nomespossuidos.has(e.nomeEdificio)
-  );
-  if (selectedSector === "all") return possuidos;
-  return possuidos.filter(e => e.setor === selectedSector);
-}, [selectedSector, nomespossuidos]);
+  // Filtro por setor
+  const filteredBuildings = useMemo(() => {
+    if (selectedSector === "all") return buildingsPossuidos;
+    return buildingsPossuidos.filter((e) => e.setor === selectedSector);
+  }, [selectedSector, buildingsPossuidos]);
 
   if (edificioSelecionado) {
     return (
@@ -85,17 +100,13 @@ const filteredBuildings = useMemo(() => {
   }
 
   return (
-    // Fundo alinhado com o roxo vibrante da sua interface
     <div className="h-[70vh] bg-[#6A00FF] rounded-[1rem]">
-
-      {/* Container Principal: Glassmorphism Claro e Sóbrio */}
       <div className="w-full justify-between bg-white/10 backdrop-blur-xl border border-white/20 rounded-[1rem] shadow-2xl overflow-hidden flex flex-col h-full">
-
-        {/* HEADER: Limpo e Profissional */}
+        
+        {/* HEADER */}
         <div className="px-8 py-6 border-b border-white/10 bg-white/5 shrink-0">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-center gap-4">
-
               <div>
                 <h1 className="text-[10px] md:text-xl font-bold text-white">
                   Hub de Produção
@@ -106,7 +117,7 @@ const filteredBuildings = useMemo(() => {
               </div>
             </div>
 
-            {/* SELETOR DE SETORES (FILTRO) */}
+            {/* SELETOR DE SETORES */}
             <div className="flex flex-wrap gap-2 p-1 bg-black/5 rounded-2xl border border-white/10">
               {sectors.map((s) => (
                 <button
@@ -138,6 +149,7 @@ const filteredBuildings = useMemo(() => {
                   onSelect={setEdificioSelecionado}
                   setor={edificio.setor}
                   isProducing={false}
+                  quantidade={edificio.quantidade}
                 />
               ))}
             </div>

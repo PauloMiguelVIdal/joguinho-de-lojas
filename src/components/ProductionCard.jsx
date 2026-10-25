@@ -4,11 +4,15 @@ import { useGame } from "../components/GameContext";
 import { useBuildingFromFormula } from "./useBuildingFromFormula";
 import { productsCatalog } from "../components/TablePrice";
 
-export default function ProductionCard({ formula }) {
+export default function ProductionCard({ formula, quantidadeReal }) { // <-- Adicionado prop
   const { stock, startProduction, productionQueue } = useGame();
   const [quantidade, setQuantidade] = useState(1);
 
-  const { quantidadeAtiva, nivel, maxAcoesSimultaneas, edificio } = useBuildingFromFormula(formula);
+  // Passa a quantidadeReal para o hook
+  const { quantidadeAtiva, nivel, maxAcoesSimultaneas, edificio } = useBuildingFromFormula(
+    formula,
+    quantidadeReal // <-- Passando a quantidade real
+  );
 
   const producoesAtivas = useMemo(() => {
     if (!productionQueue || !edificio) return 0;
@@ -18,18 +22,24 @@ export default function ProductionCard({ formula }) {
   }, [productionQueue, formula.id, edificio]);
 
   const calcularMaximo = () => {
-    if (!quantidadeAtiva) return 0;
+    // Se quantidadeAtiva for 0 (edifício não construído), retorna 0
+    if (!quantidadeAtiva || quantidadeAtiva <= 0) return 0;
+
+    // Limite de estoque (baseado nos inputs)
     const limiteEstoque = Math.min(
       ...Object.entries(formula.input).map(
         ([produto, qtd]) => Math.floor((stock[produto] || 0) / qtd)
       )
     );
+
+    // Limite estrutural (capacidade de produção dos edifícios)
     const limiteEstrutural = (formula.capacidadePorEdificio || 0) * quantidadeAtiva;
+
     return Math.max(0, Math.min(limiteEstoque, limiteEstrutural));
   };
 
   const maximo = calcularMaximo();
-  const podeIniciar = producoesAtivas < maxAcoesSimultaneas && maximo >= quantidade;
+  const podeIniciar = producoesAtivas < maxAcoesSimultaneas && maximo >= quantidade && quantidadeAtiva > 0;
 
   function iniciar() {
     if (!podeIniciar) return;
@@ -44,6 +54,7 @@ export default function ProductionCard({ formula }) {
   };
 
   const motivoBloqueio = (() => {
+    if (quantidadeAtiva <= 0) return "Nenhum edifício construído";
     if (producoesAtivas >= maxAcoesSimultaneas) return "Fila Cheia";
     if (maximo === 0) return "Recursos Insuficientes";
     return null;

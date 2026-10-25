@@ -1,14 +1,18 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { useGame } from "./GameContext";
 import { productsCatalog } from "./TablePrice";
 import { FORMULAS_EDIFICIOS } from "./productionFormulasConfig";
 import { useBuildingFromFormula } from "./useBuildingFromFormula";
 import ProductionCard from "./ProductionCard";
+import { useCentralStore } from "../stores/useCentralStore";
+import { EDIFICIOS_FINAIS_ESTATICOS } from "../stores/dadosEstáticos";
 import { ArrowLeft, Box, Factory, Layers, TrendingUp, Zap } from "lucide-react";
 
-function BuildingHeader({ edificioConfig, setorInfo, stock }) {
+function BuildingHeader({ edificioConfig, setorInfo, stock, quantidadeReal }) {
+  // Passamos a quantidadeReal para a função, ou garantimos que ela busque corretamente
   const { quantidadeAtiva, nivel, maxAcoesSimultaneas } = useBuildingFromFormula(
-    edificioConfig.formulas[0]
+    edificioConfig.formulas[0],
+    quantidadeReal // <- Passando a quantidade real para evitar erro
   );
 
   const nivelLabel = ["", "Básico", "Avançado", "Elite"][nivel] || "Básico";
@@ -26,7 +30,6 @@ function BuildingHeader({ edificioConfig, setorInfo, stock }) {
 
   return (
     <div className="flex gap-3" style={{ minHeight: "190px" }}>
-
       {/* ESQUERDA */}
       <div
         style={{ background: `linear-gradient(135deg, ${setorInfo.cor1} 0%, ${setorInfo.cor3} 100%)` }}
@@ -115,12 +118,13 @@ function BuildingHeader({ edificioConfig, setorInfo, stock }) {
           </div>
         </div>
       </div>
-
     </div>
   );
 }
+
 export default function ManagerPanelInterface({ edificioId, onBack }) {
   const { stock } = useGame();
+  const edificiosFinais = useCentralStore((s) => s.edificiosFinais);
 
   const setores = [
     { id: "agricultura", cor1: "#003816", cor3: "#0C9123", cor4: "#4CAF50" },
@@ -141,6 +145,20 @@ export default function ManagerPanelInterface({ edificioId, onBack }) {
     [edificioConfig]
   );
 
+  // Encontra a quantidade real do edifício cruzando com o estático e dinâmico
+  const quantidadeReal = useMemo(() => {
+    if (!edificioConfig) return 0;
+    
+    const estaticos = EDIFICIOS_FINAIS_ESTATICOS[edificioConfig.setor]?.edificios || [];
+    const dinamicos = edificiosFinais?.[edificioConfig.setor]?.edificios || [];
+    
+    // Acha o index do edifício no estático pelo nome
+    const index = estaticos.findIndex(e => e.nome === edificioConfig.nomeEdificio);
+    
+    if (index === -1) return 0;
+    return dinamicos[index]?.quantidade || 0;
+  }, [edificioConfig, edificiosFinais]);
+
   if (!edificioConfig) return (
     <div className="p-6 text-center text-white">Edifício não encontrado</div>
   );
@@ -151,7 +169,6 @@ export default function ManagerPanelInterface({ edificioId, onBack }) {
       className="h-full p-4 animate-in fade-in duration-500 rounded-xl overflow-y-auto scrollbar-custom"
     >
       <div className="max-w-6xl mx-auto flex flex-col gap-4">
-
         {/* VOLTAR */}
         <button
           onClick={onBack}
@@ -166,6 +183,7 @@ export default function ManagerPanelInterface({ edificioId, onBack }) {
           edificioConfig={edificioConfig}
           setorInfo={setorInfo}
           stock={stock}
+          quantidadeReal={quantidadeReal} // <- Passando a quantidade real
         />
 
         {/* LINHAS DE PRODUÇÃO */}
@@ -175,7 +193,6 @@ export default function ManagerPanelInterface({ edificioId, onBack }) {
             <h2 className="font-black uppercase tracking-widest text-[8px]">Linhas de Produção</h2>
           </div>
 
-          {/* scroll customizado só nos cards */}
           <div className="h-[500px] overflow-y-auto pr-2 scrollbar-custom">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {edificioConfig.formulas.map(formula => (
@@ -183,13 +200,12 @@ export default function ManagerPanelInterface({ edificioId, onBack }) {
                   key={formula.id}
                   className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[1.5rem] overflow-hidden"
                 >
-                  <ProductionCard formula={formula} />
+                  <ProductionCard formula={formula}   quantidadeReal={quantidadeReal} />
                 </div>
               ))}
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );
