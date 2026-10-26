@@ -1299,6 +1299,47 @@ const storageQuantities = useMemo(() => {
         return used;
     }, [usedSpaceByCategory, dedicatedCapacityByCategory]);
 
+function registrarCompraMercado(produtoId, quantidade, valorTotal) {
+  if (economiaSetores.saldo < valorTotal) return false;
+
+  // 1) Debita saldo imediatamente (aqui usa atualizarEcoCallback para evitar stale)
+  atualizarEco("saldo", economiaSetores.saldo - valorTotal);
+
+  // 2) Empurra para fila de entrega
+  setMarketTransactions(prev => [
+    ...prev,
+    {
+      id: crypto.randomUUID(),
+      tipo: "buy",
+      produtoId,
+      quantidade,
+      valorTotal,
+      diasRestantes: 10,
+    },
+  ]);
+
+  return true;
+}
+
+/**
+ * Venda no mercado: remove estoque + credita saldo na hora (instantânea).
+ * NÃO entra em marketTransactions (venda é instantânea).
+ */
+function registrarVendaMercado(produtoId, quantidade, valorTotal) {
+  const atual = stock[produtoId] || 0;
+  if (atual < quantidade) return false;
+
+  setStock(prev => ({
+    ...prev,
+    [produtoId]: (prev[produtoId] || 0) - quantidade,
+  }));
+
+  // atualizarEcoCallback garante saldo fresco mesmo sob batching
+  atualizarEcoCallback("saldo", (s) => (s ?? 0) + valorTotal);
+
+  return true;
+}
+
     /* =========================
        CAPACIDADE DISPONÍVEL
     ========================= */
@@ -1976,7 +2017,8 @@ function processProductions() {
                 processSellQueue,
                 iniciarVendaComercial,
                 processarVendas,
-                getOuGerarContratos, contratosEdificios, sellQueue,storageProfiles
+                getOuGerarContratos, contratosEdificios, sellQueue,storageProfiles,  registrarCompraMercado,
+  registrarVendaMercado,
             }}
 
 

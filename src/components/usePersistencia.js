@@ -1,6 +1,6 @@
 const estadoInicialEconomy={
     
-    saldo: 1000000,
+    saldo: 100000000000,
     fimGame: false,
     economiaGlobal: "estável",
     valorImpostoAnual: 0,

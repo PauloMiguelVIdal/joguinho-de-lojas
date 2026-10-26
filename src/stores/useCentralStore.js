@@ -1029,6 +1029,10 @@ export const estadoInicial = {
 edificioGerenciamento: null,
 abaSolicitada: null,
 abaGerenciamentoSolicitada: null,
+produtoSolicitado: null,
+filtroSetorMercado: null,
+abaMercado: 'explorar',
+
     // ── Modais ────────────────────────────────────────────────────────────────
     modal: { estadoModal: false, head: "", content: "" },
     modalEditável: { estadoModal: false, head: "", content: "" },
@@ -1309,6 +1313,9 @@ export const useCentralStore = create(
 setEdificioGerenciamento: (id) => set({ edificioGerenciamento: id }),
 setAbaGerenciamentoSolicitada: (aba) => set({ abaGerenciamentoSolicitada: aba }),
 setAbaSolicitada: (aba) => set({ abaSolicitada: aba }),
+setProdutoSolicitado: (id) => set({ produtoSolicitado: id }),
+setFiltroSetorMercado: (setor) => set({ filtroSetorMercado: setor }),
+setAbaMercado: (aba) => set({ abaMercado: aba }),
           atualizarLicença: (setor, index, status) =>
             setComLog((state) => {
               if (!state.licençasStatus[setor]?.[index]) {

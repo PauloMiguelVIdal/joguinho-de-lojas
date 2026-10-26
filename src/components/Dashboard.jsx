@@ -81,7 +81,7 @@ import {
   EDIFICIOS_BASE_ESTATICOS,
   LICENCAS_ESTATICAS_GLOBAIS,
 } from "../stores/dadosEstáticos";
-
+import MercadoGlobal from "./MercadoGlobal/MercadoGlobal.jsx";
 
 import {
   Chart as ChartJS,
@@ -1011,6 +1011,11 @@ console.log(ativo)
                 </div>
               )}
 
+              {/* {ativo === "mercado" && (
+                <div className="w-full h-full">
+                  <MercadoGlobal />
+                </div>
+              )} */}
               {ativo === "mercado" && (
                 <div className="w-full h-full">
                   <MarketplaceSystem />
